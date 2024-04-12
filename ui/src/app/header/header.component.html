@@ -2,7 +2,7 @@
   <mat-toolbar class="bg-primary-nav header-toolbar">
     <mat-toolbar-row>
       <div class="header-container">
-        <div class="col-md-2">
+        <div>
           <a (click)="homeClick()">
             <img
               class="img-fluid d-none d-md-block"
@@ -16,24 +16,24 @@
 
         <mat-divider [vertical]="true"></mat-divider>
 
-        <div class="col-md-5 app-heading">
-          <span class="heading-text1">Disaster Risk Reduction</span>
-          <span class="heading-text2">&nbsp;(DRR)</span>
+        <div class="app-heading">
+          <span class="heading-text1">Disaster Resilience & Innovation Func</span>
+          <span class="heading-text2">&nbsp;(DRIF)</span>
         </div>
 
-        <div class="col-md-4 menu-responsive">
+        <div class="menu-responsive">
           <ng-container
             *ngIf="isAuthenticated()"
           >
             <button mat-button class="button-align" [matMenuTriggerFor]="menu">
               <div class="row">
-                <div class="col-md-8">
+                <div>
                   <span style="color: white">
                     <b>lastName</b>,firstName
                   </span
                   >
                 </div>
-                <div class="col-md-4">
+                <div>
                   <img
                     class="img-align"
                     src="../../../../assets/images/down_arrow.svg"

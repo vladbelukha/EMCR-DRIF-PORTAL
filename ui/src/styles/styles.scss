@@ -2,14 +2,23 @@
 
 @include mat.core();
 
+$my-app-primary: mat.define-palette(mat.$blue-palette, 500, 700, 300, 900);
+$my-app-accent: mat.define-palette(mat.$blue-palette, A200, A100, A400, A700);
+
+$my-app-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $my-app-primary,
+      accent: $my-app-accent,
+    ),
+  )
+);
+
+@include mat.all-component-themes($my-app-theme);
+
 @import "./fonts";
 // @import './defaults.scss';
 @import "./variables";
-
-/* Importing Bootstrap SCSS file. */
-// @import "~bootstrap/scss/bootstrap";
-
-// @import '@angular/material/theming';
 
 // monospace font used for fixed-size text blocks (eg, referral comments)
 // NB: same font as PDF renderer service
@@ -111,12 +120,12 @@ footer nav {
 //   }
 // }
 
-.mat-button,
-.mat-flat-button,
-.mat-icon-button,
-.mat-stroked-button {
-  border-radius: 0px !important;
-}
+// .mat-button,
+// .mat-flat-button,
+// .mat-icon-button,
+// .mat-stroked-button {
+//   border-radius: 0px !important;
+// }
 
 .stepper-style {
   background-color: transparent !important;
@@ -188,9 +197,9 @@ footer nav {
   color: #3a3a3a !important;
 }
 
-button {
-  border-width: 0px !important;
-}
+// button {
+//   border-width: 0px !important;
+// }
 
 button:focus {
   outline: 0px !important;
