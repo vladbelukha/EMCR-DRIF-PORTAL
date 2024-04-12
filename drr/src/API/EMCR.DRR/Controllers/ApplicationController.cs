@@ -1,8 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Text.Json.Serialization;
-using EMCR.DRR.Dynamics;
+using EMCR.DRR.Resources.Applications;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Dynamics.CRM;
 
 namespace EMCR.DRR.Controllers
 {
@@ -11,19 +10,19 @@ namespace EMCR.DRR.Controllers
     public class ApplicationController : ControllerBase
     {
         private readonly ILogger<ApplicationController> _logger;
-        private readonly IDRRContextFactory dRRContextFactory;
+        private readonly IApplicationRepository _applicationRepository;
 
-        public ApplicationController(ILogger<ApplicationController> logger, IDRRContextFactory dRRContextFactory)
+        public ApplicationController(ILogger<ApplicationController> logger, IApplicationRepository applicationRepository)
         {
             _logger = logger;
-            this.dRRContextFactory = dRRContextFactory;
+            _applicationRepository = applicationRepository;
         }
 
         [HttpPost]
         public async Task<ActionResult<ApplicationResult>> CreateEOIApplication(EOIApplication application)
         {
-            await System.Threading.Tasks.Task.FromResult(true);
-            return Ok(new ApplicationResult { Id = "not implemented" });
+            var id = (await _applicationRepository.Manage(new SubmitEOIApplication { EOIApplication = application })).Id;
+            return Ok(new ApplicationResult { Id = id });
         }
     }
 

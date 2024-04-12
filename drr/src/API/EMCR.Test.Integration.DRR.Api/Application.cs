@@ -1,7 +1,5 @@
-using Alba;
+﻿using Alba;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.VisualStudio.TestPlatform.TestHost;
-using NUnit.Framework;
 
 namespace EMBC.Tests.Integration.DFA.Api
 {
