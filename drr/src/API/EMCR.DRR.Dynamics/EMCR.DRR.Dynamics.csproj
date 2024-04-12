@@ -1,0 +1,43 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Compile Remove="Connected Services\**" />
+      <EmbeddedResource Remove="Connected Services\**" />
+      <None Remove="Connected Services\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Include="Connected Services\Dynamics\Reference.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="Connected Services\Dynamics\ConnectedService.json" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Include="Connected Services\Dynamics\DynamicsCsdl.xml" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="IdentityModel" Version="6.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="6.0.*" />
+        <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.*" />
+        <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.*" />
+        <PackageReference Include="Microsoft.OData.Client" Version="7.12.2" />
+        <PackageReference Include="Microsoft.OData.Extensions.Client" Version="1.0.6" />
+        <PackageReference Include="Microsoft.OData.Core" Version="7.12.2" />
+        <PackageReference Include="Microsoft.OData.Edm" Version="7.12.2" />
+        <PackageReference Include="Microsoft.Spatial" Version="7.12.2" />
+        <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+        <PackageReference Include="System.Text.Json" Version="6.0.*" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\EMCR.Utilities\EMCR.Utilities.csproj" />
+    </ItemGroup>
+</Project>
