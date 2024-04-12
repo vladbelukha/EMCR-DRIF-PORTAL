@@ -1,0 +1,69 @@
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  width: 100%;
+}
+
+footer mat-toolbar {
+  background-color: #dce2f0;
+  border-top: 2px solid #fcba19;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.ul-direction {
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+  flex-wrap: wrap;
+}
+
+.link {
+  padding: 0.4rem 0.8rem;
+}
+
+a {
+  color: #333333;
+  text-decoration: none;
+}
+
+a:hover {
+  color: white;
+}
+
+.app-version {
+  color: #333333 !important;
+  cursor: pointer;
+}
+
+.app-version:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 885px) {
+  .contact-info {
+    white-space: normal;
+  }
+
+  .ul-direction {
+    padding: 0px;
+  }
+
+  .link {
+    padding-left: 0px;
+  }
+
+  .divider {
+    display: none;
+  }
+}
+
+.divider {
+  color: #333333;
+  border-left: 1px solid;
+  height: 16px;
+  align-self: center;
+}
