@@ -1,0 +1,58 @@
+name: cd-drr-api
+
+on:
+  workflow_dispatch:
+  push:
+    # Publish `main` as Docker `latest` image.
+    branches: [main]
+
+    paths:    
+      - "drr/src/**"
+      - ".github/workflows/cd-drr-api.yml"
+      
+   
+
+env:
+  IMAGE_NAME: drr-api
+  IMAGE_ID: ${{ secrets.OCP4_REGISTRY }}/${{ secrets.OCP4_NAMESPACE }}/drr-api
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    env:
+       working-directory: ./drr/src
+       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+       GIT_BRANCH: "${{github.ref}}"
+
+    steps:
+      - uses: actions/checkout@v4      
+
+      - name: Log into registry
+        run: echo "${{ secrets.OCP4_PASSWORD  }}" | docker login ${{ secrets.OCP4_REGISTRY }}/${{ secrets.OCP4_NAMESPACE }} -u ${{ secrets.OCP4_USERNAME  }} --password-stdin
+
+      - name: Pull image
+        run: docker pull $IMAGE_ID || true
+
+      - name: Build image
+        run: docker build . --file ./drr/src/API/Dockerfile --tag $IMAGE_NAME --cache-from=$IMAGE_ID 
+
+      - name: Push image
+        run: |
+          # Change all uppercase to lowercase
+          IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
+
+          # Strip git ref prefix from version
+          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+
+          # Strip "v" prefix from tag name
+          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
+
+          # Use Docker `latest` tag convention
+          [ "$VERSION" == "main" ] && VERSION=latest
+
+          echo IMAGE_ID=$IMAGE_ID
+          echo VERSION=$VERSION
+
+          docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
+          docker push $IMAGE_ID:$VERSION
