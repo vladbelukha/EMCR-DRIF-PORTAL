@@ -3,11 +3,14 @@ using EMCR.Utilities;
 using NSwag;
 using NSwag.AspNetCore;
 using NSwag.Generation.Processors.Security;
+using EMCR.DRR.Resources.Applications;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddTransient<IApplicationRepository, ApplicationRepository>();
+builder.Services.AddAutoMapper(typeof(ApplicationMapperProfile));
 builder.Services.AddCache(string.Empty)
     .AddDRRDynamics(builder.Configuration);
 
