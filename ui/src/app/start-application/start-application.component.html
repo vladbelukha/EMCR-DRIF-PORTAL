@@ -1,0 +1,52 @@
+<mat-stepper class="app-stepper" [linear]="false" #stepper>
+  <mat-step
+    [stepControl]="contactFormGroup"
+    label="Applicant & Contact Information"
+  >
+    <form [formGroup]="contactFormGroup">
+      <mat-label>Application Type</mat-label>
+      <mat-radio-group
+        class="app-type"
+        aria-label="Select an option"
+        formControlName="applicationType"
+      >
+        <mat-radio-button value="1">First Nation</mat-radio-button>
+        <mat-radio-button value="2">Local Government</mat-radio-button>
+        <mat-radio-button value="3">Regional District</mat-radio-button>
+      </mat-radio-group>
+      <div>
+        <button mat-flat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step label="Project & Area Information">
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button matStepperNext>Next</button>
+    </div>
+  </mat-step>
+  <mat-step label="Cost & Funding Information">
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button (click)="stepper.reset()">Reset</button>
+    </div>
+  </mat-step>
+  <mat-step label="Project & Engagement Information">
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button (click)="stepper.reset()">Reset</button>
+    </div>
+  </mat-step>
+  <mat-step label="Other Supporting Information">
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button (click)="stepper.reset()">Reset</button>
+    </div>
+  </mat-step>
+  <mat-step label="Review & Submit">
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button (click)="stepper.reset()">Reset</button>
+    </div>
+  </mat-step>
+</mat-stepper>

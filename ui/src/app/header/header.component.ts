@@ -5,7 +5,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
-  selector: 'drr-header',
+  selector: 'drif-header',
   standalone: true,
   imports: [CommonModule, MatDividerModule,  MatToolbarModule, MatMenuModule],
   templateUrl: './header.component.html',

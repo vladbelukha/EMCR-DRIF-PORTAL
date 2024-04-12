@@ -1,15 +1,19 @@
-import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'drr-register-page',
+  selector: 'drif-register-page',
   standalone: true,
-  imports: [MatIconModule],
+  imports: [CommonModule, MatIconModule],
   templateUrl: './register-page.component.html',
   styleUrl: './register-page.component.scss',
 })
 export class RegisterPageComponent {
+  router = inject(Router);
+
   startApplication() {
-    // This is where you would start your application.
+    this.router.navigate(['/start-application']);
   }
 }

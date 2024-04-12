@@ -12,5 +12,5 @@ import { FooterComponent } from './footer/footer.component';
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppComponent {
-  title = 'drr';
+  title = 'DRIF';
 }
