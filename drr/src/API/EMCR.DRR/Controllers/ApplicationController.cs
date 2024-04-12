@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.Text.Json.Serialization;
-using AutoMapper;
 using EMCR.DRR.Resources.Applications;
 using Microsoft.AspNetCore.Mvc;
 

@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using EMCR.DRR.Controllers;
 using EMCR.DRR.Dynamics;
 using Microsoft.Dynamics.CRM;
 

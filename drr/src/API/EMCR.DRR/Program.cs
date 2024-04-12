@@ -1,9 +1,9 @@
 ﻿using EMCR.DRR.Dynamics;
+using EMCR.DRR.Resources.Applications;
 using EMCR.Utilities;
 using NSwag;
 using NSwag.AspNetCore;
 using NSwag.Generation.Processors.Security;
-using EMCR.DRR.Resources.Applications;
 
 var builder = WebApplication.CreateBuilder(args);
 
