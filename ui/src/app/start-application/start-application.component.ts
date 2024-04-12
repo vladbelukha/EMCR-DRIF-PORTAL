@@ -11,34 +11,12 @@ import {
   RxFormBuilder,
   email,
   prop,
+  propArray,
+  propObject,
   required,
 } from '@rxweb/reactive-form-validators';
-
-export class AppContactForm { // TODO: implements CreateModel
-  @prop()
-  applicationType!: string;
-
-  @prop()
-  primaryApplicantName!: string;
-
-  @prop()
-  submitterFirstName!: string;
-
-  @prop()
-  submitterLastName!: string;
-
-  @prop()
-  submitterTitle!: string;
-
-  @prop()
-  submitterDepartment!: string;
-
-  @prop()
-  submitterPhone!: string;
-
-  @prop()
-  submitterEmail!: string;  
-}
+import { ApplicantType, ContactDetails, EOIApplication, ProjectType } from '../../model';
+import { EOIApplicationForm } from './eoi-application-form';
 
 @Component({
   selector: 'drif-start-application',
@@ -58,17 +36,11 @@ export class AppContactForm { // TODO: implements CreateModel
   providers: [RxFormBuilder],
 })
 export class StartApplicationComponent {
+  ApplicantType = ApplicantType;
+
   formBuilder = inject(RxFormBuilder);
 
-  contactFormGroup = this.formBuilder.formGroup(
-    AppContactForm,
-  ) as IFormGroup<AppContactForm>;
-
-  // contactFormGroup = this._formBuilder.group({
-  //   applicationType: ['', Validators.required],
-  //   primaryApplicantName: ['', Validators.required],
-  // });
-  // secondFormGroup = this._formBuilder.group({
-  //   secondCtrl: ['', Validators.required],
-  // });
+  eoiApplicationForm = this.formBuilder.formGroup(
+    EOIApplicationForm,
+  ) as IFormGroup<EOIApplicationForm>;
 }

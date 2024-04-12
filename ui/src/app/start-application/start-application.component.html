@@ -3,56 +3,62 @@
 
   <mat-stepper class="app-stepper" [linear]="false" #stepper>
     <mat-step
-      [stepControl]="contactFormGroup"
+      [stepControl]="eoiApplicationForm"
       label="Applicant & Contact Information"
     >
       <div class="app-step-container">
-        <form [formGroup]="contactFormGroup">
+        <form [formGroup]="eoiApplicationForm">
           <mat-label class="form-label">Application Type</mat-label>
           <mat-radio-group
             class="app-type"
             aria-label="Select an option"
-            formControlName="applicationType"
+            formControlName="applicantType"
           >
-            <mat-radio-button value="1">First Nation</mat-radio-button>
-            <mat-radio-button value="2">Local Government</mat-radio-button>
-            <mat-radio-button value="3">Regional District</mat-radio-button>
+            <mat-radio-button value="ApplicantType.FirstNation"
+              >First Nation</mat-radio-button
+            >
+            <mat-radio-button value="ApplicantType.LocalGovernment"
+              >Local Government</mat-radio-button
+            >
+            <mat-radio-button value="ApplicantType.RegionalDistrict"
+              >Regional District</mat-radio-button
+            >
           </mat-radio-group>
           <mat-form-field style="width: 50vw; margin-top: 10px">
             <mat-label
               >Name of First Nation, Local Government or Reginal
               District</mat-label
             >
-            <input matInput formControlName="primaryApplicantName" />
+            <input matInput formControlName="applicantName" />
           </mat-form-field>
 
           <mat-label class="form-label"
             >Submitter Contact Information</mat-label
           >
-          <div class="submitter-container">
+          <div class="submitter-container" formGroupName="submitter">
             <mat-form-field>
               <mat-label>First Name</mat-label>
-              <input matInput formControlName="submitterFirstName" />
+              <input matInput formControlName="firstName" />
             </mat-form-field>
             <mat-form-field>
               <mat-label>Last Name</mat-label>
-              <input matInput formControlName="submitterLastName" />
+              <input matInput formControlName="lastName" />
             </mat-form-field>
             <mat-form-field>
               <mat-label>Position/Title</mat-label>
-              <input matInput formControlName="submitterTitle" />
+              <input matInput formControlName="title" />
             </mat-form-field>
             <mat-form-field>
               <mat-label>Department</mat-label>
-              <input matInput formControlName="submitterDepartment" />
+              <input matInput formControlName="position" />
             </mat-form-field>
             <mat-form-field>
               <mat-label>Phone</mat-label>
-              <input matInput formControlName="submitterPhone" />
+              <input matInput formControlName="phone" />
             </mat-form-field>
             <mat-form-field>
               <mat-label>Email</mat-label>
-              <input matInput formControlName="submitterEmail" />
+              <input matInput formControlName="email" />
             </mat-form-field>
           </div>
           <div class="app-stepper-action">
@@ -103,7 +109,7 @@
     </mat-step>
   </mat-stepper>
 
-  <div *ngIf="contactFormGroup.value">
-    <pre>{{ contactFormGroup.value | json }}</pre>
+  <div *ngIf="eoiApplicationForm.value">
+    <pre>{{ eoiApplicationForm.value | json }}</pre>
   </div>
 </div>
