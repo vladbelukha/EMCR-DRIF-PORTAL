@@ -19,7 +19,7 @@ import { ApplicantType, ContactDetails, EOIApplication, ProjectType } from '../.
 import { EOIApplicationForm } from './eoi-application-form';
 
 @Component({
-  selector: 'drif-start-application',
+  selector: 'drr-start-application',
   standalone: true,
   imports: [
     CommonModule,
@@ -43,4 +43,8 @@ export class StartApplicationComponent {
   eoiApplicationForm = this.formBuilder.formGroup(
     EOIApplicationForm,
   ) as IFormGroup<EOIApplicationForm>;
+
+  validateFirstStep() {
+    this.eoiApplicationForm.controls.applicantType?.markAsDirty();
+  }
 }

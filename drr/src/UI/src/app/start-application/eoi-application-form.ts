@@ -3,15 +3,24 @@ import { ApplicantType, ContactDetails, EOIApplication, ProjectType } from "../.
 
 export class ContactDetailsForm implements ContactDetails {
     @prop()
+    @required()
     email?: string;
+
     @prop()
+    @required()
     firstName?: string;
+
     @prop()
+    @required()
     lastName?: string;
+
     @prop()
+    @required()
     phone?: string;
+
     @prop()
     position?: string; // TODO: use as department for now
+
     @prop()
     title?: string;
   

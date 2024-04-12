@@ -1,7 +1,7 @@
 <div class="app-stepper-container">
   <h1>Expression of Interest - EOI form</h1>
 
-  <mat-stepper class="app-stepper" [linear]="false" #stepper>
+  <mat-stepper class="app-stepper" [linear]="true" #stepper>
     <mat-step
       [stepControl]="eoiApplicationForm"
       label="Applicant & Contact Information"
@@ -14,6 +14,13 @@
             aria-label="Select an option"
             formControlName="applicantType"
           >
+            <mat-error
+              *ngIf="
+                eoiApplicationForm.get('applicantType')?.dirty &&
+                eoiApplicationForm.get('applicantType')?.hasError('required')
+              "
+              >Required</mat-error
+            >
             <mat-radio-button value="ApplicantType.FirstNation"
               >First Nation</mat-radio-button
             >
@@ -62,7 +69,14 @@
             </mat-form-field>
           </div>
           <div class="app-stepper-action">
-            <button mat-flat-button color="primary" matStepperNext>Next</button>
+            <button
+              mat-flat-button
+              color="primary"
+              matStepperNext
+              (click)="validateFirstStep()"
+            >
+              Next
+            </button>
           </div>
         </form>
       </div>
@@ -109,7 +123,7 @@
     </mat-step>
   </mat-stepper>
 
-  <div *ngIf="eoiApplicationForm.value">
+  <!-- <div *ngIf="eoiApplicationForm.value">
     <pre>{{ eoiApplicationForm.value | json }}</pre>
-  </div>
+  </div> -->
 </div>
