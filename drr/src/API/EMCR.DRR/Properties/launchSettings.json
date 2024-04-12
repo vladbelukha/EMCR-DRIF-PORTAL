@@ -1,0 +1,11 @@
+﻿{
+  "profiles": {
+    "EMCR.DRR": {
+      "commandName": "Project",
+      "applicationUrl": "http://localhost:4020",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

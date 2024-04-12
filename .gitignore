@@ -1,0 +1,11 @@
+.vs
+**/node_modules/
+# environment variables for docker-compose
+*.env
+# Openshift parameter files
+/openshift/**/*.params
+/openshift/**/*.json
+**/openshift/templates/*.params
+**/openshift/templates/*.json
+# Angular local environment files
+**/environment.local.ts
