@@ -1,52 +1,109 @@
-<mat-stepper class="app-stepper" [linear]="false" #stepper>
-  <mat-step
-    [stepControl]="contactFormGroup"
-    label="Applicant & Contact Information"
-  >
-    <form [formGroup]="contactFormGroup">
-      <mat-label>Application Type</mat-label>
-      <mat-radio-group
-        class="app-type"
-        aria-label="Select an option"
-        formControlName="applicationType"
-      >
-        <mat-radio-button value="1">First Nation</mat-radio-button>
-        <mat-radio-button value="2">Local Government</mat-radio-button>
-        <mat-radio-button value="3">Regional District</mat-radio-button>
-      </mat-radio-group>
-      <div>
-        <button mat-flat-button matStepperNext>Next</button>
+<div class="app-stepper-container">
+  <h1>Expression of Interest - EOI form</h1>
+
+  <mat-stepper class="app-stepper" [linear]="false" #stepper>
+    <mat-step
+      [stepControl]="contactFormGroup"
+      label="Applicant & Contact Information"
+    >
+      <div class="app-step-container">
+        <form [formGroup]="contactFormGroup">
+          <mat-label class="form-label">Application Type</mat-label>
+          <mat-radio-group
+            class="app-type"
+            aria-label="Select an option"
+            formControlName="applicationType"
+          >
+            <mat-radio-button value="1">First Nation</mat-radio-button>
+            <mat-radio-button value="2">Local Government</mat-radio-button>
+            <mat-radio-button value="3">Regional District</mat-radio-button>
+          </mat-radio-group>
+          <mat-form-field style="width: 50vw; margin-top: 10px">
+            <mat-label
+              >Name of First Nation, Local Government or Reginal
+              District</mat-label
+            >
+            <input matInput formControlName="primaryApplicantName" />
+          </mat-form-field>
+
+          <mat-label class="form-label"
+            >Submitter Contact Information</mat-label
+          >
+          <div class="submitter-container">
+            <mat-form-field>
+              <mat-label>First Name</mat-label>
+              <input matInput formControlName="submitterFirstName" />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Last Name</mat-label>
+              <input matInput formControlName="submitterLastName" />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Position/Title</mat-label>
+              <input matInput formControlName="submitterTitle" />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Department</mat-label>
+              <input matInput formControlName="submitterDepartment" />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Phone</mat-label>
+              <input matInput formControlName="submitterPhone" />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Email</mat-label>
+              <input matInput formControlName="submitterEmail" />
+            </mat-form-field>
+          </div>
+          <div class="app-stepper-action">
+            <button mat-flat-button color="primary" matStepperNext>Next</button>
+          </div>
+        </form>
       </div>
-    </form>
-  </mat-step>
-  <mat-step label="Project & Area Information">
-    <div>
-      <button mat-button matStepperPrevious>Back</button>
-      <button mat-button matStepperNext>Next</button>
-    </div>
-  </mat-step>
-  <mat-step label="Cost & Funding Information">
-    <div>
-      <button mat-button matStepperPrevious>Back</button>
-      <button mat-button (click)="stepper.reset()">Reset</button>
-    </div>
-  </mat-step>
-  <mat-step label="Project & Engagement Information">
-    <div>
-      <button mat-button matStepperPrevious>Back</button>
-      <button mat-button (click)="stepper.reset()">Reset</button>
-    </div>
-  </mat-step>
-  <mat-step label="Other Supporting Information">
-    <div>
-      <button mat-button matStepperPrevious>Back</button>
-      <button mat-button (click)="stepper.reset()">Reset</button>
-    </div>
-  </mat-step>
-  <mat-step label="Review & Submit">
-    <div>
-      <button mat-button matStepperPrevious>Back</button>
-      <button mat-button (click)="stepper.reset()">Reset</button>
-    </div>
-  </mat-step>
-</mat-stepper>
+    </mat-step>
+    <mat-step label="Project & Area Information">
+      <div class="app-stepper-actions">
+        <button mat-stroked-button color="primary" matStepperPrevious>
+          Back
+        </button>
+        <button mat-flat-button color="primary" matStepperNext>Next</button>
+      </div>
+    </mat-step>
+    <mat-step label="Cost & Funding Information">
+      <div class="app-stepper-actions">
+        <button mat-stroked-button color="primary" matStepperPrevious>
+          Back
+        </button>
+        <button mat-flat-button color="primary" matStepperNext>Next</button>
+      </div>
+    </mat-step>
+    <mat-step label="Project & Engagement Information">
+      <div class="app-stepper-actions">
+        <button mat-stroked-button color="primary" matStepperPrevious>
+          Back
+        </button>
+        <button mat-flat-button color="primary" matStepperNext>Next</button>
+      </div>
+    </mat-step>
+    <mat-step label="Other Supporting Information">
+      <div class="app-stepper-actions">
+        <button mat-stroked-button color="primary" matStepperPrevious>
+          Back
+        </button>
+        <button mat-flat-button color="primary" matStepperNext>Next</button>
+      </div>
+    </mat-step>
+    <mat-step label="Review & Submit">
+      <div class="app-stepper-actions">
+        <button mat-stroked-button color="primary" matStepperPrevious>
+          Back
+        </button>
+        <button mat-flat-button color="primary" matStepperNext>Submit</button>
+      </div>
+    </mat-step>
+  </mat-stepper>
+
+  <div *ngIf="contactFormGroup.value">
+    <pre>{{ contactFormGroup.value | json }}</pre>
+  </div>
+</div>

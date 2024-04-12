@@ -20,12 +20,31 @@ export class AppContactForm { // TODO: implements CreateModel
 
   @prop()
   primaryApplicantName!: string;
+
+  @prop()
+  submitterFirstName!: string;
+
+  @prop()
+  submitterLastName!: string;
+
+  @prop()
+  submitterTitle!: string;
+
+  @prop()
+  submitterDepartment!: string;
+
+  @prop()
+  submitterPhone!: string;
+
+  @prop()
+  submitterEmail!: string;  
 }
 
 @Component({
   selector: 'drif-start-application',
   standalone: true,
   imports: [
+    CommonModule,
     MatButtonModule,
     MatStepperModule,
     FormsModule,
