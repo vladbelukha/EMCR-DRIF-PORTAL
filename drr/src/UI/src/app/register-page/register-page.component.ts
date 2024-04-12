@@ -4,7 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'drif-register-page',
+  selector: 'drr-register-page',
   standalone: true,
   imports: [CommonModule, MatIconModule],
   templateUrl: './register-page.component.html',
