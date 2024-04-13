@@ -82,8 +82,9 @@ export class ContactDetailsForm implements ContactDetails {
     
     @prop()
     ownershipDeclaration?: boolean;
+
     @propArray(ContactDetailsForm)
-    projectContacts?: ContactDetailsForm[];
+    projectContacts?: ContactDetailsForm[] = [{}];
     
     @prop()
     projectTitle?: string;
@@ -105,6 +106,7 @@ export class ContactDetailsForm implements ContactDetails {
     
     @prop()
     startDate?: string;
+
     @propObject(ContactDetailsForm)
     submitter?: ContactDetailsForm = new ContactDetailsForm({});
     

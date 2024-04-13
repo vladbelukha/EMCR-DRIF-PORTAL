@@ -68,6 +68,63 @@
               <input matInput formControlName="email" />
             </mat-form-field>
           </div>
+
+          <mat-label class="form-label">Project Contact Information</mat-label>
+
+          <div formArrayName="projectContacts">
+            <div
+              class="project-contacts-container"
+              *ngFor="
+                let projectContact of getFormArrayControls('projectContacts');
+                let i = index
+              "
+              [formGroupName]="i"
+            >
+              <mat-form-field>
+                <mat-label>First Name</mat-label>
+                <input matInput formControlName="firstName" />
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Last Name</mat-label>
+                <input matInput formControlName="lastName" />
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Position/Title</mat-label>
+                <input matInput formControlName="title" />
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Department</mat-label>
+                <input matInput formControlName="position" />
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Phone</mat-label>
+                <input matInput formControlName="phone" />
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Email</mat-label>
+                <input matInput formControlName="email" />
+              </mat-form-field>
+              <button
+                *ngIf="i > 0"
+                mat-mini-fab
+                color="warn"
+                (click)="removeProjectContact(i)"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+              <mat-divider></mat-divider>
+            </div>
+
+            <button
+              mat-stroked-button
+              color="primary"
+              (click)="addProjectContact()"
+            >
+              <mat-icon>add</mat-icon>
+              Add additional contact
+            </button>
+          </div>
+
           <div class="app-stepper-action">
             <button
               mat-flat-button
@@ -124,6 +181,7 @@
   </mat-stepper>
 
   <!-- <div *ngIf="eoiApplicationForm.value">
-    <pre>{{ eoiApplicationForm.value | json }}</pre>
+    FYI doesn't reflect arrayForm values, buy they are populated properly
+    <pre>{{ eoiApplicationForm.value | json }}</pre>    
   </div> -->
 </div>

@@ -5,7 +5,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatRadioModule } from '@angular/material/radio';
-import { ReactiveFormsModule, FormGroup, FormControl, FormsModule, Validators, FormBuilder } from '@angular/forms';
+import { ReactiveFormsModule, FormGroup, FormControl, FormsModule, Validators, FormBuilder, FormArray } from '@angular/forms';
 import {
   IFormGroup,
   RxFormBuilder,
@@ -16,7 +16,9 @@ import {
   required,
 } from '@rxweb/reactive-form-validators';
 import { ApplicantType, ContactDetails, EOIApplication, ProjectType } from '../../model';
-import { EOIApplicationForm } from './eoi-application-form';
+import { ContactDetailsForm, EOIApplicationForm } from './eoi-application-form';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'drr-start-application',
@@ -29,7 +31,9 @@ import { EOIApplicationForm } from './eoi-application-form';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatRadioModule
+    MatRadioModule,
+    MatIconModule,
+    MatDividerModule
   ],
   templateUrl: './start-application.component.html',
   styleUrl: './start-application.component.scss',
@@ -42,9 +46,26 @@ export class StartApplicationComponent {
 
   eoiApplicationForm = this.formBuilder.formGroup(
     EOIApplicationForm,
-  ) as IFormGroup<EOIApplicationForm>;
+  ) as IFormGroup<EOIApplicationForm>;  
+
+  getFormArrayControls(formArrayName: string) {
+    return (this.eoiApplicationForm.get(formArrayName) as FormArray).controls;
+  }
+
+  addProjectContact() {
+    const projectContacts = this.getFormArrayControls('projectContacts');
+    projectContacts.push(this.formBuilder.formGroup(ContactDetailsForm)); // TODO: whole form gets dirty    
+  }
+
+  removeProjectContact(index: number) {
+    const projectContacts = this.getFormArrayControls('projectContacts');
+    projectContacts.splice(index, 1);
+  }
 
   validateFirstStep() {
     this.eoiApplicationForm.controls.applicantType?.markAsDirty();
+    this.eoiApplicationForm.controls.applicantName?.markAsDirty();
+    this.eoiApplicationForm.controls.submitter?.markAsDirty();
+    console.log(this.eoiApplicationForm.value);
   }
 }
