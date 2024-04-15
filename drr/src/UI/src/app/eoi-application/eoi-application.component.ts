@@ -24,7 +24,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { ContactDetailsComponent } from '../contact-details/contact-details.component';
 
 @Component({
-  selector: 'drr-start-application',
+  selector: 'drr-eoi-application',
   standalone: true,
   imports: [
     CommonModule,
@@ -39,11 +39,11 @@ import { ContactDetailsComponent } from '../contact-details/contact-details.comp
     MatDividerModule,
     ContactDetailsComponent
   ],
-  templateUrl: './start-application.component.html',
-  styleUrl: './start-application.component.scss',
+  templateUrl: './eoi-application.component.html',
+  styleUrl: './eoi-application.component.scss',
   providers: [RxFormBuilder],
 })
-export class StartApplicationComponent {
+export class EOIApplicationComponent {
   ApplicantType = ApplicantType;
 
   formBuilder = inject(RxFormBuilder);

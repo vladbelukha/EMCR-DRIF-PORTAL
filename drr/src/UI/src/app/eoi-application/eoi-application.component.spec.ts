@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { StartApplicationComponent } from './start-application.component';
+import { EOIApplicationComponent } from './eoi-application.component';
 
 describe('StartApplicationComponent', () => {
-  let component: StartApplicationComponent;
-  let fixture: ComponentFixture<StartApplicationComponent>;
+  let component: EOIApplicationComponent;
+  let fixture: ComponentFixture<EOIApplicationComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [StartApplicationComponent]
+      imports: [EOIApplicationComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(StartApplicationComponent);
+    fixture = TestBed.createComponent(EOIApplicationComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

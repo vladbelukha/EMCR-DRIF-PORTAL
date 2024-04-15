@@ -1,9 +1,10 @@
-import { prop, propArray, propObject, required } from "@rxweb/reactive-form-validators";
+import { email, minLength, prop, propArray, propObject, required } from "@rxweb/reactive-form-validators";
 import { ApplicantType, ContactDetails, EOIApplication, ProjectType } from "../../model";
 
 export class ContactDetailsForm implements ContactDetails {
     @prop()
     @required()
+    @email()
     email?: string;
 
     @prop()
@@ -83,7 +84,7 @@ export class ContactDetailsForm implements ContactDetails {
     @prop()
     ownershipDeclaration?: boolean;
 
-    @propArray(ContactDetailsForm)
+    @propArray(ContactDetailsForm)    
     projectContacts?: ContactDetailsForm[] = [{}];
     
     @prop()

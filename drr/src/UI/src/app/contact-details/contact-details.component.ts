@@ -1,6 +1,6 @@
 import { Component, Input, input } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { ContactDetailsForm } from '../start-application/eoi-application-form';
+import { ContactDetailsForm } from '../eoi-application/eoi-application-form';
 import { RxFormGroup } from '@rxweb/reactive-form-validators';
 import { MatInputModule } from '@angular/material/input';
 
