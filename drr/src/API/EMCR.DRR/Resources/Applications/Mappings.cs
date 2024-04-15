@@ -27,7 +27,7 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.drr_totalfundingsources, opt => opt.MapFrom(src => src.TotalFunding))
                 .ForMember(dest => dest.drr_ownershipdeclaration, opt => opt.MapFrom(src => src.OwnershipDeclaration ? DRRTwoOptions.Yes : DRRTwoOptions.No))
                 .ForMember(dest => dest.drr_locationdescription, opt => opt.MapFrom(src => src.LocationInformation.Description))
-                .ForMember(dest => dest.drr_sizeofprojectarea, opt => opt.MapFrom(src => src.LocationInformation.Area.ToString()))
+                .ForMember(dest => dest.drr_sizeofprojectarea, opt => opt.MapFrom(src => src.LocationInformation.Area))
                 .ForMember(dest => dest.drr_sizeofprojectareaunits, opt => opt.MapFrom(src => (int?)Enum.Parse<AreaUnitsOptionSet>(src.LocationInformation.AreaUnits.ToString())))
                 .ForMember(dest => dest.drr_landuseorownership, opt => opt.MapFrom(src => src.LocationInformation.Ownership))
                 .ForMember(dest => dest.drr_backgroundforfundingrequest, opt => opt.MapFrom(src => src.BackgroundDescription))
