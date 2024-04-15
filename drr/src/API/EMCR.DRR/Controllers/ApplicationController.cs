@@ -73,7 +73,7 @@ namespace EMCR.DRR.Controllers
     public class LocationInformation
     {
         public required string Description { get; set; }
-        public int? Area { get; set; }
+        public string? Area { get; set; }
         public AreaUnits AreaUnits { get; set; }
         public string? Ownership { get; set; }
     }
