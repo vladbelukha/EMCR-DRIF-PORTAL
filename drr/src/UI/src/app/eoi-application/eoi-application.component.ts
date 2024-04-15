@@ -7,6 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ReactiveFormsModule, FormGroup, FormControl, FormsModule, Validators, FormBuilder, FormArray } from '@angular/forms';
 import {
   IFormGroup,
@@ -42,6 +43,7 @@ import { ContactDetailsComponent } from '../contact-details/contact-details.comp
     MatDividerModule,
     MatSelectModule,
     MatDatepickerModule,
+    MatCheckboxModule,
     ContactDetailsComponent
   ],
   templateUrl: './eoi-application.component.html',

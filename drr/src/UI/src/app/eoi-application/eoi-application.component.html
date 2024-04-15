@@ -510,6 +510,23 @@ i
       </div>
     </mat-step>
     <mat-step label="Declaration">
+      <div class="app-step-container">
+        <form [formGroup]="eoiApplicationForm">
+          <mat-label class="form-label"
+            >Identity Confirmation Statement</mat-label
+          >
+          <mat-label> Wording TBD </mat-label>
+          <mat-checkbox> Agree </mat-checkbox>
+          <mat-label class="form-label">FOIPPA Confirmation</mat-label>
+          <mat-label> Wording TBD </mat-label>
+          <mat-checkbox> Agree </mat-checkbox>
+          <mat-label class="form-label"
+            >CFO Confirmation of Funds Statement</mat-label
+          >
+          <mat-label> Wording TBD </mat-label>
+          <mat-checkbox> Agree </mat-checkbox>
+        </form>
+      </div>
       <div class="app-stepper-actions">
         <button mat-stroked-button color="primary" matStepperPrevious>
           Back
