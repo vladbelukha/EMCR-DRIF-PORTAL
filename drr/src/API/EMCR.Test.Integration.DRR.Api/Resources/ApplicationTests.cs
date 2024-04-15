@@ -68,7 +68,7 @@ namespace EMCR.Tests.Integration.DRR.Api.Resources
                 LocationInformation = new LocationInformation
                 {
                     Description = "location description",
-                    Area = "100",
+                    Area = 123,
                     AreaUnits = AreaUnits.Acre,
                     Ownership = "owned"
                 },
