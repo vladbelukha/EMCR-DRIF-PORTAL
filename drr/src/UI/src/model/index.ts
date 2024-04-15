@@ -7,6 +7,11 @@
 
 export * from './applicantType';
 export * from './applicationResult';
+export * from './areaUnits';
 export * from './contactDetails';
 export * from './eOIApplication';
+export * from './fundingInformation';
+export * from './fundingType';
+export * from './hazards';
+export * from './locationInformation';
 export * from './projectType';

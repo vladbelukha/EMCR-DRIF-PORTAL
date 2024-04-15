@@ -185,7 +185,7 @@ i
           </mat-form-field>
           <mat-form-field *ngIf="otherHazardSelected()">
             <mat-label>Other</mat-label>
-            <input matInput formControlName="otherHazard" />
+            <input matInput formControlName="otherHazardsDescription" />
           </mat-form-field>
           <mat-label class="form-label">Anticipated Project Dates</mat-label>
           <div class="project-dates-container">
@@ -236,6 +236,79 @@ i
       </div>
     </mat-step>
     <mat-step label="Cost & Funding Information">
+      <div class="app-step-container">
+        <form [formGroup]="eoiApplicationForm">
+          <mat-label class="form-label">DRIF Funding Request</mat-label>
+          <mat-form-field style="width: 50vw; margin-top: 10px">
+            <mat-label>DRIF Funding Request</mat-label>
+            <input
+              matInput
+              type="number"
+              formControlName="fundingRequest"
+              placeholder="$"
+            />
+          </mat-form-field>
+          <mat-label class="form-label">Other Funding Sources</mat-label>
+          <div formArrayName="otherFunding">
+            <div
+              class="project-contacts-container"
+              *ngFor="
+                let projectContact of getFormArray('otherFunding').controls;
+                let i = index
+              "
+              [formGroupName]="i"
+            >
+              <mat-form-field>
+                <mat-label>Name of Grant/Funding Source</mat-label>
+                <input matInput formControlName="name" />
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Type of Funding</mat-label>
+                <input matInput formControlName="type" />
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Amount</mat-label>
+                <input matInput formControlName="amount" />
+              </mat-form-field>
+            </div>
+            <button
+              mat-stroked-button
+              color="primary"
+              (click)="addOtherFunding()"
+            >
+              <mat-icon>add</mat-icon>
+              Add additional funding source
+            </button>
+          </div>
+          <mat-label class="form-label">Unfunded Amount</mat-label>
+          <mat-form-field style="width: 50vw; margin-top: 10px">
+            <mat-label>Unfunded Amount</mat-label>
+            <input
+              matInput
+              type="number"
+              formControlName="unfundedAmount"
+              placeholder="$"
+            />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Explain how you intent to secure this funding</mat-label>
+            <textarea
+              matInput
+              formControlName="reasonsToSecureFunding"
+            ></textarea>
+          </mat-form-field>
+          <mat-label class="form-label">Total of funding sources</mat-label>
+          <mat-form-field style="width: 50vw; margin-top: 10px">
+            <mat-label>Total of funding sources</mat-label>
+            <input
+              matInput
+              type="number"
+              formControlName="totalFunding"
+              placeholder="$"
+            />
+          </mat-form-field>
+        </form>
+      </div>
       <div class="app-stepper-actions">
         <button mat-stroked-button color="primary" matStepperPrevious>
           Back

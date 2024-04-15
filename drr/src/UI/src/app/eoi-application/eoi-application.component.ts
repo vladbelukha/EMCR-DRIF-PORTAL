@@ -20,8 +20,8 @@ import {
   propObject,
   required,
 } from '@rxweb/reactive-form-validators';
-import { ApplicantType, ContactDetails, EOIApplication, ProjectType } from '../../model';
-import { ContactDetailsForm, EOIApplicationForm } from './eoi-application-form';
+import { ApplicantType, ContactDetails, EOIApplication, Hazards, ProjectType } from '../../model';
+import { ContactDetailsForm, EOIApplicationForm, FundingInformationForm } from './eoi-application-form';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { ContactDetailsComponent } from '../contact-details/contact-details.component';
@@ -50,20 +50,8 @@ import { ContactDetailsComponent } from '../contact-details/contact-details.comp
 })
 export class EOIApplicationComponent {
   ApplicantType = ApplicantType;
-  ProjectType = ProjectType;
-
-  hazardsOptions = [
-    'Drought and water scarcity',
-    'Erosion',
-    'Extreme Temperature',
-    'Flood',
-    'Geohazards (e.g., avalanche, landslide)',
-    'Sea Level Rise',
-    'Seismic',
-    'Storm',
-    'Tsunami',
-    'Other'
-  ];
+  projectType = ProjectType;
+  hazardsOptions = Object.values(Hazards);
 
   formBuilder = inject(RxFormBuilder);
 
@@ -94,15 +82,13 @@ export class EOIApplicationComponent {
 
   validateSecondStep() {    
     console.log(this.eoiApplicationForm.value);
-  }
-
-  addHazard() {
-    const newHazardControl = this.formBuilder.control('', [RxwebValidators.required()]);
-    const array = this.getFormArray('relatedHazards');
-    array.push(newHazardControl, { emitEvent: false });
-  }
+  }  
 
   otherHazardSelected() {
     return this.getFormArray('relatedHazards').value?.includes('Other');
+  }
+
+  addOtherFunding() {
+    this.getFormArray('otherFunding').push(this.formBuilder.formGroup(FundingInformationForm), { emitEvent: false });
   }
 }

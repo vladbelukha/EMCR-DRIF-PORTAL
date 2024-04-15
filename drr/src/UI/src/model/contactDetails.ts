@@ -6,10 +6,10 @@
  */
 
 export interface ContactDetails {
+  department?: string;
   email?: string;
   firstName?: string;
   lastName?: string;
   phone?: string;
-  position?: string;
   title?: string;
 }

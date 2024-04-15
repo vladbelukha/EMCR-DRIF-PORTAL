@@ -1,5 +1,18 @@
-import { email, minLength, prop, propArray, propObject, required } from "@rxweb/reactive-form-validators";
-import { ApplicantType, ContactDetails, EOIApplication, ProjectType } from "../../model";
+import { disable, email, minLength, prop, propArray, propObject, required } from "@rxweb/reactive-form-validators";
+import { ApplicantType, ContactDetails, EOIApplication, FundingInformation, FundingType, Hazards, ProjectType } from "../../model";
+
+export class FundingInformationForm implements FundingInformation {
+  @prop()
+  amount?: number;
+  @prop()
+  name?: string;
+  @prop()
+  type?: FundingType;
+
+  constructor(values: FundingInformationForm) {
+    Object.assign(this, values);  
+  }
+}
 
 export class ContactDetailsForm implements ContactDetails {
     @prop()
@@ -72,8 +85,8 @@ export class EOIApplicationForm implements EOIApplication {
     @prop()
     locationDescription?: string;
     
-    @prop()
-    otherFunding?: string[];
+    @propArray(FundingInformationForm)
+    otherFunding?: FundingInformationForm[] = [{}];
     
     @prop()
     otherInformation?: string;  
@@ -103,10 +116,10 @@ export class EOIApplicationForm implements EOIApplication {
     rationaleForSolution?: string;
     
     @prop()
-    relatedHazards?: string[];
+    reasonsToSecureFunding?: string;
 
     @prop()
-    otherHazard?: string;
+    relatedHazards?: Hazards[];    
     
     @prop()
     startDate?: string;
@@ -115,11 +128,15 @@ export class EOIApplicationForm implements EOIApplication {
     submitter?: ContactDetailsForm = new ContactDetailsForm({});
     
     @prop()
+    // @disable({ conditionalExpression: () => { return true; } })
     totalFunding?: number;
     
     @prop()
     unfundedAmount?: number;  
     
     @prop()
-    units?: string;  
+    units?: string;
+
+    @prop()
+    otherHazardsDescription?: string;
   }
