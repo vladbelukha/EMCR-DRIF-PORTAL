@@ -2,11 +2,13 @@ i
 <div class="app-stepper-container">
   <h1>Expression of Interest - EOI form</h1>
 
-  <mat-stepper class="app-stepper" [linear]="false" #stepper>
-    <mat-step
-      [stepControl]="eoiApplicationForm"
-      label="Applicant & Contact Information"
-    >
+  <mat-stepper
+    class="app-stepper"
+    [linear]="false"
+    labelPosition="bottom"
+    #stepper
+  >
+    <mat-step [stepControl]="eoiApplicationForm" label="Applicant Information">
       <div class="app-step-container">
         <form [formGroup]="eoiApplicationForm">
           <mat-label class="form-label">Application Type</mat-label>
@@ -144,7 +146,7 @@ i
         </form>
       </div>
     </mat-step>
-    <mat-step label="Project & Area Information">
+    <mat-step label="Project Information">
       <div class="app-step-container">
         <form [formGroup]="eoiApplicationForm">
           <mat-label class="form-label">Project Title</mat-label>
@@ -235,7 +237,7 @@ i
         </button>
       </div>
     </mat-step>
-    <mat-step label="Cost & Funding Information">
+    <mat-step label="Funding Information">
       <div class="app-step-container">
         <form [formGroup]="eoiApplicationForm">
           <mat-label class="form-label">DRIF Funding Request</mat-label>
@@ -316,7 +318,7 @@ i
         <button mat-flat-button color="primary" matStepperNext>Next</button>
       </div>
     </mat-step>
-    <mat-step label="Project & Engagement Information">
+    <mat-step label="Location Information">
       <div class="app-step-container">
         <form [formGroup]="eoiApplicationForm">
           <mat-label class="form-label">Ownership Declaration</mat-label>
@@ -372,7 +374,7 @@ i
         <button mat-flat-button color="primary" matStepperNext>Next</button>
       </div>
     </mat-step>
-    <mat-step label="Other Supporting Information">
+    <mat-step label="Project Details">
       <div class="app-step-container">
         <form [formGroup]="eoiApplicationForm">
           <mat-label class="form-label"
@@ -442,7 +444,46 @@ i
         <button mat-flat-button color="primary" matStepperNext>Next</button>
       </div>
     </mat-step>
-    <mat-step label="Review & Submit">
+    <mat-step label="Engagement Plan">
+      <div class="app-step-container">
+        <form [formGroup]="eoiApplicationForm">
+          <mat-label class="form-label"
+            >Engagement/Planned Engagement with First Nations and/or Indigenous
+            Organizations Prior to Full Proposal</mat-label
+          >
+          <mat-label
+            >Describe how the applicant has or plans to engage with local First
+            Nations and/or First Nations impacted by the proposed
+            project</mat-label
+          >
+          <mat-form-field>
+            <textarea
+              matInput
+              formControlName="engagementProposal"
+              rows="10"
+            ></textarea>
+          </mat-form-field>
+        </form>
+      </div>
+      <div class="app-stepper-actions">
+        <button mat-stroked-button color="primary" matStepperPrevious>
+          Back
+        </button>
+        <button mat-flat-button color="primary" matStepperNext>Next</button>
+      </div>
+    </mat-step>
+    <mat-step label="Other Supporting Information">
+      <div class="app-step-container">
+        <form [formGroup]="eoiApplicationForm"></form>
+      </div>
+      <div class="app-stepper-actions">
+        <button mat-stroked-button color="primary" matStepperPrevious>
+          Back
+        </button>
+        <button mat-flat-button color="primary" matStepperNext>Next</button>
+      </div>
+    </mat-step>
+    <mat-step label="Declaration">
       <div class="app-stepper-actions">
         <button mat-stroked-button color="primary" matStepperPrevious>
           Back
