@@ -23,13 +23,13 @@ namespace EMCR.DRR.Dynamics
         }
 
         public static void ActivateObject<TEntity>(this DataServiceContext context, TEntity entity, int activeStatusValue = -1)
-             where TEntity : Crmbaseentity => ModifyEntityStatus(context, entity, (int)EntityState.Active, activeStatusValue);
+             where TEntity : crmbaseentity => ModifyEntityStatus(context, entity, (int)EntityState.Active, activeStatusValue);
 
         public static void DeactivateObject<TEntity>(this DataServiceContext context, TEntity entity, int inactiveStatusValue = -1)
-             where TEntity : Crmbaseentity => ModifyEntityStatus(context, entity, (int)EntityState.Inactive, inactiveStatusValue);
+             where TEntity : crmbaseentity => ModifyEntityStatus(context, entity, (int)EntityState.Inactive, inactiveStatusValue);
 
         private static void ModifyEntityStatus<TEntity>(this DataServiceContext context, TEntity entity, int state, int status)
-             where TEntity : Crmbaseentity
+             where TEntity : crmbaseentity
         {
             var entityType = entity.GetType();
             var statusProp = entityType.GetProperty("statuscode");
@@ -47,11 +47,11 @@ namespace EMCR.DRR.Dynamics
 #pragma warning disable IDE0022 // Use block body for methods
 
         public static async Task<T> SingleOrDefaultAsync<T>(this IQueryable<T> query, CancellationToken? ct = null)
-            where T : Crmbaseentity =>
+            where T : crmbaseentity =>
             (await ((DataServiceQuery<T>)query).ExecuteAsync(ct ?? CancellationToken.None)).SingleOrDefault();
 
         public static async Task<IEnumerable<T>> GetAllPagesAsync<T>(this IQueryable<T> query, CancellationToken? ct = null)
-            where T : Crmbaseentity =>
+            where T : crmbaseentity =>
             await ((DataServiceQuery<T>)query).GetAllPagesAsync(ct ?? CancellationToken.None);
 
 #pragma warning restore IDE0022 // Use block body for methods
