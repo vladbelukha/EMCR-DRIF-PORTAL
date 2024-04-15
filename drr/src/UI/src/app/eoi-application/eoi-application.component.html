@@ -317,6 +317,54 @@ i
       </div>
     </mat-step>
     <mat-step label="Project & Engagement Information">
+      <div class="app-step-container">
+        <form [formGroup]="eoiApplicationForm">
+          <mat-label class="form-label">Ownership Declaration</mat-label>
+          <mat-label
+            >The project will be in BC on land that the applicant has legal
+            access to either though ownership, right of way, or other at the
+            time the Shared Cost Agreement is signed. You can provide context in
+            the project area description question that follows.</mat-label
+          >
+          <mat-radio-group
+            class="app-type"
+            aria-label="Select an option"
+            formControlName="ownershipDeclaration"
+          >
+            <mat-error
+              *ngIf="
+                eoiApplicationForm.get('ownershipDeclaration')?.dirty &&
+                eoiApplicationForm
+                  .get('ownershipDeclaration')
+                  ?.hasError('required')
+              "
+              >Required</mat-error
+            >
+            <mat-radio-button value="true">Yes</mat-radio-button>
+            <mat-radio-button value="false">No</mat-radio-button>
+          </mat-radio-group>
+          <div
+            class="location-information-container"
+            formGroupName="locationInformation"
+          >
+            <mat-form-field>
+              <mat-label>Location Description</mat-label>
+              <mat-label>Include address if applicable</mat-label>
+              <textarea matInput formControlName="description"></textarea>
+            </mat-form-field>
+            <mat-label class="form-label">Size of Project Area</mat-label>
+            <mat-form-field style="width: 50vw; margin-top: 10px">
+              <mat-label>Size of Project Area</mat-label>
+              <input matInput type="number" formControlName="area" />
+            </mat-form-field>
+            <!-- areaUnits -->
+            <mat-form-field>
+              <mat-label>Land Use/Ownership</mat-label>
+              <textarea matInput formControlName="ownership"></textarea>
+            </mat-form-field>
+          </div>
+        </form>
+      </div>
       <div class="app-stepper-actions">
         <button mat-stroked-button color="primary" matStepperPrevious>
           Back

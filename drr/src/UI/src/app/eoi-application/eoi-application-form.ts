@@ -1,5 +1,5 @@
 import { disable, email, minLength, prop, propArray, propObject, required } from "@rxweb/reactive-form-validators";
-import { ApplicantType, ContactDetails, EOIApplication, FundingInformation, FundingType, Hazards, ProjectType } from "../../model";
+import { ApplicantType, AreaUnits, ContactDetails, EOIApplication, FundingInformation, FundingType, Hazards, LocationInformation, ProjectType } from "../../model";
 
 export class FundingInformationForm implements FundingInformation {
   @prop()
@@ -10,6 +10,24 @@ export class FundingInformationForm implements FundingInformation {
   type?: FundingType;
 
   constructor(values: FundingInformationForm) {
+    Object.assign(this, values);  
+  }
+}
+
+export class LocationInformationForm implements LocationInformation {
+  @prop()  
+  area?: string;
+
+  @prop()
+  areaUnits?: AreaUnits;
+
+  @prop()
+  description?: string;  
+
+  @prop()
+  ownership?: string;  
+
+  constructor(values: LocationInformationForm) {
     Object.assign(this, values);  
   }
 }
@@ -84,6 +102,9 @@ export class EOIApplicationForm implements EOIApplication {
     
     @prop()
     locationDescription?: string;
+
+    @propObject(LocationInformationForm)
+    locationInformation?: LocationInformationForm = new LocationInformationForm({});
     
     @propArray(FundingInformationForm)
     otherFunding?: FundingInformationForm[] = [{}];
