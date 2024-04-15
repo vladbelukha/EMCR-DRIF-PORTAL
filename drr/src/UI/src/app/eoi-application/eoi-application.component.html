@@ -1,7 +1,7 @@
 <div class="app-stepper-container">
   <h1>Expression of Interest - EOI form</h1>
 
-  <mat-stepper class="app-stepper" [linear]="true" #stepper>
+  <mat-stepper class="app-stepper" [linear]="false" #stepper>
     <mat-step
       [stepControl]="eoiApplicationForm"
       label="Applicant & Contact Information"
@@ -75,8 +75,7 @@
             <div
               class="project-contacts-container"
               *ngFor="
-                let projectContact of getFormArrayControls('projectContacts')
-                  .controls;
+                let projectContact of getFormArray('projectContacts').controls;
                 let i = index
               "
               [formGroupName]="i"
@@ -145,6 +144,71 @@
       </div>
     </mat-step>
     <mat-step label="Project & Area Information">
+      <div class="app-step-container">
+        <form [formGroup]="eoiApplicationForm">
+          <mat-label class="form-label">Project Title</mat-label>
+          <mat-form-field style="width: 50vw; margin-top: 10px">
+            <mat-label>Project Title</mat-label>
+            <input matInput formControlName="projectTitle" />
+          </mat-form-field>
+
+          <mat-label class="form-label">Project Type</mat-label>
+          <mat-radio-group
+            class="app-type"
+            style="margin-bottom: 10px"
+            aria-label="Select an option"
+            formControlName="projectType"
+          >
+            <mat-error
+              *ngIf="
+                eoiApplicationForm.get('projectType')?.dirty &&
+                eoiApplicationForm.get('projectType')?.hasError('required')
+              "
+              >Required</mat-error
+            >
+            <mat-radio-button value="ProjectType.New"
+              >New Project</mat-radio-button
+            >
+            <mat-radio-button value="ProjectType.Existing"
+              >New Phase of Existing Project</mat-radio-button
+            >
+          </mat-radio-group>
+          <mat-label class="form-label">Related Hazard(s)</mat-label>
+          <mat-form-field style="width: 50vw; margin-top: 10px">
+            <mat-label class="form-label"> Related Hazard(s)</mat-label>
+            <mat-select formControlName="relatedHazards" multiple="true">
+              @for (option of hazardsOptions; track option) {
+              <mat-option [value]="option">{{ option }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+          <!-- TODO: add text field for Other option -->
+          <mat-label class="form-label">Anticipated Project Dates</mat-label>
+          <div class="project-dates-container">
+            <mat-form-field>
+              <mat-label>Anticipated Project Start Date</mat-label>
+              <input matInput [matDatepicker]="start_picker" />
+              <mat-hint>MM/DD/YYYY</mat-hint>
+              <mat-datepicker-toggle
+                matIconSuffix
+                [for]="start_picker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #start_picker></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Anticipated Project End Date</mat-label>
+              <input matInput [matDatepicker]="end_picker" />
+              <mat-hint>MM/DD/YYYY</mat-hint>
+              <mat-datepicker-toggle
+                matIconSuffix
+                [for]="end_picker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #end_picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </form>
+      </div>
+
       <div class="app-stepper-actions">
         <button mat-stroked-button color="primary" matStepperPrevious>
           Back

@@ -28,9 +28,9 @@ export class ContactDetailsForm implements ContactDetails {
     constructor(values: ContactDetailsForm) {
       Object.assign(this, values);  
     }
-  }
+}
   
-  export class EOIApplicationForm implements EOIApplication {
+export class EOIApplicationForm implements EOIApplication {
     @prop()
     @required()
     applicantName?: string;

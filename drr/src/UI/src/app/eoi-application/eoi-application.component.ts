@@ -5,12 +5,15 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { ReactiveFormsModule, FormGroup, FormControl, FormsModule, Validators, FormBuilder, FormArray } from '@angular/forms';
 import {
   IFormGroup,
   RxFormArray,
   RxFormBuilder,
   RxFormGroup,
+  RxwebValidators,
   email,
   prop,
   propArray,
@@ -37,6 +40,8 @@ import { ContactDetailsComponent } from '../contact-details/contact-details.comp
     MatRadioModule,
     MatIconModule,
     MatDividerModule,
+    MatSelectModule,
+    MatDatepickerModule,
     ContactDetailsComponent
   ],
   templateUrl: './eoi-application.component.html',
@@ -45,6 +50,20 @@ import { ContactDetailsComponent } from '../contact-details/contact-details.comp
 })
 export class EOIApplicationComponent {
   ApplicantType = ApplicantType;
+  ProjectType = ProjectType;
+
+  hazardsOptions = [
+    'Drought and water scarcity',
+    'Erosion',
+    'Extreme Temperature',
+    'Flood',
+    'Geohazards (e.g., avalanche, landslide)',
+    'Sea Level Rise',
+    'Seismic',
+    'Storm',
+    'Tsunami',
+    'Other'
+  ];
 
   formBuilder = inject(RxFormBuilder);
 
@@ -52,20 +71,20 @@ export class EOIApplicationComponent {
     EOIApplicationForm,
   ) as IFormGroup<EOIApplicationForm>;  
 
-  getFormArrayControls(formArrayName: string) {
+  getFormArray(formArrayName: string) {
     return this.eoiApplicationForm.get(formArrayName) as FormArray;
   }
 
   // getItemFormGroup(formArrayName: string, index: number) {
-  //   return this.getFormArrayControls(formArrayName)[index] as RxFormGroup;
+  //   return this.getFormArray(formArrayName)[index] as RxFormGroup;
   // }
 
   addProjectContact() {    
-    this.getFormArrayControls('projectContacts').push(this.formBuilder.formGroup(ContactDetailsForm), { emitEvent: false }); // TODO: still makes parent dirty, which is not ideal
+    this.getFormArray('projectContacts').push(this.formBuilder.formGroup(ContactDetailsForm), { emitEvent: false }); // TODO: still makes parent dirty, which is not ideal
   }
 
   removeProjectContact(index: number) {
-    const projectContacts = this.getFormArrayControls('projectContacts').controls;
+    const projectContacts = this.getFormArray('projectContacts').controls;
     projectContacts.splice(index, 1);
   }
 
@@ -74,5 +93,11 @@ export class EOIApplicationComponent {
     this.eoiApplicationForm.controls.applicantName?.markAsDirty();
     this.eoiApplicationForm.controls.submitter?.markAsDirty();
     console.log(this.eoiApplicationForm.value);
+  }
+
+  addHazard() {
+    const newHazardControl = this.formBuilder.control('', [RxwebValidators.required()]);
+    const array = this.getFormArray('relatedHazards');
+    array.push(newHazardControl, { emitEvent: false });
   }
 }
