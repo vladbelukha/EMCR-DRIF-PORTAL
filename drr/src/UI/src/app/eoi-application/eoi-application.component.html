@@ -474,7 +474,33 @@ i
     </mat-step>
     <mat-step label="Other Supporting Information">
       <div class="app-step-container">
-        <form [formGroup]="eoiApplicationForm"></form>
+        <form [formGroup]="eoiApplicationForm">
+          <mat-label class="form-label">Climate Adaptation</mat-label>
+          <mat-label>
+            Describe how project will incorporate future climate conditions and
+            consider climate change in the project methodology, including
+            considering future impacts of the project on the environment.
+          </mat-label>
+          <mat-form-field>
+            <textarea
+              matInput
+              formControlName="climateAdaptation"
+              rows="5"
+            ></textarea>
+          </mat-form-field>
+          <mat-label class="form-label">Other Relevant Information</mat-label>
+          <mat-label>
+            Provide any other relevant information that would support this
+            project’s EOI.
+          </mat-label>
+          <mat-form-field>
+            <textarea
+              matInput
+              formControlName="otherInformation"
+              rows="10"
+            ></textarea>
+          </mat-form-field>
+        </form>
       </div>
       <div class="app-stepper-actions">
         <button mat-stroked-button color="primary" matStepperPrevious>
