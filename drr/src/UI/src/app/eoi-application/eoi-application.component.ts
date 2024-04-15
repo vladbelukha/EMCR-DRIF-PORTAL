@@ -88,10 +88,11 @@ export class EOIApplicationComponent {
     projectContacts.splice(index, 1);
   }
 
-  validateFirstStep() {
-    this.eoiApplicationForm.controls.applicantType?.markAsDirty();
-    this.eoiApplicationForm.controls.applicantName?.markAsDirty();
-    this.eoiApplicationForm.controls.submitter?.markAsDirty();
+  validateFirstStep() {    
+    console.log(this.eoiApplicationForm.value);
+  }
+
+  validateSecondStep() {    
     console.log(this.eoiApplicationForm.value);
   }
 

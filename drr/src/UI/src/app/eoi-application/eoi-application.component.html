@@ -187,7 +187,11 @@
           <div class="project-dates-container">
             <mat-form-field>
               <mat-label>Anticipated Project Start Date</mat-label>
-              <input matInput [matDatepicker]="start_picker" />
+              <input
+                matInput
+                [matDatepicker]="start_picker"
+                formControlName="startDate"
+              />
               <mat-hint>MM/DD/YYYY</mat-hint>
               <mat-datepicker-toggle
                 matIconSuffix
@@ -197,7 +201,11 @@
             </mat-form-field>
             <mat-form-field>
               <mat-label>Anticipated Project End Date</mat-label>
-              <input matInput [matDatepicker]="end_picker" />
+              <input
+                matInput
+                [matDatepicker]="end_picker"
+                formControlName="endDate"
+              />
               <mat-hint>MM/DD/YYYY</mat-hint>
               <mat-datepicker-toggle
                 matIconSuffix
@@ -213,7 +221,14 @@
         <button mat-stroked-button color="primary" matStepperPrevious>
           Back
         </button>
-        <button mat-flat-button color="primary" matStepperNext>Next</button>
+        <button
+          mat-flat-button
+          color="primary"
+          matStepperNext
+          (click)="validateSecondStep()"
+        >
+          Next
+        </button>
       </div>
     </mat-step>
     <mat-step label="Cost & Funding Information">
@@ -250,8 +265,8 @@
     </mat-step>
   </mat-stepper>
 
-  <!-- <div *ngIf="eoiApplicationForm.value">
+  <div *ngIf="eoiApplicationForm.value">
     FYI doesn't reflect arrayForm values, buy they are populated properly
-    <pre>{{ eoiApplicationForm.value | json }}</pre>    
-  </div> -->
+    <pre>{{ eoiApplicationForm.value | json }}</pre>
+  </div>
 </div>
