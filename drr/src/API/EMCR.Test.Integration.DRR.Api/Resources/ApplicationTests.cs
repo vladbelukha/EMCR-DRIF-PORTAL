@@ -27,7 +27,7 @@ namespace EMCR.Tests.Integration.DRR.Api.Resources
             return new EOIApplication
             {
                 ApplicantType = ApplicantType.LocalGovernment,
-                ApplicantName = $"{uniqueSignature}_primaryApplicant",
+                ApplicantName = $"{uniqueSignature}_applicant_name",
                 Submitter = CreateTestContact(uniqueSignature),
                 ProjectContacts = new[]
                 {
@@ -37,23 +37,41 @@ namespace EMCR.Tests.Integration.DRR.Api.Resources
                 ProjectType = ProjectType.New,
                 RelatedHazards = new[]
                 {
-                    "test",
+                    Hazards.Flood,
+                    Hazards.Tsunami,
+                    Hazards.Erosion,
+                    Hazards.Other
                 },
+                OtherHazardsDescription = "Other Description",
                 StartDate = DateTime.Now,
                 EndDate = DateTime.Now.AddDays(14),
                 FundingRequest = 100,
                 OtherFunding = new[]
                 {
-                    "test",
+                    new FundingInformation
+                    {
+                        Name = "my $$$",
+                        Amount = 100,
+                        Type = FundingType.SelfFunding,
+                    },
+                    new FundingInformation
+                    {
+                        Name = "prov $$$",
+                        Amount = 200,
+                        Type = FundingType.Prov,
+                    },
                 },
                 UnfundedAmount = 100,
+                ReasonsToSecureFunding = "Funding Reasons",
                 TotalFunding = 200,
                 OwnershipDeclaration = true,
-                LocationDescription = "location description",
-                //Coordinates
-                //Area
-                //Units
-                //Ownership
+                LocationInformation = new LocationInformation
+                {
+                    Description = "location description",
+                    Area = "100",
+                    AreaUnits = AreaUnits.Acre,
+                    Ownership = "owned"
+                },
                 BackgroundDescription = "background description",
                 RationaleForFunding = "rationale for funding",
                 ProposedSolution = "solution",
@@ -61,9 +79,6 @@ namespace EMCR.Tests.Integration.DRR.Api.Resources
                 EngagementProposal = "Engagement Proposal",
                 ClimateAdaptation = "Climate Adaptation",
                 OtherInformation = "Other Info",
-                IdentityConfirmation = true,
-                FOIPPAConfirmation = true,
-                CFOConfirmation = true
             };
         }
 
@@ -75,7 +90,7 @@ namespace EMCR.Tests.Integration.DRR.Api.Resources
                 LastName = $"{uniqueSignature}_last",
                 Email = "test@test.com",
                 Phone = "604-123-4567",
-                Position = "Position",
+                Department = "Position",
                 Title = "Title"
             };
         }
