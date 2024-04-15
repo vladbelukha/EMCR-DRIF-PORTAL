@@ -1,3 +1,4 @@
+i
 <div class="app-stepper-container">
   <h1>Expression of Interest - EOI form</h1>
 
@@ -182,7 +183,10 @@
               }
             </mat-select>
           </mat-form-field>
-          <!-- TODO: add text field for Other option -->
+          <mat-form-field *ngIf="otherHazardSelected()">
+            <mat-label>Other</mat-label>
+            <input matInput formControlName="otherHazard" />
+          </mat-form-field>
           <mat-label class="form-label">Anticipated Project Dates</mat-label>
           <div class="project-dates-container">
             <mat-form-field>

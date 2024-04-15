@@ -101,4 +101,8 @@ export class EOIApplicationComponent {
     const array = this.getFormArray('relatedHazards');
     array.push(newHazardControl, { emitEvent: false });
   }
+
+  otherHazardSelected() {
+    return this.getFormArray('relatedHazards').value?.includes('Other');
+  }
 }

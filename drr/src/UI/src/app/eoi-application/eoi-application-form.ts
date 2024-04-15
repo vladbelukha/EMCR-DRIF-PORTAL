@@ -104,6 +104,9 @@ export class EOIApplicationForm implements EOIApplication {
     
     @prop()
     relatedHazards?: string[];
+
+    @prop()
+    otherHazard?: string;
     
     @prop()
     startDate?: string;
