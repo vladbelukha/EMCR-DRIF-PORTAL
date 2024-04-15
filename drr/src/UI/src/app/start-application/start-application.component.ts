@@ -8,7 +8,9 @@ import { MatRadioModule } from '@angular/material/radio';
 import { ReactiveFormsModule, FormGroup, FormControl, FormsModule, Validators, FormBuilder, FormArray } from '@angular/forms';
 import {
   IFormGroup,
+  RxFormArray,
   RxFormBuilder,
+  RxFormGroup,
   email,
   prop,
   propArray,
@@ -19,6 +21,7 @@ import { ApplicantType, ContactDetails, EOIApplication, ProjectType } from '../.
 import { ContactDetailsForm, EOIApplicationForm } from './eoi-application-form';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
+import { ContactDetailsComponent } from '../contact-details/contact-details.component';
 
 @Component({
   selector: 'drr-start-application',
@@ -33,7 +36,8 @@ import { MatDividerModule } from '@angular/material/divider';
     MatInputModule,
     MatRadioModule,
     MatIconModule,
-    MatDividerModule
+    MatDividerModule,
+    ContactDetailsComponent
   ],
   templateUrl: './start-application.component.html',
   styleUrl: './start-application.component.scss',
@@ -49,16 +53,19 @@ export class StartApplicationComponent {
   ) as IFormGroup<EOIApplicationForm>;  
 
   getFormArrayControls(formArrayName: string) {
-    return (this.eoiApplicationForm.get(formArrayName) as FormArray).controls;
+    return this.eoiApplicationForm.get(formArrayName) as FormArray;
   }
 
-  addProjectContact() {
-    const projectContacts = this.getFormArrayControls('projectContacts');
-    projectContacts.push(this.formBuilder.formGroup(ContactDetailsForm)); // TODO: whole form gets dirty    
+  // getItemFormGroup(formArrayName: string, index: number) {
+  //   return this.getFormArrayControls(formArrayName)[index] as RxFormGroup;
+  // }
+
+  addProjectContact() {    
+    this.getFormArrayControls('projectContacts').push(this.formBuilder.formGroup(ContactDetailsForm), { emitEvent: false }); // TODO: still makes parent dirty, which is not ideal
   }
 
   removeProjectContact(index: number) {
-    const projectContacts = this.getFormArrayControls('projectContacts');
+    const projectContacts = this.getFormArrayControls('projectContacts').controls;
     projectContacts.splice(index, 1);
   }
 

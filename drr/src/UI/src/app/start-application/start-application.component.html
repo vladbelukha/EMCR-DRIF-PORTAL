@@ -75,11 +75,16 @@
             <div
               class="project-contacts-container"
               *ngFor="
-                let projectContact of getFormArrayControls('projectContacts');
+                let projectContact of getFormArrayControls('projectContacts')
+                  .controls;
                 let i = index
               "
               [formGroupName]="i"
             >
+              <!-- TODO: there is an issue with form reference, form value stays empty
+              <drr-contact-details
+                [contactForm]="projectContact as RxFormGroup"
+              ></drr-contact-details> -->
               <mat-form-field>
                 <mat-label>First Name</mat-label>
                 <input matInput formControlName="firstName" />
@@ -104,6 +109,7 @@
                 <mat-label>Email</mat-label>
                 <input matInput formControlName="email" />
               </mat-form-field>
+
               <button
                 *ngIf="i > 0"
                 mat-mini-fab
