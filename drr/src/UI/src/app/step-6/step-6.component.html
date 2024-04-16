@@ -1,0 +1,23 @@
+<div class="drr-step-container">
+  <form [formGroup]="eoiApplicationForm">
+    <mat-label class="drr-label"
+      >Engagement/Planned Engagement with First Nations and/or Indigenous
+      Organizations Prior to Full Proposal</mat-label
+    >
+    <mat-label
+      >Describe how the applicant has or plans to engage with local First
+      Nations and/or First Nations impacted by the proposed project</mat-label
+    >
+    <mat-form-field>
+      <textarea
+        matInput
+        formControlName="engagementProposal"
+        rows="10"
+      ></textarea>
+    </mat-form-field>
+  </form>
+</div>
+<div class="drr-stepper-actions">
+  <button mat-stroked-button color="primary" matStepperPrevious>Back</button>
+  <button mat-flat-button color="primary" matStepperNext>Next</button>
+</div>
