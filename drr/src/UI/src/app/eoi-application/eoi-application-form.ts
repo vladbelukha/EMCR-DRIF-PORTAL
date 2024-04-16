@@ -34,13 +34,13 @@ export class FundingInformationForm implements FundingInformation {
 
 export class LocationInformationForm implements LocationInformation {
   @prop()
+  @required()
   area?: string;
 
   @prop()
   areaUnits?: AreaUnits;
 
   @prop()
-  @required()
   description?: string;
 
   @prop()
@@ -70,9 +70,11 @@ export class ContactDetailsForm implements ContactDetails {
   phone?: string;
 
   @prop()
-  department?: string; // TODO: use as department for now
+  @required()
+  department?: string;
 
   @prop()
+  @required()
   title?: string;
 
   constructor(values: ContactDetailsForm) {
@@ -138,9 +140,6 @@ export class EOIApplicationForm implements EOIApplication {
 
   @prop()
   otherInformation?: string;
-
-  @prop()
-  ownership?: string;
 
   @prop()
   @required()
