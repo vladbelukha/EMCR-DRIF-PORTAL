@@ -11,7 +11,7 @@ RUN npm run build --configuration=production
 
 FROM caddy:latest as final
 COPY ./drr/src/UI/Caddyfile /etc/caddy/Caddyfile
-COPY --from=ng-builder /app/drr/src/UI/dist/drr /site
+COPY --from=ng-builder /app/drr/src/UI/dist /site
 ENV API_URL=
 EXPOSE 2015
 
