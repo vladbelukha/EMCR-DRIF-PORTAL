@@ -40,6 +40,7 @@ export class LocationInformationForm implements LocationInformation {
   areaUnits?: AreaUnits;
 
   @prop()
+  @required()
   description?: string;
 
   @prop()
@@ -92,33 +93,39 @@ export class EOIApplicationForm implements EOIApplication {
   area?: number;
 
   @prop()
+  @required()
   backgroundDescription?: string;
 
   @prop()
   cfoConfirmation?: boolean;
 
   @prop()
+  @required()
   climateAdaptation?: string;
 
   @prop()
   coordinates?: string;
 
   @prop()
+  @required()
   endDate?: string;
 
   @prop()
+  @required()
   engagementProposal?: string;
 
   @prop()
   foippaConfirmation?: boolean;
 
   @prop()
+  @required()
   fundingRequest?: number;
 
   @prop()
   identityConfirmation?: boolean;
 
   @prop()
+  @required()
   locationDescription?: string;
 
   @propObject(LocationInformationForm)
@@ -127,7 +134,7 @@ export class EOIApplicationForm implements EOIApplication {
   );
 
   @propArray(FundingInformationForm)
-  otherFunding?: FundingInformationForm[] = [{}];
+  otherFunding?: FundingInformationForm[] = [];
 
   @prop()
   otherInformation?: string;
@@ -136,33 +143,41 @@ export class EOIApplicationForm implements EOIApplication {
   ownership?: string;
 
   @prop()
+  @required()
   ownershipDeclaration?: boolean;
 
   @propArray(ContactDetailsForm)
   projectContacts?: ContactDetailsForm[] = [{}];
 
   @prop()
+  @required()
   projectTitle?: string;
 
   @prop()
+  @required()
   projectType?: ProjectType;
 
   @prop()
+  @required()
   proposedSolution?: string;
 
   @prop()
+  @required()
   rationaleForFunding?: string;
 
   @prop()
+  @required()
   rationaleForSolution?: string;
 
   @prop()
   reasonsToSecureFunding?: string;
 
   @prop()
+  @required()
   relatedHazards?: Hazards[];
 
   @prop()
+  @required()
   startDate?: string;
 
   @propObject(ContactDetailsForm)

@@ -50,7 +50,7 @@
       </mat-form-field>
       <mat-form-field>
         <mat-label>Phone</mat-label>
-        <input matInput formControlName="phone" />
+        <input matInput type="tel" formControlName="phone" />
       </mat-form-field>
       <mat-form-field>
         <mat-label>Email</mat-label>
@@ -112,17 +112,6 @@
       <button mat-stroked-button color="primary" (click)="addProjectContact()">
         <mat-icon>add</mat-icon>
         Add additional contact
-      </button>
-    </div>
-
-    <div class="drr-stepper-action">
-      <button
-        mat-flat-button
-        color="primary"
-        matStepperNext
-        (click)="validateStep()"
-      >
-        Next
       </button>
     </div>
   </form>

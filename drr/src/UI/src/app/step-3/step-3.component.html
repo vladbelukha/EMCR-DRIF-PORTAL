@@ -32,16 +32,16 @@
           <mat-label>Amount</mat-label>
           <input matInput type="number" formControlName="amount" />
         </mat-form-field>
-        <button
-          *ngIf="i > 0"
-          mat-mini-fab
-          color="warn"
-          (click)="removeOtherSource(i)"
-        >
+        <button mat-mini-fab color="warn" (click)="removeOtherSource(i)">
           <mat-icon>delete</mat-icon>
         </button>
       </div>
-      <button mat-stroked-button color="primary" (click)="addOtherFunding()">
+      <button
+        style="margin-top: 10px"
+        mat-stroked-button
+        color="primary"
+        (click)="addOtherFunding()"
+      >
         <mat-icon>add</mat-icon>
         Add additional funding source
       </button>
@@ -73,8 +73,4 @@
       />
     </mat-form-field>
   </form>
-</div>
-<div class="drr-stepper-actions">
-  <button mat-stroked-button color="primary" matStepperPrevious>Back</button>
-  <button mat-flat-button color="primary" matStepperNext>Next</button>
 </div>
