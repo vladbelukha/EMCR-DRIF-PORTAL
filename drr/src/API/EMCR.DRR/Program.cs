@@ -1,6 +1,8 @@
 ﻿using EMCR.DRR.Dynamics;
 using EMCR.DRR.Resources.Applications;
 using EMCR.Utilities;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using NSwag;
 using NSwag.AspNetCore;
 using NSwag.Generation.Processors.Security;
@@ -45,8 +47,14 @@ builder.Services.AddOpenApiDocument(document =>
     document.GenerateAbstractProperties = true;
 });
 
+builder.Services.AddHealthChecks()
+    .AddCheck($"ready hc", () => HealthCheckResult.Healthy("ready"), new[] { "ready" })
+    .AddCheck($"live hc", () => HealthCheckResult.Healthy("alive"), new[] { "alive" });
 
 var app = builder.Build();
+
+app.MapHealthChecks("/hc/ready", new HealthCheckOptions() { Predicate = check => check.Tags.Contains("ready") });
+app.MapHealthChecks("/hc/live", new HealthCheckOptions() { Predicate = check => check.Tags.Contains("live") });
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
