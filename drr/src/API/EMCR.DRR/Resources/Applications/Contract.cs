@@ -34,12 +34,6 @@ namespace EMCR.DRR.Resources.Applications
         Existing = 172580001,
     }
 
-    public enum AreaUnitsOptionSet
-    {
-        Hectare = 172580000,
-        Metre = 172580001,
-        Acre = 172580002,
-    }
 
     public enum FundingTypeOptionSet
     {
