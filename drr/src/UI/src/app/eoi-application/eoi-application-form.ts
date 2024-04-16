@@ -70,7 +70,7 @@ export class ContactDetailsForm implements ContactDetails {
   phone?: string;
 
   @prop()
-  position?: string; // TODO: use as department for now
+  department?: string; // TODO: use as department for now
 
   @prop()
   title?: string;
