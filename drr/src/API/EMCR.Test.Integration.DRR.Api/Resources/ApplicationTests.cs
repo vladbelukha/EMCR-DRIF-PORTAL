@@ -69,7 +69,6 @@ namespace EMCR.Tests.Integration.DRR.Api.Resources
                 {
                     Description = "location description",
                     Area = "123 acres",
-                    AreaUnits = AreaUnits.Acre,
                     Ownership = "owned"
                 },
                 BackgroundDescription = "background description",

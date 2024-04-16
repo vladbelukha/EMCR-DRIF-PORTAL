@@ -1,4 +1,5 @@
-﻿using EMCR.DRR.Dynamics;
+﻿using System.Text.Json.Serialization;
+using EMCR.DRR.Dynamics;
 using EMCR.DRR.Resources.Applications;
 using EMCR.Utilities;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -9,7 +10,11 @@ using NSwag.Generation.Processors.Security;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(x =>
+{
+    x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
+builder.Services.AddRouting(o => o.LowercaseUrls = true);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddTransient<IApplicationRepository, ApplicationRepository>();
 builder.Services.AddAutoMapper(typeof(ApplicationMapperProfile));

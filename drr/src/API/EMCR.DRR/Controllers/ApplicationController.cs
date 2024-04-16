@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Net.Mime;
 using System.Text.Json.Serialization;
 using EMCR.DRR.Resources.Applications;
 using Microsoft.AspNetCore.Mvc;
@@ -6,7 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 namespace EMCR.DRR.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [Produces(MediaTypeNames.Application.Json)]
     public class ApplicationController : ControllerBase
     {
         private readonly ILogger<ApplicationController> _logger;
@@ -74,7 +77,6 @@ namespace EMCR.DRR.Controllers
     {
         public required string Description { get; set; }
         public string? Area { get; set; }
-        public AreaUnits AreaUnits { get; set; }
         public string? Ownership { get; set; }
     }
 
@@ -112,18 +114,6 @@ namespace EMCR.DRR.Controllers
         Existing
     }
 
-    [JsonConverter(typeof(JsonStringEnumConverter))]
-    public enum AreaUnits
-    {
-        [Description("Hectare")]
-        Hectare,
-
-        [Description("Metre")]
-        Metre,
-
-        [Description("Acre")]
-        Acre
-    }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum FundingType
