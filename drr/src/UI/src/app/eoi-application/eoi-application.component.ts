@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, isDevMode } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatInputModule } from '@angular/material/input';
@@ -85,6 +85,8 @@ import { Step8Component } from '../step-8/step-8.component';
   providers: [RxFormBuilder],
 })
 export class EOIApplicationComponent {
+  isDevMode = isDevMode();
+
   ApplicantType = ApplicantType;
   projectType = ProjectType;
   hazardsOptions = Object.values(Hazards);
@@ -97,17 +99,5 @@ export class EOIApplicationComponent {
 
   getFormArray(formArrayName: string) {
     return this.eoiApplicationForm?.get(formArrayName) as FormArray;
-  }
-
-  validateFirstStep() {
-    console.log(this.eoiApplicationForm.value);
-  }
-
-  validateSecondStep() {
-    console.log(this.eoiApplicationForm.value);
-  }
-
-  otherHazardSelected() {
-    return this.getFormArray('relatedHazards').value?.includes('Other');
   }
 }
