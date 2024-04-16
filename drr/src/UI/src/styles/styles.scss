@@ -402,3 +402,39 @@ mat-card {
 .versions-table {
   width: 100%;
 }
+
+// new styles
+.drr-radio-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.drr-label {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.drr-step-container {
+  display: flex;
+  flex-direction: column;
+  margin: 20px 20px;
+
+  & form {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.drr-stepper-action {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.drr-stepper-actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 20px;
+}

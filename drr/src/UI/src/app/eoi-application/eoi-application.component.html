@@ -1,0 +1,43 @@
+<div class="app-stepper-container">
+  <h1>Expression of Interest - EOI form</h1>
+
+  <mat-stepper
+    class="app-stepper"
+    [linear]="false"
+    labelPosition="bottom"
+    #stepper
+  >
+    <mat-step [stepControl]="eoiApplicationForm" label="Applicant Information">
+      <drr-step-1 [eoiApplicationForm]="eoiApplicationForm"></drr-step-1>
+    </mat-step>
+    <mat-step [stepControl]="eoiApplicationForm" label="Project Information">
+      <drr-step-2 [eoiApplicationForm]="eoiApplicationForm"></drr-step-2>
+    </mat-step>
+    <mat-step [stepControl]="eoiApplicationForm" label="Funding Information">
+      <drr-step-3 [eoiApplicationForm]="eoiApplicationForm"></drr-step-3>
+    </mat-step>
+    <mat-step [stepControl]="eoiApplicationForm" label="Location Information">
+      <drr-step-4 [eoiApplicationForm]="eoiApplicationForm"></drr-step-4>
+    </mat-step>
+    <mat-step [stepControl]="eoiApplicationForm" label="Project Details">
+      <drr-step-5 [eoiApplicationForm]="eoiApplicationForm"></drr-step-5>
+    </mat-step>
+    <mat-step [stepControl]="eoiApplicationForm" label="Engagement Plan">
+      <drr-step-6 [eoiApplicationForm]="eoiApplicationForm"></drr-step-6>
+    </mat-step>
+    <mat-step
+      [stepControl]="eoiApplicationForm"
+      label="Other Supporting Information"
+    >
+      <drr-step-7 [eoiApplicationForm]="eoiApplicationForm"></drr-step-7>
+    </mat-step>
+    <mat-step [stepControl]="eoiApplicationForm" label="Declaration">
+      <drr-step-8 [eoiApplicationForm]="eoiApplicationForm"></drr-step-8>
+    </mat-step>
+  </mat-stepper>
+
+  <div *ngIf="eoiApplicationForm.value && isDevMode">
+    FYI doesn't reflect arrayForm values, buy they are populated properly
+    <pre>{{ eoiApplicationForm.value | json }}</pre>
+  </div>
+</div>

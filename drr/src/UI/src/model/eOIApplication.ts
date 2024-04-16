@@ -5,29 +5,25 @@
  * OpenAPI spec version: 1.0.0
  */
 import type { ApplicantType } from './applicantType';
+import type { LocationInformation } from './locationInformation';
+import type { FundingInformation } from './fundingInformation';
 import type { ContactDetails } from './contactDetails';
 import type { ProjectType } from './projectType';
+import type { Hazards } from './hazards';
 
 export interface EOIApplication {
   applicantName?: string;
   applicantType?: ApplicantType;
-  /** @nullable */
-  area?: number;
   backgroundDescription?: string;
-  cfoConfirmation?: boolean;
   climateAdaptation?: string;
-  /** @nullable */
-  coordinates?: string;
   endDate?: string;
   engagementProposal?: string;
-  foippaConfirmation?: boolean;
   fundingRequest?: number;
-  identityConfirmation?: boolean;
-  locationDescription?: string;
-  otherFunding?: string[];
-  otherInformation?: string;
+  locationInformation?: LocationInformation;
+  otherFunding?: FundingInformation[];
   /** @nullable */
-  ownership?: string;
+  otherHazardsDescription?: string;
+  otherInformation?: string;
   ownershipDeclaration?: boolean;
   projectContacts?: ContactDetails[];
   projectTitle?: string;
@@ -35,11 +31,11 @@ export interface EOIApplication {
   proposedSolution?: string;
   rationaleForFunding?: string;
   rationaleForSolution?: string;
-  relatedHazards?: string[];
+  /** @nullable */
+  reasonsToSecureFunding?: string;
+  relatedHazards?: Hazards[];
   startDate?: string;
   submitter?: ContactDetails;
   totalFunding?: number;
   unfundedAmount?: number;
-  /** @nullable */
-  units?: string;
 }

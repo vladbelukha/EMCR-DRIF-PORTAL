@@ -14,6 +14,6 @@ export class RegisterPageComponent {
   router = inject(Router);
 
   startApplication() {
-    this.router.navigate(['/start-application']);
+    this.router.navigate(['/eoi-application']);
   }
 }

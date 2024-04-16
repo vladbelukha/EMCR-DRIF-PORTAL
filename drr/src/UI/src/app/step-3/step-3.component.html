@@ -1,0 +1,80 @@
+<div class="drr-step-container">
+  <form [formGroup]="eoiApplicationForm">
+    <mat-label class="drr-label">DRIF Funding Request</mat-label>
+    <mat-form-field style="width: 50vw; margin-top: 10px">
+      <mat-label>DRIF Funding Request</mat-label>
+      <input
+        matInput
+        type="number"
+        formControlName="fundingRequest"
+        placeholder="$"
+      />
+    </mat-form-field>
+    <mat-label class="drr-label">Other Funding Sources</mat-label>
+    <div formArrayName="otherFunding">
+      <div
+        class="funding-sources-container"
+        *ngFor="
+          let projectContact of getFormArray('otherFunding').controls;
+          let i = index
+        "
+        [formGroupName]="i"
+      >
+        <mat-form-field>
+          <mat-label>Name of Grant/Funding Source</mat-label>
+          <input matInput formControlName="name" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Type of Funding</mat-label>
+          <input matInput formControlName="type" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Amount</mat-label>
+          <input matInput type="number" formControlName="amount" />
+        </mat-form-field>
+        <button
+          *ngIf="i > 0"
+          mat-mini-fab
+          color="warn"
+          (click)="removeOtherSource(i)"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+      <button mat-stroked-button color="primary" (click)="addOtherFunding()">
+        <mat-icon>add</mat-icon>
+        Add additional funding source
+      </button>
+    </div>
+    <mat-label class="drr-label" style="margin-top: 10px"
+      >Unfunded Amount</mat-label
+    >
+    <mat-form-field style="width: 50vw; margin-top: 10px">
+      <mat-label>Unfunded Amount</mat-label>
+      <input
+        matInput
+        type="number"
+        formControlName="unfundedAmount"
+        placeholder="$"
+      />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Explain how you intent to secure this funding</mat-label>
+      <textarea matInput formControlName="reasonsToSecureFunding"></textarea>
+    </mat-form-field>
+    <mat-label class="drr-label">Total of funding sources</mat-label>
+    <mat-form-field style="width: 50vw; margin-top: 10px">
+      <mat-label>Total of funding sources</mat-label>
+      <input
+        matInput
+        type="number"
+        formControlName="totalFunding"
+        placeholder="$"
+      />
+    </mat-form-field>
+  </form>
+</div>
+<div class="drr-stepper-actions">
+  <button mat-stroked-button color="primary" matStepperPrevious>Back</button>
+  <button mat-flat-button color="primary" matStepperNext>Next</button>
+</div>
