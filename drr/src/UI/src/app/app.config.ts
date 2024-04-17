@@ -4,7 +4,7 @@ import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideLuxonDateAdapter } from '@angular/material-luxon-adapter';
-import { ApplicationService } from '../api/application/application.service';
+import { DrifapplicationService } from '../api/drifapplication/drifapplication.service';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 
 export const appConfig: ApplicationConfig = {
@@ -14,6 +14,6 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withFetch()),
     provideAnimations(),
     provideLuxonDateAdapter(),
-    ApplicationService,
+    DrifapplicationService,
   ],
 };

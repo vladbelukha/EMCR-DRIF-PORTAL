@@ -1,13 +1,15 @@
 <div class="drr-step-container">
+  <drr-summary [eoiApplication]="eoiApplicationForm.value"></drr-summary>
+
   <form [formGroup]="eoiApplicationForm">
     <mat-label class="drr-label">Identity Confirmation Statement</mat-label>
     <mat-label> Wording TBD </mat-label>
-    <mat-checkbox> Agree </mat-checkbox>
+    <mat-checkbox formControlName="identityConfirmation"> Agree </mat-checkbox>
     <mat-label class="drr-label">FOIPPA Confirmation</mat-label>
     <mat-label> Wording TBD </mat-label>
-    <mat-checkbox> Agree </mat-checkbox>
+    <mat-checkbox formControlName="foippaConfirmation"> Agree </mat-checkbox>
     <mat-label class="drr-label">CFO Confirmation of Funds Statement</mat-label>
     <mat-label> Wording TBD </mat-label>
-    <mat-checkbox> Agree </mat-checkbox>
+    <mat-checkbox formControlName="cfoConfirmation"> Agree </mat-checkbox>
   </form>
 </div>

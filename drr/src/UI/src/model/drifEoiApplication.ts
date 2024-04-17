@@ -11,14 +11,17 @@ import type { ContactDetails } from './contactDetails';
 import type { ProjectType } from './projectType';
 import type { Hazards } from './hazards';
 
-export interface EOIApplication {
+export interface DrifEoiApplication {
   applicantName?: string;
   applicantType?: ApplicantType;
   backgroundDescription?: string;
+  cfoConfirmation?: boolean;
   climateAdaptation?: string;
   endDate?: string;
   engagementProposal?: string;
+  foippaConfirmation?: boolean;
   fundingRequest?: number;
+  identityConfirmation?: boolean;
   locationInformation?: LocationInformation;
   otherFunding?: FundingInformation[];
   /** @nullable */

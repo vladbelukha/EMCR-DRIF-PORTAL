@@ -28,4 +28,14 @@ import { MatRadioModule } from '@angular/material/radio';
 export class Step4Component {
   @Input()
   eoiApplicationForm!: IFormGroup<EOIApplicationForm>;
+
+  locationDescriptionMax = 500;
+
+  // TODO: make a textarea component
+  getCount() {
+    return (
+      this.eoiApplicationForm.value.locationInformation?.description?.length ??
+      0
+    );
+  }
 }

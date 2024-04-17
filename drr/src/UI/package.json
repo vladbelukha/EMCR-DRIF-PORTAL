@@ -8,7 +8,10 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:drr": "node dist/drr/server/server.mjs",
-    "gen-api": "orval --config ./orval.config.ts"
+    "gen-api": "orval --config ./orval.config.ts",
+    "e2e": "ng e2e",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run"
   },
   "private": true,
   "dependencies": {
@@ -34,6 +37,7 @@
     "@angular-devkit/build-angular": "^17.3.4",
     "@angular/cli": "^17.3.4",
     "@angular/compiler-cli": "^17.3.0",
+    "@cypress/schematic": "^2.5.1",
     "@types/express": "^4.17.17",
     "@types/jasmine": "~5.1.0",
     "@types/node": "^18.18.0",
@@ -44,6 +48,7 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
     "orval": "^6.27.1",
-    "typescript": "~5.4.2"
+    "typescript": "~5.4.2",
+    "cypress": "latest"
   }
 }

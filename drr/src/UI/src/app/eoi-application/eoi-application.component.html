@@ -11,6 +11,7 @@
       <drr-step-1 [eoiApplicationForm]="eoiApplicationForm"></drr-step-1>
       <div class="drr-stepper-action">
         <button
+          id="next1"
           mat-flat-button
           color="primary"
           matStepperNext
@@ -27,6 +28,7 @@
           Back
         </button>
         <button
+          id="next2"
           mat-flat-button
           color="primary"
           matStepperNext
@@ -43,6 +45,7 @@
           Back
         </button>
         <button
+          id="next3"
           mat-flat-button
           color="primary"
           matStepperNext
@@ -59,6 +62,7 @@
           Back
         </button>
         <button
+          id="next4"
           mat-flat-button
           color="primary"
           matStepperNext
@@ -75,6 +79,7 @@
           Back
         </button>
         <button
+          id="next5"
           mat-flat-button
           color="primary"
           matStepperNext
@@ -91,6 +96,7 @@
           Back
         </button>
         <button
+          id="next6"
           mat-flat-button
           color="primary"
           matStepperNext
@@ -110,6 +116,7 @@
           Back
         </button>
         <button
+          id="next7"
           mat-flat-button
           color="primary"
           matStepperNext
@@ -125,7 +132,12 @@
         <button mat-stroked-button color="primary" matStepperPrevious>
           Back
         </button>
-        <button mat-flat-button color="primary" (click)="validateStep8()">
+        <button
+          id="submit"
+          mat-flat-button
+          color="primary"
+          (click)="validateStep8()"
+        >
           Submit
         </button>
       </div>

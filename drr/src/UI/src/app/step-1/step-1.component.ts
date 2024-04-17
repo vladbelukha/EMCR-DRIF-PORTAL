@@ -51,9 +51,8 @@ export class Step1Component {
 
   addProjectContact() {
     this.getFormArray('projectContacts').push(
-      this.formBuilder.formGroup(ContactDetailsForm),
-      { emitEvent: false }
-    ); // TODO: still makes parent dirty, which is not ideal
+      this.formBuilder.formGroup(ContactDetailsForm)      
+    );
   }
 
   removeProjectContact(index: number) {

@@ -1,0 +1,237 @@
+<div class="summary-container">
+  <div class="summary-item" *ngIf="eoiApplication?.applicantType">
+    <mat-label class="drr-label">Application Type</mat-label>
+    <mat-label>{{ eoiApplication?.applicantType }}</mat-label>
+  </div>
+  <div class="summary-item" *ngIf="eoiApplication?.applicantName">
+    <mat-label class="drr-label">Applicant Name</mat-label>
+    <mat-label>{{ eoiApplication?.applicantName }}</mat-label>
+  </div>
+  <div class="summary-group" *ngIf="objectHasValues(eoiApplication?.submitter)">
+    <mat-label class="drr-label">Submitter Contact Information</mat-label>
+
+    <div class="summary-row">
+      <div class="summary-item">
+        <mat-label class="drr-label">First Name</mat-label>
+        <mat-label>{{ eoiApplication?.submitter?.firstName }}</mat-label>
+      </div>
+
+      <div class="summary-item">
+        <mat-label class="drr-label">Last Name</mat-label>
+        <mat-label>{{ eoiApplication?.submitter?.lastName }}</mat-label>
+      </div>
+
+      <div class="summary-item">
+        <mat-label class="drr-label">Position/Title</mat-label>
+        <mat-label>{{ eoiApplication?.submitter?.title }}</mat-label>
+      </div>
+
+      <div class="summary-item">
+        <mat-label class="drr-label">Department</mat-label>
+        <mat-label>{{ eoiApplication?.submitter?.department }}</mat-label>
+      </div>
+
+      <div class="summary-item">
+        <mat-label class="drr-label">Phone</mat-label>
+        <mat-label>{{ eoiApplication?.submitter?.phone }}</mat-label>
+      </div>
+
+      <div class="summary-item">
+        <mat-label class="drr-label">Email</mat-label>
+        <mat-label>{{ eoiApplication?.submitter?.email }}</mat-label>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="summary-group"
+    *ngIf="arrayHasValues(eoiApplication?.projectContacts!)"
+  >
+    <mat-label class="drr-label">Project Contact Information</mat-label>
+    <div
+      class="summary-row"
+      *ngFor="let projectContact of eoiApplication?.projectContacts"
+    >
+      <div class="summary-item">
+        <mat-label class="drr-label">First Name</mat-label>
+        <mat-label>{{ projectContact?.firstName }}</mat-label>
+      </div>
+
+      <div class="summary-item">
+        <mat-label class="drr-label">Last Name</mat-label>
+        <mat-label>{{ projectContact?.lastName }}</mat-label>
+      </div>
+
+      <div class="summary-item">
+        <mat-label class="drr-label">Position/Title</mat-label>
+        <mat-label>{{ projectContact?.title }}</mat-label>
+      </div>
+
+      <div class="summary-item">
+        <mat-label class="drr-label">Department</mat-label>
+        <mat-label>{{ projectContact?.department }}</mat-label>
+      </div>
+
+      <div class="summary-item">
+        <mat-label class="drr-label">Phone</mat-label>
+        <mat-label>{{ projectContact?.phone }}</mat-label>
+      </div>
+
+      <div class="summary-item">
+        <mat-label class="drr-label">Email</mat-label>
+        <mat-label>{{ projectContact?.email }}</mat-label>
+      </div>
+    </div>
+  </div>
+
+  <div class="summary-item" *ngIf="eoiApplication?.projectTitle">
+    <mat-label class="drr-label">Project Title</mat-label>
+    <mat-label>{{ eoiApplication?.projectTitle }}</mat-label>
+  </div>
+
+  <div class="summary-item" *ngIf="eoiApplication?.projectType">
+    <mat-label class="drr-label">Project Type</mat-label>
+    <mat-label>{{ eoiApplication?.projectType }}</mat-label>
+  </div>
+
+  <div class="summary-item" *ngIf="eoiApplication?.relatedHazards?.length">
+    <mat-label class="drr-label">Related Hazards</mat-label>
+    <mat-label>{{ eoiApplication?.relatedHazards?.join(", ") }}</mat-label>
+    <mat-label *ngIf="eoiApplication?.otherHazardsDescription">
+      {{ eoiApplication?.otherHazardsDescription }}
+    </mat-label>
+  </div>
+
+  <div class="summary-item" *ngIf="eoiApplication?.startDate">
+    <mat-label class="drr-label">Anticipated Project Start Date</mat-label>
+    <mat-label>{{ eoiApplication?.startDate | date : "mediumDate" }}</mat-label>
+  </div>
+
+  <div class="summary-item" *ngIf="eoiApplication?.endDate">
+    <mat-label class="drr-label">Anticipated Project End Date</mat-label>
+    <mat-label>{{ eoiApplication?.endDate | date : "mediumDate" }}</mat-label>
+  </div>
+
+  <div class="summary-item" *ngIf="eoiApplication?.fundingRequest">
+    <mat-label class="drr-label">DRIF Funding Request</mat-label>
+    <mat-label>{{ eoiApplication?.fundingRequest | currency }}</mat-label>
+  </div>
+
+  <div
+    class="summary-group"
+    *ngIf="arrayHasValues(eoiApplication?.otherFunding!)"
+  >
+    <mat-label class="drr-label">Other Funding Sources</mat-label>
+    <div
+      class="summary-row"
+      *ngFor="let funding of eoiApplication?.otherFunding"
+    >
+      <div class="summary-item">
+        <mat-label class="drr-label">Name</mat-label>
+        <mat-label>{{ funding?.name }}</mat-label>
+      </div>
+
+      <div class="summary-item">
+        <mat-label class="drr-label">Type</mat-label>
+        <mat-label>{{ funding?.type }}</mat-label>
+      </div>
+
+      <div class="summary-item">
+        <mat-label class="drr-label">Amount</mat-label>
+        <mat-label>{{ funding?.amount | currency }}</mat-label>
+      </div>
+    </div>
+  </div>
+
+  <div class="summary-item" *ngIf="eoiApplication?.unfundedAmount">
+    <mat-label class="drr-label">Unfunded Amount</mat-label>
+    <mat-label>{{ eoiApplication?.unfundedAmount | currency }}</mat-label>
+  </div>
+
+  <div class="summary-item" *ngIf="eoiApplication?.reasonsToSecureFunding">
+    <mat-label class="drr-label">Reasons to Secure Funding</mat-label>
+    <mat-label>{{ eoiApplication?.reasonsToSecureFunding }}</mat-label>
+  </div>
+
+  <div class="summary-item" *ngIf="eoiApplication?.totalFunding">
+    <mat-label class="drr-label">Total of funding sources</mat-label>
+    <mat-label>{{ eoiApplication?.totalFunding | currency }}</mat-label>
+  </div>
+
+  <div class="summary-item" *ngIf="eoiApplication?.ownershipDeclaration">
+    <mat-label class="drr-label">Ownership Declaration</mat-label>
+    <mat-label>{{
+      eoiApplication?.ownershipDeclaration ? "Yes" : "No"
+    }}</mat-label>
+  </div>
+
+  <div
+    class="summary-group"
+    *ngIf="objectHasValues(eoiApplication?.locationInformation)"
+  >
+    <div class="summary-item">
+      <mat-label
+        *ngIf="eoiApplication?.locationInformation?.description"
+        class="drr-label"
+        >Location Description</mat-label
+      >
+      <mat-label>{{
+        eoiApplication?.locationInformation?.description
+      }}</mat-label>
+    </div>
+
+    <div class="summary-item">
+      <mat-label class="drr-label">Size of Project Area</mat-label>
+      <mat-label>{{ eoiApplication?.locationInformation?.area }}</mat-label>
+    </div>
+
+    <div class="summary-item">
+      <mat-label
+        *ngIf="eoiApplication?.locationInformation?.ownership"
+        class="drr-label"
+        >Land Use/Ownership</mat-label
+      >
+      <mat-label>{{
+        eoiApplication?.locationInformation?.ownership
+      }}</mat-label>
+    </div>
+  </div>
+
+  <div class="summary-item" *ngIf="eoiApplication?.backgroundDescription">
+    <mat-label class="drr-label">Background for Funding Request</mat-label>
+    <mat-label>{{ eoiApplication?.backgroundDescription }}</mat-label>
+  </div>
+
+  <div class="summary-item" *ngIf="eoiApplication?.rationaleForFunding">
+    <mat-label class="drr-label">Rationale for Funding Request</mat-label>
+    <mat-label>{{ eoiApplication?.rationaleForFunding }}</mat-label>
+  </div>
+
+  <div class="summary-item" *ngIf="eoiApplication?.proposedSolution">
+    <mat-label class="drr-label">Proposed Solution</mat-label>
+    <mat-label>{{ eoiApplication?.proposedSolution }}</mat-label>
+  </div>
+
+  <div class="summary-item" *ngIf="eoiApplication?.rationaleForSolution">
+    <mat-label class="drr-label">Rationale for Proposed Solution</mat-label>
+    <mat-label>{{ eoiApplication?.rationaleForSolution }}</mat-label>
+  </div>
+
+  <div class="summary-item" *ngIf="eoiApplication?.engagementProposal">
+    <mat-label class="drr-label"
+      >Engagement/Planned Engagement with First Nations and/or Indigenous
+      Organizations Prior to Full Proposal</mat-label
+    >
+    <mat-label>{{ eoiApplication?.engagementProposal }}</mat-label>
+  </div>
+
+  <div class="summary-item" *ngIf="eoiApplication?.climateAdaptation">
+    <mat-label class="drr-label">Climate Adaptation</mat-label>
+    <mat-label>{{ eoiApplication?.climateAdaptation }}</mat-label>
+  </div>
+
+  <div class="summary-item" *ngIf="eoiApplication?.otherInformation">
+    <mat-label class="drr-label">Other Relevant Information</mat-label>
+    <mat-label>{{ eoiApplication?.otherInformation }}</mat-label>
+  </div>
+</div>

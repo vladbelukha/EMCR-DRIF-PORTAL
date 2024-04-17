@@ -32,7 +32,7 @@ import {
 import {
   ApplicantType,
   ContactDetails,
-  EOIApplication,
+  DrifEoiApplication,
   Hazards,
   ProjectType,
 } from '../../model';
@@ -52,7 +52,8 @@ import { Step4Component } from '../step-4/step-4.component';
 import { Step5Component } from '../step-5/step-5.component';
 import { Step7Component } from '../step-7/step-7.component';
 import { Step8Component } from '../step-8/step-8.component';
-import { ApplicationService } from '../../api/application/application.service';
+import { DrifapplicationService } from '../../api/drifapplication/drifapplication.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'drr-eoi-application',
@@ -93,7 +94,8 @@ export class EOIApplicationComponent {
   hazardsOptions = Object.values(Hazards);
 
   formBuilder = inject(RxFormBuilder);
-  applicationService = inject(ApplicationService);
+  applicationService = inject(DrifapplicationService);
+  router = inject(Router);
 
   eoiApplicationForm = this.formBuilder.formGroup(
     EOIApplicationForm
@@ -143,19 +145,24 @@ export class EOIApplicationComponent {
   }
 
   validateStep8() {
-    // if (this.eoiApplicationForm.valid) {
-    //   console.log('Form is valid');
-    //   console.log(this.eoiApplicationForm.value);
-    // }
+    if (this.eoiApplicationForm.invalid) {
+      // list invalid fields
+      const invalidFields = Object.keys(
+        this.eoiApplicationForm.controls
+      ).filter((control) => this.eoiApplicationForm.get(control)?.invalid);
+      console.log('Invalid fields:', invalidFields);
+      // TODO: show toast?
+      return;
+    }
 
-    const applicationModel = this.eoiApplicationForm.value as EOIApplication;
-    console.log('Application Model', applicationModel);
+    const applicationModel = this.eoiApplicationForm
+      .value as DrifEoiApplication;
 
     this.applicationService
-      .applicationCreateEOIApplication(applicationModel)
+      .dRIFApplicationCreateEOIApplication(applicationModel)
       .subscribe(
         (response) => {
-          console.log('Success', response);
+          this.router.navigate(['/success']);
         },
         (error) => {
           console.error('Error', error);

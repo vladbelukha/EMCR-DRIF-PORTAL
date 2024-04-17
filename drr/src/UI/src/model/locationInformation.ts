@@ -4,12 +4,10 @@
  * DRR API
  * OpenAPI spec version: 1.0.0
  */
-import type { AreaUnits } from './areaUnits';
 
 export interface LocationInformation {
   /** @nullable */
   area?: string;
-  areaUnits?: AreaUnits;
   description?: string;
   /** @nullable */
   ownership?: string;
