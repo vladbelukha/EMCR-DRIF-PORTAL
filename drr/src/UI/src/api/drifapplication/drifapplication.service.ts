@@ -20,7 +20,7 @@ import {
 } from 'rxjs'
 import type {
   ApplicationResult,
-  EOIApplication
+  DrifEoiApplication
 } from '../../model'
 
 
@@ -41,17 +41,17 @@ type HttpClientOptions = {
 
 
 @Injectable({ providedIn: 'root' })
-export class ApplicationService {
+export class DrifapplicationService {
   constructor(
     private http: HttpClient,
-  ) {} applicationCreateEOIApplication<TData = ApplicationResult>(
-    eOIApplication: EOIApplication, options?: HttpClientOptions
+  ) {} dRIFApplicationCreateEOIApplication<TData = ApplicationResult>(
+    drifEoiApplication: DrifEoiApplication, options?: HttpClientOptions
   ): Observable<TData>  {
     return this.http.post<TData>(
-      `/api/application`,
-      eOIApplication,options
+      `/api/drifapplication/eoi`,
+      drifEoiApplication,options
     );
   }
 };
 
-export type ApplicationCreateEOIApplicationClientResult = NonNullable<ApplicationResult>
+export type DRIFApplicationCreateEOIApplicationClientResult = NonNullable<ApplicationResult>

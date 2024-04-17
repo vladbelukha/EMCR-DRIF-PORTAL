@@ -59,6 +59,8 @@ export class Step3Component {
       .subscribe(() => {
         this.calculateTotalFunding();
       });
+
+    this.eoiApplicationForm.get('totalFunding')?.disable();
   }
 
   calculateTotalFunding() {

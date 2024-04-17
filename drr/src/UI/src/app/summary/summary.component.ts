@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { EOIApplication } from '../../model';
+import { DrifEoiApplication } from '../../model';
 import { MatInputModule } from '@angular/material/input';
 import { CommonModule } from '@angular/common';
 
@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
 })
 export class SummaryComponent {
   @Input()
-  eoiApplication?: EOIApplication;
+  eoiApplication?: DrifEoiApplication;
 
   objectHasValues(obj: any) {
     return obj && Object.values(obj).some((value) => !!value);

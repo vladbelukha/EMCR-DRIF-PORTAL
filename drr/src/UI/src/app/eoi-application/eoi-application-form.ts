@@ -9,9 +9,8 @@ import {
 } from '@rxweb/reactive-form-validators';
 import {
   ApplicantType,
-  AreaUnits,
   ContactDetails,
-  EOIApplication,
+  DrifEoiApplication,
   FundingInformation,
   FundingType,
   Hazards,
@@ -36,9 +35,6 @@ export class LocationInformationForm implements LocationInformation {
   @prop()
   @required()
   area?: string;
-
-  @prop()
-  areaUnits?: AreaUnits;
 
   @prop()
   description?: string;
@@ -82,7 +78,7 @@ export class ContactDetailsForm implements ContactDetails {
   }
 }
 
-export class EOIApplicationForm implements EOIApplication {
+export class EOIApplicationForm implements DrifEoiApplication {
   @prop()
   @required()
   applicantName?: string;
@@ -97,9 +93,6 @@ export class EOIApplicationForm implements EOIApplication {
   @prop()
   @required()
   backgroundDescription?: string;
-
-  @prop()
-  cfoConfirmation?: boolean;
 
   @prop()
   @required()
@@ -117,18 +110,8 @@ export class EOIApplicationForm implements EOIApplication {
   engagementProposal?: string;
 
   @prop()
-  foippaConfirmation?: boolean;
-
-  @prop()
   @required()
   fundingRequest?: number;
-
-  @prop()
-  identityConfirmation?: boolean;
-
-  @prop()
-  @required()
-  locationDescription?: string;
 
   @propObject(LocationInformationForm)
   locationInformation?: LocationInformationForm = new LocationInformationForm(
@@ -198,4 +181,16 @@ export class EOIApplicationForm implements EOIApplication {
 
   @prop()
   otherHazardsDescription?: string;
+
+  @prop()
+  @required()
+  cfoConfirmation?: boolean;
+
+  @prop()
+  @required()
+  foippaConfirmation?: boolean;
+
+  @prop()
+  @required()
+  identityConfirmation?: boolean;
 }

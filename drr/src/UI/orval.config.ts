@@ -4,8 +4,9 @@ const commonOutputConfig: Options['output'] = {
   mode: 'tags-split',
   client: 'angular',
   mock: false,
-  prettier: true,  
+  prettier: true,
   indexFiles: true,
+  clean: true,
   workspace: 'src',
   schemas: 'model',
   target: 'api',
@@ -21,5 +22,5 @@ const applicationApi: Options = {
 };
 
 export default defineConfig({
-  applicationApi
+  applicationApi,
 });
