@@ -26,7 +26,11 @@
         </mat-form-field>
         <mat-form-field>
           <mat-label>Type of Funding</mat-label>
-          <input matInput formControlName="type" />
+          <mat-select formControlName="type">
+            @for (option of fundingTypeOptions; track option) {
+            <mat-option [value]="option">{{ option }}</mat-option>
+            }
+          </mat-select>
         </mat-form-field>
         <mat-form-field>
           <mat-label>Amount</mat-label>
