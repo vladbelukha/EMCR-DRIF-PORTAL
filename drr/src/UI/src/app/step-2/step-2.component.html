@@ -20,14 +20,14 @@
         "
         >Required</mat-error
       >
-      <mat-radio-button value="ProjectType.New">New Project</mat-radio-button>
-      <mat-radio-button value="ProjectType.Existing"
+      <mat-radio-button value="New">New Project</mat-radio-button>
+      <mat-radio-button value="Existing"
         >New Phase of Existing Project</mat-radio-button
       >
     </mat-radio-group>
     <mat-label class="drr-label">Related Hazard(s)</mat-label>
     <mat-form-field style="width: 50vw; margin-top: 10px">
-      <mat-label class="drr-label"> Related Hazard(s)</mat-label>
+      <mat-label> Related Hazard(s)</mat-label>
       <mat-select formControlName="relatedHazards" multiple="true">
         @for (option of hazardsOptions; track option) {
         <mat-option [value]="option">{{ option }}</mat-option>
@@ -70,16 +70,4 @@
       </mat-form-field>
     </div>
   </form>
-</div>
-
-<div class="drr-stepper-actions">
-  <button mat-stroked-button color="primary" matStepperPrevious>Back</button>
-  <button
-    mat-flat-button
-    color="primary"
-    matStepperNext
-    (click)="validateStep()"
-  >
-    Next
-  </button>
 </div>

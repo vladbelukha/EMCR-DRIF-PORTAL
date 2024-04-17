@@ -41,6 +41,4 @@ export class Step2Component {
   otherHazardSelected() {
     return this.getFormArray('relatedHazards').value?.includes('Other');
   }
-
-  validateStep() {}
 }

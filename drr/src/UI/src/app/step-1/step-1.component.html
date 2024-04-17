@@ -13,13 +13,11 @@
         "
         >Required</mat-error
       >
-      <mat-radio-button value="ApplicantType.FirstNation"
-        >First Nation</mat-radio-button
-      >
-      <mat-radio-button value="ApplicantType.LocalGovernment"
+      <mat-radio-button value="FirstNation">First Nation</mat-radio-button>
+      <mat-radio-button value="LocalGovernment"
         >Local Government</mat-radio-button
       >
-      <mat-radio-button value="ApplicantType.RegionalDistrict"
+      <mat-radio-button value="RegionalDistrict"
         >Regional District</mat-radio-button
       >
     </mat-radio-group>
@@ -46,11 +44,11 @@
       </mat-form-field>
       <mat-form-field>
         <mat-label>Department</mat-label>
-        <input matInput formControlName="position" />
+        <input matInput formControlName="department" />
       </mat-form-field>
       <mat-form-field>
         <mat-label>Phone</mat-label>
-        <input matInput formControlName="phone" />
+        <input matInput type="tel" formControlName="phone" />
       </mat-form-field>
       <mat-form-field>
         <mat-label>Email</mat-label>
@@ -87,7 +85,7 @@
         </mat-form-field>
         <mat-form-field>
           <mat-label>Department</mat-label>
-          <input matInput formControlName="position" />
+          <input matInput formControlName="department" />
         </mat-form-field>
         <mat-form-field>
           <mat-label>Phone</mat-label>
@@ -112,17 +110,6 @@
       <button mat-stroked-button color="primary" (click)="addProjectContact()">
         <mat-icon>add</mat-icon>
         Add additional contact
-      </button>
-    </div>
-
-    <div class="drr-stepper-action">
-      <button
-        mat-flat-button
-        color="primary"
-        matStepperNext
-        (click)="validateStep()"
-      >
-        Next
       </button>
     </div>
   </form>

@@ -52,6 +52,7 @@ import { Step4Component } from '../step-4/step-4.component';
 import { Step5Component } from '../step-5/step-5.component';
 import { Step7Component } from '../step-7/step-7.component';
 import { Step8Component } from '../step-8/step-8.component';
+import { ApplicationService } from '../../api/application/application.service';
 
 @Component({
   selector: 'drr-eoi-application',
@@ -92,6 +93,7 @@ export class EOIApplicationComponent {
   hazardsOptions = Object.values(Hazards);
 
   formBuilder = inject(RxFormBuilder);
+  applicationService = inject(ApplicationService);
 
   eoiApplicationForm = this.formBuilder.formGroup(
     EOIApplicationForm
@@ -99,5 +101,65 @@ export class EOIApplicationComponent {
 
   getFormArray(formArrayName: string) {
     return this.eoiApplicationForm?.get(formArrayName) as FormArray;
+  }
+
+  validateStep1() {
+    this.eoiApplicationForm.get('applicantType')?.markAsDirty();
+    this.eoiApplicationForm.get('projectTitle')?.markAsDirty();
+    this.eoiApplicationForm.get('submitter')?.markAsDirty();
+    this.eoiApplicationForm.get('projectContacts')?.markAsDirty();
+  }
+
+  validateStep2() {
+    this.eoiApplicationForm.get('projectTitle')?.markAsDirty();
+    this.eoiApplicationForm.get('projectType')?.markAsDirty();
+    this.eoiApplicationForm.get('relatedHazards')?.markAsDirty();
+    this.eoiApplicationForm.get('startDate')?.markAsDirty();
+    this.eoiApplicationForm.get('endDate')?.markAsDirty();
+  }
+
+  validateStep3() {
+    this.eoiApplicationForm.get('fundingRequest')?.markAsDirty();
+  }
+
+  validateStep4() {
+    this.eoiApplicationForm.get('ownershipDeclaration')?.markAsDirty();
+    this.eoiApplicationForm.get('locationDescription')?.markAsDirty();
+  }
+
+  validateStep5() {
+    this.eoiApplicationForm.get('backgroundDescription')?.markAsDirty();
+    this.eoiApplicationForm.get('rationaleForFunding')?.markAsDirty();
+    this.eoiApplicationForm.get('rationaleForSolution')?.markAsDirty();
+    this.eoiApplicationForm.get('proposedSolution')?.markAsDirty();
+  }
+
+  validateStep6() {
+    this.eoiApplicationForm.get('otherFunding')?.markAsDirty();
+  }
+
+  validateStep7() {
+    this.eoiApplicationForm.get('climateAdaptation')?.markAsDirty();
+  }
+
+  validateStep8() {
+    // if (this.eoiApplicationForm.valid) {
+    //   console.log('Form is valid');
+    //   console.log(this.eoiApplicationForm.value);
+    // }
+
+    const applicationModel = this.eoiApplicationForm.value as EOIApplication;
+    console.log('Application Model', applicationModel);
+
+    this.applicationService
+      .applicationCreateEOIApplication(applicationModel)
+      .subscribe(
+        (response) => {
+          console.log('Success', response);
+        },
+        (error) => {
+          console.error('Error', error);
+        }
+      );
   }
 }

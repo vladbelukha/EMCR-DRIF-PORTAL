@@ -7,32 +7,128 @@
     labelPosition="bottom"
     #stepper
   >
-    <mat-step [stepControl]="eoiApplicationForm" label="Applicant Information">
+    <mat-step label="Applicant Information">
       <drr-step-1 [eoiApplicationForm]="eoiApplicationForm"></drr-step-1>
+      <div class="drr-stepper-action">
+        <button
+          mat-flat-button
+          color="primary"
+          matStepperNext
+          (click)="validateStep1()"
+        >
+          Next
+        </button>
+      </div>
     </mat-step>
-    <mat-step [stepControl]="eoiApplicationForm" label="Project Information">
+    <mat-step label="Project Information">
       <drr-step-2 [eoiApplicationForm]="eoiApplicationForm"></drr-step-2>
+      <div class="drr-stepper-actions">
+        <button mat-stroked-button color="primary" matStepperPrevious>
+          Back
+        </button>
+        <button
+          mat-flat-button
+          color="primary"
+          matStepperNext
+          (click)="validateStep2()"
+        >
+          Next
+        </button>
+      </div>
     </mat-step>
     <mat-step [stepControl]="eoiApplicationForm" label="Funding Information">
       <drr-step-3 [eoiApplicationForm]="eoiApplicationForm"></drr-step-3>
+      <div class="drr-stepper-actions">
+        <button mat-stroked-button color="primary" matStepperPrevious>
+          Back
+        </button>
+        <button
+          mat-flat-button
+          color="primary"
+          matStepperNext
+          (click)="validateStep3()"
+        >
+          Next
+        </button>
+      </div>
     </mat-step>
     <mat-step [stepControl]="eoiApplicationForm" label="Location Information">
       <drr-step-4 [eoiApplicationForm]="eoiApplicationForm"></drr-step-4>
+      <div class="drr-stepper-actions">
+        <button mat-stroked-button color="primary" matStepperPrevious>
+          Back
+        </button>
+        <button
+          mat-flat-button
+          color="primary"
+          matStepperNext
+          (click)="validateStep4()"
+        >
+          Next
+        </button>
+      </div>
     </mat-step>
     <mat-step [stepControl]="eoiApplicationForm" label="Project Details">
       <drr-step-5 [eoiApplicationForm]="eoiApplicationForm"></drr-step-5>
+      <div class="drr-stepper-actions">
+        <button mat-stroked-button color="primary" matStepperPrevious>
+          Back
+        </button>
+        <button
+          mat-flat-button
+          color="primary"
+          matStepperNext
+          (click)="validateStep5()"
+        >
+          Next
+        </button>
+      </div>
     </mat-step>
     <mat-step [stepControl]="eoiApplicationForm" label="Engagement Plan">
       <drr-step-6 [eoiApplicationForm]="eoiApplicationForm"></drr-step-6>
+      <div class="drr-stepper-actions">
+        <button mat-stroked-button color="primary" matStepperPrevious>
+          Back
+        </button>
+        <button
+          mat-flat-button
+          color="primary"
+          matStepperNext
+          (click)="validateStep6()"
+        >
+          Next
+        </button>
+      </div>
     </mat-step>
     <mat-step
       [stepControl]="eoiApplicationForm"
       label="Other Supporting Information"
     >
       <drr-step-7 [eoiApplicationForm]="eoiApplicationForm"></drr-step-7>
+      <div class="drr-stepper-actions">
+        <button mat-stroked-button color="primary" matStepperPrevious>
+          Back
+        </button>
+        <button
+          mat-flat-button
+          color="primary"
+          matStepperNext
+          (click)="validateStep7()"
+        >
+          Next
+        </button>
+      </div>
     </mat-step>
     <mat-step [stepControl]="eoiApplicationForm" label="Declaration">
       <drr-step-8 [eoiApplicationForm]="eoiApplicationForm"></drr-step-8>
+      <div class="drr-stepper-actions">
+        <button mat-stroked-button color="primary" matStepperPrevious>
+          Back
+        </button>
+        <button mat-flat-button color="primary" (click)="validateStep8()">
+          Submit
+        </button>
+      </div>
     </mat-step>
   </mat-stepper>
 

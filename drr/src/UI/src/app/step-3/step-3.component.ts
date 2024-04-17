@@ -11,6 +11,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { distinctUntilChanged } from 'rxjs';
+import { FundingType } from '../../model';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'drr-step-3',
@@ -23,6 +25,7 @@ import { distinctUntilChanged } from 'rxjs';
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
+    MatSelectModule,
   ],
   templateUrl: './step-3.component.html',
   styleUrl: './step-3.component.scss',
@@ -30,6 +33,8 @@ import { distinctUntilChanged } from 'rxjs';
 export class Step3Component {
   @Input()
   eoiApplicationForm!: IFormGroup<EOIApplicationForm>;
+
+  fundingTypeOptions = Object.values(FundingType);
 
   formBuilder = inject(RxFormBuilder);
 

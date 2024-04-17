@@ -48,7 +48,7 @@ export class ApplicationService {
     eOIApplication: EOIApplication, options?: HttpClientOptions
   ): Observable<TData>  {
     return this.http.post<TData>(
-      `/Application`,
+      `/api/application`,
       eOIApplication,options
     );
   }

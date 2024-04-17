@@ -60,8 +60,4 @@ export class Step1Component {
     const projectContacts = this.getFormArray('projectContacts').controls;
     projectContacts.splice(index, 1);
   }
-
-  validateStep() {
-    console.log(this.eoiApplicationForm?.value);
-  }
 }
