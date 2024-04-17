@@ -9,8 +9,6 @@ on:
     paths:    
       - "drr/src/**"
       - ".github/workflows/cd-drr-api.yml"
-      
-   
 
 env:
   IMAGE_NAME: drr-api
