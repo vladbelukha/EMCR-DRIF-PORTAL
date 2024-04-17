@@ -84,8 +84,7 @@ export class Step3Component {
 
   addOtherFunding() {
     this.getFormArray('otherFunding').push(
-      this.formBuilder.formGroup(FundingInformationForm),
-      { emitEvent: false }
+      this.formBuilder.formGroup(FundingInformationForm)
     );
   }
 

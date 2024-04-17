@@ -53,6 +53,7 @@ import { Step5Component } from '../step-5/step-5.component';
 import { Step7Component } from '../step-7/step-7.component';
 import { Step8Component } from '../step-8/step-8.component';
 import { ApplicationService } from '../../api/application/application.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'drr-eoi-application',
@@ -94,6 +95,7 @@ export class EOIApplicationComponent {
 
   formBuilder = inject(RxFormBuilder);
   applicationService = inject(ApplicationService);
+  router = inject(Router);
 
   eoiApplicationForm = this.formBuilder.formGroup(
     EOIApplicationForm
@@ -149,13 +151,12 @@ export class EOIApplicationComponent {
     // }
 
     const applicationModel = this.eoiApplicationForm.value as EOIApplication;
-    console.log('Application Model', applicationModel);
 
     this.applicationService
       .applicationCreateEOIApplication(applicationModel)
       .subscribe(
         (response) => {
-          console.log('Success', response);
+          this.router.navigate(['/success']);
         },
         (error) => {
           console.error('Error', error);

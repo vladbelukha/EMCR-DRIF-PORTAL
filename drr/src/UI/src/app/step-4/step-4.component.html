@@ -29,7 +29,14 @@
       <mat-form-field>
         <mat-label>Location Description</mat-label>
         <mat-label>Include address if applicable</mat-label>
-        <textarea matInput formControlName="description"></textarea>
+        <textarea
+          matInput
+          formControlName="description"
+          maxlength="locationDescriptionMax"
+        ></textarea>
+        <mat-hint align="end"
+          >{{ getCount() }} / {{ locationDescriptionMax }}</mat-hint
+        >
       </mat-form-field>
       <mat-label class="drr-label">Size of Project Area</mat-label>
       <mat-form-field style="width: 50vw; margin-top: 10px">
