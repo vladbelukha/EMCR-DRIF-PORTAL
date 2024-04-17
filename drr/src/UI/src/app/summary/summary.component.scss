@@ -3,5 +3,28 @@
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  margin-top: 20px;
+  margin: 20px 0;
+  gap: 10px;
+}
+
+.summary-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.summary-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 10px;
+  margin-left: 10px;
+}
+
+.summary-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }

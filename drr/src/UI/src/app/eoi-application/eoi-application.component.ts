@@ -145,10 +145,10 @@ export class EOIApplicationComponent {
   }
 
   validateStep8() {
-    // if (this.eoiApplicationForm.valid) {
-    //   console.log('Form is valid');
-    //   console.log(this.eoiApplicationForm.value);
-    // }
+    if (this.eoiApplicationForm.invalid) {
+      // TODO: show toast?
+      return;
+    }
 
     const applicationModel = this.eoiApplicationForm.value as EOIApplication;
 
