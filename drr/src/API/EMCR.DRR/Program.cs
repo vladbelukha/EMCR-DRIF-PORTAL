@@ -1,5 +1,8 @@
 ﻿using System.Text.Json.Serialization;
+using EMBC.DRR.Managers.Intake;
+using EMCR.DRR.Controllers;
 using EMCR.DRR.Dynamics;
+using EMCR.DRR.Managers.Intake;
 using EMCR.DRR.Resources.Applications;
 using EMCR.Utilities;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -16,8 +19,10 @@ builder.Services.AddControllers().AddJsonOptions(x =>
 });
 builder.Services.AddRouting(o => o.LowercaseUrls = true);
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddTransient<IApplicationRepository, ApplicationRepository>();
+builder.Services.AddIntakeManager();
+builder.Services.AddRepositories();
 builder.Services.AddAutoMapper(typeof(ApplicationMapperProfile));
+builder.Services.AddAutoMapper(typeof(IntakeMapperProfile));
 builder.Services.AddCache(string.Empty)
     .AddDRRDynamics(builder.Configuration);
 

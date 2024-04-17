@@ -1,10 +1,9 @@
-﻿using EMBC.Tests.Integration.DFA.Api;
-using EMCR.DRR.Controllers;
+﻿using EMCR.DRR.Managers.Intake;
 using EMCR.DRR.Resources.Applications;
 using Microsoft.Extensions.DependencyInjection;
 using Shouldly;
 
-namespace EMCR.Tests.Integration.DRR.Api.Resources
+namespace EMCR.Tests.Integration.DRR.Resources
 {
     public class ApplicationTests
     {
@@ -13,18 +12,23 @@ namespace EMCR.Tests.Integration.DRR.Api.Resources
         [Test]
         public async Task CanCreateEOIApplication()
         {
-            var host = Application.Host;
+            var host = EMBC.Tests.Integration.DRR.Application.Host;
             var applicationRepository = host.Services.GetRequiredService<IApplicationRepository>();
 
             var originalApplication = CreateTestEOIApplication();
-            var id = (await applicationRepository.Manage(new SubmitEOIApplication { EOIApplication = originalApplication })).Id;
+            var id = (await applicationRepository.Manage(new SubmitApplication { Application = originalApplication })).Id;
             id.ShouldNotBeEmpty();
+
+            var newApplication = (await applicationRepository.Query(new ApplicationsQuery { ApplicationId = id })).Items.ShouldHaveSingleItem();
+            newApplication.ProjectTitle.ShouldNotBeEmpty();
+            newApplication.Submitter.FirstName.ShouldBe(originalApplication.Submitter.FirstName);
+            newApplication.ProjectContacts.Count().ShouldBe(originalApplication.ProjectContacts.Count());
         }
 
-        private EOIApplication CreateTestEOIApplication()
+        private Application CreateTestEOIApplication()
         {
             var uniqueSignature = TestPrefix + "-" + Guid.NewGuid().ToString().Substring(0, 4);
-            return new EOIApplication
+            return new Application
             {
                 ApplicantType = ApplicantType.LocalGovernment,
                 ApplicantName = $"{uniqueSignature}_applicant_name",
@@ -78,6 +82,9 @@ namespace EMCR.Tests.Integration.DRR.Api.Resources
                 EngagementProposal = "Engagement Proposal",
                 ClimateAdaptation = "Climate Adaptation",
                 OtherInformation = "Other Info",
+                CFOConfirmation = true,
+                FOIPPAConfirmation = true,
+                IdentityConfirmation = true
             };
         }
 
