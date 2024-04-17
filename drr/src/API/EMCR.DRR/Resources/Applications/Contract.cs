@@ -1,11 +1,12 @@
-﻿using System.ComponentModel;
-using EMCR.DRR.Controllers;
+﻿using EMCR.DRR.Managers.Intake;
 
 namespace EMCR.DRR.Resources.Applications
 {
     public interface IApplicationRepository
     {
         Task<ManageApplicationCommandResult> Manage(ManageApplicationCommand cmd);
+
+        Task<ApplicationQueryResult> Query(ApplicationsQuery query);
     }
 
     public abstract class ManageApplicationCommand
@@ -16,9 +17,22 @@ namespace EMCR.DRR.Resources.Applications
         public required string Id { get; set; }
     }
 
-    public class SubmitEOIApplication : ManageApplicationCommand
+    public abstract class ApplicationQuery
+    { }
+
+    public class ApplicationQueryResult
     {
-        public required EOIApplication EOIApplication { get; set; }
+        public IEnumerable<Application> Items { get; set; } = Array.Empty<Application>();
+    }
+
+    public class ApplicationsQuery : ApplicationQuery
+    {
+        public string? ApplicationId { get; set; }
+    }
+
+    public class SubmitApplication : ManageApplicationCommand
+    {
+        public required Application Application { get; set; }
     }
 
     public enum ApplicantTypeOptionSet

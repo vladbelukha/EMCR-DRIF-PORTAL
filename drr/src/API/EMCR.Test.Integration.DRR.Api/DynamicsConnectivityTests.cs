@@ -1,9 +1,9 @@
-﻿using EMBC.Tests.Integration.DFA.Api;
+﻿using EMBC.Tests.Integration.DRR;
 using EMCR.DRR.Dynamics;
 using Microsoft.Extensions.DependencyInjection;
 using Shouldly;
 
-namespace EMCR.Tests.Integration.DFA.Api
+namespace EMCR.Tests.Integration.DRR
 {
     public class DynamicsConnectivityTests
     {
