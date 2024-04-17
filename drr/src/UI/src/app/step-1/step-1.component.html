@@ -2,6 +2,7 @@
   <form [formGroup]="eoiApplicationForm">
     <mat-label class="drr-label">Application Type</mat-label>
     <mat-radio-group
+      id="applicantType"
       class="drr-radio-group"
       aria-label="Select an option"
       formControlName="applicantType"
@@ -25,34 +26,43 @@
       <mat-label
         >Name of First Nation, Local Government or Reginal District</mat-label
       >
-      <input matInput formControlName="applicantName" />
+      <input id="applicantName" matInput formControlName="applicantName" />
     </mat-form-field>
 
     <mat-label class="drr-label">Submitter Contact Information</mat-label>
     <div class="submitter-container" formGroupName="submitter">
       <mat-form-field>
         <mat-label>First Name</mat-label>
-        <input matInput formControlName="firstName" />
+        <input id="submitter_firstName" matInput formControlName="firstName" />
       </mat-form-field>
       <mat-form-field>
         <mat-label>Last Name</mat-label>
-        <input matInput formControlName="lastName" />
+        <input id="submitter_lastName" matInput formControlName="lastName" />
       </mat-form-field>
       <mat-form-field>
         <mat-label>Position/Title</mat-label>
-        <input matInput formControlName="title" />
+        <input id="submitter_title" matInput formControlName="title" />
       </mat-form-field>
       <mat-form-field>
         <mat-label>Department</mat-label>
-        <input matInput formControlName="department" />
+        <input
+          id="submitter_department"
+          matInput
+          formControlName="department"
+        />
       </mat-form-field>
       <mat-form-field>
         <mat-label>Phone</mat-label>
-        <input matInput type="tel" formControlName="phone" />
+        <input
+          id="submitter_phone"
+          matInput
+          type="tel"
+          formControlName="phone"
+        />
       </mat-form-field>
       <mat-form-field>
         <mat-label>Email</mat-label>
-        <input matInput formControlName="email" />
+        <input id="submitter_email" matInput formControlName="email" />
       </mat-form-field>
     </div>
 
@@ -73,27 +83,51 @@
           ></drr-contact-details> -->
         <mat-form-field>
           <mat-label>First Name</mat-label>
-          <input matInput formControlName="firstName" />
+          <input
+            id="projectContact_firstName_{{ i }}"
+            matInput
+            formControlName="firstName"
+          />
         </mat-form-field>
         <mat-form-field>
           <mat-label>Last Name</mat-label>
-          <input matInput formControlName="lastName" />
+          <input
+            id="projectContact_lastName_{{ i }}"
+            matInput
+            formControlName="lastName"
+          />
         </mat-form-field>
         <mat-form-field>
           <mat-label>Position/Title</mat-label>
-          <input matInput formControlName="title" />
+          <input
+            id="projectContact_title_{{ i }}"
+            matInput
+            formControlName="title"
+          />
         </mat-form-field>
         <mat-form-field>
           <mat-label>Department</mat-label>
-          <input matInput formControlName="department" />
+          <input
+            id="projectContact_department_{{ i }}"
+            matInput
+            formControlName="department"
+          />
         </mat-form-field>
         <mat-form-field>
           <mat-label>Phone</mat-label>
-          <input matInput formControlName="phone" />
+          <input
+            id="projectContact_phone_{{ i }}"
+            matInput
+            formControlName="phone"
+          />
         </mat-form-field>
         <mat-form-field>
           <mat-label>Email</mat-label>
-          <input matInput formControlName="email" />
+          <input
+            id="projectContact_email_{{ i }}"
+            matInput
+            formControlName="email"
+          />
         </mat-form-field>
 
         <button
@@ -107,7 +141,12 @@
         <mat-divider></mat-divider>
       </div>
 
-      <button mat-stroked-button color="primary" (click)="addProjectContact()">
+      <button
+        id="addProjectContact"
+        mat-stroked-button
+        color="primary"
+        (click)="addProjectContact()"
+      >
         <mat-icon>add</mat-icon>
         Add additional contact
       </button>

@@ -8,6 +8,7 @@
       description question that follows.</mat-label
     >
     <mat-radio-group
+      id="ownershipDeclaration"
       class="drr-radio-group"
       aria-label="Select an option"
       formControlName="ownershipDeclaration"
@@ -30,6 +31,7 @@
         <mat-label>Location Description</mat-label>
         <mat-label>Include address if applicable</mat-label>
         <textarea
+          id="locationDescription"
           matInput
           formControlName="description"
           maxlength="locationDescriptionMax"
@@ -41,11 +43,15 @@
       <mat-label class="drr-label">Size of Project Area</mat-label>
       <mat-form-field style="width: 50vw; margin-top: 10px">
         <mat-label>Size of Project Area</mat-label>
-        <input matInput formControlName="area" />
+        <input id="locationArea" matInput formControlName="area" />
       </mat-form-field>
       <mat-form-field>
         <mat-label>Land Use/Ownership</mat-label>
-        <textarea matInput formControlName="ownership"></textarea>
+        <textarea
+          id="locationOwnership"
+          matInput
+          formControlName="ownership"
+        ></textarea>
       </mat-form-field>
     </div>
   </form>
