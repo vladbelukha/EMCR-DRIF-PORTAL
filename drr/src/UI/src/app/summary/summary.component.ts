@@ -2,11 +2,12 @@ import { Component, Input } from '@angular/core';
 import { DrifEoiApplication } from '../../model';
 import { MatInputModule } from '@angular/material/input';
 import { CommonModule } from '@angular/common';
+import { TranslocoModule } from '@ngneat/transloco';
 
 @Component({
   selector: 'drr-summary',
   standalone: true,
-  imports: [CommonModule, MatInputModule],
+  imports: [CommonModule, MatInputModule, TranslocoModule],
   templateUrl: './summary.component.html',
   styleUrl: './summary.component.scss',
 })

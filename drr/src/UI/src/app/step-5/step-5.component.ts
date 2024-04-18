@@ -6,6 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { IFormGroup } from '@rxweb/reactive-form-validators';
 import { EOIApplicationForm } from '../eoi-application/eoi-application-form';
+import { TranslocoModule } from '@ngneat/transloco';
 
 @Component({
   selector: 'drr-step-5',
@@ -17,6 +18,7 @@ import { EOIApplicationForm } from '../eoi-application/eoi-application-form';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
+    TranslocoModule,
   ],
   templateUrl: './step-5.component.html',
   styleUrl: './step-5.component.scss',

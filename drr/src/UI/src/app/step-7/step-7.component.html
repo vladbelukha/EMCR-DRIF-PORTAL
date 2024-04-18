@@ -1,10 +1,8 @@
-<div class="drr-step-container">
+<div class="drr-step-container" *transloco="let t">
   <form [formGroup]="eoiApplicationForm">
-    <mat-label class="drr-label">Climate Adaptation</mat-label>
+    <mat-label class="drr-label">{{ t("climateAdaptation") }}</mat-label>
     <mat-label>
-      Describe how project will incorporate future climate conditions and
-      consider climate change in the project methodology, including considering
-      future impacts of the project on the environment.
+      {{ t("climateAdaptationText") }}
     </mat-label>
     <mat-form-field>
       <textarea
@@ -14,10 +12,9 @@
         rows="5"
       ></textarea>
     </mat-form-field>
-    <mat-label class="drr-label">Other Relevant Information</mat-label>
+    <mat-label class="drr-label">{{ t("otherInformation") }}</mat-label>
     <mat-label>
-      Provide any other relevant information that would support this project’s
-      EOI.
+      {{ t("otherInformationText") }}
     </mat-label>
     <mat-form-field>
       <textarea

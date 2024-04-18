@@ -21,6 +21,7 @@ import {
 } from '@rxweb/reactive-form-validators';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
+import { TranslocoModule } from '@ngneat/transloco';
 
 @Component({
   selector: 'drr-step-1',
@@ -35,6 +36,7 @@ import { MatButtonModule } from '@angular/material/button';
     MatIconModule,
     MatDividerModule,
     MatButtonModule,
+    TranslocoModule,
   ],
   templateUrl: './step-1.component.html',
   styleUrl: './step-1.component.scss',
@@ -51,7 +53,7 @@ export class Step1Component {
 
   addProjectContact() {
     this.getFormArray('projectContacts').push(
-      this.formBuilder.formGroup(ContactDetailsForm)      
+      this.formBuilder.formGroup(ContactDetailsForm)
     );
   }
 

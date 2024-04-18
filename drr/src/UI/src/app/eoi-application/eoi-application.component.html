@@ -1,5 +1,5 @@
-<div class="app-stepper-container">
-  <h1>Expression of Interest - EOI form</h1>
+<div class="app-stepper-container" *transloco="let t">
+  <h1>{{ t("header") }}</h1>
 
   <mat-stepper
     class="app-stepper"
@@ -7,7 +7,7 @@
     labelPosition="bottom"
     #stepper
   >
-    <mat-step label="Applicant Information">
+    <mat-step [label]="t('step1')">
       <drr-step-1 [eoiApplicationForm]="eoiApplicationForm"></drr-step-1>
       <div class="drr-stepper-action">
         <button
@@ -17,15 +17,15 @@
           matStepperNext
           (click)="validateStep1()"
         >
-          Next
+          {{ t("next") }}
         </button>
       </div>
     </mat-step>
-    <mat-step label="Project Information">
+    <mat-step [label]="t('step2')">
       <drr-step-2 [eoiApplicationForm]="eoiApplicationForm"></drr-step-2>
       <div class="drr-stepper-actions">
         <button mat-stroked-button color="primary" matStepperPrevious>
-          Back
+          {{ t("back") }}
         </button>
         <button
           id="next2"
@@ -34,15 +34,15 @@
           matStepperNext
           (click)="validateStep2()"
         >
-          Next
+          {{ t("next") }}
         </button>
       </div>
     </mat-step>
-    <mat-step [stepControl]="eoiApplicationForm" label="Funding Information">
+    <mat-step [label]="t('step3')">
       <drr-step-3 [eoiApplicationForm]="eoiApplicationForm"></drr-step-3>
       <div class="drr-stepper-actions">
         <button mat-stroked-button color="primary" matStepperPrevious>
-          Back
+          {{ t("back") }}
         </button>
         <button
           id="next3"
@@ -51,15 +51,15 @@
           matStepperNext
           (click)="validateStep3()"
         >
-          Next
+          {{ t("next") }}
         </button>
       </div>
     </mat-step>
-    <mat-step [stepControl]="eoiApplicationForm" label="Location Information">
+    <mat-step [label]="t('step4')">
       <drr-step-4 [eoiApplicationForm]="eoiApplicationForm"></drr-step-4>
       <div class="drr-stepper-actions">
         <button mat-stroked-button color="primary" matStepperPrevious>
-          Back
+          {{ t("back") }}
         </button>
         <button
           id="next4"
@@ -68,15 +68,15 @@
           matStepperNext
           (click)="validateStep4()"
         >
-          Next
+          {{ t("next") }}
         </button>
       </div>
     </mat-step>
-    <mat-step [stepControl]="eoiApplicationForm" label="Project Details">
+    <mat-step [label]="t('step5')">
       <drr-step-5 [eoiApplicationForm]="eoiApplicationForm"></drr-step-5>
       <div class="drr-stepper-actions">
         <button mat-stroked-button color="primary" matStepperPrevious>
-          Back
+          {{ t("back") }}
         </button>
         <button
           id="next5"
@@ -85,15 +85,15 @@
           matStepperNext
           (click)="validateStep5()"
         >
-          Next
+          {{ t("next") }}
         </button>
       </div>
     </mat-step>
-    <mat-step [stepControl]="eoiApplicationForm" label="Engagement Plan">
+    <mat-step [label]="t('step6')">
       <drr-step-6 [eoiApplicationForm]="eoiApplicationForm"></drr-step-6>
       <div class="drr-stepper-actions">
         <button mat-stroked-button color="primary" matStepperPrevious>
-          Back
+          {{ t("back") }}
         </button>
         <button
           id="next6"
@@ -102,18 +102,15 @@
           matStepperNext
           (click)="validateStep6()"
         >
-          Next
+          {{ t("next") }}
         </button>
       </div>
     </mat-step>
-    <mat-step
-      [stepControl]="eoiApplicationForm"
-      label="Other Supporting Information"
-    >
+    <mat-step [label]="t('step7')">
       <drr-step-7 [eoiApplicationForm]="eoiApplicationForm"></drr-step-7>
       <div class="drr-stepper-actions">
         <button mat-stroked-button color="primary" matStepperPrevious>
-          Back
+          {{ t("back") }}
         </button>
         <button
           id="next7"
@@ -122,15 +119,15 @@
           matStepperNext
           (click)="validateStep7()"
         >
-          Next
+          {{ t("next") }}
         </button>
       </div>
     </mat-step>
-    <mat-step [stepControl]="eoiApplicationForm" label="Declaration">
+    <mat-step [label]="t('step8')">
       <drr-step-8 [eoiApplicationForm]="eoiApplicationForm"></drr-step-8>
       <div class="drr-stepper-actions">
         <button mat-stroked-button color="primary" matStepperPrevious>
-          Back
+          {{ t("back") }}
         </button>
         <button
           id="submit"
@@ -138,7 +135,7 @@
           color="primary"
           (click)="validateStep8()"
         >
-          Submit
+          {{ t("submit") }}
         </button>
       </div>
     </mat-step>

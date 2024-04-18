@@ -1,15 +1,47 @@
-<div class="drr-step-container">
+<div class="drr-step-container" *transloco="let t">
   <drr-summary [eoiApplication]="eoiApplicationForm.value"></drr-summary>
 
   <form [formGroup]="eoiApplicationForm">
-    <mat-label class="drr-label">Identity Confirmation Statement</mat-label>
-    <mat-label> Wording TBD </mat-label>
-    <mat-checkbox formControlName="identityConfirmation"> Agree </mat-checkbox>
-    <mat-label class="drr-label">FOIPPA Confirmation</mat-label>
-    <mat-label> Wording TBD </mat-label>
-    <mat-checkbox formControlName="foippaConfirmation"> Agree </mat-checkbox>
-    <mat-label class="drr-label">CFO Confirmation of Funds Statement</mat-label>
-    <mat-label> Wording TBD </mat-label>
-    <mat-checkbox formControlName="cfoConfirmation"> Agree </mat-checkbox>
+    <mat-label class="drr-label"> {{ t("identityConfirmation") }} </mat-label>
+    <mat-label> {{ t("identityConfirmationText") }} </mat-label>
+    <mat-checkbox formControlName="identityConfirmation">
+      {{ t("agree") }}
+    </mat-checkbox>
+    <mat-error
+      *ngIf="
+        eoiApplicationForm.get('identityConfirmation')?.touched &&
+        eoiApplicationForm.get('identityConfirmation')?.hasError('required')
+      "
+    >
+      {{ t("required") }}
+    </mat-error>
+
+    <mat-label class="drr-label">{{ t("foippaConfirmation") }}</mat-label>
+    <mat-label> {{ t("foippaConfirmationText") }} </mat-label>
+    <mat-checkbox formControlName="foippaConfirmation">
+      {{ t("agree") }}
+    </mat-checkbox>
+    <mat-error
+      *ngIf="
+        eoiApplicationForm.get('foippaConfirmation')?.touched &&
+        eoiApplicationForm.get('foippaConfirmation')?.hasError('required')
+      "
+    >
+      {{ t("required") }}
+    </mat-error>
+
+    <mat-label class="drr-label">{{ t("cfoConfirmation") }}</mat-label>
+    <mat-label> {{ t("cfoConfirmationText") }} </mat-label>
+    <mat-checkbox formControlName="cfoConfirmation">
+      {{ t("agree") }}
+    </mat-checkbox>
+    <mat-error
+      *ngIf="
+        eoiApplicationForm.get('cfoConfirmation')?.touched &&
+        eoiApplicationForm.get('cfoConfirmation')?.hasError('required')
+      "
+    >
+      {{ t("required") }}
+    </mat-error>
   </form>
 </div>

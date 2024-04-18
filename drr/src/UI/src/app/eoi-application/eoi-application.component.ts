@@ -54,6 +54,8 @@ import { Step7Component } from '../step-7/step-7.component';
 import { Step8Component } from '../step-8/step-8.component';
 import { DrifapplicationService } from '../../api/drifapplication/drifapplication.service';
 import { Router } from '@angular/router';
+import { TranslocoModule } from '@ngneat/transloco';
+import { HotToastService } from '@ngneat/hot-toast';
 
 @Component({
   selector: 'drr-eoi-application',
@@ -81,10 +83,11 @@ import { Router } from '@angular/router';
     Step6Component,
     Step7Component,
     Step8Component,
+    TranslocoModule,
   ],
   templateUrl: './eoi-application.component.html',
   styleUrl: './eoi-application.component.scss',
-  providers: [RxFormBuilder],
+  providers: [RxFormBuilder, HotToastService],
 })
 export class EOIApplicationComponent {
   isDevMode = isDevMode();
@@ -96,6 +99,7 @@ export class EOIApplicationComponent {
   formBuilder = inject(RxFormBuilder);
   applicationService = inject(DrifapplicationService);
   router = inject(Router);
+  hotToast = inject(HotToastService);
 
   eoiApplicationForm = this.formBuilder.formGroup(
     EOIApplicationForm
@@ -145,18 +149,14 @@ export class EOIApplicationComponent {
   }
 
   validateStep8() {
+    this.eoiApplicationForm.markAllAsTouched();
     if (this.eoiApplicationForm.invalid) {
-      // list invalid fields
-      const invalidFields = Object.keys(
-        this.eoiApplicationForm.controls
-      ).filter((control) => this.eoiApplicationForm.get(control)?.invalid);
-      console.log('Invalid fields:', invalidFields);
-      // TODO: show toast?
+      this.hotToast.error('Please fill all the required fields');
       return;
     }
 
-    const applicationModel = this.eoiApplicationForm
-      .value as DrifEoiApplication;
+    const applicationModel =
+      this.eoiApplicationForm.getRawValue() as DrifEoiApplication;
 
     this.applicationService
       .dRIFApplicationCreateEOIApplication(applicationModel)
@@ -165,7 +165,7 @@ export class EOIApplicationComponent {
           this.router.navigate(['/success']);
         },
         (error) => {
-          console.error('Error', error);
+          this.hotToast.error('Failed to submit application');
         }
       );
   }

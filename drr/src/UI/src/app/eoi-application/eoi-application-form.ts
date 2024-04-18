@@ -166,11 +166,6 @@ export class EOIApplicationForm implements DrifEoiApplication {
   submitter?: ContactDetailsForm = new ContactDetailsForm({});
 
   @prop()
-  @disable({
-    conditionalExpression: () => {
-      return true;
-    },
-  })
   totalFunding?: number;
 
   @prop()

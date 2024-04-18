@@ -1,4 +1,5 @@
 @use "@angular/material" as mat;
+@use "@ngneat/hot-toast/src/styles/styles.scss";
 
 @include mat.core();
 

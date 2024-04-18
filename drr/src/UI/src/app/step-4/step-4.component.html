@@ -1,12 +1,7 @@
-<div class="drr-step-container">
+<div class="drr-step-container" *transloco="let t">
   <form [formGroup]="eoiApplicationForm">
-    <mat-label class="drr-label">Ownership Declaration</mat-label>
-    <mat-label
-      >The project will be in BC on land that the applicant has legal access to
-      either though ownership, right of way, or other at the time the Shared
-      Cost Agreement is signed. You can provide context in the project area
-      description question that follows.</mat-label
-    >
+    <mat-label class="drr-label">{{ t("ownershipDeclaration") }}</mat-label>
+    <mat-label>{{ t("ownershipDeclarationText") }}</mat-label>
     <mat-radio-group
       id="ownershipDeclaration"
       class="drr-radio-group"
@@ -15,10 +10,10 @@
     >
       <mat-error
         *ngIf="
-          eoiApplicationForm.get('ownershipDeclaration')?.dirty &&
+          eoiApplicationForm.get('ownershipDeclaration')?.touched &&
           eoiApplicationForm.get('ownershipDeclaration')?.hasError('required')
         "
-        >Required</mat-error
+        >{{ t("required") }}</mat-error
       >
       <mat-radio-button [value]="true">Yes</mat-radio-button>
       <mat-radio-button [value]="false">No</mat-radio-button>
@@ -28,8 +23,7 @@
       formGroupName="locationInformation"
     >
       <mat-form-field>
-        <mat-label>Location Description</mat-label>
-        <mat-label>Include address if applicable</mat-label>
+        <mat-label> {{ t("locationAddress") }}</mat-label>
         <textarea
           id="locationDescription"
           matInput
@@ -40,13 +34,13 @@
           >{{ getCount() }} / {{ locationDescriptionMax }}</mat-hint
         >
       </mat-form-field>
-      <mat-label class="drr-label">Size of Project Area</mat-label>
+      <mat-label class="drr-label">{{ t("locationArea") }}</mat-label>
       <mat-form-field style="width: 50vw; margin-top: 10px">
-        <mat-label>Size of Project Area</mat-label>
+        <mat-label>{{ t("locationArea") }}</mat-label>
         <input id="locationArea" matInput formControlName="area" />
       </mat-form-field>
       <mat-form-field>
-        <mat-label>Land Use/Ownership</mat-label>
+        <mat-label>{{ t("ownership") }}</mat-label>
         <textarea
           id="locationOwnership"
           matInput
