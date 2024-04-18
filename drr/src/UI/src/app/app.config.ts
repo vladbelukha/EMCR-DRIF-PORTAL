@@ -8,6 +8,7 @@ import { DrifapplicationService } from '../api/drifapplication/drifapplication.s
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { TranslocoHttpLoader } from './transloco-loader';
 import { provideTransloco } from '@ngneat/transloco';
+import { provideHotToastConfig } from '@ngneat/hot-toast';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -16,15 +17,18 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withFetch()),
     provideAnimations(),
     provideLuxonDateAdapter(),
-    DrifapplicationService, provideHttpClient(), provideTransloco({
-        config: { 
-          availableLangs: ['en'],
-          defaultLang: 'en',
-          // Remove this option if your application doesn't support changing language in runtime.
-          reRenderOnLangChange: true,
-          prodMode: !isDevMode(),
-        },
-        loader: TranslocoHttpLoader
-      }),
+    provideHotToastConfig(),
+    DrifapplicationService,
+    provideHttpClient(),
+    provideTransloco({
+      config: {
+        availableLangs: ['en'],
+        defaultLang: 'en',
+        // Remove this option if your application doesn't support changing language in runtime.
+        reRenderOnLangChange: true,
+        prodMode: !isDevMode(),
+      },
+      loader: TranslocoHttpLoader,
+    }),
   ],
 };

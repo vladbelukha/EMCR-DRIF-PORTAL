@@ -10,10 +10,10 @@
     >
       <mat-error
         *ngIf="
-          eoiApplicationForm.get('ownershipDeclaration')?.dirty &&
+          eoiApplicationForm.get('ownershipDeclaration')?.touched &&
           eoiApplicationForm.get('ownershipDeclaration')?.hasError('required')
         "
-        >Required</mat-error
+        >{{ t("required") }}</mat-error
       >
       <mat-radio-button [value]="true">Yes</mat-radio-button>
       <mat-radio-button [value]="false">No</mat-radio-button>

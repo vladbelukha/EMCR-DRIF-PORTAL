@@ -9,10 +9,10 @@
     >
       <mat-error
         *ngIf="
-          eoiApplicationForm.get('applicantType')?.dirty &&
+          eoiApplicationForm.get('applicantType')?.touched &&
           eoiApplicationForm.get('applicantType')?.hasError('required')
         "
-        >Required</mat-error
+        >{{ t("required") }}</mat-error
       >
       <mat-radio-button value="FirstNation">{{
         t("firstNation")

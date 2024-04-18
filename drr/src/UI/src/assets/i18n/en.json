@@ -69,5 +69,6 @@
   "foippaConfirmationText": "Wording TBD",
   "cfoConfirmation": "CFO Confirmation of Funds Statement",
   "cfoConfirmationText": "Wording TBD",
-  "agree": "Agree"
+  "agree": "Agree",
+  "required": "Required"
 }

@@ -7,17 +7,41 @@
     <mat-checkbox formControlName="identityConfirmation">
       {{ t("agree") }}
     </mat-checkbox>
+    <mat-error
+      *ngIf="
+        eoiApplicationForm.get('identityConfirmation')?.touched &&
+        eoiApplicationForm.get('identityConfirmation')?.hasError('required')
+      "
+    >
+      {{ t("required") }}
+    </mat-error>
 
     <mat-label class="drr-label">{{ t("foippaConfirmation") }}</mat-label>
     <mat-label> {{ t("foippaConfirmationText") }} </mat-label>
     <mat-checkbox formControlName="foippaConfirmation">
       {{ t("agree") }}
     </mat-checkbox>
+    <mat-error
+      *ngIf="
+        eoiApplicationForm.get('foippaConfirmation')?.touched &&
+        eoiApplicationForm.get('foippaConfirmation')?.hasError('required')
+      "
+    >
+      {{ t("required") }}
+    </mat-error>
 
     <mat-label class="drr-label">{{ t("cfoConfirmation") }}</mat-label>
     <mat-label> {{ t("cfoConfirmationText") }} </mat-label>
     <mat-checkbox formControlName="cfoConfirmation">
       {{ t("agree") }}
     </mat-checkbox>
+    <mat-error
+      *ngIf="
+        eoiApplicationForm.get('cfoConfirmation')?.touched &&
+        eoiApplicationForm.get('cfoConfirmation')?.hasError('required')
+      "
+    >
+      {{ t("required") }}
+    </mat-error>
   </form>
 </div>

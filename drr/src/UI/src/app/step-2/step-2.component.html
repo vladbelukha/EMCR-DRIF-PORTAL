@@ -16,10 +16,10 @@
     >
       <mat-error
         *ngIf="
-          eoiApplicationForm.get('projectType')?.dirty &&
+          eoiApplicationForm.get('projectType')?.touched &&
           eoiApplicationForm.get('projectType')?.hasError('required')
         "
-        >Required</mat-error
+        >{{ t("required") }}</mat-error
       >
       <mat-radio-button value="New">{{ t("newProject") }}</mat-radio-button>
       <mat-radio-button value="Existing">{{ t("existing") }}</mat-radio-button>
