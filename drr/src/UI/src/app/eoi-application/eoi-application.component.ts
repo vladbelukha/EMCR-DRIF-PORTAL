@@ -113,7 +113,8 @@ export class EOIApplicationComponent {
     this.eoiApplicationForm.get('applicantType')?.markAsDirty();
     this.eoiApplicationForm.get('projectTitle')?.markAsDirty();
     this.eoiApplicationForm.get('submitter')?.markAsDirty();
-    this.eoiApplicationForm.get('projectContacts')?.markAsDirty();
+    this.eoiApplicationForm.get('projectContact')?.markAsDirty();
+    this.eoiApplicationForm.get('additionalContacts')?.markAsDirty();
   }
 
   validateStep2() {

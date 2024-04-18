@@ -28,7 +28,7 @@ export interface DrifEoiApplication {
   otherHazardsDescription?: string;
   otherInformation?: string;
   ownershipDeclaration?: boolean;
-  projectContacts?: ContactDetails[];
+  additionalContacts?: ContactDetails[];
   projectTitle?: string;
   projectType?: ProjectType;
   proposedSolution?: string;
@@ -39,6 +39,8 @@ export interface DrifEoiApplication {
   relatedHazards?: Hazards[];
   startDate?: string;
   submitter?: ContactDetails;
+  projectContact?: ContactDetails;
   totalFunding?: number;
   unfundedAmount?: number;
+  partneringProponents?: string[];
 }

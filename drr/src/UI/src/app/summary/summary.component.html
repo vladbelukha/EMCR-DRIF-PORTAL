@@ -4,7 +4,7 @@
     <mat-label>{{ eoiApplication?.applicantType }}</mat-label>
   </div>
   <div class="summary-item" *ngIf="eoiApplication?.applicantName">
-    <mat-label class="drr-label">{{ t("applicantName") }}</mat-label>
+    <mat-label class="drr-label">{{ t("proponentName") }}</mat-label>
     <mat-label>{{ eoiApplication?.applicantName }}</mat-label>
   </div>
   <div class="summary-group" *ngIf="objectHasValues(eoiApplication?.submitter)">
@@ -47,14 +47,14 @@
 
   <div
     class="summary-group"
-    *ngIf="arrayHasValues(eoiApplication?.projectContacts!)"
+    *ngIf="arrayHasValues(eoiApplication?.additionalContacts!)"
   >
     <mat-label class="drr-label">{{
       t("projectContactInformation")
     }}</mat-label>
     <div
       class="summary-row"
-      *ngFor="let projectContact of eoiApplication?.projectContacts"
+      *ngFor="let projectContact of eoiApplication?.additionalContacts"
     >
       <div class="summary-item">
         <mat-label class="drr-label">{{ t("firstName") }}</mat-label>

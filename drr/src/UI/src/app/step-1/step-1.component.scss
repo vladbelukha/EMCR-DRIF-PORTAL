@@ -1,4 +1,4 @@
-.submitter-container {
+.contacts-container {
   margin-top: 10px;
   display: flex;
   flex-direction: row;
@@ -7,7 +7,7 @@
   gap: 10px;
 }
 
-.project-contacts-container {
+.additional-contacts-container {
   margin-top: 10px;
   display: flex;
   flex-direction: row;
@@ -15,4 +15,11 @@
   justify-content: flex-start;
   gap: 10px;
   align-items: baseline;
+}
+
+.proponent-container {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 10px;
 }

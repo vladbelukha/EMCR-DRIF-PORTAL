@@ -13,6 +13,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import {
   ContactDetailsForm,
   EOIApplicationForm,
+  StringItem,
 } from '../eoi-application/eoi-application-form';
 import {
   IFormGroup,
@@ -22,6 +23,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { TranslocoModule } from '@ngneat/transloco';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
   selector: 'drr-step-1',
@@ -36,6 +38,7 @@ import { TranslocoModule } from '@ngneat/transloco';
     MatIconModule,
     MatDividerModule,
     MatButtonModule,
+    MatCheckboxModule,
     TranslocoModule,
   ],
   templateUrl: './step-1.component.html',
@@ -47,18 +50,54 @@ export class Step1Component {
   @Input()
   eoiApplicationForm!: IFormGroup<EOIApplicationForm>;
 
+  ngOnInit() {
+    this.eoiApplicationForm
+      .get('partneringProponentsArray')
+      ?.valueChanges.subscribe((proponents: StringItem[]) => {
+        this.eoiApplicationForm
+          .get('partneringProponents')
+          ?.patchValue(proponents.map((proponent) => proponent.value));
+      });
+  }
+
   getFormArray(formArrayName: string) {
     return this.eoiApplicationForm.get(formArrayName) as FormArray;
   }
 
-  addProjectContact() {
-    this.getFormArray('projectContacts').push(
+  addAdditionalContact() {
+    this.getFormArray('additionalContacts').push(
       this.formBuilder.formGroup(ContactDetailsForm)
     );
   }
 
-  removeProjectContact(index: number) {
-    const projectContacts = this.getFormArray('projectContacts').controls;
-    projectContacts.splice(index, 1);
+  removeAdditionalContact(index: number) {
+    const additionalContacts = this.getFormArray('additionalContacts');
+    additionalContacts.removeAt(index);
+  }
+
+  toggleSameAsSubmitter() {
+    const sameAsSubmitter =
+      this.eoiApplicationForm.get('sameAsSubmitter')?.value;
+
+    const projectContact = this.eoiApplicationForm.get(
+      'projectContact'
+    ) as RxFormGroup;
+
+    if (sameAsSubmitter) {
+      const submitter = this.eoiApplicationForm.get('submitter')?.value;
+      projectContact.patchValue(submitter);
+    } else {
+      projectContact.reset();
+    }
+  }
+
+  addProponent() {
+    const proponents = this.getFormArray('partneringProponentsArray');
+    proponents.push(this.formBuilder.formGroup(StringItem));
+  }
+
+  removeProponent(index: number) {
+    const proponents = this.getFormArray('partneringProponentsArray');
+    proponents.removeAt(index);
   }
 }

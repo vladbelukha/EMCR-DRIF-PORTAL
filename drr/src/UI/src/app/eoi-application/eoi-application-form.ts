@@ -78,6 +78,15 @@ export class ContactDetailsForm implements ContactDetails {
   }
 }
 
+export class StringItem {
+  @prop()
+  value: string = '';
+
+  constructor(values: StringItem) {
+    Object.assign(this, values);
+  }
+}
+
 export class EOIApplicationForm implements DrifEoiApplication {
   @prop()
   @required()
@@ -129,7 +138,14 @@ export class EOIApplicationForm implements DrifEoiApplication {
   ownershipDeclaration?: boolean;
 
   @propArray(ContactDetailsForm)
-  projectContacts?: ContactDetailsForm[] = [{}];
+  // TODO: minItems(1)
+  additionalContacts?: ContactDetailsForm[] = [{}];
+
+  @prop()
+  partneringProponents?: string[] = [];
+
+  @propArray(StringItem)
+  partneringProponentsArray?: StringItem[] = [];
 
   @prop()
   @required()
@@ -165,6 +181,9 @@ export class EOIApplicationForm implements DrifEoiApplication {
   @propObject(ContactDetailsForm)
   submitter?: ContactDetailsForm = new ContactDetailsForm({});
 
+  @propObject(ContactDetailsForm)
+  projectContact?: ContactDetailsForm = new ContactDetailsForm({});
+
   @prop()
   totalFunding?: number;
 
@@ -188,4 +207,7 @@ export class EOIApplicationForm implements DrifEoiApplication {
   @prop()
   @required()
   identityConfirmation?: boolean;
+
+  @prop()
+  sameAsSubmitter?: boolean;
 }
