@@ -10,6 +10,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { TranslocoModule } from '@ngneat/transloco';
 
 @Component({
   selector: 'drr-step-2',
@@ -24,6 +25,7 @@ import { MatButtonModule } from '@angular/material/button';
     MatRadioModule,
     MatSelectModule,
     MatDatepickerModule,
+    TranslocoModule,
   ],
   templateUrl: './step-2.component.html',
   styleUrl: './step-2.component.scss',

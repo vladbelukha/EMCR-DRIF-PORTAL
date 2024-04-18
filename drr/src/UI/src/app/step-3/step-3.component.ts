@@ -13,6 +13,7 @@ import { MatInputModule } from '@angular/material/input';
 import { distinctUntilChanged } from 'rxjs';
 import { FundingType } from '../../model';
 import { MatSelectModule } from '@angular/material/select';
+import { TranslocoModule } from '@ngneat/transloco';
 
 @Component({
   selector: 'drr-step-3',
@@ -26,6 +27,7 @@ import { MatSelectModule } from '@angular/material/select';
     MatInputModule,
     MatIconModule,
     MatSelectModule,
+    TranslocoModule,
   ],
   templateUrl: './step-3.component.html',
   styleUrl: './step-3.component.scss',

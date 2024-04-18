@@ -54,6 +54,7 @@ import { Step7Component } from '../step-7/step-7.component';
 import { Step8Component } from '../step-8/step-8.component';
 import { DrifapplicationService } from '../../api/drifapplication/drifapplication.service';
 import { Router } from '@angular/router';
+import { TranslocoModule } from '@ngneat/transloco';
 
 @Component({
   selector: 'drr-eoi-application',
@@ -81,6 +82,7 @@ import { Router } from '@angular/router';
     Step6Component,
     Step7Component,
     Step8Component,
+    TranslocoModule,
   ],
   templateUrl: './eoi-application.component.html',
   styleUrl: './eoi-application.component.scss',

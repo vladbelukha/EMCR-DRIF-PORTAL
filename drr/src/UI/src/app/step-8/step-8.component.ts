@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { Step1Component } from '../step-1/step-1.component';
 import { SummaryComponent } from '../summary/summary.component';
+import { TranslocoModule } from '@ngneat/transloco';
 
 @Component({
   selector: 'drr-step-8',
@@ -22,6 +23,7 @@ import { SummaryComponent } from '../summary/summary.component';
     MatInputModule,
     MatCheckboxModule,
     SummaryComponent,
+    TranslocoModule,
   ],
   templateUrl: './step-8.component.html',
   styleUrl: './step-8.component.scss',

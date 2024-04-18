@@ -8,6 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
+import { TranslocoModule } from '@ngneat/transloco';
 
 @Component({
   selector: 'drr-step-4',
@@ -21,6 +22,7 @@ import { MatRadioModule } from '@angular/material/radio';
     MatInputModule,
     MatIconModule,
     MatRadioModule,
+    TranslocoModule,
   ],
   templateUrl: './step-4.component.html',
   styleUrl: './step-4.component.scss',

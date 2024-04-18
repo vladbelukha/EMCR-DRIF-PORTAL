@@ -1,12 +1,7 @@
-<div class="drr-step-container">
+<div class="drr-step-container" *transloco="let t">
   <form [formGroup]="eoiApplicationForm">
-    <mat-label class="drr-label">Background for Funding Request</mat-label>
-    <mat-label
-      >Include a description of the risk, the number of people impacted, and
-      critical infrastructure impacted. How does this project improve the
-      understanding of disaster risk and invest in disaster risk reduction to
-      improve resilience?</mat-label
-    >
+    <mat-label class="drr-label">{{ t("backgroundDescription") }}</mat-label>
+    <mat-label>{{ t("backgroundDescriptionText") }}</mat-label>
     <mat-form-field>
       <textarea
         id="backgroundDescription"
@@ -15,12 +10,8 @@
         rows="10"
       ></textarea>
     </mat-form-field>
-    <mat-label class="drr-label">Rationale for Funding Request</mat-label>
-    <mat-label
-      >Include any recent history (e.g., evacuation orders, flooding events),
-      threat levels, and/or evidence of how the hazard is being
-      assessed</mat-label
-    >
+    <mat-label class="drr-label">{{ t("rationaleForFunding") }}</mat-label>
+    <mat-label>{{ t("rationaleForFundingText") }}</mat-label>
     <mat-form-field>
       <textarea
         id="rationaleForFunding"
@@ -29,11 +20,8 @@
         rows="10"
       ></textarea>
     </mat-form-field>
-    <mat-label class="drr-label">Proposed Solution</mat-label>
-    <mat-label
-      >What is included in this project to address the identified risk(s) and/or
-      hazard(s)? Include how this project aligns with DRIFs program goal.
-    </mat-label>
+    <mat-label class="drr-label">{{ t("proposedSolution") }}</mat-label>
+    <mat-label>{{ t("proposedSolutionText") }} </mat-label>
     <mat-form-field>
       <textarea
         id="proposedSolution"
@@ -42,11 +30,8 @@
         rows="10"
       ></textarea>
     </mat-form-field>
-    <mat-label class="drr-label">Rationale for Proposed Solution</mat-label>
-    <mat-label
-      >What type of foundational or previous work led to the proposed
-      solution?</mat-label
-    >
+    <mat-label class="drr-label">{{ t("rationaleForSolution") }}</mat-label>
+    <mat-label>{{ t("rationaleForSolutionText") }}</mat-label>
     <mat-form-field>
       <textarea
         id="rationaleForSolution"

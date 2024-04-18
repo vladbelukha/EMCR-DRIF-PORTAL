@@ -1,12 +1,12 @@
-<div class="drr-step-container">
+<div class="drr-step-container" *transloco="let t">
   <form [formGroup]="eoiApplicationForm">
-    <mat-label class="drr-label">Project Title</mat-label>
+    <mat-label class="drr-label">{{ t("projectTitle") }}</mat-label>
     <mat-form-field style="width: 50vw; margin-top: 10px">
-      <mat-label>Project Title</mat-label>
+      <mat-label>{{ t("projectTitle") }}</mat-label>
       <input id="projectTitle" matInput formControlName="projectTitle" />
     </mat-form-field>
 
-    <mat-label class="drr-label">Project Type</mat-label>
+    <mat-label class="drr-label">{{ t("projectType") }}</mat-label>
     <mat-radio-group
       id="projectType"
       class="drr-radio-group"
@@ -21,14 +21,12 @@
         "
         >Required</mat-error
       >
-      <mat-radio-button value="New">New Project</mat-radio-button>
-      <mat-radio-button value="Existing"
-        >New Phase of Existing Project</mat-radio-button
-      >
+      <mat-radio-button value="New">{{ t("newProject") }}</mat-radio-button>
+      <mat-radio-button value="Existing">{{ t("existing") }}</mat-radio-button>
     </mat-radio-group>
-    <mat-label class="drr-label">Related Hazard(s)</mat-label>
+    <mat-label class="drr-label">{{ t("relatedHazards") }}</mat-label>
     <mat-form-field style="width: 50vw; margin-top: 10px">
-      <mat-label> Related Hazard(s)</mat-label>
+      <mat-label>{{ t("relatedHazards") }}</mat-label>
       <mat-select
         id="relatedHazards"
         formControlName="relatedHazards"
@@ -40,17 +38,17 @@
       </mat-select>
     </mat-form-field>
     <mat-form-field *ngIf="otherHazardSelected()">
-      <mat-label>Other</mat-label>
+      <mat-label>{{ t("other") }}</mat-label>
       <input
         id="otherHazardsDescription"
         matInput
         formControlName="otherHazardsDescription"
       />
     </mat-form-field>
-    <mat-label class="drr-label">Anticipated Project Dates</mat-label>
+    <mat-label class="drr-label">{{ t("projectDates") }}</mat-label>
     <div class="project-dates-container">
       <mat-form-field>
-        <mat-label>Anticipated Project Start Date</mat-label>
+        <mat-label>{{ t("startDate") }}</mat-label>
         <input
           id="startDate"
           matInput
@@ -65,7 +63,7 @@
         <mat-datepicker #start_picker></mat-datepicker>
       </mat-form-field>
       <mat-form-field>
-        <mat-label>Anticipated Project End Date</mat-label>
+        <mat-label>{{ t("endDate") }}</mat-label>
         <input
           id="endDate"
           matInput

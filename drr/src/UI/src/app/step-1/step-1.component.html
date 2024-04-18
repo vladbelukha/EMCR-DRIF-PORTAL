@@ -1,6 +1,6 @@
-<div class="drr-step-container">
+<div class="drr-step-container" *transloco="let t">
   <form [formGroup]="eoiApplicationForm">
-    <mat-label class="drr-label">Application Type</mat-label>
+    <mat-label class="drr-label">{{ t("applicantType") }}</mat-label>
     <mat-radio-group
       id="applicantType"
       class="drr-radio-group"
@@ -14,37 +14,39 @@
         "
         >Required</mat-error
       >
-      <mat-radio-button value="FirstNation">First Nation</mat-radio-button>
-      <mat-radio-button value="LocalGovernment"
-        >Local Government</mat-radio-button
-      >
-      <mat-radio-button value="RegionalDistrict"
-        >Regional District</mat-radio-button
-      >
+      <mat-radio-button value="FirstNation">{{
+        t("firstNation")
+      }}</mat-radio-button>
+      <mat-radio-button value="LocalGovernment">{{
+        t("localGovernment")
+      }}</mat-radio-button>
+      <mat-radio-button value="RegionalDistrict">{{
+        t("regionalDistrict")
+      }}</mat-radio-button>
     </mat-radio-group>
     <mat-form-field style="width: 50vw; margin-top: 10px">
-      <mat-label
-        >Name of First Nation, Local Government or Reginal District</mat-label
-      >
+      <mat-label>{{ t("applicantName") }}</mat-label>
       <input id="applicantName" matInput formControlName="applicantName" />
     </mat-form-field>
 
-    <mat-label class="drr-label">Submitter Contact Information</mat-label>
+    <mat-label class="drr-label">{{
+      t("submitterContactInformation")
+    }}</mat-label>
     <div class="submitter-container" formGroupName="submitter">
       <mat-form-field>
-        <mat-label>First Name</mat-label>
+        <mat-label>{{ t("firstName") }}</mat-label>
         <input id="submitter_firstName" matInput formControlName="firstName" />
       </mat-form-field>
       <mat-form-field>
-        <mat-label>Last Name</mat-label>
+        <mat-label>{{ t("lastName") }}</mat-label>
         <input id="submitter_lastName" matInput formControlName="lastName" />
       </mat-form-field>
       <mat-form-field>
-        <mat-label>Position/Title</mat-label>
+        <mat-label>{{ t("title") }}</mat-label>
         <input id="submitter_title" matInput formControlName="title" />
       </mat-form-field>
       <mat-form-field>
-        <mat-label>Department</mat-label>
+        <mat-label>{{ t("department") }}</mat-label>
         <input
           id="submitter_department"
           matInput
@@ -52,7 +54,7 @@
         />
       </mat-form-field>
       <mat-form-field>
-        <mat-label>Phone</mat-label>
+        <mat-label>{{ t("phone") }}</mat-label>
         <input
           id="submitter_phone"
           matInput
@@ -61,12 +63,14 @@
         />
       </mat-form-field>
       <mat-form-field>
-        <mat-label>Email</mat-label>
+        <mat-label>{{ t("email") }}</mat-label>
         <input id="submitter_email" matInput formControlName="email" />
       </mat-form-field>
     </div>
 
-    <mat-label class="drr-label">Project Contact Information</mat-label>
+    <mat-label class="drr-label">{{
+      t("projectContactInformation")
+    }}</mat-label>
 
     <div formArrayName="projectContacts">
       <div
@@ -82,7 +86,7 @@
             [contactForm]="projectContact as RxFormGroup"
           ></drr-contact-details> -->
         <mat-form-field>
-          <mat-label>First Name</mat-label>
+          <mat-label>{{ t("firstName") }}</mat-label>
           <input
             id="projectContact_firstName_{{ i }}"
             matInput
@@ -90,7 +94,7 @@
           />
         </mat-form-field>
         <mat-form-field>
-          <mat-label>Last Name</mat-label>
+          <mat-label>{{ t("lastName") }}</mat-label>
           <input
             id="projectContact_lastName_{{ i }}"
             matInput
@@ -98,7 +102,7 @@
           />
         </mat-form-field>
         <mat-form-field>
-          <mat-label>Position/Title</mat-label>
+          <mat-label>{{ t("title") }}</mat-label>
           <input
             id="projectContact_title_{{ i }}"
             matInput
@@ -106,7 +110,7 @@
           />
         </mat-form-field>
         <mat-form-field>
-          <mat-label>Department</mat-label>
+          <mat-label>{{ t("department") }}</mat-label>
           <input
             id="projectContact_department_{{ i }}"
             matInput
@@ -114,7 +118,7 @@
           />
         </mat-form-field>
         <mat-form-field>
-          <mat-label>Phone</mat-label>
+          <mat-label>{{ t("phone") }}</mat-label>
           <input
             id="projectContact_phone_{{ i }}"
             matInput
@@ -122,7 +126,7 @@
           />
         </mat-form-field>
         <mat-form-field>
-          <mat-label>Email</mat-label>
+          <mat-label>{{ t("email") }}</mat-label>
           <input
             id="projectContact_email_{{ i }}"
             matInput
@@ -148,7 +152,7 @@
         (click)="addProjectContact()"
       >
         <mat-icon>add</mat-icon>
-        Add additional contact
+        {{ t("addAdditionalContact") }}
       </button>
     </div>
   </form>
