@@ -145,7 +145,7 @@ export class EOIApplicationForm implements DrifEoiApplication {
   partneringProponents?: string[] = [];
 
   @propArray(StringItem)
-  partneringProponentsArray?: StringItem[] = [];
+  partneringProponentsArray?: StringItem[] = [{ value: '' }];
 
   @prop()
   @required()
