@@ -9,7 +9,6 @@ namespace EMCR.DRR.Managers.Intake
         {
             CreateMap<DrifEoiApplication, Application>();
             CreateMap<Controllers.FundingInformation, FundingInformation>();
-            CreateMap<Controllers.LocationInformation, LocationInformation>();
             CreateMap<Controllers.ContactDetails, ContactDetails>();
         }
     }
