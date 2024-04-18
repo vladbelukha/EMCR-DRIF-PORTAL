@@ -22,7 +22,7 @@ namespace EMCR.Tests.Integration.DRR.Resources
             var newApplication = (await applicationRepository.Query(new ApplicationsQuery { ApplicationId = id })).Items.ShouldHaveSingleItem();
             newApplication.ProjectTitle.ShouldNotBeEmpty();
             newApplication.Submitter.FirstName.ShouldBe(originalApplication.Submitter.FirstName);
-            newApplication.ProjectContacts.Count().ShouldBe(originalApplication.ProjectContacts.Count());
+            newApplication.AdditionalContacts.Count().ShouldBe(originalApplication.AdditionalContacts.Count());
         }
 
         private Application CreateTestEOIApplication()
@@ -30,13 +30,23 @@ namespace EMCR.Tests.Integration.DRR.Resources
             var uniqueSignature = TestPrefix + "-" + Guid.NewGuid().ToString().Substring(0, 4);
             return new Application
             {
-                ApplicantType = ApplicantType.LocalGovernment,
-                ApplicantName = $"{uniqueSignature}_applicant_name",
+                //Proponent Information
+                ProponentType = ProponentType.LocalGovernment,
+                ProponentName = $"{uniqueSignature}_applicant_name",
                 Submitter = CreateTestContact(uniqueSignature),
-                ProjectContacts = new[]
+                ProjectContact = CreateTestContact(uniqueSignature),
+                AdditionalContacts = new[]
                 {
                     CreateTestContact(uniqueSignature)
                 },
+                PartneringProponents = new[]
+                {
+                    "partner1",
+                    "partner2"
+                },
+
+                //Project Information
+                FundingStream = FundingStream.Stream1,
                 ProjectTitle = $"{uniqueSignature}_projectTitle",
                 ProjectType = ProjectType.New,
                 RelatedHazards = new[]
@@ -49,6 +59,9 @@ namespace EMCR.Tests.Integration.DRR.Resources
                 OtherHazardsDescription = "Other Description",
                 StartDate = DateTime.Now,
                 EndDate = DateTime.Now.AddDays(14),
+
+                //Funding Information
+                EstimatedTotal = 1000,
                 FundingRequest = 100,
                 OtherFunding = new[]
                 {
@@ -65,23 +78,36 @@ namespace EMCR.Tests.Integration.DRR.Resources
                         Type = FundingType.Prov,
                     },
                 },
-                UnfundedAmount = 100,
-                ReasonsToSecureFunding = "Funding Reasons",
-                TotalFunding = 200,
+                RemainingAmount = 600,
+                IntendToSecureFunding = "Funding Reasons",
+
+                //Location Information
                 OwnershipDeclaration = true,
-                LocationInformation = new LocationInformation
-                {
-                    Description = "location description",
-                    Area = "123 acres",
-                    Ownership = "owned"
-                },
-                BackgroundDescription = "background description",
+                OwnershipDescription = "owned",
+                LocationDescription = "location description",
+
+                //Project Detail
                 RationaleForFunding = "rationale for funding",
-                ProposedSolution = "solution",
+                DescriptionOfRisk = "description of risk",
+                EstimatedPeopleImpacted = "many people",
+                InfrastructureImpacted = "much infrastructure",
+                DisasterRiskUnderstanding = "helps many people",
+                AdditionalBackgroundInformation = "additional background info",
+                AddressRisksAndHazards = "fix risks",
+                DRIFProgramGoalAlignment = "aligns with goals",
+                AdditionalSolutionInformation = "additional solution info",
                 RationaleForSolution = "rational for solution",
-                EngagementProposal = "Engagement Proposal",
+
+                //Engagement Plan
+                FirstNationsEngagement = "Engagement Proposal",
+                NeighbourEngagement = "engage with neighbours",
+                AdditionalEngagementInformation = "additional engagement info",
+
+                //Other Supporting Information
                 ClimateAdaptation = "Climate Adaptation",
                 OtherInformation = "Other Info",
+
+                //Declaration
                 CFOConfirmation = true,
                 FOIPPAConfirmation = true,
                 IdentityConfirmation = true
