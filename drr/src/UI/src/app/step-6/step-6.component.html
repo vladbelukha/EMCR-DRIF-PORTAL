@@ -1,12 +1,32 @@
 <div class="drr-step-container" *transloco="let t">
   <form [formGroup]="eoiApplicationForm">
     <mat-label class="drr-label">{{ t("engagementProposal") }}</mat-label>
-    <mat-label>{{ t("engagementProposalText") }}</mat-label>
+    <mat-label>{{ t("firstNationsEngagement") }}</mat-label>
     <mat-form-field>
       <textarea
-        id="engagementProposal"
+        id="firstNationsEngagement"
         matInput
-        formControlName="engagementProposal"
+        formControlName="firstNationsEngagement"
+        rows="10"
+      ></textarea>
+    </mat-form-field>
+
+    <mat-label>{{ t("neighbourEngagement") }}</mat-label>
+    <mat-form-field>
+      <textarea
+        id="neighbourEngagement"
+        matInput
+        formControlName="neighbourEngagement"
+        rows="10"
+      ></textarea>
+    </mat-form-field>
+
+    <mat-label>{{ t("additionalEngagementInformation") }}</mat-label>
+    <mat-form-field>
+      <textarea
+        id="additionalEngagementInformation"
+        matInput
+        formControlName="additionalEngagementInformation"
         rows="10"
       ></textarea>
     </mat-form-field>

@@ -8,14 +8,14 @@ import {
   required,
 } from '@rxweb/reactive-form-validators';
 import {
-  ApplicantType,
+  ProponentType,
   ContactDetails,
   DrifEoiApplication,
   FundingInformation,
   FundingType,
   Hazards,
-  LocationInformation,
   ProjectType,
+  FundingStream,
 } from '../../model';
 
 export class FundingInformationForm implements FundingInformation {
@@ -27,22 +27,6 @@ export class FundingInformationForm implements FundingInformation {
   type?: FundingType;
 
   constructor(values: FundingInformationForm) {
-    Object.assign(this, values);
-  }
-}
-
-export class LocationInformationForm implements LocationInformation {
-  @prop()
-  @required()
-  area?: string;
-
-  @prop()
-  description?: string;
-
-  @prop()
-  ownership?: string;
-
-  constructor(values: LocationInformationForm) {
     Object.assign(this, values);
   }
 }
@@ -78,21 +62,27 @@ export class ContactDetailsForm implements ContactDetails {
   }
 }
 
+export class StringItem {
+  @prop()
+  value: string = '';
+
+  constructor(values: StringItem) {
+    Object.assign(this, values);
+  }
+}
+
 export class EOIApplicationForm implements DrifEoiApplication {
   @prop()
   @required()
-  applicantName?: string;
+  proponentName?: string;
 
   @prop()
   @required()
-  applicantType?: ApplicantType;
-
-  @prop()
-  area?: number;
+  proponentType?: ProponentType;
 
   @prop()
   @required()
-  backgroundDescription?: string;
+  descriptionOfRisk?: string;
 
   @prop()
   @required()
@@ -103,20 +93,27 @@ export class EOIApplicationForm implements DrifEoiApplication {
 
   @prop()
   @required()
+  fundingStream?: FundingStream;
+
+  @prop()
+  @required()
   endDate?: string;
 
   @prop()
   @required()
-  engagementProposal?: string;
+  firstNationsEngagement?: string;
+
+  @prop()
+  @required()
+  neighbourEngagement?: string;
+
+  @prop()
+  @required()
+  estimatedTotal?: number;
 
   @prop()
   @required()
   fundingRequest?: number;
-
-  @propObject(LocationInformationForm)
-  locationInformation?: LocationInformationForm = new LocationInformationForm(
-    {}
-  );
 
   @propArray(FundingInformationForm)
   otherFunding?: FundingInformationForm[] = [];
@@ -128,8 +125,20 @@ export class EOIApplicationForm implements DrifEoiApplication {
   @required()
   ownershipDeclaration?: boolean;
 
+  @prop()
+  ownershipDescription?: string;
+
+  @prop()
+  locationDescription?: string;
+
   @propArray(ContactDetailsForm)
-  projectContacts?: ContactDetailsForm[] = [{}];
+  additionalContacts?: ContactDetailsForm[] = [{}];
+
+  @prop()
+  partneringProponents?: string[] = [];
+
+  @propArray(StringItem)
+  partneringProponentsArray?: StringItem[] = [{ value: '' }];
 
   @prop()
   @required()
@@ -141,7 +150,28 @@ export class EOIApplicationForm implements DrifEoiApplication {
 
   @prop()
   @required()
-  proposedSolution?: string;
+  infrastructureImpacted?: string;
+
+  @prop()
+  @required()
+  disasterRiskUnderstanding?: string;
+
+  @prop()
+  additionalBackgroundInformation?: string;
+
+  @prop()
+  additionalEngagementInformation?: string;
+
+  @prop()
+  @required()
+  addressRisksAndHazards?: string;
+
+  @prop()
+  additionalSolutionInformation?: string;
+
+  @prop()
+  @required()
+  drifProgramGoalAlignment?: string;
 
   @prop()
   @required()
@@ -152,7 +182,11 @@ export class EOIApplicationForm implements DrifEoiApplication {
   rationaleForSolution?: string;
 
   @prop()
-  reasonsToSecureFunding?: string;
+  @required()
+  estimatedPeopleImpacted?: string;
+
+  @prop()
+  intendToSecureFunding?: string;
 
   @prop()
   @required()
@@ -165,11 +199,11 @@ export class EOIApplicationForm implements DrifEoiApplication {
   @propObject(ContactDetailsForm)
   submitter?: ContactDetailsForm = new ContactDetailsForm({});
 
-  @prop()
-  totalFunding?: number;
+  @propObject(ContactDetailsForm)
+  projectContact?: ContactDetailsForm = new ContactDetailsForm({});
 
   @prop()
-  unfundedAmount?: number;
+  remainingAmount?: number;
 
   @prop()
   units?: string;
@@ -188,4 +222,7 @@ export class EOIApplicationForm implements DrifEoiApplication {
   @prop()
   @required()
   identityConfirmation?: boolean;
+
+  @prop()
+  sameAsSubmitter?: boolean;
 }

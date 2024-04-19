@@ -4,7 +4,10 @@
   <form [formGroup]="eoiApplicationForm">
     <mat-label class="drr-label"> {{ t("identityConfirmation") }} </mat-label>
     <mat-label> {{ t("identityConfirmationText") }} </mat-label>
-    <mat-checkbox formControlName="identityConfirmation">
+    <mat-checkbox
+      id="identityConfirmation"
+      formControlName="identityConfirmation"
+    >
       {{ t("agree") }}
     </mat-checkbox>
     <mat-error
@@ -18,7 +21,7 @@
 
     <mat-label class="drr-label">{{ t("foippaConfirmation") }}</mat-label>
     <mat-label> {{ t("foippaConfirmationText") }} </mat-label>
-    <mat-checkbox formControlName="foippaConfirmation">
+    <mat-checkbox id="foippaConfirmation" formControlName="foippaConfirmation">
       {{ t("agree") }}
     </mat-checkbox>
     <mat-error
@@ -32,7 +35,7 @@
 
     <mat-label class="drr-label">{{ t("cfoConfirmation") }}</mat-label>
     <mat-label> {{ t("cfoConfirmationText") }} </mat-label>
-    <mat-checkbox formControlName="cfoConfirmation">
+    <mat-checkbox id="cfoConfirmation" formControlName="cfoConfirmation">
       {{ t("agree") }}
     </mat-checkbox>
     <mat-error

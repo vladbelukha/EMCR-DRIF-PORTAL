@@ -45,27 +45,23 @@ export class Step3Component {
       .get('otherFunding')!
       .valueChanges.pipe(distinctUntilChanged())
       .subscribe(() => {
-        this.calculateTotalFunding();
+        this.calculateRemainingAmount();
       });
 
     this.eoiApplicationForm
       .get('fundingRequest')!
       .valueChanges.pipe(distinctUntilChanged())
       .subscribe(() => {
-        this.calculateTotalFunding();
+        this.calculateRemainingAmount();
       });
 
-    this.eoiApplicationForm
-      .get('unfundedAmount')!
-      .valueChanges.pipe(distinctUntilChanged())
-      .subscribe(() => {
-        this.calculateTotalFunding();
-      });
-
-    this.eoiApplicationForm.get('totalFunding')?.disable();
+    this.eoiApplicationForm.get('remainingAmount')?.disable();
   }
 
-  calculateTotalFunding() {
+  calculateRemainingAmount() {
+    const estimatedTotal =
+      this.eoiApplicationForm.get('estimatedTotal')?.value ?? 0;
+
     const otherFundingSum = this.getFormArray('otherFunding').controls.reduce(
       (total, funding) => total + funding.value.amount,
       0
@@ -74,12 +70,10 @@ export class Step3Component {
     const fundingRequest =
       this.eoiApplicationForm.get('fundingRequest')?.value ?? 0;
 
-    const unfundedAmount =
-      this.eoiApplicationForm.get('unfundedAmount')?.value ?? 0;
+    let remainingAmount = estimatedTotal - otherFundingSum - fundingRequest;
+    remainingAmount = remainingAmount < 0 ? 0 : remainingAmount;
 
-    const totalFunding = otherFundingSum + fundingRequest + unfundedAmount;
-
-    this.eoiApplicationForm.patchValue({ totalFunding });
+    this.eoiApplicationForm.patchValue({ remainingAmount });
   }
 
   getFormArray(formArrayName: string) {

@@ -1,15 +1,5 @@
 <div class="drr-step-container" *transloco="let t">
   <form [formGroup]="eoiApplicationForm">
-    <mat-label class="drr-label">{{ t("backgroundDescription") }}</mat-label>
-    <mat-label>{{ t("backgroundDescriptionText") }}</mat-label>
-    <mat-form-field>
-      <textarea
-        id="backgroundDescription"
-        matInput
-        formControlName="backgroundDescription"
-        rows="10"
-      ></textarea>
-    </mat-form-field>
     <mat-label class="drr-label">{{ t("rationaleForFunding") }}</mat-label>
     <mat-label>{{ t("rationaleForFundingText") }}</mat-label>
     <mat-form-field>
@@ -20,25 +10,102 @@
         rows="10"
       ></textarea>
     </mat-form-field>
+
+    <mat-label class="drr-label">{{ t("backgroundDescription") }}</mat-label>
+    <div class="project-details-container">
+      <mat-label>{{ t("descriptionOfRisk") }}</mat-label>
+      <mat-form-field>
+        <textarea
+          id="descriptionOfRisk"
+          matInput
+          formControlName="descriptionOfRisk"
+          rows="10"
+        ></textarea>
+      </mat-form-field>
+
+      <mat-label>{{ t("estimatedPeopleImpacted") }} </mat-label>
+      <mat-form-field>
+        <textarea
+          id="estimatedPeopleImpacted"
+          matInput
+          formControlName="estimatedPeopleImpacted"
+          rows="10"
+        ></textarea>
+      </mat-form-field>
+
+      <mat-label>{{ t("infrastructureImpacted") }} </mat-label>
+      <mat-form-field>
+        <textarea
+          id="infrastructureImpacted"
+          matInput
+          formControlName="infrastructureImpacted"
+          rows="10"
+        ></textarea>
+      </mat-form-field>
+
+      <mat-label>{{ t("disasterRiskUnderstanding") }} </mat-label>
+      <mat-form-field>
+        <textarea
+          id="disasterRiskUnderstanding"
+          matInput
+          formControlName="disasterRiskUnderstanding"
+          rows="10"
+        ></textarea>
+      </mat-form-field>
+
+      <mat-label>{{ t("additionalBackgroundInformation") }} </mat-label>
+      <mat-form-field>
+        <textarea
+          id="additionalBackgroundInformation"
+          matInput
+          formControlName="additionalBackgroundInformation"
+          rows="10"
+        ></textarea>
+      </mat-form-field>
+    </div>
+
     <mat-label class="drr-label">{{ t("proposedSolution") }}</mat-label>
-    <mat-label>{{ t("proposedSolutionText") }} </mat-label>
-    <mat-form-field>
-      <textarea
-        id="proposedSolution"
-        matInput
-        formControlName="proposedSolution"
-        rows="10"
-      ></textarea>
-    </mat-form-field>
-    <mat-label class="drr-label">{{ t("rationaleForSolution") }}</mat-label>
-    <mat-label>{{ t("rationaleForSolutionText") }}</mat-label>
-    <mat-form-field>
-      <textarea
-        id="rationaleForSolution"
-        matInput
-        formControlName="rationaleForSolution"
-        rows="10"
-      ></textarea>
-    </mat-form-field>
+    <div class="project-details-container">
+      <mat-label>{{ t("addressRisksAndHazards") }}</mat-label>
+      <mat-form-field>
+        <textarea
+          id="addressRisksAndHazards"
+          matInput
+          formControlName="addressRisksAndHazards"
+          rows="10"
+        ></textarea>
+      </mat-form-field>
+
+      <mat-label>{{ t("drifProgramGoalAlignment") }}</mat-label>
+      <mat-form-field>
+        <textarea
+          id="drifProgramGoalAlignment"
+          matInput
+          formControlName="drifProgramGoalAlignment"
+          rows="10"
+        ></textarea>
+      </mat-form-field>
+
+      <mat-label>{{ t("additionalSolutionInformation") }}</mat-label>
+      <mat-form-field>
+        <textarea
+          id="additionalSolutionInformation"
+          matInput
+          formControlName="additionalSolutionInformation"
+          rows="10"
+        ></textarea>
+      </mat-form-field>
+
+      <mat-label class="drr-label">{{ t("rationaleForSolution") }}</mat-label>
+      <mat-label>{{ t("rationaleForSolutionText") }}</mat-label>
+      <mat-form-field>
+        <textarea
+          id="rationaleForSolution"
+          matInput
+          formControlName="rationaleForSolution"
+          rows="10"
+        ></textarea>
+      </mat-form-field>
+    </div>
   </form>
 </div>

@@ -35,9 +35,6 @@ export class Step4Component {
 
   // TODO: make a textarea component
   getCount() {
-    return (
-      this.eoiApplicationForm.value.locationInformation?.description?.length ??
-      0
-    );
+    return this.eoiApplicationForm.value.locationDescription?.length ?? 0;
   }
 }

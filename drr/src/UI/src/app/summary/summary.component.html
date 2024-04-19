@@ -1,11 +1,11 @@
 <div class="summary-container" *transloco="let t">
-  <div class="summary-item" *ngIf="eoiApplication?.applicantType">
-    <mat-label class="drr-label">{{ t("applicantType") }}</mat-label>
-    <mat-label>{{ eoiApplication?.applicantType }}</mat-label>
+  <div class="summary-item" *ngIf="eoiApplication?.proponentType">
+    <mat-label class="drr-label">{{ t("proponentType") }}</mat-label>
+    <mat-label>{{ eoiApplication?.proponentType }}</mat-label>
   </div>
-  <div class="summary-item" *ngIf="eoiApplication?.applicantName">
-    <mat-label class="drr-label">{{ t("applicantName") }}</mat-label>
-    <mat-label>{{ eoiApplication?.applicantName }}</mat-label>
+  <div class="summary-item" *ngIf="eoiApplication?.proponentName">
+    <mat-label class="drr-label">{{ t("proponentName") }}</mat-label>
+    <mat-label>{{ eoiApplication?.proponentName }}</mat-label>
   </div>
   <div class="summary-group" *ngIf="objectHasValues(eoiApplication?.submitter)">
     <mat-label class="drr-label">{{
@@ -47,14 +47,14 @@
 
   <div
     class="summary-group"
-    *ngIf="arrayHasValues(eoiApplication?.projectContacts!)"
+    *ngIf="arrayHasValues(eoiApplication?.additionalContacts!)"
   >
     <mat-label class="drr-label">{{
       t("projectContactInformation")
     }}</mat-label>
     <div
       class="summary-row"
-      *ngFor="let projectContact of eoiApplication?.projectContacts"
+      *ngFor="let projectContact of eoiApplication?.additionalContacts"
     >
       <div class="summary-item">
         <mat-label class="drr-label">{{ t("firstName") }}</mat-label>
@@ -153,19 +153,14 @@
     </div>
   </div>
 
-  <div class="summary-item" *ngIf="eoiApplication?.unfundedAmount">
-    <mat-label class="drr-label">{{ t("unfundedAmount") }}</mat-label>
-    <mat-label>{{ eoiApplication?.unfundedAmount | currency }}</mat-label>
+  <div class="summary-item" *ngIf="eoiApplication?.remainingAmount">
+    <mat-label class="drr-label">{{ t("remainingAmount") }}</mat-label>
+    <mat-label>{{ eoiApplication?.remainingAmount | currency }}</mat-label>
   </div>
 
-  <div class="summary-item" *ngIf="eoiApplication?.reasonsToSecureFunding">
-    <mat-label class="drr-label">{{ t("reasonsToSecureFunding") }}</mat-label>
-    <mat-label>{{ eoiApplication?.reasonsToSecureFunding }}</mat-label>
-  </div>
-
-  <div class="summary-item" *ngIf="eoiApplication?.totalFunding">
-    <mat-label class="drr-label">{{ t("totalFunding") }}</mat-label>
-    <mat-label>{{ eoiApplication?.totalFunding | currency }}</mat-label>
+  <div class="summary-item" *ngIf="eoiApplication?.intendToSecureFunding">
+    <mat-label class="drr-label">{{ t("intendToSecureFunding") }}</mat-label>
+    <mat-label>{{ eoiApplication?.intendToSecureFunding }}</mat-label>
   </div>
 
   <div class="summary-item" *ngIf="eoiApplication?.ownershipDeclaration">
@@ -175,41 +170,11 @@
     }}</mat-label>
   </div>
 
-  <div
-    class="summary-group"
-    *ngIf="objectHasValues(eoiApplication?.locationInformation)"
-  >
-    <div class="summary-item">
-      <mat-label
-        *ngIf="eoiApplication?.locationInformation?.description"
-        class="drr-label"
-        >{{ t("locationDescription") }}</mat-label
-      >
-      <mat-label>{{
-        eoiApplication?.locationInformation?.description
-      }}</mat-label>
-    </div>
-
-    <div class="summary-item">
-      <mat-label class="drr-label">{{ t("locationArea") }}</mat-label>
-      <mat-label>{{ eoiApplication?.locationInformation?.area }}</mat-label>
-    </div>
-
-    <div class="summary-item">
-      <mat-label
-        *ngIf="eoiApplication?.locationInformation?.ownership"
-        class="drr-label"
-        >{{ t("ownership") }}</mat-label
-      >
-      <mat-label>{{
-        eoiApplication?.locationInformation?.ownership
-      }}</mat-label>
-    </div>
-  </div>
-
-  <div class="summary-item" *ngIf="eoiApplication?.backgroundDescription">
-    <mat-label class="drr-label">{{ t("backgroundDescription") }}</mat-label>
-    <mat-label>{{ eoiApplication?.backgroundDescription }}</mat-label>
+  <div class="summary-item">
+    <mat-label *ngIf="eoiApplication?.locationDescription" class="drr-label">{{
+      t("locationDescription")
+    }}</mat-label>
+    <mat-label>{{ eoiApplication?.locationDescription }}</mat-label>
   </div>
 
   <div class="summary-item" *ngIf="eoiApplication?.rationaleForFunding">
@@ -217,9 +182,54 @@
     <mat-label>{{ eoiApplication?.rationaleForFunding }}</mat-label>
   </div>
 
-  <div class="summary-item" *ngIf="eoiApplication?.proposedSolution">
-    <mat-label class="drr-label">{{ t("proposedSolution") }}</mat-label>
-    <mat-label>{{ eoiApplication?.proposedSolution }}</mat-label>
+  <mat-label class="drr-label">{{ t("backgroundDescription") }}</mat-label>
+  <div class="summary-item" *ngIf="eoiApplication?.descriptionOfRisk">
+    <mat-label class="drr-label">{{ t("descriptionOfRisk") }}</mat-label>
+    <mat-label>{{ eoiApplication?.descriptionOfRisk }}</mat-label>
+  </div>
+
+  <div class="summary-item" *ngIf="eoiApplication?.estimatedPeopleImpacted">
+    <mat-label class="drr-label">{{ t("estimatedPeopleImpacted") }}</mat-label>
+    <mat-label>{{ eoiApplication?.estimatedPeopleImpacted }}</mat-label>
+  </div>
+  <div class="summary-item" *ngIf="eoiApplication?.infrastructureImpacted">
+    <mat-label class="drr-label">{{ t("infrastructureImpacted") }}</mat-label>
+    <mat-label>{{ eoiApplication?.infrastructureImpacted }}</mat-label>
+  </div>
+  <div class="summary-item" *ngIf="eoiApplication?.disasterRiskUnderstanding">
+    <mat-label class="drr-label">{{
+      t("disasterRiskUnderstanding")
+    }}</mat-label>
+    <mat-label>{{ eoiApplication?.disasterRiskUnderstanding }}</mat-label>
+  </div>
+  <div
+    class="summary-item"
+    *ngIf="eoiApplication?.additionalBackgroundInformation"
+  >
+    <mat-label class="drr-label">{{
+      t("additionalBackgroundInformation")
+    }}</mat-label>
+    <mat-label>{{ eoiApplication?.additionalBackgroundInformation }}</mat-label>
+  </div>
+
+  <div class="summary-item" *ngIf="eoiApplication?.addressRisksAndHazards">
+    <mat-label class="drr-label">{{ t("addressRisksAndHazards") }}</mat-label>
+    <mat-label>{{ eoiApplication?.addressRisksAndHazards }}</mat-label>
+  </div>
+
+  <div class="summary-item" *ngIf="eoiApplication?.drifProgramGoalAlignment">
+    <mat-label class="drr-label">{{ t("drifProgramGoalAlignment") }}</mat-label>
+    <mat-label>{{ eoiApplication?.drifProgramGoalAlignment }}</mat-label>
+  </div>
+
+  <div
+    class="summary-item"
+    *ngIf="eoiApplication?.additionalSolutionInformation"
+  >
+    <mat-label class="drr-label">{{
+      t("additionalSolutionInformation")
+    }}</mat-label>
+    <mat-label>{{ eoiApplication?.additionalSolutionInformation }}</mat-label>
   </div>
 
   <div class="summary-item" *ngIf="eoiApplication?.rationaleForSolution">
@@ -227,9 +237,22 @@
     <mat-label>{{ eoiApplication?.rationaleForSolution }}</mat-label>
   </div>
 
-  <div class="summary-item" *ngIf="eoiApplication?.engagementProposal">
-    <mat-label class="drr-label">{{ t("engagementProposal") }}</mat-label>
-    <mat-label>{{ eoiApplication?.engagementProposal }}</mat-label>
+  <div class="summary-item" *ngIf="eoiApplication?.firstNationsEngagement">
+    <mat-label class="drr-label">{{ t("firstNationsEngagement") }}</mat-label>
+    <mat-label>{{ eoiApplication?.firstNationsEngagement }}</mat-label>
+  </div>
+  <div class="summary-item" *ngIf="eoiApplication?.neighbourEngagement">
+    <mat-label class="drr-label">{{ t("neighbourEngagement") }}</mat-label>
+    <mat-label>{{ eoiApplication?.neighbourEngagement }}</mat-label>
+  </div>
+  <div
+    class="summary-item"
+    *ngIf="eoiApplication?.additionalEngagementInformation"
+  >
+    <mat-label class="drr-label">{{
+      t("additionalEngagementInformation")
+    }}</mat-label>
+    <mat-label>{{ eoiApplication?.additionalEngagementInformation }}</mat-label>
   </div>
 
   <div class="summary-item" *ngIf="eoiApplication?.climateAdaptation">

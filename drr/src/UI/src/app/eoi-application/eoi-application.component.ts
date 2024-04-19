@@ -30,7 +30,7 @@ import {
   required,
 } from '@rxweb/reactive-form-validators';
 import {
-  ApplicantType,
+  ProponentType,
   ContactDetails,
   DrifEoiApplication,
   Hazards,
@@ -90,10 +90,8 @@ import { HotToastService } from '@ngneat/hot-toast';
   providers: [RxFormBuilder, HotToastService],
 })
 export class EOIApplicationComponent {
-  isDevMode = isDevMode();
+  isDevMode = false; // isDevMode();
 
-  ApplicantType = ApplicantType;
-  projectType = ProjectType;
   hazardsOptions = Object.values(Hazards);
 
   formBuilder = inject(RxFormBuilder);
@@ -110,10 +108,11 @@ export class EOIApplicationComponent {
   }
 
   validateStep1() {
-    this.eoiApplicationForm.get('applicantType')?.markAsDirty();
+    this.eoiApplicationForm.get('proponentType')?.markAsDirty();
     this.eoiApplicationForm.get('projectTitle')?.markAsDirty();
     this.eoiApplicationForm.get('submitter')?.markAsDirty();
-    this.eoiApplicationForm.get('projectContacts')?.markAsDirty();
+    this.eoiApplicationForm.get('projectContact')?.markAsDirty();
+    this.eoiApplicationForm.get('additionalContacts')?.markAsDirty();
   }
 
   validateStep2() {
@@ -134,10 +133,15 @@ export class EOIApplicationComponent {
   }
 
   validateStep5() {
-    this.eoiApplicationForm.get('backgroundDescription')?.markAsDirty();
     this.eoiApplicationForm.get('rationaleForFunding')?.markAsDirty();
+    this.eoiApplicationForm.get('descriptionOfRisk')?.markAsDirty();
+    this.eoiApplicationForm.get('estimatedPeopleImpacted')?.markAsDirty();
+    this.eoiApplicationForm.get('infrastructureImpacted')?.markAsDirty();
+    this.eoiApplicationForm.get('disasterRiskUnderstanding')?.markAsDirty();
+    this.eoiApplicationForm.get('addressRisksAndHazards')?.markAsDirty();
+    this.eoiApplicationForm.get('drifProgramGoalAlignment')?.markAsDirty();
+    this.eoiApplicationForm.get('additionalSolutionInformation')?.markAsDirty();
     this.eoiApplicationForm.get('rationaleForSolution')?.markAsDirty();
-    this.eoiApplicationForm.get('proposedSolution')?.markAsDirty();
   }
 
   validateStep6() {

@@ -1,16 +1,16 @@
 <div class="drr-step-container" *transloco="let t">
   <form [formGroup]="eoiApplicationForm">
-    <mat-label class="drr-label">{{ t("applicantType") }}</mat-label>
+    <mat-label class="drr-label">{{ t("proponentType") }}</mat-label>
     <mat-radio-group
-      id="applicantType"
+      id="proponentType"
       class="drr-radio-group"
       aria-label="Select an option"
-      formControlName="applicantType"
+      formControlName="proponentType"
     >
       <mat-error
         *ngIf="
-          eoiApplicationForm.get('applicantType')?.touched &&
-          eoiApplicationForm.get('applicantType')?.hasError('required')
+          eoiApplicationForm.get('proponentType')?.touched &&
+          eoiApplicationForm.get('proponentType')?.hasError('required')
         "
         >{{ t("required") }}</mat-error
       >
@@ -24,15 +24,16 @@
         t("regionalDistrict")
       }}</mat-radio-button>
     </mat-radio-group>
+    <mat-label class="drr-label">{{ t("proponentName") }}</mat-label>
     <mat-form-field style="width: 50vw; margin-top: 10px">
-      <mat-label>{{ t("applicantName") }}</mat-label>
-      <input id="applicantName" matInput formControlName="applicantName" />
+      <mat-label>{{ t("proponentNameText") }}</mat-label>
+      <input id="proponentName" matInput formControlName="proponentName" />
     </mat-form-field>
 
     <mat-label class="drr-label">{{
       t("submitterContactInformation")
     }}</mat-label>
-    <div class="submitter-container" formGroupName="submitter">
+    <div class="contacts-container" formGroupName="submitter">
       <mat-form-field>
         <mat-label>{{ t("firstName") }}</mat-label>
         <input id="submitter_firstName" matInput formControlName="firstName" />
@@ -72,11 +73,65 @@
       t("projectContactInformation")
     }}</mat-label>
 
-    <div formArrayName="projectContacts">
+    <mat-checkbox
+      id="sameAsSubmitter"
+      formControlName="sameAsSubmitter"
+      (change)="toggleSameAsSubmitter()"
+      >{{ t("sameAsSubmitter") }}</mat-checkbox
+    >
+
+    <div
+      *ngIf="!eoiApplicationForm.get('sameAsSubmitter')?.value"
+      class="contacts-container"
+      formGroupName="projectContact"
+    >
+      <mat-form-field>
+        <mat-label>{{ t("firstName") }}</mat-label>
+        <input
+          id="projectContact_firstName"
+          matInput
+          formControlName="firstName"
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>{{ t("lastName") }}</mat-label>
+        <input
+          id="projectContact_lastName"
+          matInput
+          formControlName="lastName"
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>{{ t("title") }}</mat-label>
+        <input id="projectContact_title" matInput formControlName="title" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>{{ t("department") }}</mat-label>
+        <input
+          id="projectContact_department"
+          matInput
+          formControlName="department"
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>{{ t("phone") }}</mat-label>
+        <input
+          id="projectContact_phone"
+          matInput
+          type="tel"
+          formControlName="phone"
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>{{ t("email") }}</mat-label>
+        <input id="projectContact_email" matInput formControlName="email" />
+      </mat-form-field>
+    </div>
+    <div formArrayName="additionalContacts">
       <div
-        class="project-contacts-container"
+        class="additional-contacts-container"
         *ngFor="
-          let projectContact of getFormArray('projectContacts').controls;
+          let projectContact of getFormArray('additionalContacts').controls;
           let i = index
         "
         [formGroupName]="i"
@@ -85,63 +140,68 @@
           <drr-contact-details
             [contactForm]="projectContact as RxFormGroup"
           ></drr-contact-details> -->
-        <mat-form-field>
-          <mat-label>{{ t("firstName") }}</mat-label>
-          <input
-            id="projectContact_firstName_{{ i }}"
-            matInput
-            formControlName="firstName"
-          />
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>{{ t("lastName") }}</mat-label>
-          <input
-            id="projectContact_lastName_{{ i }}"
-            matInput
-            formControlName="lastName"
-          />
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>{{ t("title") }}</mat-label>
-          <input
-            id="projectContact_title_{{ i }}"
-            matInput
-            formControlName="title"
-          />
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>{{ t("department") }}</mat-label>
-          <input
-            id="projectContact_department_{{ i }}"
-            matInput
-            formControlName="department"
-          />
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>{{ t("phone") }}</mat-label>
-          <input
-            id="projectContact_phone_{{ i }}"
-            matInput
-            formControlName="phone"
-          />
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>{{ t("email") }}</mat-label>
-          <input
-            id="projectContact_email_{{ i }}"
-            matInput
-            formControlName="email"
-          />
-        </mat-form-field>
+        <mat-label class="drr-label">{{
+          t("additionalContact") + " " + (i + 1)
+        }}</mat-label>
+        <div class="contacts-container">
+          <mat-form-field>
+            <mat-label>{{ t("firstName") }}</mat-label>
+            <input
+              id="projectContact_firstName_{{ i }}"
+              matInput
+              formControlName="firstName"
+            />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>{{ t("lastName") }}</mat-label>
+            <input
+              id="projectContact_lastName_{{ i }}"
+              matInput
+              formControlName="lastName"
+            />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>{{ t("title") }}</mat-label>
+            <input
+              id="projectContact_title_{{ i }}"
+              matInput
+              formControlName="title"
+            />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>{{ t("department") }}</mat-label>
+            <input
+              id="projectContact_department_{{ i }}"
+              matInput
+              formControlName="department"
+            />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>{{ t("phone") }}</mat-label>
+            <input
+              id="projectContact_phone_{{ i }}"
+              matInput
+              formControlName="phone"
+            />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>{{ t("email") }}</mat-label>
+            <input
+              id="projectContact_email_{{ i }}"
+              matInput
+              formControlName="email"
+            />
+          </mat-form-field>
 
-        <button
-          *ngIf="i > 0"
-          mat-mini-fab
-          color="warn"
-          (click)="removeProjectContact(i)"
-        >
-          <mat-icon>delete</mat-icon>
-        </button>
+          <button
+            *ngIf="i > 0"
+            mat-mini-fab
+            color="warn"
+            (click)="removeAdditionalContact(i)"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
         <mat-divider></mat-divider>
       </div>
 
@@ -149,10 +209,44 @@
         id="addProjectContact"
         mat-stroked-button
         color="primary"
-        (click)="addProjectContact()"
+        (click)="addAdditionalContact()"
       >
         <mat-icon>add</mat-icon>
         {{ t("addAdditionalContact") }}
+      </button>
+    </div>
+
+    <mat-label class="drr-label" style="margin-top: 20px">{{
+      t("partneringProponents")
+    }}</mat-label>
+
+    <div formArrayName="partneringProponentsArray">
+      <div
+        class="proponent-container"
+        *ngFor="
+          let proponent of getFormArray('partneringProponentsArray').controls;
+          let i = index
+        "
+        [formGroupName]="i"
+      >
+        <mat-form-field style="width: 50vw; margin-top: 10px">
+          <mat-label>{{ t("proponentNameText") }}</mat-label>
+          <input id="proponent_{{ i }}" matInput formControlName="value" />
+        </mat-form-field>
+        <button mat-mini-fab color="warn" (click)="removeProponent(i)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+
+      <button
+        id="addProponent"
+        style="margin-top: 10px"
+        mat-stroked-button
+        color="primary"
+        (click)="addProponent()"
+      >
+        <mat-icon>add</mat-icon>
+        {{ t("addProponent") }}
       </button>
     </div>
   </form>
