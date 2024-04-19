@@ -252,7 +252,7 @@ objects:
                 allowPrivilegeEscalation: true
               env:
                 - name: API_URL
-                  value: ${ENV}-drr-api:8080
+                  value: 'http://${ENV}-drr-api:8080'
               image: docker-registry.default.svc:5000/${NAMESPACE_PREFIX}-tools/drr-ui:${TAG}
               imagePullPolicy: Always
               ports:
