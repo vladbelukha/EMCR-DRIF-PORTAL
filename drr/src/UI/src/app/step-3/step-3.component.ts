@@ -3,10 +3,19 @@ import {
   EOIApplicationForm,
   FundingInformationForm,
 } from '../eoi-application/eoi-application-form';
-import { IFormGroup, RxFormBuilder } from '@rxweb/reactive-form-validators';
+import {
+  IFormGroup,
+  RxFormBuilder,
+  RxwebValidators,
+} from '@rxweb/reactive-form-validators';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
-import { FormArray, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormArray,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -50,6 +59,13 @@ export class Step3Component {
 
     this.eoiApplicationForm
       .get('fundingRequest')!
+      .valueChanges.pipe(distinctUntilChanged())
+      .subscribe(() => {
+        this.calculateRemainingAmount();
+      });
+
+    this.eoiApplicationForm
+      .get('estimatedTotal')!
       .valueChanges.pipe(distinctUntilChanged())
       .subscribe(() => {
         this.calculateRemainingAmount();
