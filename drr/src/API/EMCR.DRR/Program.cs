@@ -6,8 +6,6 @@ using EMCR.DRR.Managers.Intake;
 using EMCR.DRR.Resources.Applications;
 using EMCR.Utilities;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-using Microsoft.Dynamics.CRM;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using NSwag;
 using NSwag.AspNetCore;
@@ -27,7 +25,11 @@ builder.Services.AddAutoMapper(typeof(ApplicationMapperProfile));
 builder.Services.AddAutoMapper(typeof(IntakeMapperProfile));
 builder.Services.AddCors(opts => opts.AddDefaultPolicy(policy =>
 {
-    policy.SetIsOriginAllowedToAllowWildcardSubdomains().WithOrigins(new[] { "https://dev-drr-emcr.silver.devops.bcgov/" });
+    policy.AllowAnyHeader();
+    policy.AllowAnyMethod();
+    //policy.AllowAnyOrigin();
+
+    policy.WithOrigins("https://dev-drr-emcr.silver.devops.bcgov");
 }));
 builder.Services.AddCache(string.Empty)
     .AddDRRDynamics(builder.Configuration);
@@ -80,9 +82,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseCors();
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
