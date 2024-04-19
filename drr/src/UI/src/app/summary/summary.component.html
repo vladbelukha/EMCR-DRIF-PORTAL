@@ -1,7 +1,7 @@
 <div class="summary-container" *transloco="let t">
   <div class="summary-item" *ngIf="eoiApplication?.proponentType">
     <mat-label class="drr-label">{{ t("proponentType") }}</mat-label>
-    <mat-label>{{ eoiApplication?.proponentType }}</mat-label>
+    <mat-label>{{ t(eoiApplication?.proponentType!) }}</mat-label>
   </div>
   <div class="summary-item" *ngIf="eoiApplication?.proponentName">
     <mat-label class="drr-label">{{ t("proponentName") }}</mat-label>
@@ -95,12 +95,19 @@
 
   <div class="summary-item" *ngIf="eoiApplication?.projectType">
     <mat-label class="drr-label">{{ t("projectType") }}</mat-label>
-    <mat-label>{{ eoiApplication?.projectType }}</mat-label>
+    <mat-label>{{ t(eoiApplication?.projectType!) }}</mat-label>
   </div>
 
   <div class="summary-item" *ngIf="eoiApplication?.relatedHazards?.length">
     <mat-label class="drr-label">{{ t("relatedHazards") }}</mat-label>
-    <mat-label>{{ eoiApplication?.relatedHazards?.join(", ") }}</mat-label>
+    <mat-label>
+      <ng-container
+        *ngFor="let hazard of eoiApplication?.relatedHazards!; let i = index"
+      >
+        {{ t(hazard)
+        }}{{ i !== (eoiApplication?.relatedHazards)!.length - 1 ? ", " : "" }}
+      </ng-container>
+    </mat-label>
     <mat-label *ngIf="eoiApplication?.otherHazardsDescription">
       {{ eoiApplication?.otherHazardsDescription }}
     </mat-label>
@@ -141,7 +148,7 @@
         <mat-label class="drr-label">{{
           t("otherFundingSourcesType")
         }}</mat-label>
-        <mat-label>{{ funding?.type }}</mat-label>
+        <mat-label>{{ t(funding?.type!) }}</mat-label>
       </div>
 
       <div class="summary-item">
