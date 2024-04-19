@@ -1,16 +1,16 @@
 <div class="drr-step-container" *transloco="let t">
   <form [formGroup]="eoiApplicationForm">
-    <mat-label class="drr-label">{{ t("applicantType") }}</mat-label>
+    <mat-label class="drr-label">{{ t("proponentType") }}</mat-label>
     <mat-radio-group
-      id="applicantType"
+      id="proponentType"
       class="drr-radio-group"
       aria-label="Select an option"
-      formControlName="applicantType"
+      formControlName="proponentType"
     >
       <mat-error
         *ngIf="
-          eoiApplicationForm.get('applicantType')?.touched &&
-          eoiApplicationForm.get('applicantType')?.hasError('required')
+          eoiApplicationForm.get('proponentType')?.touched &&
+          eoiApplicationForm.get('proponentType')?.hasError('required')
         "
         >{{ t("required") }}</mat-error
       >
@@ -27,7 +27,7 @@
     <mat-label class="drr-label">{{ t("proponentName") }}</mat-label>
     <mat-form-field style="width: 50vw; margin-top: 10px">
       <mat-label>{{ t("proponentNameText") }}</mat-label>
-      <input id="applicantName" matInput formControlName="applicantName" />
+      <input id="proponentName" matInput formControlName="proponentName" />
     </mat-form-field>
 
     <mat-label class="drr-label">{{

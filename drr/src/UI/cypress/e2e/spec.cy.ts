@@ -6,9 +6,9 @@ describe('EOI application happy path', () => {
 
     // step 1
     // check radio button
-    cy.get('#applicantType [type="radio"]').first().check();
+    cy.get('#proponentType [type="radio"]').first().check();
     // add applicant name by id attr
-    cy.get('#applicantName').type('New Applicant Organization', {
+    cy.get('#proponentName').type('New Applicant Organization', {
       force: true,
     });
 
@@ -19,6 +19,8 @@ describe('EOI application happy path', () => {
     cy.get('#submitter_department').type('Innovation and Renovation');
     cy.get('#submitter_phone').type('123-456-7890');
     cy.get('#submitter_email').type('john.doe@example.com');
+
+    cy.get('#sameAsSubmitter [type="checkbox"]').first().check();
 
     // add project contacts
     cy.get('#projectContact_firstName_0').type('Jane');
@@ -41,10 +43,16 @@ describe('EOI application happy path', () => {
     cy.get('#projectContact_phone_1').type('234-456-7890');
     cy.get('#projectContact_email_1').type('mike.spens@example.com', {});
 
+    // add partnering proponents
+    cy.get('#proponent_0').type('Proponent 1', { force: true });
+    cy.get('#addProponent').click();
+    cy.get('#proponent_1').type('Proponent 2', { force: true });
+
     // click next button
     cy.get('#next1').click();
 
     // step 2
+    cy.get('#fundingStream [type="radio"]').first().check();
     cy.get('#projectTitle').type('New Project Title');
     cy.get('#projectType [type="radio"]').first().check();
 
@@ -67,6 +75,7 @@ describe('EOI application happy path', () => {
     cy.get('#next2').click();
 
     // step 3
+    cy.get('#estimatedTotal').type('150000');
     cy.get('#fundingRequest').type('100000');
     cy.get('#addOtherFundingButton').click();
     cy.get('#otherFunding_name_0').type('Funding Organization', {
@@ -87,9 +96,7 @@ describe('EOI application happy path', () => {
     cy.get('#otherFunding_type_1').type('{esc}');
     cy.get('#otherFunding_amount_1').type('50000');
 
-    cy.get('#unfundedAmount').type('20000', { force: true });
-
-    cy.get('#reasonsToSecureFunding').type(
+    cy.get('#intendToSecureFunding').type(
       'I will borrow some money from my aunt and uncle'
     );
 
@@ -98,11 +105,10 @@ describe('EOI application happy path', () => {
 
     // step 4
     cy.get('#ownershipDeclaration [type="radio"]').first().check();
-    cy.get('#locationDescription').type('This is a very beautiful location', {
+    cy.get('#ownershipDescription').type('I own the land', {
       force: true,
     });
-    cy.get('#locationArea').type('1000 sq m', { force: true });
-    cy.get('#locationOwnership').type('Owned by me and my family', {
+    cy.get('#locationDescription').type('This is a very beautiful location', {
       force: true,
     });
 
@@ -110,18 +116,34 @@ describe('EOI application happy path', () => {
     cy.get('#next4').click();
 
     // step 5
-    cy.get('#backgroundDescription').type(
-      'This is a very beautiful background'
-    );
+    cy.get('#descriptionOfRisk').type('There is a risk of flood in the area');
     cy.get('#rationaleForFunding').type('I need money to build a house');
+    cy.get('#estimatedPeopleImpacted').type('1000 people will be impacted');
+    cy.get('#infrastructureImpacted').type(
+      'Some infrastructure will be impacted'
+    );
+    cy.get('#disasterRiskUnderstanding').type('I understand the risk');
+    cy.get('#additionalBackgroundInformation').type(
+      'Some additional information'
+    );
+    cy.get('#addressRisksAndHazards').type('I will address the risks');
+    cy.get('#drifProgramGoalAlignment').type('I will align with the goals');
+    cy.get('#additionalSolutionInformation').type(
+      'Some additional solution information'
+    );
     cy.get('#rationaleForSolution').type('I need a house to live in');
-    cy.get('#proposedSolution').type('I will build a house');
 
     // click next button
     cy.get('#next5').click();
 
     // step 6
-    cy.get('#engagementProposal').type('I will engage with the community');
+    cy.get('#firstNationsEngagement').type(
+      'I will engage with the first nations'
+    );
+    cy.get('#neighbourEngagement').type('I will engage with the neighbours');
+    cy.get('#additionalEngagementInformation').type(
+      'Some additional engagement information'
+    );
 
     // click next button
     cy.get('#next6').click();
@@ -132,5 +154,10 @@ describe('EOI application happy path', () => {
 
     // click next button
     cy.get('#next7').click();
+
+    // step 8
+    cy.get('#identityConfirmation [type="checkbox"]').first().check();
+    cy.get('#foippaConfirmation [type="checkbox"]').first().check();
+    cy.get('#cfoConfirmation [type="checkbox"]').first().check();
   });
 });

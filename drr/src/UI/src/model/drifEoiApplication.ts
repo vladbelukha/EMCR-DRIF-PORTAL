@@ -4,43 +4,57 @@
  * DRR API
  * OpenAPI spec version: 1.0.0
  */
-import type { ApplicantType } from './applicantType';
-import type { LocationInformation } from './locationInformation';
-import type { FundingInformation } from './fundingInformation';
 import type { ContactDetails } from './contactDetails';
+import type { FundingStream } from './fundingStream';
+import type { FundingInformation } from './fundingInformation';
 import type { ProjectType } from './projectType';
+import type { ProponentType } from './proponentType';
 import type { Hazards } from './hazards';
 
 export interface DrifEoiApplication {
-  applicantName?: string;
-  applicantType?: ApplicantType;
-  backgroundDescription?: string;
+  /** @nullable */
+  additionalBackgroundInformation?: string;
+  additionalContacts?: ContactDetails[];
+  /** @nullable */
+  additionalEngagementInformation?: string;
+  /** @nullable */
+  additionalSolutionInformation?: string;
+  addressRisksAndHazards?: string;
   cfoConfirmation?: boolean;
   climateAdaptation?: string;
+  descriptionOfRisk?: string;
+  disasterRiskUnderstanding?: string;
+  drifProgramGoalAlignment?: string;
   endDate?: string;
-  engagementProposal?: string;
+  estimatedPeopleImpacted?: string;
+  estimatedTotal?: number;
+  firstNationsEngagement?: string;
   foippaConfirmation?: boolean;
   fundingRequest?: number;
+  fundingStream?: FundingStream;
   identityConfirmation?: boolean;
-  locationInformation?: LocationInformation;
+  infrastructureImpacted?: string;
+  /** @nullable */
+  intendToSecureFunding?: string;
+  locationDescription?: string;
+  neighbourEngagement?: string;
   otherFunding?: FundingInformation[];
   /** @nullable */
   otherHazardsDescription?: string;
+  /** @nullable */
   otherInformation?: string;
   ownershipDeclaration?: boolean;
-  additionalContacts?: ContactDetails[];
+  ownershipDescription?: string;
+  partneringProponents?: string[];
+  projectContact?: ContactDetails;
   projectTitle?: string;
   projectType?: ProjectType;
-  proposedSolution?: string;
+  proponentName?: string;
+  proponentType?: ProponentType;
   rationaleForFunding?: string;
   rationaleForSolution?: string;
-  /** @nullable */
-  reasonsToSecureFunding?: string;
   relatedHazards?: Hazards[];
+  remainingAmount?: number;
   startDate?: string;
   submitter?: ContactDetails;
-  projectContact?: ContactDetails;
-  totalFunding?: number;
-  unfundedAmount?: number;
-  partneringProponents?: string[];
 }

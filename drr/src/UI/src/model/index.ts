@@ -5,12 +5,12 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export * from './applicantType';
 export * from './applicationResult';
 export * from './contactDetails';
 export * from './drifEoiApplication';
 export * from './fundingInformation';
+export * from './fundingStream';
 export * from './fundingType';
 export * from './hazards';
-export * from './locationInformation';
 export * from './projectType';
+export * from './proponentType';
