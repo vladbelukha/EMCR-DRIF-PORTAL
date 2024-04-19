@@ -13,22 +13,23 @@
 
     <mat-label class="drr-label">{{ t("backgroundDescription") }}</mat-label>
     <div class="project-details-container">
-      <mat-label>{{ t("descriptionOfRisk") }}</mat-label>
-      <mat-form-field>
-        <textarea
-          id="descriptionOfRisk"
-          matInput
-          formControlName="descriptionOfRisk"
-          rows="10"
-        ></textarea>
-      </mat-form-field>
-
       <mat-label>{{ t("estimatedPeopleImpacted") }} </mat-label>
       <mat-form-field>
-        <textarea
+        <input
           id="estimatedPeopleImpacted"
           matInput
+          type="number"
           formControlName="estimatedPeopleImpacted"
+        />
+      </mat-form-field>
+
+      <mat-label>{{ t("communityImpact") }} </mat-label>
+      <mat-form-field>
+        <mat-label>{{ t("communityImpactText") }} </mat-label>
+        <textarea
+          id="communityImpact"
+          matInput
+          formControlName="communityImpact"
           rows="10"
         ></textarea>
       </mat-form-field>

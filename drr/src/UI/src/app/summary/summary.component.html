@@ -202,16 +202,15 @@
 
   <mat-label class="drr-label">{{ t("backgroundDescription") }}</mat-label>
   <div class="summary-group">
-    <div class="summary-item" *ngIf="eoiApplication?.descriptionOfRisk">
-      <mat-label class="drr-label">{{ t("descriptionOfRisk") }}</mat-label>
-      <mat-label>{{ eoiApplication?.descriptionOfRisk }}</mat-label>
-    </div>
-
     <div class="summary-item" *ngIf="eoiApplication?.estimatedPeopleImpacted">
       <mat-label class="drr-label">{{
         t("estimatedPeopleImpacted")
       }}</mat-label>
       <mat-label>{{ eoiApplication?.estimatedPeopleImpacted }}</mat-label>
+    </div>
+    <div class="summary-item" *ngIf="eoiApplication?.communityImpact">
+      <mat-label class="drr-label">{{ t("communityImpact") }}</mat-label>
+      <mat-label>{{ eoiApplication?.communityImpact }}</mat-label>
     </div>
     <div class="summary-item" *ngIf="eoiApplication?.infrastructureImpacted">
       <mat-label class="drr-label">{{ t("infrastructureImpacted") }}</mat-label>

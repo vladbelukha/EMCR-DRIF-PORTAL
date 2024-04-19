@@ -84,10 +84,6 @@ export class EOIApplicationForm implements DrifEoiApplication {
 
   @prop()
   @required()
-  descriptionOfRisk?: string;
-
-  @prop()
-  @required()
   climateAdaptation?: string;
 
   @prop()
@@ -235,4 +231,8 @@ export class EOIApplicationForm implements DrifEoiApplication {
   @prop()
   @required()
   scopeStatement?: string;
+
+  @prop()
+  @required()
+  communityImpact?: string;
 }

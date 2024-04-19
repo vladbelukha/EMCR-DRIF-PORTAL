@@ -120,9 +120,9 @@ describe('EOI application happy path', () => {
     cy.get('#next4').click();
 
     // step 5
-    cy.get('#descriptionOfRisk').type('There is a risk of flood in the area');
     cy.get('#rationaleForFunding').type('I need money to build a house');
-    cy.get('#estimatedPeopleImpacted').type('1000 people will be impacted');
+    cy.get('#estimatedPeopleImpacted').type('1000');
+    cy.get('#communityImpact').type('This will impact the community');
     cy.get('#infrastructureImpacted').type(
       'Some infrastructure will be impacted'
     );

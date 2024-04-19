@@ -22,7 +22,6 @@ export interface DrifEoiApplication {
   addressRisksAndHazards?: string;
   cfoConfirmation?: boolean;
   climateAdaptation?: string;
-  descriptionOfRisk?: string;
   disasterRiskUnderstanding?: string;
   drifProgramGoalAlignment?: string;
   endDate?: string;
@@ -58,4 +57,5 @@ export interface DrifEoiApplication {
   startDate?: string;
   submitter?: ContactDetails;
   scopeStatement?: string;
+  communityImpact?: string;
 }
