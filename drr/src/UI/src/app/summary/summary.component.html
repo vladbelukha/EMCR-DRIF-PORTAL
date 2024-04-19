@@ -90,6 +90,11 @@
     <mat-label>{{ eoiApplication?.projectTitle }}</mat-label>
   </div>
 
+  <div class="summary-item" *ngIf="eoiApplication?.scopeStatement">
+    <mat-label class="drr-label">{{ t("scopeStatement") }}</mat-label>
+    <mat-label>{{ eoiApplication?.scopeStatement }}</mat-label>
+  </div>
+
   <div class="summary-item" *ngIf="eoiApplication?.projectType">
     <mat-label class="drr-label">{{ t("projectType") }}</mat-label>
     <mat-label>{{ t(eoiApplication?.projectType!) }}</mat-label>
@@ -138,6 +143,13 @@
     >
       <div class="summary-item">
         <mat-label class="drr-label">{{
+          t("otherFundingSourcesAmount")
+        }}</mat-label>
+        <mat-label>{{ funding?.amount | currency }}</mat-label>
+      </div>
+
+      <div class="summary-item">
+        <mat-label class="drr-label">{{
           t("otherFundingSourcesName")
         }}</mat-label>
         <mat-label>{{ funding?.name }}</mat-label>
@@ -150,11 +162,11 @@
         <mat-label>{{ t(funding?.type!) }}</mat-label>
       </div>
 
-      <div class="summary-item">
+      <div *ngIf="funding?.description" class="summary-item">
         <mat-label class="drr-label">{{
-          t("otherFundingSourcesAmount")
+          t("otherFundingSourcesDescription")
         }}</mat-label>
-        <mat-label>{{ funding?.amount | currency }}</mat-label>
+        <mat-label>{{ funding?.description }}</mat-label>
       </div>
     </div>
   </div>

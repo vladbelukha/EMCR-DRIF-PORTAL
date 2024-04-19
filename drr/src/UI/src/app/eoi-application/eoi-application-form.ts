@@ -25,6 +25,8 @@ export class FundingInformationForm implements FundingInformation {
   name?: string;
   @prop()
   type?: FundingType;
+  @prop()
+  description?: string;
 
   constructor(values: FundingInformationForm) {
     Object.assign(this, values);
@@ -225,4 +227,8 @@ export class EOIApplicationForm implements DrifEoiApplication {
 
   @prop()
   sameAsSubmitter?: boolean;
+
+  @prop()
+  @required()
+  scopeStatement?: string;
 }

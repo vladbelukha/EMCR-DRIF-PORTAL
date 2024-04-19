@@ -57,4 +57,5 @@ export interface DrifEoiApplication {
   remainingAmount?: number;
   startDate?: string;
   submitter?: ContactDetails;
+  scopeStatement?: string;
 }

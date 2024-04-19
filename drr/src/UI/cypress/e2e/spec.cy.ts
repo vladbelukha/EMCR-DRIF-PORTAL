@@ -54,6 +54,7 @@ describe('EOI application happy path', () => {
     // step 2
     cy.get('#fundingStream [type="radio"]').first().check();
     cy.get('#projectTitle').type('New Project Title');
+    cy.get('#scopeStatement').type('This is a scope statement');
     cy.get('#projectType [type="radio"]').first().check();
 
     // select few hazards
@@ -75,7 +76,7 @@ describe('EOI application happy path', () => {
     cy.get('#next2').click();
 
     // step 3
-    cy.get('#estimatedTotal').type('150000');
+    cy.get('#estimatedTotal').type('250000');
     cy.get('#fundingRequest').type('100000');
     cy.get('#addOtherFundingButton').click();
     cy.get('#otherFunding_name_0').type('Funding Organization', {
@@ -92,9 +93,12 @@ describe('EOI application happy path', () => {
       force: true,
     });
     cy.get('#otherFunding_type_1').click();
-    cy.get('mat-option').contains('Fed').click();
+    cy.get('mat-option').contains('Other').click();
     cy.get('#otherFunding_type_1').type('{esc}');
     cy.get('#otherFunding_amount_1').type('50000');
+    cy.get('#otherFunding_description_1').type('Some description', {
+      force: true,
+    });
 
     cy.get('#intendToSecureFunding').type(
       'I will borrow some money from my aunt and uncle'

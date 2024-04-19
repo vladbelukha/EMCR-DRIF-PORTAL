@@ -10,4 +10,5 @@ export interface FundingInformation {
   amount?: number;
   name?: string;
   type?: FundingType;
+  description?: string;
 }

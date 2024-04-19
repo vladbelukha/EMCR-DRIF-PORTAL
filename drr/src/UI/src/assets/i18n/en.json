@@ -17,6 +17,7 @@
   "RegionalDistrict": "Regional District",
   "proponentName": "Primary Proponent Name",
   "proponentNameText": "Name of First Nation, Local Government or Reginal District",
+  "partneringProponentNameText": "If applicable list names of partnering First Nations, Local Governments or Regional Districts",
   "partneringProponents": "Partnering Proponents(if applicable)",
   "addProponent": "Add additional partnering proponent",
   "submitterContactInformation": "Submitter Contact Information",
@@ -42,6 +43,7 @@
   "otherFundingSourcesName": "Name of Grant/Funding Source",
   "otherFundingSourcesType": "Type of Funding",
   "otherFundingSourcesAmount": "Amount",
+  "otherFundingSourcesDescription": "Describe the funding source",
   "addOtherFunding": "Add additional funding source",
   "intendToSecureFunding": "Explain how you intent to secure this funding",
   "estimatedTotal": "Estimated Total Project Cost",
@@ -102,5 +104,6 @@
   "Storm": "Storm",
   "Tsunami": "Tsunami",
   "New": "New Project",
-  "Existing": "New Phase of Existing Project"
+  "Existing": "New Phase of Existing Project",
+  "scopeStatement": "Summarized Scope Statement"
 }
