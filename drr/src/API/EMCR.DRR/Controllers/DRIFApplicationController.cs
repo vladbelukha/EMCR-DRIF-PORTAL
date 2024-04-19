@@ -22,6 +22,12 @@ namespace EMCR.DRR.Controllers
             this.intakeManager = intakeManager;
         }
 
+        [HttpGet]
+        public ActionResult Test()
+        {
+            return Ok("success");
+        }
+
         [HttpPost("EOI")]
         public async Task<ActionResult<ApplicationResult>> CreateEOIApplication(DrifEoiApplication application)
         {

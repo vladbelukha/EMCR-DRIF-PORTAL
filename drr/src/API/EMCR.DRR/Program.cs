@@ -27,9 +27,9 @@ builder.Services.AddCors(opts => opts.AddDefaultPolicy(policy =>
 {
     policy.AllowAnyHeader();
     policy.AllowAnyMethod();
-    //policy.AllowAnyOrigin();
+    policy.AllowAnyOrigin();
 
-    policy.WithOrigins("https://dev-drr-emcr.silver.devops.bcgov");
+    //policy.WithOrigins("https://dev-drr-emcr.silver.devops.bcgov");
 }));
 builder.Services.AddCache(string.Empty)
     .AddDRRDynamics(builder.Configuration);
