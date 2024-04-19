@@ -196,6 +196,9 @@ objects:
           restartPolicy: Always
           schedulerName: default-scheduler
           securityContext: {}
+          ports:
+            - containerPort: 8080
+              protocol: TCP
           terminationGracePeriodSeconds: 30
           volumes:
             - name: dp-keys
