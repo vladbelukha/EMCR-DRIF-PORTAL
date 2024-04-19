@@ -6,6 +6,8 @@ using EMCR.DRR.Managers.Intake;
 using EMCR.DRR.Resources.Applications;
 using EMCR.Utilities;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.Dynamics.CRM;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using NSwag;
 using NSwag.AspNetCore;
@@ -23,6 +25,10 @@ builder.Services.AddIntakeManager();
 builder.Services.AddRepositories();
 builder.Services.AddAutoMapper(typeof(ApplicationMapperProfile));
 builder.Services.AddAutoMapper(typeof(IntakeMapperProfile));
+builder.Services.AddCors(opts => opts.AddDefaultPolicy(policy =>
+{
+    policy.SetIsOriginAllowedToAllowWildcardSubdomains().WithOrigins(new[] { "https://dev-drr-emcr.silver.devops.bcgov/" });
+}));
 builder.Services.AddCache(string.Empty)
     .AddDRRDynamics(builder.Configuration);
 
