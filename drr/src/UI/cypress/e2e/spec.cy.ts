@@ -123,9 +123,15 @@ describe('EOI application happy path', () => {
     cy.get('#rationaleForFunding').type('I need money to build a house');
     cy.get('#estimatedPeopleImpacted').type('1000');
     cy.get('#communityImpact').type('This will impact the community');
-    cy.get('#infrastructureImpacted').type(
-      'Some infrastructure will be impacted'
-    );
+
+    cy.get('#infrastructure_0').type('This will impact the infrastructure 1', {
+      force: true,
+    });
+    cy.get('#addInfrastructure').click();
+    cy.get('#infrastructure_1').type('This will impact the infrastructure 2', {
+      force: true,
+    });
+
     cy.get('#disasterRiskUnderstanding').type('I understand the risk');
     cy.get('#additionalBackgroundInformation').type(
       'Some additional information'

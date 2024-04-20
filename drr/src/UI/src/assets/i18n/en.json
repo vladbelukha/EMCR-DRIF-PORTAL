@@ -71,6 +71,8 @@
   "proposedSolution": "Proposed Solution",
   "proposedSolutionText": "What is included in this project to address the identified risk(s) and/or hazard(s)? Include how this project aligns with DRIFs program goal.",
   "infrastructureImpacted": "Critical Infrastructure Impacted",
+  "infrastructureImpactedText": "Describe the infrastructure and impact",
+  "addInfrastructure": "Add additional infrastructure",
   "rationaleForSolution": "Rationale for Proposed Solution",
   "rationaleForSolutionText": "What type of foundational or previous work led to the proposed solution?",
   "engagementProposal": "Engagement/Planned Engagement with First Nations and/or Indigenous Organizations Prior to Full Proposal",

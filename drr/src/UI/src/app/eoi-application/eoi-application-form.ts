@@ -148,7 +148,10 @@ export class EOIApplicationForm implements DrifEoiApplication {
 
   @prop()
   @required()
-  infrastructureImpacted?: string;
+  infrastructureImpacted?: string[] = [];
+
+  @propArray(StringItem)
+  infrastructureImpactedArray?: StringItem[] = [{ value: '' }];
 
   @prop()
   @required()

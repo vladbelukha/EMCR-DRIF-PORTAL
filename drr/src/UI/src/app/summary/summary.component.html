@@ -85,6 +85,19 @@
     </div>
   </div>
 
+  <div *ngIf="arrayHasValues(eoiApplication?.partneringProponents!)">
+    <mat-label class="drr-label">{{ t("partneringProponents") }}</mat-label>
+    <div
+      class="summary-row"
+      *ngFor="let proponent of eoiApplication?.partneringProponents"
+    >
+      <div class="summary-item">
+        <mat-label class="drr-label">{{ t("proponentName") }}</mat-label>
+        <mat-label>{{ proponent }}</mat-label>
+      </div>
+    </div>
+  </div>
+
   <div class="summary-item" *ngIf="eoiApplication?.projectTitle">
     <mat-label class="drr-label">{{ t("projectTitle") }}</mat-label>
     <mat-label>{{ eoiApplication?.projectTitle }}</mat-label>
@@ -212,9 +225,12 @@
       <mat-label class="drr-label">{{ t("communityImpact") }}</mat-label>
       <mat-label>{{ eoiApplication?.communityImpact }}</mat-label>
     </div>
+
     <div class="summary-item" *ngIf="eoiApplication?.infrastructureImpacted">
       <mat-label class="drr-label">{{ t("infrastructureImpacted") }}</mat-label>
-      <mat-label>{{ eoiApplication?.infrastructureImpacted }}</mat-label>
+      <mat-label>{{
+        eoiApplication?.infrastructureImpacted?.join(", ")
+      }}</mat-label>
     </div>
     <div class="summary-item" *ngIf="eoiApplication?.disasterRiskUnderstanding">
       <mat-label class="drr-label">{{

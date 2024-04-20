@@ -32,7 +32,7 @@ export interface DrifEoiApplication {
   fundingRequest?: number;
   fundingStream?: FundingStream;
   identityConfirmation?: boolean;
-  infrastructureImpacted?: string;
+  infrastructureImpacted?: string[];
   /** @nullable */
   intendToSecureFunding?: string;
   locationDescription?: string;
