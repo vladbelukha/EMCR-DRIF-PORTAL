@@ -184,7 +184,7 @@ export class EOIApplicationForm implements DrifEoiApplication {
 
   @prop()
   @required()
-  estimatedPeopleImpacted?: string;
+  estimatedPeopleImpacted?: number;
 
   @prop()
   // TODO: investigate why this is not working
@@ -218,7 +218,7 @@ export class EOIApplicationForm implements DrifEoiApplication {
 
   @prop()
   @required()
-  cfoConfirmation?: boolean;
+  financialAwarenessConfirmation?: boolean;
 
   @prop()
   @required()

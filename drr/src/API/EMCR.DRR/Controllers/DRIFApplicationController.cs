@@ -171,7 +171,7 @@ namespace EMCR.DRR.Controllers
         SelfFunding,
 
         [Description("Other Grants")]
-        Other,
+        OtherGrants,
     }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]

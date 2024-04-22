@@ -44,7 +44,16 @@ type HttpClientOptions = {
 export class DrifapplicationService {
   constructor(
     private http: HttpClient,
-  ) {} dRIFApplicationCreateEOIApplication<TData = ApplicationResult>(
+  ) {} dRIFApplicationTest<TData = Blob>(
+     options?: HttpClientOptions
+  ): Observable<TData>  {
+    return this.http.get<TData>(
+      `/api/drifapplication`,{
+        responseType: 'blob',
+    ...options,}
+    );
+  }
+ dRIFApplicationCreateEOIApplication<TData = ApplicationResult>(
     drifEoiApplication: DrifEoiApplication, options?: HttpClientOptions
   ): Observable<TData>  {
     return this.http.post<TData>(
@@ -54,4 +63,5 @@ export class DrifapplicationService {
   }
 };
 
+export type DRIFApplicationTestClientResult = NonNullable<Blob>
 export type DRIFApplicationCreateEOIApplicationClientResult = NonNullable<ApplicationResult>

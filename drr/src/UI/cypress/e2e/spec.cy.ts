@@ -62,7 +62,7 @@ describe('EOI application happy path', () => {
     cy.get('#relatedHazards').click();
     // Select the options
     cy.get('mat-option').contains('Flood').click();
-    cy.get('mat-option').contains('Storm').click();
+    cy.get('mat-option').contains('Seismic').click();
     cy.get('mat-option').contains('Other').click();
 
     cy.get('#relatedHazards').type('{esc}');
@@ -168,6 +168,6 @@ describe('EOI application happy path', () => {
     // step 8
     cy.get('#identityConfirmation [type="checkbox"]').first().check();
     cy.get('#foippaConfirmation [type="checkbox"]').first().check();
-    cy.get('#cfoConfirmation [type="checkbox"]').first().check();
+    cy.get('#financialAwarenessConfirmation [type="checkbox"]').first().check();
   });
 });

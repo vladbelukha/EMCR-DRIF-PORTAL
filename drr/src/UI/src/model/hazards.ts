@@ -11,13 +11,11 @@ export type Hazards = typeof Hazards[keyof typeof Hazards];
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const Hazards = {
   Drought: 'Drought',
-  Erosion: 'Erosion',
   ExtremeTemperature: 'ExtremeTemperature',
   Flood: 'Flood',
   Geohazards: 'Geohazards',
   SeaLevelRise: 'SeaLevelRise',
   Seismic: 'Seismic',
-  Storm: 'Storm',
   Tsunami: 'Tsunami',
   Other: 'Other',
 } as const;

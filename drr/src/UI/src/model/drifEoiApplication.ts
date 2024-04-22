@@ -20,13 +20,14 @@ export interface DrifEoiApplication {
   /** @nullable */
   additionalSolutionInformation?: string;
   addressRisksAndHazards?: string;
-  cfoConfirmation?: boolean;
   climateAdaptation?: string;
+  communityImpact?: string;
   disasterRiskUnderstanding?: string;
   drifProgramGoalAlignment?: string;
   endDate?: string;
-  estimatedPeopleImpacted?: string;
+  estimatedPeopleImpacted?: number;
   estimatedTotal?: number;
+  financialAwarenessConfirmation?: boolean;
   firstNationsEngagement?: string;
   foippaConfirmation?: boolean;
   fundingRequest?: number;
@@ -54,8 +55,7 @@ export interface DrifEoiApplication {
   rationaleForSolution?: string;
   relatedHazards?: Hazards[];
   remainingAmount?: number;
+  scopeStatement?: string;
   startDate?: string;
   submitter?: ContactDetails;
-  scopeStatement?: string;
-  communityImpact?: string;
 }

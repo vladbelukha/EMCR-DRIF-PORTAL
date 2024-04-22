@@ -175,11 +175,11 @@
         <mat-label>{{ t(funding?.type!) }}</mat-label>
       </div>
 
-      <div *ngIf="funding?.description" class="summary-item">
+      <div *ngIf="funding?.otherDescription" class="summary-item">
         <mat-label class="drr-label">{{
           t("otherFundingSourcesDescription")
         }}</mat-label>
-        <mat-label>{{ funding?.description }}</mat-label>
+        <mat-label>{{ funding?.otherDescription }}</mat-label>
       </div>
     </div>
   </div>

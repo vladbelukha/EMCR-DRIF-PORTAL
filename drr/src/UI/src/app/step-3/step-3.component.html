@@ -58,7 +58,7 @@
             }
           </mat-select>
         </mat-form-field>
-        <mat-form-field *ngIf="otherFunding.value.type == 'Other'">
+        <mat-form-field *ngIf="otherFunding.value.type == 'OtherGrants'">
           <mat-label>{{ t("otherFundingSourcesDescription") }}</mat-label>
           <input
             id="otherFunding_description_{{ i }}"
