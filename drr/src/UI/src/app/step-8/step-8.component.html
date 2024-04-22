@@ -33,15 +33,22 @@
       {{ t("required") }}
     </mat-error>
 
-    <mat-label class="drr-label">{{ t("cfoConfirmation") }}</mat-label>
-    <mat-label> {{ t("cfoConfirmationText") }} </mat-label>
-    <mat-checkbox id="cfoConfirmation" formControlName="cfoConfirmation">
+    <mat-label class="drr-label">{{
+      t("financialAwarenessConfirmation")
+    }}</mat-label>
+    <mat-label> {{ t("financialAwarenessConfirmationText") }} </mat-label>
+    <mat-checkbox
+      id="financialAwarenessConfirmation"
+      formControlName="financialAwarenessConfirmation"
+    >
       {{ t("agree") }}
     </mat-checkbox>
     <mat-error
       *ngIf="
-        eoiApplicationForm.get('cfoConfirmation')?.touched &&
-        eoiApplicationForm.get('cfoConfirmation')?.hasError('required')
+        eoiApplicationForm.get('financialAwarenessConfirmation')?.touched &&
+        eoiApplicationForm
+          .get('financialAwarenessConfirmation')
+          ?.hasError('required')
       "
     >
       {{ t("required") }}

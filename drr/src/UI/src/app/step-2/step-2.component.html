@@ -25,6 +25,12 @@
       <input id="projectTitle" matInput formControlName="projectTitle" />
     </mat-form-field>
 
+    <mat-label class="drr-label">{{ t("scopeStatement") }}</mat-label>
+    <mat-form-field style="width: 50vw; margin-top: 10px">
+      <mat-label>{{ t("scopeStatement") }}</mat-label>
+      <input id="scopeStatement" matInput formControlName="scopeStatement" />
+    </mat-form-field>
+
     <mat-label class="drr-label">{{ t("projectType") }}</mat-label>
     <mat-radio-group
       id="projectType"
@@ -40,8 +46,8 @@
         "
         >{{ t("required") }}</mat-error
       >
-      <mat-radio-button value="New">{{ t("newProject") }}</mat-radio-button>
-      <mat-radio-button value="Existing">{{ t("existing") }}</mat-radio-button>
+      <mat-radio-button value="New">{{ t("New") }}</mat-radio-button>
+      <mat-radio-button value="Existing">{{ t("Existing") }}</mat-radio-button>
     </mat-radio-group>
     <mat-label class="drr-label">{{ t("relatedHazards") }}</mat-label>
     <mat-form-field style="width: 50vw; margin-top: 10px">
@@ -52,7 +58,7 @@
         multiple="true"
       >
         @for (option of hazardsOptions; track option) {
-        <mat-option [value]="option">{{ option }}</mat-option>
+        <mat-option [value]="option">{{ t(option) }}</mat-option>
         }
       </mat-select>
     </mat-form-field>
@@ -74,7 +80,7 @@
           [matDatepicker]="start_picker"
           formControlName="startDate"
         />
-        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-hint>YYYY-MM-DD</mat-hint>
         <mat-datepicker-toggle
           matIconSuffix
           [for]="start_picker"
@@ -89,7 +95,7 @@
           [matDatepicker]="end_picker"
           formControlName="endDate"
         />
-        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-hint>YYYY-MM-DD</mat-hint>
         <mat-datepicker-toggle
           matIconSuffix
           [for]="end_picker"

@@ -25,6 +25,8 @@ export class FundingInformationForm implements FundingInformation {
   name?: string;
   @prop()
   type?: FundingType;
+  @prop()
+  description?: string;
 
   constructor(values: FundingInformationForm) {
     Object.assign(this, values);
@@ -79,10 +81,6 @@ export class EOIApplicationForm implements DrifEoiApplication {
   @prop()
   @required()
   proponentType?: ProponentType;
-
-  @prop()
-  @required()
-  descriptionOfRisk?: string;
 
   @prop()
   @required()
@@ -150,7 +148,10 @@ export class EOIApplicationForm implements DrifEoiApplication {
 
   @prop()
   @required()
-  infrastructureImpacted?: string;
+  infrastructureImpacted?: string[] = [];
+
+  @propArray(StringItem)
+  infrastructureImpactedArray?: StringItem[] = [{ value: '' }];
 
   @prop()
   @required()
@@ -183,9 +184,13 @@ export class EOIApplicationForm implements DrifEoiApplication {
 
   @prop()
   @required()
-  estimatedPeopleImpacted?: string;
+  estimatedPeopleImpacted?: number;
 
   @prop()
+  // TODO: investigate why this is not working
+  // @required({
+  //   conditionalExpression: 'control => control.remainingAmount > 0',
+  // })
   intendToSecureFunding?: string;
 
   @prop()
@@ -213,7 +218,7 @@ export class EOIApplicationForm implements DrifEoiApplication {
 
   @prop()
   @required()
-  cfoConfirmation?: boolean;
+  financialAwarenessConfirmation?: boolean;
 
   @prop()
   @required()
@@ -225,4 +230,12 @@ export class EOIApplicationForm implements DrifEoiApplication {
 
   @prop()
   sameAsSubmitter?: boolean;
+
+  @prop()
+  @required()
+  scopeStatement?: string;
+
+  @prop()
+  @required()
+  communityImpact?: string;
 }

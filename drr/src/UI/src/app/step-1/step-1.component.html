@@ -15,13 +15,13 @@
         >{{ t("required") }}</mat-error
       >
       <mat-radio-button value="FirstNation">{{
-        t("firstNation")
+        t("FirstNation")
       }}</mat-radio-button>
       <mat-radio-button value="LocalGovernment">{{
-        t("localGovernment")
+        t("LocalGovernment")
       }}</mat-radio-button>
       <mat-radio-button value="RegionalDistrict">{{
-        t("regionalDistrict")
+        t("RegionalDistrict")
       }}</mat-radio-button>
     </mat-radio-group>
     <mat-label class="drr-label">{{ t("proponentName") }}</mat-label>
@@ -230,7 +230,7 @@
         [formGroupName]="i"
       >
         <mat-form-field style="width: 50vw; margin-top: 10px">
-          <mat-label>{{ t("proponentNameText") }}</mat-label>
+          <mat-label>{{ t("partneringProponentNameText") }}</mat-label>
           <input id="proponent_{{ i }}" matInput formControlName="value" />
         </mat-form-field>
         <button mat-mini-fab color="warn" (click)="removeProponent(i)">

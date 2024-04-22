@@ -134,7 +134,6 @@ export class EOIApplicationComponent {
 
   validateStep5() {
     this.eoiApplicationForm.get('rationaleForFunding')?.markAsDirty();
-    this.eoiApplicationForm.get('descriptionOfRisk')?.markAsDirty();
     this.eoiApplicationForm.get('estimatedPeopleImpacted')?.markAsDirty();
     this.eoiApplicationForm.get('infrastructureImpacted')?.markAsDirty();
     this.eoiApplicationForm.get('disasterRiskUnderstanding')?.markAsDirty();

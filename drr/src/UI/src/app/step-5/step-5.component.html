@@ -13,35 +13,65 @@
 
     <mat-label class="drr-label">{{ t("backgroundDescription") }}</mat-label>
     <div class="project-details-container">
-      <mat-label>{{ t("descriptionOfRisk") }}</mat-label>
-      <mat-form-field>
-        <textarea
-          id="descriptionOfRisk"
-          matInput
-          formControlName="descriptionOfRisk"
-          rows="10"
-        ></textarea>
-      </mat-form-field>
-
       <mat-label>{{ t("estimatedPeopleImpacted") }} </mat-label>
       <mat-form-field>
-        <textarea
+        <input
           id="estimatedPeopleImpacted"
           matInput
+          type="number"
           formControlName="estimatedPeopleImpacted"
+        />
+      </mat-form-field>
+
+      <mat-label>{{ t("communityImpact") }} </mat-label>
+      <mat-form-field>
+        <mat-label>{{ t("communityImpactText") }} </mat-label>
+        <textarea
+          id="communityImpact"
+          matInput
+          formControlName="communityImpact"
           rows="10"
         ></textarea>
       </mat-form-field>
 
-      <mat-label>{{ t("infrastructureImpacted") }} </mat-label>
-      <mat-form-field>
-        <textarea
-          id="infrastructureImpacted"
-          matInput
-          formControlName="infrastructureImpacted"
-          rows="10"
-        ></textarea>
-      </mat-form-field>
+      <mat-label class="drr-label"
+        >{{ t("infrastructureImpacted") }}
+      </mat-label>
+
+      <div formArrayName="infrastructureImpactedArray">
+        <div
+          class="infrastructure-container"
+          *ngFor="
+            let proponent of getFormArray('infrastructureImpactedArray')
+              .controls;
+            let i = index
+          "
+          [formGroupName]="i"
+        >
+          <mat-form-field style="width: 50vw; margin-top: 10px">
+            <mat-label>{{ t("infrastructureImpactedText") }} </mat-label>
+            <input
+              id="infrastructure_{{ i }}"
+              matInput
+              formControlName="value"
+            />
+          </mat-form-field>
+          <button mat-mini-fab color="warn" (click)="removeInfrastructure(i)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+
+        <button
+          id="addInfrastructure"
+          style="margin-top: 10px"
+          mat-stroked-button
+          color="primary"
+          (click)="addInfrastructure()"
+        >
+          <mat-icon>add</mat-icon>
+          {{ t("addInfrastructure") }}
+        </button>
+      </div>
 
       <mat-label>{{ t("disasterRiskUnderstanding") }} </mat-label>
       <mat-form-field>

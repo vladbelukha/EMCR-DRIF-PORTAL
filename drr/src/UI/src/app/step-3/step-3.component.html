@@ -28,11 +28,20 @@
       <div
         class="funding-sources-container"
         *ngFor="
-          let projectContact of getFormArray('otherFunding').controls;
+          let otherFunding of getFormArray('otherFunding').controls;
           let i = index
         "
         [formGroupName]="i"
       >
+        <mat-form-field>
+          <mat-label>{{ t("otherFundingSourcesAmount") }}</mat-label>
+          <input
+            id="otherFunding_amount_{{ i }}"
+            matInput
+            type="number"
+            formControlName="amount"
+          />
+        </mat-form-field>
         <mat-form-field>
           <mat-label>{{ t("otherFundingSourcesName") }}</mat-label>
           <input
@@ -45,17 +54,16 @@
           <mat-label>{{ t("otherFundingSourcesType") }}</mat-label>
           <mat-select id="otherFunding_type_{{ i }}" formControlName="type">
             @for (option of fundingTypeOptions; track option) {
-            <mat-option [value]="option">{{ option }}</mat-option>
+            <mat-option [value]="option">{{ t(option) }}</mat-option>
             }
           </mat-select>
         </mat-form-field>
-        <mat-form-field>
-          <mat-label>{{ t("otherFundingSourcesAmount") }}</mat-label>
+        <mat-form-field *ngIf="otherFunding.value.type == 'OtherGrants'">
+          <mat-label>{{ t("otherFundingSourcesDescription") }}</mat-label>
           <input
-            id="otherFunding_amount_{{ i }}"
+            id="otherFunding_description_{{ i }}"
             matInput
-            type="number"
-            formControlName="amount"
+            formControlName="description"
           />
         </mat-form-field>
         <button mat-mini-fab color="warn" (click)="removeOtherSource(i)">

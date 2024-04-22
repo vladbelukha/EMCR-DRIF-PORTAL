@@ -9,6 +9,23 @@ import { provideHttpClient, withFetch } from '@angular/common/http';
 import { TranslocoHttpLoader } from './transloco-loader';
 import { provideTransloco } from '@ngneat/transloco';
 import { provideHotToastConfig } from '@ngneat/hot-toast';
+import {
+  MAT_DATE_FORMATS,
+  MAT_NATIVE_DATE_FORMATS,
+  MatDateFormats,
+} from '@angular/material/core';
+
+export const DRR_DATE_FORMATS: MatDateFormats = {
+  parse: {
+    dateInput: 'yyyy-MM-dd',
+  },
+  display: {
+    dateInput: 'yyyy-MM-dd',
+    monthYearLabel: 'yyyy',
+    dateA11yLabel: 'yyyy-MM-dd',
+    monthYearA11yLabel: 'yyyy',
+  },
+};
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -17,6 +34,10 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withFetch()),
     provideAnimations(),
     provideLuxonDateAdapter(),
+    {
+      provide: MAT_DATE_FORMATS,
+      useValue: DRR_DATE_FORMATS,
+    },
     provideHotToastConfig(),
     DrifapplicationService,
     provideHttpClient(),

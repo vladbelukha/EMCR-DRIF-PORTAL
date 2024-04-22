@@ -54,6 +54,7 @@ describe('EOI application happy path', () => {
     // step 2
     cy.get('#fundingStream [type="radio"]').first().check();
     cy.get('#projectTitle').type('New Project Title');
+    cy.get('#scopeStatement').type('This is a scope statement');
     cy.get('#projectType [type="radio"]').first().check();
 
     // select few hazards
@@ -61,7 +62,7 @@ describe('EOI application happy path', () => {
     cy.get('#relatedHazards').click();
     // Select the options
     cy.get('mat-option').contains('Flood').click();
-    cy.get('mat-option').contains('Storm').click();
+    cy.get('mat-option').contains('Seismic').click();
     cy.get('mat-option').contains('Other').click();
 
     cy.get('#relatedHazards').type('{esc}');
@@ -75,7 +76,7 @@ describe('EOI application happy path', () => {
     cy.get('#next2').click();
 
     // step 3
-    cy.get('#estimatedTotal').type('150000');
+    cy.get('#estimatedTotal').type('250000');
     cy.get('#fundingRequest').type('100000');
     cy.get('#addOtherFundingButton').click();
     cy.get('#otherFunding_name_0').type('Funding Organization', {
@@ -92,9 +93,12 @@ describe('EOI application happy path', () => {
       force: true,
     });
     cy.get('#otherFunding_type_1').click();
-    cy.get('mat-option').contains('Fed').click();
+    cy.get('mat-option').contains('Other').click();
     cy.get('#otherFunding_type_1').type('{esc}');
     cy.get('#otherFunding_amount_1').type('50000');
+    cy.get('#otherFunding_description_1').type('Some description', {
+      force: true,
+    });
 
     cy.get('#intendToSecureFunding').type(
       'I will borrow some money from my aunt and uncle'
@@ -116,12 +120,18 @@ describe('EOI application happy path', () => {
     cy.get('#next4').click();
 
     // step 5
-    cy.get('#descriptionOfRisk').type('There is a risk of flood in the area');
     cy.get('#rationaleForFunding').type('I need money to build a house');
-    cy.get('#estimatedPeopleImpacted').type('1000 people will be impacted');
-    cy.get('#infrastructureImpacted').type(
-      'Some infrastructure will be impacted'
-    );
+    cy.get('#estimatedPeopleImpacted').type('1000');
+    cy.get('#communityImpact').type('This will impact the community');
+
+    cy.get('#infrastructure_0').type('This will impact the infrastructure 1', {
+      force: true,
+    });
+    cy.get('#addInfrastructure').click();
+    cy.get('#infrastructure_1').type('This will impact the infrastructure 2', {
+      force: true,
+    });
+
     cy.get('#disasterRiskUnderstanding').type('I understand the risk');
     cy.get('#additionalBackgroundInformation').type(
       'Some additional information'
@@ -158,6 +168,6 @@ describe('EOI application happy path', () => {
     // step 8
     cy.get('#identityConfirmation [type="checkbox"]').first().check();
     cy.get('#foippaConfirmation [type="checkbox"]').first().check();
-    cy.get('#cfoConfirmation [type="checkbox"]').first().check();
+    cy.get('#financialAwarenessConfirmation [type="checkbox"]').first().check();
   });
 });

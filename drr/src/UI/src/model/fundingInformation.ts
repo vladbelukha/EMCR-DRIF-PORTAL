@@ -9,5 +9,7 @@ import type { FundingType } from './fundingType';
 export interface FundingInformation {
   amount?: number;
   name?: string;
+  /** @nullable */
+  otherDescription?: string;
   type?: FundingType;
 }
