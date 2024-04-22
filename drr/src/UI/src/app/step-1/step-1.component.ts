@@ -18,12 +18,14 @@ import {
 import {
   IFormGroup,
   RxFormBuilder,
+  RxFormControl,
   RxFormGroup,
 } from '@rxweb/reactive-form-validators';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { TranslocoModule } from '@ngneat/transloco';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { DrrInputComponent } from '../drr-input/drr-input.component';
 
 @Component({
   selector: 'drr-step-1',
@@ -40,6 +42,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatButtonModule,
     MatCheckboxModule,
     TranslocoModule,
+    DrrInputComponent,
   ],
   templateUrl: './step-1.component.html',
   styleUrl: './step-1.component.scss',
@@ -62,6 +65,26 @@ export class Step1Component {
 
   getFormArray(formArrayName: string) {
     return this.eoiApplicationForm.get(formArrayName) as FormArray;
+  }
+
+  getFormControl(name: string): RxFormControl {
+    return this.eoiApplicationForm.get(name) as RxFormControl;
+  }
+
+  getGroupFormControl(controlName: string, groupName: string): RxFormControl {
+    return this.eoiApplicationForm
+      .get(groupName)
+      ?.get(controlName) as RxFormControl;
+  }
+
+  getArrayFormControl(
+    controlName: string,
+    arrayName: string,
+    index: number
+  ): RxFormControl {
+    return this.getFormArray(arrayName)?.controls[index]?.get(
+      controlName
+    ) as RxFormControl;
   }
 
   addAdditionalContact() {

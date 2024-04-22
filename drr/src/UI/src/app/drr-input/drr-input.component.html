@@ -1,12 +1,11 @@
-<mat-form-field class="drr-textarea">
-  <mat-label> {{ label }}</mat-label>
-  <textarea
+<mat-form-field class="drr-input">
+  <mat-label>{{ label }}</mat-label>
+  <input
     id="{{ id }}"
     matInput
     [formControl]="rxFormControl"
     [maxlength]="maxlength"
-    [rows]="rows"
-  ></textarea>
+  />
   <mat-hint *ngIf="maxlength" align="end"
     >{{ getCount() }} / {{ maxlength }}</mat-hint
   >

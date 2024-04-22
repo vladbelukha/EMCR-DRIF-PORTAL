@@ -45,10 +45,45 @@
     </div>
   </div>
 
-  <div *ngIf="arrayHasValues(eoiApplication?.additionalContacts!)">
+  <div *ngIf="objectHasValues(eoiApplication?.projectContact)">
     <mat-label class="drr-label">{{
       t("projectContactInformation")
     }}</mat-label>
+    <div class="summary-row">
+      <div class="summary-item">
+        <mat-label class="drr-label">{{ t("firstName") }}</mat-label>
+        <mat-label>{{ eoiApplication?.projectContact?.firstName }}</mat-label>
+      </div>
+
+      <div class="summary-item">
+        <mat-label class="drr-label">{{ t("lastName") }}</mat-label>
+        <mat-label>{{ eoiApplication?.projectContact?.lastName }}</mat-label>
+      </div>
+
+      <div class="summary-item">
+        <mat-label class="drr-label">{{ t("title") }}</mat-label>
+        <mat-label>{{ eoiApplication?.projectContact?.title }}</mat-label>
+      </div>
+
+      <div class="summary-item">
+        <mat-label class="drr-label">{{ t("department") }}</mat-label>
+        <mat-label>{{ eoiApplication?.projectContact?.department }}</mat-label>
+      </div>
+
+      <div class="summary-item">
+        <mat-label class="drr-label">{{ t("phone") }}</mat-label>
+        <mat-label>{{ eoiApplication?.projectContact?.phone }}</mat-label>
+      </div>
+
+      <div class="summary-item">
+        <mat-label class="drr-label">{{ t("email") }}</mat-label>
+        <mat-label>{{ eoiApplication?.projectContact?.email }}</mat-label>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="arrayHasValues(eoiApplication?.additionalContacts!)">
+    <mat-label class="drr-label">{{ t("additionalContacts") }}</mat-label>
     <div
       class="summary-row"
       *ngFor="let projectContact of eoiApplication?.additionalContacts"
