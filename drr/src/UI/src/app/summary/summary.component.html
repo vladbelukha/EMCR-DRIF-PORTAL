@@ -130,12 +130,12 @@
 
   <div class="summary-item" *ngIf="eoiApplication?.startDate">
     <mat-label class="drr-label">{{ t("startDate") }}</mat-label>
-    <mat-label>{{ eoiApplication?.startDate | date : "mediumDate" }}</mat-label>
+    <mat-label>{{ eoiApplication?.startDate | date : "YYYY-MM-dd" }}</mat-label>
   </div>
 
   <div class="summary-item" *ngIf="eoiApplication?.endDate">
     <mat-label class="drr-label">{{ t("endDate") }}</mat-label>
-    <mat-label>{{ eoiApplication?.endDate | date : "mediumDate" }}</mat-label>
+    <mat-label>{{ eoiApplication?.endDate | date : "YYYY-MM-dd" }}</mat-label>
   </div>
 
   <div class="summary-item" *ngIf="eoiApplication?.estimatedTotal">

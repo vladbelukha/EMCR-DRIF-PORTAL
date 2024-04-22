@@ -14,5 +14,5 @@ export const FundingType = {
   FedProv: 'FedProv',
   Prov: 'Prov',
   SelfFunding: 'SelfFunding',
-  Other: 'Other',
+  OtherGrants: 'OtherGrants',
 } as const;
