@@ -48,11 +48,11 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
                 FundingStream = EMCR.DRR.Controllers.FundingStream.Stream1,
                 ProjectTitle = $"{uniqueSignature}_projectTitle",
                 ProjectType = EMCR.DRR.Controllers.ProjectType.New,
+                ScopeStatement = "scope",
                 RelatedHazards = new[]
                 {
                     EMCR.DRR.Controllers.Hazards.Flood,
                     EMCR.DRR.Controllers.Hazards.Tsunami,
-                    EMCR.DRR.Controllers.Hazards.Erosion,
                     EMCR.DRR.Controllers.Hazards.Other
                 },
                 OtherHazardsDescription = "Other Description",
@@ -87,9 +87,9 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
 
                 //Project Detail
                 RationaleForFunding = "rationale for funding",
-                DescriptionOfRisk = "description of risk",
-                EstimatedPeopleImpacted = "many people",
-                InfrastructureImpacted = "much infrastructure",
+                EstimatedPeopleImpacted = 5,
+                CommunityImpact = "community impact",
+                InfrastructureImpacted = new[] { "much infrastructure" },
                 DisasterRiskUnderstanding = "helps many people",
                 AdditionalBackgroundInformation = "additional background info",
                 AddressRisksAndHazards = "fix risks",
@@ -107,7 +107,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
                 OtherInformation = "Other Info",
 
                 //Declaration
-                CFOConfirmation = true,
+                FinancialAwarenessConfirmation = true,
                 FOIPPAConfirmation = true,
                 IdentityConfirmation = true
             };

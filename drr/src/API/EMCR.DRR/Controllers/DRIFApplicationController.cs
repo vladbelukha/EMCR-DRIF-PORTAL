@@ -55,6 +55,7 @@ namespace EMCR.DRR.Controllers
         public required FundingStream FundingStream { get; set; }
         public required string ProjectTitle { get; set; }
         public ProjectType ProjectType { get; set; }
+        public required string ScopeStatement { get; set; }
         public required IEnumerable<Hazards> RelatedHazards { get; set; }
         public string? OtherHazardsDescription { get; set; }
         public required DateTime StartDate { get; set; }
@@ -74,9 +75,9 @@ namespace EMCR.DRR.Controllers
 
         //Project Detail
         public required string RationaleForFunding { get; set; }
-        public required string DescriptionOfRisk { get; set; }
-        public required string EstimatedPeopleImpacted { get; set; }
-        public required string InfrastructureImpacted { get; set; }
+        public required int EstimatedPeopleImpacted { get; set; }
+        public required string CommunityImpact { get; set; }
+        public required IEnumerable<string> InfrastructureImpacted { get; set; }
         public required string DisasterRiskUnderstanding { get; set; }
         public string? AdditionalBackgroundInformation { get; set; }
         public required string AddressRisksAndHazards { get; set; }
@@ -97,7 +98,7 @@ namespace EMCR.DRR.Controllers
         //Declaration
         public required bool IdentityConfirmation { get; set; }
         public required bool FOIPPAConfirmation { get; set; }
-        public required bool CFOConfirmation { get; set; }
+        public required bool FinancialAwarenessConfirmation { get; set; }
     }
 
     public class FundingInformation
@@ -105,6 +106,7 @@ namespace EMCR.DRR.Controllers
         public required string Name { get; set; }
         public required FundingType Type { get; set; }
         public required decimal Amount { get; set; }
+        public string? OtherDescription { get; set; }
 
     }
 
@@ -156,16 +158,16 @@ namespace EMCR.DRR.Controllers
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum FundingType
     {
-        [Description("Fed")]
+        [Description("Federal")]
         Fed,
 
-        [Description("Fed/prov")]
+        [Description("Federal/Provincial")]
         FedProv,
 
-        [Description("Prov")]
+        [Description("Provincial")]
         Prov,
 
-        [Description("Self Funding")]
+        [Description("Self-funded")]
         SelfFunding,
 
         [Description("Other Grants")]
@@ -177,9 +179,6 @@ namespace EMCR.DRR.Controllers
     {
         [Description("Drought and water scarcity")]
         Drought,
-
-        [Description("Erosion")]
-        Erosion,
 
         [Description("Extreme Temperature")]
         ExtremeTemperature,
@@ -195,9 +194,6 @@ namespace EMCR.DRR.Controllers
 
         [Description("Seismic")]
         Seismic,
-
-        [Description("Storm")]
-        Storm,
 
         [Description("Tsunami")]
         Tsunami,
