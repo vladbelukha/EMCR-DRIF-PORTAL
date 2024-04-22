@@ -93,13 +93,12 @@
         placeholder="$"
       />
     </mat-form-field>
-    <mat-form-field>
-      <mat-label>{{ t("intendToSecureFunding") }}</mat-label>
-      <textarea
-        id="intendToSecureFunding"
-        matInput
-        formControlName="intendToSecureFunding"
-      ></textarea>
-    </mat-form-field>
+
+    <drr-textarea
+      [id]="'intendToSecureFunding'"
+      [label]="t('intendToSecureFunding')"
+      [maxlength]="2000"
+      [rxFormControl]="getFormControl('intendToSecureFunding')"
+    ></drr-textarea>
   </form>
 </div>

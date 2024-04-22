@@ -12,6 +12,7 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import {
   FormArray,
+  FormControl,
   FormsModule,
   ReactiveFormsModule,
   Validators,
@@ -23,6 +24,7 @@ import { distinctUntilChanged } from 'rxjs';
 import { FundingType } from '../../model';
 import { MatSelectModule } from '@angular/material/select';
 import { TranslocoModule } from '@ngneat/transloco';
+import { DrrTextareaComponent } from '../drr-datepicker/drr-textarea.component';
 
 @Component({
   selector: 'drr-step-3',
@@ -37,6 +39,7 @@ import { TranslocoModule } from '@ngneat/transloco';
     MatIconModule,
     MatSelectModule,
     TranslocoModule,
+    DrrTextareaComponent,
   ],
   templateUrl: './step-3.component.html',
   styleUrl: './step-3.component.scss',
@@ -104,5 +107,9 @@ export class Step3Component {
 
   removeOtherSource(index: number) {
     this.getFormArray('otherFunding').removeAt(index);
+  }
+
+  getFormControl(name: string): FormControl {
+    return this.eoiApplicationForm.get(name) as FormControl;
   }
 }

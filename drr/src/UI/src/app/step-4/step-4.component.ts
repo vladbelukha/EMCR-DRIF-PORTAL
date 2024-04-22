@@ -33,13 +33,6 @@ export class Step4Component {
   @Input()
   eoiApplicationForm!: IFormGroup<EOIApplicationForm>;
 
-  locationDescriptionMax = 500;
-
-  // TODO: make a textarea component
-  getCount() {
-    return this.eoiApplicationForm.value.locationDescription?.length ?? 0;
-  }
-
   getFormControl(name: string): FormControl {
     return this.eoiApplicationForm.get(name) as FormControl;
   }

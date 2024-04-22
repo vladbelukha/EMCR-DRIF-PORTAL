@@ -24,6 +24,7 @@ export class DrrTextareaComponent {
   @Input() label = '';
   @Input() id = '';
   @Input() maxlength = 0;
+  @Input() rows = 3;
 
   private _formControl = this.formBuilder.control('', []) as RxFormControl;
   @Input()

@@ -17,21 +17,22 @@
     <mat-radio-button [value]="true">Yes</mat-radio-button>
     <mat-radio-button [value]="false">No</mat-radio-button>
   </mat-radio-group>
-  <mat-form-field style="margin-left: 20px">
-    <mat-label> {{ t("ownershipDescription") }}</mat-label>
-    <textarea
-      id="ownershipDescription"
-      matInput
-      [formControl]="getFormControl('ownershipDescription')"
-    ></textarea>
-  </mat-form-field>
+
+  <drr-textarea
+    style="margin-left: 20px"
+    [id]="'ownershipDescription'"
+    [label]="t('ownershipDescription')"
+    [maxlength]="2000"
+    [rxFormControl]="getFormControl('ownershipDescription')"
+  ></drr-textarea>
+
   <mat-label class="drr-label" style="margin-bottom: 10px">{{
     t("locationDescription")
   }}</mat-label>
   <drr-textarea
     [id]="'locationDescription'"
     [label]="t('locationDescription')"
-    [maxlength]="locationDescriptionMax"
+    [maxlength]="2000"
     [rxFormControl]="getFormControl('locationDescription')"
   ></drr-textarea>
 </div>

@@ -5,6 +5,7 @@
     matInput
     [formControl]="rxFormControl"
     [maxlength]="maxlength"
+    [rows]="rows"
   ></textarea>
   <mat-hint *ngIf="maxlength" align="end"
     >{{ getCount() }} / {{ maxlength }}</mat-hint

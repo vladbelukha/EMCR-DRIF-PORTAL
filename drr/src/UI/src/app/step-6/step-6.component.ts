@@ -2,11 +2,12 @@ import { Component, Input } from '@angular/core';
 import { IFormGroup } from '@rxweb/reactive-form-validators';
 import { EOIApplicationForm } from '../eoi-application/eoi-application-form';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { TranslocoModule } from '@ngneat/transloco';
+import { DrrTextareaComponent } from '../drr-datepicker/drr-textarea.component';
 
 @Component({
   selector: 'drr-step-6',
@@ -19,6 +20,7 @@ import { TranslocoModule } from '@ngneat/transloco';
     MatFormFieldModule,
     MatInputModule,
     TranslocoModule,
+    DrrTextareaComponent,
   ],
   templateUrl: './step-6.component.html',
   styleUrl: './step-6.component.scss',
@@ -26,4 +28,8 @@ import { TranslocoModule } from '@ngneat/transloco';
 export class Step6Component {
   @Input()
   eoiApplicationForm!: IFormGroup<EOIApplicationForm>;
+
+  getFormControl(name: string): FormControl {
+    return this.eoiApplicationForm.get(name) as FormControl;
+  }
 }
