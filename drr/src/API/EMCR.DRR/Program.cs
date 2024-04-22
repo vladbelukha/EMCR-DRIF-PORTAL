@@ -23,6 +23,14 @@ builder.Services.AddIntakeManager();
 builder.Services.AddRepositories();
 builder.Services.AddAutoMapper(typeof(ApplicationMapperProfile));
 builder.Services.AddAutoMapper(typeof(IntakeMapperProfile));
+builder.Services.AddCors(opts => opts.AddDefaultPolicy(policy =>
+{
+    policy.AllowAnyHeader();
+    policy.AllowAnyMethod();
+    policy.AllowAnyOrigin();
+
+    //policy.WithOrigins("https://dev-drr-emcr.silver.devops.bcgov");
+}));
 builder.Services.AddCache(string.Empty)
     .AddDRRDynamics(builder.Configuration);
 
@@ -74,9 +82,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseCors();
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();

@@ -196,6 +196,9 @@ objects:
           restartPolicy: Always
           schedulerName: default-scheduler
           securityContext: {}
+          ports:
+            - containerPort: 8080
+              protocol: TCP
           terminationGracePeriodSeconds: 30
           volumes:
             - name: dp-keys
@@ -249,7 +252,7 @@ objects:
                 allowPrivilegeEscalation: true
               env:
                 - name: API_URL
-                  value: ${ENV}-drr-api:8080
+                  value: 'http://${ENV}-drr-api:8080'
               image: docker-registry.default.svc:5000/${NAMESPACE_PREFIX}-tools/drr-ui:${TAG}
               imagePullPolicy: Always
               ports:
