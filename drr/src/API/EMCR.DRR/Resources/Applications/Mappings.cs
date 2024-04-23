@@ -52,6 +52,7 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.drr_financialawarenessstatement, opt => opt.MapFrom(src => src.FinancialAwarenessConfirmation ? DRRTwoOptions.Yes : DRRTwoOptions.No))
                 .ReverseMap()
                 .ValidateMemberList(MemberList.Destination)
+                //These are incomplete - but they've really just been for testing...
                 .ForMember(dest => dest.ProponentName, opt => opt.MapFrom(src => src.drr_name))
                 //.ForMember(dest => dest.Submitter, opt => opt.MapFrom(src => src.drr_SubmitterContact))
                 //.ForMember(dest => dest.ProjectContact, opt => opt.MapFrom(src => src.drr_application_contact_Application.FirstOrDefault()))
@@ -78,7 +79,6 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.IdentityConfirmation, opt => opt.MapFrom(src => src.drr_identityconfirmation == (int)DRRTwoOptions.Yes))
                 .ForMember(dest => dest.FOIPPAConfirmation, opt => opt.MapFrom(src => src.drr_foippaconfirmation == (int)DRRTwoOptions.Yes))
                 .ForMember(dest => dest.FinancialAwarenessConfirmation, opt => opt.MapFrom(src => src.drr_financialawarenessstatement == (int)DRRTwoOptions.Yes))
-
             ;
 
             CreateMap<FundingInformation, drr_fundingsource>()
