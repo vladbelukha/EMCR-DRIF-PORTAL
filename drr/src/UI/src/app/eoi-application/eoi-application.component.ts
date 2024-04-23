@@ -111,10 +111,11 @@ export class EOIApplicationComponent {
 
   validateStep1() {
     this.eoiApplicationForm.get('proponentType')?.markAsTouched();
-    this.eoiApplicationForm.get('proponentName')?.markAsDirty();
-    this.eoiApplicationForm.get('submitter')?.markAsDirty();
-    this.eoiApplicationForm.get('projectContact')?.markAsDirty();
-    this.eoiApplicationForm.get('additionalContacts')?.markAsDirty();
+    this.eoiApplicationForm.get('proponentName')?.markAsTouched();
+    this.eoiApplicationForm.get('submitter')?.markAllAsTouched();
+    this.eoiApplicationForm.get('projectContact')?.markAllAsTouched();
+    this.eoiApplicationForm.get('additionalContacts')?.markAllAsTouched();
+    this.eoiApplicationForm.get('partneringProponents')?.markAllAsTouched();
 
     if (
       this.eoiApplicationForm.get('proponentType')?.valid &&
@@ -127,11 +128,25 @@ export class EOIApplicationComponent {
   }
 
   validateStep2() {
-    this.eoiApplicationForm.get('projectTitle')?.markAsDirty();
-    this.eoiApplicationForm.get('projectType')?.markAsDirty();
-    this.eoiApplicationForm.get('relatedHazards')?.markAsDirty();
-    this.eoiApplicationForm.get('startDate')?.markAsDirty();
-    this.eoiApplicationForm.get('endDate')?.markAsDirty();
+    this.eoiApplicationForm.get('fundingStream')?.markAsTouched();
+    this.eoiApplicationForm.get('projectTitle')?.markAsTouched();
+    this.eoiApplicationForm.get('scopeStatement')?.markAsTouched();
+    this.eoiApplicationForm.get('projectType')?.markAsTouched();
+    this.eoiApplicationForm.get('relatedHazards')?.markAsTouched();
+    this.eoiApplicationForm.get('startDate')?.markAsTouched();
+    this.eoiApplicationForm.get('endDate')?.markAsTouched();
+
+    if (
+      this.eoiApplicationForm.get('fundingStream')?.valid &&
+      this.eoiApplicationForm.get('projectTitle')?.valid &&
+      this.eoiApplicationForm.get('scopeStatement')?.valid &&
+      this.eoiApplicationForm.get('projectType')?.valid &&
+      this.eoiApplicationForm.get('relatedHazards')?.valid &&
+      this.eoiApplicationForm.get('startDate')?.valid &&
+      this.eoiApplicationForm.get('endDate')?.valid
+    ) {
+      this.stepper?.next();
+    }
   }
 
   validateStep3() {
