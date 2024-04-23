@@ -166,27 +166,54 @@ export class EOIApplicationComponent {
   }
 
   validateStep4() {
-    this.eoiApplicationForm.get('ownershipDeclaration')?.markAsDirty();
-    this.eoiApplicationForm.get('locationDescription')?.markAsDirty();
+    this.eoiApplicationForm.get('ownershipDeclaration')?.markAsTouched();
+    this.eoiApplicationForm.get('ownershipDescription')?.markAsTouched();
+    this.eoiApplicationForm.get('locationDescription')?.markAsTouched();
+
+    if (
+      this.eoiApplicationForm.get('ownershipDeclaration')?.valid &&
+      this.eoiApplicationForm.get('locationDescription')?.valid
+    ) {
+      this.stepper?.next();
+    }
   }
 
   validateStep5() {
-    this.eoiApplicationForm.get('rationaleForFunding')?.markAsDirty();
-    this.eoiApplicationForm.get('estimatedPeopleImpacted')?.markAsDirty();
-    this.eoiApplicationForm.get('infrastructureImpacted')?.markAsDirty();
-    this.eoiApplicationForm.get('disasterRiskUnderstanding')?.markAsDirty();
-    this.eoiApplicationForm.get('addressRisksAndHazards')?.markAsDirty();
-    this.eoiApplicationForm.get('drifProgramGoalAlignment')?.markAsDirty();
-    this.eoiApplicationForm.get('additionalSolutionInformation')?.markAsDirty();
-    this.eoiApplicationForm.get('rationaleForSolution')?.markAsDirty();
+    this.eoiApplicationForm.get('rationaleForFunding')?.markAsTouched();
+    this.eoiApplicationForm.get('estimatedPeopleImpacted')?.markAsTouched();
+    this.eoiApplicationForm.get('communityImpact')?.markAsTouched();
+    this.eoiApplicationForm.get('infrastructureImpactedArray')?.markAsTouched();
+    this.eoiApplicationForm.get('disasterRiskUnderstanding')?.markAsTouched();
+    this.eoiApplicationForm
+      .get('additionalBackgroundInformation')
+      ?.markAsTouched();
+    this.eoiApplicationForm.get('addressRisksAndHazards')?.markAsTouched();
+    this.eoiApplicationForm.get('drifProgramGoalAlignment')?.markAsTouched();
+    this.eoiApplicationForm
+      .get('additionalSolutionInformation')
+      ?.markAsTouched();
+    this.eoiApplicationForm.get('rationaleForSolution')?.markAsTouched();
+
+    if (
+      this.eoiApplicationForm.get('rationaleForFunding')?.valid &&
+      this.eoiApplicationForm.get('estimatedPeopleImpacted')?.valid &&
+      this.eoiApplicationForm.get('communityImpact')?.valid &&
+      this.eoiApplicationForm.get('infrastructureImpactedArray')?.valid &&
+      this.eoiApplicationForm.get('disasterRiskUnderstanding')?.valid &&
+      this.eoiApplicationForm.get('addressRisksAndHazards')?.valid &&
+      this.eoiApplicationForm.get('drifProgramGoalAlignment')?.valid &&
+      this.eoiApplicationForm.get('rationaleForSolution')?.valid
+    ) {
+      this.stepper?.next();
+    }
   }
 
   validateStep6() {
-    this.eoiApplicationForm.get('otherFunding')?.markAsDirty();
+    this.eoiApplicationForm.get('otherFunding')?.markAsTouched();
   }
 
   validateStep7() {
-    this.eoiApplicationForm.get('climateAdaptation')?.markAsDirty();
+    this.eoiApplicationForm.get('climateAdaptation')?.markAsTouched();
   }
 
   validateStep8() {
