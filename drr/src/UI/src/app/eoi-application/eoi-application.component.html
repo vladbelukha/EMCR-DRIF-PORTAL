@@ -3,7 +3,7 @@
 
   <mat-stepper
     class="app-stepper"
-    [linear]="false"
+    [linear]="true"
     labelPosition="bottom"
     #stepper
   >
@@ -14,7 +14,6 @@
           id="next1"
           mat-flat-button
           color="primary"
-          matStepperNext
           (click)="validateStep1()"
         >
           {{ t("next") }}
@@ -31,7 +30,6 @@
           id="next2"
           mat-flat-button
           color="primary"
-          matStepperNext
           (click)="validateStep2()"
         >
           {{ t("next") }}
@@ -48,7 +46,6 @@
           id="next3"
           mat-flat-button
           color="primary"
-          matStepperNext
           (click)="validateStep3()"
         >
           {{ t("next") }}
@@ -65,7 +62,6 @@
           id="next4"
           mat-flat-button
           color="primary"
-          matStepperNext
           (click)="validateStep4()"
         >
           {{ t("next") }}
@@ -82,7 +78,6 @@
           id="next5"
           mat-flat-button
           color="primary"
-          matStepperNext
           (click)="validateStep5()"
         >
           {{ t("next") }}
@@ -99,7 +94,6 @@
           id="next6"
           mat-flat-button
           color="primary"
-          matStepperNext
           (click)="validateStep6()"
         >
           {{ t("next") }}
@@ -116,7 +110,6 @@
           id="next7"
           mat-flat-button
           color="primary"
-          matStepperNext
           (click)="validateStep7()"
         >
           {{ t("next") }}

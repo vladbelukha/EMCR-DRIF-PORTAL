@@ -1,11 +1,10 @@
 import {
-  disable,
   email,
-  minLength,
   prop,
   propArray,
   propObject,
   required,
+  requiredTrue,
 } from '@rxweb/reactive-form-validators';
 import {
   ProponentType,
@@ -187,10 +186,9 @@ export class EOIApplicationForm implements DrifEoiApplication {
   estimatedPeopleImpacted?: number;
 
   @prop()
-  // TODO: investigate why this is not working
-  // @required({
-  //   conditionalExpression: 'control => control.remainingAmount > 0',
-  // })
+  @required({
+    conditionalExpression: 'x => x.remainingAmount > 0',
+  })
   intendToSecureFunding?: string;
 
   @prop()
@@ -201,9 +199,11 @@ export class EOIApplicationForm implements DrifEoiApplication {
   @required()
   startDate?: string;
 
+  @required()
   @propObject(ContactDetailsForm)
   submitter?: ContactDetailsForm = new ContactDetailsForm({});
 
+  @required()
   @propObject(ContactDetailsForm)
   projectContact?: ContactDetailsForm = new ContactDetailsForm({});
 
@@ -218,14 +218,17 @@ export class EOIApplicationForm implements DrifEoiApplication {
 
   @prop()
   @required()
+  @requiredTrue()
   financialAwarenessConfirmation?: boolean;
 
   @prop()
   @required()
+  @requiredTrue()
   foippaConfirmation?: boolean;
 
   @prop()
   @required()
+  @requiredTrue()
   identityConfirmation?: boolean;
 
   @prop()
