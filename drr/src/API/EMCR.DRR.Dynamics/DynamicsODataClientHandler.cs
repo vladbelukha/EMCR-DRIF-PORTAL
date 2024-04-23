@@ -22,7 +22,7 @@ namespace EMCR.DRR.Dynamics
         {
             authToken = tokenProvider.AcquireToken().ConfigureAwait(false).GetAwaiter().GetResult();
             var client = args.ODataClient;
-            client.SaveChangesDefaultOptions = SaveChangesOptions.BatchWithSingleChangeset;
+            //client.SaveChangesDefaultOptions = SaveChangesOptions.BatchWithSingleChangeset;
             client.EntityParameterSendOption = EntityParameterSendOption.SendOnlySetProperties;
             client.Configurations.RequestPipeline.OnEntryStarting((arg) =>
             {
