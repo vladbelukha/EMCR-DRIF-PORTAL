@@ -2,6 +2,7 @@
 using System.Net.Mime;
 using System.Text.Json.Serialization;
 using EMCR.DRR.Managers.Intake;
+using EMCR.DRR.Resources.Applications;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EMCR.DRR.Controllers
@@ -14,18 +15,21 @@ namespace EMCR.DRR.Controllers
     {
         private readonly ILogger<DRIFApplicationController> logger;
         private readonly IIntakeManager intakeManager;
+        private readonly IApplicationRepository applicationRepository;
 
 
-        public DRIFApplicationController(ILogger<DRIFApplicationController> logger, IIntakeManager intakeManager)
+        public DRIFApplicationController(ILogger<DRIFApplicationController> logger, IIntakeManager intakeManager, IApplicationRepository applicationRepository)
         {
             this.logger = logger;
             this.intakeManager = intakeManager;
+            this.applicationRepository = applicationRepository;
         }
 
         [HttpGet]
-        public ActionResult Test()
+        public async Task<ActionResult<int>> Test()
         {
-            return Ok("success");
+            var applications = (await applicationRepository.Query(new ApplicationsQuery { })).Items;
+            return Ok(new { count = applications.Count() });
         }
 
         [HttpPost("EOI")]
