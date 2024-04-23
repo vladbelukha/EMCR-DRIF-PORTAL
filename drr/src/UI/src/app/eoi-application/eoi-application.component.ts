@@ -1,6 +1,6 @@
-import { Component, inject, isDevMode } from '@angular/core';
+import { Component, ViewChild, inject, isDevMode } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatStepperModule } from '@angular/material/stepper';
+import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -103,16 +103,27 @@ export class EOIApplicationComponent {
     EOIApplicationForm
   ) as IFormGroup<EOIApplicationForm>;
 
+  @ViewChild('stepper') stepper: MatStepper | undefined;
+
   getFormArray(formArrayName: string) {
     return this.eoiApplicationForm?.get(formArrayName) as FormArray;
   }
 
   validateStep1() {
-    this.eoiApplicationForm.get('proponentType')?.markAsDirty();
-    this.eoiApplicationForm.get('projectTitle')?.markAsDirty();
+    this.eoiApplicationForm.get('proponentType')?.markAsTouched();
+    this.eoiApplicationForm.get('proponentName')?.markAsDirty();
     this.eoiApplicationForm.get('submitter')?.markAsDirty();
     this.eoiApplicationForm.get('projectContact')?.markAsDirty();
     this.eoiApplicationForm.get('additionalContacts')?.markAsDirty();
+
+    if (
+      this.eoiApplicationForm.get('proponentType')?.valid &&
+      this.eoiApplicationForm.get('proponentName')?.valid &&
+      this.eoiApplicationForm.get('submitter')?.valid &&
+      this.eoiApplicationForm.get('projectContact')?.valid
+    ) {
+      this.stepper?.next();
+    }
   }
 
   validateStep2() {

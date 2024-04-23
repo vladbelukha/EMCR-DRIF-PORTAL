@@ -201,9 +201,11 @@ export class EOIApplicationForm implements DrifEoiApplication {
   @required()
   startDate?: string;
 
+  @required()
   @propObject(ContactDetailsForm)
   submitter?: ContactDetailsForm = new ContactDetailsForm({});
 
+  @required()
   @propObject(ContactDetailsForm)
   projectContact?: ContactDetailsForm = new ContactDetailsForm({});
 

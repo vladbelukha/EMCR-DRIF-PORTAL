@@ -26,6 +26,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { TranslocoModule } from '@ngneat/transloco';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { DrrInputComponent } from '../drr-input/drr-input.component';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'drr-step-1',
@@ -106,11 +107,19 @@ export class Step1Component {
       'projectContact'
     ) as RxFormGroup;
 
+    let submitterSub: Subscription | undefined;
+
     if (sameAsSubmitter) {
       const submitter = this.eoiApplicationForm.get('submitter')?.value;
       projectContact.patchValue(submitter);
+      submitterSub = this.eoiApplicationForm
+        .get('submitter')
+        ?.valueChanges.subscribe((submitter) => {
+          projectContact.patchValue(submitter);
+        });
     } else {
       projectContact.reset();
+      submitterSub?.unsubscribe();
     }
   }
 
