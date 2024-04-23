@@ -42,6 +42,12 @@ namespace EMCR.DRR.Resources.Applications
         RegionalDistrict = 172580002
     }
 
+    public enum FundingStreamOptionSet
+    {
+        Stream1 = 172580000,
+        Stream2 = 172580001
+    }
+
     public enum ProjectTypeOptionSet
     {
         New = 172580000,

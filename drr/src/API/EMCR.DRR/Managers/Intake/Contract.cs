@@ -25,13 +25,15 @@ namespace EMCR.DRR.Managers.Intake
         public required string ProponentName { get; set; }
         public required ContactDetails Submitter { get; set; }
         public required ContactDetails ProjectContact { get; set; }
-        public required IEnumerable<ContactDetails> AdditionalContacts { get; set; }
-        public required IEnumerable<string> PartneringProponents { get; set; }
+        public ContactDetails? AdditionalContact1 { get; set; }
+        public ContactDetails? AdditionalContact2 { get; set; }
+        public required IEnumerable<PartneringProponent> PartneringProponents { get; set; }
 
         //Project Information
         public required FundingStream FundingStream { get; set; }
         public required string ProjectTitle { get; set; }
         public ProjectType ProjectType { get; set; }
+        public required string ScopeStatement { get; set; }
         public required IEnumerable<Hazards> RelatedHazards { get; set; }
         public string? OtherHazardsDescription { get; set; }
         public required DateTime StartDate { get; set; }
@@ -51,30 +53,30 @@ namespace EMCR.DRR.Managers.Intake
 
         //Project Detail
         public required string RationaleForFunding { get; set; }
-        public required string DescriptionOfRisk { get; set; }
-        public required string EstimatedPeopleImpacted { get; set; }
-        public required string InfrastructureImpacted { get; set; }
+        public required int EstimatedPeopleImpacted { get; set; }
+        public required string CommunityImpact { get; set; }
+        public required IEnumerable<string> InfrastructureImpacted { get; set; }
         public required string DisasterRiskUnderstanding { get; set; }
-        public required string AdditionalBackgroundInformation { get; set; }
+        public string? AdditionalBackgroundInformation { get; set; }
         public required string AddressRisksAndHazards { get; set; }
         public required string DRIFProgramGoalAlignment { get; set; }
-        public required string AdditionalSolutionInformation { get; set; }
+        public string? AdditionalSolutionInformation { get; set; }
         public required string RationaleForSolution { get; set; }
 
         //Engagement Plan
         public required string FirstNationsEngagement { get; set; }
         public required string NeighbourEngagement { get; set; }
-        public required string AdditionalEngagementInformation { get; set; }
+        public string? AdditionalEngagementInformation { get; set; }
 
         //Other Supporting Information
         public required string ClimateAdaptation { get; set; }
-        public required string OtherInformation { get; set; }
+        public string? OtherInformation { get; set; }
 
 
         //Declaration
         public required bool IdentityConfirmation { get; set; }
         public required bool FOIPPAConfirmation { get; set; }
-        public required bool CFOConfirmation { get; set; }
+        public required bool FinancialAwarenessConfirmation { get; set; }
     }
 
     public class FundingInformation
@@ -82,6 +84,7 @@ namespace EMCR.DRR.Managers.Intake
         public required string Name { get; set; }
         public required FundingType Type { get; set; }
         public required decimal Amount { get; set; }
+        public string? OtherDescription { get; set; }
 
     }
 
@@ -100,6 +103,11 @@ namespace EMCR.DRR.Managers.Intake
         public required string Department { get; set; }
         public required string Phone { get; set; }
         public required string Email { get; set; }
+    }
+
+    public class PartneringProponent
+    {
+        public required string Name { get; set; }
     }
 
     public enum ProponentType
@@ -134,13 +142,11 @@ namespace EMCR.DRR.Managers.Intake
     public enum Hazards
     {
         Drought,
-        Erosion,
         ExtremeTemperature,
         Flood,
         Geohazards,
         SeaLevelRise,
         Seismic,
-        Storm,
         Tsunami,
         Other,
     }
