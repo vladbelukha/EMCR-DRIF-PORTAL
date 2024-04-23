@@ -16,7 +16,7 @@ parameters:
     value: "latest"    
   - description: host for routes
     name: HOST
-    value: "dev-drr-emcr.silver.devops.bcgov"
+    value: "-drr-emcr.silver.devops.bcgov"
   - description: ASPNET runtime environment (Development/Staging/Production)
     name: RUNTIME_ENVIRONMENT
     value: Staging
@@ -109,7 +109,7 @@ objects:
       name: ${ENV}-drr-ui
       namespace: ${NAMESPACE_PREFIX}-${ENV}
     spec:
-      host: ${HOST}
+      host: ${ENV}${HOST}
       port:
         targetPort: 2015-tcp
       tls:
