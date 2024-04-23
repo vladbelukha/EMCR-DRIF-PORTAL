@@ -1,11 +1,10 @@
 import {
-  disable,
   email,
-  minLength,
   prop,
   propArray,
   propObject,
   required,
+  requiredTrue,
 } from '@rxweb/reactive-form-validators';
 import {
   ProponentType,
@@ -219,14 +218,17 @@ export class EOIApplicationForm implements DrifEoiApplication {
 
   @prop()
   @required()
+  @requiredTrue()
   financialAwarenessConfirmation?: boolean;
 
   @prop()
   @required()
+  @requiredTrue()
   foippaConfirmation?: boolean;
 
   @prop()
   @required()
+  @requiredTrue()
   identityConfirmation?: boolean;
 
   @prop()

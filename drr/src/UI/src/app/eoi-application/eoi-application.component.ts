@@ -209,11 +209,27 @@ export class EOIApplicationComponent {
   }
 
   validateStep6() {
-    this.eoiApplicationForm.get('otherFunding')?.markAsTouched();
+    this.eoiApplicationForm.get('firstNationsEngagement')?.markAsTouched();
+    this.eoiApplicationForm.get('neighbourEngagement')?.markAsTouched();
+    this.eoiApplicationForm
+      .get('additionalEngagementInformation')
+      ?.markAsTouched();
+
+    if (
+      this.eoiApplicationForm.get('firstNationsEngagement')?.valid &&
+      this.eoiApplicationForm.get('neighbourEngagement')?.valid
+    ) {
+      this.stepper?.next();
+    }
   }
 
   validateStep7() {
     this.eoiApplicationForm.get('climateAdaptation')?.markAsTouched();
+    this.eoiApplicationForm.get('otherInformation')?.markAsTouched();
+
+    if (this.eoiApplicationForm.get('climateAdaptation')?.valid) {
+      this.stepper?.next();
+    }
   }
 
   validateStep8() {
