@@ -10,6 +10,8 @@ namespace EMCR.DRR.Managers.Intake
             CreateMap<DrifEoiApplication, Application>();
             CreateMap<Controllers.FundingInformation, FundingInformation>();
             CreateMap<Controllers.ContactDetails, ContactDetails>();
+            CreateMap<string, PartneringProponent>()
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src));
         }
     }
 }
