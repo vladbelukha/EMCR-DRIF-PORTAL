@@ -19,7 +19,7 @@ namespace EMCR.Tests.Integration.DRR.Resources
             var id = (await applicationRepository.Manage(new SubmitApplication { Application = originalApplication })).Id;
             id.ShouldNotBeEmpty();
 
-            var newApplication = (await applicationRepository.Query(new ApplicationsQuery { ApplicationId = id })).Items.ShouldHaveSingleItem();
+            var newApplication = (await applicationRepository.Query(new ApplicationsQuery { ApplicationName = id })).Items.ShouldHaveSingleItem();
             newApplication.ProjectTitle.ShouldNotBeEmpty();
             //newApplication.Submitter.FirstName.ShouldBe(originalApplication.Submitter.FirstName);
             //newApplication.AdditionalContacts.Count().ShouldBe(originalApplication.AdditionalContacts.Count());
