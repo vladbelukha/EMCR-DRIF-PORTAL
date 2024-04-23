@@ -26,7 +26,7 @@ export class FundingInformationForm implements FundingInformation {
   @prop()
   type?: FundingType;
   @prop()
-  description?: string;
+  otherDescription?: string;
 
   constructor(values: FundingInformationForm) {
     Object.assign(this, values);

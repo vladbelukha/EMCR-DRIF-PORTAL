@@ -6,6 +6,7 @@ import {
 import {
   IFormGroup,
   RxFormBuilder,
+  RxFormControl,
   RxwebValidators,
 } from '@rxweb/reactive-form-validators';
 import { CommonModule } from '@angular/common';
@@ -25,6 +26,7 @@ import { FundingType } from '../../model';
 import { MatSelectModule } from '@angular/material/select';
 import { TranslocoModule } from '@ngneat/transloco';
 import { DrrTextareaComponent } from '../drr-datepicker/drr-textarea.component';
+import { DrrInputComponent } from '../drr-input/drr-input.component';
 
 @Component({
   selector: 'drr-step-3',
@@ -40,6 +42,7 @@ import { DrrTextareaComponent } from '../drr-datepicker/drr-textarea.component';
     MatSelectModule,
     TranslocoModule,
     DrrTextareaComponent,
+    DrrInputComponent,
   ],
   templateUrl: './step-3.component.html',
   styleUrl: './step-3.component.scss',
@@ -111,5 +114,15 @@ export class Step3Component {
 
   getFormControl(name: string): FormControl {
     return this.eoiApplicationForm.get(name) as FormControl;
+  }
+
+  getArrayFormControl(
+    controlName: string,
+    arrayName: string,
+    index: number
+  ): RxFormControl {
+    return this.getFormArray(arrayName)?.controls[index]?.get(
+      controlName
+    ) as RxFormControl;
   }
 }

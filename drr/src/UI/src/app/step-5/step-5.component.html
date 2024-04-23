@@ -45,14 +45,15 @@
           "
           [formGroupName]="i"
         >
-          <mat-form-field style="width: 50vw; margin-top: 10px">
-            <mat-label>{{ t("infrastructureImpactedText") }} </mat-label>
-            <input
-              id="infrastructure_{{ i }}"
-              matInput
-              formControlName="value"
-            />
-          </mat-form-field>
+          <drr-input
+            style="width: 50vw; margin-top: 10px"
+            [id]="'infrastructure_' + i"
+            [label]="t('infrastructureImpactedText')"
+            [rxFormControl]="
+              getArrayFormControl('value', 'infrastructureImpactedArray', i)
+            "
+            [maxlength]="100"
+          ></drr-input>
           <button mat-mini-fab color="warn" (click)="removeInfrastructure(i)">
             <mat-icon>delete</mat-icon>
           </button>

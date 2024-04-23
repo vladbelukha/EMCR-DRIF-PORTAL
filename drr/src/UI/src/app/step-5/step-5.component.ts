@@ -9,7 +9,11 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { IFormGroup, RxFormBuilder } from '@rxweb/reactive-form-validators';
+import {
+  IFormGroup,
+  RxFormBuilder,
+  RxFormControl,
+} from '@rxweb/reactive-form-validators';
 import {
   EOIApplicationForm,
   StringItem,
@@ -17,6 +21,7 @@ import {
 import { TranslocoModule } from '@ngneat/transloco';
 import { MatIconModule } from '@angular/material/icon';
 import { DrrTextareaComponent } from '../drr-datepicker/drr-textarea.component';
+import { DrrInputComponent } from '../drr-input/drr-input.component';
 
 @Component({
   selector: 'drr-step-5',
@@ -31,6 +36,7 @@ import { DrrTextareaComponent } from '../drr-datepicker/drr-textarea.component';
     MatIconModule,
     TranslocoModule,
     DrrTextareaComponent,
+    DrrInputComponent,
   ],
   templateUrl: './step-5.component.html',
   styleUrl: './step-5.component.scss',
@@ -59,6 +65,16 @@ export class Step5Component {
 
   getFormControl(name: string): FormControl {
     return this.eoiApplicationForm.get(name) as FormControl;
+  }
+
+  getArrayFormControl(
+    controlName: string,
+    arrayName: string,
+    index: number
+  ): RxFormControl {
+    return this.getFormArray(arrayName)?.controls[index]?.get(
+      controlName
+    ) as RxFormControl;
   }
 
   addInfrastructure() {
