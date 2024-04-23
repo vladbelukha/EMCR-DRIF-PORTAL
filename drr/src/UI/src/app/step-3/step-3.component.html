@@ -42,14 +42,12 @@
             formControlName="amount"
           />
         </mat-form-field>
-        <mat-form-field>
-          <mat-label>{{ t("otherFundingSourcesName") }}</mat-label>
-          <input
-            id="otherFunding_name_{{ i }}"
-            matInput
-            formControlName="name"
-          />
-        </mat-form-field>
+        <drr-input
+          [id]="'otherFunding_name_' + i"
+          [label]="t('otherFundingSourcesName')"
+          [rxFormControl]="getArrayFormControl('name', 'otherFunding', i)"
+          [maxlength]="100"
+        ></drr-input>
         <mat-form-field>
           <mat-label>{{ t("otherFundingSourcesType") }}</mat-label>
           <mat-select id="otherFunding_type_{{ i }}" formControlName="type">
@@ -58,14 +56,15 @@
             }
           </mat-select>
         </mat-form-field>
-        <mat-form-field *ngIf="otherFunding.value.type == 'OtherGrants'">
-          <mat-label>{{ t("otherFundingSourcesDescription") }}</mat-label>
-          <input
-            id="otherFunding_description_{{ i }}"
-            matInput
-            formControlName="description"
-          />
-        </mat-form-field>
+        <drr-input
+          *ngIf="otherFunding.value.type == 'OtherGrants'"
+          [id]="'otherFunding_description_' + i"
+          [label]="t('otherFundingSourcesDescription')"
+          [rxFormControl]="
+            getArrayFormControl('otherDescription', 'otherFunding', i)
+          "
+          [maxlength]="100"
+        ></drr-input>
         <button mat-mini-fab color="warn" (click)="removeOtherSource(i)">
           <mat-icon>delete</mat-icon>
         </button>
@@ -93,13 +92,12 @@
         placeholder="$"
       />
     </mat-form-field>
-    <mat-form-field>
-      <mat-label>{{ t("intendToSecureFunding") }}</mat-label>
-      <textarea
-        id="intendToSecureFunding"
-        matInput
-        formControlName="intendToSecureFunding"
-      ></textarea>
-    </mat-form-field>
+
+    <drr-textarea
+      [id]="'intendToSecureFunding'"
+      [label]="t('intendToSecureFunding')"
+      [maxlength]="2000"
+      [rxFormControl]="getFormControl('intendToSecureFunding')"
+    ></drr-textarea>
   </form>
 </div>

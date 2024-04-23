@@ -25,48 +25,56 @@
       }}</mat-radio-button>
     </mat-radio-group>
     <mat-label class="drr-label">{{ t("proponentName") }}</mat-label>
-    <mat-form-field style="width: 50vw; margin-top: 10px">
-      <mat-label>{{ t("proponentNameText") }}</mat-label>
-      <input id="proponentName" matInput formControlName="proponentName" />
-    </mat-form-field>
+    <drr-input
+      style="width: 50vw; margin-top: 10px"
+      [id]="'proponentName'"
+      [label]="t('proponentName')"
+      [rxFormControl]="getFormControl('proponentName')"
+      [maxlength]="100"
+    ></drr-input>
 
     <mat-label class="drr-label">{{
       t("submitterContactInformation")
     }}</mat-label>
-    <div class="contacts-container" formGroupName="submitter">
-      <mat-form-field>
-        <mat-label>{{ t("firstName") }}</mat-label>
-        <input id="submitter_firstName" matInput formControlName="firstName" />
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>{{ t("lastName") }}</mat-label>
-        <input id="submitter_lastName" matInput formControlName="lastName" />
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>{{ t("title") }}</mat-label>
-        <input id="submitter_title" matInput formControlName="title" />
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>{{ t("department") }}</mat-label>
-        <input
-          id="submitter_department"
-          matInput
-          formControlName="department"
-        />
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>{{ t("phone") }}</mat-label>
-        <input
-          id="submitter_phone"
-          matInput
-          type="tel"
-          formControlName="phone"
-        />
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>{{ t("email") }}</mat-label>
-        <input id="submitter_email" matInput formControlName="email" />
-      </mat-form-field>
+    <div class="contacts-container">
+      <drr-input
+        [id]="'submitter_firstName'"
+        [label]="t('firstName')"
+        [rxFormControl]="getGroupFormControl('firstName', 'submitter')"
+        [maxlength]="40"
+      ></drr-input>
+      <drr-input
+        [id]="'submitter_lastName'"
+        [label]="t('lastName')"
+        [rxFormControl]="getGroupFormControl('lastName', 'submitter')"
+        [maxlength]="40"
+      ></drr-input>
+      <drr-input
+        [id]="'submitter_title'"
+        [label]="t('title')"
+        [rxFormControl]="getGroupFormControl('title', 'submitter')"
+        [maxlength]="40"
+      ></drr-input>
+      <drr-input
+        [id]="'submitter_department'"
+        [label]="t('department')"
+        [rxFormControl]="getGroupFormControl('department', 'submitter')"
+        [maxlength]="40"
+      ></drr-input>
+      <drr-input
+        [id]="'submitter_phone'"
+        [label]="t('phone')"
+        [rxFormControl]="getGroupFormControl('phone', 'submitter')"
+        [maxlength]="40"
+        [type]="'tel'"
+      ></drr-input>
+      <drr-input
+        [id]="'submitter_email'"
+        [label]="t('email')"
+        [rxFormControl]="getGroupFormControl('email', 'submitter')"
+        [maxlength]="40"
+        [type]="'email'"
+      ></drr-input>
     </div>
 
     <mat-label class="drr-label">{{
@@ -83,49 +91,45 @@
     <div
       *ngIf="!eoiApplicationForm.get('sameAsSubmitter')?.value"
       class="contacts-container"
-      formGroupName="projectContact"
     >
-      <mat-form-field>
-        <mat-label>{{ t("firstName") }}</mat-label>
-        <input
-          id="projectContact_firstName"
-          matInput
-          formControlName="firstName"
-        />
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>{{ t("lastName") }}</mat-label>
-        <input
-          id="projectContact_lastName"
-          matInput
-          formControlName="lastName"
-        />
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>{{ t("title") }}</mat-label>
-        <input id="projectContact_title" matInput formControlName="title" />
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>{{ t("department") }}</mat-label>
-        <input
-          id="projectContact_department"
-          matInput
-          formControlName="department"
-        />
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>{{ t("phone") }}</mat-label>
-        <input
-          id="projectContact_phone"
-          matInput
-          type="tel"
-          formControlName="phone"
-        />
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>{{ t("email") }}</mat-label>
-        <input id="projectContact_email" matInput formControlName="email" />
-      </mat-form-field>
+      <drr-input
+        [id]="'projectContact_firstName'"
+        [label]="t('firstName')"
+        [rxFormControl]="getGroupFormControl('firstName', 'projectContact')"
+        [maxlength]="40"
+      ></drr-input>
+      <drr-input
+        [id]="'projectContact_lastName'"
+        [label]="t('lastName')"
+        [rxFormControl]="getGroupFormControl('lastName', 'projectContact')"
+        [maxlength]="40"
+      ></drr-input>
+      <drr-input
+        [id]="'projectContact_title'"
+        [label]="t('title')"
+        [rxFormControl]="getGroupFormControl('title', 'projectContact')"
+        [maxlength]="40"
+      ></drr-input>
+      <drr-input
+        [id]="'projectContact_department'"
+        [label]="t('department')"
+        [rxFormControl]="getGroupFormControl('department', 'projectContact')"
+        [maxlength]="40"
+      ></drr-input>
+      <drr-input
+        [id]="'projectContact_phone'"
+        [label]="t('phone')"
+        [rxFormControl]="getGroupFormControl('phone', 'projectContact')"
+        [maxlength]="40"
+        [type]="'tel'"
+      ></drr-input>
+      <drr-input
+        [id]="'projectContact_email'"
+        [label]="t('email')"
+        [rxFormControl]="getGroupFormControl('email', 'projectContact')"
+        [maxlength]="40"
+        [type]="'email'"
+      ></drr-input>
     </div>
     <div formArrayName="additionalContacts">
       <div
@@ -136,62 +140,60 @@
         "
         [formGroupName]="i"
       >
-        <!-- TODO: there is an issue with form reference, form value stays empty
-          <drr-contact-details
-            [contactForm]="projectContact as RxFormGroup"
-          ></drr-contact-details> -->
         <mat-label class="drr-label">{{
           t("additionalContact") + " " + (i + 1)
         }}</mat-label>
         <div class="contacts-container">
-          <mat-form-field>
-            <mat-label>{{ t("firstName") }}</mat-label>
-            <input
-              id="projectContact_firstName_{{ i }}"
-              matInput
-              formControlName="firstName"
-            />
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>{{ t("lastName") }}</mat-label>
-            <input
-              id="projectContact_lastName_{{ i }}"
-              matInput
-              formControlName="lastName"
-            />
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>{{ t("title") }}</mat-label>
-            <input
-              id="projectContact_title_{{ i }}"
-              matInput
-              formControlName="title"
-            />
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>{{ t("department") }}</mat-label>
-            <input
-              id="projectContact_department_{{ i }}"
-              matInput
-              formControlName="department"
-            />
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>{{ t("phone") }}</mat-label>
-            <input
-              id="projectContact_phone_{{ i }}"
-              matInput
-              formControlName="phone"
-            />
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>{{ t("email") }}</mat-label>
-            <input
-              id="projectContact_email_{{ i }}"
-              matInput
-              formControlName="email"
-            />
-          </mat-form-field>
+          <drr-input
+            [id]="'projectContact_firstName_' + i"
+            [label]="t('firstName')"
+            [rxFormControl]="
+              getArrayFormControl('firstName', 'additionalContacts', i)
+            "
+            [maxlength]="40"
+          ></drr-input>
+          <drr-input
+            [id]="'projectContact_lastName_' + i"
+            [label]="t('lastName')"
+            [rxFormControl]="
+              getArrayFormControl('lastName', 'additionalContacts', i)
+            "
+            [maxlength]="40"
+          ></drr-input>
+          <drr-input
+            [id]="'projectContact_title_' + i"
+            [label]="t('title')"
+            [rxFormControl]="
+              getArrayFormControl('title', 'additionalContacts', i)
+            "
+            [maxlength]="40"
+          ></drr-input>
+          <drr-input
+            [id]="'projectContact_department_' + i"
+            [label]="t('department')"
+            [rxFormControl]="
+              getArrayFormControl('department', 'additionalContacts', i)
+            "
+            [maxlength]="40"
+          ></drr-input>
+          <drr-input
+            [id]="'projectContact_phone_' + i"
+            [label]="t('phone')"
+            [rxFormControl]="
+              getArrayFormControl('phone', 'additionalContacts', i)
+            "
+            [maxlength]="40"
+            [type]="'tel'"
+          ></drr-input>
+          <drr-input
+            [id]="'projectContact_email_' + i"
+            [label]="t('email')"
+            [rxFormControl]="
+              getArrayFormControl('email', 'additionalContacts', i)
+            "
+            [maxlength]="40"
+            [type]="'email'"
+          ></drr-input>
 
           <button
             *ngIf="i > 0"
@@ -229,10 +231,15 @@
         "
         [formGroupName]="i"
       >
-        <mat-form-field style="width: 50vw; margin-top: 10px">
-          <mat-label>{{ t("partneringProponentNameText") }}</mat-label>
-          <input id="proponent_{{ i }}" matInput formControlName="value" />
-        </mat-form-field>
+        <drr-input
+          style="width: 50vw; margin-top: 10px"
+          [id]="'proponent_' + i"
+          [label]="t('partneringProponentNameText')"
+          [rxFormControl]="
+            getArrayFormControl('value', 'partneringProponentsArray', i)
+          "
+          [maxlength]="100"
+        ></drr-input>
         <button mat-mini-fab color="warn" (click)="removeProponent(i)">
           <mat-icon>delete</mat-icon>
         </button>

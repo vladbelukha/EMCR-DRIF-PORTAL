@@ -6,12 +6,14 @@ import {
 import {
   IFormGroup,
   RxFormBuilder,
+  RxFormControl,
   RxwebValidators,
 } from '@rxweb/reactive-form-validators';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import {
   FormArray,
+  FormControl,
   FormsModule,
   ReactiveFormsModule,
   Validators,
@@ -23,6 +25,8 @@ import { distinctUntilChanged } from 'rxjs';
 import { FundingType } from '../../model';
 import { MatSelectModule } from '@angular/material/select';
 import { TranslocoModule } from '@ngneat/transloco';
+import { DrrTextareaComponent } from '../drr-datepicker/drr-textarea.component';
+import { DrrInputComponent } from '../drr-input/drr-input.component';
 
 @Component({
   selector: 'drr-step-3',
@@ -37,6 +41,8 @@ import { TranslocoModule } from '@ngneat/transloco';
     MatIconModule,
     MatSelectModule,
     TranslocoModule,
+    DrrTextareaComponent,
+    DrrInputComponent,
   ],
   templateUrl: './step-3.component.html',
   styleUrl: './step-3.component.scss',
@@ -104,5 +110,19 @@ export class Step3Component {
 
   removeOtherSource(index: number) {
     this.getFormArray('otherFunding').removeAt(index);
+  }
+
+  getFormControl(name: string): FormControl {
+    return this.eoiApplicationForm.get(name) as FormControl;
+  }
+
+  getArrayFormControl(
+    controlName: string,
+    arrayName: string,
+    index: number
+  ): RxFormControl {
+    return this.getFormArray(arrayName)?.controls[index]?.get(
+      controlName
+    ) as RxFormControl;
   }
 }

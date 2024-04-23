@@ -4,25 +4,21 @@
     <mat-label>
       {{ t("climateAdaptationText") }}
     </mat-label>
-    <mat-form-field>
-      <textarea
-        id="climateAdaptation"
-        matInput
-        formControlName="climateAdaptation"
-        rows="5"
-      ></textarea>
-    </mat-form-field>
+    <drr-textarea
+      [id]="'climateAdaptation'"
+      [maxlength]="2000"
+      [rxFormControl]="getFormControl('climateAdaptation')"
+      [rows]="5"
+    ></drr-textarea>
     <mat-label class="drr-label">{{ t("otherInformation") }}</mat-label>
     <mat-label>
       {{ t("otherInformationText") }}
     </mat-label>
-    <mat-form-field>
-      <textarea
-        id="otherInformation"
-        matInput
-        formControlName="otherInformation"
-        rows="10"
-      ></textarea>
-    </mat-form-field>
+    <drr-textarea
+      [id]="'otherInformation'"
+      [maxlength]="2000"
+      [rxFormControl]="getFormControl('otherInformation')"
+      [rows]="10"
+    ></drr-textarea>
   </form>
 </div>

@@ -1,45 +1,38 @@
 <div class="drr-step-container" *transloco="let t">
-  <form [formGroup]="eoiApplicationForm">
-    <mat-label class="drr-label">{{ t("ownershipDeclaration") }}</mat-label>
-    <mat-label>{{ t("ownershipDeclarationText") }}</mat-label>
-    <mat-radio-group
-      id="ownershipDeclaration"
-      class="drr-radio-group"
-      aria-label="Select an option"
-      formControlName="ownershipDeclaration"
+  <mat-label class="drr-label">{{ t("ownershipDeclaration") }}</mat-label>
+  <mat-label>{{ t("ownershipDeclarationText") }}</mat-label>
+  <mat-radio-group
+    id="ownershipDeclaration"
+    class="drr-radio-group"
+    aria-label="Select an option"
+    [formControl]="getFormControl('ownershipDeclaration')"
+  >
+    <mat-error
+      *ngIf="
+        eoiApplicationForm.get('ownershipDeclaration')?.touched &&
+        eoiApplicationForm.get('ownershipDeclaration')?.hasError('required')
+      "
+      >{{ t("required") }}</mat-error
     >
-      <mat-error
-        *ngIf="
-          eoiApplicationForm.get('ownershipDeclaration')?.touched &&
-          eoiApplicationForm.get('ownershipDeclaration')?.hasError('required')
-        "
-        >{{ t("required") }}</mat-error
-      >
-      <mat-radio-button [value]="true">Yes</mat-radio-button>
-      <mat-radio-button [value]="false">No</mat-radio-button>
-    </mat-radio-group>
-    <mat-form-field style="margin-left: 20px">
-      <mat-label> {{ t("ownershipDescription") }}</mat-label>
-      <textarea
-        id="ownershipDescription"
-        matInput
-        formControlName="ownershipDescription"
-      ></textarea>
-    </mat-form-field>
-    <mat-label class="drr-label" style="margin-bottom: 10px">{{
-      t("locationDescription")
-    }}</mat-label>
-    <mat-form-field>
-      <mat-label> {{ t("locationAddress") }}</mat-label>
-      <textarea
-        id="locationDescription"
-        matInput
-        formControlName="locationDescription"
-        maxlength="locationDescriptionMax"
-      ></textarea>
-      <mat-hint align="end"
-        >{{ getCount() }} / {{ locationDescriptionMax }}</mat-hint
-      >
-    </mat-form-field>
-  </form>
+    <mat-radio-button [value]="true">Yes</mat-radio-button>
+    <mat-radio-button [value]="false">No</mat-radio-button>
+  </mat-radio-group>
+
+  <drr-textarea
+    style="margin-left: 20px"
+    [id]="'ownershipDescription'"
+    [label]="t('ownershipDescription')"
+    [maxlength]="2000"
+    [rxFormControl]="getFormControl('ownershipDescription')"
+  ></drr-textarea>
+
+  <mat-label class="drr-label" style="margin-bottom: 10px">{{
+    t("locationDescription")
+  }}</mat-label>
+  <drr-textarea
+    [id]="'locationDescription'"
+    [label]="t('locationDescription')"
+    [maxlength]="2000"
+    [rxFormControl]="getFormControl('locationDescription')"
+  ></drr-textarea>
 </div>
