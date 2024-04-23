@@ -172,6 +172,7 @@ export class EOIApplicationComponent {
 
     if (
       this.eoiApplicationForm.get('ownershipDeclaration')?.valid &&
+      this.eoiApplicationForm.get('ownershipDescription')?.valid &&
       this.eoiApplicationForm.get('locationDescription')?.valid
     ) {
       this.stepper?.next();

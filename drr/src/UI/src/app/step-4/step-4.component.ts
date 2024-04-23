@@ -2,7 +2,12 @@ import { Component, Input } from '@angular/core';
 import { EOIApplicationForm } from '../eoi-application/eoi-application-form';
 import { IFormGroup } from '@rxweb/reactive-form-validators';
 import { CommonModule } from '@angular/common';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormControl,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -32,6 +37,22 @@ import { DrrTextareaComponent } from '../drr-datepicker/drr-textarea.component';
 export class Step4Component {
   @Input()
   eoiApplicationForm!: IFormGroup<EOIApplicationForm>;
+
+  ngOnInit() {
+    const ownershipDescription = this.eoiApplicationForm.get(
+      'ownershipDescription'
+    );
+    this.eoiApplicationForm
+      .get('ownershipDeclaration')!
+      .valueChanges.subscribe((value) => {
+        if (!value) {
+          ownershipDescription?.addValidators(Validators.required);
+        } else {
+          ownershipDescription?.removeValidators(Validators.required);
+        }
+        ownershipDescription?.updateValueAndValidity();
+      });
+  }
 
   getFormControl(name: string): FormControl {
     return this.eoiApplicationForm.get(name) as FormControl;
