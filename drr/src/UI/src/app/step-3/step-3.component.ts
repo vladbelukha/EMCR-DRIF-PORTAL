@@ -96,6 +96,18 @@ export class Step3Component {
     remainingAmount = remainingAmount < 0 ? 0 : remainingAmount;
 
     this.eoiApplicationForm.patchValue({ remainingAmount });
+
+    const intendToSecureFunding = this.eoiApplicationForm.get(
+      'intendToSecureFunding'
+    );
+
+    if (remainingAmount > 0) {
+      intendToSecureFunding?.addValidators(Validators.required);
+    } else {
+      intendToSecureFunding?.removeValidators(Validators.required);
+    }
+
+    intendToSecureFunding?.updateValueAndValidity();
   }
 
   getFormArray(formArrayName: string) {

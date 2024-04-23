@@ -187,10 +187,9 @@ export class EOIApplicationForm implements DrifEoiApplication {
   estimatedPeopleImpacted?: number;
 
   @prop()
-  // TODO: investigate why this is not working
-  // @required({
-  //   conditionalExpression: 'control => control.remainingAmount > 0',
-  // })
+  @required({
+    conditionalExpression: 'x => x.remainingAmount > 0',
+  })
   intendToSecureFunding?: string;
 
   @prop()

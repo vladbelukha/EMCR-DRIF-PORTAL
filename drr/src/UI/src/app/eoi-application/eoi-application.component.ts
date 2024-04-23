@@ -150,7 +150,19 @@ export class EOIApplicationComponent {
   }
 
   validateStep3() {
-    this.eoiApplicationForm.get('fundingRequest')?.markAsDirty();
+    this.eoiApplicationForm.get('estimatedTotal')?.markAsTouched();
+    this.eoiApplicationForm.get('fundingRequest')?.markAsTouched();
+    this.eoiApplicationForm.get('otherFunding')?.markAllAsTouched();
+    this.eoiApplicationForm.get('intendToSecureFunding')?.markAsTouched();
+
+    if (
+      this.eoiApplicationForm.get('estimatedTotal')?.valid &&
+      this.eoiApplicationForm.get('fundingRequest')?.valid &&
+      this.eoiApplicationForm.get('otherFunding')?.valid &&
+      this.eoiApplicationForm.get('intendToSecureFunding')?.valid
+    ) {
+      this.stepper?.next();
+    }
   }
 
   validateStep4() {
