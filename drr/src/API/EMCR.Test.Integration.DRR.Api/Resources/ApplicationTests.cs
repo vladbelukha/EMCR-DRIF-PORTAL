@@ -25,6 +25,18 @@ namespace EMCR.Tests.Integration.DRR.Resources
             //newApplication.AdditionalContacts.Count().ShouldBe(originalApplication.AdditionalContacts.Count());
         }
 
+        [Test]
+        public async Task CanQueryApplications()
+        {
+            var host = EMBC.Tests.Integration.DRR.Application.Host;
+            var applicationRepository = host.Services.GetRequiredService<IApplicationRepository>();
+
+            var applications = (await applicationRepository.Query(new ApplicationsQuery { })).Items;
+            applications.ShouldNotBeEmpty();
+            //newApplication.Submitter.FirstName.ShouldBe(originalApplication.Submitter.FirstName);
+            //newApplication.AdditionalContacts.Count().ShouldBe(originalApplication.AdditionalContacts.Count());
+        }
+
         private Application CreateTestEOIApplication()
         {
             var uniqueSignature = TestPrefix + "-" + Guid.NewGuid().ToString().Substring(0, 4);
