@@ -1,24 +1,40 @@
-<mat-form-field>
-  <mat-label>First Name</mat-label>
-  <input matInput formControlName="firstName" />
-</mat-form-field>
-<mat-form-field>
-  <mat-label>Last Name</mat-label>
-  <input matInput formControlName="lastName" />
-</mat-form-field>
-<mat-form-field>
-  <mat-label>Position/Title</mat-label>
-  <input matInput formControlName="title" />
-</mat-form-field>
-<mat-form-field>
-  <mat-label>Department</mat-label>
-  <input matInput formControlName="department" />
-</mat-form-field>
-<mat-form-field>
-  <mat-label>Phone</mat-label>
-  <input matInput formControlName="phone" />
-</mat-form-field>
-<mat-form-field>
-  <mat-label>Email</mat-label>
-  <input matInput formControlName="email" />
-</mat-form-field>
+<div class="contacts-container" *transloco="let t">
+  <drr-input
+    [id]="'submitter_firstName'"
+    [label]="t('firstName')"
+    [rxFormControl]="getFormControl('firstName')"
+    [maxlength]="40"
+  ></drr-input>
+  <drr-input
+    [id]="'submitter_lastName'"
+    [label]="t('lastName')"
+    [rxFormControl]="getFormControl('lastName')"
+    [maxlength]="40"
+  ></drr-input>
+  <drr-input
+    [id]="'submitter_title'"
+    [label]="t('title')"
+    [rxFormControl]="getFormControl('title')"
+    [maxlength]="40"
+  ></drr-input>
+  <drr-input
+    [id]="'submitter_department'"
+    [label]="t('department')"
+    [rxFormControl]="getFormControl('department')"
+    [maxlength]="40"
+  ></drr-input>
+  <drr-input
+    [id]="'submitter_phone'"
+    [label]="t('phone')"
+    [rxFormControl]="getFormControl('phone')"
+    [maxlength]="40"
+    [type]="'tel'"
+  ></drr-input>
+  <drr-input
+    [id]="'submitter_email'"
+    [label]="t('email')"
+    [rxFormControl]="getFormControl('email')"
+    [maxlength]="40"
+    [type]="'email'"
+  ></drr-input>
+</div>
