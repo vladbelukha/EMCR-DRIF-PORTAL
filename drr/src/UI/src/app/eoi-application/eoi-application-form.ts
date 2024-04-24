@@ -126,6 +126,7 @@ export class EOIApplicationForm implements DrifEoiApplication {
   ownershipDescription?: string;
 
   @prop()
+  @required()
   locationDescription?: string;
 
   @propArray(ContactDetailsForm)
