@@ -133,7 +133,6 @@
     </div>
     <div formArrayName="additionalContacts">
       <div
-        class="additional-contacts-container"
         *ngFor="
           let projectContact of getFormArray('additionalContacts').controls;
           let i = index
@@ -204,7 +203,6 @@
             <mat-icon>delete</mat-icon>
           </button>
         </div>
-        <mat-divider></mat-divider>
       </div>
 
       <button

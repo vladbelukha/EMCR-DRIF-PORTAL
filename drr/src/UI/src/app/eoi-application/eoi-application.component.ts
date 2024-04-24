@@ -43,7 +43,6 @@ import {
 } from './eoi-application-form';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
-import { ContactDetailsComponent } from '../contact-details/contact-details.component';
 import { Step1Component } from '../step-1/step-1.component';
 import { Step6Component } from '../step-6/step-6.component';
 import { Step2Component } from '../step-2/step-2.component';
@@ -74,7 +73,6 @@ import { HotToastService } from '@ngneat/hot-toast';
     MatSelectModule,
     MatDatepickerModule,
     MatCheckboxModule,
-    ContactDetailsComponent,
     Step1Component,
     Step2Component,
     Step3Component,
