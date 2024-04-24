@@ -7,7 +7,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { Step1Component } from '../step-1/step-1.component';
 import { SummaryComponent } from '../summary/summary.component';
 import { TranslocoModule } from '@ngneat/transloco';
 
