@@ -1,11 +1,19 @@
-import { ApplicationConfig, isDevMode } from '@angular/core';
+import {
+  ApplicationConfig,
+  importProvidersFrom,
+  isDevMode,
+} from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideLuxonDateAdapter } from '@angular/material-luxon-adapter';
 import { DrifapplicationService } from '../api/drifapplication/drifapplication.service';
-import { provideHttpClient, withFetch } from '@angular/common/http';
+import {
+  provideHttpClient,
+  withFetch,
+  withInterceptors,
+} from '@angular/common/http';
 import { TranslocoHttpLoader } from './transloco-loader';
 import { provideTransloco } from '@ngneat/transloco';
 import { provideHotToastConfig } from '@ngneat/hot-toast';
@@ -14,6 +22,8 @@ import {
   MAT_NATIVE_DATE_FORMATS,
   MatDateFormats,
 } from '@angular/material/core';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { LoadingInterceptor } from '../interceptors/loading.interceptor';
 
 export const DRR_DATE_FORMATS: MatDateFormats = {
   parse: {
@@ -31,7 +41,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideClientHydration(),
-    provideHttpClient(withFetch()),
+    provideHttpClient(withFetch(), withInterceptors([LoadingInterceptor])),
     provideAnimations(),
     provideLuxonDateAdapter(),
     {
@@ -51,5 +61,6 @@ export const appConfig: ApplicationConfig = {
       },
       loader: TranslocoHttpLoader,
     }),
+    importProvidersFrom(NgxSpinnerModule),
   ],
 };

@@ -206,6 +206,7 @@
       </div>
 
       <button
+        *ngIf="getFormArray('additionalContacts').length < 2"
         id="addProjectContact"
         mat-stroked-button
         type="button"
