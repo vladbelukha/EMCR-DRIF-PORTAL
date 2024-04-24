@@ -68,7 +68,7 @@ namespace EMCR.DRR.Controllers
 
         //Location Information
         public required bool OwnershipDeclaration { get; set; }
-        public required string OwnershipDescription { get; set; }
+        public string? OwnershipDescription { get; set; }
         public required string LocationDescription { get; set; }
 
         //Project Detail
