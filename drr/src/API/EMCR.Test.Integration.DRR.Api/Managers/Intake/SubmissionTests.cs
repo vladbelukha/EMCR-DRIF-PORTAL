@@ -32,21 +32,22 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
                 //Proponent Information
                 ProponentType = EMCR.DRR.Controllers.ProponentType.LocalGovernment,
                 ProponentName = $"{uniqueSignature}_applicant_name",
-                Submitter = CreateNewTestContact(uniqueSignature),
-                ProjectContact = CreateNewTestContact(uniqueSignature),
+                Submitter = CreateNewTestContact(uniqueSignature, "submitter"),
+                ProjectContact = CreateNewTestContact(uniqueSignature, "proj"),
                 AdditionalContacts = new[]
                 {
-                    CreateNewTestContact(uniqueSignature)
+                    CreateNewTestContact(uniqueSignature, "add1"),
+                    CreateNewTestContact(uniqueSignature, "add2"),
                 },
                 PartneringProponents = new[]
                 {
-                    "partner1",
-                    "partner2"
+                    $"{uniqueSignature}_partner1",
+                    $"{uniqueSignature}_partner2"
                 },
 
                 //Project Information
                 FundingStream = EMCR.DRR.Controllers.FundingStream.Stream1,
-                ProjectTitle = $"{uniqueSignature}_projectTitle",
+                ProjectTitle = "Project Title",
                 ProjectType = EMCR.DRR.Controllers.ProjectType.New,
                 ScopeStatement = "scope",
                 RelatedHazards = new[]
@@ -66,13 +67,13 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
                 {
                     new EMCR.DRR.Controllers.FundingInformation
                     {
-                        Name = "my $$$",
+                        Name = $"{uniqueSignature}_Self",
                         Amount = 100,
                         Type = EMCR.DRR.Controllers.FundingType.SelfFunding,
                     },
                     new EMCR.DRR.Controllers.FundingInformation
                     {
-                        Name = "prov $$$",
+                        Name = $"{uniqueSignature}_Prov",
                         Amount = 200,
                         Type = EMCR.DRR.Controllers.FundingType.Prov,
                     },
@@ -89,7 +90,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
                 RationaleForFunding = "rationale for funding",
                 EstimatedPeopleImpacted = 5,
                 CommunityImpact = "community impact",
-                InfrastructureImpacted = new[] { "much infrastructure" },
+                InfrastructureImpacted = new[] { $"{uniqueSignature}_infrastructure1" },
                 DisasterRiskUnderstanding = "helps many people",
                 AdditionalBackgroundInformation = "additional background info",
                 AddressRisksAndHazards = "fix risks",
@@ -113,12 +114,12 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             };
         }
 
-        private EMCR.DRR.Controllers.ContactDetails CreateNewTestContact(string uniqueSignature)
+        private EMCR.DRR.Controllers.ContactDetails CreateNewTestContact(string uniqueSignature, string namePrefix)
         {
             return new EMCR.DRR.Controllers.ContactDetails
             {
-                FirstName = $"{uniqueSignature}_first",
-                LastName = $"{uniqueSignature}_last",
+                FirstName = $"{uniqueSignature}_{namePrefix}_first",
+                LastName = $"{uniqueSignature}_{namePrefix}_last",
                 Email = "test@test.com",
                 Phone = "604-123-4567",
                 Department = "Position",

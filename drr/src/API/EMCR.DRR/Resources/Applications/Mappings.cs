@@ -16,7 +16,7 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.drr_PrimaryProjectContact, opt => opt.MapFrom(src => src.ProjectContact))
                 .ForMember(dest => dest.drr_AdditionalContact1, opt => opt.MapFrom(src => src.AdditionalContact1))
                 .ForMember(dest => dest.drr_AdditionalContact2, opt => opt.MapFrom(src => src.AdditionalContact2))
-                .ForMember(dest => dest.drr_drr_application_account, opt => opt.MapFrom(src => src.PartneringProponents))
+                //.ForMember(dest => dest.drr_drr_application_account, opt => opt.MapFrom(src => src.PartneringProponents))
                 .ForMember(dest => dest.drr_fundingstream, opt => opt.MapFrom(src => (int?)Enum.Parse<FundingStreamOptionSet>(src.FundingStream.ToString())))
                 .ForMember(dest => dest.drr_projecttitle, opt => opt.MapFrom(src => src.ProjectTitle))
                 .ForMember(dest => dest.drr_projecttype, opt => opt.MapFrom(src => (int?)Enum.Parse<ProjectTypeOptionSet>(src.ProjectType.ToString())))
@@ -36,7 +36,7 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.drr_rationaleforfundingrequest, opt => opt.MapFrom(src => src.RationaleForFunding))
                 .ForMember(dest => dest.drr_estimatednumberofpeopleimpacted, opt => opt.MapFrom(src => src.EstimatedPeopleImpacted))
                 .ForMember(dest => dest.drr_impacttocommunity, opt => opt.MapFrom(src => src.CommunityImpact))
-                .ForMember(dest => dest.drr_criticalinfrastructureimpacted, opt => opt.MapFrom(src => string.Join(", ", src.InfrastructureImpacted)))
+                .ForMember(dest => dest.drr_drr_application_drr_criticalinfrastructureimpacted_Application, opt => opt.MapFrom(src => src.InfrastructureImpacted))
                 .ForMember(dest => dest.drr_improveunderstandingriskinvestreduction, opt => opt.MapFrom(src => src.DisasterRiskUnderstanding))
                 .ForMember(dest => dest.drr_includedtoaddressidentifiedriskhazards, opt => opt.MapFrom(src => src.AddressRisksAndHazards))
                 .ForMember(dest => dest.drr_howdoesprojectalignwithdrifsprogramgoals, opt => opt.MapFrom(src => src.DRIFProgramGoalAlignment))
@@ -115,6 +115,9 @@ namespace EMCR.DRR.Resources.Applications
                 .ValidateMemberList(MemberList.Destination)
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.name))
             ;
+
+            CreateMap<CriticalInfrastructure, drr_criticalinfrastructureimpacted>()
+                .ForMember(dest => dest.drr_name, opt => opt.MapFrom(src => src.Name));
         }
     }
 }
