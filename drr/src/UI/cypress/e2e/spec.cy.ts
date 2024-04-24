@@ -1,6 +1,8 @@
 describe('EOI application happy path', () => {
   it('Fill whole application and hold on step 8', () => {
-    cy.visit('/');
+    // use '/' to run against localhost
+    cy.visit('https://dev-drr-emcr.apps.silver.devops.gov.bc.ca/');
+
     // click start button
     cy.get('button').click();
 
