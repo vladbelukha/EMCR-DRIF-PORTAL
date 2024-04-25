@@ -51,6 +51,7 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.drr_identityconfirmation, opt => opt.MapFrom(src => src.IdentityConfirmation ? DRRTwoOptions.Yes : DRRTwoOptions.No))
                 .ForMember(dest => dest.drr_foippaconfirmation, opt => opt.MapFrom(src => src.FOIPPAConfirmation ? DRRTwoOptions.Yes : DRRTwoOptions.No))
                 .ForMember(dest => dest.drr_financialawarenessstatement, opt => opt.MapFrom(src => src.FinancialAwarenessConfirmation ? DRRTwoOptions.Yes : DRRTwoOptions.No))
+                .ForMember(dest => dest.drr_submitteddate, opt => opt.MapFrom(src => DateTime.UtcNow))
                 .ReverseMap()
                 .ValidateMemberList(MemberList.Destination)
                 //These are incomplete - but they've really just been for testing...
