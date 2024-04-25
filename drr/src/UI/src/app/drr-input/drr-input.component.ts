@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -21,6 +21,8 @@ import { RxFormBuilder, RxFormControl } from '@rxweb/reactive-form-validators';
 export class DrrInputComponent {
   formBuilder = inject(RxFormBuilder);
 
+  isFocused = false;
+
   @Input() label = '';
   @Input() id = '';
   @Input() maxlength = 0;
@@ -36,7 +38,25 @@ export class DrrInputComponent {
     return this._formControl;
   }
 
+  changeDetector = inject(ChangeDetectorRef);
+
+  ngAfterViewInit() {
+    this.changeDetector.detectChanges();
+  }
+
   getCount(): number {
     return this.rxFormControl?.value?.length ?? 0;
+  }
+
+  isRequired(): boolean {
+    return this.rxFormControl?.errors?.required ?? false;
+  }
+
+  onFocus() {
+    this.isFocused = true;
+  }
+
+  onBlur() {
+    this.isFocused = false;
   }
 }

@@ -24,6 +24,7 @@ import {
 } from '@angular/material/core';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { LoadingInterceptor } from '../interceptors/loading.interceptor';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 
 export const DRR_DATE_FORMATS: MatDateFormats = {
   parse: {
@@ -62,5 +63,9 @@ export const appConfig: ApplicationConfig = {
       loader: TranslocoHttpLoader,
     }),
     importProvidersFrom(NgxSpinnerModule),
+    {
+      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+      useValue: { hideRequiredMarker: false },
+    },
   ],
 };
