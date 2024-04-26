@@ -370,7 +370,11 @@
     }}</mat-label>
   </div>
 
-  <mat-label class="drr-label">{{ t("backgroundDescription") }}</mat-label>
+  <mat-label
+    *ngIf="objectHasValues(eoiApplication?.projectDetails)"
+    class="drr-label"
+    >{{ t("backgroundDescription") }}</mat-label
+  >
   <div class="summary-group">
     <div
       class="summary-item"
@@ -395,7 +399,7 @@
 
     <div
       class="summary-item"
-      *ngIf="eoiApplication?.projectDetails?.infrastructureImpacted"
+      *ngIf="eoiApplication?.projectDetails?.infrastructureImpacted?.length"
     >
       <mat-label class="drr-label">{{ t("infrastructureImpacted") }}</mat-label>
       <mat-label>{{
@@ -425,7 +429,11 @@
       }}</mat-label>
     </div>
   </div>
-  <mat-label class="drr-label">{{ t("backgroundDescription") }}</mat-label>
+  <mat-label
+    *ngIf="objectHasValues(eoiApplication?.projectDetails)"
+    class="drr-label"
+    >{{ t("backgroundDescription") }}</mat-label
+  >
   <div class="summary-group">
     <div
       class="summary-item"

@@ -1,7 +1,6 @@
-import { Component, Input } from '@angular/core';
-import { DrifEoiApplication } from '../../model';
-import { MatInputModule } from '@angular/material/input';
 import { CommonModule } from '@angular/common';
+import { Component, Input } from '@angular/core';
+import { MatInputModule } from '@angular/material/input';
 import { TranslocoModule } from '@ngneat/transloco';
 import { EOIApplicationForm } from '../eoi-application/eoi-application-form';
 
@@ -16,11 +15,21 @@ export class SummaryComponent {
   @Input()
   eoiApplication?: EOIApplicationForm;
 
-  objectHasValues(obj: any) {
-    return obj && Object.values(obj).some((value) => !!value);
+  objectHasValues(obj: any): boolean {
+    // if array - check length, if value - check if truthy
+    return (
+      obj &&
+      Object.values(obj).some((value) => {
+        if (Array.isArray(value)) {
+          return this.arrayHasValues(value);
+        } else {
+          return !!value;
+        }
+      })
+    );
   }
 
-  arrayHasValues(array: any[]) {
+  arrayHasValues(array: any[]): boolean {
     return (
       array &&
       array.length > 0 &&
