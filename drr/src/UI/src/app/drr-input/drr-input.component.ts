@@ -25,7 +25,7 @@ export class DrrInputComponent {
 
   @Input() label = '';
   @Input() id = '';
-  @Input() maxlength = 0;
+  @Input() maxlength: number | string = '';
   @Input() type = 'text';
 
   private _formControl = this.formBuilder.control('', []) as RxFormControl;

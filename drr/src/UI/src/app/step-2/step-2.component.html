@@ -68,14 +68,13 @@
         }
       </mat-select>
     </mat-form-field>
-    <mat-form-field *ngIf="otherHazardSelected()">
-      <mat-label>{{ t("other") }}</mat-label>
-      <input
-        id="otherHazardsDescription"
-        matInput
-        formControlName="otherHazardsDescription"
-      />
-    </mat-form-field>
+    <drr-input
+      *ngIf="otherHazardSelected()"
+      [id]="'otherHazardsDescription'"
+      [label]="t('other')"
+      [rxFormControl]="getFormControl('otherHazardsDescription')"
+      [maxlength]="100"
+    ></drr-input>
     <mat-label class="drr-label">{{ t("projectDates") }}</mat-label>
     <div class="project-dates-container">
       <mat-form-field>

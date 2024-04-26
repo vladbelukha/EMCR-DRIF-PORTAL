@@ -1,17 +1,5 @@
-import { Component, Input, inject } from '@angular/core';
-import {
-  EOIApplicationForm,
-  FundingInformationForm,
-  FundingInformationItemForm,
-} from '../eoi-application/eoi-application-form';
-import {
-  IFormGroup,
-  RxFormBuilder,
-  RxFormControl,
-  RxwebValidators,
-} from '@rxweb/reactive-form-validators';
 import { CommonModule } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
+import { Component, Input, inject } from '@angular/core';
 import {
   FormArray,
   FormControl,
@@ -19,15 +7,25 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { distinctUntilChanged } from 'rxjs';
-import { FundingType } from '../../model';
 import { MatSelectModule } from '@angular/material/select';
 import { TranslocoModule } from '@ngneat/transloco';
+import {
+  IFormGroup,
+  RxFormBuilder,
+  RxFormControl,
+} from '@rxweb/reactive-form-validators';
+import { distinctUntilChanged } from 'rxjs';
+import { FundingType } from '../../model';
 import { DrrTextareaComponent } from '../drr-datepicker/drr-textarea.component';
 import { DrrInputComponent } from '../drr-input/drr-input.component';
+import {
+  FundingInformationForm,
+  FundingInformationItemForm,
+} from '../eoi-application/eoi-application-form';
 
 @Component({
   selector: 'drr-step-3',
@@ -86,7 +84,7 @@ export class Step3Component {
       this.fundingInformationForm.get('estimatedTotal')?.value ?? 0;
 
     let otherFundingSum = this.getFormArray('otherFunding').controls.reduce(
-      (total, funding) => total + funding.value.amount,
+      (total, funding) => total + Number(funding.value.amount),
       0
     );
     // check if number

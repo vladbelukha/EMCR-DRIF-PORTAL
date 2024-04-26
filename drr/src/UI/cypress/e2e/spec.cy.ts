@@ -82,23 +82,23 @@ describe('EOI application happy path', () => {
     cy.get('#estimatedTotal').type('250000');
     cy.get('#fundingRequest').type('100000');
     cy.get('#addOtherFundingButton').click();
+    cy.get('#otherFunding_amount_0').type('50000');
     cy.get('#otherFunding_name_0').type('Funding Organization', {
       force: true,
     });
     cy.get('#otherFunding_type_0').click();
     cy.get('mat-option').contains('Fed').click();
     cy.get('#otherFunding_type_0').type('{esc}');
-    cy.get('#otherFunding_amount_0').type('50000');
 
     cy.get('#addOtherFundingButton').click();
 
+    cy.get('#otherFunding_amount_1').type('50000');
     cy.get('#otherFunding_name_1').type('Funding Organization', {
       force: true,
     });
     cy.get('#otherFunding_type_1').click();
     cy.get('mat-option').contains('Other').click();
     cy.get('#otherFunding_type_1').type('{esc}');
-    cy.get('#otherFunding_amount_1').type('50000');
     cy.get('#otherFunding_description_1').type('Some description', {
       force: true,
     });
@@ -124,7 +124,7 @@ describe('EOI application happy path', () => {
 
     // step 5
     cy.get('#rationaleForFunding').type('I need money to build a house');
-    cy.get('#estimatedPeopleImpacted').type('1000');
+    cy.get('#estimatedPeopleImpacted').type('1000', { force: true });
     cy.get('#communityImpact').type('This will impact the community');
 
     cy.get('#infrastructure_0').type('This will impact the infrastructure 1', {
