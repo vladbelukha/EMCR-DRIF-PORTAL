@@ -1,6 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { IFormGroup } from '@rxweb/reactive-form-validators';
-import { EOIApplicationForm } from '../eoi-application/eoi-application-form';
+import {
+  EOIApplicationForm,
+  EngagementPlanForm,
+} from '../eoi-application/eoi-application-form';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -27,9 +30,9 @@ import { DrrTextareaComponent } from '../drr-datepicker/drr-textarea.component';
 })
 export class Step6Component {
   @Input()
-  eoiApplicationForm!: IFormGroup<EOIApplicationForm>;
+  engagementPlanForm!: IFormGroup<EngagementPlanForm>;
 
   getFormControl(name: string): FormControl {
-    return this.eoiApplicationForm.get(name) as FormControl;
+    return this.engagementPlanForm.get(name) as FormControl;
   }
 }

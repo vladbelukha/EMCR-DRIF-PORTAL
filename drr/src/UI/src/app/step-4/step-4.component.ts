@@ -1,5 +1,8 @@
 import { Component, Input } from '@angular/core';
-import { EOIApplicationForm } from '../eoi-application/eoi-application-form';
+import {
+  EOIApplicationForm,
+  LocationInformationForm,
+} from '../eoi-application/eoi-application-form';
 import { IFormGroup } from '@rxweb/reactive-form-validators';
 import { CommonModule } from '@angular/common';
 import {
@@ -36,13 +39,13 @@ import { DrrTextareaComponent } from '../drr-datepicker/drr-textarea.component';
 })
 export class Step4Component {
   @Input()
-  eoiApplicationForm!: IFormGroup<EOIApplicationForm>;
+  locationInformationForm!: IFormGroup<LocationInformationForm>;
 
   ngOnInit() {
-    const ownershipDescription = this.eoiApplicationForm.get(
+    const ownershipDescription = this.locationInformationForm.get(
       'ownershipDescription'
     );
-    this.eoiApplicationForm
+    this.locationInformationForm
       .get('ownershipDeclaration')!
       .valueChanges.subscribe((value) => {
         if (!value) {
@@ -55,6 +58,6 @@ export class Step4Component {
   }
 
   getFormControl(name: string): FormControl {
-    return this.eoiApplicationForm.get(name) as FormControl;
+    return this.locationInformationForm.get(name) as FormControl;
   }
 }

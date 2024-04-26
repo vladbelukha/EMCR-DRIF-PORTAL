@@ -17,7 +17,7 @@ import {
   FundingStream,
 } from '../../model';
 
-export class FundingInformationForm implements FundingInformation {
+export class FundingInformationItemForm implements FundingInformation {
   @prop()
   amount?: number;
   @prop()
@@ -27,7 +27,16 @@ export class FundingInformationForm implements FundingInformation {
   @prop()
   otherDescription?: string;
 
-  constructor(values: FundingInformationForm) {
+  constructor(values: FundingInformationItemForm) {
+    Object.assign(this, values);
+  }
+}
+
+export class StringItem {
+  @prop()
+  value: string = '';
+
+  constructor(values: StringItem) {
     Object.assign(this, values);
   }
 }
@@ -63,47 +72,79 @@ export class ContactDetailsForm implements ContactDetails {
   }
 }
 
-export class StringItem {
-  @prop()
-  value: string = '';
-
-  constructor(values: StringItem) {
-    Object.assign(this, values);
-  }
-}
-
-export class EOIApplicationForm implements DrifEoiApplication {
-  @prop()
-  @required()
-  proponentName?: string;
-
+export class ProponentInformationForm {
   @prop()
   @required()
   proponentType?: ProponentType;
 
   @prop()
   @required()
-  climateAdaptation?: string;
+  proponentName?: string;
+
+  @required()
+  @propObject(ContactDetailsForm)
+  submitter?: ContactDetailsForm = new ContactDetailsForm({});
 
   @prop()
-  coordinates?: string;
+  sameAsSubmitter?: boolean;
 
+  @required()
+  @propObject(ContactDetailsForm)
+  projectContact?: ContactDetailsForm = new ContactDetailsForm({});
+
+  @required()
+  @propArray(ContactDetailsForm)
+  additionalContacts?: ContactDetailsForm[] = [{}];
+
+  @prop()
+  partneringProponents?: string[] = [];
+
+  @propArray(StringItem)
+  partneringProponentsArray?: StringItem[] = [{ value: '' }];
+
+  constructor(values: ProponentInformationForm) {
+    Object.assign(this, values);
+  }
+}
+
+export class ProjectInformationForm {
   @prop()
   @required()
   fundingStream?: FundingStream;
 
   @prop()
   @required()
+  projectTitle?: string;
+
+  @prop()
+  @required()
+  scopeStatement?: string;
+
+  @prop()
+  @required()
+  projectType?: ProjectType;
+
+  @prop()
+  @required()
+  relatedHazards?: Hazards[];
+
+  @prop()
+  otherHazardsDescription?: string;
+
+  @prop()
+  @required()
+  startDate?: string;
+
+  @prop()
+  @required()
   endDate?: string;
 
-  @prop()
-  @required()
-  firstNationsEngagement?: string;
+  constructor(values: ProjectInformationForm) {
+    Object.assign(this, values);
+  }
+}
 
-  @prop()
-  @required()
-  neighbourEngagement?: string;
-
+export class FundingInformationForm {
   @prop()
   @required()
   estimatedTotal?: number;
@@ -112,12 +153,22 @@ export class EOIApplicationForm implements DrifEoiApplication {
   @required()
   fundingRequest?: number;
 
-  @propArray(FundingInformationForm)
-  otherFunding?: FundingInformationForm[] = [];
+  @propArray(FundingInformationItemForm)
+  otherFunding?: FundingInformationItemForm[] = [];
 
   @prop()
-  otherInformation?: string;
+  remainingAmount?: number;
 
+  @prop()
+  @required()
+  intendToSecureFunding?: string;
+
+  constructor(values: FundingInformationForm) {
+    Object.assign(this, values);
+  }
+}
+
+export class LocationInformationForm {
   @prop()
   @required()
   ownershipDeclaration?: boolean;
@@ -129,22 +180,23 @@ export class EOIApplicationForm implements DrifEoiApplication {
   @required()
   locationDescription?: string;
 
-  @propArray(ContactDetailsForm)
-  additionalContacts?: ContactDetailsForm[] = [{}];
+  constructor(values: LocationInformationForm) {
+    Object.assign(this, values);
+  }
+}
 
+export class ProjectDetailsForm {
   @prop()
-  partneringProponents?: string[] = [];
-
-  @propArray(StringItem)
-  partneringProponentsArray?: StringItem[] = [{ value: '' }];
+  @required()
+  rationaleForFunding?: string;
 
   @prop()
   @required()
-  projectTitle?: string;
+  estimatedPeopleImpacted?: number;
 
   @prop()
   @required()
-  projectType?: ProjectType;
+  communityImpact?: string;
 
   @prop()
   @required()
@@ -161,61 +213,80 @@ export class EOIApplicationForm implements DrifEoiApplication {
   additionalBackgroundInformation?: string;
 
   @prop()
-  additionalEngagementInformation?: string;
-
-  @prop()
   @required()
   addressRisksAndHazards?: string;
-
-  @prop()
-  additionalSolutionInformation?: string;
 
   @prop()
   @required()
   drifProgramGoalAlignment?: string;
 
   @prop()
-  @required()
-  rationaleForFunding?: string;
+  additionalSolutionInformation?: string;
 
   @prop()
   @required()
   rationaleForSolution?: string;
 
+  constructor(values: ProjectDetailsForm) {
+    Object.assign(this, values);
+  }
+}
+
+export class EngagementPlanForm {
   @prop()
   @required()
-  estimatedPeopleImpacted?: number;
-
-  @prop()
-  @required({
-    conditionalExpression: 'x => x.remainingAmount > 0',
-  })
-  intendToSecureFunding?: string;
-
-  @prop()
-  @required()
-  relatedHazards?: Hazards[];
+  firstNationsEngagement?: string;
 
   @prop()
   @required()
-  startDate?: string;
+  neighbourEngagement?: string;
 
+  @prop()
+  additionalEngagementInformation?: string;
+
+  constructor(values: EngagementPlanForm) {
+    Object.assign(this, values);
+  }
+}
+
+export class OtherSupportingInformationForm {
+  @prop()
   @required()
-  @propObject(ContactDetailsForm)
-  submitter?: ContactDetailsForm = new ContactDetailsForm({});
-
-  @required()
-  @propObject(ContactDetailsForm)
-  projectContact?: ContactDetailsForm = new ContactDetailsForm({});
+  climateAdaptation?: string;
 
   @prop()
-  remainingAmount?: number;
+  otherInformation?: string;
 
-  @prop()
-  units?: string;
+  constructor(values: OtherSupportingInformationForm) {
+    Object.assign(this, values);
+  }
+}
 
-  @prop()
-  otherHazardsDescription?: string;
+export class EOIApplicationForm implements DrifEoiApplication {
+  @propObject(ProponentInformationForm)
+  proponentInformation?: ProponentInformationForm =
+    new ProponentInformationForm({});
+
+  @propObject(ProjectInformationForm)
+  projectInformation?: ProjectInformationForm = new ProjectInformationForm({});
+
+  @propObject(FundingInformationForm)
+  fundingInformation?: FundingInformationForm = new FundingInformationForm({});
+
+  @propObject(LocationInformationForm)
+  locationInformation?: LocationInformationForm = new LocationInformationForm(
+    {}
+  );
+
+  @propObject(ProjectDetailsForm)
+  projectDetails?: ProjectDetailsForm = new ProjectDetailsForm({});
+
+  @propObject(EngagementPlanForm)
+  engagementPlan?: EngagementPlanForm = new EngagementPlanForm({});
+
+  @propObject(OtherSupportingInformationForm)
+  otherSupportingInformation?: OtherSupportingInformationForm =
+    new OtherSupportingInformationForm({});
 
   @prop()
   @required()
@@ -231,15 +302,4 @@ export class EOIApplicationForm implements DrifEoiApplication {
   @required()
   @requiredTrue()
   identityConfirmation?: boolean;
-
-  @prop()
-  sameAsSubmitter?: boolean;
-
-  @prop()
-  @required()
-  scopeStatement?: string;
-
-  @prop()
-  @required()
-  communityImpact?: string;
 }

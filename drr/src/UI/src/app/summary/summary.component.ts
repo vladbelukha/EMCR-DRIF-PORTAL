@@ -3,6 +3,7 @@ import { DrifEoiApplication } from '../../model';
 import { MatInputModule } from '@angular/material/input';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
+import { EOIApplicationForm } from '../eoi-application/eoi-application-form';
 
 @Component({
   selector: 'drr-summary',
@@ -13,7 +14,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 })
 export class SummaryComponent {
   @Input()
-  eoiApplication?: DrifEoiApplication;
+  eoiApplication?: EOIApplicationForm;
 
   objectHasValues(obj: any) {
     return obj && Object.values(obj).some((value) => !!value);

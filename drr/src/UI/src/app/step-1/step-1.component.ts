@@ -13,6 +13,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import {
   ContactDetailsForm,
   EOIApplicationForm,
+  ProponentInformationForm,
   StringItem,
 } from '../eoi-application/eoi-application-form';
 import {
@@ -52,28 +53,28 @@ export class Step1Component {
   formBuilder = inject(RxFormBuilder);
 
   @Input()
-  eoiApplicationForm!: IFormGroup<EOIApplicationForm>;
+  proponentInformationForm!: IFormGroup<ProponentInformationForm>;
 
   ngOnInit() {
-    this.eoiApplicationForm
+    this.proponentInformationForm
       .get('partneringProponentsArray')
       ?.valueChanges.subscribe((proponents: StringItem[]) => {
-        this.eoiApplicationForm
+        this.proponentInformationForm
           .get('partneringProponents')
           ?.patchValue(proponents.map((proponent) => proponent.value));
       });
   }
 
   getFormArray(formArrayName: string) {
-    return this.eoiApplicationForm.get(formArrayName) as FormArray;
+    return this.proponentInformationForm.get(formArrayName) as FormArray;
   }
 
   getFormControl(name: string): RxFormControl {
-    return this.eoiApplicationForm.get(name) as RxFormControl;
+    return this.proponentInformationForm.get(name) as RxFormControl;
   }
 
   getGroupFormControl(controlName: string, groupName: string): RxFormControl {
-    return this.eoiApplicationForm
+    return this.proponentInformationForm
       .get(groupName)
       ?.get(controlName) as RxFormControl;
   }
@@ -101,18 +102,18 @@ export class Step1Component {
 
   toggleSameAsSubmitter() {
     const sameAsSubmitter =
-      this.eoiApplicationForm.get('sameAsSubmitter')?.value;
+      this.proponentInformationForm.get('sameAsSubmitter')?.value;
 
-    const projectContact = this.eoiApplicationForm.get(
+    const projectContact = this.proponentInformationForm.get(
       'projectContact'
     ) as RxFormGroup;
 
     let submitterSub: Subscription | undefined;
 
     if (sameAsSubmitter) {
-      const submitter = this.eoiApplicationForm.get('submitter')?.value;
+      const submitter = this.proponentInformationForm.get('submitter')?.value;
       projectContact.patchValue(submitter);
-      submitterSub = this.eoiApplicationForm
+      submitterSub = this.proponentInformationForm
         .get('submitter')
         ?.valueChanges.subscribe((submitter) => {
           projectContact.patchValue(submitter);

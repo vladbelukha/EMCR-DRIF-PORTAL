@@ -49,7 +49,7 @@ export class DrrInputComponent {
   }
 
   isRequired(): boolean {
-    return this.rxFormControl?.errors?.required ?? false;
+    return !!this.rxFormControl?.errors?.required;
   }
 
   onFocus() {

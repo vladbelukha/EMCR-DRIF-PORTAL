@@ -1,5 +1,5 @@
 <div class="drr-step-container" *transloco="let t">
-  <form [formGroup]="eoiApplicationForm">
+  <form [formGroup]="projectInformationForm">
     <mat-label class="drr-label">{{ t("fundingStream") }}</mat-label>
     <mat-radio-group
       id="fundingStream"
@@ -10,8 +10,8 @@
     >
       <mat-error
         *ngIf="
-          eoiApplicationForm.get('fundingStream')?.touched &&
-          eoiApplicationForm.get('fundingStream')?.hasError('required')
+          projectInformationForm.get('fundingStream')?.touched &&
+          projectInformationForm.get('fundingStream')?.hasError('required')
         "
         >{{ t("required") }}</mat-error
       >
@@ -47,8 +47,8 @@
     >
       <mat-error
         *ngIf="
-          eoiApplicationForm.get('projectType')?.touched &&
-          eoiApplicationForm.get('projectType')?.hasError('required')
+          projectInformationForm.get('projectType')?.touched &&
+          projectInformationForm.get('projectType')?.hasError('required')
         "
         >{{ t("required") }}</mat-error
       >
