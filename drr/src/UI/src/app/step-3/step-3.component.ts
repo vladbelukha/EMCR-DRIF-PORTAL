@@ -1,16 +1,5 @@
-import { Component, Input, inject } from '@angular/core';
-import {
-  EOIApplicationForm,
-  FundingInformationForm,
-} from '../eoi-application/eoi-application-form';
-import {
-  IFormGroup,
-  RxFormBuilder,
-  RxFormControl,
-  RxwebValidators,
-} from '@rxweb/reactive-form-validators';
 import { CommonModule } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
+import { Component, Input, inject } from '@angular/core';
 import {
   FormArray,
   FormControl,
@@ -18,15 +7,25 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { distinctUntilChanged } from 'rxjs';
-import { FundingType } from '../../model';
 import { MatSelectModule } from '@angular/material/select';
 import { TranslocoModule } from '@ngneat/transloco';
+import {
+  IFormGroup,
+  RxFormBuilder,
+  RxFormControl,
+} from '@rxweb/reactive-form-validators';
+import { distinctUntilChanged } from 'rxjs';
+import { FundingType } from '../../model';
 import { DrrTextareaComponent } from '../drr-datepicker/drr-textarea.component';
 import { DrrInputComponent } from '../drr-input/drr-input.component';
+import {
+  FundingInformationForm,
+  FundingInformationItemForm,
+} from '../eoi-application/eoi-application-form';
 
 @Component({
   selector: 'drr-step-3',
@@ -49,55 +48,59 @@ import { DrrInputComponent } from '../drr-input/drr-input.component';
 })
 export class Step3Component {
   @Input()
-  eoiApplicationForm!: IFormGroup<EOIApplicationForm>;
+  fundingInformationForm!: IFormGroup<FundingInformationForm>;
 
   fundingTypeOptions = Object.values(FundingType);
 
   formBuilder = inject(RxFormBuilder);
 
   ngOnInit() {
-    this.eoiApplicationForm
+    this.fundingInformationForm
       .get('otherFunding')!
       .valueChanges.pipe(distinctUntilChanged())
       .subscribe(() => {
         this.calculateRemainingAmount();
       });
 
-    this.eoiApplicationForm
+    this.fundingInformationForm
       .get('fundingRequest')!
       .valueChanges.pipe(distinctUntilChanged())
       .subscribe(() => {
         this.calculateRemainingAmount();
       });
 
-    this.eoiApplicationForm
+    this.fundingInformationForm
       .get('estimatedTotal')!
       .valueChanges.pipe(distinctUntilChanged())
       .subscribe(() => {
         this.calculateRemainingAmount();
       });
 
-    this.eoiApplicationForm.get('remainingAmount')?.disable();
+    this.fundingInformationForm.get('remainingAmount')?.disable();
   }
 
   calculateRemainingAmount() {
     const estimatedTotal =
-      this.eoiApplicationForm.get('estimatedTotal')?.value ?? 0;
+      this.fundingInformationForm.get('estimatedTotal')?.value ?? 0;
 
-    const otherFundingSum = this.getFormArray('otherFunding').controls.reduce(
-      (total, funding) => total + funding.value.amount,
+    let otherFundingSum = this.getFormArray('otherFunding').controls.reduce(
+      (total, funding) => total + Number(funding.value.amount),
       0
     );
+    // check if number
+    if (isNaN(otherFundingSum)) {
+      otherFundingSum = 0;
+    }
 
     const fundingRequest =
-      this.eoiApplicationForm.get('fundingRequest')?.value ?? 0;
+      this.fundingInformationForm.get('fundingRequest')?.value ?? 0;
 
     let remainingAmount = estimatedTotal - otherFundingSum - fundingRequest;
     remainingAmount = remainingAmount < 0 ? 0 : remainingAmount;
 
-    this.eoiApplicationForm.patchValue({ remainingAmount });
+    this.fundingInformationForm.patchValue({ remainingAmount });
 
-    const intendToSecureFunding = this.eoiApplicationForm.get(
+    const intendToSecureFunding = this.fundingInformationForm.get(
       'intendToSecureFunding'
     );
 
@@ -111,12 +114,12 @@ export class Step3Component {
   }
 
   getFormArray(formArrayName: string) {
-    return this.eoiApplicationForm.get(formArrayName) as FormArray;
+    return this.fundingInformationForm.get(formArrayName) as FormArray;
   }
 
   addOtherFunding() {
     this.getFormArray('otherFunding').push(
-      this.formBuilder.formGroup(FundingInformationForm)
+      this.formBuilder.formGroup(FundingInformationItemForm)
     );
   }
 
@@ -125,7 +128,7 @@ export class Step3Component {
   }
 
   getFormControl(name: string): FormControl {
-    return this.eoiApplicationForm.get(name) as FormControl;
+    return this.fundingInformationForm.get(name) as FormControl;
   }
 
   getArrayFormControl(

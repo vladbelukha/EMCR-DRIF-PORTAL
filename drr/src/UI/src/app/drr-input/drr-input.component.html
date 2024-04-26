@@ -5,8 +5,12 @@
     matInput
     [formControl]="rxFormControl"
     [maxlength]="maxlength"
+    required="{{ isRequired() }}"
+    [type]="type"
+    (focus)="onFocus()"
+    (blur)="onBlur()"
   />
-  <mat-hint *ngIf="maxlength" align="end"
+  <mat-hint *ngIf="maxlength && isFocused" align="end"
     >{{ getCount() }} / {{ maxlength }}</mat-hint
   >
 </mat-form-field>

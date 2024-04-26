@@ -60,6 +60,10 @@ footer nav {
   border: 4px solid #169bd5;
 }
 
+.mat-step-icon-state-error .mat-step-icon-content {
+  color: map-get($theme-colors, warning) !important;
+}
+
 ::ng-deep .mat-step-header .mat-step-icon-state-number {
   background-color: #169bd5 !important;
   color: #ffffff !important;

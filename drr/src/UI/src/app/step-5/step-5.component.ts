@@ -16,6 +16,7 @@ import {
 } from '@rxweb/reactive-form-validators';
 import {
   EOIApplicationForm,
+  ProjectDetailsForm,
   StringItem,
 } from '../eoi-application/eoi-application-form';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -45,13 +46,13 @@ export class Step5Component {
   formBuilder = inject(RxFormBuilder);
 
   @Input()
-  eoiApplicationForm!: IFormGroup<EOIApplicationForm>;
+  projectDetailsForm!: IFormGroup<ProjectDetailsForm>;
 
   ngOnInit() {
-    this.eoiApplicationForm
+    this.projectDetailsForm
       .get('infrastructureImpactedArray')
       ?.valueChanges.subscribe((infrastructures: StringItem[]) => {
-        this.eoiApplicationForm
+        this.projectDetailsForm
           .get('infrastructureImpacted')
           ?.patchValue(
             infrastructures.map((infrastructure) => infrastructure.value)
@@ -60,11 +61,11 @@ export class Step5Component {
   }
 
   getFormArray(formArrayName: string) {
-    return this.eoiApplicationForm.get(formArrayName) as FormArray;
+    return this.projectDetailsForm.get(formArrayName) as FormArray;
   }
 
   getFormControl(name: string): FormControl {
-    return this.eoiApplicationForm.get(name) as FormControl;
+    return this.projectDetailsForm.get(name) as FormControl;
   }
 
   getArrayFormControl(

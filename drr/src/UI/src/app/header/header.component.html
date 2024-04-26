@@ -1,4 +1,4 @@
-<header>
+<header *transloco="let t">
   <mat-toolbar class="bg-primary-nav header-toolbar">
     <mat-toolbar-row>
       <div class="header-container">
@@ -17,21 +17,15 @@
         <mat-divider [vertical]="true"></mat-divider>
 
         <div class="app-heading">
-          <span class="heading-text1">Disaster Resilience & Innovation Func</span>
-          <span class="heading-text2">&nbsp;(DRIF)</span>
+          <span class="heading-text1">{{ t("header") }}</span>
         </div>
 
         <div class="menu-responsive">
-          <ng-container
-            *ngIf="isAuthenticated()"
-          >
+          <ng-container *ngIf="isAuthenticated()">
             <button mat-button class="button-align" [matMenuTriggerFor]="menu">
               <div class="row">
                 <div>
-                  <span style="color: white">
-                    <b>lastName</b>,firstName
-                  </span
-                  >
+                  <span style="color: white"> <b>lastName</b>,firstName </span>
                 </div>
                 <div>
                   <img
@@ -60,4 +54,3 @@
     </mat-toolbar-row>
   </mat-toolbar>
 </header>
-  

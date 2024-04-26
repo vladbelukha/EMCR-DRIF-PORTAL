@@ -1,60 +1,39 @@
-import { Component, ViewChild, inject, isDevMode } from '@angular/core';
+import {
+  STEPPER_GLOBAL_OPTIONS,
+  StepperSelectionEvent,
+} from '@angular/cdk/stepper';
 import { CommonModule } from '@angular/common';
-import { MatStepper, MatStepperModule } from '@angular/material/stepper';
-import { MatInputModule } from '@angular/material/input';
+import { Component, inject } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import {
-  ReactiveFormsModule,
-  FormGroup,
-  FormControl,
-  FormsModule,
-  Validators,
-  FormBuilder,
-  FormArray,
-} from '@angular/forms';
+import { MatStepperModule } from '@angular/material/stepper';
+import { Router } from '@angular/router';
+import { HotToastService } from '@ngneat/hot-toast';
+import { TranslocoModule } from '@ngneat/transloco';
 import {
   IFormGroup,
-  RxFormArray,
   RxFormBuilder,
   RxFormGroup,
-  RxwebValidators,
-  email,
-  prop,
-  propArray,
-  propObject,
-  required,
 } from '@rxweb/reactive-form-validators';
-import {
-  ProponentType,
-  ContactDetails,
-  DrifEoiApplication,
-  Hazards,
-  ProjectType,
-} from '../../model';
-import {
-  ContactDetailsForm,
-  EOIApplicationForm,
-  FundingInformationForm,
-} from './eoi-application-form';
-import { MatIconModule } from '@angular/material/icon';
-import { MatDividerModule } from '@angular/material/divider';
+import { DrifapplicationService } from '../../api/drifapplication/drifapplication.service';
+import { DrifEoiApplication, Hazards } from '../../model';
 import { Step1Component } from '../step-1/step-1.component';
-import { Step6Component } from '../step-6/step-6.component';
 import { Step2Component } from '../step-2/step-2.component';
 import { Step3Component } from '../step-3/step-3.component';
 import { Step4Component } from '../step-4/step-4.component';
 import { Step5Component } from '../step-5/step-5.component';
+import { Step6Component } from '../step-6/step-6.component';
 import { Step7Component } from '../step-7/step-7.component';
 import { Step8Component } from '../step-8/step-8.component';
-import { DrifapplicationService } from '../../api/drifapplication/drifapplication.service';
-import { Router } from '@angular/router';
-import { TranslocoModule } from '@ngneat/transloco';
-import { HotToastService } from '@ngneat/hot-toast';
+import { EOIApplicationForm } from './eoi-application-form';
 
 @Component({
   selector: 'drr-eoi-application',
@@ -85,7 +64,14 @@ import { HotToastService } from '@ngneat/hot-toast';
   ],
   templateUrl: './eoi-application.component.html',
   styleUrl: './eoi-application.component.scss',
-  providers: [RxFormBuilder, HotToastService],
+  providers: [
+    RxFormBuilder,
+    HotToastService,
+    {
+      provide: STEPPER_GLOBAL_OPTIONS,
+      useValue: { showError: true },
+    },
+  ],
 })
 export class EOIApplicationComponent {
   isDevMode = false; // isDevMode();
@@ -101,148 +87,37 @@ export class EOIApplicationComponent {
     EOIApplicationForm
   ) as IFormGroup<EOIApplicationForm>;
 
-  @ViewChild('stepper') stepper: MatStepper | undefined;
-
-  getFormArray(formArrayName: string) {
-    return this.eoiApplicationForm?.get(formArrayName) as FormArray;
+  getFormGroup(groupName: string) {
+    return this.eoiApplicationForm?.get(groupName) as RxFormGroup;
   }
 
-  validateStep1() {
-    this.eoiApplicationForm.get('proponentType')?.markAsTouched();
-    this.eoiApplicationForm.get('proponentName')?.markAsTouched();
-    this.eoiApplicationForm.get('submitter')?.markAllAsTouched();
-    this.eoiApplicationForm.get('projectContact')?.markAllAsTouched();
-    this.eoiApplicationForm.get('additionalContacts')?.markAllAsTouched();
-    this.eoiApplicationForm.get('partneringProponents')?.markAllAsTouched();
-
-    if (
-      this.eoiApplicationForm.get('proponentType')?.valid &&
-      this.eoiApplicationForm.get('proponentName')?.valid &&
-      this.eoiApplicationForm.get('submitter')?.valid &&
-      this.eoiApplicationForm.get('projectContact')?.valid
-    ) {
-      this.stepper?.next();
-    }
+  stepperSelectionChange(event: StepperSelectionEvent) {
+    event.previouslySelectedStep.stepControl.markAllAsTouched();
   }
 
-  validateStep2() {
-    this.eoiApplicationForm.get('fundingStream')?.markAsTouched();
-    this.eoiApplicationForm.get('projectTitle')?.markAsTouched();
-    this.eoiApplicationForm.get('scopeStatement')?.markAsTouched();
-    this.eoiApplicationForm.get('projectType')?.markAsTouched();
-    this.eoiApplicationForm.get('relatedHazards')?.markAsTouched();
-    this.eoiApplicationForm.get('startDate')?.markAsTouched();
-    this.eoiApplicationForm.get('endDate')?.markAsTouched();
-
-    if (
-      this.eoiApplicationForm.get('fundingStream')?.valid &&
-      this.eoiApplicationForm.get('projectTitle')?.valid &&
-      this.eoiApplicationForm.get('scopeStatement')?.valid &&
-      this.eoiApplicationForm.get('projectType')?.valid &&
-      this.eoiApplicationForm.get('relatedHazards')?.valid &&
-      this.eoiApplicationForm.get('startDate')?.valid &&
-      this.eoiApplicationForm.get('endDate')?.valid
-    ) {
-      this.stepper?.next();
-    }
-  }
-
-  validateStep3() {
-    this.eoiApplicationForm.get('estimatedTotal')?.markAsTouched();
-    this.eoiApplicationForm.get('fundingRequest')?.markAsTouched();
-    this.eoiApplicationForm.get('otherFunding')?.markAllAsTouched();
-    this.eoiApplicationForm.get('intendToSecureFunding')?.markAsTouched();
-
-    if (
-      this.eoiApplicationForm.get('estimatedTotal')?.valid &&
-      this.eoiApplicationForm.get('fundingRequest')?.valid &&
-      this.eoiApplicationForm.get('otherFunding')?.valid &&
-      this.eoiApplicationForm.get('intendToSecureFunding')?.valid
-    ) {
-      this.stepper?.next();
-    }
-  }
-
-  validateStep4() {
-    this.eoiApplicationForm.get('ownershipDeclaration')?.markAsTouched();
-    this.eoiApplicationForm.get('ownershipDescription')?.markAsTouched();
-    this.eoiApplicationForm.get('locationDescription')?.markAsTouched();
-
-    if (
-      this.eoiApplicationForm.get('ownershipDeclaration')?.valid &&
-      this.eoiApplicationForm.get('ownershipDescription')?.valid &&
-      this.eoiApplicationForm.get('locationDescription')?.valid
-    ) {
-      this.stepper?.next();
-    }
-  }
-
-  validateStep5() {
-    this.eoiApplicationForm.get('rationaleForFunding')?.markAsTouched();
-    this.eoiApplicationForm.get('estimatedPeopleImpacted')?.markAsTouched();
-    this.eoiApplicationForm.get('communityImpact')?.markAsTouched();
-    this.eoiApplicationForm.get('infrastructureImpactedArray')?.markAsTouched();
-    this.eoiApplicationForm.get('disasterRiskUnderstanding')?.markAsTouched();
-    this.eoiApplicationForm
-      .get('additionalBackgroundInformation')
-      ?.markAsTouched();
-    this.eoiApplicationForm.get('addressRisksAndHazards')?.markAsTouched();
-    this.eoiApplicationForm.get('drifProgramGoalAlignment')?.markAsTouched();
-    this.eoiApplicationForm
-      .get('additionalSolutionInformation')
-      ?.markAsTouched();
-    this.eoiApplicationForm.get('rationaleForSolution')?.markAsTouched();
-
-    if (
-      this.eoiApplicationForm.get('rationaleForFunding')?.valid &&
-      this.eoiApplicationForm.get('estimatedPeopleImpacted')?.valid &&
-      this.eoiApplicationForm.get('communityImpact')?.valid &&
-      this.eoiApplicationForm.get('infrastructureImpactedArray')?.valid &&
-      this.eoiApplicationForm.get('disasterRiskUnderstanding')?.valid &&
-      this.eoiApplicationForm.get('addressRisksAndHazards')?.valid &&
-      this.eoiApplicationForm.get('drifProgramGoalAlignment')?.valid &&
-      this.eoiApplicationForm.get('rationaleForSolution')?.valid
-    ) {
-      this.stepper?.next();
-    }
-  }
-
-  validateStep6() {
-    this.eoiApplicationForm.get('firstNationsEngagement')?.markAsTouched();
-    this.eoiApplicationForm.get('neighbourEngagement')?.markAsTouched();
-    this.eoiApplicationForm
-      .get('additionalEngagementInformation')
-      ?.markAsTouched();
-
-    if (
-      this.eoiApplicationForm.get('firstNationsEngagement')?.valid &&
-      this.eoiApplicationForm.get('neighbourEngagement')?.valid
-    ) {
-      this.stepper?.next();
-    }
-  }
-
-  validateStep7() {
-    this.eoiApplicationForm.get('climateAdaptation')?.markAsTouched();
-    this.eoiApplicationForm.get('otherInformation')?.markAsTouched();
-
-    if (this.eoiApplicationForm.get('climateAdaptation')?.valid) {
-      this.stepper?.next();
-    }
-  }
-
-  validateStep8() {
+  submit() {
     this.eoiApplicationForm.markAllAsTouched();
     if (this.eoiApplicationForm.invalid) {
       this.hotToast.error('Please fill all the required fields');
       return;
     }
 
-    const applicationModel =
-      this.eoiApplicationForm.getRawValue() as DrifEoiApplication;
+    const eoiApplicationForm =
+      this.eoiApplicationForm.getRawValue() as EOIApplicationForm;
+
+    const drifEoiApplication = {
+      ...eoiApplicationForm,
+      ...eoiApplicationForm.proponentInformation,
+      ...eoiApplicationForm.projectInformation,
+      ...eoiApplicationForm.fundingInformation,
+      ...eoiApplicationForm.locationInformation,
+      ...eoiApplicationForm.projectDetails,
+      ...eoiApplicationForm.engagementPlan,
+      ...eoiApplicationForm.otherSupportingInformation,
+    } as DrifEoiApplication;
 
     this.applicationService
-      .dRIFApplicationCreateEOIApplication(applicationModel)
+      .dRIFApplicationCreateEOIApplication(drifEoiApplication)
       .subscribe(
         (response) => {
           this.router.navigate(['/success']);

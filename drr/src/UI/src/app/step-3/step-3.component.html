@@ -1,28 +1,25 @@
 <div class="drr-step-container" *transloco="let t">
-  <form [formGroup]="eoiApplicationForm">
+  <form [formGroup]="fundingInformationForm">
     <mat-label class="drr-label">{{ t("estimatedTotal") }}</mat-label>
-    <mat-form-field style="width: 50vw; margin-top: 10px">
-      <mat-label>{{ t("estimatedTotal") }}</mat-label>
-      <input
-        id="estimatedTotal"
-        matInput
-        type="number"
-        formControlName="estimatedTotal"
-        placeholder="$"
-      />
-    </mat-form-field>
+
+    <drr-input
+      style="width: 50vw; margin-top: 10px"
+      [id]="'estimatedTotal'"
+      [label]="t('estimatedTotal')"
+      [rxFormControl]="getFormControl('estimatedTotal')"
+      [type]="'number'"
+    ></drr-input>
 
     <mat-label class="drr-label">{{ t("fundingRequest") }}</mat-label>
-    <mat-form-field style="width: 50vw; margin-top: 10px">
-      <mat-label>{{ t("fundingRequest") }}</mat-label>
-      <input
-        id="fundingRequest"
-        matInput
-        type="number"
-        formControlName="fundingRequest"
-        placeholder="$"
-      />
-    </mat-form-field>
+
+    <drr-input
+      style="width: 50vw; margin-top: 10px"
+      [id]="'fundingRequest'"
+      [label]="t('fundingRequest')"
+      [rxFormControl]="getFormControl('fundingRequest')"
+      [type]="'number'"
+    ></drr-input>
+
     <mat-label class="drr-label">{{ t("otherFundingSources") }}</mat-label>
     <div formArrayName="otherFunding">
       <div
@@ -33,19 +30,17 @@
         "
         [formGroupName]="i"
       >
-        <mat-form-field>
-          <mat-label>{{ t("otherFundingSourcesAmount") }}</mat-label>
-          <input
-            id="otherFunding_amount_{{ i }}"
-            matInput
-            type="number"
-            formControlName="amount"
-          />
-        </mat-form-field>
+        <drr-input
+          [id]="'otherFunding_amount_' + i"
+          [label]="t('otherFundingSourcesAmount')"
+          [rxFormControl]="otherFunding.get('amount')"
+          [type]="'number'"
+        ></drr-input>
+
         <drr-input
           [id]="'otherFunding_name_' + i"
           [label]="t('otherFundingSourcesName')"
-          [rxFormControl]="getArrayFormControl('name', 'otherFunding', i)"
+          [rxFormControl]="otherFunding.get('name')"
           [maxlength]="100"
         ></drr-input>
         <mat-form-field>
@@ -84,15 +79,12 @@
     <mat-label class="drr-label" style="margin-top: 10px">{{
       t("remainingAmount")
     }}</mat-label>
-    <mat-form-field style="width: 50vw; margin-top: 10px">
-      <mat-label>{{ t("remainingAmount") }}</mat-label>
-      <input
-        matInput
-        type="number"
-        formControlName="remainingAmount"
-        placeholder="$"
-      />
-    </mat-form-field>
+    <drr-input
+      style="width: 50vw; margin-top: 10px"
+      [label]="t('remainingAmount')"
+      [rxFormControl]="getFormControl('remainingAmount')"
+      [type]="'number'"
+    ></drr-input>
 
     <drr-textarea
       [id]="'intendToSecureFunding'"

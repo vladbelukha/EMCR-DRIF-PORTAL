@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { FormArray, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { EOIApplicationForm } from '../eoi-application/eoi-application-form';
+import { EOIApplicationForm, ProjectInformationForm } from '../eoi-application/eoi-application-form';
 import { IFormGroup, RxFormControl } from '@rxweb/reactive-form-validators';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatRadioModule } from '@angular/material/radio';
@@ -34,16 +34,16 @@ import { DrrInputComponent } from '../drr-input/drr-input.component';
 })
 export class Step2Component {
   @Input()
-  eoiApplicationForm!: IFormGroup<EOIApplicationForm>;
+  projectInformationForm!: IFormGroup<ProjectInformationForm>;
 
   hazardsOptions = Object.values(Hazards);
 
   getFormArray(formArrayName: string) {
-    return this.eoiApplicationForm.get(formArrayName) as FormArray;
+    return this.projectInformationForm.get(formArrayName) as FormArray;
   }
 
   getFormControl(name: string): RxFormControl {
-    return this.eoiApplicationForm.get(name) as RxFormControl;
+    return this.projectInformationForm.get(name) as RxFormControl;
   }
 
   otherHazardSelected() {

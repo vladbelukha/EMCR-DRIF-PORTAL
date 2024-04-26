@@ -1,27 +1,39 @@
 <div class="app-stepper-container" *transloco="let t">
-  <h1>{{ t("header") }}</h1>
-
   <mat-stepper
     class="app-stepper"
-    [linear]="true"
+    [linear]="false"
     labelPosition="bottom"
+    (selectionChange)="stepperSelectionChange($event)"
     #stepper
   >
-    <mat-step [label]="t('step1')">
-      <drr-step-1 [eoiApplicationForm]="eoiApplicationForm"></drr-step-1>
+    <mat-step
+      [label]="t('step1')"
+      [stepControl]="getFormGroup('proponentInformation')"
+      [errorMessage]="t('stepError')"
+    >
+      <drr-step-1
+        [proponentInformationForm]="getFormGroup('proponentInformation')"
+      ></drr-step-1>
       <div class="drr-stepper-action">
         <button
           id="next1"
           mat-flat-button
           color="primary"
-          (click)="validateStep1()"
+          matStepperNext
+          type="button"
         >
           {{ t("next") }}
         </button>
       </div>
     </mat-step>
-    <mat-step [label]="t('step2')">
-      <drr-step-2 [eoiApplicationForm]="eoiApplicationForm"></drr-step-2>
+    <mat-step
+      [label]="t('step2')"
+      [stepControl]="getFormGroup('projectInformation')"
+      [errorMessage]="t('stepError')"
+    >
+      <drr-step-2
+        [projectInformationForm]="getFormGroup('projectInformation')"
+      ></drr-step-2>
       <div class="drr-stepper-actions">
         <button mat-stroked-button color="primary" matStepperPrevious>
           {{ t("back") }}
@@ -30,14 +42,21 @@
           id="next2"
           mat-flat-button
           color="primary"
-          (click)="validateStep2()"
+          matStepperNext
+          type="button"
         >
           {{ t("next") }}
         </button>
       </div>
     </mat-step>
-    <mat-step [label]="t('step3')">
-      <drr-step-3 [eoiApplicationForm]="eoiApplicationForm"></drr-step-3>
+    <mat-step
+      [label]="t('step3')"
+      [stepControl]="getFormGroup('fundingInformation')"
+      [errorMessage]="t('stepError')"
+    >
+      <drr-step-3
+        [fundingInformationForm]="getFormGroup('fundingInformation')"
+      ></drr-step-3>
       <div class="drr-stepper-actions">
         <button mat-stroked-button color="primary" matStepperPrevious>
           {{ t("back") }}
@@ -46,14 +65,21 @@
           id="next3"
           mat-flat-button
           color="primary"
-          (click)="validateStep3()"
+          matStepperNext
+          type="button"
         >
           {{ t("next") }}
         </button>
       </div>
     </mat-step>
-    <mat-step [label]="t('step4')">
-      <drr-step-4 [eoiApplicationForm]="eoiApplicationForm"></drr-step-4>
+    <mat-step
+      [label]="t('step4')"
+      [stepControl]="getFormGroup('locationInformation')"
+      [errorMessage]="t('stepError')"
+    >
+      <drr-step-4
+        [locationInformationForm]="getFormGroup('locationInformation')"
+      ></drr-step-4>
       <div class="drr-stepper-actions">
         <button mat-stroked-button color="primary" matStepperPrevious>
           {{ t("back") }}
@@ -62,14 +88,21 @@
           id="next4"
           mat-flat-button
           color="primary"
-          (click)="validateStep4()"
+          matStepperNext
+          type="button"
         >
           {{ t("next") }}
         </button>
       </div>
     </mat-step>
-    <mat-step [label]="t('step5')">
-      <drr-step-5 [eoiApplicationForm]="eoiApplicationForm"></drr-step-5>
+    <mat-step
+      [label]="t('step5')"
+      [stepControl]="getFormGroup('projectDetails')"
+      [errorMessage]="t('stepError')"
+    >
+      <drr-step-5
+        [projectDetailsForm]="getFormGroup('projectDetails')"
+      ></drr-step-5>
       <div class="drr-stepper-actions">
         <button mat-stroked-button color="primary" matStepperPrevious>
           {{ t("back") }}
@@ -78,14 +111,21 @@
           id="next5"
           mat-flat-button
           color="primary"
-          (click)="validateStep5()"
+          matStepperNext
+          type="button"
         >
           {{ t("next") }}
         </button>
       </div>
     </mat-step>
-    <mat-step [label]="t('step6')">
-      <drr-step-6 [eoiApplicationForm]="eoiApplicationForm"></drr-step-6>
+    <mat-step
+      [label]="t('step6')"
+      [stepControl]="getFormGroup('engagementPlan')"
+      [errorMessage]="t('stepError')"
+    >
+      <drr-step-6
+        [engagementPlanForm]="getFormGroup('engagementPlan')"
+      ></drr-step-6>
       <div class="drr-stepper-actions">
         <button mat-stroked-button color="primary" matStepperPrevious>
           {{ t("back") }}
@@ -94,14 +134,23 @@
           id="next6"
           mat-flat-button
           color="primary"
-          (click)="validateStep6()"
+          matStepperNext
+          type="button"
         >
           {{ t("next") }}
         </button>
       </div>
     </mat-step>
-    <mat-step [label]="t('step7')">
-      <drr-step-7 [eoiApplicationForm]="eoiApplicationForm"></drr-step-7>
+    <mat-step
+      [label]="t('step7')"
+      [stepControl]="getFormGroup('otherSupportingInformation')"
+      [errorMessage]="t('stepError')"
+    >
+      <drr-step-7
+        [otherSupportingInformationForm]="
+          getFormGroup('otherSupportingInformation')
+        "
+      ></drr-step-7>
       <div class="drr-stepper-actions">
         <button mat-stroked-button color="primary" matStepperPrevious>
           {{ t("back") }}
@@ -110,7 +159,8 @@
           id="next7"
           mat-flat-button
           color="primary"
-          (click)="validateStep7()"
+          matStepperNext
+          type="button"
         >
           {{ t("next") }}
         </button>
@@ -126,7 +176,8 @@
           id="submit"
           mat-flat-button
           color="primary"
-          (click)="validateStep8()"
+          type="button"
+          (click)="submit()"
         >
           {{ t("submit") }}
         </button>
