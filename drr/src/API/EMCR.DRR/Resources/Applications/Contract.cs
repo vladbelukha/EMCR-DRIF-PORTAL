@@ -27,7 +27,7 @@ namespace EMCR.DRR.Resources.Applications
 
     public class ApplicationsQuery : ApplicationQuery
     {
-        public string? ApplicationId { get; set; }
+        public string? ApplicationName { get; set; }
     }
 
     public class SubmitApplication : ManageApplicationCommand

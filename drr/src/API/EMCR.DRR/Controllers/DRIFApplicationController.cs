@@ -25,12 +25,6 @@ namespace EMCR.DRR.Controllers
             this.applicationRepository = applicationRepository;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<int>> Test()
-        {
-            var applications = (await applicationRepository.Query(new ApplicationsQuery { })).Items;
-            return Ok(new { count = applications.Count() });
-        }
 
         [HttpPost("EOI")]
         public async Task<ActionResult<ApplicationResult>> CreateEOIApplication(DrifEoiApplication application)
@@ -74,7 +68,7 @@ namespace EMCR.DRR.Controllers
 
         //Location Information
         public required bool OwnershipDeclaration { get; set; }
-        public required string OwnershipDescription { get; set; }
+        public string? OwnershipDescription { get; set; }
         public required string LocationDescription { get; set; }
 
         //Project Detail

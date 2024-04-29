@@ -19,10 +19,14 @@ namespace EMCR.Tests.Integration.DRR.Resources
             var id = (await applicationRepository.Manage(new SubmitApplication { Application = originalApplication })).Id;
             id.ShouldNotBeEmpty();
 
-            var newApplication = (await applicationRepository.Query(new ApplicationsQuery { ApplicationId = id })).Items.ShouldHaveSingleItem();
+            var newApplication = (await applicationRepository.Query(new ApplicationsQuery { ApplicationName = id })).Items.ShouldHaveSingleItem();
             newApplication.ProjectTitle.ShouldNotBeEmpty();
-            //newApplication.Submitter.FirstName.ShouldBe(originalApplication.Submitter.FirstName);
-            //newApplication.AdditionalContacts.Count().ShouldBe(originalApplication.AdditionalContacts.Count());
+            //verify submitter
+            //verify project contact
+            //verify additonal contacts
+            //verify partnering proponents
+            //verify funding sourcres
+            //verify infrastructure
         }
 
         [Test]
@@ -45,19 +49,19 @@ namespace EMCR.Tests.Integration.DRR.Resources
                 //Proponent Information
                 ProponentType = ProponentType.LocalGovernment,
                 ProponentName = $"{uniqueSignature}_applicant_name",
-                Submitter = CreateTestContact(uniqueSignature),
-                ProjectContact = CreateTestContact(uniqueSignature),
-                AdditionalContact1 = CreateTestContact(uniqueSignature),
+                Submitter = CreateTestContact(uniqueSignature, "submitter"),
+                ProjectContact = CreateTestContact(uniqueSignature, "proj"),
+                AdditionalContact1 = CreateTestContact(uniqueSignature, "add1"),
                 //AdditionalContact2 = CreateTestContact(uniqueSignature),
                 PartneringProponents = new[]
                 {
-                   new PartneringProponent { Name = "partner1" },
-                   new PartneringProponent { Name = "partner2" },
+                   new PartneringProponent { Name = $"{uniqueSignature}_partner1" },
+                   new PartneringProponent { Name = $"{uniqueSignature}_partner2" },
                 },
 
                 //Project Information
                 FundingStream = FundingStream.Stream1,
-                ProjectTitle = $"{uniqueSignature}_projectTitle",
+                ProjectTitle = "Project Title",
                 ProjectType = ProjectType.New,
                 ScopeStatement = "scope",
                 RelatedHazards = new[]
@@ -77,13 +81,13 @@ namespace EMCR.Tests.Integration.DRR.Resources
                 {
                     new FundingInformation
                     {
-                        Name = "my $$$",
+                        Name = $"{uniqueSignature}_self",
                         Amount = 100,
                         Type = FundingType.SelfFunding,
                     },
                     new FundingInformation
                     {
-                        Name = "prov $$$",
+                        Name = $"{uniqueSignature}_prov",
                         Amount = 200,
                         Type = FundingType.Prov,
                     },
@@ -100,7 +104,11 @@ namespace EMCR.Tests.Integration.DRR.Resources
                 RationaleForFunding = "rationale for funding",
                 EstimatedPeopleImpacted = 12,
                 CommunityImpact = "community impact",
-                InfrastructureImpacted = new[] { "test1" },
+                InfrastructureImpacted = new[]
+                {
+                    new CriticalInfrastructure {Name= $"{uniqueSignature}_infrastructure1" },
+                    new CriticalInfrastructure {Name= $"{uniqueSignature}_infrastructure2" },
+                },
                 DisasterRiskUnderstanding = "helps many people",
                 AdditionalBackgroundInformation = "additional background info",
                 AddressRisksAndHazards = "fix risks",
@@ -124,12 +132,12 @@ namespace EMCR.Tests.Integration.DRR.Resources
             };
         }
 
-        private ContactDetails CreateTestContact(string uniqueSignature)
+        private ContactDetails CreateTestContact(string uniqueSignature, string namePrefix)
         {
             return new ContactDetails
             {
-                FirstName = $"{uniqueSignature}_first",
-                LastName = $"{uniqueSignature}_last",
+                FirstName = $"{uniqueSignature}_{namePrefix}_first",
+                LastName = $"{uniqueSignature}_{namePrefix}_last",
                 Email = "test@test.com",
                 Phone = "604-123-4567",
                 Department = "Position",

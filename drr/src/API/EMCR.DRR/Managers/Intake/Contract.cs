@@ -48,14 +48,14 @@ namespace EMCR.DRR.Managers.Intake
 
         //Location Information
         public required bool OwnershipDeclaration { get; set; }
-        public required string OwnershipDescription { get; set; }
+        public string? OwnershipDescription { get; set; }
         public required string LocationDescription { get; set; }
 
         //Project Detail
         public required string RationaleForFunding { get; set; }
         public required int EstimatedPeopleImpacted { get; set; }
         public required string CommunityImpact { get; set; }
-        public required IEnumerable<string> InfrastructureImpacted { get; set; }
+        public required IEnumerable<CriticalInfrastructure> InfrastructureImpacted { get; set; }
         public required string DisasterRiskUnderstanding { get; set; }
         public string? AdditionalBackgroundInformation { get; set; }
         public required string AddressRisksAndHazards { get; set; }
@@ -106,6 +106,11 @@ namespace EMCR.DRR.Managers.Intake
     }
 
     public class PartneringProponent
+    {
+        public required string Name { get; set; }
+    }
+    
+    public class CriticalInfrastructure
     {
         public required string Name { get; set; }
     }

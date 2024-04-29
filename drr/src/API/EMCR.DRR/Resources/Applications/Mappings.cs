@@ -16,7 +16,7 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.drr_PrimaryProjectContact, opt => opt.MapFrom(src => src.ProjectContact))
                 .ForMember(dest => dest.drr_AdditionalContact1, opt => opt.MapFrom(src => src.AdditionalContact1))
                 .ForMember(dest => dest.drr_AdditionalContact2, opt => opt.MapFrom(src => src.AdditionalContact2))
-                .ForMember(dest => dest.drr_drr_application_account, opt => opt.MapFrom(src => src.PartneringProponents))
+                //.ForMember(dest => dest.drr_drr_application_account, opt => opt.MapFrom(src => src.PartneringProponents))
                 .ForMember(dest => dest.drr_fundingstream, opt => opt.MapFrom(src => (int?)Enum.Parse<FundingStreamOptionSet>(src.FundingStream.ToString())))
                 .ForMember(dest => dest.drr_projecttitle, opt => opt.MapFrom(src => src.ProjectTitle))
                 .ForMember(dest => dest.drr_projecttype, opt => opt.MapFrom(src => (int?)Enum.Parse<ProjectTypeOptionSet>(src.ProjectType.ToString())))
@@ -36,22 +36,25 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.drr_rationaleforfundingrequest, opt => opt.MapFrom(src => src.RationaleForFunding))
                 .ForMember(dest => dest.drr_estimatednumberofpeopleimpacted, opt => opt.MapFrom(src => src.EstimatedPeopleImpacted))
                 .ForMember(dest => dest.drr_impacttocommunity, opt => opt.MapFrom(src => src.CommunityImpact))
-                .ForMember(dest => dest.drr_criticalinfrastructureimpacted, opt => opt.MapFrom(src => string.Join(", ", src.InfrastructureImpacted)))
+                .ForMember(dest => dest.drr_drr_application_drr_criticalinfrastructureimpacted_Application, opt => opt.MapFrom(src => src.InfrastructureImpacted))
                 .ForMember(dest => dest.drr_improveunderstandingriskinvestreduction, opt => opt.MapFrom(src => src.DisasterRiskUnderstanding))
                 .ForMember(dest => dest.drr_includedtoaddressidentifiedriskhazards, opt => opt.MapFrom(src => src.AddressRisksAndHazards))
                 .ForMember(dest => dest.drr_howdoesprojectalignwithdrifsprogramgoals, opt => opt.MapFrom(src => src.DRIFProgramGoalAlignment))
-                .ForMember(dest => dest.drr_additionalrelevantinformation2, opt => opt.MapFrom(src => src.AdditionalSolutionInformation))
+                .ForMember(dest => dest.drr_additionalrelevantinformation1, opt => opt.MapFrom(src => src.AdditionalBackgroundInformation))
                 .ForMember(dest => dest.drr_rationalforproposedsolution, opt => opt.MapFrom(src => src.RationaleForSolution))
                 .ForMember(dest => dest.drr_engagementwithfirstnationsorindigenousorg, opt => opt.MapFrom(src => src.FirstNationsEngagement))
                 .ForMember(dest => dest.drr_plantoengageotherjurisdictionsandparties, opt => opt.MapFrom(src => src.NeighbourEngagement))
-                .ForMember(dest => dest.drr_additionalrelevantinformation1, opt => opt.MapFrom(src => src.AdditionalEngagementInformation))
+                .ForMember(dest => dest.drr_additionalrelevantinformation2, opt => opt.MapFrom(src => src.AdditionalSolutionInformation))
+                .ForMember(dest => dest.drr_additionalrelevantinformation3, opt => opt.MapFrom(src => src.AdditionalEngagementInformation))
                 .ForMember(dest => dest.drr_climateadaptation, opt => opt.MapFrom(src => src.ClimateAdaptation))
                 .ForMember(dest => dest.drr_otherrelevantinformation, opt => opt.MapFrom(src => src.OtherInformation))
                 .ForMember(dest => dest.drr_identityconfirmation, opt => opt.MapFrom(src => src.IdentityConfirmation ? DRRTwoOptions.Yes : DRRTwoOptions.No))
                 .ForMember(dest => dest.drr_foippaconfirmation, opt => opt.MapFrom(src => src.FOIPPAConfirmation ? DRRTwoOptions.Yes : DRRTwoOptions.No))
                 .ForMember(dest => dest.drr_financialawarenessstatement, opt => opt.MapFrom(src => src.FinancialAwarenessConfirmation ? DRRTwoOptions.Yes : DRRTwoOptions.No))
+                .ForMember(dest => dest.drr_submitteddate, opt => opt.MapFrom(src => DateTime.UtcNow))
                 .ReverseMap()
                 .ValidateMemberList(MemberList.Destination)
+                //These are incomplete - but they've really just been for testing...
                 .ForMember(dest => dest.ProponentName, opt => opt.MapFrom(src => src.drr_name))
                 //.ForMember(dest => dest.Submitter, opt => opt.MapFrom(src => src.drr_SubmitterContact))
                 //.ForMember(dest => dest.ProjectContact, opt => opt.MapFrom(src => src.drr_application_contact_Application.FirstOrDefault()))
@@ -70,7 +73,6 @@ namespace EMCR.DRR.Resources.Applications
                 .ForPath(dest => dest.OwnershipDescription, opt => opt.MapFrom(src => src.drr_ownershipdeclarationcontext))
                 .ForMember(dest => dest.EstimatedPeopleImpacted, opt => opt.MapFrom(src => src.drr_estimatednumberofpeopleimpacted))
                 .ForMember(dest => dest.RationaleForFunding, opt => opt.MapFrom(src => src.drr_rationaleforfundingrequest))
-                .ForMember(dest => dest.AdditionalSolutionInformation, opt => opt.MapFrom(src => src.drr_proposedsolution))
                 .ForMember(dest => dest.RationaleForSolution, opt => opt.MapFrom(src => src.drr_rationalforproposedsolution))
                 .ForMember(dest => dest.FirstNationsEngagement, opt => opt.MapFrom(src => src.drr_engagementwithfirstnationsorindigenousorg))
                 .ForMember(dest => dest.ClimateAdaptation, opt => opt.MapFrom(src => src.drr_climateadaptation))
@@ -78,18 +80,17 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.IdentityConfirmation, opt => opt.MapFrom(src => src.drr_identityconfirmation == (int)DRRTwoOptions.Yes))
                 .ForMember(dest => dest.FOIPPAConfirmation, opt => opt.MapFrom(src => src.drr_foippaconfirmation == (int)DRRTwoOptions.Yes))
                 .ForMember(dest => dest.FinancialAwarenessConfirmation, opt => opt.MapFrom(src => src.drr_financialawarenessstatement == (int)DRRTwoOptions.Yes))
-
             ;
 
             CreateMap<FundingInformation, drr_fundingsource>()
                 .ForMember(dest => dest.drr_name, opt => opt.MapFrom(src => src.Name))
                 .ForMember(dest => dest.drr_typeoffunding, opt => opt.MapFrom(src => (int?)Enum.Parse<FundingTypeOptionSet>(src.Type.ToString())))
-                .ForMember(dest => dest.drr_amount, opt => opt.MapFrom(src => src.Amount))
+                .ForMember(dest => dest.drr_estimatedamount, opt => opt.MapFrom(src => src.Amount))
                 .ReverseMap()
                 .ValidateMemberList(MemberList.Destination)
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.drr_name))
                 .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.drr_typeoffunding))
-                .ForMember(dest => dest.Amount, opt => opt.MapFrom(src => src.drr_amount))
+                .ForMember(dest => dest.Amount, opt => opt.MapFrom(src => src.drr_estimatedamount))
             ;
 
             CreateMap<ContactDetails, contact>()
@@ -115,6 +116,9 @@ namespace EMCR.DRR.Resources.Applications
                 .ValidateMemberList(MemberList.Destination)
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.name))
             ;
+
+            CreateMap<CriticalInfrastructure, drr_criticalinfrastructureimpacted>()
+                .ForMember(dest => dest.drr_name, opt => opt.MapFrom(src => src.Name));
         }
     }
 }
