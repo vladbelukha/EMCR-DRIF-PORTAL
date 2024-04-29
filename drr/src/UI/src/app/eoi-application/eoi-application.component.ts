@@ -1,3 +1,4 @@
+import { BreakpointObserver, LayoutModule } from '@angular/cdk/layout';
 import {
   STEPPER_GLOBAL_OPTIONS,
   StepperSelectionEvent,
@@ -14,7 +15,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
-import { MatStepperModule } from '@angular/material/stepper';
+import {
+  MatStepperModule,
+  StepperOrientation,
+} from '@angular/material/stepper';
 import { Router } from '@angular/router';
 import { HotToastService } from '@ngneat/hot-toast';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -40,6 +44,7 @@ import { EOIApplicationForm } from './eoi-application-form';
   standalone: true,
   imports: [
     CommonModule,
+    LayoutModule,
     MatButtonModule,
     MatStepperModule,
     FormsModule,
@@ -75,6 +80,7 @@ import { EOIApplicationForm } from './eoi-application-form';
 })
 export class EOIApplicationComponent {
   isDevMode = false; // isDevMode();
+  stepperOrientation: StepperOrientation = 'vertical';
 
   hazardsOptions = Object.values(Hazards);
 
@@ -82,10 +88,19 @@ export class EOIApplicationComponent {
   applicationService = inject(DrifapplicationService);
   router = inject(Router);
   hotToast = inject(HotToastService);
+  breakpointObserver = inject(BreakpointObserver);
 
   eoiApplicationForm = this.formBuilder.formGroup(
     EOIApplicationForm
   ) as IFormGroup<EOIApplicationForm>;
+
+  ngOnInit() {
+    this.breakpointObserver
+      .observe('(min-width: 800px)')
+      .subscribe(({ matches }) => {
+        this.stepperOrientation = matches ? 'horizontal' : 'vertical';
+      });
+  }
 
   getFormGroup(groupName: string) {
     return this.eoiApplicationForm?.get(groupName) as RxFormGroup;
