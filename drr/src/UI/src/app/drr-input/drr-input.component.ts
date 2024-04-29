@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, Input, inject } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  HostListener,
+  Input,
+  inject,
+} from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -27,6 +33,10 @@ export class DrrInputComponent {
   @Input() id = '';
   @Input() maxlength: number | string = '';
   @Input() type = 'text';
+
+  get numberInputMin() {
+    return this.type === 'number' ? 0 : undefined;
+  }
 
   private _formControl = this.formBuilder.control('', []) as RxFormControl;
   @Input()
@@ -58,5 +68,18 @@ export class DrrInputComponent {
 
   onBlur() {
     this.isFocused = false;
+  }
+
+  @HostListener('keypress', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if (this.type === 'tel') {
+      const pattern = /[0-9]/; // Allow numbers
+      let inputChar = String.fromCharCode(event.charCode);
+
+      if (!pattern.test(inputChar)) {
+        // Invalid character, prevent input
+        event.preventDefault();
+      }
+    }
   }
 }

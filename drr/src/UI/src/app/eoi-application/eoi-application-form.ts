@@ -1,5 +1,6 @@
 import {
   email,
+  minNumber,
   prop,
   propArray,
   propObject,
@@ -7,18 +8,19 @@ import {
   requiredTrue,
 } from '@rxweb/reactive-form-validators';
 import {
-  ProponentType,
   ContactDetails,
   DrifEoiApplication,
   FundingInformation,
+  FundingStream,
   FundingType,
   Hazards,
   ProjectType,
-  FundingStream,
+  ProponentType,
 } from '../../model';
 
 export class FundingInformationItemForm implements FundingInformation {
   @prop()
+  @minNumber({ value: 0 })
   amount?: number;
   @prop()
   name?: string;
@@ -147,10 +149,12 @@ export class ProjectInformationForm {
 export class FundingInformationForm {
   @prop()
   @required()
+  @minNumber({ value: 0 })
   estimatedTotal?: number;
 
   @prop()
   @required()
+  @minNumber({ value: 0 })
   fundingRequest?: number;
 
   @propArray(FundingInformationItemForm)
@@ -192,6 +196,7 @@ export class ProjectDetailsForm {
 
   @prop()
   @required()
+  @minNumber({ value: 0 })
   estimatedPeopleImpacted?: number;
 
   @prop()
