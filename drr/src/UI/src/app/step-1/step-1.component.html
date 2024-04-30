@@ -88,10 +88,7 @@
       >{{ t("sameAsSubmitter") }}</mat-checkbox
     >
 
-    <div
-      *ngIf="!proponentInformationForm.get('sameAsSubmitter')?.value"
-      class="contacts-container"
-    >
+    <div class="contacts-container">
       <drr-input
         [id]="'projectContact_firstName'"
         [label]="t('firstName')"

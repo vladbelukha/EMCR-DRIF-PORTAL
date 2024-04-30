@@ -1,33 +1,27 @@
-import {
-  CUSTOM_ELEMENTS_SCHEMA,
-  Component,
-  Input,
-  inject,
-} from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, Input, inject } from '@angular/core';
 import { FormArray, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
-import {
-  ContactDetailsForm,
-  EOIApplicationForm,
-  ProponentInformationForm,
-  StringItem,
-} from '../eoi-application/eoi-application-form';
+import { TranslocoModule } from '@ngneat/transloco';
 import {
   IFormGroup,
   RxFormBuilder,
   RxFormControl,
   RxFormGroup,
 } from '@rxweb/reactive-form-validators';
-import { CommonModule } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
-import { TranslocoModule } from '@ngneat/transloco';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { DrrInputComponent } from '../drr-input/drr-input.component';
 import { Subscription } from 'rxjs';
+import { DrrInputComponent } from '../drr-input/drr-input.component';
+import {
+  ContactDetailsForm,
+  ProponentInformationForm,
+  StringItem,
+} from '../eoi-application/eoi-application-form';
 
 @Component({
   selector: 'drr-step-1',
@@ -112,6 +106,7 @@ export class Step1Component {
 
     if (sameAsSubmitter) {
       const submitter = this.proponentInformationForm.get('submitter')?.value;
+      projectContact.disable();
       projectContact.patchValue(submitter);
       submitterSub = this.proponentInformationForm
         .get('submitter')
@@ -120,6 +115,7 @@ export class Step1Component {
         });
     } else {
       projectContact.reset();
+      projectContact.enable();
       submitterSub?.unsubscribe();
     }
   }
