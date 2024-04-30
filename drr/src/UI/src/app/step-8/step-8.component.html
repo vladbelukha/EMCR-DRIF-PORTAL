@@ -13,7 +13,7 @@
     <mat-error
       *ngIf="
         declarationForm.get('identityConfirmation')?.touched &&
-        declarationForm.get('identityConfirmation')?.hasError('required')
+        declarationForm.get('identityConfirmation')?.hasError('requiredTrue')
       "
     >
       {{ t("required") }}
@@ -27,7 +27,7 @@
     <mat-error
       *ngIf="
         declarationForm.get('foippaConfirmation')?.touched &&
-        declarationForm.get('foippaConfirmation')?.hasError('required')
+        declarationForm.get('foippaConfirmation')?.hasError('requiredTrue')
       "
     >
       {{ t("required") }}
@@ -48,7 +48,7 @@
         declarationForm.get('financialAwarenessConfirmation')?.touched &&
         declarationForm
           .get('financialAwarenessConfirmation')
-          ?.hasError('required')
+          ?.hasError('requiredTrue')
       "
     >
       {{ t("required") }}
