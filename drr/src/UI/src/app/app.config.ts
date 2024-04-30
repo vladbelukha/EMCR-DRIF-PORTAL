@@ -16,7 +16,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
 import { provideHotToastConfig } from '@ngneat/hot-toast';
 import { provideTransloco } from '@ngneat/transloco';
-import { provideEnvironmentNgxMask } from 'ngx-mask';
+import { provideNgxMask } from 'ngx-mask';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { DrifapplicationService } from '../api/drifapplication/drifapplication.service';
 import { LoadingInterceptor } from '../interceptors/loading.interceptor';
@@ -64,6 +64,6 @@ export const appConfig: ApplicationConfig = {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
       useValue: { hideRequiredMarker: false },
     },
-    provideEnvironmentNgxMask(),
+    provideNgxMask(),
   ],
 };
