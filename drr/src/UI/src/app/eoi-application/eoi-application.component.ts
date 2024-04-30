@@ -96,7 +96,7 @@ export class EOIApplicationComponent {
 
   ngOnInit() {
     this.breakpointObserver
-      .observe('(min-width: 800px)')
+      .observe('(min-width: 768px)')
       .subscribe(({ matches }) => {
         this.stepperOrientation = matches ? 'horizontal' : 'vertical';
       });
