@@ -10,6 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { RxFormBuilder, RxFormControl } from '@rxweb/reactive-form-validators';
+import { NgxMaskDirective } from 'ngx-mask';
 
 @Component({
   selector: 'drr-input',
@@ -22,6 +23,7 @@ import { RxFormBuilder, RxFormControl } from '@rxweb/reactive-form-validators';
     MatFormFieldModule,
     ReactiveFormsModule,
     MatInputModule,
+    NgxMaskDirective,
   ],
 })
 export class DrrInputComponent {
@@ -33,6 +35,10 @@ export class DrrInputComponent {
   @Input() id = '';
   @Input() maxlength: number | string = '';
   @Input() type = 'text';
+
+  get getMaxLength() {
+    return this.type !== 'tel' ? this.maxlength : null;
+  }
 
   get numberInputMin() {
     return this.type === 'number' ? 0 : undefined;
@@ -68,6 +74,13 @@ export class DrrInputComponent {
 
   onBlur() {
     this.isFocused = false;
+  }
+
+  getMask() {
+    if (this.type === 'tel') {
+      return '000-000-0000';
+    }
+    return '';
   }
 
   @HostListener('keypress', ['$event'])
