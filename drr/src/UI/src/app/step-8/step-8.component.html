@@ -1,7 +1,7 @@
 <div class="drr-step-container" *transloco="let t">
   <drr-summary [eoiApplication]="eoiApplicationForm.value"></drr-summary>
 
-  <form [formGroup]="eoiApplicationForm">
+  <form [formGroup]="declarationForm">
     <mat-label class="drr-label"> {{ t("identityConfirmation") }} </mat-label>
     <mat-label> {{ t("identityConfirmationText") }} </mat-label>
     <mat-checkbox
@@ -12,8 +12,8 @@
     </mat-checkbox>
     <mat-error
       *ngIf="
-        eoiApplicationForm.get('identityConfirmation')?.touched &&
-        eoiApplicationForm.get('identityConfirmation')?.hasError('required')
+        declarationForm.get('identityConfirmation')?.touched &&
+        declarationForm.get('identityConfirmation')?.hasError('required')
       "
     >
       {{ t("required") }}
@@ -26,8 +26,8 @@
     </mat-checkbox>
     <mat-error
       *ngIf="
-        eoiApplicationForm.get('foippaConfirmation')?.touched &&
-        eoiApplicationForm.get('foippaConfirmation')?.hasError('required')
+        declarationForm.get('foippaConfirmation')?.touched &&
+        declarationForm.get('foippaConfirmation')?.hasError('required')
       "
     >
       {{ t("required") }}
@@ -45,8 +45,8 @@
     </mat-checkbox>
     <mat-error
       *ngIf="
-        eoiApplicationForm.get('financialAwarenessConfirmation')?.touched &&
-        eoiApplicationForm
+        declarationForm.get('financialAwarenessConfirmation')?.touched &&
+        declarationForm
           .get('financialAwarenessConfirmation')
           ?.hasError('required')
       "

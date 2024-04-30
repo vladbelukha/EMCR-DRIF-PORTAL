@@ -4,7 +4,7 @@ import {
   StepperSelectionEvent,
 } from '@angular/cdk/stepper';
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, ViewChild, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -16,6 +16,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import {
+  MatStepper,
   MatStepperModule,
   StepperOrientation,
 } from '@angular/material/stepper';
@@ -94,6 +95,19 @@ export class EOIApplicationComponent {
     EOIApplicationForm
   ) as IFormGroup<EOIApplicationForm>;
 
+  @ViewChild(MatStepper) stepper!: MatStepper;
+
+  private formToStepMap: Record<string, string> = {
+    proponentInformation: 'Step 1',
+    projectInformation: 'Step 2',
+    fundingInformation: 'Step 3',
+    locationInformation: 'Step 4',
+    projectDetails: 'Step 5',
+    engagementPlan: 'Step 6',
+    otherSupportingInformation: 'Step 7',
+    declaration: 'Step 8',
+  };
+
   ngOnInit() {
     this.breakpointObserver
       .observe('(min-width: 768px)')
@@ -112,8 +126,24 @@ export class EOIApplicationComponent {
 
   submit() {
     this.eoiApplicationForm.markAllAsTouched();
+    this.stepper.steps.forEach((step) => step._markAsInteracted());
+    this.stepper._stateChanged();
     if (this.eoiApplicationForm.invalid) {
-      this.hotToast.error('Please fill all the required fields');
+      // select which forms are invalid
+      const invalidForms = Object.keys(this.eoiApplicationForm.controls).filter(
+        (key) => this.eoiApplicationForm.get(key)?.invalid
+      );
+
+      const invalidStepsMapped = invalidForms.map(
+        (form) => this.formToStepMap[form]
+      );
+
+      this.hotToast.error(
+        `Please fill all the required fields in ${invalidStepsMapped.join(
+          ', '
+        )}`
+      );
+
       return;
     }
 
@@ -121,7 +151,6 @@ export class EOIApplicationComponent {
       this.eoiApplicationForm.getRawValue() as EOIApplicationForm;
 
     const drifEoiApplication = {
-      ...eoiApplicationForm,
       ...eoiApplicationForm.proponentInformation,
       ...eoiApplicationForm.projectInformation,
       ...eoiApplicationForm.fundingInformation,
@@ -129,6 +158,7 @@ export class EOIApplicationComponent {
       ...eoiApplicationForm.projectDetails,
       ...eoiApplicationForm.engagementPlan,
       ...eoiApplicationForm.otherSupportingInformation,
+      ...eoiApplicationForm.declaration,
     } as DrifEoiApplication;
 
     this.applicationService
