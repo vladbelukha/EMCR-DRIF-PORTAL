@@ -130,18 +130,19 @@ export class EOIApplicationComponent {
     this.stepper._stateChanged();
     if (this.eoiApplicationForm.invalid) {
       // select which forms are invalid
-      const invalidForms = Object.keys(this.eoiApplicationForm.controls).filter(
-        (key) => this.eoiApplicationForm.get(key)?.invalid
-      );
+      const invalidSteps = Object.keys(this.eoiApplicationForm.controls)
+        .filter((key) => this.eoiApplicationForm.get(key)?.invalid)
+        .map((key) => this.formToStepMap[key]);
 
-      const invalidStepsMapped = invalidForms.map(
-        (form) => this.formToStepMap[form]
-      );
+      const lastStep = invalidSteps.pop();
+
+      const stepsErrorMessage =
+        invalidSteps.length > 0
+          ? `${invalidSteps.join(', ')} and ${lastStep}`
+          : lastStep;
 
       this.hotToast.error(
-        `Please fill all the required fields in ${invalidStepsMapped.join(
-          ', '
-        )}`
+        `Please fill all the required fields in ${stepsErrorMessage}.`
       );
 
       return;
