@@ -73,7 +73,19 @@ export class DrrInputComponent {
   @HostListener('keypress', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
     if (this.type === 'tel') {
-      const pattern = /[0-9]/; // Allow numbers
+      // Allow numbers
+      const pattern = /[0-9]/;
+      let inputChar = String.fromCharCode(event.charCode);
+
+      if (!pattern.test(inputChar)) {
+        // Invalid character, prevent input
+        event.preventDefault();
+      }
+    }
+
+    if (this.type === 'number') {
+      // Allow positive numbers and decimals
+      const pattern = /[0-9.]/;
       let inputChar = String.fromCharCode(event.charCode);
 
       if (!pattern.test(inputChar)) {
