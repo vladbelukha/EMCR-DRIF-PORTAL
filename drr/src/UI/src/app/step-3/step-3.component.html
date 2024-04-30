@@ -79,14 +79,12 @@
     <mat-label class="drr-label" style="margin-top: 10px">{{
       t("remainingAmount")
     }}</mat-label>
-    <drr-input
-      style="width: 50vw; margin-top: 10px"
-      [label]="t('remainingAmount')"
-      [rxFormControl]="getFormControl('remainingAmount')"
-      [type]="'number'"
-    ></drr-input>
+    <mat-label>{{
+      getFormControl("remainingAmount").value ?? 0 | currency
+    }}</mat-label>
 
     <drr-textarea
+      style="margin-top: 10px"
       [id]="'intendToSecureFunding'"
       [label]="t('intendToSecureFunding')"
       [maxlength]="2000"
