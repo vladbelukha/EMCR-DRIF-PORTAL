@@ -65,7 +65,7 @@
         [id]="'submitter_phone'"
         [label]="t('phone')"
         [rxFormControl]="getGroupFormControl('phone', 'submitter')"
-        [maxlength]="40"
+        [maxlength]="10"
         [type]="'tel'"
       ></drr-input>
       <drr-input
@@ -120,7 +120,7 @@
         [id]="'projectContact_phone'"
         [label]="t('phone')"
         [rxFormControl]="getGroupFormControl('phone', 'projectContact')"
-        [maxlength]="40"
+        [maxlength]="10"
         [type]="'tel'"
       ></drr-input>
       <drr-input
@@ -181,7 +181,7 @@
             [rxFormControl]="
               getArrayFormControl('phone', 'additionalContacts', i)
             "
-            [maxlength]="40"
+            [maxlength]="10"
             [type]="'tel'"
           ></drr-input>
           <drr-input

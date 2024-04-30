@@ -67,3 +67,8 @@ a:hover {
   height: 16px;
   align-self: center;
 }
+
+.mat-toolbar-row,
+.mat-toolbar-single-row {
+  height: auto !important;
+}

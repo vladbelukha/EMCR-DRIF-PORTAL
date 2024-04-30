@@ -44,6 +44,7 @@ export interface DrifEoiApplication {
   /** @nullable */
   otherInformation?: string;
   ownershipDeclaration?: boolean;
+  /** @nullable */
   ownershipDescription?: string;
   partneringProponents?: string[];
   projectContact?: ContactDetails;
