@@ -167,7 +167,11 @@
         </button>
       </div>
     </mat-step>
-    <mat-step [label]="t('step8')">
+    <mat-step
+      [label]="t('step8')"
+      [stepControl]="getFormGroup('declaration')"
+      [errorMessage]="t('stepError')"
+    >
       <drr-step-8 [eoiApplicationForm]="eoiApplicationForm"></drr-step-8>
       <div class="drr-stepper-actions">
         <button mat-stroked-button color="primary" matStepperPrevious>

@@ -74,7 +74,7 @@ export class ContactDetailsForm implements ContactDetails {
   }
 }
 
-export class ProponentInformationForm {
+export class ProponentInformationForm implements DrifEoiApplication {
   @prop()
   @required()
   proponentType?: ProponentType;
@@ -109,7 +109,7 @@ export class ProponentInformationForm {
   }
 }
 
-export class ProjectInformationForm {
+export class ProjectInformationForm implements DrifEoiApplication {
   @prop()
   @required()
   fundingStream?: FundingStream;
@@ -146,7 +146,7 @@ export class ProjectInformationForm {
   }
 }
 
-export class FundingInformationForm {
+export class FundingInformationForm implements DrifEoiApplication {
   @prop()
   @required()
   @minNumber({ value: 0 })
@@ -164,7 +164,6 @@ export class FundingInformationForm {
   remainingAmount?: number;
 
   @prop()
-  @required()
   intendToSecureFunding?: string;
 
   constructor(values: FundingInformationForm) {
@@ -172,7 +171,7 @@ export class FundingInformationForm {
   }
 }
 
-export class LocationInformationForm {
+export class LocationInformationForm implements DrifEoiApplication {
   @prop()
   @required()
   ownershipDeclaration?: boolean;
@@ -189,7 +188,7 @@ export class LocationInformationForm {
   }
 }
 
-export class ProjectDetailsForm {
+export class ProjectDetailsForm implements DrifEoiApplication {
   @prop()
   @required()
   rationaleForFunding?: string;
@@ -237,7 +236,7 @@ export class ProjectDetailsForm {
   }
 }
 
-export class EngagementPlanForm {
+export class EngagementPlanForm implements DrifEoiApplication {
   @prop()
   @required()
   firstNationsEngagement?: string;
@@ -254,7 +253,7 @@ export class EngagementPlanForm {
   }
 }
 
-export class OtherSupportingInformationForm {
+export class OtherSupportingInformationForm implements DrifEoiApplication {
   @prop()
   @required()
   climateAdaptation?: string;
@@ -267,7 +266,28 @@ export class OtherSupportingInformationForm {
   }
 }
 
-export class EOIApplicationForm implements DrifEoiApplication {
+export class DeclarationForm implements DrifEoiApplication {
+  @prop()
+  @required()
+  @requiredTrue()
+  financialAwarenessConfirmation?: boolean;
+
+  @prop()
+  @required()
+  @requiredTrue()
+  foippaConfirmation?: boolean;
+
+  @prop()
+  @required()
+  @requiredTrue()
+  identityConfirmation?: boolean;
+
+  constructor(values: DeclarationForm) {
+    Object.assign(this, values);
+  }
+}
+
+export class EOIApplicationForm {
   @propObject(ProponentInformationForm)
   proponentInformation?: ProponentInformationForm =
     new ProponentInformationForm({});
@@ -293,18 +313,6 @@ export class EOIApplicationForm implements DrifEoiApplication {
   otherSupportingInformation?: OtherSupportingInformationForm =
     new OtherSupportingInformationForm({});
 
-  @prop()
-  @required()
-  @requiredTrue()
-  financialAwarenessConfirmation?: boolean;
-
-  @prop()
-  @required()
-  @requiredTrue()
-  foippaConfirmation?: boolean;
-
-  @prop()
-  @required()
-  @requiredTrue()
-  identityConfirmation?: boolean;
+  @propObject(DeclarationForm)
+  declaration?: DeclarationForm = new DeclarationForm({});
 }
