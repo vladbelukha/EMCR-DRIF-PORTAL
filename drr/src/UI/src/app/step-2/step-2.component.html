@@ -84,6 +84,7 @@
           matInput
           [matDatepicker]="start_picker"
           formControlName="startDate"
+          [min]="minStartDate"
         />
         <mat-hint>YYYY-MM-DD</mat-hint>
         <mat-datepicker-toggle
@@ -99,6 +100,7 @@
           matInput
           [matDatepicker]="end_picker"
           formControlName="endDate"
+          [min]="minEndDate"
         />
         <mat-hint>YYYY-MM-DD</mat-hint>
         <mat-datepicker-toggle
