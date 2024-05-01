@@ -158,7 +158,7 @@ export class FundingInformationForm implements DrifEoiApplication {
   fundingRequest?: number;
 
   @propArray(FundingInformationItemForm)
-  otherFunding?: FundingInformationItemForm[] = [];
+  otherFunding?: FundingInformationItemForm[] = [{}];
 
   @prop()
   remainingAmount?: number;

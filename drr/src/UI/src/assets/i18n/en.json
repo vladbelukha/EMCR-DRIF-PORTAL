@@ -44,7 +44,7 @@
   "otherFundingSources": "Other Funding Sources",
   "otherFundingSourcesName": "Name of Grant/Funding Source",
   "otherFundingSourcesType": "Type of Funding",
-  "otherFundingSourcesAmount": "Amount",
+  "otherFundingSourcesAmount": "Estimated Amount",
   "otherFundingSourcesDescription": "Describe the funding source",
   "addOtherFunding": "Add additional funding source",
   "intendToSecureFunding": "Explain how you intent to secure this funding",
