@@ -21,6 +21,7 @@
   </mat-radio-group>
 
   <drr-textarea
+    *ngIf="getFormControl('ownershipDeclaration').value === false"
     [id]="'ownershipDescription'"
     [label]="t('ownershipDescription')"
     [maxlength]="2000"
