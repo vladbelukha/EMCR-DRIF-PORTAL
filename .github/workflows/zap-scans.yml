@@ -1,0 +1,26 @@
+name: ZAP Scans
+
+on:
+  schedule:
+    - cron: '0 0 * * Mon'
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  drr-zap-scan:
+      runs-on: ubuntu-latest
+      steps:
+      - name: UI
+        uses: zaproxy/action-full-scan@v0.10.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          target: 'https://dev-drr-emcr.apps.silver.devops.gov.bc.ca'
+          artifact_name: 'drr_ui_zap_scan'
+          issue_title: 'drr_ui_zap_scan'
+      - name: API
+        uses: zaproxy/action-api-scan@v0.7.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          target: 'https://dev-drr-emcr.apps.silver.devops.gov.bc.ca/api/openapi/v1/openapi.json'
+          artifact_name: 'drr_api_zap_scan'
+          issue_title: 'drr_api_zap_scan'

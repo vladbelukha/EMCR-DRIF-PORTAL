@@ -75,7 +75,7 @@ app.MapHealthChecks("/hc/ready", new HealthCheckOptions() { Predicate = check =>
 app.MapHealthChecks("/hc/live", new HealthCheckOptions() { Predicate = check => check.Tags.Contains("live") });
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (!app.Environment.IsProduction())
 {
     app.UseOpenApi();
     app.UseSwaggerUi3();
