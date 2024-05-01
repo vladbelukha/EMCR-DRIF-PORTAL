@@ -2,12 +2,13 @@ import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { TranslocoModule } from '@ngneat/transloco';
+import { NgxMaskPipe } from 'ngx-mask';
 import { EOIApplicationForm } from '../eoi-application/eoi-application-form';
 
 @Component({
   selector: 'drr-summary',
   standalone: true,
-  imports: [CommonModule, MatInputModule, TranslocoModule],
+  imports: [CommonModule, MatInputModule, TranslocoModule, NgxMaskPipe],
   templateUrl: './summary.component.html',
   styleUrl: './summary.component.scss',
 })

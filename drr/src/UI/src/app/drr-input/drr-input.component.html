@@ -4,12 +4,13 @@
     id="{{ id }}"
     matInput
     [formControl]="rxFormControl"
-    [maxlength]="maxlength"
+    [maxlength]="getMaxLength"
     required="{{ isRequired() }}"
     [type]="type"
     [min]="numberInputMin"
     (focus)="onFocus()"
     (blur)="onBlur()"
+    [mask]="getMask()"
   />
   <mat-hint *ngIf="maxlength && isFocused" align="end"
     >{{ getCount() }} / {{ maxlength }}</mat-hint

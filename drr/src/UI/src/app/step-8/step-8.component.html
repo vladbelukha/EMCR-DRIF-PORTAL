@@ -1,5 +1,7 @@
 <div class="drr-step-container" *transloco="let t">
-  <drr-summary [eoiApplication]="eoiApplicationForm.value"></drr-summary>
+  <drr-summary
+    [eoiApplication]="eoiApplicationForm.getRawValue()"
+  ></drr-summary>
 
   <form [formGroup]="declarationForm">
     <mat-label class="drr-label"> {{ t("identityConfirmation") }} </mat-label>

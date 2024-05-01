@@ -54,7 +54,8 @@
       <div class="summary-item">
         <mat-label class="drr-label">{{ t("phone") }}</mat-label>
         <mat-label>{{
-          eoiApplication?.proponentInformation?.submitter?.phone
+          eoiApplication?.proponentInformation?.submitter?.phone!
+            | mask : "000-000-0000"
         }}</mat-label>
       </div>
 
@@ -107,7 +108,8 @@
       <div class="summary-item">
         <mat-label class="drr-label">{{ t("phone") }}</mat-label>
         <mat-label>{{
-          eoiApplication?.proponentInformation?.projectContact?.phone
+          eoiApplication?.proponentInformation?.projectContact?.phone!
+            | mask : "000-000-0000"
         }}</mat-label>
       </div>
 
@@ -129,38 +131,40 @@
     <div
       class="summary-row"
       *ngFor="
-        let projectContact of eoiApplication?.proponentInformation
+        let additionalContact of eoiApplication?.proponentInformation
           ?.additionalContacts
       "
     >
       <div class="summary-item">
         <mat-label class="drr-label">{{ t("firstName") }}</mat-label>
-        <mat-label>{{ projectContact?.firstName }}</mat-label>
+        <mat-label>{{ additionalContact?.firstName }}</mat-label>
       </div>
 
       <div class="summary-item">
         <mat-label class="drr-label">{{ t("lastName") }}</mat-label>
-        <mat-label>{{ projectContact?.lastName }}</mat-label>
+        <mat-label>{{ additionalContact?.lastName }}</mat-label>
       </div>
 
       <div class="summary-item">
         <mat-label class="drr-label">{{ t("title") }}</mat-label>
-        <mat-label>{{ projectContact?.title }}</mat-label>
+        <mat-label>{{ additionalContact?.title }}</mat-label>
       </div>
 
       <div class="summary-item">
         <mat-label class="drr-label">{{ t("department") }}</mat-label>
-        <mat-label>{{ projectContact?.department }}</mat-label>
+        <mat-label>{{ additionalContact?.department }}</mat-label>
       </div>
 
       <div class="summary-item">
         <mat-label class="drr-label">{{ t("phone") }}</mat-label>
-        <mat-label>{{ projectContact?.phone }}</mat-label>
+        <mat-label>{{
+          additionalContact?.phone! | mask : "000-000-0000"
+        }}</mat-label>
       </div>
 
       <div class="summary-item">
         <mat-label class="drr-label">{{ t("email") }}</mat-label>
-        <mat-label>{{ projectContact?.email }}</mat-label>
+        <mat-label>{{ additionalContact?.email }}</mat-label>
       </div>
     </div>
   </div>

@@ -1,17 +1,17 @@
+import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { FormArray, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { EOIApplicationForm, ProjectInformationForm } from '../eoi-application/eoi-application-form';
-import { IFormGroup, RxFormControl } from '@rxweb/reactive-form-validators';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
-import { Hazards } from '../../model';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { CommonModule } from '@angular/common';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
 import { TranslocoModule } from '@ngneat/transloco';
+import { IFormGroup, RxFormControl } from '@rxweb/reactive-form-validators';
+import { Hazards } from '../../model';
 import { DrrInputComponent } from '../drr-input/drr-input.component';
+import { ProjectInformationForm } from '../eoi-application/eoi-application-form';
 
 @Component({
   selector: 'drr-step-2',
@@ -36,7 +36,18 @@ export class Step2Component {
   @Input()
   projectInformationForm!: IFormGroup<ProjectInformationForm>;
 
+  minStartDate = new Date();
+  minEndDate = new Date();
+
   hazardsOptions = Object.values(Hazards);
+
+  ngOnInit() {
+    this.projectInformationForm
+      .get('startDate')
+      ?.valueChanges.subscribe((date) => {
+        this.minEndDate = date;
+      });
+  }
 
   getFormArray(formArrayName: string) {
     return this.projectInformationForm.get(formArrayName) as FormArray;
