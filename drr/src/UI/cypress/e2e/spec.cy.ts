@@ -117,7 +117,7 @@ describe('EOI application happy path', () => {
     cy.get('#next3').click();
 
     // step 4
-    cy.get('#ownershipDeclaration [type="radio"]').first().check();
+    cy.get('#ownershipDeclaration [type="radio"]').last().check();
     cy.get('#ownershipDescription').type('I own the land', {
       force: true,
     });
