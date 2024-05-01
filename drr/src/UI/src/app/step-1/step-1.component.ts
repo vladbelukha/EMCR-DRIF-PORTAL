@@ -46,6 +46,8 @@ import {
 export class Step1Component {
   formBuilder = inject(RxFormBuilder);
 
+  submitterSub: Subscription | undefined;
+
   @Input()
   proponentInformationForm!: IFormGroup<ProponentInformationForm>;
 
@@ -102,13 +104,11 @@ export class Step1Component {
       'projectContact'
     ) as RxFormGroup;
 
-    let submitterSub: Subscription | undefined;
-
     if (sameAsSubmitter) {
       const submitter = this.proponentInformationForm.get('submitter')?.value;
       projectContact.disable();
       projectContact.patchValue(submitter);
-      submitterSub = this.proponentInformationForm
+      this.submitterSub = this.proponentInformationForm
         .get('submitter')
         ?.valueChanges.subscribe((submitter) => {
           projectContact.patchValue(submitter);
@@ -116,7 +116,7 @@ export class Step1Component {
     } else {
       projectContact.reset();
       projectContact.enable();
-      submitterSub?.unsubscribe();
+      this.submitterSub?.unsubscribe();
     }
   }
 
