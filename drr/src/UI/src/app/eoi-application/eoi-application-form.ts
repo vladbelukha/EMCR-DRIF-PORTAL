@@ -43,6 +43,16 @@ export class StringItem {
   }
 }
 
+export class StringItemRequired {
+  @prop()
+  @required()
+  value: string = '';
+
+  constructor(values: StringItemRequired) {
+    Object.assign(this, values);
+  }
+}
+
 export class ContactDetailsForm implements ContactDetails {
   @prop()
   @required()
@@ -158,7 +168,7 @@ export class FundingInformationForm implements DrifEoiApplication {
   fundingRequest?: number;
 
   @propArray(FundingInformationItemForm)
-  otherFunding?: FundingInformationItemForm[] = [];
+  otherFunding?: FundingInformationItemForm[] = [{}];
 
   @prop()
   remainingAmount?: number;
@@ -206,8 +216,8 @@ export class ProjectDetailsForm implements DrifEoiApplication {
   @required()
   infrastructureImpacted?: string[] = [];
 
-  @propArray(StringItem)
-  infrastructureImpactedArray?: StringItem[] = [{ value: '' }];
+  @propArray(StringItemRequired)
+  infrastructureImpactedArray?: StringItemRequired[] = [{ value: '' }];
 
   @prop()
   @required()

@@ -46,7 +46,10 @@ export const appConfig: ApplicationConfig = {
       provide: MAT_DATE_FORMATS,
       useValue: DRR_DATE_FORMATS,
     },
-    provideHotToastConfig(),
+    provideHotToastConfig({
+      autoClose: false,
+      dismissible: true,
+    }),
     DrifapplicationService,
     provideHttpClient(),
     provideTransloco({

@@ -1,3 +1,5 @@
+import { DateTime } from 'luxon';
+
 describe('EOI application happy path', () => {
   it('Fill whole application and hold on step 8', () => {
     cy.visit('/');
@@ -72,8 +74,12 @@ describe('EOI application happy path', () => {
 
     cy.get('#otherHazardsDescription').type('Something very horrible', {});
 
-    cy.get('#startDate').type('2022-01-01', { force: true });
-    cy.get('#endDate').type('2022-12-31', { force: true });
+    const now = DateTime.now();
+    const today = now.toFormat('yyyy-MM-dd');
+    const inMonth = now.plus({ months: 1 }).toFormat('yyyy-MM-dd');
+
+    cy.get('#startDate').type(today, { force: true });
+    cy.get('#endDate').type(inMonth, { force: true });
 
     // click next button
     cy.get('#next2').click();
@@ -81,8 +87,8 @@ describe('EOI application happy path', () => {
     // step 3
     cy.get('#estimatedTotal').type('250000');
     cy.get('#fundingRequest').type('100000');
-    cy.get('#addOtherFundingButton').click();
-    cy.get('#otherFunding_amount_0').type('50000');
+
+    cy.get('#otherFunding_amount_0').type('50000', { force: true });
     cy.get('#otherFunding_name_0').type('Funding Organization', {
       force: true,
     });
@@ -92,7 +98,7 @@ describe('EOI application happy path', () => {
 
     cy.get('#addOtherFundingButton').click();
 
-    cy.get('#otherFunding_amount_1').type('50000');
+    cy.get('#otherFunding_amount_1').type('50000', { force: true });
     cy.get('#otherFunding_name_1').type('Funding Organization', {
       force: true,
     });
@@ -111,7 +117,7 @@ describe('EOI application happy path', () => {
     cy.get('#next3').click();
 
     // step 4
-    cy.get('#ownershipDeclaration [type="radio"]').first().check();
+    cy.get('#ownershipDeclaration [type="radio"]').last().check();
     cy.get('#ownershipDescription').type('I own the land', {
       force: true,
     });

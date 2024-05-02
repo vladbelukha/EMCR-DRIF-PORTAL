@@ -1,3 +1,13 @@
 .drr-input {
   width: 100%;
 }
+
+.drr-input input[type="number"]::-webkit-inner-spin-button,
+.drr-input input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.drr-input input[type="number"] {
+  -moz-appearance: textfield;
+}

@@ -141,6 +141,7 @@ export class EOIApplicationComponent {
           ? `${invalidSteps.join(', ')} and ${lastStep}`
           : lastStep;
 
+      this.hotToast.close();
       this.hotToast.error(
         `Please fill all the required fields in ${stepsErrorMessage}.`
       );
@@ -169,6 +170,7 @@ export class EOIApplicationComponent {
           this.router.navigate(['/success']);
         },
         (error) => {
+          this.hotToast.close();
           this.hotToast.error('Failed to submit application');
         }
       );
