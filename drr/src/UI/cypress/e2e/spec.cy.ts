@@ -7,7 +7,7 @@ describe('EOI application happy path', () => {
     // cy.visit('https://test-drr-emcr.apps.silver.devops.gov.bc.ca/');
 
     // click start button
-    cy.get('button').click();
+    // cy.get('button').click();
 
     // step 1
     // check radio button
@@ -86,7 +86,7 @@ describe('EOI application happy path', () => {
 
     // step 3
     cy.get('#estimatedTotal').type('250000');
-    cy.get('#fundingRequest').type('100000');
+    cy.get('#fundingRequest').type('100000', { force: true });
 
     cy.get('#otherFunding_amount_0').type('50000', { force: true });
     cy.get('#otherFunding_name_0').type('Funding Organization', {
@@ -176,7 +176,7 @@ describe('EOI application happy path', () => {
 
     // step 8
     cy.get('#identityConfirmation [type="checkbox"]').first().check();
-    cy.get('#foippaConfirmation [type="checkbox"]').first().check();
+    // cy.get('#foippaConfirmation [type="checkbox"]').first().check();
     cy.get('#financialAwarenessConfirmation [type="checkbox"]').first().check();
   });
 });

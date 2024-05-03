@@ -37,7 +37,7 @@ export class DrrInputComponent {
   @Input() type = 'text';
 
   get getMaxLength() {
-    return this.type !== 'tel' ? this.maxlength : null;
+    return this.type === 'tel' ? null : this.maxlength;
   }
 
   get numberInputMin() {
@@ -97,6 +97,16 @@ export class DrrInputComponent {
     }
 
     if (this.type === 'number') {
+      // number input doesn't not support maxlength by default
+      // so we need to add it manually to match text input behavior
+      if (
+        this.maxlength
+          ? this.rxFormControl?.value?.length >= this.maxlength
+          : false
+      ) {
+        event.preventDefault();
+      }
+
       // Allow positive numbers and decimals
       const pattern = /[0-9.]/;
       let inputChar = String.fromCharCode(event.charCode);

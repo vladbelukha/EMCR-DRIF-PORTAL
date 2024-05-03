@@ -18,6 +18,7 @@
         [label]="t('estimatedPeopleImpacted')"
         [rxFormControl]="getFormControl('estimatedPeopleImpacted')"
         [type]="'number'"
+        [maxlength]="10"
       ></drr-input>
 
       <mat-label class="drr-label">{{ t("communityImpact") }} </mat-label>
