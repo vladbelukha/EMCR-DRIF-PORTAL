@@ -1,10 +1,5 @@
-import { Component, Input } from '@angular/core';
-import {
-  EOIApplicationForm,
-  LocationInformationForm,
-} from '../eoi-application/eoi-application-form';
-import { IFormGroup } from '@rxweb/reactive-form-validators';
 import { CommonModule } from '@angular/common';
+import { Component, Input } from '@angular/core';
 import {
   FormControl,
   FormsModule,
@@ -17,7 +12,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { TranslocoModule } from '@ngneat/transloco';
+import { IFormGroup } from '@rxweb/reactive-form-validators';
 import { DrrTextareaComponent } from '../drr-datepicker/drr-textarea.component';
+import { LocationInformationForm } from '../eoi-application/eoi-application-form';
 
 @Component({
   selector: 'drr-step-4',
@@ -51,7 +48,7 @@ export class Step4Component {
         if (!value) {
           ownershipDescription?.addValidators(Validators.required);
         } else {
-          ownershipDescription?.removeValidators(Validators.required);
+          ownershipDescription?.clearValidators();
         }
         ownershipDescription?.updateValueAndValidity();
       });

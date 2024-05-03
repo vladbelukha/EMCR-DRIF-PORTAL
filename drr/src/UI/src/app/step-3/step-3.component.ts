@@ -107,7 +107,7 @@ export class Step3Component {
     if (remainingAmount > 0) {
       intendToSecureFunding?.addValidators(Validators.required);
     } else {
-      intendToSecureFunding?.removeValidators(Validators.required);
+      intendToSecureFunding?.clearValidators();
     }
 
     intendToSecureFunding?.updateValueAndValidity();
