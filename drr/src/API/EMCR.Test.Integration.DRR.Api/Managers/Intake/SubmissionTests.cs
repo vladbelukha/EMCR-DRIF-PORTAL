@@ -109,7 +109,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
 
                 //Declaration
                 FinancialAwarenessConfirmation = true,
-                FOIPPAConfirmation = true,
+                //FOIPPAConfirmation = true,
                 IdentityConfirmation = true
             };
         }
