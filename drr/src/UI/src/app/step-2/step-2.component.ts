@@ -1,6 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { FormArray, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormArray,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -46,6 +51,22 @@ export class Step2Component {
       .get('startDate')
       ?.valueChanges.subscribe((date) => {
         this.minEndDate = date;
+      });
+
+    this.projectInformationForm
+      .get('relatedHazards')
+      ?.valueChanges.subscribe((hazards) => {
+        const otherHazardsDescriptionControl = this.projectInformationForm.get(
+          'otherHazardsDescription'
+        );
+        if (hazards.includes('Other')) {
+          otherHazardsDescriptionControl?.addValidators(Validators.required);
+        } else {
+          otherHazardsDescriptionControl?.clearValidators();
+        }
+
+        otherHazardsDescriptionControl?.reset();
+        otherHazardsDescriptionControl?.updateValueAndValidity();
       });
   }
 
