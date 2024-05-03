@@ -29,6 +29,7 @@ export interface DrifEoiApplication {
   estimatedTotal?: number;
   financialAwarenessConfirmation?: boolean;
   firstNationsEngagement?: string;
+  /** @nullable */
   foippaConfirmation?: boolean;
   fundingRequest?: number;
   fundingStream?: FundingStream;
