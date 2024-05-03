@@ -83,4 +83,15 @@ namespace EMCR.DRR.Resources.Applications
         Yes = 172580000,
         No = 172580001
     }
+
+    public enum ApplicationStatus
+    {
+        Draft = 1,
+        Submitted = 172580000,
+        InReview = 172580001,
+        InPool = 172580002,
+        Invited = 172580003,
+        Ineligible = 172580004,
+        Withdrawn = 172580005,
+    }
 }
