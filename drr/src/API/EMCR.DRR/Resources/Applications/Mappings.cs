@@ -49,7 +49,7 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.drr_climateadaptation, opt => opt.MapFrom(src => src.ClimateAdaptation))
                 .ForMember(dest => dest.drr_otherrelevantinformation, opt => opt.MapFrom(src => src.OtherInformation))
                 .ForMember(dest => dest.drr_identityconfirmation, opt => opt.MapFrom(src => src.IdentityConfirmation ? DRRTwoOptions.Yes : DRRTwoOptions.No))
-                .ForMember(dest => dest.drr_foippaconfirmation, opt => opt.MapFrom(src => src.FOIPPAConfirmation ? DRRTwoOptions.Yes : DRRTwoOptions.No))
+                .ForMember(dest => dest.drr_foippaconfirmation, opt => opt.MapFrom(src => src.FOIPPAConfirmation.HasValue && src.FOIPPAConfirmation.Value ? DRRTwoOptions.Yes : DRRTwoOptions.No))
                 .ForMember(dest => dest.drr_financialawarenessstatement, opt => opt.MapFrom(src => src.FinancialAwarenessConfirmation ? DRRTwoOptions.Yes : DRRTwoOptions.No))
                 .ForMember(dest => dest.drr_submitteddate, opt => opt.MapFrom(src => DateTime.UtcNow))
                 .ForMember(dest => dest.statuscode, opt => opt.MapFrom(src => ApplicationStatus.Submitted))
@@ -79,7 +79,7 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.ClimateAdaptation, opt => opt.MapFrom(src => src.drr_climateadaptation))
                 .ForMember(dest => dest.OtherInformation, opt => opt.MapFrom(src => src.drr_otherrelevantinformation))
                 .ForMember(dest => dest.IdentityConfirmation, opt => opt.MapFrom(src => src.drr_identityconfirmation == (int)DRRTwoOptions.Yes))
-                .ForMember(dest => dest.FOIPPAConfirmation, opt => opt.MapFrom(src => src.drr_foippaconfirmation == (int)DRRTwoOptions.Yes))
+                //.ForMember(dest => dest.FOIPPAConfirmation, opt => opt.MapFrom(src => src.drr_foippaconfirmation == (int)DRRTwoOptions.Yes))
                 .ForMember(dest => dest.FinancialAwarenessConfirmation, opt => opt.MapFrom(src => src.drr_financialawarenessstatement == (int)DRRTwoOptions.Yes))
             ;
 
