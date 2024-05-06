@@ -1,5 +1,6 @@
 import {
   email,
+  maxNumber,
   minNumber,
   prop,
   propArray,
@@ -20,8 +21,9 @@ import {
 
 export class FundingInformationItemForm implements FundingInformation {
   @prop()
-  @minNumber({ value: 0 })
   @required()
+  @minNumber({ value: 0 })
+  @maxNumber({ value: 100000000000 })
   amount?: number;
 
   @prop()
@@ -166,11 +168,13 @@ export class FundingInformationForm implements DrifEoiApplication {
   @prop()
   @required()
   @minNumber({ value: 0 })
+  @maxNumber({ value: 100000000000 })
   estimatedTotal?: number;
 
   @prop()
   @required()
   @minNumber({ value: 0 })
+  @maxNumber({ value: 100000000000 })
   fundingRequest?: number;
 
   @propArray(FundingInformationItemForm)

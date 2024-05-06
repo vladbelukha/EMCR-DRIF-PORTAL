@@ -70,6 +70,7 @@
     </mat-form-field>
     <drr-input
       *ngIf="otherHazardSelected()"
+      style="width: 50vw"
       [id]="'otherHazardsDescription'"
       [label]="t('other')"
       [rxFormControl]="getFormControl('otherHazardsDescription')"
