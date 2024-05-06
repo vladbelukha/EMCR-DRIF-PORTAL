@@ -50,6 +50,8 @@ export class Step4Component {
         } else {
           ownershipDescription?.clearValidators();
         }
+
+        ownershipDescription?.reset();
         ownershipDescription?.updateValueAndValidity();
       });
   }

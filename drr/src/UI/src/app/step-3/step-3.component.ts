@@ -11,7 +11,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
+import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { TranslocoModule } from '@ngneat/transloco';
 import {
   IFormGroup,
@@ -139,5 +139,23 @@ export class Step3Component {
     return this.getFormArray(arrayName)?.controls[index]?.get(
       controlName
     ) as RxFormControl;
+  }
+
+  // event handler for funding type change
+  setFundingTypeDesctiption(event: MatSelectChange, index: number) {
+    const descriptionControl = this.getArrayFormControl(
+      'otherDescription',
+      'otherFunding',
+      index
+    );
+
+    if (event.value === FundingType.OtherGrants) {
+      descriptionControl.addValidators(Validators.required);
+    } else {
+      descriptionControl.clearValidators();
+    }
+
+    descriptionControl.reset();
+    descriptionControl.updateValueAndValidity();
   }
 }
