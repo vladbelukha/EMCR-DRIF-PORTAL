@@ -345,12 +345,23 @@
 
   <div
     class="summary-item"
-    *ngIf="eoiApplication?.locationInformation?.ownershipDeclaration"
+    *ngIf="
+      eoiApplication?.locationInformation?.ownershipDeclaration != undefined
+    "
   >
     <mat-label class="drr-label">{{ t("ownershipDeclaration") }}</mat-label>
     <mat-label>{{
       eoiApplication?.locationInformation?.ownershipDeclaration ? "Yes" : "No"
     }}</mat-label>
+
+    <div
+      class="summary-item"
+      *ngIf="eoiApplication?.locationInformation?.ownershipDescription"
+    >
+      <mat-label>{{
+        eoiApplication?.locationInformation?.ownershipDescription
+      }}</mat-label>
+    </div>
   </div>
 
   <div class="summary-item">
