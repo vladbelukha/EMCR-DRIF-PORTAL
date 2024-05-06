@@ -12,6 +12,7 @@ import { MatInputModule } from '@angular/material/input';
 import { RxFormBuilder, RxFormControl } from '@rxweb/reactive-form-validators';
 import { NgxMaskDirective } from 'ngx-mask';
 
+// TODO: consider splitting this component into smaller dedicated input type components
 @Component({
   selector: 'drr-input',
   templateUrl: './drr-input.component.html',
@@ -33,11 +34,13 @@ export class DrrInputComponent {
 
   @Input() label = '';
   @Input() id = '';
-  @Input() maxlength: number | string = '';
+  @Input() maxlength: number = 0;
   @Input() type = 'text';
 
   get getMaxLength() {
-    return this.type === 'tel' ? null : this.maxlength;
+    return this.type === 'tel' || this.type === 'number'
+      ? null
+      : this.maxlength;
   }
 
   get numberInputMin() {
@@ -61,7 +64,17 @@ export class DrrInputComponent {
   }
 
   getCount(): number {
-    return this.rxFormControl?.value?.length ?? 0;
+    const inputValue = this.rxFormControl?.value ?? '';
+
+    let count = 0;
+    if (this.type === 'number') {
+      // remove decimal point so it's not counted for numeric input
+      count = inputValue.replace('.', '').length;
+    } else {
+      count = inputValue.length;
+    }
+
+    return count;
   }
 
   isRequired(): boolean {
@@ -97,11 +110,14 @@ export class DrrInputComponent {
     }
 
     if (this.type === 'number') {
+      let inputChar = String.fromCharCode(event.charCode);
+
       // number input doesn't not support maxlength by default
-      // so we need to add it manually to match text input behavior
+      // so we need to add it manually to match text input behavior,
+      // but allow decimal point to be moved around
       if (
         this.maxlength
-          ? this.rxFormControl?.value?.length >= this.maxlength
+          ? this.getCount() >= this.maxlength && inputChar !== '.'
           : false
       ) {
         event.preventDefault();
@@ -109,7 +125,6 @@ export class DrrInputComponent {
 
       // Allow positive numbers and decimals
       const pattern = /[0-9.]/;
-      let inputChar = String.fromCharCode(event.charCode);
 
       if (!pattern.test(inputChar)) {
         // Invalid character, prevent input
