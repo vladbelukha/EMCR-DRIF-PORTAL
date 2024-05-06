@@ -193,6 +193,16 @@
 
   <div
     class="summary-item"
+    *ngIf="eoiApplication?.projectInformation?.fundingStream"
+  >
+    <mat-label class="drr-label">{{ t("fundingStream") }}</mat-label>
+    <mat-label>{{
+      t(eoiApplication?.projectInformation?.fundingStream!)
+    }}</mat-label>
+  </div>
+
+  <div
+    class="summary-item"
     *ngIf="eoiApplication?.projectInformation?.projectTitle"
   >
     <mat-label class="drr-label">{{ t("projectTitle") }}</mat-label>
@@ -244,6 +254,7 @@
     <mat-label
       *ngIf="eoiApplication?.projectInformation?.otherHazardsDescription"
     >
+      <mat-label class="drr-label">{{ t("other") }}:</mat-label>
       {{ eoiApplication?.projectInformation?.otherHazardsDescription }}
     </mat-label>
   </div>
