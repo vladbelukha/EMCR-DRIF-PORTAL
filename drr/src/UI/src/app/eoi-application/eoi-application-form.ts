@@ -21,11 +21,17 @@ import {
 export class FundingInformationItemForm implements FundingInformation {
   @prop()
   @minNumber({ value: 0 })
+  @required()
   amount?: number;
+
   @prop()
+  @required()
   name?: string;
+
   @prop()
+  @required()
   type?: FundingType;
+
   @prop()
   otherDescription?: string;
 

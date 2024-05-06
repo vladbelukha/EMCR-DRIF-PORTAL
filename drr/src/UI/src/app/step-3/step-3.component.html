@@ -45,7 +45,11 @@
         ></drr-input>
         <mat-form-field>
           <mat-label>{{ t("otherFundingSourcesType") }}</mat-label>
-          <mat-select id="otherFunding_type_{{ i }}" formControlName="type">
+          <mat-select
+            id="otherFunding_type_{{ i }}"
+            formControlName="type"
+            (selectionChange)="setFundingTypeDesctiption($event, i)"
+          >
             @for (option of fundingTypeOptions; track option) {
             <mat-option [value]="option">{{ t(option) }}</mat-option>
             }
