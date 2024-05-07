@@ -127,7 +127,7 @@ namespace EMCR.DRR.Controllers
         public required string Title { get; set; }
         [StringLength(ApplicationValidators.CONTACT_MAX_LENGTH)]
         public required string Department { get; set; }
-        [RegularExpression("^\\d\\d\\d-\\d\\d\\d-\\d\\d\\d\\d$", ErrorMessage = "Phone number must be of the format '000-000-0000'")]
+        //[RegularExpression("^\\d\\d\\d-\\d\\d\\d-\\d\\d\\d\\d$", ErrorMessage = "Phone number must be of the format '000-000-0000'")]
         public required string Phone { get; set; }
         [StringLength(ApplicationValidators.CONTACT_MAX_LENGTH)]
         public required string Email { get; set; }
