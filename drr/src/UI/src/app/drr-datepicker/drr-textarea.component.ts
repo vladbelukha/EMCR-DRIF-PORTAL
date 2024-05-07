@@ -1,5 +1,6 @@
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { CommonModule } from '@angular/common';
-import { Component, Input, forwardRef, inject } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -21,6 +22,10 @@ import { RxFormBuilder, RxFormControl } from '@rxweb/reactive-form-validators';
 export class DrrTextareaComponent {
   formBuilder = inject(RxFormBuilder);
 
+  breakpointObserver = inject(BreakpointObserver);
+
+  isMobile = false;
+
   @Input() label = '';
   @Input() id = '';
   @Input() maxlength = 0;
@@ -30,6 +35,14 @@ export class DrrTextareaComponent {
   @Input()
   set rxFormControl(rxFormControl: any) {
     this._formControl = rxFormControl as RxFormControl;
+  }
+
+  ngOnInit() {
+    this.breakpointObserver
+      .observe('(min-width: 768px)')
+      .subscribe(({ matches }) => {
+        this.isMobile = !matches;
+      });
   }
 
   get rxFormControl() {
