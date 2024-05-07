@@ -1,3 +1,4 @@
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { CommonModule } from '@angular/common';
 import {
   ChangeDetectorRef,
@@ -30,12 +31,23 @@ import { NgxMaskDirective } from 'ngx-mask';
 export class DrrInputComponent {
   formBuilder = inject(RxFormBuilder);
 
+  breakpointObserver = inject(BreakpointObserver);
+
   isFocused = false;
+  isMobile = false;
 
   @Input() label = '';
   @Input() id = '';
   @Input() maxlength: number = 0;
   @Input() type = 'text';
+
+  ngOnInit() {
+    this.breakpointObserver
+      .observe('(min-width: 768px)')
+      .subscribe(({ matches }) => {
+        this.isMobile = !matches;
+      });
+  }
 
   get getMaxLength() {
     return this.type === 'tel' || this.type === 'number'
@@ -78,7 +90,7 @@ export class DrrInputComponent {
   }
 
   isRequired(): boolean {
-    return !!this.rxFormControl?.errors?.required;
+    return this.isMobile ? false : !!this.rxFormControl?.errors?.required;
   }
 
   onFocus() {

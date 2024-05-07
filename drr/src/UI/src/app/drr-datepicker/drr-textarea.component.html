@@ -1,5 +1,6 @@
+<mat-label *ngIf="isMobile">{{ label }}</mat-label>
 <mat-form-field class="drr-textarea">
-  <mat-label> {{ label }}</mat-label>
+  <mat-label *ngIf="!isMobile">{{ label }}</mat-label>
   <textarea
     id="{{ id }}"
     matInput
