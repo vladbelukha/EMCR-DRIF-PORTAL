@@ -1,8 +1,9 @@
-﻿using System.ComponentModel;
+﻿using System.Collections;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Net.Mime;
 using System.Text.Json.Serialization;
 using EMCR.DRR.Managers.Intake;
-using EMCR.DRR.Resources.Applications;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EMCR.DRR.Controllers
@@ -15,14 +16,11 @@ namespace EMCR.DRR.Controllers
     {
         private readonly ILogger<DRIFApplicationController> logger;
         private readonly IIntakeManager intakeManager;
-        private readonly IApplicationRepository applicationRepository;
 
-
-        public DRIFApplicationController(ILogger<DRIFApplicationController> logger, IIntakeManager intakeManager, IApplicationRepository applicationRepository)
+        public DRIFApplicationController(ILogger<DRIFApplicationController> logger, IIntakeManager intakeManager)
         {
             this.logger = logger;
             this.intakeManager = intakeManager;
-            this.applicationRepository = applicationRepository;
         }
 
 
@@ -32,6 +30,12 @@ namespace EMCR.DRR.Controllers
             var id = await intakeManager.Handle(new DrifEoiApplicationCommand { application = application });
             return Ok(new ApplicationResult { Id = id });
         }
+    }
+
+    public static class ApplicationValidators
+    {
+        public const int STRING_MAX_LENGTH = 40;
+        public const double FUNDING_MAX_VAL = 999999999.99;
     }
 
     public class ApplicationResult
@@ -47,6 +51,7 @@ namespace EMCR.DRR.Controllers
         public required ContactDetails Submitter { get; set; }
         public required ContactDetails ProjectContact { get; set; }
         public required IEnumerable<ContactDetails> AdditionalContacts { get; set; }
+        [CollectionStringLengthValid(ErrorMessage = "PartneringProponents have a limit of 40 characters per name")]
         public required IEnumerable<string> PartneringProponents { get; set; }
 
         //Project Information
@@ -60,7 +65,9 @@ namespace EMCR.DRR.Controllers
         public required DateTime EndDate { get; set; }
 
         //Funding Information
+        [Range(0, ApplicationValidators.FUNDING_MAX_VAL)]
         public required decimal EstimatedTotal { get; set; }
+        [Range(0, ApplicationValidators.FUNDING_MAX_VAL)]
         public required decimal FundingRequest { get; set; }
         public required IEnumerable<FundingInformation> OtherFunding { get; set; }
         public required decimal RemainingAmount { get; set; }
@@ -103,6 +110,7 @@ namespace EMCR.DRR.Controllers
     {
         public required string Name { get; set; }
         public required FundingType Type { get; set; }
+        [Range(0, ApplicationValidators.FUNDING_MAX_VAL)]
         public required decimal Amount { get; set; }
         public string? OtherDescription { get; set; }
 
@@ -110,11 +118,17 @@ namespace EMCR.DRR.Controllers
 
     public class ContactDetails
     {
+        [StringLength(ApplicationValidators.STRING_MAX_LENGTH)]
         public required string FirstName { get; set; }
+        [StringLength(ApplicationValidators.STRING_MAX_LENGTH)]
         public required string LastName { get; set; }
+        [StringLength(ApplicationValidators.STRING_MAX_LENGTH)]
         public required string Title { get; set; }
+        [StringLength(ApplicationValidators.STRING_MAX_LENGTH)]
         public required string Department { get; set; }
+        [RegularExpression("^\\d\\d\\d-\\d\\d\\d-\\d\\d\\d\\d$", ErrorMessage = "Phone number must be of the format '000-000-0000'")]
         public required string Phone { get; set; }
+        [StringLength(ApplicationValidators.STRING_MAX_LENGTH)]
         public required string Email { get; set; }
 
     }
@@ -199,4 +213,19 @@ namespace EMCR.DRR.Controllers
         [Description("Other")]
         Other,
     }
+
+#pragma warning disable CS8765 // nullability
+    public class CollectionStringLengthValid : ValidationAttribute
+    {
+        public override bool IsValid(object value)
+        {
+            if (!(value is IList)) return false;
+            foreach (string item in (IList)value)
+            {
+                if (item.Length > ApplicationValidators.STRING_MAX_LENGTH) return false;
+            }
+            return true;
+        }
+    }
 }
+#pragma warning restore CS8765
