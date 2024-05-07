@@ -34,7 +34,8 @@ namespace EMCR.DRR.Controllers
 
     public static class ApplicationValidators
     {
-        public const int STRING_MAX_LENGTH = 40;
+        public const int CONTACT_MAX_LENGTH = 40;
+        public const int ACCOUNT_MAX_LENGTH = 100;
         public const double FUNDING_MAX_VAL = 999999999.99;
     }
 
@@ -118,17 +119,17 @@ namespace EMCR.DRR.Controllers
 
     public class ContactDetails
     {
-        [StringLength(ApplicationValidators.STRING_MAX_LENGTH)]
+        [StringLength(ApplicationValidators.CONTACT_MAX_LENGTH)]
         public required string FirstName { get; set; }
-        [StringLength(ApplicationValidators.STRING_MAX_LENGTH)]
+        [StringLength(ApplicationValidators.CONTACT_MAX_LENGTH)]
         public required string LastName { get; set; }
-        [StringLength(ApplicationValidators.STRING_MAX_LENGTH)]
+        [StringLength(ApplicationValidators.CONTACT_MAX_LENGTH)]
         public required string Title { get; set; }
-        [StringLength(ApplicationValidators.STRING_MAX_LENGTH)]
+        [StringLength(ApplicationValidators.CONTACT_MAX_LENGTH)]
         public required string Department { get; set; }
         [RegularExpression("^\\d\\d\\d-\\d\\d\\d-\\d\\d\\d\\d$", ErrorMessage = "Phone number must be of the format '000-000-0000'")]
         public required string Phone { get; set; }
-        [StringLength(ApplicationValidators.STRING_MAX_LENGTH)]
+        [StringLength(ApplicationValidators.CONTACT_MAX_LENGTH)]
         public required string Email { get; set; }
 
     }
@@ -222,7 +223,7 @@ namespace EMCR.DRR.Controllers
             if (!(value is IList)) return false;
             foreach (string item in (IList)value)
             {
-                if (item.Length > ApplicationValidators.STRING_MAX_LENGTH) return false;
+                if (item.Length > ApplicationValidators.ACCOUNT_MAX_LENGTH) return false;
             }
             return true;
         }
