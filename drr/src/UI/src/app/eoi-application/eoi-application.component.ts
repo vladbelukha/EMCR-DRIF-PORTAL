@@ -183,6 +183,7 @@ export class EOIApplicationComponent {
       .dRIFApplicationCreateEOIApplication(drifEoiApplication)
       .subscribe(
         (response) => {
+          this.hotToast.close();
           this.router.navigate(['/success']);
         },
         (error) => {
