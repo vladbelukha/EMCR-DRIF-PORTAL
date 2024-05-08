@@ -1,6 +1,6 @@
 ﻿using System.Net;
+using System.Reflection;
 using System.Text.Json.Serialization;
-using System.Xml.Linq;
 using EMBC.DRR.Managers.Intake;
 using EMCR.DRR.Controllers;
 using EMCR.DRR.Dynamics;
@@ -8,7 +8,6 @@ using EMCR.DRR.Managers.Intake;
 using EMCR.DRR.Resources.Applications;
 using EMCR.Utilities;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using NSwag;
 using NSwag.AspNetCore;
@@ -92,9 +91,9 @@ app.MapGet("/api/version", async ctx =>
 {
     await Task.CompletedTask;
     var version = Environment.GetEnvironmentVariable("VERSION");
-    var ret = new { Version = version };
+    var name = Assembly.GetEntryAssembly()?.GetName().Name;
     ctx.Response.StatusCode = (int)HttpStatusCode.OK;
-    await ctx.Response.WriteAsJsonAsync(ret);
+    await ctx.Response.WriteAsJsonAsync(new { Version = version, Name = name });
 }).WithName("Version Information");
 
 app.Run();
