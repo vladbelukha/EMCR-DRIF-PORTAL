@@ -18,7 +18,7 @@ ENV API_URL=
 RUN chmod +rw /config/caddy
 COPY --from=builder /usr/bin/caddy /usr/bin/caddy
 COPY Caddyfile /etc/caddy/Caddyfile
-COPY --from=ng-builder /src/dist/embc-registrant/ /site
+COPY --from=ng-builder /src/dist/drr/ /site
 EXPOSE 2015
 
 USER 1001
