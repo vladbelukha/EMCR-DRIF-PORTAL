@@ -1,5 +1,6 @@
 {
 	admin off
+	order replace after encode
 }
 
 :2015 {
@@ -25,15 +26,18 @@
 
 	encode zstd gzip
 
-	route {
+	handle /version {
+		reverse_proxy {$API_URL} {
+			header_up Accept-Encoding identity
+		}
+		replace stream {
+			"[" `[{"name": "EMCR.DRR.UI","version":"{$VERSION}"},`
+		}
+	}
 
-    @jstype path *.js
-    header @jstype Content-Type text/javascript
-
-		# uri strip_prefix {$BASE_URL}
+	handle {
 		reverse_proxy /api* {$API_URL}
 		try_files {path} {path}/ /index.html?{query}
+		file_server
 	}
-	
-	file_server
 }
