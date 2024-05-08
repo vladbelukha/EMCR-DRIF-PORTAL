@@ -7,6 +7,10 @@
 import type { FundingType } from './fundingType';
 
 export interface FundingInformation {
+  /**
+   * @minimum 0
+   * @maximum 999999999.99
+   */
   amount?: number;
   name?: string;
   /** @nullable */
