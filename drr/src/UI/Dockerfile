@@ -1,8 +1,8 @@
-FROM trion/ng-cli-karma AS node-builder
-WORKDIR /src
-COPY ./package*.json ./
+FROM trion/ng-cli-karma:17.3.3 AS node-builder
+COPY . ./drr/src/UI
+WORKDIR /app/drr/src/UI
+
 RUN npm install --ignore-scripts
-COPY . .
 
 FROM node-builder as ng-builder
 RUN npm run build --configuration=production
@@ -16,7 +16,6 @@ ENV VERSION=$VERSION
 ENV API_URL=
 RUN chmod +rw /config/caddy
 COPY --from=builder /usr/bin/caddy /usr/bin/caddy
-# COPY ./Caddyfile /etc/caddy/Caddyfile
 COPY Caddyfile /etc/caddy/Caddyfile
-COPY --from=ng-builder /src/dist/drr/browser /site
+COPY --from=ng-builder /app/drr/src/UI/dist/drr/browser /site
 EXPOSE 2015
