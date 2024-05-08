@@ -3,6 +3,7 @@ WORKDIR /src
 COPY ./package*.json ./
 
 RUN npm install --ignore-scripts
+COPY . .
 
 FROM node-builder as ng-builder
 RUN npm run build --configuration=production
