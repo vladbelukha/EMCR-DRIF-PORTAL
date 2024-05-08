@@ -139,7 +139,7 @@ namespace EMCR.Tests.Integration.DRR.Resources
                 FirstName = $"{uniqueSignature}_{namePrefix}_first",
                 LastName = $"{uniqueSignature}_{namePrefix}_last",
                 Email = "test@test.com",
-                Phone = "604-123-4567",
+                Phone = "6041234567",
                 Department = "Position",
                 Title = "Title"
             };
