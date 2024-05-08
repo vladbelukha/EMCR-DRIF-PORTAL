@@ -9,7 +9,13 @@ RUN npm install
 
 RUN npm run build --configuration=production
 
-FROM caddy:latest as final
+FROM caddy:2-builder AS builder
+RUN xcaddy build --with github.com/caddyserver/replace-response
+
+FROM caddy:2 as final
+ARG VERSION
+ENV VERSION=$VERSION
+
 COPY ./drr/src/UI/Caddyfile /etc/caddy/Caddyfile
 COPY --from=ng-builder /app/drr/src/UI/dist/drr/browser /site
 ENV API_URL=
