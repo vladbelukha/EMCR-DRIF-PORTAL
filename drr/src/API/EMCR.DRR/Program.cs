@@ -1,4 +1,6 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Net;
+using System.Text.Json.Serialization;
+using System.Xml.Linq;
 using EMBC.DRR.Managers.Intake;
 using EMCR.DRR.Controllers;
 using EMCR.DRR.Dynamics;
@@ -6,6 +8,7 @@ using EMCR.DRR.Managers.Intake;
 using EMCR.DRR.Resources.Applications;
 using EMCR.Utilities;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using NSwag;
 using NSwag.AspNetCore;
@@ -85,4 +88,13 @@ app.UseHttpsRedirection();
 app.UseCors();
 app.UseAuthorization();
 app.MapControllers();
+app.MapGet("/api/version", async ctx =>
+{
+    await Task.CompletedTask;
+    var version = Environment.GetEnvironmentVariable("VERSION");
+    var ret = new { Version = version };
+    ctx.Response.StatusCode = (int)HttpStatusCode.OK;
+    await ctx.Response.WriteAsJsonAsync(ret);
+}).WithName("Version Information");
+
 app.Run();
