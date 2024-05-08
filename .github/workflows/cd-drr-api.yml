@@ -6,8 +6,8 @@ on:
     # Publish `main` as Docker `latest` image.
     branches: [main]
 
-    paths:    
-      - "drr/src/**"
+    paths:
+      - "drr/src/API/**"
       - ".github/workflows/cd-drr-api.yml"
 
 env:
@@ -21,7 +21,7 @@ jobs:
     if: github.event_name == 'push'
 
     steps:
-      - uses: actions/checkout@v4      
+      - uses: actions/checkout@v4
 
       - uses: docker/setup-buildx-action@v2
         id: buildx
@@ -34,7 +34,7 @@ jobs:
           registry: ${{ secrets.OCP4_REGISTRY }}/${{ secrets.OCP4_NAMESPACE }}
           username: ${{ secrets.OCP4_USERNAME }}
           password: ${{ secrets.OCP4_PASSWORD }}
-      
+
       - name: Set image repository
         id: set_image_repository
         run: |
@@ -61,12 +61,12 @@ jobs:
         working-directory: ${{ env.WORKING_DIRECTORY }}
         run: |
           VERSION=$(echo "${{ steps.tag_version.outputs.new_tag }}" | awk -F=v '{print $NF}')
- 
+
           echo DOCKER_REPOSITORY=${{ env.DOCKER_REPOSITORY }}
           echo VERSION=$VERSION          
- 
+
           tar -czh . | docker build --load --tag ${{ env.DOCKER_REPOSITORY }}:latest --cache-from=${{ env.DOCKER_REPOSITORY }}:latest --build-arg VERSION=$VERSION -
-          docker tag ${{ env.DOCKER_REPOSITORY }}:latest ${{ env.DOCKER_REPOSITORY }}:$VERSION
+          docker tag ${{ env.DOCKER_REPOSITORY }}:latest
 
       - name: Push image
         env:
