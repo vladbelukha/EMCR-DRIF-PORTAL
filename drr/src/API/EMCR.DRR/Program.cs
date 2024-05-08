@@ -93,7 +93,7 @@ app.MapGet("/api/version", async ctx =>
     var version = Environment.GetEnvironmentVariable("VERSION");
     var name = Assembly.GetEntryAssembly()?.GetName().Name;
     ctx.Response.StatusCode = (int)HttpStatusCode.OK;
-    await ctx.Response.WriteAsJsonAsync(new { Version = version, Name = name });
+    await ctx.Response.WriteAsJsonAsync(new[] { new { Version = version, Name = name } });
 }).WithName("Version Information");
 
 app.Run();
