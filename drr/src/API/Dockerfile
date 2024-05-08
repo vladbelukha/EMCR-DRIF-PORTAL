@@ -23,4 +23,4 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 
-ENTRYPOINT ["dotnet", "EMCR.DRR.dll"]
+ENTRYPOINT ["dotnet", "EMCR.DRR.API.dll"]
