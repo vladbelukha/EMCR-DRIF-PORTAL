@@ -1,5 +1,5 @@
 FROM trion/ng-cli-karma:17.3.3 AS node-builder
-COPY ./drr/src/UI ./drr/src/UI
+COPY . ./drr/src/UI
 WORKDIR /app/drr/src/UI
 
 RUN npm install --ignore-scripts
