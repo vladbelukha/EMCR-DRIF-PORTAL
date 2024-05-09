@@ -85,7 +85,8 @@
         </div>
 
         <div>
-          <span> Version {{ apiVersion }} </span>
+          <div *ngIf="uiVersion">UI v{{ uiVersion }}</div>
+          <div *ngIf="uiVersion">API v{{ apiVersion }}</div>
         </div>
       </div>
     </mat-toolbar-row>
