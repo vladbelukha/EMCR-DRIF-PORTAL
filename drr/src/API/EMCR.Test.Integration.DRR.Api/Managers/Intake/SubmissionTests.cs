@@ -77,6 +77,13 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
                         Amount = 200,
                         Type = EMCR.DRR.Controllers.FundingType.Prov,
                     },
+                    new EMCR.DRR.Controllers.FundingInformation
+                    {
+                        Name = $"{uniqueSignature}_Other",
+                        Amount = 300,
+                        Type = EMCR.DRR.Controllers.FundingType.OtherGrants,
+                        OtherDescription = "other funding reason"
+                    },
                 },
                 RemainingAmount = 600,
                 IntendToSecureFunding = "Funding Reasons",
