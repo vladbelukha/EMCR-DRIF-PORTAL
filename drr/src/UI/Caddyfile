@@ -1,5 +1,6 @@
 {
 	admin off
+	order replace after encode
 }
 
 :2015 {
@@ -24,6 +25,15 @@
 	}
 
 	encode zstd gzip
+
+	handle /api/version {
+		reverse_proxy {$API_URL} {
+			header_up Accept-Encoding identity
+		}
+		replace stream {
+			"[" `[{"name": "EMCR.DRR.UI","version":"{$VERSION}"},`
+		}
+	}
 
 	route {
 

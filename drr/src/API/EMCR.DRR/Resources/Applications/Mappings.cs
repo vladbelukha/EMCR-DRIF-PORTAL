@@ -87,11 +87,13 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.drr_name, opt => opt.MapFrom(src => src.Name))
                 .ForMember(dest => dest.drr_typeoffunding, opt => opt.MapFrom(src => (int?)Enum.Parse<FundingTypeOptionSet>(src.Type.ToString())))
                 .ForMember(dest => dest.drr_estimatedamount, opt => opt.MapFrom(src => src.Amount))
+                .ForMember(dest => dest.drr_describethefundingsource, opt => opt.MapFrom(src => src.OtherDescription))
                 .ReverseMap()
                 .ValidateMemberList(MemberList.Destination)
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.drr_name))
                 .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.drr_typeoffunding))
                 .ForMember(dest => dest.Amount, opt => opt.MapFrom(src => src.drr_estimatedamount))
+                .ForMember(dest => dest.OtherDescription, opt => opt.MapFrom(src => src.drr_describethefundingsource))
             ;
 
             CreateMap<ContactDetails, contact>()

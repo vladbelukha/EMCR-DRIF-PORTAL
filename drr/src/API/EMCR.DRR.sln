@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34221.43
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EMCR.DRR", "EMCR.DRR\EMCR.DRR.csproj", "{ECA3F4A6-AB36-4E79-B018-F186A717F18C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EMCR.DRR.API", "EMCR.DRR\EMCR.DRR.API.csproj", "{ECA3F4A6-AB36-4E79-B018-F186A717F18C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EMCR.DRR.Dynamics", "EMCR.DRR.Dynamics\EMCR.DRR.Dynamics.csproj", "{FDA8EA73-CDF0-4450-A212-C456C5815E94}"
 EndProject

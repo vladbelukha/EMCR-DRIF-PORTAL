@@ -22,7 +22,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\EMCR.DRR\EMCR.DRR.csproj" />
+        <ProjectReference Include="..\EMCR.DRR\EMCR.DRR.API.csproj" />
     </ItemGroup>
 
 </Project>
