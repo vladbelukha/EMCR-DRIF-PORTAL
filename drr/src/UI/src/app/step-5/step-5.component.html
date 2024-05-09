@@ -13,7 +13,7 @@
     <mat-label class="drr-label">{{ t("backgroundDescription") }}</mat-label>
     <div class="project-details-container">
       <drr-input
-        style="width: 50vw"
+        class="drr-single-input"
         [id]="'estimatedPeopleImpacted'"
         [label]="t('estimatedPeopleImpacted')"
         [rxFormControl]="getFormControl('estimatedPeopleImpacted')"
@@ -45,7 +45,7 @@
           [formGroupName]="i"
         >
           <drr-input
-            style="width: 50vw; margin-top: 10px"
+            class="drr-single-input"
             [id]="'infrastructure_' + i"
             [label]="t('infrastructureImpactedText')"
             [rxFormControl]="

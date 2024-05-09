@@ -26,11 +26,19 @@ export interface DrifEoiApplication {
   drifProgramGoalAlignment?: string;
   endDate?: string;
   estimatedPeopleImpacted?: number;
+  /**
+   * @minimum 0
+   * @maximum 999999999.99
+   */
   estimatedTotal?: number;
   financialAwarenessConfirmation?: boolean;
   firstNationsEngagement?: string;
   /** @nullable */
   foippaConfirmation?: boolean;
+  /**
+   * @minimum 0
+   * @maximum 999999999.99
+   */
   fundingRequest?: number;
   fundingStream?: FundingStream;
   identityConfirmation?: boolean;

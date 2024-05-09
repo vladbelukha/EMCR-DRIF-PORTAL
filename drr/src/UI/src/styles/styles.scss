@@ -443,3 +443,14 @@ mat-card {
   justify-content: space-between;
   margin-top: 20px;
 }
+
+.drr-single-input {
+  width: 50vw;
+  margin-top: 8px;
+}
+
+@media (max-width: 768px) {
+  .drr-single-input {
+    width: 100%;
+  }
+}

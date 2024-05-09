@@ -6,9 +6,10 @@ import { MatToolbarModule } from '@angular/material/toolbar';
   standalone: true,
   imports: [MatToolbarModule],
   templateUrl: './footer.component.html',
-  styleUrl: './footer.component.scss'
+  styleUrl: './footer.component.scss',
 })
 export class FooterComponent {
-  openVersionsModal() {
-  }
+  email = 'EMBCDisasterMitigation@gov.bc.ca';
+
+  openVersionsModal() {}
 }
