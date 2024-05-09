@@ -14,3 +14,4 @@ export * from './fundingType';
 export * from './hazards';
 export * from './projectType';
 export * from './proponentType';
+export * from './versionInformation';
