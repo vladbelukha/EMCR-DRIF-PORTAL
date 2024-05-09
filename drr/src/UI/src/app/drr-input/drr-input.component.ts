@@ -13,6 +13,8 @@ import { MatInputModule } from '@angular/material/input';
 import { RxFormBuilder, RxFormControl } from '@rxweb/reactive-form-validators';
 import { NgxMaskDirective } from 'ngx-mask';
 
+export type InputType = 'text' | 'tel' | 'number' | 'email';
+
 // TODO: consider splitting this component into smaller dedicated input type components
 @Component({
   selector: 'drr-input',
@@ -39,7 +41,7 @@ export class DrrInputComponent {
   @Input() label = '';
   @Input() id = '';
   @Input() maxlength: number = 0;
-  @Input() type = 'text';
+  @Input() type: InputType = 'text';
 
   ngOnInit() {
     this.breakpointObserver
@@ -110,35 +112,43 @@ export class DrrInputComponent {
 
   @HostListener('keypress', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
+    const inputChar = String.fromCharCode(event.charCode);
+    this.handleInputEvent(event, inputChar);
+  }
+
+  @HostListener('paste', ['$event'])
+  handlePasteEvent(event: ClipboardEvent) {
+    const value = event.clipboardData?.getData('text') ?? '';
+    this.handleInputEvent(event, value);
+  }
+
+  private handleInputEvent(event: Event, inputValue: string) {
     if (this.type === 'tel') {
       // Allow numbers
       const pattern = /[0-9]/;
-      let inputChar = String.fromCharCode(event.charCode);
 
-      if (!pattern.test(inputChar)) {
+      if (!pattern.test(inputValue)) {
         // Invalid character, prevent input
         event.preventDefault();
       }
     }
 
     if (this.type === 'number') {
-      let inputChar = String.fromCharCode(event.charCode);
-
       // number input doesn't not support maxlength by default
       // so we need to add it manually to match text input behavior,
       // but allow decimal point to be moved around
       if (
         this.maxlength
-          ? this.getCount() >= this.maxlength && inputChar !== '.'
+          ? this.getCount() >= this.maxlength && inputValue !== '.'
           : false
       ) {
         event.preventDefault();
       }
 
       // Allow positive numbers and decimals
-      const pattern = /[0-9.]/;
+      const pattern = /^\d*\.?\d*$/;
 
-      if (!pattern.test(inputChar)) {
+      if (!pattern.test(inputValue)) {
         // Invalid character, prevent input
         event.preventDefault();
       }
