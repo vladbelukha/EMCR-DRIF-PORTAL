@@ -91,6 +91,13 @@ namespace EMCR.Tests.Integration.DRR.Resources
                         Amount = 200,
                         Type = FundingType.Prov,
                     },
+                    new FundingInformation
+                    {
+                        Name = $"{uniqueSignature}_other",
+                        Amount = 300,
+                        Type = FundingType.Other,
+                        OtherDescription = "reason for other funding"
+                    },
                 },
                 RemainingAmount = 600,
                 IntendToSecureFunding = "Funding Reasons",
