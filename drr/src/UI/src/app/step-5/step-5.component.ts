@@ -8,21 +8,20 @@ import {
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { TranslocoModule } from '@ngneat/transloco';
 import {
   IFormGroup,
   RxFormBuilder,
   RxFormControl,
 } from '@rxweb/reactive-form-validators';
-import {
-  EOIApplicationForm,
-  ProjectDetailsForm,
-  StringItem,
-} from '../eoi-application/eoi-application-form';
-import { TranslocoModule } from '@ngneat/transloco';
-import { MatIconModule } from '@angular/material/icon';
 import { DrrTextareaComponent } from '../drr-datepicker/drr-textarea.component';
 import { DrrInputComponent } from '../drr-input/drr-input.component';
+import {
+  ProjectDetailsForm,
+  StringItemRequired,
+} from '../eoi-application/eoi-application-form';
 
 @Component({
   selector: 'drr-step-5',
@@ -51,7 +50,7 @@ export class Step5Component {
   ngOnInit() {
     this.projectDetailsForm
       .get('infrastructureImpactedArray')
-      ?.valueChanges.subscribe((infrastructures: StringItem[]) => {
+      ?.valueChanges.subscribe((infrastructures: StringItemRequired[]) => {
         this.projectDetailsForm
           .get('infrastructureImpacted')
           ?.patchValue(
@@ -80,7 +79,7 @@ export class Step5Component {
 
   addInfrastructure() {
     this.getFormArray('infrastructureImpactedArray').push(
-      this.formBuilder.formGroup(StringItem)
+      this.formBuilder.formGroup(StringItemRequired)
     );
   }
 
