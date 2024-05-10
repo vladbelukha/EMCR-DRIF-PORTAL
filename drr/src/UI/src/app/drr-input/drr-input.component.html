@@ -1,4 +1,4 @@
-<mat-label *ngIf="isMobile">{{ label }}</mat-label>
+<mat-label *ngIf="isMobile">{{ label }}{{ getMandatoryMark() }}</mat-label>
 <mat-form-field [ngClass]="isCurrency ? 'drr-currency-input' : 'drr-input'">
   <mat-label *ngIf="!isMobile">{{ label }}</mat-label>
   <input
