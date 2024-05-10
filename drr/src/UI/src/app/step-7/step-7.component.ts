@@ -1,16 +1,13 @@
-import { Component, Input } from '@angular/core';
-import { IFormGroup } from '@rxweb/reactive-form-validators';
-import {
-  EOIApplicationForm,
-  OtherSupportingInformationForm,
-} from '../eoi-application/eoi-application-form';
 import { CommonModule } from '@angular/common';
+import { Component, Input } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { TranslocoModule } from '@ngneat/transloco';
-import { DrrTextareaComponent } from '../drr-datepicker/drr-textarea.component';
+import { IFormGroup } from '@rxweb/reactive-form-validators';
+import { DrrTextareaComponent } from '../drr-textarea/drr-textarea.component';
+import { OtherSupportingInformationForm } from '../eoi-application/eoi-application-form';
 
 @Component({
   selector: 'drr-step-7',

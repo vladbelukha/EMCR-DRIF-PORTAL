@@ -16,8 +16,8 @@ import {
   RxFormBuilder,
   RxFormControl,
 } from '@rxweb/reactive-form-validators';
-import { DrrTextareaComponent } from '../drr-datepicker/drr-textarea.component';
 import { DrrInputComponent } from '../drr-input/drr-input.component';
+import { DrrTextareaComponent } from '../drr-textarea/drr-textarea.component';
 import {
   ProjectDetailsForm,
   StringItemRequired,
