@@ -9,6 +9,7 @@
       [rxFormControl]="getFormControl('estimatedTotal')"
       [type]="'number'"
       [maxlength]="11"
+      [isCurrency]="true"
     ></drr-input>
 
     <mat-label class="drr-label">{{ t("fundingRequest") }}</mat-label>
@@ -20,6 +21,7 @@
       [rxFormControl]="getFormControl('fundingRequest')"
       [type]="'number'"
       [maxlength]="11"
+      [isCurrency]="true"
     ></drr-input>
 
     <mat-label class="drr-label">{{ t("otherFundingSources") }}</mat-label>
@@ -39,6 +41,7 @@
           [rxFormControl]="otherFunding.get('amount')"
           [type]="'number'"
           [maxlength]="11"
+          [isCurrency]="true"
         ></drr-input>
 
         <drr-input

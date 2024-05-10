@@ -1,5 +1,5 @@
 <mat-label *ngIf="isMobile">{{ label }}</mat-label>
-<mat-form-field class="drr-input">
+<mat-form-field [ngClass]="isCurrency ? 'drr-currency-input' : 'drr-input'">
   <mat-label *ngIf="!isMobile">{{ label }}</mat-label>
   <input
     id="{{ id }}"
@@ -13,6 +13,7 @@
     (blur)="onBlur()"
     [mask]="getMask()"
   />
+  <span *ngIf="isCurrency" matTextPrefix>$&nbsp;</span>
   <mat-hint *ngIf="maxlength && isFocused" align="end"
     >{{ getCount() }} / {{ maxlength }}</mat-hint
   >

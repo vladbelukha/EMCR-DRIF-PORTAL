@@ -42,6 +42,7 @@ export class DrrInputComponent {
   @Input() id = '';
   @Input() maxlength: number = 0;
   @Input() type: InputType = 'text';
+  @Input() isCurrency = false;
 
   ngOnInit() {
     this.breakpointObserver

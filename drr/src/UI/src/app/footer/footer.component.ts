@@ -1,8 +1,8 @@
-import { Component, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, inject, isDevMode } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { VersionService } from '../../api/version/version.service';
 import { VersionInformation } from '../../model';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'drr-footer',
@@ -14,6 +14,7 @@ import { CommonModule } from '@angular/common';
 export class FooterComponent {
   versionService = inject(VersionService);
 
+  isDevMode = isDevMode();
   email = 'EMBCDisasterMitigation@gov.bc.ca';
   versions?: VersionInformation[];
 
@@ -26,6 +27,10 @@ export class FooterComponent {
   }
 
   ngOnInit() {
+    if (this.isDevMode) {
+      return;
+    }
+
     this.versionService.versionGetVersionInformation().subscribe((version) => {
       this.versions = version;
     });
