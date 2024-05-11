@@ -18,6 +18,7 @@ import { Hazards } from '../../model';
 import { DrrInputComponent } from '../drr-input/drr-input.component';
 import { ProjectInformationForm } from '../eoi-application/eoi-application-form';
 import { DrrSelectComponent } from '../drr-select/drr-select.component';
+import { DrrDatepickerComponent } from '../drr-datepicker/drr-datepicker.component';
 
 @Component({
   selector: 'drr-step-2',
@@ -34,7 +35,8 @@ import { DrrSelectComponent } from '../drr-select/drr-select.component';
     MatDatepickerModule,
     TranslocoModule,
     DrrInputComponent,
-    DrrSelectComponent
+    DrrSelectComponent,
+    DrrDatepickerComponent
   ],
   templateUrl: './step-2.component.html',
   styleUrl: './step-2.component.scss',
