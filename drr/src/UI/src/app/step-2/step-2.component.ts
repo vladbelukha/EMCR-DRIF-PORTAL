@@ -17,6 +17,8 @@ import { IFormGroup, RxFormControl } from '@rxweb/reactive-form-validators';
 import { Hazards } from '../../model';
 import { DrrInputComponent } from '../drr-input/drr-input.component';
 import { ProjectInformationForm } from '../eoi-application/eoi-application-form';
+import { DrrSelectComponent } from '../drr-select/drr-select.component';
+import { DrrDatepickerComponent } from '../drr-datepicker/drr-datepicker.component';
 
 @Component({
   selector: 'drr-step-2',
@@ -33,6 +35,8 @@ import { ProjectInformationForm } from '../eoi-application/eoi-application-form'
     MatDatepickerModule,
     TranslocoModule,
     DrrInputComponent,
+    DrrSelectComponent,
+    DrrDatepickerComponent
   ],
   templateUrl: './step-2.component.html',
   styleUrl: './step-2.component.scss',

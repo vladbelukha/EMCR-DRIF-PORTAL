@@ -32,7 +32,6 @@ export type InputType = 'text' | 'tel' | 'number' | 'email';
 })
 export class DrrInputComponent {
   formBuilder = inject(RxFormBuilder);
-
   breakpointObserver = inject(BreakpointObserver);
 
   isFocused = false;
@@ -42,6 +41,7 @@ export class DrrInputComponent {
   @Input() id = '';
   @Input() maxlength: number = 0;
   @Input() type: InputType = 'text';
+  @Input() isCurrency = false;
 
   ngOnInit() {
     this.breakpointObserver
@@ -66,7 +66,6 @@ export class DrrInputComponent {
   set rxFormControl(rxFormControl: any) {
     this._formControl = rxFormControl as RxFormControl;
   }
-
   get rxFormControl() {
     return this._formControl;
   }
@@ -89,6 +88,10 @@ export class DrrInputComponent {
     }
 
     return count;
+  }
+
+  getMandatoryMark() {
+    return !!this.rxFormControl?.errors?.required ? '*' : '';
   }
 
   isRequired(): boolean {

@@ -2,14 +2,13 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { CommonModule } from '@angular/common';
 import { Component, Input, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { RxFormBuilder, RxFormControl } from '@rxweb/reactive-form-validators';
 
 @Component({
-  selector: 'drr-textarea',
-  templateUrl: './drr-textarea.component.html',
-  styleUrl: './drr-textarea.component.scss',
+  selector: 'drr-datepicker',
   standalone: true,
   imports: [
     CommonModule,
@@ -17,25 +16,31 @@ import { RxFormBuilder, RxFormControl } from '@rxweb/reactive-form-validators';
     MatFormFieldModule,
     ReactiveFormsModule,
     MatInputModule,
+    MatDatepickerModule,
   ],
+  templateUrl: './drr-datepicker.component.html',
+  styleUrl: './drr-datepicker.component.scss',
 })
-export class DrrTextareaComponent {
+export class DrrDatepickerComponent {
   formBuilder = inject(RxFormBuilder);
-
   breakpointObserver = inject(BreakpointObserver);
 
-  isMobile = false;
-
-  @Input() label = '';
+  @Input()
+  label = '';
   @Input() id = '';
-  @Input() maxlength = 0;
-  @Input() rows = 3;
+  @Input()
+  min?: Date;
 
   private _formControl = this.formBuilder.control('', []) as RxFormControl;
   @Input()
   set rxFormControl(rxFormControl: any) {
     this._formControl = rxFormControl as RxFormControl;
   }
+  get rxFormControl() {
+    return this._formControl;
+  }
+
+  isMobile = false;
 
   ngOnInit() {
     this.breakpointObserver
@@ -45,11 +50,11 @@ export class DrrTextareaComponent {
       });
   }
 
-  get rxFormControl() {
-    return this._formControl;
+  getMandatoryMark() {
+    return !!this.rxFormControl?.errors?.required ? '*' : '';
   }
 
-  getCount(): number {
-    return this.rxFormControl?.value?.length ?? 0;
+  isRequired(): boolean {
+    return !!this.rxFormControl?.errors?.required;
   }
 }

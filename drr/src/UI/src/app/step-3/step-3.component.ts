@@ -20,8 +20,9 @@ import {
 } from '@rxweb/reactive-form-validators';
 import { distinctUntilChanged } from 'rxjs';
 import { FundingType } from '../../model';
-import { DrrTextareaComponent } from '../drr-datepicker/drr-textarea.component';
 import { DrrInputComponent } from '../drr-input/drr-input.component';
+import { DrrSelectComponent } from '../drr-select/drr-select.component';
+import { DrrTextareaComponent } from '../drr-textarea/drr-textarea.component';
 import {
   FundingInformationForm,
   FundingInformationItemForm,
@@ -42,6 +43,7 @@ import {
     TranslocoModule,
     DrrTextareaComponent,
     DrrInputComponent,
+    DrrSelectComponent,
   ],
   templateUrl: './step-3.component.html',
   styleUrl: './step-3.component.scss',
@@ -141,6 +143,10 @@ export class Step3Component {
     ) as RxFormControl;
   }
 
+  hasOtherGrants(selectValue: FundingType[]) {
+    return selectValue?.includes(FundingType.OtherGrants);
+  }
+
   // event handler for funding type change
   setFundingTypeDesctiption(event: MatSelectChange, index: number) {
     const descriptionControl = this.getArrayFormControl(
@@ -149,7 +155,8 @@ export class Step3Component {
       index
     );
 
-    if (event.value === FundingType.OtherGrants) {
+    // check if value contains FundingType.OtherGrants
+    if (this.hasOtherGrants(event.value)) {
       descriptionControl.addValidators(Validators.required);
     } else {
       descriptionControl.clearValidators();

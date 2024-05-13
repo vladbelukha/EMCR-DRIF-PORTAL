@@ -1,0 +1,18 @@
+<mat-label *ngIf="isMobile">{{ label }}{{ getMandatoryMark() }}</mat-label>
+<mat-form-field class="drr-datepicker">
+  <mat-label *ngIf="!isMobile">{{ label }}</mat-label>
+  <input
+    [id]="id"
+    required="{{ isRequired() }}"
+    matInput
+    [matDatepicker]="date_picker"
+    [formControl]="rxFormControl"
+    [min]="min"
+  />
+  <mat-hint>YYYY-MM-DD</mat-hint>
+  <mat-datepicker-toggle
+    matIconSuffix
+    [for]="date_picker"
+  ></mat-datepicker-toggle>
+  <mat-datepicker #date_picker></mat-datepicker>
+</mat-form-field>

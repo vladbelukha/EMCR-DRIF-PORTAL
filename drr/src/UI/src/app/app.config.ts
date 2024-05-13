@@ -65,7 +65,10 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(NgxSpinnerModule),
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
-      useValue: { hideRequiredMarker: false },
+      useValue: {
+        hideRequiredMarker: false,
+        floatLabel: 'always',
+      },
     },
     provideNgxMask(),
   ],

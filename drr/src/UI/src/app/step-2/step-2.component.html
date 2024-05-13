@@ -56,18 +56,16 @@
       <mat-radio-button value="Existing">{{ t("Existing") }}</mat-radio-button>
     </mat-radio-group>
     <mat-label class="drr-label">{{ t("relatedHazards") }}</mat-label>
-    <mat-form-field class="drr-single-input">
-      <mat-label>{{ t("relatedHazards") }}</mat-label>
-      <mat-select
-        id="relatedHazards"
-        formControlName="relatedHazards"
-        multiple="true"
-      >
-        @for (option of hazardsOptions; track option) {
-        <mat-option [value]="option">{{ t(option) }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
+
+    <drr-select
+      class="drr-single-input"
+      [id]="'relatedHazards'"
+      [label]="t('relatedHazards')"
+      [rxFormControl]="getFormArray('relatedHazards')"
+      [options]="hazardsOptions"
+      [isMultiple]="true"
+    ></drr-select>
+
     <drr-input
       *ngIf="otherHazardSelected()"
       class="drr-single-input"
@@ -78,38 +76,19 @@
     ></drr-input>
     <mat-label class="drr-label">{{ t("projectDates") }}</mat-label>
     <div class="project-dates-container">
-      <mat-form-field>
-        <mat-label>{{ t("startDate") }}</mat-label>
-        <input
-          id="startDate"
-          matInput
-          [matDatepicker]="start_picker"
-          formControlName="startDate"
-          [min]="minStartDate"
-        />
-        <mat-hint>YYYY-MM-DD</mat-hint>
-        <mat-datepicker-toggle
-          matIconSuffix
-          [for]="start_picker"
-        ></mat-datepicker-toggle>
-        <mat-datepicker #start_picker></mat-datepicker>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>{{ t("endDate") }}</mat-label>
-        <input
-          id="endDate"
-          matInput
-          [matDatepicker]="end_picker"
-          formControlName="endDate"
-          [min]="minEndDate"
-        />
-        <mat-hint>YYYY-MM-DD</mat-hint>
-        <mat-datepicker-toggle
-          matIconSuffix
-          [for]="end_picker"
-        ></mat-datepicker-toggle>
-        <mat-datepicker #end_picker></mat-datepicker>
-      </mat-form-field>
+      <drr-datepicker
+        [id]="'startDate'"
+        [label]="t('startDate')"
+        [rxFormControl]="getFormControl('startDate')"
+        [min]="minStartDate"
+      ></drr-datepicker>
+
+      <drr-datepicker
+        [id]="'endDate'"
+        [label]="t('endDate')"
+        [rxFormControl]="getFormControl('endDate')"
+        [min]="minEndDate"
+      ></drr-datepicker>
     </div>
   </form>
 </div>

@@ -1,6 +1,7 @@
 import {
   email,
   maxNumber,
+  minLength,
   minNumber,
   prop,
   propArray,
@@ -32,6 +33,7 @@ export class FundingInformationItemForm implements FundingInformation {
 
   @prop()
   @required()
+  @minLength({ value: 1 })
   type?: FundingType;
 
   @prop()
@@ -146,6 +148,7 @@ export class ProjectInformationForm implements DrifEoiApplication {
 
   @prop()
   @required()
+  @minLength({ value: 1 })
   relatedHazards?: Hazards[];
 
   @prop()
