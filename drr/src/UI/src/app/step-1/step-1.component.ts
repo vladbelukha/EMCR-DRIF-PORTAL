@@ -1,3 +1,4 @@
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { CommonModule } from '@angular/common';
 import { Component, Input, inject } from '@angular/core';
 import { FormArray, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -45,8 +46,9 @@ import {
 })
 export class Step1Component {
   formBuilder = inject(RxFormBuilder);
-
+  breakpointObserver = inject(BreakpointObserver);
   submitterSub: Subscription | undefined;
+  isMobile = false;
 
   @Input()
   proponentInformationForm!: IFormGroup<ProponentInformationForm>;
@@ -58,6 +60,12 @@ export class Step1Component {
         this.proponentInformationForm
           .get('partneringProponents')
           ?.patchValue(proponents.map((proponent) => proponent.value));
+      });
+
+    this.breakpointObserver
+      .observe('(min-width: 768px)')
+      .subscribe(({ matches }) => {
+        this.isMobile = !matches;
       });
   }
 
