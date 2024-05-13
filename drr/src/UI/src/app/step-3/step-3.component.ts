@@ -1,3 +1,4 @@
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { CommonModule } from '@angular/common';
 import { Component, Input, inject } from '@angular/core';
 import {
@@ -49,6 +50,9 @@ import {
   styleUrl: './step-3.component.scss',
 })
 export class Step3Component {
+  breakpointObserver = inject(BreakpointObserver);
+  isMobile = false;
+
   @Input()
   fundingInformationForm!: IFormGroup<FundingInformationForm>;
 
@@ -79,6 +83,12 @@ export class Step3Component {
       });
 
     this.fundingInformationForm.get('remainingAmount')?.disable();
+
+    this.breakpointObserver
+      .observe('(min-width: 768px)')
+      .subscribe(({ matches }) => {
+        this.isMobile = !matches;
+      });
   }
 
   calculateRemainingAmount() {

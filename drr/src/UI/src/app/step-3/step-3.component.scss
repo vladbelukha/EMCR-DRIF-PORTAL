@@ -15,10 +15,10 @@
   .funding-sources-container {
     flex-wrap: wrap;
     align-items: center;
+  }
 
-    & button {
-      margin-bottom: 20px;
-    }
+  drr-select.other-grants-input {
+    width: calc(100% - 64px);
   }
 
   .funding-sources-container:has(drr-input.other-grants-input) {
@@ -28,6 +28,10 @@
 
     drr-input.other-grants-input {
       width: calc(100% - 64px);
+    }
+
+    drr-select.other-grants-input {
+      width: 100%;
     }
   }
 }
