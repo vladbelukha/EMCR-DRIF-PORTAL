@@ -53,7 +53,7 @@
         ></drr-input>
         <drr-select
           class="other-grants-input"
-          [id]="'otherFunding_type_{{ i }}'"
+          [id]="'otherFunding_type_' + i"
           [label]="t('otherFundingSourcesType')"
           [rxFormControl]="getArrayFormControl('type', 'otherFunding', i)"
           [options]="fundingTypeOptions"

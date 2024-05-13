@@ -1,10 +1,9 @@
 <div class="drr-step-container" *transloco="let t">
   <form [formGroup]="projectDetailsForm">
     <mat-label class="drr-label">{{ t("rationaleForFunding") }}</mat-label>
-
-    <mat-label>{{ t("rationaleForFundingText") }}</mat-label>
     <drr-textarea
       [id]="'rationaleForFunding'"
+      [label]="t('rationaleForFundingText')"
       [maxlength]="2000"
       [rxFormControl]="getFormControl('rationaleForFunding')"
       [rows]="10"
@@ -22,9 +21,10 @@
       ></drr-input>
 
       <mat-label class="drr-label">{{ t("communityImpact") }} </mat-label>
-      <mat-label>{{ t("communityImpactText") }} </mat-label>
+
       <drr-textarea
         [id]="'communityImpact'"
+        [label]="t('communityImpactText')"
         [maxlength]="2000"
         [rxFormControl]="getFormControl('communityImpact')"
         [rows]="10"
@@ -60,7 +60,6 @@
 
         <button
           id="addInfrastructure"
-          style="margin-top: 10px"
           mat-stroked-button
           type="button"
           color="primary"
@@ -71,17 +70,18 @@
         </button>
       </div>
 
-      <mat-label>{{ t("disasterRiskUnderstanding") }} </mat-label>
       <drr-textarea
         [id]="'disasterRiskUnderstanding'"
+        style="margin-top: 8px"
+        [label]="t('disasterRiskUnderstanding')"
         [maxlength]="2000"
         [rxFormControl]="getFormControl('disasterRiskUnderstanding')"
         [rows]="10"
       ></drr-textarea>
 
-      <mat-label>{{ t("additionalBackgroundInformation") }} </mat-label>
       <drr-textarea
         [id]="'additionalBackgroundInformation'"
+        [label]="t('additionalBackgroundInformation')"
         [maxlength]="2000"
         [rxFormControl]="getFormControl('additionalBackgroundInformation')"
         [rows]="10"
@@ -90,34 +90,34 @@
 
     <mat-label class="drr-label">{{ t("proposedSolution") }}</mat-label>
     <div class="project-details-container">
-      <mat-label>{{ t("addressRisksAndHazards") }}</mat-label>
       <drr-textarea
         [id]="'addressRisksAndHazards'"
+        [label]="t('addressRisksAndHazards')"
         [maxlength]="2000"
         [rxFormControl]="getFormControl('addressRisksAndHazards')"
         [rows]="10"
       ></drr-textarea>
 
-      <mat-label>{{ t("drifProgramGoalAlignment") }}</mat-label>
       <drr-textarea
         [id]="'drifProgramGoalAlignment'"
+        [label]="t('drifProgramGoalAlignment')"
         [maxlength]="2000"
         [rxFormControl]="getFormControl('drifProgramGoalAlignment')"
         [rows]="10"
       ></drr-textarea>
 
-      <mat-label>{{ t("additionalSolutionInformation") }}</mat-label>
       <drr-textarea
         [id]="'additionalSolutionInformation'"
+        [label]="t('additionalSolutionInformation')"
         [maxlength]="2000"
         [rxFormControl]="getFormControl('additionalSolutionInformation')"
         [rows]="10"
       ></drr-textarea>
 
       <mat-label class="drr-label">{{ t("rationaleForSolution") }}</mat-label>
-      <mat-label>{{ t("rationaleForSolutionText") }}</mat-label>
       <drr-textarea
         [id]="'rationaleForSolution'"
+        [label]="t('rationaleForSolutionText')"
         [maxlength]="2000"
         [rxFormControl]="getFormControl('rationaleForSolution')"
         [rows]="10"

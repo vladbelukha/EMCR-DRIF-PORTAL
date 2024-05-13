@@ -5,7 +5,7 @@
     id="{{ id }}"
     required="{{ isRequired() }}"
     [formControl]="rxFormControl"
-    multiple="true"
+    multiple="{{ isMultiple }}"
     (selectionChange)="onSelectionChange($event)"
   >
     @for (option of options; track option) {

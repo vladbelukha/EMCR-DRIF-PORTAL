@@ -36,6 +36,8 @@ export class DrrSelectComponent {
     return this._formControl;
   }
 
+  @Input() isMultiple = false;
+
   @Input() label = '';
   @Input() id = '';
   @Input() options: string[] = [];

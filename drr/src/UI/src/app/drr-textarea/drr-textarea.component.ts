@@ -1,6 +1,6 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { CommonModule } from '@angular/common';
-import { Component, Input, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -21,8 +21,8 @@ import { RxFormBuilder, RxFormControl } from '@rxweb/reactive-form-validators';
 })
 export class DrrTextareaComponent {
   formBuilder = inject(RxFormBuilder);
-
   breakpointObserver = inject(BreakpointObserver);
+  changeDetector = inject(ChangeDetectorRef);
 
   isMobile = false;
 
@@ -30,6 +30,7 @@ export class DrrTextareaComponent {
   @Input() id = '';
   @Input() maxlength = 0;
   @Input() rows = 3;
+  @Input() useTopLabel = false;
 
   private _formControl = this.formBuilder.control('', []) as RxFormControl;
   @Input()
@@ -45,11 +46,23 @@ export class DrrTextareaComponent {
       });
   }
 
+  ngAfterViewInit() {
+    this.changeDetector.detectChanges();
+  }
+
   get rxFormControl() {
     return this._formControl;
   }
 
   getCount(): number {
     return this.rxFormControl?.value?.length ?? 0;
+  }
+
+  getMandatoryMark() {
+    return this.useTopLabel || !!this.rxFormControl?.errors?.required ? '*' : '';
+  }
+
+  isRequired(): boolean {
+    return this.isMobile ? false : !!this.rxFormControl?.errors?.required;
   }
 }
