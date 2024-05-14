@@ -15,10 +15,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { TranslocoModule } from '@ngneat/transloco';
 import { IFormGroup, RxFormControl } from '@rxweb/reactive-form-validators';
 import { Hazards } from '../../model';
-import { DrrInputComponent } from '../drr-input/drr-input.component';
-import { ProjectInformationForm } from '../eoi-application/eoi-application-form';
-import { DrrSelectComponent } from '../drr-select/drr-select.component';
 import { DrrDatepickerComponent } from '../drr-datepicker/drr-datepicker.component';
+import { DrrInputComponent } from '../drr-input/drr-input.component';
+import { DrrSelectComponent } from '../drr-select/drr-select.component';
+import { ProjectInformationForm } from '../eoi-application/eoi-application-form';
 
 @Component({
   selector: 'drr-step-2',
@@ -36,7 +36,7 @@ import { DrrDatepickerComponent } from '../drr-datepicker/drr-datepicker.compone
     TranslocoModule,
     DrrInputComponent,
     DrrSelectComponent,
-    DrrDatepickerComponent
+    DrrDatepickerComponent,
   ],
   templateUrl: './step-2.component.html',
   styleUrl: './step-2.component.scss',
@@ -67,9 +67,9 @@ export class Step2Component {
           otherHazardsDescriptionControl?.addValidators(Validators.required);
         } else {
           otherHazardsDescriptionControl?.clearValidators();
+          otherHazardsDescriptionControl?.reset();
         }
 
-        otherHazardsDescriptionControl?.reset();
         otherHazardsDescriptionControl?.updateValueAndValidity();
       });
   }
