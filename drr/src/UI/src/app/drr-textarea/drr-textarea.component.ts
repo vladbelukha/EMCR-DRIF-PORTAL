@@ -30,7 +30,7 @@ export class DrrTextareaComponent {
   @Input() id = '';
   @Input() maxlength = 0;
   @Input() rows = 3;
-  @Input() useTopLabel = false;
+  @Input() useTopLabel = true;
 
   private _formControl = this.formBuilder.control('', []) as RxFormControl;
   @Input()
@@ -59,7 +59,9 @@ export class DrrTextareaComponent {
   }
 
   getMandatoryMark() {
-    return this.useTopLabel || !!this.rxFormControl?.errors?.required ? '*' : '';
+    return this.useTopLabel || !!this.rxFormControl?.errors?.required
+      ? '*'
+      : '';
   }
 
   isRequired(): boolean {

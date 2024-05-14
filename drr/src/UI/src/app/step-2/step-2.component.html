@@ -1,6 +1,6 @@
 <div class="drr-step-container" *transloco="let t">
   <form [formGroup]="projectInformationForm">
-    <mat-label class="drr-label">{{ t("fundingStream") }}</mat-label>
+    <mat-label class="drr-label">{{ t("fundingStream") }}*</mat-label>
     <mat-radio-group
       id="fundingStream"
       class="drr-radio-group"
@@ -37,7 +37,7 @@
       [maxlength]="100"
     ></drr-input>
 
-    <mat-label class="drr-label">{{ t("projectType") }}</mat-label>
+    <mat-label class="drr-label">{{ t("projectType") }}*</mat-label>
     <mat-radio-group
       id="projectType"
       class="drr-radio-group"
