@@ -53,7 +53,12 @@
             "
             [maxlength]="100"
           ></drr-input>
-          <button mat-mini-fab color="warn" (click)="removeInfrastructure(i)">
+          <button
+            *ngIf="i > 0"
+            mat-mini-fab
+            color="warn"
+            (click)="removeInfrastructure(i)"
+          >
             <mat-icon>delete</mat-icon>
           </button>
         </div>
