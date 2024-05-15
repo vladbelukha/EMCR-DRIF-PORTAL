@@ -59,9 +59,7 @@ export class DrrTextareaComponent {
   }
 
   getMandatoryMark() {
-    return this.useTopLabel || !!this.rxFormControl?.errors?.required
-      ? '*'
-      : '';
+    return !!this.rxFormControl?.errors?.required ? '*' : '';
   }
 
   isRequired(): boolean {
