@@ -341,7 +341,10 @@
 
   <div
     class="summary-item"
-    *ngIf="eoiApplication?.fundingInformation?.remainingAmount"
+    *ngIf="
+      eoiApplication?.fundingInformation?.remainingAmount != undefined &&
+      eoiApplication?.fundingInformation?.remainingAmount != null
+    "
   >
     <mat-label class="drr-label">{{ t("remainingAmount") }}</mat-label>
     <mat-label>{{
