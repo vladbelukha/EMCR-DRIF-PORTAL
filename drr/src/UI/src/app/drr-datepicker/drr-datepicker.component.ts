@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { TranslocoModule } from '@ngneat/transloco';
 import { RxFormBuilder, RxFormControl } from '@rxweb/reactive-form-validators';
 
 @Component({
@@ -17,6 +18,7 @@ import { RxFormBuilder, RxFormControl } from '@rxweb/reactive-form-validators';
     ReactiveFormsModule,
     MatInputModule,
     MatDatepickerModule,
+    TranslocoModule,
   ],
   templateUrl: './drr-datepicker.component.html',
   styleUrl: './drr-datepicker.component.scss',
@@ -25,11 +27,10 @@ export class DrrDatepickerComponent {
   formBuilder = inject(RxFormBuilder);
   breakpointObserver = inject(BreakpointObserver);
 
-  @Input()
-  label = '';
+  @Input() label = '';
   @Input() id = '';
-  @Input()
-  min?: Date;
+  @Input() min?: Date;
+  @Input() minErrorLabel = '';
 
   private _formControl = this.formBuilder.control('', []) as RxFormControl;
   @Input()

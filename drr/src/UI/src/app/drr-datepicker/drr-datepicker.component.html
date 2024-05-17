@@ -1,5 +1,5 @@
 <mat-label *ngIf="isMobile">{{ label }}{{ getMandatoryMark() }}</mat-label>
-<mat-form-field class="drr-datepicker">
+<mat-form-field class="drr-datepicker" *transloco="let t">
   <mat-label *ngIf="!isMobile">{{ label }}</mat-label>
   <input
     [id]="id"
@@ -10,6 +10,9 @@
     [min]="min"
   />
   <mat-hint>YYYY-MM-DD</mat-hint>
+  <mat-error *ngIf="rxFormControl.hasError('matDatepickerMin')">
+    {{ minErrorLabel }}
+  </mat-error>
   <mat-datepicker-toggle
     matIconSuffix
     [for]="date_picker"
