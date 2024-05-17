@@ -3,6 +3,7 @@
   <mat-label *ngIf="!isMobile">{{ label }}</mat-label>
   <input
     id="{{ id }}"
+    #drrInput
     matInput
     [formControl]="rxFormControl"
     [maxlength]="getMaxLength"
@@ -13,7 +14,6 @@
     (blur)="onBlur()"
     [mask]="getMask()"
   />
-  <span *ngIf="isCurrency" matTextPrefix>$&nbsp;</span>
   <mat-hint *ngIf="maxlength && isFocused" align="end"
     >{{ getCount() }} / {{ maxlength }}</mat-hint
   >

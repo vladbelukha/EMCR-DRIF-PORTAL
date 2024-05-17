@@ -111,5 +111,7 @@
   "Tsunami": "Tsunami",
   "New": "New Project",
   "Existing": "New Phase of Existing Project",
-  "scopeStatement": "Summarized Scope Statement"
+  "scopeStatement": "Summarized Scope Statement",
+  "maxValueError": "Value must be smaller than {{max}}",
+  "minValueError": "Value must be larger than {{min}}"
 }

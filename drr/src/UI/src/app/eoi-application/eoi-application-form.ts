@@ -24,7 +24,7 @@ export class FundingInformationItemForm implements FundingInformation {
   @prop()
   @required()
   @minNumber({ value: 0 })
-  @maxNumber({ value: 100000000000 })
+  @maxNumber({ value: 999999999.99 })
   amount?: number;
 
   @prop()
@@ -171,13 +171,13 @@ export class FundingInformationForm implements DrifEoiApplication {
   @prop()
   @required()
   @minNumber({ value: 0 })
-  @maxNumber({ value: 100000000000 })
+  @maxNumber({ value: 999999999.99 })
   estimatedTotal?: number;
 
   @prop()
   @required()
   @minNumber({ value: 0 })
-  @maxNumber({ value: 100000000000 })
+  @maxNumber({ value: 999999999.99 })
   fundingRequest?: number;
 
   @propArray(FundingInformationItemForm)

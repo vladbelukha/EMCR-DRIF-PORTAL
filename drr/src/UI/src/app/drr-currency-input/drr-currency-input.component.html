@@ -1,0 +1,27 @@
+<mat-label *ngIf="isMobile">{{ label }}{{ getMandatoryMark() }}</mat-label>
+<mat-form-field class="drr-currency-input" *transloco="let t">
+  <mat-label *ngIf="!isMobile">{{ label }}</mat-label>
+  <input
+    id="{{ id }}"
+    matInput
+    [formControl]="rxFormControl"
+    required="{{ isRequired() }}"
+    [min]="min"
+    [max]="max"
+    (focus)="onFocus()"
+    (blur)="onBlur()"
+    [mask]="'separator.2'"
+    [decimalMarker]="'.'"
+    [thousandSeparator]="','"
+  />
+  <span matTextPrefix>$&nbsp;</span>
+  <mat-hint *ngIf="max && isFocused" align="end"
+    >Max: {{ max | currency }}</mat-hint
+  >
+  <mat-error *ngIf="rxFormControl.hasError('maxNumber')">
+    {{ t("maxValueError", { max: max | currency }) }}
+  </mat-error>
+  <mat-error *ngIf="rxFormControl.hasError('minNumber')">
+    {{ t("minValueError", { min: min | currency }) }}
+  </mat-error>
+</mat-form-field>

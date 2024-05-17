@@ -3,8 +3,10 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectorRef,
   Component,
+  ElementRef,
   HostListener,
   Input,
+  ViewChild,
   inject,
 } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -15,7 +17,6 @@ import { NgxMaskDirective } from 'ngx-mask';
 
 export type InputType = 'text' | 'tel' | 'number' | 'email';
 
-// TODO: consider splitting this component into smaller dedicated input type components
 @Component({
   selector: 'drr-input',
   templateUrl: './drr-input.component.html',
@@ -39,9 +40,12 @@ export class DrrInputComponent {
 
   @Input() label = '';
   @Input() id = '';
-  @Input() maxlength: number = 0;
+  @Input() maxlength?: string | number | null;
   @Input() type: InputType = 'text';
   @Input() isCurrency = false;
+  @Input() maxNumber: number = 0;
+
+  @ViewChild('drrInput', { static: false }) drrInput?: ElementRef;
 
   ngOnInit() {
     this.breakpointObserver
@@ -52,9 +56,11 @@ export class DrrInputComponent {
   }
 
   get getMaxLength() {
-    return this.type === 'tel' || this.type === 'number'
-      ? null
-      : this.maxlength;
+    if (this.type === 'tel' || this.type === 'number') {
+      return null;
+    }
+
+    return this.maxlength ?? null;
   }
 
   get numberInputMin() {
@@ -78,16 +84,7 @@ export class DrrInputComponent {
 
   getCount(): number {
     const inputValue = this.rxFormControl?.value ?? '';
-
-    let count = 0;
-    if (this.type === 'number') {
-      // remove decimal point so it's not counted for numeric input
-      count = inputValue.replace('.', '').length;
-    } else {
-      count = inputValue.length;
-    }
-
-    return count;
+    return inputValue.length;
   }
 
   getMandatoryMark() {
@@ -110,6 +107,7 @@ export class DrrInputComponent {
     if (this.type === 'tel') {
       return '000-000-0000';
     }
+
     return '';
   }
 
@@ -142,7 +140,7 @@ export class DrrInputComponent {
       // but allow decimal point to be moved around
       if (
         this.maxlength
-          ? this.getCount() >= this.maxlength && inputValue !== '.'
+          ? this.getCount() >= Number(this.maxlength) && inputValue !== '.'
           : false
       ) {
         event.preventDefault();

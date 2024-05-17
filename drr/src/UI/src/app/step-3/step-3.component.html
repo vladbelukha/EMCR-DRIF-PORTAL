@@ -2,27 +2,23 @@
   <form [formGroup]="fundingInformationForm">
     <mat-label class="drr-label">{{ t("estimatedTotal") }}</mat-label>
 
-    <drr-input
+    <drr-currency-input
       class="drr-single-input"
       [id]="'estimatedTotal'"
       [label]="t('estimatedTotal')"
       [rxFormControl]="getFormControl('estimatedTotal')"
-      [type]="'number'"
-      [maxlength]="11"
-      [isCurrency]="true"
-    ></drr-input>
+      [max]="1000000000"
+    ></drr-currency-input>
 
     <mat-label class="drr-label">{{ t("fundingRequest") }}</mat-label>
 
-    <drr-input
+    <drr-currency-input
       class="drr-single-input"
       [id]="'fundingRequest'"
       [label]="t('fundingRequest')"
       [rxFormControl]="getFormControl('fundingRequest')"
-      [type]="'number'"
-      [maxlength]="11"
-      [isCurrency]="true"
-    ></drr-input>
+      [max]="1000000000"
+    ></drr-currency-input>
 
     <mat-label class="drr-label">{{ t("otherFundingSources") }}</mat-label>
     <div formArrayName="otherFunding">
@@ -34,15 +30,13 @@
         "
         [formGroupName]="i"
       >
-        <drr-input
+        <drr-currency-input
           class="drr-single-input"
           [id]="'otherFunding_amount_' + i"
           [label]="t('otherFundingSourcesAmount')"
           [rxFormControl]="otherFunding.get('amount')"
-          [type]="'number'"
-          [maxlength]="11"
-          [isCurrency]="true"
-        ></drr-input>
+          [max]="1000000000"
+        ></drr-currency-input>
 
         <drr-input
           class="drr-single-input"
