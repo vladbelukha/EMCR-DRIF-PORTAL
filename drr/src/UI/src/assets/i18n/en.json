@@ -112,6 +112,8 @@
   "New": "New Project",
   "Existing": "New Phase of Existing Project",
   "scopeStatement": "Summarized Scope Statement",
-  "maxValueError": "Value must be smaller than {{max}}",
-  "minValueError": "Value must be larger than {{min}}"
+  "maxValueError": "Cost must be less than {{max}}",
+  "minValueError": "Cost must be greater than {{min}}",
+  "minStartDateError": "Date must be today or in the future",
+  "minEndDateError": "Date must come after the Start Date"
 }
