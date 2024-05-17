@@ -21,6 +21,7 @@ import {
 } from '@rxweb/reactive-form-validators';
 import { distinctUntilChanged } from 'rxjs';
 import { FundingType } from '../../model';
+import { DrrCurrencyInputComponent } from '../drr-currency-input/drr-currency-input.component';
 import { DrrInputComponent } from '../drr-input/drr-input.component';
 import { DrrSelectComponent } from '../drr-select/drr-select.component';
 import { DrrTextareaComponent } from '../drr-textarea/drr-textarea.component';
@@ -45,6 +46,7 @@ import {
     DrrTextareaComponent,
     DrrInputComponent,
     DrrSelectComponent,
+    DrrCurrencyInputComponent,
   ],
   templateUrl: './step-3.component.html',
   styleUrl: './step-3.component.scss',
@@ -108,7 +110,6 @@ export class Step3Component {
       this.fundingInformationForm.get('fundingRequest')?.value ?? 0;
 
     let remainingAmount = estimatedTotal - otherFundingSum - fundingRequest;
-    remainingAmount = remainingAmount < 0 ? 0 : remainingAmount;
 
     this.fundingInformationForm.patchValue({ remainingAmount });
 

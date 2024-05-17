@@ -1,27 +1,13 @@
-.drr-input,
-.drr-currency-input {
+.drr-input {
   width: 100%;
 }
 
 .drr-input input[type="number"]::-webkit-inner-spin-button,
-.drr-input input[type="number"]::-webkit-outer-spin-button,
-.drr-currency-input input[type="number"]::-webkit-inner-spin-button,
-.drr-currency-input input[type="number"]::-webkit-outer-spin-button {
+.drr-input input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-.drr-input input[type="number"],
-.drr-currency-input input[type="number"] {
+.drr-input input[type="number"] {
   -moz-appearance: textfield;
-}
-
-:host {
-  .drr-currency-input
-    ::ng-deep
-    .mat-mdc-text-field-wrapper
-    .mat-mdc-form-field-flex
-    .mat-mdc-floating-label {
-    left: -10px;
-  }
 }

@@ -1,15 +1,15 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { CommonModule } from '@angular/common';
-import { Component, Input, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { TranslocoModule } from '@ngneat/transloco';
 import { RxFormBuilder, RxFormControl } from '@rxweb/reactive-form-validators';
+import { NgxMaskDirective } from 'ngx-mask';
 
 @Component({
-  selector: 'drr-datepicker',
+  selector: 'drr-currency-input',
   standalone: true,
   imports: [
     CommonModule,
@@ -17,20 +17,31 @@ import { RxFormBuilder, RxFormControl } from '@rxweb/reactive-form-validators';
     MatFormFieldModule,
     ReactiveFormsModule,
     MatInputModule,
-    MatDatepickerModule,
+    NgxMaskDirective,
     TranslocoModule,
   ],
-  templateUrl: './drr-datepicker.component.html',
-  styleUrl: './drr-datepicker.component.scss',
+  templateUrl: './drr-currency-input.component.html',
+  styleUrl: './drr-currency-input.component.scss',
 })
-export class DrrDatepickerComponent {
+export class DrrCurrencyInputComponent {
   formBuilder = inject(RxFormBuilder);
   breakpointObserver = inject(BreakpointObserver);
 
+  isFocused = false;
+  isMobile = false;
+
   @Input() label = '';
   @Input() id = '';
-  @Input() min?: Date;
-  @Input() minErrorLabel = '';
+  @Input() min: number = 0;
+  @Input() max: number = 0;
+
+  ngOnInit() {
+    this.breakpointObserver
+      .observe('(min-width: 768px)')
+      .subscribe(({ matches }) => {
+        this.isMobile = !matches;
+      });
+  }
 
   private _formControl = this.formBuilder.control('', []) as RxFormControl;
   @Input()
@@ -41,14 +52,10 @@ export class DrrDatepickerComponent {
     return this._formControl;
   }
 
-  isMobile = false;
+  changeDetector = inject(ChangeDetectorRef);
 
-  ngOnInit() {
-    this.breakpointObserver
-      .observe('(min-width: 768px)')
-      .subscribe(({ matches }) => {
-        this.isMobile = !matches;
-      });
+  ngAfterViewInit() {
+    this.changeDetector.detectChanges();
   }
 
   getMandatoryMark() {
@@ -59,5 +66,13 @@ export class DrrDatepickerComponent {
     return this.isMobile
       ? false
       : !!this.rxFormControl?.validator?.({})?.required;
+  }
+
+  onFocus() {
+    this.isFocused = true;
+  }
+
+  onBlur() {
+    this.isFocused = false;
   }
 }
