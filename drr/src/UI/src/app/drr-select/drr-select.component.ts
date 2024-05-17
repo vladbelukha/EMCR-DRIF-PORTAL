@@ -58,13 +58,13 @@ export class DrrSelectComponent {
   }
 
   getMandatoryMark() {
-    return !!this.rxFormControl?.errors?.required ? '*' : '';
+    return !!this.rxFormControl?.validator?.({})?.required ? '*' : '';
   }
 
   isRequired(): boolean {
     return (
-      !!this.rxFormControl?.errors?.required ||
-      !!this.rxFormControl?.errors?.minLength
+      !!this.rxFormControl?.validator?.({})?.required ||
+      !!this.rxFormControl?.validator?.({})?.minLength
     );
   }
 }

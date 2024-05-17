@@ -59,11 +59,13 @@ export class DrrCurrencyInputComponent {
   }
 
   getMandatoryMark() {
-    return !!this.rxFormControl?.errors?.required ? '*' : '';
+    return !!this.rxFormControl?.validator?.({})?.required ? '*' : '';
   }
 
   isRequired(): boolean {
-    return this.isMobile ? false : !!this.rxFormControl?.errors?.required;
+    return this.isMobile
+      ? false
+      : !!this.rxFormControl?.validator?.({})?.required;
   }
 
   onFocus() {
