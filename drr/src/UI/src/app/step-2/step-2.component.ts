@@ -54,7 +54,7 @@ export class Step2Component {
     this.projectInformationForm
       .get('startDate')
       ?.valueChanges.subscribe((date) => {
-        this.minEndDate = date.plus({ days: 1 });
+        this.minEndDate = date?.plus({ days: 1 });
       });
 
     this.projectInformationForm
