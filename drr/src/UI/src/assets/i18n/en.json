@@ -98,8 +98,8 @@
   "stream2": "Stream 2: Structural (up to $5M per proponent, maximum $15M)",
   "Fed": "Federal",
   "Prov": "Provincial",
-  "FedProv": "Federal and Provincial",
-  "SelfFunding": "Self Funding",
+  "FedProv": "Federal/Provincial",
+  "SelfFunding": "Self-funded",
   "OtherGrants": "Other Grants",
   "Other": "Other",
   "Drought": "Drought and water scarcity",
@@ -115,5 +115,7 @@
   "maxValueError": "Cost must be less than {{max}}",
   "minValueError": "Cost must be greater than {{min}}",
   "minStartDateError": "Date must be today or in the future",
-  "minEndDateError": "Date must come after the Start Date"
+  "minEndDateError": "Date must come after the Start Date",
+  "matDatepickerParseError": "Invalid date format",
+  "emailError": "Invalid email address"
 }

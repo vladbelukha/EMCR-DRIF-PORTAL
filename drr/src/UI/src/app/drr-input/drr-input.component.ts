@@ -12,6 +12,7 @@ import {
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { TranslocoModule } from '@ngneat/transloco';
 import { RxFormBuilder, RxFormControl } from '@rxweb/reactive-form-validators';
 import { NgxMaskDirective } from 'ngx-mask';
 
@@ -29,6 +30,7 @@ export type InputType = 'text' | 'tel' | 'number' | 'email';
     ReactiveFormsModule,
     MatInputModule,
     NgxMaskDirective,
+    TranslocoModule,
   ],
 })
 export class DrrInputComponent {
