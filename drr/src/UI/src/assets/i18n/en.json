@@ -116,5 +116,6 @@
   "minValueError": "Cost must be greater than {{min}}",
   "minStartDateError": "Date must be today or in the future",
   "minEndDateError": "Date must come after the Start Date",
-  "matDatepickerParseError": "Invalid date format"
+  "matDatepickerParseError": "Invalid date format",
+  "emailError": "Invalid email address"
 }
