@@ -81,13 +81,22 @@
       </button>
     </div>
     <mat-label class="drr-label" style="margin-top: 10px">{{
-      t("remainingAmount")
+      getRemainingAmount() > 0
+        ? t("missingFundsLabel")
+        : t("excessFundingLabel")
     }}</mat-label>
-    <mat-label>{{
-      getFormControl("remainingAmount").value ?? 0 | currency
+    <mat-label [style.color]="getRemainingAmount() < 0 ? 'red' : 'initial'">{{
+      getRemainingAmountAbs() | currency
     }}</mat-label>
+    <mat-hint *ngIf="getRemainingAmount() < 0" style="color: red">{{
+      t("excessFundingText")
+    }}</mat-hint>
+    <mat-hint *ngIf="getRemainingAmount() == 0">{{
+      t("noExcessFundingText")
+    }}</mat-hint>
 
     <drr-textarea
+      *ngIf="getRemainingAmount() > 0"
       style="margin-top: 10px"
       [id]="'intendToSecureFunding'"
       [label]="t('intendToSecureFunding')"

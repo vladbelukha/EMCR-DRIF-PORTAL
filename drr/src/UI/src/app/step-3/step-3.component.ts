@@ -84,8 +84,6 @@ export class Step3Component {
         this.calculateRemainingAmount();
       });
 
-    this.fundingInformationForm.get('remainingAmount')?.disable();
-
     this.breakpointObserver
       .observe('(min-width: 768px)')
       .subscribe(({ matches }) => {
@@ -121,6 +119,7 @@ export class Step3Component {
       intendToSecureFunding?.addValidators(Validators.required);
     } else {
       intendToSecureFunding?.clearValidators();
+      intendToSecureFunding?.reset();
     }
 
     intendToSecureFunding?.updateValueAndValidity();
@@ -142,6 +141,14 @@ export class Step3Component {
 
   getFormControl(name: string): FormControl {
     return this.fundingInformationForm.get(name) as FormControl;
+  }
+
+  getRemainingAmount() {
+    return this.getFormControl('remainingAmount').value;
+  }
+
+  getRemainingAmountAbs() {
+    return Math.abs(this.getRemainingAmount());
   }
 
   getArrayFormControl(

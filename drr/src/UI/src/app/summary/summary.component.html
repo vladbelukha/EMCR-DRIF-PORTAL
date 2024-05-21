@@ -342,11 +342,18 @@
       eoiApplication?.fundingInformation?.remainingAmount != undefined &&
       eoiApplication?.fundingInformation?.remainingAmount != null
     "
+    [style.color]="
+      eoiApplication?.fundingInformation?.remainingAmount! < 0
+        ? 'red'
+        : 'initial'
+    "
   >
-    <mat-label class="drr-label">{{ t("remainingAmount") }}</mat-label>
-    <mat-label>{{
-      eoiApplication?.fundingInformation?.remainingAmount | currency
+    <mat-label class="drr-label">{{
+      eoiApplication?.fundingInformation?.remainingAmount! <= 0
+        ? t("excessFundingLabel")
+        : t("remainingAmount")
     }}</mat-label>
+    <mat-label>{{ getRemainingAmountAbs() | currency }}</mat-label>
   </div>
 
   <div
