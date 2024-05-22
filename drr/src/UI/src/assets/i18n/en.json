@@ -117,5 +117,9 @@
   "minStartDateError": "Date must be today or in the future",
   "minEndDateError": "Date must come after the Start Date",
   "matDatepickerParseError": "Invalid date format",
-  "emailError": "Invalid email address"
+  "emailError": "Invalid email address",
+  "missingFundsLabel": "Amount that is not currently funded",
+  "excessFundingLabel": "Excess Funding",
+  "excessFundingText": "You cannot submit an Expression of Interest with excess funding.",
+  "noExcessFundingText": "There is no excess funding. Proceed to the next step."
 }

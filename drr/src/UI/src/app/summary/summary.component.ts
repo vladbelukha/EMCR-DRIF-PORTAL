@@ -37,4 +37,10 @@ export class SummaryComponent {
       array.some((value) => this.objectHasValues(value))
     );
   }
+
+  getRemainingAmountAbs() {
+    return Math.abs(
+      this.eoiApplication?.fundingInformation?.remainingAmount ?? 0
+    );
+  }
 }

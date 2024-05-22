@@ -184,6 +184,7 @@ export class FundingInformationForm implements DrifEoiApplication {
   otherFunding?: FundingInformationItemForm[] = [{}];
 
   @prop()
+  @minNumber({ value: 0 })
   remainingAmount?: number;
 
   @prop()
