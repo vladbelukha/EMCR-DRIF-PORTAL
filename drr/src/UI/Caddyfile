@@ -11,7 +11,7 @@
   
 	root * /site 
 
-	header {
+	header / {
 		# Enable HTTP Strict Transport Security (HSTS) to force clients to always connect via HTTPS (do not use if only testing)
 		Strict-Transport-Security "max-age=31536000; includeSubDomains"
 		# Enable cross-site filter (XSS) and tell browser to block detected attacks
@@ -28,7 +28,7 @@
 
 	encode zstd gzip
 
-	handle /version {
+	handle /api/version {
 		reverse_proxy {$API_URL} {
 			header_up Accept-Encoding identity
 		}
@@ -37,10 +37,13 @@
 		}
 	}
 
-	handle {
+	route {
+		@jstype path *.js
+    	header @jstype Content-Type text/javascript
 		reverse_proxy /api* {$API_URL}
 		try_files {path} {path}/ /index.html?{query}
-		file_server
 	}
+
+	file_server
 	
 }
