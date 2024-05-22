@@ -306,6 +306,10 @@ export class DeclarationForm implements DrifEoiApplication {
   @requiredTrue()
   identityConfirmation?: boolean;
 
+  @prop()
+  @required()
+  recaptcha?: string;
+
   constructor(values: DeclarationForm) {
     Object.assign(this, values);
   }

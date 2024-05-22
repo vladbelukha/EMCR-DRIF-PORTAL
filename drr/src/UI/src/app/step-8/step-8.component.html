@@ -55,5 +55,19 @@
     >
       {{ t("required") }}
     </mat-error>
+
+    <re-captcha
+      style="margin-top: 10px"
+      siteKey="{{ siteKey }}"
+      formControlName="recaptcha"
+    ></re-captcha>
+    <mat-error
+      *ngIf="
+        declarationForm.get('recaptcha')?.touched &&
+        declarationForm.get('recaptcha')?.invalid
+      "
+    >
+      {{ t("required") }}
+    </mat-error>
   </form>
 </div>
