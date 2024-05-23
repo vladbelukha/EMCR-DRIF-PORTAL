@@ -1,9 +1,8 @@
 <mat-label *ngIf="isMobile">{{ label }}{{ getMandatoryMark() }}</mat-label>
-<mat-form-field [ngClass]="isCurrency ? 'drr-currency-input' : 'drr-input'" *transloco="let t">
+<mat-form-field class="drr-input" *transloco="let t">
   <mat-label *ngIf="!isMobile">{{ label }}</mat-label>
   <input
     id="{{ id }}"
-    #drrInput
     matInput
     [formControl]="rxFormControl"
     [maxlength]="getMaxLength"
@@ -14,11 +13,13 @@
     (blur)="onBlur()"
     [mask]="getMask()"
   />
+  <mat-hint *ngIf="isEmail() && !rxFormControl.value" align="start">{{
+    t("emailExample")
+  }}</mat-hint>
   <mat-hint *ngIf="maxlength && isFocused" align="end"
     >{{ getCount() }} / {{ maxlength }}</mat-hint
   >
   <mat-error *ngIf="rxFormControl.hasError('email')">
     {{ t("emailError") }}
   </mat-error>
-
 </mat-form-field>

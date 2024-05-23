@@ -3,10 +3,8 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectorRef,
   Component,
-  ElementRef,
   HostListener,
   Input,
-  ViewChild,
   inject,
 } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -44,10 +42,6 @@ export class DrrInputComponent {
   @Input() id = '';
   @Input() maxlength?: string | number | null;
   @Input() type: InputType = 'text';
-  @Input() isCurrency = false;
-  @Input() maxNumber: number = 0;
-
-  @ViewChild('drrInput', { static: false }) drrInput?: ElementRef;
 
   ngOnInit() {
     this.breakpointObserver
@@ -158,5 +152,9 @@ export class DrrInputComponent {
         event.preventDefault();
       }
     }
+  }
+
+  isEmail() {
+    return this.type === 'email';
   }
 }
