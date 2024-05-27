@@ -4,9 +4,12 @@
     *ngFor="let groupKey of objectKeys(eoiApplicationForm)"
   >
     <h2>{{ t(groupKey) }}</h2>
-    <div *ngFor="let controlKey of objectKeys(getGroup(groupKey))">
+    <div
+      style="margin-left: 10px"
+      *ngFor="let controlKey of objectKeys(getGroup(groupKey))"
+    >
       <drr-summary-item
-        [label]="t(controlKey)"
+        [key]="controlKey"
         [rxFormControl]="getGroupControl(groupKey, controlKey)"
       ></drr-summary-item>
     </div>

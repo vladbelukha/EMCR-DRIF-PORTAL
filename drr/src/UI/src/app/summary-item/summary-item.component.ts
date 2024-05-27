@@ -1,7 +1,7 @@
-import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
+import { Component, Input, inject } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import {
   RxFormArray,
   RxFormControl,
@@ -12,11 +12,16 @@ import {
   selector: 'drr-summary-item',
   standalone: true,
   imports: [CommonModule, MatInputModule, TranslocoModule],
+  providers: [DatePipe, CurrencyPipe],
   templateUrl: './summary-item.component.html',
   styleUrl: './summary-item.component.scss',
 })
 export class SummaryItemComponent {
-  @Input() label = '';
+  translocoService = inject(TranslocoService);
+  datePipe = inject(DatePipe);
+  currencyPipe = inject(CurrencyPipe);
+
+  @Input() key = '';
 
   private _formControl?: RxFormControl;
   @Input()
@@ -73,7 +78,69 @@ export class SummaryItemComponent {
     return this.rxFormControl?.get(controlName);
   }
 
+  getControlValue() {
+    if (this.key === 'relatedHazards') {
+      return this.rxFormControl?.value
+        ?.map((hazard: string) => this.translocoService.translate(hazard))
+        .join(', ');
+    }
+
+    const booleanKeys = ['ownershipDeclaration'];
+    if (booleanKeys.includes(this.key)) {
+      return this.rxFormControl?.value === null
+        ? this.rxFormControl?.value
+        : this.rxFormControl?.value
+        ? 'Yes'
+        : 'No';
+    }
+
+    const translateKeys = ['proponentType', 'fundingStream', 'projectType'];
+    if (translateKeys.includes(this.key)) {
+      return this.translocoService.translate(this.rxFormControl?.value);
+    }
+
+    const arrayKeys = ['partneringProponents', 'infrastructureImpacted'];
+    if (arrayKeys.includes(this.key)) {
+      return this.rxFormControl?.value?.join(', ');
+    }
+
+    const dateKeys = ['startDate', 'endDate'];
+    if (dateKeys.includes(this.key)) {
+      return this.datePipe.transform(this.rxFormControl?.value, 'yyyy-MM-dd');
+    }
+
+    if (this.key === 'remainingAmount') {
+      return this.currencyPipe.transform(Math.abs(this.rxFormControl?.value));
+    }
+
+    return this.rxFormControl?.value;
+  }
+
   getGroupControlValue(controlName: string) {
     return this.rxFormControl?.get(controlName)?.value;
+  }
+
+  extractArrayControlValue(controlName: string, control: RxFormControl) {
+    const translateKeys = ['type'];
+    if (translateKeys.includes(controlName)) {
+      return this.translocoService.translate(control.get(controlName)?.value);
+    }
+
+    return control.get(controlName)?.value;
+  }
+
+  showConditionalControl(controlName: string, control: RxFormControl) {
+    if (controlName === 'otherDescription') {
+      return (
+        control?.get(controlName)?.hasError('required') ||
+        control?.get(controlName)?.value
+      );
+    }
+
+    if (controlName === 'otherHazardsDescription') {
+      return control.hasError('required');
+    }
+
+    return true;
   }
 }

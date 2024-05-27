@@ -3,10 +3,10 @@
   [style.color]="rxFormControl.hasError('required') ? 'red' : 'initial'"
   *transloco="let t"
 >
-  <mat-label class="drr-label">{{ label }}</mat-label>
+  <mat-label class="drr-label">{{ t(key) }}</mat-label>
 
   <ng-container *ngIf="isFormControl()">
-    <mat-label>{{ rxFormControl.value ?? "-" }}</mat-label>
+    <mat-label>{{ getControlValue() ?? "&nbsp;" }}</mat-label>
   </ng-container>
 
   <ng-container *ngIf="isFormGroup()">
@@ -17,6 +17,7 @@
           [style.color]="
             getGroupControl(controlKey).hasError('required') ? 'red' : 'initial'
           "
+          *ngIf="showConditionalControl(controlKey, rxFormControl)"
         >
           <mat-label>{{ t(controlKey) }}</mat-label>
           <mat-label>{{ getGroupControlValue(controlKey) }}</mat-label>
@@ -40,9 +41,12 @@
                     ? 'red'
                     : 'initial'
                 "
+                *ngIf="showConditionalControl(controlKey, control)"
               >
                 <mat-label>{{ t(controlKey) }}</mat-label>
-                <mat-label>{{ control.get(controlKey).value }}</mat-label>
+                <mat-label>{{
+                  extractArrayControlValue(controlKey, control)
+                }}</mat-label>
               </div>
             </ng-container>
           </div>
