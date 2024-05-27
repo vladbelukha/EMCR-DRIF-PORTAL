@@ -64,6 +64,15 @@ namespace EMCR.DRR.Resources.Applications
         Other = 172580004,
     }
 
+    public enum EstimatedNumberOfPeopleOptionSet
+    {
+        OneToTenK = 172580000,
+        TenKToFiftyK = 172580001,
+        FiftyKToHundredK = 172580002,
+        HundredKPlus = 172580003,
+        Unsure = 172580004
+    }
+
     public enum HazardsOptionSet
     {
         Drought = 172580000,
