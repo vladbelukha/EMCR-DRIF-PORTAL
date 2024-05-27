@@ -33,7 +33,9 @@
       [maxlength]="100"
     ></drr-input>
 
-    <mat-label class="drr-label">{{ t("submitter") }}</mat-label>
+    <mat-label class="drr-label">{{
+      t("submitterContactInformation")
+    }}</mat-label>
     <div class="contacts-container">
       <drr-input
         [id]="'submitter_firstName'"
@@ -75,7 +77,9 @@
       ></drr-input>
     </div>
 
-    <mat-label class="drr-label">{{ t("projectContact") }}</mat-label>
+    <mat-label class="drr-label">{{
+      t("projectContactInformation")
+    }}</mat-label>
 
     <mat-checkbox
       id="sameAsSubmitter"
