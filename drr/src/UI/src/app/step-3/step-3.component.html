@@ -20,7 +20,7 @@
       [max]="1000000000"
     ></drr-currency-input>
 
-    <mat-label class="drr-label">{{ t("otherFundingSources") }}</mat-label>
+    <mat-label class="drr-label">{{ t("otherFunding") }}</mat-label>
     <div formArrayName="otherFunding">
       <div
         class="funding-sources-container"
@@ -33,7 +33,7 @@
         <drr-currency-input
           class="drr-single-input"
           [id]="'otherFunding_amount_' + i"
-          [label]="t('otherFundingSourcesAmount')"
+          [label]="t('amount')"
           [rxFormControl]="otherFunding.get('amount')"
           [max]="1000000000"
         ></drr-currency-input>
@@ -41,14 +41,14 @@
         <drr-input
           class="drr-single-input"
           [id]="'otherFunding_name_' + i"
-          [label]="t('otherFundingSourcesName')"
+          [label]="t('name')"
           [rxFormControl]="otherFunding.get('name')"
           [maxlength]="100"
         ></drr-input>
         <drr-select
           class="other-grants-input"
           [id]="'otherFunding_type_' + i"
-          [label]="t('otherFundingSourcesType')"
+          [label]="t('type')"
           [rxFormControl]="getArrayFormControl('type', 'otherFunding', i)"
           [options]="fundingTypeOptions"
           (selectionChange)="setFundingTypeDesctiption($event, i)"
@@ -57,7 +57,7 @@
           class="other-grants-input"
           *ngIf="hasOtherGrants(otherFunding.get('type')?.value)"
           [id]="'otherFunding_description_' + i"
-          [label]="t('otherFundingSourcesDescription')"
+          [label]="t('otherDescription')"
           [rxFormControl]="
             getArrayFormControl('otherDescription', 'otherFunding', i)
           "

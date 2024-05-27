@@ -66,11 +66,6 @@ export class StringItemRequired {
 export class ContactDetailsForm implements ContactDetails {
   @prop()
   @required()
-  @email()
-  email?: string;
-
-  @prop()
-  @required()
   firstName?: string;
 
   @prop()
@@ -79,7 +74,7 @@ export class ContactDetailsForm implements ContactDetails {
 
   @prop()
   @required()
-  phone?: string;
+  title?: string;
 
   @prop()
   @required()
@@ -87,7 +82,12 @@ export class ContactDetailsForm implements ContactDetails {
 
   @prop()
   @required()
-  title?: string;
+  phone?: string;
+
+  @prop()
+  @required()
+  @email()
+  email?: string;
 
   constructor(values: ContactDetailsForm) {
     Object.assign(this, values);

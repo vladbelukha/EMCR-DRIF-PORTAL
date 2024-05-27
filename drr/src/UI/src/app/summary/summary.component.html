@@ -1,24 +1,34 @@
 <div class="summary-container" *transloco="let t">
   <div
     class="summary-item"
-    *ngIf="eoiApplication?.proponentInformation?.proponentType"
+    *ngIf="eoiApplicationForm.get('proponentInformation')?.get('proponentType')"
   >
     <mat-label class="drr-label">{{ t("proponentType") }}</mat-label>
     <mat-label>{{
-      t(eoiApplication?.proponentInformation?.proponentType!)
+      t(
+        eoiApplicationForm.get("proponentInformation")?.get("proponentType")
+          ?.value
+      )
     }}</mat-label>
   </div>
   <div
     class="summary-item"
-    *ngIf="eoiApplication?.proponentInformation?.proponentName"
+    *ngIf="eoiApplicationForm.get('proponentInformation')?.get('proponentName')"
   >
     <mat-label class="drr-label">{{ t("proponentName") }}</mat-label>
     <mat-label>{{
-      eoiApplication?.proponentInformation?.proponentName
+      eoiApplicationForm.get("proponentInformation")?.get("proponentName")
+        ?.value
     }}</mat-label>
   </div>
 
-  <div *ngIf="objectHasValues(eoiApplication?.proponentInformation?.submitter)">
+  <div
+    *ngIf="
+      objectHasValues(
+        eoiApplicationForm.get('proponentInformation')?.get('submitter')
+      )
+    "
+  >
     <mat-label class="drr-label">{{
       t("submitterContactInformation")
     }}</mat-label>
@@ -26,43 +36,60 @@
       <div class="summary-item">
         <mat-label class="drr-label">{{ t("firstName") }}</mat-label>
         <mat-label>{{
-          eoiApplication?.proponentInformation?.submitter?.firstName
+          eoiApplicationForm
+            .get("proponentInformation")
+            ?.get("submitter")
+            ?.get("firstName")?.value
         }}</mat-label>
       </div>
 
       <div class="summary-item">
         <mat-label class="drr-label">{{ t("lastName") }}</mat-label>
         <mat-label>{{
-          eoiApplication?.proponentInformation?.submitter?.lastName
+          eoiApplicationForm
+            .get("proponentInformation")
+            ?.get("submitter")
+            ?.get("lastName")?.value
         }}</mat-label>
       </div>
 
       <div class="summary-item">
         <mat-label class="drr-label">{{ t("title") }}</mat-label>
         <mat-label>{{
-          eoiApplication?.proponentInformation?.submitter?.title
+          eoiApplicationForm
+            .get("proponentInformation")
+            ?.get("submitter")
+            ?.get("title")?.value
         }}</mat-label>
       </div>
 
       <div class="summary-item">
         <mat-label class="drr-label">{{ t("department") }}</mat-label>
         <mat-label>{{
-          eoiApplication?.proponentInformation?.submitter?.department
+          eoiApplicationForm
+            .get("proponentInformation")
+            ?.get("submitter")
+            ?.get("department")?.value
         }}</mat-label>
       </div>
 
       <div class="summary-item">
         <mat-label class="drr-label">{{ t("phone") }}</mat-label>
         <mat-label>{{
-          eoiApplication?.proponentInformation?.submitter?.phone!
-            | mask : "000-000-0000"
+          eoiApplicationForm
+            .get("proponentInformation")
+            ?.get("submitter")
+            ?.get("phone")?.value | mask : "000-000-0000"
         }}</mat-label>
       </div>
 
       <div class="summary-item">
         <mat-label class="drr-label">{{ t("email") }}</mat-label>
         <mat-label>{{
-          eoiApplication?.proponentInformation?.submitter?.email
+          eoiApplicationForm
+            .get("proponentInformation")
+            ?.get("submitter")
+            ?.get("email")?.value
         }}</mat-label>
       </div>
     </div>
@@ -70,7 +97,9 @@
 
   <div
     *ngIf="
-      objectHasValues(eoiApplication?.proponentInformation?.projectContact)
+      objectHasValues(
+        eoiApplicationForm.get('proponentInformation')?.get('projectContact')
+      )
     "
   >
     <mat-label class="drr-label">{{
@@ -80,59 +109,74 @@
       <div class="summary-item">
         <mat-label class="drr-label">{{ t("firstName") }}</mat-label>
         <mat-label>{{
-          eoiApplication?.proponentInformation?.projectContact?.firstName
+          eoiApplicationForm
+            .get("proponentInformation")
+            ?.get("projectContact")
+            ?.get("firstName")?.value
         }}</mat-label>
       </div>
 
       <div class="summary-item">
         <mat-label class="drr-label">{{ t("lastName") }}</mat-label>
         <mat-label>{{
-          eoiApplication?.proponentInformation?.projectContact?.lastName
+          eoiApplicationForm
+            .get("proponentInformation")
+            ?.get("projectContact")
+            ?.get("lastName")?.value
         }}</mat-label>
       </div>
 
       <div class="summary-item">
         <mat-label class="drr-label">{{ t("title") }}</mat-label>
         <mat-label>{{
-          eoiApplication?.proponentInformation?.projectContact?.title
+          eoiApplicationForm
+            .get("proponentInformation")
+            ?.get("projectContact")
+            ?.get("title")?.value
         }}</mat-label>
       </div>
 
       <div class="summary-item">
         <mat-label class="drr-label">{{ t("department") }}</mat-label>
         <mat-label>{{
-          eoiApplication?.proponentInformation?.projectContact?.department
+          eoiApplicationForm
+            .get("proponentInformation")
+            ?.get("projectContact")
+            ?.get("department")?.value
         }}</mat-label>
       </div>
 
       <div class="summary-item">
         <mat-label class="drr-label">{{ t("phone") }}</mat-label>
         <mat-label>{{
-          eoiApplication?.proponentInformation?.projectContact?.phone!
-            | mask : "000-000-0000"
+          eoiApplicationForm
+            .get("proponentInformation")
+            ?.get("projectContact")
+            ?.get("phone")?.value | mask : "000-000-0000"
         }}</mat-label>
       </div>
 
       <div class="summary-item">
         <mat-label class="drr-label">{{ t("email") }}</mat-label>
         <mat-label>{{
-          eoiApplication?.proponentInformation?.projectContact?.email
+          eoiApplicationForm
+            .get("proponentInformation")
+            ?.get("projectContact")
+            ?.get("email")?.value
         }}</mat-label>
       </div>
     </div>
   </div>
 
-  <div
-    *ngIf="
-      arrayHasValues(eoiApplication?.proponentInformation?.additionalContacts!)
-    "
-  >
+  <div>
     <mat-label class="drr-label">{{ t("additionalContacts") }}</mat-label>
     <div
       class="summary-row"
       *ngFor="
-        let additionalContact of eoiApplication?.proponentInformation
-          ?.additionalContacts
+        let additionalContact of getFormArray(
+          'proponentInformation',
+          'additionalContacts'
+        )
       "
     >
       <div class="summary-item">
@@ -172,7 +216,9 @@
   <div
     *ngIf="
       arrayHasValues(
-        eoiApplication?.proponentInformation?.partneringProponents!
+        eoiApplicationForm
+          .get('proponentInformation')
+          ?.get('partneringProponents')?.value
       )
     "
   >
@@ -182,8 +228,10 @@
     <div
       class="summary-row"
       *ngFor="
-        let proponent of eoiApplication?.proponentInformation
-          ?.partneringProponents;
+        let proponent of getFormArray(
+          'proponentInformation',
+          'partneringProponents'
+        );
         let i = index
       "
     >
@@ -195,116 +243,150 @@
 
   <div
     class="summary-item"
-    *ngIf="eoiApplication?.projectInformation?.fundingStream"
+    *ngIf="eoiApplicationForm.get('projectInformation')?.get('fundingStream')"
   >
     <mat-label class="drr-label">{{ t("fundingStream") }}</mat-label>
     <mat-label>{{
-      t(eoiApplication?.projectInformation?.fundingStream!)
+      t(
+        eoiApplicationForm.get("projectInformation")?.get("fundingStream")
+          ?.value
+      )
     }}</mat-label>
   </div>
 
   <div
     class="summary-item"
-    *ngIf="eoiApplication?.projectInformation?.projectTitle"
+    *ngIf="eoiApplicationForm.get('projectInformation')?.get('projectTitle')"
   >
     <mat-label class="drr-label">{{ t("projectTitle") }}</mat-label>
     <mat-label>{{
-      eoiApplication?.projectInformation?.projectTitle
+      eoiApplicationForm.get("projectInformation")?.get("projectTitle")?.value
     }}</mat-label>
   </div>
 
   <div
     class="summary-item"
-    *ngIf="eoiApplication?.projectInformation?.scopeStatement"
+    *ngIf="eoiApplicationForm.get('projectInformation')?.get('scopeStatement')"
   >
     <mat-label class="drr-label">{{ t("scopeStatement") }}</mat-label>
     <mat-label>{{
-      eoiApplication?.projectInformation?.scopeStatement
+      eoiApplicationForm.get("projectInformation")?.get("scopeStatement")?.value
     }}</mat-label>
   </div>
 
   <div
     class="summary-item"
-    *ngIf="eoiApplication?.projectInformation?.projectType"
+    *ngIf="eoiApplicationForm.get('projectInformation')?.get('projectType')"
   >
     <mat-label class="drr-label">{{ t("projectType") }}</mat-label>
     <mat-label>{{
-      t(eoiApplication?.projectInformation?.projectType!)
+      t(eoiApplicationForm.get("projectInformation")?.get("projectType")?.value)
     }}</mat-label>
   </div>
 
   <div
     class="summary-item"
-    *ngIf="eoiApplication?.projectInformation?.relatedHazards?.length"
+    *ngIf="
+      eoiApplicationForm.get('projectInformation')?.get('relatedHazards')?.value
+        ?.length
+    "
   >
     <mat-label class="drr-label">{{ t("relatedHazards") }}</mat-label>
     <mat-label>
       <ng-container
         *ngFor="
-          let hazard of eoiApplication?.projectInformation?.relatedHazards!;
+          let hazard of eoiApplicationForm
+            .get('projectInformation')
+            ?.get('relatedHazards')?.value;
           let i = index
         "
       >
         {{ t(hazard)
         }}{{
-          i !== (eoiApplication?.projectInformation?.relatedHazards)!.length - 1
+          i !==
+          eoiApplicationForm.get("projectInformation")?.get("relatedHazards")
+            ?.value.length -
+            1
             ? ", "
             : ""
         }}
       </ng-container>
     </mat-label>
     <mat-label
-      *ngIf="eoiApplication?.projectInformation?.otherHazardsDescription"
+      *ngIf="
+        eoiApplicationForm
+          .get('projectInformation')
+          ?.get('otherHazardsDescription')
+      "
     >
       <mat-label class="drr-label">{{ t("other") }}:</mat-label>
-      {{ eoiApplication?.projectInformation?.otherHazardsDescription }}
+      {{
+        eoiApplicationForm
+          .get("projectInformation")
+          ?.get("otherHazardsDescription")?.value
+      }}
     </mat-label>
   </div>
 
   <div
     class="summary-item"
-    *ngIf="eoiApplication?.projectInformation?.startDate"
+    *ngIf="eoiApplicationForm.get('projectInformation')?.get('startDate')"
   >
     <mat-label class="drr-label">{{ t("startDate") }}</mat-label>
     <mat-label>{{
-      eoiApplication?.projectInformation?.startDate | date : "YYYY-MM-dd"
-    }}</mat-label>
-  </div>
-
-  <div class="summary-item" *ngIf="eoiApplication?.projectInformation?.endDate">
-    <mat-label class="drr-label">{{ t("endDate") }}</mat-label>
-    <mat-label>{{
-      eoiApplication?.projectInformation?.endDate | date : "YYYY-MM-dd"
+      eoiApplicationForm.get("projectInformation")?.get("startDate")?.value
+        | date : "YYYY-MM-dd"
     }}</mat-label>
   </div>
 
   <div
     class="summary-item"
-    *ngIf="eoiApplication?.fundingInformation?.estimatedTotal"
+    *ngIf="eoiApplicationForm.get('projectInformation')?.get('endDate')"
+  >
+    <mat-label class="drr-label">{{ t("endDate") }}</mat-label>
+    <mat-label>{{
+      eoiApplicationForm.get("projectInformation")?.get("endDate")?.value
+        | date : "YYYY-MM-dd"
+    }}</mat-label>
+  </div>
+
+  <div
+    class="summary-item"
+    *ngIf="eoiApplicationForm.get('fundingInformation')?.get('estimatedTotal')"
   >
     <mat-label class="drr-label">{{ t("estimatedTotal") }}</mat-label>
     <mat-label>{{
-      eoiApplication?.fundingInformation?.estimatedTotal | currency
+      eoiApplicationForm.get("fundingInformation")?.get("estimatedTotal")?.value
+        | currency
     }}</mat-label>
   </div>
 
   <div
     class="summary-item"
-    *ngIf="eoiApplication?.fundingInformation?.fundingRequest"
+    *ngIf="eoiApplicationForm.get('fundingInformation')?.get('fundingRequest')"
   >
     <mat-label class="drr-label">{{ t("fundingRequest") }}</mat-label>
     <mat-label>{{
-      eoiApplication?.fundingInformation?.fundingRequest | currency
+      eoiApplicationForm.get("fundingInformation")?.get("fundingRequest")?.value
+        | currency
     }}</mat-label>
   </div>
 
   <div
-    *ngIf="arrayHasValues(eoiApplication?.fundingInformation?.otherFunding!)"
+    *ngIf="
+      arrayHasValues(
+        eoiApplicationForm.get('fundingInformation')?.get('otherFunding')?.value
+      )
+    "
   >
     <mat-label class="drr-label">{{ t("otherFundingSources") }}</mat-label>
     <div
       class="summary-row"
-      *ngFor="let funding of eoiApplication?.fundingInformation?.otherFunding"
+      *ngFor="
+        let funding of eoiApplicationForm
+          .get('fundingInformation')
+          ?.get('otherFunding')?.value
+      "
     >
       <div class="summary-item">
         <mat-label class="drr-label">{{
@@ -339,17 +421,21 @@
   <div
     class="summary-item"
     *ngIf="
-      eoiApplication?.fundingInformation?.remainingAmount != undefined &&
-      eoiApplication?.fundingInformation?.remainingAmount != null
+      eoiApplicationForm.get('fundingInformation')?.get('remainingAmount') !=
+        undefined &&
+      eoiApplicationForm.get('fundingInformation')?.get('remainingAmount') !=
+        null
     "
     [style.color]="
-      eoiApplication?.fundingInformation?.remainingAmount! < 0
+      eoiApplicationForm.get('fundingInformation')?.get('remainingAmount')
+        ?.value < 0
         ? 'red'
         : 'initial'
     "
   >
     <mat-label class="drr-label">{{
-      eoiApplication?.fundingInformation?.remainingAmount! <= 0
+      eoiApplicationForm.get("fundingInformation")?.get("remainingAmount")
+        ?.value <= 0
         ? t("excessFundingLabel")
         : t("remainingAmount")
     }}</mat-label>
@@ -358,194 +444,271 @@
 
   <div
     class="summary-item"
-    *ngIf="eoiApplication?.fundingInformation?.intendToSecureFunding"
+    *ngIf="
+      eoiApplicationForm.get('fundingInformation')?.get('intendToSecureFunding')
+    "
   >
     <mat-label class="drr-label">{{ t("intendToSecureFunding") }}</mat-label>
     <mat-label>{{
-      eoiApplication?.fundingInformation?.intendToSecureFunding
+      eoiApplicationForm.get("fundingInformation")?.get("intendToSecureFunding")
+        ?.value
     }}</mat-label>
   </div>
 
   <div
     class="summary-item"
     *ngIf="
-      eoiApplication?.locationInformation?.ownershipDeclaration != undefined
+      eoiApplicationForm
+        .get('locationInformation')
+        ?.get('ownershipDeclaration') != undefined
     "
   >
     <mat-label class="drr-label">{{ t("ownershipDeclaration") }}</mat-label>
     <mat-label>{{
-      eoiApplication?.locationInformation?.ownershipDeclaration ? "Yes" : "No"
+      eoiApplicationForm.get("locationInformation")?.get("ownershipDeclaration")
+        ?.value
+        ? "Yes"
+        : "No"
     }}</mat-label>
 
     <div
       class="summary-item"
-      *ngIf="eoiApplication?.locationInformation?.ownershipDescription"
+      *ngIf="
+        eoiApplicationForm
+          .get('locationInformation')
+          ?.get('ownershipDescription')
+      "
     >
       <mat-label>{{
-        eoiApplication?.locationInformation?.ownershipDescription
+        eoiApplicationForm
+          .get("locationInformation")
+          ?.get("ownershipDescription")?.value
       }}</mat-label>
     </div>
   </div>
 
   <div class="summary-item">
     <mat-label
-      *ngIf="eoiApplication?.locationInformation?.locationDescription"
+      *ngIf="
+        eoiApplicationForm
+          .get('locationInformation')
+          ?.get('locationDescription')
+      "
       class="drr-label"
       >{{ t("locationDescription") }}</mat-label
     >
     <mat-label>{{
-      eoiApplication?.locationInformation?.locationDescription
+      eoiApplicationForm.get("locationInformation")?.get("locationDescription")
+        ?.value
     }}</mat-label>
   </div>
 
   <div
     class="summary-item"
-    *ngIf="eoiApplication?.projectDetails?.rationaleForFunding"
+    *ngIf="eoiApplicationForm.get('projectDetails')?.get('rationaleForFunding')"
   >
     <mat-label class="drr-label">{{ t("rationaleForFunding") }}</mat-label>
     <mat-label>{{
-      eoiApplication?.projectDetails?.rationaleForFunding
+      eoiApplicationForm.get("projectDetails")?.get("rationaleForFunding")
+        ?.value
     }}</mat-label>
   </div>
 
   <div
     class="summary-item"
-    *ngIf="eoiApplication?.projectDetails?.estimatedPeopleImpacted"
+    *ngIf="
+      eoiApplicationForm.get('projectDetails')?.get('estimatedPeopleImpacted')
+    "
   >
     <mat-label class="drr-label">{{ t("estimatedPeopleImpacted") }}</mat-label>
     <mat-label>{{
-      eoiApplication?.projectDetails?.estimatedPeopleImpacted
+      eoiApplicationForm.get("projectDetails")?.get("estimatedPeopleImpacted")
+        ?.value
     }}</mat-label>
   </div>
   <div
     class="summary-item"
-    *ngIf="eoiApplication?.projectDetails?.communityImpact"
+    *ngIf="eoiApplicationForm.get('projectDetails')?.get('communityImpact')"
   >
     <mat-label class="drr-label">{{ t("communityImpact") }}</mat-label>
-    <mat-label>{{ eoiApplication?.projectDetails?.communityImpact }}</mat-label>
+    <mat-label>{{
+      eoiApplicationForm.get("projectDetails")?.get("communityImpact")?.value
+    }}</mat-label>
   </div>
 
   <div
     class="summary-item"
-    *ngIf="eoiApplication?.projectDetails?.infrastructureImpacted?.length"
+    *ngIf="
+      eoiApplicationForm.get('projectDetails')?.get('infrastructureImpacted')
+        ?.value?.length
+    "
   >
     <mat-label class="drr-label">{{ t("infrastructureImpacted") }}</mat-label>
     <mat-label>{{
-      eoiApplication?.projectDetails?.infrastructureImpacted?.join(", ")
+      eoiApplicationForm
+        .get("projectDetails")
+        ?.get("infrastructureImpacted")
+        ?.value?.join(", ")
     }}</mat-label>
   </div>
   <div
     class="summary-item"
-    *ngIf="eoiApplication?.projectDetails?.disasterRiskUnderstanding"
+    *ngIf="
+      eoiApplicationForm.get('projectDetails')?.get('disasterRiskUnderstanding')
+    "
   >
     <mat-label class="drr-label">{{
       t("disasterRiskUnderstanding")
     }}</mat-label>
     <mat-label>{{
-      eoiApplication?.projectDetails?.disasterRiskUnderstanding
+      eoiApplicationForm.get("projectDetails")?.get("disasterRiskUnderstanding")
+        ?.value
     }}</mat-label>
   </div>
   <div
     class="summary-item"
-    *ngIf="eoiApplication?.projectDetails?.additionalBackgroundInformation"
+    *ngIf="
+      eoiApplicationForm
+        .get('projectDetails')
+        ?.get('additionalBackgroundInformation')
+    "
   >
     <mat-label class="drr-label">{{
       t("additionalBackgroundInformation")
     }}</mat-label>
     <mat-label>{{
-      eoiApplication?.projectDetails?.additionalBackgroundInformation
+      eoiApplicationForm
+        .get("projectDetails")
+        ?.get("additionalBackgroundInformation")?.value
     }}</mat-label>
   </div>
 
   <div
     class="summary-item"
-    *ngIf="eoiApplication?.projectDetails?.addressRisksAndHazards"
+    *ngIf="
+      eoiApplicationForm.get('projectDetails')?.get('addressRisksAndHazards')
+    "
   >
     <mat-label class="drr-label">{{ t("addressRisksAndHazards") }}</mat-label>
     <mat-label>{{
-      eoiApplication?.projectDetails?.addressRisksAndHazards
+      eoiApplicationForm.get("projectDetails")?.get("addressRisksAndHazards")
+        ?.value
     }}</mat-label>
   </div>
 
   <div
     class="summary-item"
-    *ngIf="eoiApplication?.projectDetails?.drifProgramGoalAlignment"
+    *ngIf="
+      eoiApplicationForm.get('projectDetails')?.get('drifProgramGoalAlignment')
+    "
   >
     <mat-label class="drr-label">{{ t("drifProgramGoalAlignment") }}</mat-label>
     <mat-label>{{
-      eoiApplication?.projectDetails?.drifProgramGoalAlignment
+      eoiApplicationForm.get("projectDetails")?.get("drifProgramGoalAlignment")
+        ?.value
     }}</mat-label>
   </div>
 
   <div
     class="summary-item"
-    *ngIf="eoiApplication?.projectDetails?.additionalSolutionInformation"
+    *ngIf="
+      eoiApplicationForm
+        .get('projectDetails')
+        ?.get('additionalSolutionInformation')
+    "
   >
     <mat-label class="drr-label">{{
       t("additionalSolutionInformation")
     }}</mat-label>
     <mat-label>{{
-      eoiApplication?.projectDetails?.additionalSolutionInformation
+      eoiApplicationForm
+        .get("projectDetails")
+        ?.get("additionalSolutionInformation")?.value
     }}</mat-label>
   </div>
 
   <div
     class="summary-item"
-    *ngIf="eoiApplication?.projectDetails?.rationaleForSolution"
+    *ngIf="
+      eoiApplicationForm.get('projectDetails')?.get('rationaleForSolution')
+    "
   >
     <mat-label class="drr-label">{{ t("rationaleForSolutionText") }}</mat-label>
     <mat-label>{{
-      eoiApplication?.projectDetails?.rationaleForSolution
+      eoiApplicationForm.get("projectDetails")?.get("rationaleForSolution")
+        ?.value
     }}</mat-label>
   </div>
 
   <div
     class="summary-item"
-    *ngIf="eoiApplication?.engagementPlan?.firstNationsEngagement"
+    *ngIf="
+      eoiApplicationForm.get('engagementPlan')?.get('firstNationsEngagement')
+    "
   >
     <mat-label class="drr-label">{{ t("firstNationsEngagement") }}</mat-label>
     <mat-label>{{
-      eoiApplication?.engagementPlan?.firstNationsEngagement
+      eoiApplicationForm.get("engagementPlan")?.get("firstNationsEngagement")
+        ?.value
     }}</mat-label>
   </div>
   <div
     class="summary-item"
-    *ngIf="eoiApplication?.engagementPlan?.neighbourEngagement"
+    *ngIf="eoiApplicationForm.get('engagementPlan')?.get('neighbourEngagement')"
   >
     <mat-label class="drr-label">{{ t("neighbourEngagement") }}</mat-label>
     <mat-label>{{
-      eoiApplication?.engagementPlan?.neighbourEngagement
+      eoiApplicationForm.get("engagementPlan")?.get("neighbourEngagement")
+        ?.value
     }}</mat-label>
   </div>
   <div
     class="summary-item"
-    *ngIf="eoiApplication?.engagementPlan?.additionalEngagementInformation"
+    *ngIf="
+      eoiApplicationForm
+        .get('engagementPlan')
+        ?.get('additionalEngagementInformation')
+    "
   >
     <mat-label class="drr-label">{{
       t("additionalEngagementInformation")
     }}</mat-label>
     <mat-label>{{
-      eoiApplication?.engagementPlan?.additionalEngagementInformation
+      eoiApplicationForm
+        .get("engagementPlan")
+        ?.get("additionalEngagementInformation")?.value
     }}</mat-label>
   </div>
 
   <div
     class="summary-item"
-    *ngIf="eoiApplication?.otherSupportingInformation?.climateAdaptation"
+    *ngIf="
+      eoiApplicationForm
+        .get('otherSupportingInformation')
+        ?.get('climateAdaptation')
+    "
   >
     <mat-label class="drr-label">{{ t("climateAdaptationText") }}</mat-label>
     <mat-label>{{
-      eoiApplication?.otherSupportingInformation?.climateAdaptation
+      eoiApplicationForm
+        .get("otherSupportingInformation")
+        ?.get("climateAdaptation")?.value
     }}</mat-label>
   </div>
 
   <div
     class="summary-item"
-    *ngIf="eoiApplication?.otherSupportingInformation?.otherInformation"
+    *ngIf="
+      eoiApplicationForm
+        .get('otherSupportingInformation')
+        ?.get('otherInformation')
+    "
   >
     <mat-label class="drr-label">{{ t("otherInformationText") }}</mat-label>
     <mat-label>{{
-      eoiApplication?.otherSupportingInformation?.otherInformation
+      eoiApplicationForm
+        .get("otherSupportingInformation")
+        ?.get("otherInformation")?.value
     }}</mat-label>
   </div>
 </div>
