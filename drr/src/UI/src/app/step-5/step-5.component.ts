@@ -16,7 +16,9 @@ import {
   RxFormBuilder,
   RxFormControl,
 } from '@rxweb/reactive-form-validators';
+import { EstimatedNumberOfPeople } from '../../model';
 import { DrrInputComponent } from '../drr-input/drr-input.component';
+import { DrrSelectComponent } from '../drr-select/drr-select.component';
 import { DrrTextareaComponent } from '../drr-textarea/drr-textarea.component';
 import {
   ProjectDetailsForm,
@@ -37,6 +39,7 @@ import {
     TranslocoModule,
     DrrTextareaComponent,
     DrrInputComponent,
+    DrrSelectComponent,
   ],
   templateUrl: './step-5.component.html',
   styleUrl: './step-5.component.scss',
@@ -44,10 +47,19 @@ import {
 export class Step5Component {
   formBuilder = inject(RxFormBuilder);
 
+  estimatedNumberOfPeopleOptions = Object.values(EstimatedNumberOfPeople);
+
   @Input()
   projectDetailsForm!: IFormGroup<ProjectDetailsForm>;
 
   ngOnInit() {
+    this.projectDetailsForm
+      .get('infrastructureImpacted')
+      ?.patchValue(
+        this.projectDetailsForm
+          .get('infrastructureImpactedArray')
+          ?.value.map((infrastructure: any) => infrastructure.value)
+      );
     this.projectDetailsForm
       .get('infrastructureImpactedArray')
       ?.valueChanges.subscribe((infrastructures: StringItemRequired[]) => {

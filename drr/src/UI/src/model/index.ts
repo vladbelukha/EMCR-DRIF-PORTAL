@@ -8,6 +8,7 @@
 export * from './applicationResult';
 export * from './contactDetails';
 export * from './drifEoiApplication';
+export * from './estimatedNumberOfPeople';
 export * from './fundingInformation';
 export * from './fundingStream';
 export * from './fundingType';

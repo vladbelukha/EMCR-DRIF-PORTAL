@@ -12,6 +12,7 @@ import {
 import {
   ContactDetails,
   DrifEoiApplication,
+  EstimatedNumberOfPeople,
   FundingInformation,
   FundingStream,
   FundingType,
@@ -66,11 +67,6 @@ export class StringItemRequired {
 export class ContactDetailsForm implements ContactDetails {
   @prop()
   @required()
-  @email()
-  email?: string;
-
-  @prop()
-  @required()
   firstName?: string;
 
   @prop()
@@ -79,7 +75,7 @@ export class ContactDetailsForm implements ContactDetails {
 
   @prop()
   @required()
-  phone?: string;
+  title?: string;
 
   @prop()
   @required()
@@ -87,7 +83,12 @@ export class ContactDetailsForm implements ContactDetails {
 
   @prop()
   @required()
-  title?: string;
+  phone?: string;
+
+  @prop()
+  @required()
+  @email()
+  email?: string;
 
   constructor(values: ContactDetailsForm) {
     Object.assign(this, values);
@@ -219,8 +220,7 @@ export class ProjectDetailsForm implements DrifEoiApplication {
 
   @prop()
   @required()
-  @minNumber({ value: 0 })
-  estimatedPeopleImpacted?: number;
+  estimatedPeopleImpacted?: EstimatedNumberOfPeople;
 
   @prop()
   @required()
@@ -228,6 +228,7 @@ export class ProjectDetailsForm implements DrifEoiApplication {
 
   @prop()
   @required()
+  @minLength({ value: 1 })
   infrastructureImpacted?: string[] = [];
 
   @propArray(StringItemRequired)

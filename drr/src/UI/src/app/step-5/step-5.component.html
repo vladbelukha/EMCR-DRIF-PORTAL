@@ -9,16 +9,15 @@
       [rows]="10"
     ></drr-textarea>
 
-    <mat-label class="drr-label">{{ t("backgroundDescription") }}</mat-label>
+    <mat-label class="drr-label">{{ t("estimatedPeopleImpacted") }}</mat-label>
     <div class="project-details-container">
-      <drr-input
+      <drr-select
         class="drr-single-input"
         [id]="'estimatedPeopleImpacted'"
         [label]="t('estimatedPeopleImpacted')"
         [rxFormControl]="getFormControl('estimatedPeopleImpacted')"
-        [type]="'number'"
-        [maxlength]="9"
-      ></drr-input>
+        [options]="estimatedNumberOfPeopleOptions"
+      ></drr-select>
 
       <mat-label class="drr-label">{{ t("communityImpact") }} </mat-label>
 

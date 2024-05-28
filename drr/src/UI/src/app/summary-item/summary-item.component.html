@@ -1,0 +1,9 @@
+<div
+  class="summary-item"
+  [class.required]="
+    rxFormControl?.hasError('required') || rxFormControl?.hasError('minLength')
+  "
+>
+  <mat-label class="drr-label">{{ label }}</mat-label>
+  <mat-label>{{ value }}</mat-label>
+</div>
