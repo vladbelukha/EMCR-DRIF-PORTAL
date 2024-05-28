@@ -228,6 +228,7 @@ export class ProjectDetailsForm implements DrifEoiApplication {
 
   @prop()
   @required()
+  @minLength({ value: 1 })
   infrastructureImpacted?: string[] = [];
 
   @propArray(StringItemRequired)

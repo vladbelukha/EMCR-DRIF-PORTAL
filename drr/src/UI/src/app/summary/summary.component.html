@@ -1,170 +1,122 @@
 <div class="summary-container" *transloco="let t">
-  <div
-    class="summary-item"
-    *ngIf="eoiApplicationForm.get('proponentInformation')?.get('proponentType')"
+  <drr-summary-item
+    [label]="t('proponentType')"
+    [value]="t(getRxFormControl('proponentInformation', 'proponentType').value)"
+    [rxFormControl]="getRxFormControl('proponentInformation', 'proponentType')"
   >
-    <mat-label class="drr-label">{{ t("proponentType") }}</mat-label>
-    <mat-label>{{
-      t(
-        eoiApplicationForm.get("proponentInformation")?.get("proponentType")
-          ?.value
-      )
-    }}</mat-label>
-  </div>
-  <div
-    class="summary-item"
-    *ngIf="eoiApplicationForm.get('proponentInformation')?.get('proponentName')"
+  </drr-summary-item>
+
+  <drr-summary-item
+    [label]="t('proponentName')"
+    [value]="getRxFormControl('proponentInformation', 'proponentName').value"
+    [rxFormControl]="getRxFormControl('proponentInformation', 'proponentName')"
   >
-    <mat-label class="drr-label">{{ t("proponentName") }}</mat-label>
-    <mat-label>{{
-      eoiApplicationForm.get("proponentInformation")?.get("proponentName")
-        ?.value
-    }}</mat-label>
-  </div>
+  </drr-summary-item>
 
   <div
-    *ngIf="
-      objectHasValues(
-        eoiApplicationForm.get('proponentInformation')?.get('submitter')
+    [class.required]="
+      !objectHasValues(
+        eoiApplicationForm.get('proponentInformation')?.get('submitter')?.value
       )
     "
   >
-    <mat-label class="drr-label">{{
-      t("submitterContactInformation")
-    }}</mat-label>
+    <mat-label class="drr-label">{{ t("submitter") }}</mat-label>
     <div class="summary-row">
-      <div class="summary-item">
-        <mat-label class="drr-label">{{ t("firstName") }}</mat-label>
-        <mat-label>{{
-          eoiApplicationForm
-            .get("proponentInformation")
-            ?.get("submitter")
-            ?.get("firstName")?.value
-        }}</mat-label>
-      </div>
+      
+      <drr-summary-item
+        [label]="t('firstName')"
+        [value]="getRxGroupFormControl('proponentInformation', 'submitter', 'firstName').value"
+        [rxFormControl]="getRxGroupFormControl('proponentInformation', 'submitter', 'firstName')"
+      >
+      </drr-summary-item>
 
-      <div class="summary-item">
-        <mat-label class="drr-label">{{ t("lastName") }}</mat-label>
-        <mat-label>{{
-          eoiApplicationForm
-            .get("proponentInformation")
-            ?.get("submitter")
-            ?.get("lastName")?.value
-        }}</mat-label>
-      </div>
+      <drr-summary-item
+        [label]="t('lastName')"
+        [value]="getRxGroupFormControl('proponentInformation', 'submitter', 'lastName').value"
+        [rxFormControl]="getRxGroupFormControl('proponentInformation', 'submitter', 'lastName')"
+      >
+      </drr-summary-item>     
 
-      <div class="summary-item">
-        <mat-label class="drr-label">{{ t("title") }}</mat-label>
-        <mat-label>{{
-          eoiApplicationForm
-            .get("proponentInformation")
-            ?.get("submitter")
-            ?.get("title")?.value
-        }}</mat-label>
-      </div>
+      <drr-summary-item
+        [label]="t('title')"
+        [value]="getRxGroupFormControl('proponentInformation', 'submitter', 'title').value"
+        [rxFormControl]="getRxGroupFormControl('proponentInformation', 'submitter', 'title')"
+      >
+      </drr-summary-item>
 
-      <div class="summary-item">
-        <mat-label class="drr-label">{{ t("department") }}</mat-label>
-        <mat-label>{{
-          eoiApplicationForm
-            .get("proponentInformation")
-            ?.get("submitter")
-            ?.get("department")?.value
-        }}</mat-label>
-      </div>
+      <drr-summary-item
+        [label]="t('department')"
+        [value]="getRxGroupFormControl('proponentInformation', 'submitter', 'department').value"
+        [rxFormControl]="getRxGroupFormControl('proponentInformation', 'submitter', 'department')"
+      >
+      </drr-summary-item>
 
-      <div class="summary-item">
-        <mat-label class="drr-label">{{ t("phone") }}</mat-label>
-        <mat-label>{{
-          eoiApplicationForm
-            .get("proponentInformation")
-            ?.get("submitter")
-            ?.get("phone")?.value | mask : "000-000-0000"
-        }}</mat-label>
-      </div>
+      <drr-summary-item
+        [label]="t('phone')"
+        [value]="getRxGroupFormControl('proponentInformation', 'submitter', 'phone').value | mask : '000-000-0000'"
+        [rxFormControl]="getRxGroupFormControl('proponentInformation', 'submitter', 'phone')"
+      >
+      </drr-summary-item>
 
-      <div class="summary-item">
-        <mat-label class="drr-label">{{ t("email") }}</mat-label>
-        <mat-label>{{
-          eoiApplicationForm
-            .get("proponentInformation")
-            ?.get("submitter")
-            ?.get("email")?.value
-        }}</mat-label>
-      </div>
+      <drr-summary-item
+        [label]="t('email')"
+        [value]="getRxGroupFormControl('proponentInformation', 'submitter', 'email').value"
+        [rxFormControl]="getRxGroupFormControl('proponentInformation', 'submitter', 'email')"
+      >
+      </drr-summary-item>
     </div>
   </div>
 
   <div
-    *ngIf="
+    [class.required]="
       objectHasValues(
         eoiApplicationForm.get('proponentInformation')?.get('projectContact')
       )
     "
   >
-    <mat-label class="drr-label">{{
-      t("projectContactInformation")
-    }}</mat-label>
+    <mat-label class="drr-label">{{ t("projectContact") }}</mat-label>
     <div class="summary-row">
-      <div class="summary-item">
-        <mat-label class="drr-label">{{ t("firstName") }}</mat-label>
-        <mat-label>{{
-          eoiApplicationForm
-            .get("proponentInformation")
-            ?.get("projectContact")
-            ?.get("firstName")?.value
-        }}</mat-label>
-      </div>
+      <drr-summary-item
+        [label]="t('firstName')"
+        [value]="getRxGroupFormControl('proponentInformation', 'projectContact', 'firstName').value"
+        [rxFormControl]="getRxGroupFormControl('proponentInformation', 'projectContact', 'firstName')"
+      >
+      </drr-summary-item>
 
-      <div class="summary-item">
-        <mat-label class="drr-label">{{ t("lastName") }}</mat-label>
-        <mat-label>{{
-          eoiApplicationForm
-            .get("proponentInformation")
-            ?.get("projectContact")
-            ?.get("lastName")?.value
-        }}</mat-label>
-      </div>
+      <drr-summary-item
+        [label]="t('lastName')"
+        [value]="getRxGroupFormControl('proponentInformation', 'projectContact', 'lastName').value"
+        [rxFormControl]="getRxGroupFormControl('proponentInformation', 'projectContact', 'lastName')"
+      >
+      </drr-summary-item>     
 
-      <div class="summary-item">
-        <mat-label class="drr-label">{{ t("title") }}</mat-label>
-        <mat-label>{{
-          eoiApplicationForm
-            .get("proponentInformation")
-            ?.get("projectContact")
-            ?.get("title")?.value
-        }}</mat-label>
-      </div>
+      <drr-summary-item
+        [label]="t('title')"
+        [value]="getRxGroupFormControl('proponentInformation', 'projectContact', 'title').value"
+        [rxFormControl]="getRxGroupFormControl('proponentInformation', 'projectContact', 'title')"
+      >
+      </drr-summary-item>
 
-      <div class="summary-item">
-        <mat-label class="drr-label">{{ t("department") }}</mat-label>
-        <mat-label>{{
-          eoiApplicationForm
-            .get("proponentInformation")
-            ?.get("projectContact")
-            ?.get("department")?.value
-        }}</mat-label>
-      </div>
+      <drr-summary-item
+        [label]="t('department')"
+        [value]="getRxGroupFormControl('proponentInformation', 'projectContact', 'department').value"
+        [rxFormControl]="getRxGroupFormControl('proponentInformation', 'projectContact', 'department')"
+      >
+      </drr-summary-item>
 
-      <div class="summary-item">
-        <mat-label class="drr-label">{{ t("phone") }}</mat-label>
-        <mat-label>{{
-          eoiApplicationForm
-            .get("proponentInformation")
-            ?.get("projectContact")
-            ?.get("phone")?.value | mask : "000-000-0000"
-        }}</mat-label>
-      </div>
+      <drr-summary-item
+        [label]="t('phone')"
+        [value]="getRxGroupFormControl('proponentInformation', 'projectContact', 'phone').value | mask : '000-000-0000'"
+        [rxFormControl]="getRxGroupFormControl('proponentInformation', 'projectContact', 'phone')"
+      >
+      </drr-summary-item>
 
-      <div class="summary-item">
-        <mat-label class="drr-label">{{ t("email") }}</mat-label>
-        <mat-label>{{
-          eoiApplicationForm
-            .get("proponentInformation")
-            ?.get("projectContact")
-            ?.get("email")?.value
-        }}</mat-label>
-      </div>
+      <drr-summary-item
+        [label]="t('email')"
+        [value]="getRxGroupFormControl('proponentInformation', 'projectContact', 'email').value"
+        [rxFormControl]="getRxGroupFormControl('proponentInformation', 'projectContact', 'email')"
+      >
+      </drr-summary-item>
     </div>
   </div>
 
@@ -173,542 +125,327 @@
     <div
       class="summary-row"
       *ngFor="
-        let additionalContact of getFormArray(
+        let additionalContact of getRxFormArrayControls(
           'proponentInformation',
           'additionalContacts'
         )
       "
     >
-      <div class="summary-item">
-        <mat-label class="drr-label">{{ t("firstName") }}</mat-label>
-        <mat-label>{{ additionalContact?.firstName }}</mat-label>
-      </div>
+    <drr-summary-item
+        [label]="t('firstName')"
+        [value]="additionalContact.get('firstName')?.value"
+        [rxFormControl]="convertRxFormControl(additionalContact.get('firstName'))"
+      >
+      </drr-summary-item>
 
-      <div class="summary-item">
-        <mat-label class="drr-label">{{ t("lastName") }}</mat-label>
-        <mat-label>{{ additionalContact?.lastName }}</mat-label>
-      </div>
+      <drr-summary-item
+        [label]="t('lastName')"
+        [value]="additionalContact.get('lastName')?.value"
+        [rxFormControl]="convertRxFormControl(additionalContact.get('lastName'))"
+      >
+      </drr-summary-item>     
 
-      <div class="summary-item">
-        <mat-label class="drr-label">{{ t("title") }}</mat-label>
-        <mat-label>{{ additionalContact?.title }}</mat-label>
-      </div>
+      <drr-summary-item
+        [label]="t('title')"
+        [value]="additionalContact.get('title')?.value"
+        [rxFormControl]="convertRxFormControl(additionalContact.get('title'))"
+      >
+      </drr-summary-item>
 
-      <div class="summary-item">
-        <mat-label class="drr-label">{{ t("department") }}</mat-label>
-        <mat-label>{{ additionalContact?.department }}</mat-label>
-      </div>
+      <drr-summary-item
+        [label]="t('department')"
+        [value]="additionalContact.get('department')?.value"
+        [rxFormControl]="convertRxFormControl(additionalContact.get('department'))"
+      >
+      </drr-summary-item>
 
-      <div class="summary-item">
-        <mat-label class="drr-label">{{ t("phone") }}</mat-label>
-        <mat-label>{{
-          additionalContact?.phone! | mask : "000-000-0000"
-        }}</mat-label>
-      </div>
+      <drr-summary-item
+        [label]="t('phone')"
+        [value]="additionalContact.get('phone')?.value | mask : '000-000-0000'"
+        [rxFormControl]="convertRxFormControl(additionalContact.get('phone'))"
+      >
+      </drr-summary-item>
 
-      <div class="summary-item">
-        <mat-label class="drr-label">{{ t("email") }}</mat-label>
-        <mat-label>{{ additionalContact?.email }}</mat-label>
-      </div>
+      <drr-summary-item
+        [label]="t('email')"
+        [value]="additionalContact.get('email')?.value"
+        [rxFormControl]="convertRxFormControl(additionalContact.get('email'))"
+      >
+      </drr-summary-item>      
     </div>
   </div>
 
-  <div
-    *ngIf="
-      arrayHasValues(
-        eoiApplicationForm
-          .get('proponentInformation')
-          ?.get('partneringProponents')?.value
-      )
-    "
-  >
+  <div>
     <mat-label class="drr-label">{{
       t("partneringProponentsSummary")
     }}</mat-label>
-    <div
-      class="summary-row"
-      *ngFor="
-        let proponent of getFormArray(
-          'proponentInformation',
-          'partneringProponents'
-        );
-        let i = index
-      "
-    >
-      <div *ngIf="proponent" class="summary-item">
+    <div class="summary-row"
+      *ngFor="let proponent of getFormArray('proponentInformation', 'partneringProponents');let i = index">
         <mat-label>{{ proponent }}</mat-label>
-      </div>
     </div>
   </div>
 
-  <div
-    class="summary-item"
-    *ngIf="eoiApplicationForm.get('projectInformation')?.get('fundingStream')"
-  >
-    <mat-label class="drr-label">{{ t("fundingStream") }}</mat-label>
-    <mat-label>{{
-      t(
-        eoiApplicationForm.get("projectInformation")?.get("fundingStream")
-          ?.value
-      )
-    }}</mat-label>
-  </div>
 
-  <div
-    class="summary-item"
-    *ngIf="eoiApplicationForm.get('projectInformation')?.get('projectTitle')"
+  <drr-summary-item
+    [label]="t('fundingStream')"
+    [value]="t(getRxFormControl('projectInformation', 'fundingStream').value)"
+    [rxFormControl]="getRxFormControl('projectInformation', 'fundingStream')"
   >
-    <mat-label class="drr-label">{{ t("projectTitle") }}</mat-label>
-    <mat-label>{{
-      eoiApplicationForm.get("projectInformation")?.get("projectTitle")?.value
-    }}</mat-label>
-  </div>
+  </drr-summary-item>
 
-  <div
-    class="summary-item"
-    *ngIf="eoiApplicationForm.get('projectInformation')?.get('scopeStatement')"
+  <drr-summary-item
+    [label]="t('projectTitle')"
+    [value]="getRxFormControl('projectInformation', 'projectTitle').value"
+    [rxFormControl]="getRxFormControl('projectInformation', 'projectTitle')"
   >
-    <mat-label class="drr-label">{{ t("scopeStatement") }}</mat-label>
-    <mat-label>{{
-      eoiApplicationForm.get("projectInformation")?.get("scopeStatement")?.value
-    }}</mat-label>
-  </div>
+  </drr-summary-item>
 
-  <div
-    class="summary-item"
-    *ngIf="eoiApplicationForm.get('projectInformation')?.get('projectType')"
+  <drr-summary-item
+    [label]="t('scopeStatement')"
+    [value]="getRxFormControl('projectInformation', 'scopeStatement').value"
+    [rxFormControl]="getRxFormControl('projectInformation', 'scopeStatement')"
   >
-    <mat-label class="drr-label">{{ t("projectType") }}</mat-label>
-    <mat-label>{{
-      t(eoiApplicationForm.get("projectInformation")?.get("projectType")?.value)
-    }}</mat-label>
-  </div>
+  </drr-summary-item>
 
-  <div
-    class="summary-item"
-    *ngIf="
-      eoiApplicationForm.get('projectInformation')?.get('relatedHazards')?.value
-        ?.length
-    "
+  <drr-summary-item
+    [label]="t('projectType')"
+    [value]="t(getRxFormControl('projectInformation', 'projectType').value)"
+    [rxFormControl]="getRxFormControl('projectInformation', 'projectType')"
   >
-    <mat-label class="drr-label">{{ t("relatedHazards") }}</mat-label>
-    <mat-label>
-      <ng-container
-        *ngFor="
-          let hazard of eoiApplicationForm
-            .get('projectInformation')
-            ?.get('relatedHazards')?.value;
-          let i = index
-        "
-      >
-        {{ t(hazard)
-        }}{{
-          i !==
-          eoiApplicationForm.get("projectInformation")?.get("relatedHazards")
-            ?.value.length -
-            1
-            ? ", "
-            : ""
-        }}
-      </ng-container>
-    </mat-label>
-    <mat-label
-      *ngIf="
-        eoiApplicationForm
-          .get('projectInformation')
-          ?.get('otherHazardsDescription')
-      "
-    >
-      <mat-label class="drr-label">{{ t("other") }}:</mat-label>
-      {{
-        eoiApplicationForm
-          .get("projectInformation")
-          ?.get("otherHazardsDescription")?.value
-      }}
-    </mat-label>
-  </div>
+  </drr-summary-item>
 
-  <div
-    class="summary-item"
-    *ngIf="eoiApplicationForm.get('projectInformation')?.get('startDate')"
+  <drr-summary-item
+    [label]="t('relatedHazards')"
+    [value]="t(getRxFormControl('projectInformation', 'relatedHazards').value)?.join(', ')"
+    [rxFormControl]="getRxFormControl('projectInformation', 'relatedHazards')"
   >
-    <mat-label class="drr-label">{{ t("startDate") }}</mat-label>
-    <mat-label>{{
-      eoiApplicationForm.get("projectInformation")?.get("startDate")?.value
-        | date : "YYYY-MM-dd"
-    }}</mat-label>
-  </div>
+  </drr-summary-item>
 
-  <div
-    class="summary-item"
-    *ngIf="eoiApplicationForm.get('projectInformation')?.get('endDate')"
+  <drr-summary-item
+    [label]="t('otherHazardsDescription')"
+    [value]="getRxFormControl('projectInformation', 'otherHazardsDescription').value"
+    [rxFormControl]="getRxFormControl('projectInformation', 'otherHazardsDescription')"
+    *ngIf="getRxFormControl('projectInformation', 'relatedHazards')?.value?.includes('Other')"
   >
-    <mat-label class="drr-label">{{ t("endDate") }}</mat-label>
-    <mat-label>{{
-      eoiApplicationForm.get("projectInformation")?.get("endDate")?.value
-        | date : "YYYY-MM-dd"
-    }}</mat-label>
-  </div>
+  </drr-summary-item>
+  
+  <drr-summary-item
+    [label]="t('startDate')"
+    [value]="getRxFormControl('projectInformation', 'startDate').value | date : 'YYYY-MM-dd'"
+    [rxFormControl]="getRxFormControl('projectInformation', 'startDate')"
+  >
+  </drr-summary-item>
+  
+  <drr-summary-item
+    [label]="t('endDate')"
+    [value]="getRxFormControl('projectInformation', 'endDate').value | date : 'YYYY-MM-dd'"
+    [rxFormControl]="getRxFormControl('projectInformation', 'endDate')"
+  >
+  </drr-summary-item>
 
-  <div
-    class="summary-item"
-    *ngIf="eoiApplicationForm.get('fundingInformation')?.get('estimatedTotal')"
+  <drr-summary-item
+    [label]="t('estimatedTotal')"
+    [value]="getRxFormControl('fundingInformation', 'estimatedTotal').value | currency"
+    [rxFormControl]="getRxFormControl('fundingInformation', 'estimatedTotal')"
   >
-    <mat-label class="drr-label">{{ t("estimatedTotal") }}</mat-label>
-    <mat-label>{{
-      eoiApplicationForm.get("fundingInformation")?.get("estimatedTotal")?.value
-        | currency
-    }}</mat-label>
-  </div>
+  </drr-summary-item>
+  
+  <drr-summary-item
+    [label]="t('estimatedTotal')"
+    [value]="getRxFormControl('fundingInformation', 'fundingRequest').value | currency"
+    [rxFormControl]="getRxFormControl('fundingInformation', 'fundingRequest')"
+  >
+  </drr-summary-item>
 
-  <div
-    class="summary-item"
-    *ngIf="eoiApplicationForm.get('fundingInformation')?.get('fundingRequest')"
-  >
-    <mat-label class="drr-label">{{ t("fundingRequest") }}</mat-label>
-    <mat-label>{{
-      eoiApplicationForm.get("fundingInformation")?.get("fundingRequest")?.value
-        | currency
-    }}</mat-label>
-  </div>
-
-  <div
-    *ngIf="
-      arrayHasValues(
-        eoiApplicationForm.get('fundingInformation')?.get('otherFunding')?.value
-      )
-    "
-  >
-    <mat-label class="drr-label">{{ t("otherFundingSources") }}</mat-label>
+  <div>
+    <mat-label class="drr-label">{{ t("otherFunding") }}</mat-label>
     <div
       class="summary-row"
-      *ngFor="
-        let funding of eoiApplicationForm
-          .get('fundingInformation')
-          ?.get('otherFunding')?.value
-      "
+      *ngFor="let otherFunding of getRxFormArrayControls(
+          'fundingInformation',
+          'otherFunding')"
     >
-      <div class="summary-item">
-        <mat-label class="drr-label">{{
-          t("otherFundingSourcesAmount")
-        }}</mat-label>
-        <mat-label>{{ funding?.amount | currency }}</mat-label>
-      </div>
+      <drr-summary-item
+        [label]="t('amount')"
+        [value]="otherFunding.get('amount')?.value | currency"
+        [rxFormControl]="convertRxFormControl(otherFunding.get('amount'))"
+      >
+      </drr-summary-item>
 
-      <div class="summary-item">
-        <mat-label class="drr-label">{{
-          t("otherFundingSourcesName")
-        }}</mat-label>
-        <mat-label>{{ funding?.name }}</mat-label>
-      </div>
+      <drr-summary-item
+        [label]="t('name')"
+        [value]="otherFunding.get('name')?.value"
+        [rxFormControl]="convertRxFormControl(otherFunding.get('name'))"
+      >
+      </drr-summary-item>
 
-      <div class="summary-item">
-        <mat-label class="drr-label">{{
-          t("otherFundingSourcesType")
-        }}</mat-label>
-        <mat-label>{{ t(funding?.type!) }}</mat-label>
-      </div>
+      <drr-summary-item
+        [label]="t('type')"
+        [value]="t(otherFunding.get('type')?.value)"
+        [rxFormControl]="convertRxFormControl(otherFunding.get('type'))"
+      >
+      </drr-summary-item>
 
-      <div *ngIf="funding?.otherDescription" class="summary-item">
-        <mat-label class="drr-label">{{
-          t("otherFundingSourcesDescription")
-        }}</mat-label>
-        <mat-label>{{ funding?.otherDescription }}</mat-label>
-      </div>
+      <drr-summary-item
+        [label]="t('otherDescription')"
+        [value]="otherFunding.get('otherDescription')?.value"
+        [rxFormControl]="convertRxFormControl(otherFunding.get('otherDescription'))"
+        *ngIf="otherFunding.get('type')?.value === 'OtherGrants'"
+      >
+      </drr-summary-item>
     </div>
   </div>
 
-  <div
-    class="summary-item"
-    *ngIf="
-      eoiApplicationForm.get('fundingInformation')?.get('remainingAmount') !=
-        undefined &&
-      eoiApplicationForm.get('fundingInformation')?.get('remainingAmount') !=
-        null
-    "
-    [style.color]="
-      eoiApplicationForm.get('fundingInformation')?.get('remainingAmount')
-        ?.value < 0
+  <drr-summary-item
+    [label]="getRxFormControl('fundingInformation', 'remainingAmount').value <= 0 ? t('excessFundingLabel') : t('remainingAmount')"
+    [value]="getRemainingAmountAbs() | currency"
+    [rxFormControl]="getRxFormControl('fundingInformation', 'remainingAmount')"
+    [style.color]="getRxFormControl('fundingInformation', 'remainingAmount').value < 0
         ? 'red'
-        : 'initial'
-    "
+        : 'initial'"
   >
-    <mat-label class="drr-label">{{
-      eoiApplicationForm.get("fundingInformation")?.get("remainingAmount")
-        ?.value <= 0
-        ? t("excessFundingLabel")
-        : t("remainingAmount")
-    }}</mat-label>
-    <mat-label>{{ getRemainingAmountAbs() | currency }}</mat-label>
-  </div>
+  </drr-summary-item>
 
-  <div
-    class="summary-item"
-    *ngIf="
-      eoiApplicationForm.get('fundingInformation')?.get('intendToSecureFunding')
-    "
-  >
-    <mat-label class="drr-label">{{ t("intendToSecureFunding") }}</mat-label>
-    <mat-label>{{
-      eoiApplicationForm.get("fundingInformation")?.get("intendToSecureFunding")
-        ?.value
-    }}</mat-label>
-  </div>
 
-  <div
-    class="summary-item"
-    *ngIf="
-      eoiApplicationForm
-        .get('locationInformation')
-        ?.get('ownershipDeclaration') != undefined
-    "
+  <drr-summary-item
+    [label]="t('intendToSecureFunding')"
+    [value]="getRxFormControl('fundingInformation', 'intendToSecureFunding').value"
+    [rxFormControl]="getRxFormControl('fundingInformation', 'intendToSecureFunding')"
+    *ngIf="getRxFormControl('fundingInformation', 'intendToSecureFunding').value > 0"
   >
-    <mat-label class="drr-label">{{ t("ownershipDeclaration") }}</mat-label>
-    <mat-label>{{
-      eoiApplicationForm.get("locationInformation")?.get("ownershipDeclaration")
-        ?.value
-        ? "Yes"
-        : "No"
-    }}</mat-label>
+  </drr-summary-item>
 
-    <div
-      class="summary-item"
-      *ngIf="
-        eoiApplicationForm
-          .get('locationInformation')
-          ?.get('ownershipDescription')
-      "
-    >
-      <mat-label>{{
-        eoiApplicationForm
-          .get("locationInformation")
-          ?.get("ownershipDescription")?.value
-      }}</mat-label>
-    </div>
-  </div>
+  <drr-summary-item
+    [label]="t('ownershipDeclaration')"
+    [value]="getRxFormControl('locationInformation', 'ownershipDeclaration')
+      .value === null
+        ? null
+        : getRxFormControl('locationInformation', 'ownershipDeclaration').value
+          ? 'Yes'
+          : 'No'"
+    [rxFormControl]="getRxFormControl('locationInformation', 'ownershipDeclaration')"    
+  >
+  </drr-summary-item>
 
-  <div class="summary-item">
-    <mat-label
-      *ngIf="
-        eoiApplicationForm
-          .get('locationInformation')
-          ?.get('locationDescription')
-      "
-      class="drr-label"
-      >{{ t("locationDescription") }}</mat-label
-    >
-    <mat-label>{{
-      eoiApplicationForm.get("locationInformation")?.get("locationDescription")
-        ?.value
-    }}</mat-label>
-  </div>
+  <drr-summary-item
+    [label]="t('ownershipDescription')"
+    [value]="getRxFormControl('locationInformation', 'ownershipDescription').value"
+    [rxFormControl]="getRxFormControl('locationInformation', 'ownershipDescription')"
+    *ngIf="getRxFormControl('locationInformation', 'ownershipDeclaration').value === false"
+  >
+  </drr-summary-item>
+  
 
-  <div
-    class="summary-item"
-    *ngIf="eoiApplicationForm.get('projectDetails')?.get('rationaleForFunding')"
+  <drr-summary-item
+    [label]="t('locationDescription')"
+    [value]="getRxFormControl('locationInformation', 'locationDescription').value"
+    [rxFormControl]="getRxFormControl('locationInformation', 'locationDescription')"
   >
-    <mat-label class="drr-label">{{ t("rationaleForFunding") }}</mat-label>
-    <mat-label>{{
-      eoiApplicationForm.get("projectDetails")?.get("rationaleForFunding")
-        ?.value
-    }}</mat-label>
-  </div>
+  </drr-summary-item>
 
-  <div
-    class="summary-item"
-    *ngIf="
-      eoiApplicationForm.get('projectDetails')?.get('estimatedPeopleImpacted')
-    "
+  
+  <drr-summary-item
+    [label]="t('rationaleForFunding')"
+    [value]="getRxFormControl('projectDetails', 'rationaleForFunding').value"
+    [rxFormControl]="getRxFormControl('projectDetails', 'rationaleForFunding')"
   >
-    <mat-label class="drr-label">{{ t("estimatedPeopleImpacted") }}</mat-label>
-    <mat-label>{{
-      eoiApplicationForm.get("projectDetails")?.get("estimatedPeopleImpacted")
-        ?.value
-    }}</mat-label>
-  </div>
-  <div
-    class="summary-item"
-    *ngIf="eoiApplicationForm.get('projectDetails')?.get('communityImpact')"
-  >
-    <mat-label class="drr-label">{{ t("communityImpact") }}</mat-label>
-    <mat-label>{{
-      eoiApplicationForm.get("projectDetails")?.get("communityImpact")?.value
-    }}</mat-label>
-  </div>
+  </drr-summary-item>
 
-  <div
-    class="summary-item"
-    *ngIf="
-      eoiApplicationForm.get('projectDetails')?.get('infrastructureImpacted')
-        ?.value?.length
-    "
+  <drr-summary-item
+    [label]="t('estimatedPeopleImpacted')"
+    [value]="getRxFormControl('projectDetails', 'estimatedPeopleImpacted').value"
+    [rxFormControl]="getRxFormControl('projectDetails', 'estimatedPeopleImpacted')"
   >
-    <mat-label class="drr-label">{{ t("infrastructureImpacted") }}</mat-label>
-    <mat-label>{{
-      eoiApplicationForm
-        .get("projectDetails")
-        ?.get("infrastructureImpacted")
-        ?.value?.join(", ")
-    }}</mat-label>
-  </div>
-  <div
-    class="summary-item"
-    *ngIf="
-      eoiApplicationForm.get('projectDetails')?.get('disasterRiskUnderstanding')
-    "
-  >
-    <mat-label class="drr-label">{{
-      t("disasterRiskUnderstanding")
-    }}</mat-label>
-    <mat-label>{{
-      eoiApplicationForm.get("projectDetails")?.get("disasterRiskUnderstanding")
-        ?.value
-    }}</mat-label>
-  </div>
-  <div
-    class="summary-item"
-    *ngIf="
-      eoiApplicationForm
-        .get('projectDetails')
-        ?.get('additionalBackgroundInformation')
-    "
-  >
-    <mat-label class="drr-label">{{
-      t("additionalBackgroundInformation")
-    }}</mat-label>
-    <mat-label>{{
-      eoiApplicationForm
-        .get("projectDetails")
-        ?.get("additionalBackgroundInformation")?.value
-    }}</mat-label>
-  </div>
+  </drr-summary-item>
 
-  <div
-    class="summary-item"
-    *ngIf="
-      eoiApplicationForm.get('projectDetails')?.get('addressRisksAndHazards')
-    "
+  <drr-summary-item
+    [label]="t('communityImpact')"
+    [value]="getRxFormControl('projectDetails', 'communityImpact').value"
+    [rxFormControl]="getRxFormControl('projectDetails', 'communityImpact')"
   >
-    <mat-label class="drr-label">{{ t("addressRisksAndHazards") }}</mat-label>
-    <mat-label>{{
-      eoiApplicationForm.get("projectDetails")?.get("addressRisksAndHazards")
-        ?.value
-    }}</mat-label>
-  </div>
+  </drr-summary-item>
 
-  <div
-    class="summary-item"
-    *ngIf="
-      eoiApplicationForm.get('projectDetails')?.get('drifProgramGoalAlignment')
-    "
+  <drr-summary-item
+    [label]="t('infrastructureImpacted')"
+    [value]="getRxFormControl('projectDetails', 'infrastructureImpacted').value?.join(', ')"
+    [rxFormControl]="getRxFormControl('projectDetails', 'infrastructureImpacted')"
   >
-    <mat-label class="drr-label">{{ t("drifProgramGoalAlignment") }}</mat-label>
-    <mat-label>{{
-      eoiApplicationForm.get("projectDetails")?.get("drifProgramGoalAlignment")
-        ?.value
-    }}</mat-label>
-  </div>
+  </drr-summary-item>
+  
+  <drr-summary-item
+    [label]="t('disasterRiskUnderstanding')"
+    [value]="getRxFormControl('projectDetails', 'disasterRiskUnderstanding').value"
+    [rxFormControl]="getRxFormControl('projectDetails', 'disasterRiskUnderstanding')"
+  >
+  </drr-summary-item>
 
-  <div
-    class="summary-item"
-    *ngIf="
-      eoiApplicationForm
-        .get('projectDetails')
-        ?.get('additionalSolutionInformation')
-    "
+  <drr-summary-item
+    [label]="t('additionalBackgroundInformation')"
+    [value]="getRxFormControl('projectDetails', 'additionalBackgroundInformation').value"
+    [rxFormControl]="getRxFormControl('projectDetails', 'additionalBackgroundInformation')"
   >
-    <mat-label class="drr-label">{{
-      t("additionalSolutionInformation")
-    }}</mat-label>
-    <mat-label>{{
-      eoiApplicationForm
-        .get("projectDetails")
-        ?.get("additionalSolutionInformation")?.value
-    }}</mat-label>
-  </div>
+  </drr-summary-item>  
 
-  <div
-    class="summary-item"
-    *ngIf="
-      eoiApplicationForm.get('projectDetails')?.get('rationaleForSolution')
-    "
+  <drr-summary-item
+    [label]="t('addressRisksAndHazards')"
+    [value]="getRxFormControl('projectDetails', 'addressRisksAndHazards').value"
+    [rxFormControl]="getRxFormControl('projectDetails', 'addressRisksAndHazards')"
   >
-    <mat-label class="drr-label">{{ t("rationaleForSolutionText") }}</mat-label>
-    <mat-label>{{
-      eoiApplicationForm.get("projectDetails")?.get("rationaleForSolution")
-        ?.value
-    }}</mat-label>
-  </div>
+  </drr-summary-item>  
 
-  <div
-    class="summary-item"
-    *ngIf="
-      eoiApplicationForm.get('engagementPlan')?.get('firstNationsEngagement')
-    "
+  <drr-summary-item
+    [label]="t('drifProgramGoalAlignment')"
+    [value]="getRxFormControl('projectDetails', 'drifProgramGoalAlignment').value"
+    [rxFormControl]="getRxFormControl('projectDetails', 'drifProgramGoalAlignment')"
   >
-    <mat-label class="drr-label">{{ t("firstNationsEngagement") }}</mat-label>
-    <mat-label>{{
-      eoiApplicationForm.get("engagementPlan")?.get("firstNationsEngagement")
-        ?.value
-    }}</mat-label>
-  </div>
-  <div
-    class="summary-item"
-    *ngIf="eoiApplicationForm.get('engagementPlan')?.get('neighbourEngagement')"
-  >
-    <mat-label class="drr-label">{{ t("neighbourEngagement") }}</mat-label>
-    <mat-label>{{
-      eoiApplicationForm.get("engagementPlan")?.get("neighbourEngagement")
-        ?.value
-    }}</mat-label>
-  </div>
-  <div
-    class="summary-item"
-    *ngIf="
-      eoiApplicationForm
-        .get('engagementPlan')
-        ?.get('additionalEngagementInformation')
-    "
-  >
-    <mat-label class="drr-label">{{
-      t("additionalEngagementInformation")
-    }}</mat-label>
-    <mat-label>{{
-      eoiApplicationForm
-        .get("engagementPlan")
-        ?.get("additionalEngagementInformation")?.value
-    }}</mat-label>
-  </div>
+  </drr-summary-item> 
 
-  <div
-    class="summary-item"
-    *ngIf="
-      eoiApplicationForm
-        .get('otherSupportingInformation')
-        ?.get('climateAdaptation')
-    "
+  <drr-summary-item
+    [label]="t('additionalSolutionInformation')"
+    [value]="getRxFormControl('projectDetails', 'additionalSolutionInformation').value"
+    [rxFormControl]="getRxFormControl('projectDetails', 'additionalSolutionInformation')"
   >
-    <mat-label class="drr-label">{{ t("climateAdaptationText") }}</mat-label>
-    <mat-label>{{
-      eoiApplicationForm
-        .get("otherSupportingInformation")
-        ?.get("climateAdaptation")?.value
-    }}</mat-label>
-  </div>
+  </drr-summary-item>
 
-  <div
-    class="summary-item"
-    *ngIf="
-      eoiApplicationForm
-        .get('otherSupportingInformation')
-        ?.get('otherInformation')
-    "
+  <drr-summary-item
+    [label]="t('rationaleForSolutionText')"
+    [value]="getRxFormControl('projectDetails', 'rationaleForSolution').value"
+    [rxFormControl]="getRxFormControl('projectDetails', 'rationaleForSolution')"
   >
-    <mat-label class="drr-label">{{ t("otherInformationText") }}</mat-label>
-    <mat-label>{{
-      eoiApplicationForm
-        .get("otherSupportingInformation")
-        ?.get("otherInformation")?.value
-    }}</mat-label>
-  </div>
+  </drr-summary-item>
+
+  <drr-summary-item
+    [label]="t('firstNationsEngagement')"
+    [value]="getRxFormControl('engagementPlan', 'firstNationsEngagement').value"
+    [rxFormControl]="getRxFormControl('engagementPlan', 'firstNationsEngagement')"
+  >
+  </drr-summary-item>
+
+  <drr-summary-item
+    [label]="t('neighbourEngagement')"
+    [value]="getRxFormControl('engagementPlan', 'neighbourEngagement').value"
+    [rxFormControl]="getRxFormControl('engagementPlan', 'neighbourEngagement')"
+  >
+  </drr-summary-item>
+
+  <drr-summary-item
+    [label]="t('additionalEngagementInformation')"
+    [value]="getRxFormControl('engagementPlan', 'additionalEngagementInformation').value"
+    [rxFormControl]="getRxFormControl('engagementPlan', 'additionalEngagementInformation')"
+  >
+  </drr-summary-item> 
+  
+  <drr-summary-item
+    [label]="t('climateAdaptationText')"
+    [value]="getRxFormControl('otherSupportingInformation', 'climateAdaptation').value"
+    [rxFormControl]="getRxFormControl('otherSupportingInformation', 'climateAdaptation')"
+  >
+  </drr-summary-item>
+
+  <drr-summary-item
+    [label]="t('otherInformationText')"
+    [value]="getRxFormControl('otherSupportingInformation', 'otherInformation').value"
+    [rxFormControl]="getRxFormControl('otherSupportingInformation', 'otherInformation')"
+  >
+  </drr-summary-item>  
 </div>

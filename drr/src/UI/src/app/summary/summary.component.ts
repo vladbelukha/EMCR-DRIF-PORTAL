@@ -1,15 +1,28 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { AbstractControl } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { TranslocoModule } from '@ngneat/transloco';
-import { IFormGroup, RxFormGroup } from '@rxweb/reactive-form-validators';
+import {
+  IFormGroup,
+  RxFormArray,
+  RxFormControl,
+  RxFormGroup,
+} from '@rxweb/reactive-form-validators';
 import { NgxMaskPipe } from 'ngx-mask';
 import { EOIApplicationForm } from '../eoi-application/eoi-application-form';
+import { SummaryItemComponent } from '../summary-item/summary-item.component';
 
 @Component({
   selector: 'drr-summary',
   standalone: true,
-  imports: [CommonModule, MatInputModule, TranslocoModule, NgxMaskPipe],
+  imports: [
+    CommonModule,
+    MatInputModule,
+    TranslocoModule,
+    NgxMaskPipe,
+    SummaryItemComponent,
+  ],
   templateUrl: './summary.component.html',
   styleUrl: './summary.component.scss',
 })
@@ -82,5 +95,27 @@ export class SummaryComponent {
 
   getFormArray(groupName: string, controlName: string): any[] {
     return this.getGroup(groupName)?.get(controlName)?.value ?? [];
+  }
+
+  getRxFormControl(groupName: string, controlName: string) {
+    return this.getGroup(groupName)?.get(controlName) as RxFormControl;
+  }
+
+  getRxGroupFormControl(
+    groupName: string,
+    nestedGroup: string,
+    controlName: string
+  ) {
+    return this.getGroup(groupName)
+      ?.get(nestedGroup)
+      ?.get(controlName) as RxFormControl;
+  }
+
+  getRxFormArrayControls(groupName: string, controlName: string) {
+    return (this.getGroup(groupName)?.get(controlName) as RxFormArray).controls;
+  }
+
+  convertRxFormControl(formControl: AbstractControl<any, any> | null) {
+    return formControl as RxFormControl;
   }
 }

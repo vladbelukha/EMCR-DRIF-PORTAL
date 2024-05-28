@@ -49,6 +49,13 @@ export class Step5Component {
 
   ngOnInit() {
     this.projectDetailsForm
+      .get('infrastructureImpacted')
+      ?.patchValue(
+        this.projectDetailsForm
+          .get('infrastructureImpactedArray')
+          ?.value.map((infrastructure: any) => infrastructure.value)
+      );
+    this.projectDetailsForm
       .get('infrastructureImpactedArray')
       ?.valueChanges.subscribe((infrastructures: StringItemRequired[]) => {
         this.projectDetailsForm
