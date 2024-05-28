@@ -53,7 +53,7 @@ namespace EMCR.DRR.Managers.Intake
 
         //Project Detail
         public required string RationaleForFunding { get; set; }
-        public required int EstimatedPeopleImpacted { get; set; }
+        public required EstimatedNumberOfPeople EstimatedPeopleImpacted { get; set; }
         public required string CommunityImpact { get; set; }
         public required IEnumerable<CriticalInfrastructure> InfrastructureImpacted { get; set; }
         public required string DisasterRiskUnderstanding { get; set; }
@@ -109,7 +109,7 @@ namespace EMCR.DRR.Managers.Intake
     {
         public required string Name { get; set; }
     }
-    
+
     public class CriticalInfrastructure
     {
         public required string Name { get; set; }
@@ -126,6 +126,15 @@ namespace EMCR.DRR.Managers.Intake
     {
         Stream1,
         Stream2
+    }
+
+    public enum EstimatedNumberOfPeople
+    {
+        OneToTenK,
+        TenKToFiftyK,
+        FiftyKToHundredK,
+        HundredKPlus,
+        Unsure
     }
 
     public enum ProjectType

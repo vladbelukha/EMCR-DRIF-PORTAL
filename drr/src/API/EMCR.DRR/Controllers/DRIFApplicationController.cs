@@ -81,7 +81,7 @@ namespace EMCR.DRR.Controllers
 
         //Project Detail
         public required string RationaleForFunding { get; set; }
-        public required int EstimatedPeopleImpacted { get; set; }
+        public required EstimatedNumberOfPeople EstimatedPeopleImpacted { get; set; }
         public required string CommunityImpact { get; set; }
         public required IEnumerable<string> InfrastructureImpacted { get; set; }
         public required string DisasterRiskUnderstanding { get; set; }
@@ -155,6 +155,25 @@ namespace EMCR.DRR.Controllers
 
         [Description("Structural")]
         Stream2
+    }
+
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public enum EstimatedNumberOfPeople
+    {
+        [Description("1 - 10,000")]
+        OneToTenK,
+
+        [Description("10,000 - 50,000")]
+        TenKToFiftyK,
+
+        [Description("50,000 - 100k")]
+        FiftyKToHundredK,
+
+        [Description("100k +")]
+        HundredKPlus,
+
+        [Description("Unsure")]
+        Unsure,
     }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]

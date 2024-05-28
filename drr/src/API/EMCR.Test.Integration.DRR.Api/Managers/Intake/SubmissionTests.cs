@@ -95,7 +95,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
 
                 //Project Detail
                 RationaleForFunding = "rationale for funding",
-                EstimatedPeopleImpacted = 5,
+                EstimatedPeopleImpacted = EMCR.DRR.Controllers.EstimatedNumberOfPeople.OneToTenK,
                 CommunityImpact = "community impact",
                 InfrastructureImpacted = new[] { $"{uniqueSignature}_infrastructure1" },
                 DisasterRiskUnderstanding = "helps many people",

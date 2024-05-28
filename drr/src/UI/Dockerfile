@@ -3,6 +3,7 @@ WORKDIR /src
 COPY ./package*.json ./
 
 RUN npm install --ignore-scripts
+RUN npm i @esbuild/linux-x64 --save
 COPY . .
 
 FROM node-builder as ng-builder

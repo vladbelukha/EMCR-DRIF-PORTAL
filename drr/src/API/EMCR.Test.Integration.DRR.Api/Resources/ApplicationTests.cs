@@ -109,7 +109,7 @@ namespace EMCR.Tests.Integration.DRR.Resources
 
                 //Project Detail
                 RationaleForFunding = "rationale for funding",
-                EstimatedPeopleImpacted = 12,
+                EstimatedPeopleImpacted = EstimatedNumberOfPeople.OneToTenK,
                 CommunityImpact = "community impact",
                 InfrastructureImpacted = new[]
                 {
