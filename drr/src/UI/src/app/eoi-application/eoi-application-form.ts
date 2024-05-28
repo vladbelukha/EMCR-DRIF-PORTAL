@@ -12,6 +12,7 @@ import {
 import {
   ContactDetails,
   DrifEoiApplication,
+  EstimatedNumberOfPeople,
   FundingInformation,
   FundingStream,
   FundingType,
@@ -219,8 +220,7 @@ export class ProjectDetailsForm implements DrifEoiApplication {
 
   @prop()
   @required()
-  @minNumber({ value: 0 })
-  estimatedPeopleImpacted?: number;
+  estimatedPeopleImpacted?: EstimatedNumberOfPeople;
 
   @prop()
   @required()

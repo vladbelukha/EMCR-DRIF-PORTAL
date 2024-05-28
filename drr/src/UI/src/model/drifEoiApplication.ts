@@ -5,6 +5,7 @@
  * OpenAPI spec version: 1.0.0
  */
 import type { ContactDetails } from './contactDetails';
+import type { EstimatedNumberOfPeople } from './estimatedNumberOfPeople';
 import type { FundingStream } from './fundingStream';
 import type { FundingInformation } from './fundingInformation';
 import type { ProjectType } from './projectType';
@@ -25,7 +26,7 @@ export interface DrifEoiApplication {
   disasterRiskUnderstanding?: string;
   drifProgramGoalAlignment?: string;
   endDate?: string;
-  estimatedPeopleImpacted?: number;
+  estimatedPeopleImpacted?: EstimatedNumberOfPeople;
   /**
    * @minimum 0
    * @maximum 999999999.99

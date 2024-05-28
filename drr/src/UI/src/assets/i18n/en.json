@@ -122,5 +122,10 @@
   "excessFundingLabel": "Excess Funding",
   "excessFundingText": "You cannot submit an Expression of Interest with excess funding.",
   "noExcessFundingText": "There is no excess funding. Proceed to the next step.",
-  "emailExample": "Example: name@org.com"
+  "emailExample": "Example: name@org.com",
+  "OneToTenK": "1 - 10,000",
+  "TenKToFiftyK": "10,000 - 50,000",
+  "FiftyKToHundredK": "50,000 - 100K",
+  "HundredKPlus": "100k +",
+  "Unsure": "Unsure"
 }
