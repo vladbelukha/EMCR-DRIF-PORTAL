@@ -22,46 +22,89 @@
   >
     <mat-label class="drr-label">{{ t("submitter") }}</mat-label>
     <div class="summary-row">
-      
       <drr-summary-item
         [label]="t('firstName')"
-        [value]="getRxGroupFormControl('proponentInformation', 'submitter', 'firstName').value"
-        [rxFormControl]="getRxGroupFormControl('proponentInformation', 'submitter', 'firstName')"
+        [value]="
+          getRxGroupFormControl(
+            'proponentInformation',
+            'submitter',
+            'firstName'
+          ).value
+        "
+        [rxFormControl]="
+          getRxGroupFormControl(
+            'proponentInformation',
+            'submitter',
+            'firstName'
+          )
+        "
       >
       </drr-summary-item>
 
       <drr-summary-item
         [label]="t('lastName')"
-        [value]="getRxGroupFormControl('proponentInformation', 'submitter', 'lastName').value"
-        [rxFormControl]="getRxGroupFormControl('proponentInformation', 'submitter', 'lastName')"
+        [value]="
+          getRxGroupFormControl('proponentInformation', 'submitter', 'lastName')
+            .value
+        "
+        [rxFormControl]="
+          getRxGroupFormControl('proponentInformation', 'submitter', 'lastName')
+        "
       >
-      </drr-summary-item>     
+      </drr-summary-item>
 
       <drr-summary-item
         [label]="t('title')"
-        [value]="getRxGroupFormControl('proponentInformation', 'submitter', 'title').value"
-        [rxFormControl]="getRxGroupFormControl('proponentInformation', 'submitter', 'title')"
+        [value]="
+          getRxGroupFormControl('proponentInformation', 'submitter', 'title')
+            .value
+        "
+        [rxFormControl]="
+          getRxGroupFormControl('proponentInformation', 'submitter', 'title')
+        "
       >
       </drr-summary-item>
 
       <drr-summary-item
         [label]="t('department')"
-        [value]="getRxGroupFormControl('proponentInformation', 'submitter', 'department').value"
-        [rxFormControl]="getRxGroupFormControl('proponentInformation', 'submitter', 'department')"
+        [value]="
+          getRxGroupFormControl(
+            'proponentInformation',
+            'submitter',
+            'department'
+          ).value
+        "
+        [rxFormControl]="
+          getRxGroupFormControl(
+            'proponentInformation',
+            'submitter',
+            'department'
+          )
+        "
       >
       </drr-summary-item>
 
       <drr-summary-item
         [label]="t('phone')"
-        [value]="getRxGroupFormControl('proponentInformation', 'submitter', 'phone').value | mask : '000-000-0000'"
-        [rxFormControl]="getRxGroupFormControl('proponentInformation', 'submitter', 'phone')"
+        [value]="
+          getRxGroupFormControl('proponentInformation', 'submitter', 'phone')
+            .value | mask : '000-000-0000'
+        "
+        [rxFormControl]="
+          getRxGroupFormControl('proponentInformation', 'submitter', 'phone')
+        "
       >
       </drr-summary-item>
 
       <drr-summary-item
         [label]="t('email')"
-        [value]="getRxGroupFormControl('proponentInformation', 'submitter', 'email').value"
-        [rxFormControl]="getRxGroupFormControl('proponentInformation', 'submitter', 'email')"
+        [value]="
+          getRxGroupFormControl('proponentInformation', 'submitter', 'email')
+            .value
+        "
+        [rxFormControl]="
+          getRxGroupFormControl('proponentInformation', 'submitter', 'email')
+        "
       >
       </drr-summary-item>
     </div>
@@ -78,43 +121,115 @@
     <div class="summary-row">
       <drr-summary-item
         [label]="t('firstName')"
-        [value]="getRxGroupFormControl('proponentInformation', 'projectContact', 'firstName').value"
-        [rxFormControl]="getRxGroupFormControl('proponentInformation', 'projectContact', 'firstName')"
+        [value]="
+          getRxGroupFormControl(
+            'proponentInformation',
+            'projectContact',
+            'firstName'
+          ).value
+        "
+        [rxFormControl]="
+          getRxGroupFormControl(
+            'proponentInformation',
+            'projectContact',
+            'firstName'
+          )
+        "
       >
       </drr-summary-item>
 
       <drr-summary-item
         [label]="t('lastName')"
-        [value]="getRxGroupFormControl('proponentInformation', 'projectContact', 'lastName').value"
-        [rxFormControl]="getRxGroupFormControl('proponentInformation', 'projectContact', 'lastName')"
+        [value]="
+          getRxGroupFormControl(
+            'proponentInformation',
+            'projectContact',
+            'lastName'
+          ).value
+        "
+        [rxFormControl]="
+          getRxGroupFormControl(
+            'proponentInformation',
+            'projectContact',
+            'lastName'
+          )
+        "
       >
-      </drr-summary-item>     
+      </drr-summary-item>
 
       <drr-summary-item
         [label]="t('title')"
-        [value]="getRxGroupFormControl('proponentInformation', 'projectContact', 'title').value"
-        [rxFormControl]="getRxGroupFormControl('proponentInformation', 'projectContact', 'title')"
+        [value]="
+          getRxGroupFormControl(
+            'proponentInformation',
+            'projectContact',
+            'title'
+          ).value
+        "
+        [rxFormControl]="
+          getRxGroupFormControl(
+            'proponentInformation',
+            'projectContact',
+            'title'
+          )
+        "
       >
       </drr-summary-item>
 
       <drr-summary-item
         [label]="t('department')"
-        [value]="getRxGroupFormControl('proponentInformation', 'projectContact', 'department').value"
-        [rxFormControl]="getRxGroupFormControl('proponentInformation', 'projectContact', 'department')"
+        [value]="
+          getRxGroupFormControl(
+            'proponentInformation',
+            'projectContact',
+            'department'
+          ).value
+        "
+        [rxFormControl]="
+          getRxGroupFormControl(
+            'proponentInformation',
+            'projectContact',
+            'department'
+          )
+        "
       >
       </drr-summary-item>
 
       <drr-summary-item
         [label]="t('phone')"
-        [value]="getRxGroupFormControl('proponentInformation', 'projectContact', 'phone').value | mask : '000-000-0000'"
-        [rxFormControl]="getRxGroupFormControl('proponentInformation', 'projectContact', 'phone')"
+        [value]="
+          getRxGroupFormControl(
+            'proponentInformation',
+            'projectContact',
+            'phone'
+          ).value | mask : '000-000-0000'
+        "
+        [rxFormControl]="
+          getRxGroupFormControl(
+            'proponentInformation',
+            'projectContact',
+            'phone'
+          )
+        "
       >
       </drr-summary-item>
 
       <drr-summary-item
         [label]="t('email')"
-        [value]="getRxGroupFormControl('proponentInformation', 'projectContact', 'email').value"
-        [rxFormControl]="getRxGroupFormControl('proponentInformation', 'projectContact', 'email')"
+        [value]="
+          getRxGroupFormControl(
+            'proponentInformation',
+            'projectContact',
+            'email'
+          ).value
+        "
+        [rxFormControl]="
+          getRxGroupFormControl(
+            'proponentInformation',
+            'projectContact',
+            'email'
+          )
+        "
       >
       </drr-summary-item>
     </div>
@@ -131,19 +246,23 @@
         )
       "
     >
-    <drr-summary-item
+      <drr-summary-item
         [label]="t('firstName')"
         [value]="additionalContact.get('firstName')?.value"
-        [rxFormControl]="convertRxFormControl(additionalContact.get('firstName'))"
+        [rxFormControl]="
+          convertRxFormControl(additionalContact.get('firstName'))
+        "
       >
       </drr-summary-item>
 
       <drr-summary-item
         [label]="t('lastName')"
         [value]="additionalContact.get('lastName')?.value"
-        [rxFormControl]="convertRxFormControl(additionalContact.get('lastName'))"
+        [rxFormControl]="
+          convertRxFormControl(additionalContact.get('lastName'))
+        "
       >
-      </drr-summary-item>     
+      </drr-summary-item>
 
       <drr-summary-item
         [label]="t('title')"
@@ -155,7 +274,9 @@
       <drr-summary-item
         [label]="t('department')"
         [value]="additionalContact.get('department')?.value"
-        [rxFormControl]="convertRxFormControl(additionalContact.get('department'))"
+        [rxFormControl]="
+          convertRxFormControl(additionalContact.get('department'))
+        "
       >
       </drr-summary-item>
 
@@ -171,7 +292,7 @@
         [value]="additionalContact.get('email')?.value"
         [rxFormControl]="convertRxFormControl(additionalContact.get('email'))"
       >
-      </drr-summary-item>      
+      </drr-summary-item>
     </div>
   </div>
 
@@ -179,12 +300,19 @@
     <mat-label class="drr-label">{{
       t("partneringProponentsSummary")
     }}</mat-label>
-    <div class="summary-row"
-      *ngFor="let proponent of getFormArray('proponentInformation', 'partneringProponents');let i = index">
-        <mat-label>{{ proponent }}</mat-label>
+    <div
+      class="summary-row"
+      *ngFor="
+        let proponent of getFormArray(
+          'proponentInformation',
+          'partneringProponents'
+        );
+        let i = index
+      "
+    >
+      <mat-label>{{ proponent }}</mat-label>
     </div>
   </div>
-
 
   <drr-summary-item
     [label]="t('fundingStream')"
@@ -216,43 +344,65 @@
 
   <drr-summary-item
     [label]="t('relatedHazards')"
-    [value]="t(getRxFormControl('projectInformation', 'relatedHazards').value)?.join(', ')"
+    [value]="
+      t(getRxFormControl('projectInformation', 'relatedHazards').value)?.join(
+        ', '
+      )
+    "
     [rxFormControl]="getRxFormControl('projectInformation', 'relatedHazards')"
   >
   </drr-summary-item>
 
   <drr-summary-item
     [label]="t('otherHazardsDescription')"
-    [value]="getRxFormControl('projectInformation', 'otherHazardsDescription').value"
-    [rxFormControl]="getRxFormControl('projectInformation', 'otherHazardsDescription')"
-    *ngIf="getRxFormControl('projectInformation', 'relatedHazards')?.value?.includes('Other')"
+    [value]="
+      getRxFormControl('projectInformation', 'otherHazardsDescription').value
+    "
+    [rxFormControl]="
+      getRxFormControl('projectInformation', 'otherHazardsDescription')
+    "
+    *ngIf="
+      getRxFormControl('projectInformation', 'relatedHazards')?.value?.includes(
+        'Other'
+      )
+    "
   >
   </drr-summary-item>
-  
+
   <drr-summary-item
     [label]="t('startDate')"
-    [value]="getRxFormControl('projectInformation', 'startDate').value | date : 'YYYY-MM-dd'"
+    [value]="
+      getRxFormControl('projectInformation', 'startDate').value
+        | date : 'YYYY-MM-dd'
+    "
     [rxFormControl]="getRxFormControl('projectInformation', 'startDate')"
   >
   </drr-summary-item>
-  
+
   <drr-summary-item
     [label]="t('endDate')"
-    [value]="getRxFormControl('projectInformation', 'endDate').value | date : 'YYYY-MM-dd'"
+    [value]="
+      getRxFormControl('projectInformation', 'endDate').value
+        | date : 'YYYY-MM-dd'
+    "
     [rxFormControl]="getRxFormControl('projectInformation', 'endDate')"
   >
   </drr-summary-item>
 
   <drr-summary-item
     [label]="t('estimatedTotal')"
-    [value]="getRxFormControl('fundingInformation', 'estimatedTotal').value | currency"
+    [value]="
+      getRxFormControl('fundingInformation', 'estimatedTotal').value | currency
+    "
     [rxFormControl]="getRxFormControl('fundingInformation', 'estimatedTotal')"
   >
   </drr-summary-item>
-  
+
   <drr-summary-item
     [label]="t('estimatedTotal')"
-    [value]="getRxFormControl('fundingInformation', 'fundingRequest').value | currency"
+    [value]="
+      getRxFormControl('fundingInformation', 'fundingRequest').value | currency
+    "
     [rxFormControl]="getRxFormControl('fundingInformation', 'fundingRequest')"
   >
   </drr-summary-item>
@@ -261,9 +411,12 @@
     <mat-label class="drr-label">{{ t("otherFunding") }}</mat-label>
     <div
       class="summary-row"
-      *ngFor="let otherFunding of getRxFormArrayControls(
+      *ngFor="
+        let otherFunding of getRxFormArrayControls(
           'fundingInformation',
-          'otherFunding')"
+          'otherFunding'
+        )
+      "
     >
       <drr-summary-item
         [label]="t('amount')"
@@ -289,7 +442,9 @@
       <drr-summary-item
         [label]="t('otherDescription')"
         [value]="otherFunding.get('otherDescription')?.value"
-        [rxFormControl]="convertRxFormControl(otherFunding.get('otherDescription'))"
+        [rxFormControl]="
+          convertRxFormControl(otherFunding.get('otherDescription'))
+        "
         *ngIf="otherFunding.get('type')?.value === 'OtherGrants'"
       >
       </drr-summary-item>
@@ -297,53 +452,75 @@
   </div>
 
   <drr-summary-item
-    [label]="getRxFormControl('fundingInformation', 'remainingAmount').value <= 0 ? t('excessFundingLabel') : t('remainingAmount')"
+    [label]="
+      getRxFormControl('fundingInformation', 'remainingAmount').value > 0
+        ? t('missingFundsLabel')
+        : t('excessFundingLabel')
+    "
     [value]="getRemainingAmountAbs() | currency"
     [rxFormControl]="getRxFormControl('fundingInformation', 'remainingAmount')"
-    [style.color]="getRxFormControl('fundingInformation', 'remainingAmount').value < 0
+    [style.color]="
+      getRxFormControl('fundingInformation', 'remainingAmount').value < 0
         ? 'red'
-        : 'initial'"
+        : 'initial'
+    "
   >
   </drr-summary-item>
 
-
   <drr-summary-item
     [label]="t('intendToSecureFunding')"
-    [value]="getRxFormControl('fundingInformation', 'intendToSecureFunding').value"
-    [rxFormControl]="getRxFormControl('fundingInformation', 'intendToSecureFunding')"
-    *ngIf="getRxFormControl('fundingInformation', 'intendToSecureFunding').value > 0"
+    [value]="
+      getRxFormControl('fundingInformation', 'intendToSecureFunding').value
+    "
+    [rxFormControl]="
+      getRxFormControl('fundingInformation', 'intendToSecureFunding')
+    "
+    *ngIf="getRxFormControl('fundingInformation', 'remainingAmount').value > 0"
   >
   </drr-summary-item>
 
   <drr-summary-item
     [label]="t('ownershipDeclaration')"
-    [value]="getRxFormControl('locationInformation', 'ownershipDeclaration')
-      .value === null
+    [value]="
+      getRxFormControl('locationInformation', 'ownershipDeclaration').value ===
+      null
         ? null
         : getRxFormControl('locationInformation', 'ownershipDeclaration').value
-          ? 'Yes'
-          : 'No'"
-    [rxFormControl]="getRxFormControl('locationInformation', 'ownershipDeclaration')"    
+        ? 'Yes'
+        : 'No'
+    "
+    [rxFormControl]="
+      getRxFormControl('locationInformation', 'ownershipDeclaration')
+    "
   >
   </drr-summary-item>
 
   <drr-summary-item
     [label]="t('ownershipDescription')"
-    [value]="getRxFormControl('locationInformation', 'ownershipDescription').value"
-    [rxFormControl]="getRxFormControl('locationInformation', 'ownershipDescription')"
-    *ngIf="getRxFormControl('locationInformation', 'ownershipDeclaration').value === false"
+    [value]="
+      getRxFormControl('locationInformation', 'ownershipDescription').value
+    "
+    [rxFormControl]="
+      getRxFormControl('locationInformation', 'ownershipDescription')
+    "
+    *ngIf="
+      getRxFormControl('locationInformation', 'ownershipDeclaration').value ===
+      false
+    "
   >
   </drr-summary-item>
-  
 
   <drr-summary-item
     [label]="t('locationDescription')"
-    [value]="getRxFormControl('locationInformation', 'locationDescription').value"
-    [rxFormControl]="getRxFormControl('locationInformation', 'locationDescription')"
+    [value]="
+      getRxFormControl('locationInformation', 'locationDescription').value
+    "
+    [rxFormControl]="
+      getRxFormControl('locationInformation', 'locationDescription')
+    "
   >
   </drr-summary-item>
 
-  
   <drr-summary-item
     [label]="t('rationaleForFunding')"
     [value]="getRxFormControl('projectDetails', 'rationaleForFunding').value"
@@ -353,8 +530,12 @@
 
   <drr-summary-item
     [label]="t('estimatedPeopleImpacted')"
-    [value]="t(getRxFormControl('projectDetails', 'estimatedPeopleImpacted').value)"
-    [rxFormControl]="getRxFormControl('projectDetails', 'estimatedPeopleImpacted')"
+    [value]="
+      t(getRxFormControl('projectDetails', 'estimatedPeopleImpacted').value)
+    "
+    [rxFormControl]="
+      getRxFormControl('projectDetails', 'estimatedPeopleImpacted')
+    "
   >
   </drr-summary-item>
 
@@ -367,43 +548,68 @@
 
   <drr-summary-item
     [label]="t('infrastructureImpacted')"
-    [value]="getRxFormControl('projectDetails', 'infrastructureImpacted').value?.join(', ')"
-    [rxFormControl]="getRxFormControl('projectDetails', 'infrastructureImpacted')"
+    [value]="
+      getRxFormControl('projectDetails', 'infrastructureImpacted').value?.join(
+        ', '
+      )
+    "
+    [rxFormControl]="
+      getRxFormControl('projectDetails', 'infrastructureImpacted')
+    "
   >
   </drr-summary-item>
-  
+
   <drr-summary-item
     [label]="t('disasterRiskUnderstanding')"
-    [value]="getRxFormControl('projectDetails', 'disasterRiskUnderstanding').value"
-    [rxFormControl]="getRxFormControl('projectDetails', 'disasterRiskUnderstanding')"
+    [value]="
+      getRxFormControl('projectDetails', 'disasterRiskUnderstanding').value
+    "
+    [rxFormControl]="
+      getRxFormControl('projectDetails', 'disasterRiskUnderstanding')
+    "
   >
   </drr-summary-item>
 
   <drr-summary-item
     [label]="t('additionalBackgroundInformation')"
-    [value]="getRxFormControl('projectDetails', 'additionalBackgroundInformation').value"
-    [rxFormControl]="getRxFormControl('projectDetails', 'additionalBackgroundInformation')"
+    [value]="
+      getRxFormControl('projectDetails', 'additionalBackgroundInformation')
+        .value
+    "
+    [rxFormControl]="
+      getRxFormControl('projectDetails', 'additionalBackgroundInformation')
+    "
   >
-  </drr-summary-item>  
+  </drr-summary-item>
 
   <drr-summary-item
     [label]="t('addressRisksAndHazards')"
     [value]="getRxFormControl('projectDetails', 'addressRisksAndHazards').value"
-    [rxFormControl]="getRxFormControl('projectDetails', 'addressRisksAndHazards')"
+    [rxFormControl]="
+      getRxFormControl('projectDetails', 'addressRisksAndHazards')
+    "
   >
-  </drr-summary-item>  
+  </drr-summary-item>
 
   <drr-summary-item
     [label]="t('drifProgramGoalAlignment')"
-    [value]="getRxFormControl('projectDetails', 'drifProgramGoalAlignment').value"
-    [rxFormControl]="getRxFormControl('projectDetails', 'drifProgramGoalAlignment')"
+    [value]="
+      getRxFormControl('projectDetails', 'drifProgramGoalAlignment').value
+    "
+    [rxFormControl]="
+      getRxFormControl('projectDetails', 'drifProgramGoalAlignment')
+    "
   >
-  </drr-summary-item> 
+  </drr-summary-item>
 
   <drr-summary-item
     [label]="t('additionalSolutionInformation')"
-    [value]="getRxFormControl('projectDetails', 'additionalSolutionInformation').value"
-    [rxFormControl]="getRxFormControl('projectDetails', 'additionalSolutionInformation')"
+    [value]="
+      getRxFormControl('projectDetails', 'additionalSolutionInformation').value
+    "
+    [rxFormControl]="
+      getRxFormControl('projectDetails', 'additionalSolutionInformation')
+    "
   >
   </drr-summary-item>
 
@@ -417,7 +623,9 @@
   <drr-summary-item
     [label]="t('firstNationsEngagement')"
     [value]="getRxFormControl('engagementPlan', 'firstNationsEngagement').value"
-    [rxFormControl]="getRxFormControl('engagementPlan', 'firstNationsEngagement')"
+    [rxFormControl]="
+      getRxFormControl('engagementPlan', 'firstNationsEngagement')
+    "
   >
   </drr-summary-item>
 
@@ -430,22 +638,35 @@
 
   <drr-summary-item
     [label]="t('additionalEngagementInformation')"
-    [value]="getRxFormControl('engagementPlan', 'additionalEngagementInformation').value"
-    [rxFormControl]="getRxFormControl('engagementPlan', 'additionalEngagementInformation')"
+    [value]="
+      getRxFormControl('engagementPlan', 'additionalEngagementInformation')
+        .value
+    "
+    [rxFormControl]="
+      getRxFormControl('engagementPlan', 'additionalEngagementInformation')
+    "
   >
-  </drr-summary-item> 
-  
+  </drr-summary-item>
+
   <drr-summary-item
     [label]="t('climateAdaptationText')"
-    [value]="getRxFormControl('otherSupportingInformation', 'climateAdaptation').value"
-    [rxFormControl]="getRxFormControl('otherSupportingInformation', 'climateAdaptation')"
+    [value]="
+      getRxFormControl('otherSupportingInformation', 'climateAdaptation').value
+    "
+    [rxFormControl]="
+      getRxFormControl('otherSupportingInformation', 'climateAdaptation')
+    "
   >
   </drr-summary-item>
 
   <drr-summary-item
     [label]="t('otherInformationText')"
-    [value]="getRxFormControl('otherSupportingInformation', 'otherInformation').value"
-    [rxFormControl]="getRxFormControl('otherSupportingInformation', 'otherInformation')"
+    [value]="
+      getRxFormControl('otherSupportingInformation', 'otherInformation').value
+    "
+    [rxFormControl]="
+      getRxFormControl('otherSupportingInformation', 'otherInformation')
+    "
   >
-  </drr-summary-item>  
+  </drr-summary-item>
 </div>
