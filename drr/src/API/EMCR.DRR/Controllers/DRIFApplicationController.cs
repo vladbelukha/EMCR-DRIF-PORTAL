@@ -163,13 +163,13 @@ namespace EMCR.DRR.Controllers
         [Description("1 - 10,000")]
         OneToTenK,
 
-        [Description("10,000 - 50,000")]
+        [Description("10,001 - 50,000")]
         TenKToFiftyK,
 
-        [Description("50,000 - 100k")]
+        [Description("50,001 - 100k")]
         FiftyKToHundredK,
 
-        [Description("100k +")]
+        [Description("100,001 +")]
         HundredKPlus,
 
         [Description("Unsure")]
