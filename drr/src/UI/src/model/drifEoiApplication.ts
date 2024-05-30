@@ -21,6 +21,7 @@ export interface DrifEoiApplication {
   /** @nullable */
   additionalSolutionInformation?: string;
   addressRisksAndHazards?: string;
+  authorizedRepresentativeStatement?: boolean;
   climateAdaptation?: string;
   communityImpact?: string;
   disasterRiskUnderstanding?: string;
@@ -32,7 +33,6 @@ export interface DrifEoiApplication {
    * @maximum 999999999.99
    */
   estimatedTotal?: number;
-  financialAwarenessConfirmation?: boolean;
   firstNationsEngagement?: string;
   /** @nullable */
   foippaConfirmation?: boolean;
@@ -42,7 +42,7 @@ export interface DrifEoiApplication {
    */
   fundingRequest?: number;
   fundingStream?: FundingStream;
-  identityConfirmation?: boolean;
+  informationAccuracyStatement?: boolean;
   infrastructureImpacted?: string[];
   /** @nullable */
   intendToSecureFunding?: string;
