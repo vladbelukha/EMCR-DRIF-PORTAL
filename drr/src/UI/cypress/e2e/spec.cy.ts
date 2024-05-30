@@ -179,8 +179,9 @@ describe('EOI application happy path', () => {
     cy.get('#next7').click();
 
     // step 8
-    cy.get('#identityConfirmation [type="checkbox"]').first().check();
-    // cy.get('#foippaConfirmation [type="checkbox"]').first().check();
-    cy.get('#financialAwarenessConfirmation [type="checkbox"]').first().check();
+    cy.get('#authorizedRepresentativeStatement [type="checkbox"]')
+      .first()
+      .check();
+    cy.get('#informationAccuracyStatement [type="checkbox"]').first().check();
   });
 });

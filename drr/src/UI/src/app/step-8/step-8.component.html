@@ -2,52 +2,42 @@
   <drr-summary [eoiApplicationForm]="eoiApplicationForm"></drr-summary>
 
   <form [formGroup]="declarationForm">
-    <mat-label class="drr-label"> {{ t("identityConfirmation") }} </mat-label>
-    <mat-label> {{ t("identityConfirmationText") }} </mat-label>
+    <mat-label class="drr-label">
+      {{ t("authorizedRepresentativeStatement") }}
+    </mat-label>
+    <mat-label> {{ t("authorizedRepresentativeStatementText") }} </mat-label>
     <mat-checkbox
-      id="identityConfirmation"
-      formControlName="identityConfirmation"
+      id="authorizedRepresentativeStatement"
+      formControlName="authorizedRepresentativeStatement"
     >
       {{ t("agree") }}
     </mat-checkbox>
     <mat-error
       *ngIf="
-        declarationForm.get('identityConfirmation')?.touched &&
-        declarationForm.get('identityConfirmation')?.hasError('requiredTrue')
+        declarationForm.get('authorizedRepresentativeStatement')?.touched &&
+        declarationForm
+          .get('authorizedRepresentativeStatement')
+          ?.hasError('requiredTrue')
       "
     >
       {{ t("required") }}
     </mat-error>
 
-    <!-- <mat-label class="drr-label">{{ t("foippaConfirmation") }}</mat-label>
-    <mat-label> {{ t("foippaConfirmationText") }} </mat-label>
-    <mat-checkbox id="foippaConfirmation" formControlName="foippaConfirmation">
-      {{ t("agree") }}
-    </mat-checkbox>
-    <mat-error
-      *ngIf="
-        declarationForm.get('foippaConfirmation')?.touched &&
-        declarationForm.get('foippaConfirmation')?.hasError('requiredTrue')
-      "
-    >
-      {{ t("required") }}
-    </mat-error> -->
-
     <mat-label class="drr-label">{{
-      t("financialAwarenessConfirmation")
+      t("informationAccuracyStatement")
     }}</mat-label>
-    <mat-label> {{ t("financialAwarenessConfirmationText") }} </mat-label>
+    <mat-label> {{ t("informationAccuracyStatementText") }} </mat-label>
     <mat-checkbox
-      id="financialAwarenessConfirmation"
-      formControlName="financialAwarenessConfirmation"
+      id="informationAccuracyStatement"
+      formControlName="informationAccuracyStatement"
     >
       {{ t("agree") }}
     </mat-checkbox>
     <mat-error
       *ngIf="
-        declarationForm.get('financialAwarenessConfirmation')?.touched &&
+        declarationForm.get('informationAccuracyStatement')?.touched &&
         declarationForm
-          .get('financialAwarenessConfirmation')
+          .get('informationAccuracyStatement')
           ?.hasError('requiredTrue')
       "
     >

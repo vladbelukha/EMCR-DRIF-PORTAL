@@ -295,17 +295,12 @@ export class DeclarationForm implements DrifEoiApplication {
   @prop()
   @required()
   @requiredTrue()
-  financialAwarenessConfirmation?: boolean;
-
-  // @prop()
-  // @required()
-  // @requiredTrue()
-  // foippaConfirmation?: boolean;
+  authorizedRepresentativeStatement?: boolean;
 
   @prop()
   @required()
   @requiredTrue()
-  identityConfirmation?: boolean;
+  informationAccuracyStatement?: boolean;
 
   @prop()
   @required()
