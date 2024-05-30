@@ -115,9 +115,9 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
                 OtherInformation = "Other Info",
 
                 //Declaration
-                FinancialAwarenessConfirmation = true,
+                InformationAccuracyStatement = true,
                 //FOIPPAConfirmation = true,
-                IdentityConfirmation = true
+                AuthorizedRepresentativeStatement = true
             };
         }
 

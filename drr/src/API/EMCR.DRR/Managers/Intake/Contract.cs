@@ -74,9 +74,9 @@ namespace EMCR.DRR.Managers.Intake
 
 
         //Declaration
-        public required bool IdentityConfirmation { get; set; }
+        public required bool AuthorizedRepresentativeStatement { get; set; }
         public bool? FOIPPAConfirmation { get; set; }
-        public required bool FinancialAwarenessConfirmation { get; set; }
+        public required bool InformationAccuracyStatement { get; set; }
     }
 
     public class FundingInformation
