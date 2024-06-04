@@ -14,11 +14,11 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { TranslocoModule } from '@ngneat/transloco';
 import { IFormGroup, RxFormControl } from '@rxweb/reactive-form-validators';
-import { Hazards } from '../../model';
-import { DrrDatepickerComponent } from '../drr-datepicker/drr-datepicker.component';
-import { DrrInputComponent } from '../drr-input/drr-input.component';
-import { DrrSelectComponent } from '../drr-select/drr-select.component';
-import { ProjectInformationForm } from '../eoi-application/eoi-application-form';
+import { Hazards } from '../../../model';
+import { ProjectInformationForm } from '../eoi-application-form';
+import { DrrDatepickerComponent } from '../../shared/controls/drr-datepicker/drr-datepicker.component';
+import { DrrInputComponent } from '../../shared/controls/drr-input/drr-input.component';
+import { DrrSelectComponent } from '../../shared/controls/drr-select/drr-select.component';
 
 @Component({
   selector: 'drr-step-2',

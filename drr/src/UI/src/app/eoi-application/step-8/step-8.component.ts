@@ -8,10 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { TranslocoModule } from '@ngneat/transloco';
 import { IFormGroup } from '@rxweb/reactive-form-validators';
 import { RecaptchaFormsModule, RecaptchaModule } from 'ng-recaptcha';
-import {
-  DeclarationForm,
-  EOIApplicationForm,
-} from '../eoi-application/eoi-application-form';
+import { DeclarationForm, EOIApplicationForm } from '../eoi-application-form';
 import { SummaryComponent } from '../summary/summary.component';
 
 @Component({

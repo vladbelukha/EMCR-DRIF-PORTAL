@@ -14,7 +14,9 @@ import { Router } from '@angular/router';
 export class RegisterPageComponent {
   router = inject(Router);
 
-  startApplication() {
+  login() {
+    // redirect to guarded page
+    // TODO: add auth guard
     this.router.navigate(['/eoi-application']);
   }
 }

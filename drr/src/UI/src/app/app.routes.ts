@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { EOIApplicationComponent } from './eoi-application/eoi-application.component';
-import { SuccessPageComponent } from './success-page/success-page.component';
+import { SuccessPageComponent } from './shared/components/success-page/success-page.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/eoi-application', pathMatch: 'full' },
