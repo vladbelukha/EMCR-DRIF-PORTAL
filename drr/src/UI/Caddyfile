@@ -46,4 +46,9 @@
 	}
 
 	file_server
+
+	# Serve robots.txt file
+    @robots {
+        path /robots.txt
+    }
 }
