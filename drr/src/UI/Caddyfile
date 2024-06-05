@@ -47,8 +47,10 @@
 
 	file_server
 
-	# Serve robots.txt file
-    @robots {
-        path /usr/share/caddy/robots.txt
-    }
+	header /robots.txt {
+		User-agent *
+		Disallow /
+	  }
+	  
+	  status 200 /robots.txt
 }
