@@ -49,6 +49,6 @@
 
 	# Serve robots.txt file
     @robots {
-        path /robots.txt
+        path /usr/share/caddy/robots.txt
     }
 }
