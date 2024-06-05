@@ -1,9 +1,11 @@
 import {
+  HttpClient,
   provideHttpClient,
   withFetch,
   withInterceptors,
 } from '@angular/common/http';
 import {
+  APP_INITIALIZER,
   ApplicationConfig,
   importProvidersFrom,
   isDevMode,
@@ -16,11 +18,14 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
 import { provideHotToastConfig } from '@ngneat/hot-toast';
 import { provideTransloco } from '@ngneat/transloco';
+import { AuthConfig } from 'angular-oauth2-oidc';
 import { provideNgxMask } from 'ngx-mask';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { firstValueFrom } from 'rxjs';
 import { DrifapplicationService } from '../api/drifapplication/drifapplication.service';
-import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
 import { routes } from './app.routes';
+import { AuthService } from './core/auth/auth.service';
+import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
 import { TranslocoHttpLoader } from './transloco-loader';
 
 export const DRR_DATE_FORMATS: MatDateFormats = {
@@ -62,6 +67,17 @@ export const appConfig: ApplicationConfig = {
       },
       loader: TranslocoHttpLoader,
     }),
+    {
+      provide: APP_INITIALIZER,
+      useFactory: (http: HttpClient, authService: AuthService) => async () => {
+        const url = '/config';
+        const config = await firstValueFrom(http.get<AuthConfig>(url));
+
+        await authService.init(config);
+
+        return Promise.resolve(true);
+      },
+    },
     importProvidersFrom(NgxSpinnerModule),
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
