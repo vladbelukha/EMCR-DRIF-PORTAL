@@ -52,5 +52,4 @@
 		Disallow /
 	  }
 	  
-	  status 200 /robots.txt
 }
