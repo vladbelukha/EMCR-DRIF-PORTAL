@@ -20,4 +20,5 @@ RUN chmod +rw /config/caddy
 COPY --from=builder /usr/bin/caddy /usr/bin/caddy
 COPY Caddyfile /etc/caddy/Caddyfile
 COPY --from=ng-builder /src/dist/drr/browser /site
+COPY robots.txt /site/robots.txt
 EXPOSE 2015
