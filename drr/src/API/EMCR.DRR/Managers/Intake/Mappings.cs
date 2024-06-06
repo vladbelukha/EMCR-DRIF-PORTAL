@@ -17,6 +17,9 @@ namespace EMCR.DRR.Managers.Intake
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src));
             CreateMap<string, CriticalInfrastructure>()
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src));
+
+            CreateMap<Resources.Applications.DeclarationInfo, DeclarationInfo>()
+                ;
         }
     }
 }

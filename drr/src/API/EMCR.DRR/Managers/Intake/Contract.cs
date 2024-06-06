@@ -1,13 +1,31 @@
-﻿
-
-using System.ComponentModel;
-using EMCR.DRR.Controllers;
+﻿using EMCR.DRR.Controllers;
 
 namespace EMCR.DRR.Managers.Intake
 {
     public interface IIntakeManager
     {
+        Task<DeclarationQueryResult> Handle(DeclarationQuery query);
         Task<string> Handle(IntakeCommand cmd);
+    }
+
+    public class DeclarationQuery
+    { }
+
+    public class DeclarationQueryResult
+    {
+        public IEnumerable<DeclarationInfo> Items { get; set; } = Array.Empty<DeclarationInfo>();
+    }
+
+    public class DeclarationInfo
+    {
+        public required DeclarationType Type { get; set; }
+        public required string Text { get; set; }
+    }
+
+    public enum DeclarationType
+    {
+        AuthorizedRepresentative,
+        AccuracyOfInformation
     }
 
     public abstract class IntakeCommand
