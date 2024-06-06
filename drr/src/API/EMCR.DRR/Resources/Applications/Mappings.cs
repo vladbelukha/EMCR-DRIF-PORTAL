@@ -122,6 +122,12 @@ namespace EMCR.DRR.Resources.Applications
 
             CreateMap<CriticalInfrastructure, drr_criticalinfrastructureimpacted>()
                 .ForMember(dest => dest.drr_name, opt => opt.MapFrom(src => src.Name));
+
+#pragma warning disable CS8629 // Nullable value type may be null.
+            CreateMap<drr_legaldeclaration, DeclarationInfo>()
+                .ForMember(dest => dest.Type, opt => opt.MapFrom(src => Enum.Parse<DeclarationTypeOptionSet>(((DeclarationTypeOptionSet)src.drr_declarationtype).ToString())))
+                .ForMember(dest => dest.Text, opt => opt.MapFrom(src => src.drr_declarationtext));
+#pragma warning restore CS8629 // Nullable value type may be null.
         }
     }
 }

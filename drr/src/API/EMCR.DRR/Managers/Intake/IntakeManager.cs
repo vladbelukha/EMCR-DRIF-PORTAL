@@ -29,5 +29,11 @@ namespace EMCR.DRR.Managers.Intake
             var id = (await applicationRepository.Manage(new SubmitApplication { Application = application })).Id;
             return id;
         }
+
+        public async Task<DeclarationQueryResult> Handle(DeclarationQuery _)
+        {
+            var res = await applicationRepository.Query(new Resources.Applications.DeclarationQuery());
+            return new DeclarationQueryResult { Items = mapper.Map<IEnumerable<DeclarationInfo>>(res.Items) };
+        }
     }
 }

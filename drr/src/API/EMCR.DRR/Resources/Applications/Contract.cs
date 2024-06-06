@@ -5,8 +5,8 @@ namespace EMCR.DRR.Resources.Applications
     public interface IApplicationRepository
     {
         Task<ManageApplicationCommandResult> Manage(ManageApplicationCommand cmd);
-
-        Task<ApplicationQueryResult> Query(ApplicationsQuery query);
+        Task<ApplicationQueryResult> Query(ApplicationQuery query);
+        Task<DeclarationQueryResult> Query(DeclarationQuery query);
     }
 
     public abstract class ManageApplicationCommand
@@ -30,9 +30,29 @@ namespace EMCR.DRR.Resources.Applications
         public string? ApplicationName { get; set; }
     }
 
+    public class DeclarationQuery
+    { }
+
+    public class DeclarationQueryResult
+    {
+        public IEnumerable<DeclarationInfo> Items { get; set; } = Array.Empty<DeclarationInfo>();
+    }
+
+    public class DeclarationInfo
+    {
+        public required DeclarationTypeOptionSet Type { get; set; }
+        public required string Text { get; set; }
+    }
+
     public class SubmitApplication : ManageApplicationCommand
     {
         public required Application Application { get; set; }
+    }
+
+    public enum DeclarationTypeOptionSet
+    {
+        AuthorizedRepresentative = 172580000,
+        AccuracyOfInformation = 172580001
     }
 
     public enum ApplicantTypeOptionSet

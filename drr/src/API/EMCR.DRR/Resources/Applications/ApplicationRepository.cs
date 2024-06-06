@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using AutoMapper;
+﻿using AutoMapper;
 using EMCR.DRR.Dynamics;
 using EMCR.DRR.Managers.Intake;
 using Microsoft.Dynamics.CRM;
@@ -27,13 +25,22 @@ namespace EMCR.DRR.Resources.Applications
             };
         }
 
-        public async Task<ApplicationQueryResult> Query(ApplicationsQuery query)
+        public async Task<ApplicationQueryResult> Query(ApplicationQuery query)
         {
             return query switch
             {
                 ApplicationsQuery q => await HandleQueryApplication(q),
                 _ => throw new NotSupportedException($"{query.GetType().Name} is not supported")
             };
+        }
+
+        public async Task<DeclarationQueryResult> Query(DeclarationQuery query)
+        {
+            var readCtx = dRRContextFactory.CreateReadOnly();
+
+            var results = await readCtx.drr_legaldeclarations.Where(d => d.statecode == (int)EntityState.Active).GetAllPagesAsync();
+            var items = mapper.Map<IEnumerable<DeclarationInfo>>(results);
+            return new DeclarationQueryResult { Items = items };
         }
 
         private async Task<ApplicationQueryResult> HandleQueryApplication(ApplicationsQuery query)
@@ -75,6 +82,7 @@ namespace EMCR.DRR.Resources.Applications
             AddInfrastructureImpacted(ctx, drrApplication);
             SetApplicationType(ctx, drrApplication, "EOI");
             SetProgram(ctx, drrApplication, "DRIF");
+            await SetDeclarations(ctx, drrApplication);
 
             var partnerAccounts = mapper.Map<IEnumerable<account>>(cmd.Application.PartneringProponents);
             foreach (var account in partnerAccounts)
@@ -94,6 +102,22 @@ namespace EMCR.DRR.Resources.Applications
 
             ctx.DetachAll();
             return new ManageApplicationCommandResult { Id = drrApplicationNumber };
+        }
+
+        private static async Task SetDeclarations(DRRContext drrContext, drr_application application)
+        {
+            var accuracyDeclaration = (await drrContext.drr_legaldeclarations.Where(d => d.statecode == (int)EntityState.Active && d.drr_declarationtype == (int)DeclarationTypeOptionSet.AccuracyOfInformation).GetAllPagesAsync()).FirstOrDefault();
+            var representativeDeclaration = (await drrContext.drr_legaldeclarations.Where(d => d.statecode == (int)EntityState.Active && d.drr_declarationtype == (int)DeclarationTypeOptionSet.AuthorizedRepresentative).GetAllPagesAsync()).FirstOrDefault();
+
+            if (accuracyDeclaration != null)
+            {
+                drrContext.SetLink(application, nameof(drr_application.drr_AccuracyofInformationDeclaration), accuracyDeclaration);
+            }
+
+            if (representativeDeclaration != null)
+            {
+                drrContext.SetLink(application, nameof(drr_application.drr_AuthorizedRepresentativeDeclaration), representativeDeclaration);
+            }
         }
 
         private static void AssignPrimaryProponent(DRRContext drrContext, drr_application application, account primaryProponent)
@@ -154,7 +178,7 @@ namespace EMCR.DRR.Resources.Applications
                 drrContext.SetLink(fund, nameof(fund.drr_Application), application);
             }
         }
-        
+
         private static void AddInfrastructureImpacted(DRRContext drrContext, drr_application application)
         {
             foreach (var infrastructure in application.drr_drr_application_drr_criticalinfrastructureimpacted_Application)

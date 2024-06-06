@@ -30,6 +30,16 @@ namespace EMCR.Tests.Integration.DRR.Resources
         }
 
         [Test]
+        public async Task CanQueryDeclarations()
+        {
+            var host = EMBC.Tests.Integration.DRR.Application.Host;
+            var applicationRepository = host.Services.GetRequiredService<IApplicationRepository>();
+
+            var declarations = (await applicationRepository.Query(new EMCR.DRR.Resources.Applications.DeclarationQuery { })).Items;
+            declarations.ShouldNotBeEmpty();
+        }
+
+        [Test]
         public async Task CanQueryApplications()
         {
             var host = EMBC.Tests.Integration.DRR.Application.Host;
