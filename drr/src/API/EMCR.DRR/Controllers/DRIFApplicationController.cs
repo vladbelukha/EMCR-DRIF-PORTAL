@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Net.Mime;
 using System.Text.Json.Serialization;
+using AutoMapper;
 using EMCR.DRR.Managers.Intake;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,13 +17,22 @@ namespace EMCR.DRR.Controllers
     {
         private readonly ILogger<DRIFApplicationController> logger;
         private readonly IIntakeManager intakeManager;
+        private readonly IMapper mapper;
 
-        public DRIFApplicationController(ILogger<DRIFApplicationController> logger, IIntakeManager intakeManager)
+        public DRIFApplicationController(ILogger<DRIFApplicationController> logger, IIntakeManager intakeManager, IMapper mapper)
         {
             this.logger = logger;
             this.intakeManager = intakeManager;
+            this.mapper = mapper;
         }
 
+        [HttpGet("Declarations")]
+        public async Task<ActionResult<DeclarationResult>> GetDeclarations()
+        {
+            var res = await intakeManager.Handle(new DeclarationQuery());
+
+            return Ok(new DeclarationResult { Items = mapper.Map<IEnumerable<DeclarationInfo>>(res.Items) });
+        }
 
         [HttpPost("EOI")]
         public async Task<ActionResult<ApplicationResult>> CreateEOIApplication(DrifEoiApplication application)
@@ -30,6 +40,17 @@ namespace EMCR.DRR.Controllers
             var id = await intakeManager.Handle(new DrifEoiApplicationCommand { application = application });
             return Ok(new ApplicationResult { Id = id });
         }
+    }
+
+    public class DeclarationResult
+    {
+        public IEnumerable<DeclarationInfo> Items { get; set; } = Array.Empty<DeclarationInfo>();
+    }
+
+    public class DeclarationInfo
+    {
+        public required DeclarationType Type { get; set; }
+        public required string Text { get; set; }
     }
 
     public static class ApplicationValidators
@@ -247,5 +268,5 @@ namespace EMCR.DRR.Controllers
             return true;
         }
     }
-}
 #pragma warning restore CS8765
+}
