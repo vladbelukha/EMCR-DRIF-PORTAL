@@ -47,9 +47,8 @@
 
 	file_server
 
-	header /robots.txt {
-		User-agent *
-		Disallow /
-	  }
+	# Serve robots.txt file
+    @robots {
+        path /site/robots.txt
 	  
 }
