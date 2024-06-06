@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, isDevMode } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { VersionService } from '../../../../api/version/version.service';
-import { VersionInformation } from '../../../../model';
+import { VersionService } from '../../api/version/version.service';
+import { VersionInformation } from '../../model';
 
 @Component({
   selector: 'drr-footer',

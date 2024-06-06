@@ -13,8 +13,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { TranslocoModule } from '@ngneat/transloco';
 import { IFormGroup } from '@rxweb/reactive-form-validators';
-import { LocationInformationForm } from '../eoi-application-form';
-import { DrrTextareaComponent } from '../../shared/controls/drr-textarea/drr-textarea.component';
+import { DrrTextareaComponent } from '../drr-textarea/drr-textarea.component';
+import { LocationInformationForm } from '../eoi-application/eoi-application-form';
 
 @Component({
   selector: 'drr-step-4',

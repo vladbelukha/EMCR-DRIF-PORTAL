@@ -30,15 +30,15 @@ import {
 } from '@rxweb/reactive-form-validators';
 import { DrifapplicationService } from '../../api/drifapplication/drifapplication.service';
 import { DrifEoiApplication, Hazards } from '../../model';
+import { Step1Component } from '../step-1/step-1.component';
+import { Step2Component } from '../step-2/step-2.component';
+import { Step3Component } from '../step-3/step-3.component';
+import { Step4Component } from '../step-4/step-4.component';
+import { Step5Component } from '../step-5/step-5.component';
+import { Step6Component } from '../step-6/step-6.component';
+import { Step7Component } from '../step-7/step-7.component';
+import { Step8Component } from '../step-8/step-8.component';
 import { EOIApplicationForm } from './eoi-application-form';
-import { Step1Component } from './step-1/step-1.component';
-import { Step2Component } from './step-2/step-2.component';
-import { Step3Component } from './step-3/step-3.component';
-import { Step4Component } from './step-4/step-4.component';
-import { Step5Component } from './step-5/step-5.component';
-import { Step6Component } from './step-6/step-6.component';
-import { Step7Component } from './step-7/step-7.component';
-import { Step8Component } from './step-8/step-8.component';
 
 @Component({
   selector: 'drr-eoi-application',

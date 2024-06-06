@@ -19,7 +19,7 @@ import { provideTransloco } from '@ngneat/transloco';
 import { provideNgxMask } from 'ngx-mask';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { DrifapplicationService } from '../api/drifapplication/drifapplication.service';
-import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
+import { LoadingInterceptor } from '../interceptors/loading.interceptor';
 import { routes } from './app.routes';
 import { TranslocoHttpLoader } from './transloco-loader';
 

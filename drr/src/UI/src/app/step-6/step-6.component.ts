@@ -6,8 +6,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { TranslocoModule } from '@ngneat/transloco';
 import { IFormGroup } from '@rxweb/reactive-form-validators';
-import { EngagementPlanForm } from '../eoi-application-form';
-import { DrrTextareaComponent } from '../../shared/controls/drr-textarea/drr-textarea.component';
+import { DrrTextareaComponent } from '../drr-textarea/drr-textarea.component';
+import { EngagementPlanForm } from '../eoi-application/eoi-application-form';
 
 @Component({
   selector: 'drr-step-6',
