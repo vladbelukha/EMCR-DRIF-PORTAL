@@ -1,6 +1,4 @@
-﻿using System.Net;
-using System.Reflection;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 using EMBC.DRR.Managers.Intake;
 using EMCR.DRR.Controllers;
 using EMCR.DRR.Dynamics;
@@ -9,23 +7,28 @@ using EMCR.DRR.Resources.Applications;
 using EMCR.Utilities;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using NSwag;
 using NSwag.AspNetCore;
 using NSwag.Generation.Processors.Security;
+using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
+var services = builder.Services;
+var configuration = builder.Configuration;
 
-builder.Services.AddControllers().AddJsonOptions(x =>
+services.AddControllers().AddJsonOptions(x =>
 {
     x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
 });
-builder.Services.AddRouting(o => o.LowercaseUrls = true);
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddIntakeManager();
-builder.Services.AddRepositories();
-builder.Services.AddAutoMapper(typeof(ApplicationMapperProfile));
-builder.Services.AddAutoMapper(typeof(IntakeMapperProfile));
-builder.Services.AddCors(opts => opts.AddDefaultPolicy(policy =>
+services.AddRouting(o => o.LowercaseUrls = true);
+services.AddEndpointsApiExplorer();
+services.AddIntakeManager();
+services.AddRepositories();
+services.AddAutoMapper(typeof(ApplicationMapperProfile));
+services.AddAutoMapper(typeof(IntakeMapperProfile));
+services.AddCors(opts => opts.AddDefaultPolicy(policy =>
 {
     policy.AllowAnyHeader();
     policy.AllowAnyMethod();
@@ -33,10 +36,54 @@ builder.Services.AddCors(opts => opts.AddDefaultPolicy(policy =>
 
     //policy.WithOrigins("https://dev-drr-emcr.silver.devops.bcgov");
 }));
-builder.Services.AddCache(string.Empty)
+services.AddCache(string.Empty)
     .AddDRRDynamics(builder.Configuration);
 
-builder.Services.Configure<OpenApiDocumentMiddlewareSettings>(options =>
+services.AddAuthentication(options =>
+{
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateAudience = true,
+        ValidateIssuer = true,
+        RequireSignedTokens = true,
+        RequireAudience = true,
+        RequireExpirationTime = true,
+        ValidateLifetime = true,
+        ClockSkew = TimeSpan.FromSeconds(60),
+        NameClaimType = ClaimTypes.Upn,
+        RoleClaimType = ClaimTypes.Role,
+        ValidateActor = true,
+        ValidateIssuerSigningKey = true,
+    };
+
+    configuration.GetSection("jwt").Bind(options);
+
+    options.Events = new JwtBearerEvents
+    {
+        OnTokenValidated = async c =>
+        {
+            await Task.CompletedTask;
+            var userInfo = c.Principal?.FindFirst("userInfo");
+        }
+    };
+    options.Validate();
+});
+services.AddAuthorization(options =>
+{
+    options.AddPolicy(JwtBearerDefaults.AuthenticationScheme, policy =>
+    {
+        policy.AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+            .RequireAuthenticatedUser()
+            .RequireClaim("user_role")
+            .RequireClaim("user_team");
+    });
+    options.DefaultPolicy = options.GetPolicy(JwtBearerDefaults.AuthenticationScheme) ?? null!;
+});
+
+services.Configure<OpenApiDocumentMiddlewareSettings>(options =>
 {
     options.Path = "/api/openapi/{documentName}/openapi.json";
     options.DocumentName = "DRR API";
@@ -46,14 +93,14 @@ builder.Services.Configure<OpenApiDocumentMiddlewareSettings>(options =>
     };
 });
 
-builder.Services.Configure<SwaggerUi3Settings>(options =>
+services.Configure<SwaggerUi3Settings>(options =>
 {
     options.Path = "/api/openapi";
     options.DocumentTitle = "DRR API Documentation";
     options.DocumentPath = "/api/openapi/{documentName}/openapi.json";
 });
 
-builder.Services.AddOpenApiDocument(document =>
+services.AddOpenApiDocument(document =>
 {
     document.AddSecurity("bearer token", Array.Empty<string>(), new OpenApiSecurityScheme
     {
@@ -67,7 +114,7 @@ builder.Services.AddOpenApiDocument(document =>
     document.GenerateAbstractProperties = true;
 });
 
-builder.Services.AddHealthChecks()
+services.AddHealthChecks()
     .AddCheck($"ready hc", () => HealthCheckResult.Healthy("ready"), new[] { "ready" })
     .AddCheck($"live hc", () => HealthCheckResult.Healthy("alive"), new[] { "alive" });
 
