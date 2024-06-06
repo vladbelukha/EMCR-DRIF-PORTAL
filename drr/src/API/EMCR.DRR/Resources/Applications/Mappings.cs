@@ -56,7 +56,7 @@ namespace EMCR.DRR.Resources.Applications
                 .ReverseMap()
                 .ValidateMemberList(MemberList.Destination)
                 //These are incomplete - but they've really just been for testing...
-                .ForMember(dest => dest.ProponentName, opt => opt.MapFrom(src => src.drr_name))
+                // .ForMember(dest => dest.ProponentName, opt => opt.MapFrom(src => src.drr_name))
                 //.ForMember(dest => dest.Submitter, opt => opt.MapFrom(src => src.drr_SubmitterContact))
                 //.ForMember(dest => dest.ProjectContact, opt => opt.MapFrom(src => src.drr_application_contact_Application.FirstOrDefault()))
                 .ForMember(dest => dest.ProjectTitle, opt => opt.MapFrom(src => src.drr_projecttitle))
