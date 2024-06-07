@@ -18,11 +18,6 @@ import {
 import {
   Observable
 } from 'rxjs'
-import type {
-  ApplicationResult,
-  DeclarationResult,
-  DrifEoiApplication
-} from '../../model'
 
 
 type HttpClientOptions = {
@@ -42,25 +37,18 @@ type HttpClientOptions = {
 
 
 @Injectable({ providedIn: 'root' })
-export class DrifapplicationService {
+export class TestService {
   constructor(
     private http: HttpClient,
-  ) {} dRIFApplicationGetDeclarations<TData = DeclarationResult>(
+  ) {} testTest<TData = Blob>(
      options?: HttpClientOptions
   ): Observable<TData>  {
     return this.http.get<TData>(
-      `/api/drifapplication/declarations`,options
-    );
-  }
- dRIFApplicationCreateEOIApplication<TData = ApplicationResult>(
-    drifEoiApplication: DrifEoiApplication, options?: HttpClientOptions
-  ): Observable<TData>  {
-    return this.http.post<TData>(
-      `/api/drifapplication/eoi`,
-      drifEoiApplication,options
+      `/api/test`,{
+        responseType: 'blob',
+    ...options,}
     );
   }
 };
 
-export type DRIFApplicationGetDeclarationsClientResult = NonNullable<DeclarationResult>
-export type DRIFApplicationCreateEOIApplicationClientResult = NonNullable<ApplicationResult>
+export type TestTestClientResult = NonNullable<Blob>

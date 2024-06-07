@@ -19,9 +19,7 @@ import {
   Observable
 } from 'rxjs'
 import type {
-  ApplicationResult,
-  DeclarationResult,
-  DrifEoiApplication
+  Configuration
 } from '../../model'
 
 
@@ -42,25 +40,16 @@ type HttpClientOptions = {
 
 
 @Injectable({ providedIn: 'root' })
-export class DrifapplicationService {
+export class ConfigurationService {
   constructor(
     private http: HttpClient,
-  ) {} dRIFApplicationGetDeclarations<TData = DeclarationResult>(
+  ) {} configurationGetConfiguration<TData = Configuration>(
      options?: HttpClientOptions
   ): Observable<TData>  {
     return this.http.get<TData>(
-      `/api/drifapplication/declarations`,options
-    );
-  }
- dRIFApplicationCreateEOIApplication<TData = ApplicationResult>(
-    drifEoiApplication: DrifEoiApplication, options?: HttpClientOptions
-  ): Observable<TData>  {
-    return this.http.post<TData>(
-      `/api/drifapplication/eoi`,
-      drifEoiApplication,options
+      `/api/configuration`,options
     );
   }
 };
 
-export type DRIFApplicationGetDeclarationsClientResult = NonNullable<DeclarationResult>
-export type DRIFApplicationCreateEOIApplicationClientResult = NonNullable<ApplicationResult>
+export type ConfigurationGetConfigurationClientResult = NonNullable<Configuration>
