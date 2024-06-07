@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, isDevMode } from '@angular/core';
+import { Component, Input, inject, isDevMode } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -8,6 +8,8 @@ import { MatInputModule } from '@angular/material/input';
 import { TranslocoModule } from '@ngneat/transloco';
 import { IFormGroup } from '@rxweb/reactive-form-validators';
 import { RecaptchaFormsModule, RecaptchaModule } from 'ng-recaptcha';
+import { DrifapplicationService } from '../../api/drifapplication/drifapplication.service';
+import { DeclarationType } from '../../model';
 import {
   DeclarationForm,
   EOIApplicationForm,
@@ -34,6 +36,8 @@ import { SummaryComponent } from '../summary/summary.component';
   styleUrl: './step-8.component.scss',
 })
 export class Step8Component {
+  drifAppService = inject(DrifapplicationService);
+
   isDevMode = isDevMode();
   private _formGroup!: IFormGroup<EOIApplicationForm>;
 
@@ -43,6 +47,22 @@ export class Step8Component {
     this.declarationForm = eoiApplicationForm.get(
       'declaration'
     ) as IFormGroup<DeclarationForm>;
+  }
+
+  authorizedRepresentativeText?: string;
+  accuracyOfInformationText?: string;
+
+  ngOnInit() {
+    this.drifAppService
+      .dRIFApplicationGetDeclarations()
+      .subscribe((declarations) => {
+        this.authorizedRepresentativeText = declarations.items?.find(
+          (d) => d.type === DeclarationType.AuthorizedRepresentative
+        )?.text;
+        this.accuracyOfInformationText = declarations.items?.find(
+          (d) => d.type === DeclarationType.AccuracyOfInformation
+        )?.text;
+      });
   }
 
   get eoiApplicationForm(): IFormGroup<EOIApplicationForm> {

@@ -6,13 +6,18 @@
  */
 
 export * from './applicationResult';
+export * from './configuration';
 export * from './contactDetails';
+export * from './declarationInfo';
+export * from './declarationResult';
+export * from './declarationType';
 export * from './drifEoiApplication';
 export * from './estimatedNumberOfPeople';
 export * from './fundingInformation';
 export * from './fundingStream';
 export * from './fundingType';
 export * from './hazards';
+export * from './oidcConfiguration';
 export * from './projectType';
 export * from './proponentType';
 export * from './versionInformation';
