@@ -6,6 +6,9 @@ import {
 } from 'angular-oauth2-oidc';
 import { Observable, catchError } from 'rxjs';
 
+const includedURLs = [/^\/api\/.+$/];
+const excludedURLs = [/^\/api\/configuration\/?.*/];
+
 export const TokenInterceptor = (
   req: HttpRequest<any>,
   next: HttpHandlerFn
@@ -13,16 +16,22 @@ export const TokenInterceptor = (
   const oauthStorage = inject(OAuthStorage);
   const errorHandler = inject(OAuthResourceServerErrorHandler);
 
-  const excludeUrls = ['/assets/'];
-  if (excludeUrls.some((url) => req.url.includes(url))) {
+  if (!includedURLs.some((regexp) => regexp.test(req.url.toLowerCase()))) {
+    // all non-API requests are skipped
+    return next(req);
+  }
+
+  if (excludedURLs.some((regexp) => regexp.test(req.url.toLowerCase()))) {
+    // all configuration requests are skipped
     return next(req);
   }
 
   const token = oauthStorage.getItem('id_token');
 
-  // TODO: redirect to login page if token is not available
+  // TODO: improve by checking if authenticated
   if (!token) {
-    console.error('Token is not available');
+    // TODO: redirect to login page if token is not available?
+    console.error('Token is not available for URL:', req.url);
     return next(req);
   }
 

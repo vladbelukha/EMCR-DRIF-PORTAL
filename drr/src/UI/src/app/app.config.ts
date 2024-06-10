@@ -20,6 +20,7 @@ import { provideTransloco } from '@ngneat/transloco';
 import { provideOAuthClient } from 'angular-oauth2-oidc';
 import { provideNgxMask } from 'ngx-mask';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { filter } from 'rxjs/operators';
 import { ConfigurationService } from '../api/configuration/configuration.service';
 import { DrifapplicationService } from '../api/drifapplication/drifapplication.service';
 import { LoadingInterceptor } from '../interceptors/loading.interceptor';
@@ -80,25 +81,18 @@ export const appConfig: ApplicationConfig = {
           authService: AuthService
         ) =>
         async () => {
-          // const url = '/config';
-          // const config = await firstValueFrom(http.get<AuthConfig>(url));
-          const config = {
-            'confidential-port': 0,
-            'auth-server-url': 'https://dev.loginproxy.gov.bc.ca/auth',
-            realm: 'standard',
-            'ssl-required': 'external',
-            resource: '',
-            credentials: {
-              secret: '',
-            },
-            requireHttps: false,
-          };
+          await configurationService
+            .configurationGetConfiguration()
+            .subscribe((config) => {
+              authService.init({
+                issuer: config?.oidc?.issuer,
+                clientId: config?.oidc?.clientId,
+                scope: config?.oidc?.scope,
+                // postLogoutRedirectUri: config?.oidc?.postLogoutRedirectUrl, // TODO: solve Invalid redirect uri issue
+              });
+            });
 
-          await authService.init(config);
-          console.log('APP_INITIALIZER');
-
-          // TODO: fetch observable instead?
-          return Promise.resolve(true);
+          return authService.waitUntilAuthentication$.pipe(filter(Boolean));
         },
       multi: true,
     },

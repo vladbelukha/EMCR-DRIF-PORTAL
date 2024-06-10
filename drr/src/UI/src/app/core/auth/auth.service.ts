@@ -13,19 +13,15 @@ export class AuthService {
   // windowRef = inject(WindowRef);
 
   private _authConfig: AuthConfig = {
-    issuer: 'https://dev.loginproxy.gov.bc.ca/auth/realms/standard', // TODO: change to real issuer
-    
-    clientId: '', // TODO: change to real client id
     responseType: 'code',
     strictDiscoveryDocumentValidation: false,
-    scope: 'openid profile email offline_access',
     showDebugInformation: false,
     requireHttps: true,
     redirectUri: 'http://localhost:4200/', // TODO: it supposed to be window.location.origin, but it's not working because of SSR
     openUri: (uri: string) => {
       const url = new URL(uri);
 
-      url.searchParams.delete('id_token_hint');
+      // url.searchParams.delete('id_token_hint');
       // reconstruct url
       const reconstructUri = `${url.origin}${
         url.pathname
@@ -33,6 +29,8 @@ export class AuthService {
 
       location.href = reconstructUri;
     },
+    // redirectUriAsPostLogoutRedirectUriFallback: true,
+    // postLogoutRedirectUri: 'http://localhost:4200/', // TODO: it supposed to be window.location.origin, but it's not working because of SSR
   };
 
   isDoneLoading = signal(false);
@@ -79,6 +77,7 @@ export class AuthService {
           name: profile['name'],
           email: profile['email'],
           organization: '',
+          loggedIn: true,
         });
 
         this.isDoneLoading.set(true);

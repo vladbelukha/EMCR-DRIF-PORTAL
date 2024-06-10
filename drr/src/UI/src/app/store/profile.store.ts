@@ -4,6 +4,7 @@ export interface ProfileState {
   name: string;
   email: string;
   organization: string;
+  loggedIn: boolean;
 }
 
 type ProfileStore = {
@@ -14,6 +15,7 @@ const initialState: ProfileState = {
   name: '',
   email: '',
   organization: '',
+  loggedIn: false,
 };
 
 export const ProfileStore = signalStore(
@@ -28,6 +30,9 @@ export const ProfileStore = signalStore(
     },
     setOrganization(organization: string) {
       patchState(store, { organization });
+    },
+    setLoggedIn(loggedIn: boolean) {
+      patchState(store, { loggedIn });
     },
     setProfile(profile: ProfileState) {
       patchState(store, profile);

@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { CUSTOM_ELEMENTS_SCHEMA, Component } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Component, inject } from '@angular/core';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { TranslocoModule } from '@ngneat/transloco';
+import { AuthService } from '../core/auth/auth.service';
+import { ProfileStore } from '../store/profile.store';
 
 @Component({
   selector: 'drr-header',
@@ -20,11 +22,16 @@ import { TranslocoModule } from '@ngneat/transloco';
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class HeaderComponent {
+  profileStore = inject(ProfileStore);
+  authService = inject(AuthService);
+
   homeClick() {}
 
-  signOut() {}
+  signOut() {
+    this.authService.logout();
+  }
 
   isAuthenticated() {
-    return false;
+    return this.profileStore.loggedIn();
   }
 }

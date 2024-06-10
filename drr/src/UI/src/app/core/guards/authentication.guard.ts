@@ -4,7 +4,8 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, of, switchMap } from 'rxjs';
+import { map, take } from 'rxjs/operators';
 import { ProfileStore } from '../../store/profile.store';
 import { AuthService } from '../auth/auth.service';
 
@@ -23,7 +24,17 @@ export class AuthenticationGuard {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    console.log('logged in:', this.authService.isLoggedIn());
-    return this.authService.isLoggedIn();
+    const isAuthenticated = this.authService.waitUntilAuthentication$.pipe(
+      switchMap((isAuthenticated) =>
+        isAuthenticated ? of(this.profileStore.loggedIn()) : of(isAuthenticated)
+      )
+    );
+
+    return isAuthenticated.pipe(
+      take(1),
+      map((isAuthenticated) => {
+        return isAuthenticated;
+      })
+    );
   }
 }
