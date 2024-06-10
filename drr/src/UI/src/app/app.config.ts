@@ -4,6 +4,7 @@ import {
   withInterceptors,
 } from '@angular/common/http';
 import {
+  APP_INITIALIZER,
   ApplicationConfig,
   importProvidersFrom,
   isDevMode,
@@ -16,11 +17,15 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
 import { provideHotToastConfig } from '@ngneat/hot-toast';
 import { provideTransloco } from '@ngneat/transloco';
+import { provideOAuthClient } from 'angular-oauth2-oidc';
 import { provideNgxMask } from 'ngx-mask';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { ConfigurationService } from '../api/configuration/configuration.service';
 import { DrifapplicationService } from '../api/drifapplication/drifapplication.service';
 import { LoadingInterceptor } from '../interceptors/loading.interceptor';
 import { routes } from './app.routes';
+import { AuthService } from './core/auth/auth.service';
+import { TokenInterceptor } from './core/interceptors/token.interceptor';
 import { TranslocoHttpLoader } from './transloco-loader';
 
 export const DRR_DATE_FORMATS: MatDateFormats = {
@@ -39,7 +44,11 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideClientHydration(),
-    provideHttpClient(withFetch(), withInterceptors([LoadingInterceptor])),
+    provideHttpClient(
+      withFetch(),
+      withInterceptors([LoadingInterceptor, TokenInterceptor])
+    ),
+    provideOAuthClient(),
     provideAnimations(),
     provideLuxonDateAdapter(),
     {
@@ -62,6 +71,37 @@ export const appConfig: ApplicationConfig = {
       },
       loader: TranslocoHttpLoader,
     }),
+    {
+      provide: APP_INITIALIZER,
+      deps: [ConfigurationService, AuthService],
+      useFactory:
+        (
+          configurationService: ConfigurationService,
+          authService: AuthService
+        ) =>
+        async () => {
+          // const url = '/config';
+          // const config = await firstValueFrom(http.get<AuthConfig>(url));
+          const config = {
+            'confidential-port': 0,
+            'auth-server-url': 'https://dev.loginproxy.gov.bc.ca/auth',
+            realm: 'standard',
+            'ssl-required': 'external',
+            resource: '',
+            credentials: {
+              secret: '',
+            },
+            requireHttps: false,
+          };
+
+          await authService.init(config);
+          console.log('APP_INITIALIZER');
+
+          // TODO: fetch observable instead?
+          return Promise.resolve(true);
+        },
+      multi: true,
+    },
     importProvidersFrom(NgxSpinnerModule),
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,

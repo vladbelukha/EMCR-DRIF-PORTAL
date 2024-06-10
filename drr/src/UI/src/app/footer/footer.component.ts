@@ -27,10 +27,6 @@ export class FooterComponent {
   }
 
   ngOnInit() {
-    if (this.isDevMode) {
-      return;
-    }
-
     this.versionService.versionGetVersionInformation().subscribe((version) => {
       this.versions = version;
     });
