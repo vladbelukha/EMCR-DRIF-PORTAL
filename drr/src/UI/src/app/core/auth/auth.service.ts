@@ -17,7 +17,7 @@ export class AuthService {
     strictDiscoveryDocumentValidation: false,
     showDebugInformation: false,
     requireHttps: true,
-    redirectUri: 'http://localhost:4200/', // TODO: it supposed to be window.location.origin, but it's not working because of SSR
+    redirectUri: 'http://localhost:4200/dashboard', // TODO: it supposed to be window.location.origin, but it's not working because of SSR
     openUri: (uri: string) => {
       const url = new URL(uri);
 
@@ -40,6 +40,13 @@ export class AuthService {
   private _waitUntilAuthenticationSubject$ = new Subject<boolean>();
   waitUntilAuthentication$ =
     this._waitUntilAuthenticationSubject$.asObservable();
+
+  setConfig(authConfig: AuthConfig) {
+    this._authConfig = {
+      ...this._authConfig,
+      ...authConfig,
+    };
+  }
 
   async init(authConfig: AuthConfig) {
     this.oauthService.configure({

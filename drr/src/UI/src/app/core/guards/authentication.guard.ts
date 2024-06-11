@@ -1,10 +1,6 @@
 import { Injectable, inject } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  RouterStateSnapshot,
-  UrlTree,
-} from '@angular/router';
-import { Observable, of, switchMap } from 'rxjs';
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { of, switchMap } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { ProfileStore } from '../../store/profile.store';
 import { AuthService } from '../auth/auth.service';
@@ -16,14 +12,11 @@ export class AuthenticationGuard {
   authService = inject(AuthService);
   profileStore = inject(ProfileStore);
 
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ):
-    | Observable<boolean | UrlTree>
-    | Promise<boolean | UrlTree>
-    | boolean
-    | UrlTree {
+  async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    if (!this.profileStore.loggedIn()) {
+      await this.authService.init({});
+    }
+    
     const isAuthenticated = this.authService.waitUntilAuthentication$.pipe(
       switchMap((isAuthenticated) =>
         isAuthenticated ? of(this.profileStore.loggedIn()) : of(isAuthenticated)

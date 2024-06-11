@@ -17,6 +17,6 @@ export class LandingPageComponent {
 
   loginClick() {
     // TODO: maybe trigger login before navigating? but guard can trigger it as well more universally
-    this.router.navigate(['/eoi-application']);
+    this.router.navigate(['/dashboard']);
   }
 }

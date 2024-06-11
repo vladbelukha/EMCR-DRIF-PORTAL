@@ -7,7 +7,7 @@ import {
 import { Observable, catchError } from 'rxjs';
 
 const includedURLs = [/^\/api\/.+$/];
-const excludedURLs = [/^\/api\/configuration\/?.*/];
+const excludedURLs = [/^\/api\/configuration\/?.*/, /^\/api\/version\/?.*/];
 
 export const TokenInterceptor = (
   req: HttpRequest<any>,
@@ -22,7 +22,7 @@ export const TokenInterceptor = (
   }
 
   if (excludedURLs.some((regexp) => regexp.test(req.url.toLowerCase()))) {
-    // all configuration requests are skipped
+    // all configuration/version requests are skipped
     return next(req);
   }
 
@@ -30,8 +30,7 @@ export const TokenInterceptor = (
 
   // TODO: improve by checking if authenticated
   if (!token) {
-    // TODO: redirect to login page if token is not available?
-    console.error('Token is not available for URL:', req.url);
+    console.warn('Token is not available for URL:', req.url);
     return next(req);
   }
 
