@@ -125,5 +125,17 @@
   "TenKToFiftyK": "10,001 - 50,000",
   "FiftyKToHundredK": "50,001 - 100,000",
   "HundredKPlus": "100,001 +",
-  "Unsure": "Unsure"
+  "Unsure": "Unsure",
+  "landingInfoHeader": "Community Resilience and Adaptation Funding Tool",
+  "landingInfoText": "This tool is designed to help you determine the best funding program for your project. Please answer the following questions to get started.",
+  "landingInfoLink": "Learn more",
+  "landingMoreInfoHeader": "DMAP - information related to DMAP",
+  "landingMoreInfoText": "Content to be developed by EMCR-DMAP",
+  "landingMoreInfoLink": "Find out more",
+  "landingLoginHeader": "Login with BCeID",
+  "landingLoginText": "If you have a BCeID and would like to submit an application, you can begin by singing in below.",
+  "landingLoginButtonLabel": "Login",
+  "landingLoginForgotPassword": "Forgot your user ID or password?",
+  "landingContactHeader": "Contact Us",
+  "landingContactText": "For disaster mitigation funding support, contact: {{contact}}"
 }
