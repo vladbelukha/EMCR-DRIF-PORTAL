@@ -9,7 +9,6 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { IFormGroup } from '@rxweb/reactive-form-validators';
 import { RecaptchaFormsModule, RecaptchaModule } from 'ng-recaptcha';
 import { DrifapplicationService } from '../../api/drifapplication/drifapplication.service';
-import { DeclarationType } from '../../model';
 import {
   DeclarationForm,
   EOIApplicationForm,
@@ -53,16 +52,16 @@ export class Step8Component {
   accuracyOfInformationText?: string;
 
   ngOnInit() {
-    this.drifAppService
-      .dRIFApplicationGetDeclarations()
-      .subscribe((declarations) => {
-        this.authorizedRepresentativeText = declarations.items?.find(
-          (d) => d.type === DeclarationType.AuthorizedRepresentative
-        )?.text;
-        this.accuracyOfInformationText = declarations.items?.find(
-          (d) => d.type === DeclarationType.AccuracyOfInformation
-        )?.text;
-      });
+    // this.drifAppService
+    //   .dRIFApplicationGetDeclarations()
+    //   .subscribe((declarations) => {
+    //     this.authorizedRepresentativeText = declarations.items?.find(
+    //       (d) => d.type === DeclarationType.AuthorizedRepresentative
+    //     )?.text;
+    //     this.accuracyOfInformationText = declarations.items?.find(
+    //       (d) => d.type === DeclarationType.AccuracyOfInformation
+    //     )?.text;
+    //   });
   }
 
   get eoiApplicationForm(): IFormGroup<EOIApplicationForm> {

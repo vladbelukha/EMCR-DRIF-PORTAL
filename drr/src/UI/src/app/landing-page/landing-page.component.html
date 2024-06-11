@@ -1,0 +1,27 @@
+<div class="landing-container" *transloco="let t">
+  <div class="landing-info">
+    <h2>{{ t("landingInfoHeader") }}</h2>
+    <p>
+      {{ t("landingInfoText") }}
+    </p>
+    <a href="#">{{ t("landingInfoLink") }}</a>
+  </div>
+  <div class="landing-more">
+    <h2>{{ t("landingMoreInfoHeader") }}</h2>
+    <p>{{ t("landingMoreInfoText") }}</p>
+    <a href="#"> {{ t("landingMoreInfoLink") }}</a>
+  </div>
+  <div class="landing-login">
+    <h2>{{ t("landingLoginHeader") }}</h2>
+    <p>{{ t("landingLoginText") }}</p>
+    <button mat-raised-button color="primary" (click)="loginClick()">
+      {{ t("landingLoginButtonLabel") }}
+    </button>
+    <br />
+    <a href="#">{{ t("landingLoginForgotPassword") }}</a>
+  </div>
+  <div class="landing-contact">
+    <h2>{{ t("landingContactHeader") }}</h2>
+    <p>{{ t("landingContactText") }}</p>
+  </div>
+</div>

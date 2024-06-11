@@ -1,0 +1,16 @@
+.landing-container {
+  display: flex;
+  flex-direction: column;
+}
+
+a {
+  color: #169bd5;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+@media screen and (min-width: 769px) {
+}

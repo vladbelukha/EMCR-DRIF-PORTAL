@@ -14,28 +14,15 @@
           </a>
         </div>
 
-        <mat-divider [vertical]="true"></mat-divider>
-
         <div class="app-heading">
           <span class="heading-text1">{{ t("header") }}</span>
         </div>
 
-        <div class="menu-responsive">
-          <ng-container *ngIf="isAuthenticated()">
-            <button mat-button class="button-align" [matMenuTriggerFor]="menu">
-              <div class="row">
-                <div>
-                  <span style="color: white"> <b>lastName</b>,firstName </span>
-                </div>
-                <div>
-                  <img
-                    class="img-align"
-                    src="../../../../assets/images/down_arrow.svg"
-                    height="10"
-                    width="16"
-                  />
-                </div>
-              </div>
+        <div class="header-action">
+          <ng-container *ngIf="profileStore.loggedIn()">
+            <span style="color: white"> {{ profileStore.name() }} </span>
+            <button mat-icon-button color="primary" [matMenuTriggerFor]="menu">
+              <mat-icon>more_vert</mat-icon>
             </button>
             <mat-menu #menu="matMenu">
               <span>

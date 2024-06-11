@@ -52,7 +52,7 @@ namespace EMCR.DRR.API.Controllers
 
     public class OidcConfiguration
     {
-        public const string DefaultScopes = "openid profile email offline_access";
+        public const string DefaultScopes = "openid profile email";
         public required string Issuer { get; set; }
         public required string ClientId { get; set; }
         public required string ClientSecret { get; set; }
