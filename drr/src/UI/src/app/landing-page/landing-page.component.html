@@ -18,7 +18,11 @@
       {{ t("landingLoginButtonLabel") }}
     </button>
     <br />
-    <a href="#">{{ t("landingLoginForgotPassword") }}</a>
+    <a
+      href="{{ configurationStore.oidc!()?.accountRecoveryUrl }}"
+      target="_blank"
+      >{{ t("landingLoginForgotPassword") }}</a
+    >
   </div>
   <div class="landing-contact">
     <h2>{{ t("landingContactHeader") }}</h2>

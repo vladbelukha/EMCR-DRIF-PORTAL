@@ -36,7 +36,8 @@ namespace EMCR.DRR.API.Controllers
                     ClientSecret = configuration.GetValue<string>("oidc:clientSecret"),
                     Issuer = configuration.GetValue<string>("oidc:issuer"),
                     Scope = configuration.GetValue<string>("oidc:scope", OidcConfiguration.DefaultScopes),
-                    PostLogoutRedirectUrl = $"{configuration.GetValue<string>("oidc:bceidLogoutUrl")}?retnow=1&returl={configuration.GetValue<string>("oidc:returnUrl", "https://www2.gov.bc.ca/gov/content/safety/emergency-management/local-emergency-programs/financial")}"
+                    PostLogoutRedirectUrl = $"{configuration.GetValue<string>("oidc:bceidLogoutUrl")}?retnow=1&returl={configuration.GetValue<string>("oidc:returnUrl", "https://www2.gov.bc.ca/gov/content/safety/emergency-management/local-emergency-programs/financial")}",
+                    AccountRecoveryUrl = configuration.GetValue<string>("oidc:accountRecoveryUrl"),
                 },
             };
 #pragma warning restore CS8601 // Possible null reference assignment.
@@ -58,5 +59,6 @@ namespace EMCR.DRR.API.Controllers
         public required string ClientSecret { get; set; }
         public required string PostLogoutRedirectUrl { get; set; }
         public string Scope { get; set; } = DefaultScopes;
+        public required string AccountRecoveryUrl { get; set; }
     }
 }

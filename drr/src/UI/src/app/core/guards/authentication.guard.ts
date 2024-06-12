@@ -14,9 +14,9 @@ export class AuthenticationGuard {
 
   async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     if (!this.profileStore.loggedIn()) {
-      await this.authService.init({});
+      await this.authService.login();
     }
-    
+
     const isAuthenticated = this.authService.waitUntilAuthentication$.pipe(
       switchMap((isAuthenticated) =>
         isAuthenticated ? of(this.profileStore.loggedIn()) : of(isAuthenticated)
