@@ -15,7 +15,7 @@ export class FooterComponent {
   versionService = inject(VersionService);
 
   isDevMode = isDevMode();
-  email = 'EMBCDisasterMitigation@gov.bc.ca';
+  email = 'EMCR.DisasterMitigation@gov.bc.ca';
   versions?: VersionInformation[];
 
   get uiVersion() {
