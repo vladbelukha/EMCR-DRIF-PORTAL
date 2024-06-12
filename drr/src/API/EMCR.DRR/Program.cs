@@ -13,6 +13,8 @@ using NSwag.AspNetCore;
 using NSwag.Generation.Processors.Security;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
+using EMBC.DRR.API.Services;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
@@ -26,6 +28,8 @@ services.AddRouting(o => o.LowercaseUrls = true);
 services.AddEndpointsApiExplorer();
 services.AddIntakeManager();
 services.AddRepositories();
+services.AddTransient<IUserService, UserService>();
+services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 services.AddAutoMapper(typeof(ApplicationMapperProfile));
 services.AddAutoMapper(typeof(IntakeMapperProfile));
 services.AddCors(opts => opts.AddDefaultPolicy(policy =>
@@ -65,8 +69,10 @@ services.AddAuthentication(options =>
     {
         OnTokenValidated = async c =>
         {
-            await Task.CompletedTask;
-            var userInfo = c.Principal?.FindFirst("userInfo");
+            var userService = c.HttpContext.RequestServices.GetRequiredService<IUserService>();
+#pragma warning disable CS8604 // Possible null reference argument.
+            c.Principal = await userService.GetPrincipal(c.Principal);
+#pragma warning restore CS8604 // Possible null reference argument.
         }
     };
     options.Validate();
