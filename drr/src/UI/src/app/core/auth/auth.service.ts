@@ -1,9 +1,9 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { AuthConfig, OAuthEvent, OAuthService } from 'angular-oauth2-oidc';
 import { Subject } from 'rxjs';
+import { Configuration } from '../../../model';
 import { ConfigurationStore } from '../../store/configuration.store';
 import { ProfileStore } from '../../store/profile.store';
-import { Configuration } from '../../../model';
 
 @Injectable({
   providedIn: 'root',
@@ -83,7 +83,7 @@ export class AuthService {
         this.profileStore.setProfile({
           name: profile['name'],
           email: profile['email'],
-          organization: '',
+          organization: profile['bceid_business_name'],
           loggedIn: true,
         });
 

@@ -20,7 +20,9 @@
 
         <div class="header-action">
           <ng-container *ngIf="profileStore.loggedIn()">
-            <span style="color: white"> {{ profileStore.name() }} </span>
+            <span style="color: white">
+              {{ profileStore.organization() }}
+            </span>
             <button mat-icon-button color="primary" [matMenuTriggerFor]="menu">
               <mat-icon>more_vert</mat-icon>
             </button>
