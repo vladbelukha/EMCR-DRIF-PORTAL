@@ -8,6 +8,7 @@ export interface ConfigurationState {
     postLogoutRedirectUrl?: string;
     accountRecoveryUrl?: string;
   };
+  isConfigurationLoaded: boolean;
 }
 
 type ConfigurationStore = {
@@ -22,6 +23,7 @@ const initialState: ConfigurationState = {
     postLogoutRedirectUrl: '',
     accountRecoveryUrl: '',
   },
+  isConfigurationLoaded: false,
 };
 
 export const ConfigurationStore = signalStore(
@@ -29,7 +31,7 @@ export const ConfigurationStore = signalStore(
   withState(initialState),
   withMethods((store) => ({
     setOidc(oidc: ConfigurationState['oidc']) {
-      patchState(store, { oidc });
+      patchState(store, { oidc, isConfigurationLoaded: true });
     },
   }))
 );
