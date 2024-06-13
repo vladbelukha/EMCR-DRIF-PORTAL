@@ -1,12 +1,14 @@
 <footer>
   <mat-toolbar>
     <mat-toolbar-row>
-      <div class="footer-container">
+      <div class="footer-container" *transloco="let t">
         <div class="contact-info">
           <span
             >For disaster mitigation funding support, contact:
             <br />
-            <a href="mailto: {{ email }}">{{ email }}.</a>
+            <a href="mailto: {{ t('supportEmail') }}"
+              >{{ t("supportEmail") }}.</a
+            >
           </span>
         </div>
 

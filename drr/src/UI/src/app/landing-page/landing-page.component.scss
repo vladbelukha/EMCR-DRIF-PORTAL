@@ -1,6 +1,56 @@
+@import "../../styles/variables";
+
 .landing-container {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+}
+
+.landing-login {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px;
+  margin-left: 2rem;
+}
+
+.landing-more,
+.landing-contact {
+  background-color: #ececec;
+  padding-left: 1rem;
+}
+
+.landing-info {
+  padding-left: 1rem;
+}
+
+.landing-info,
+.landing-contact,
+.landing-more {
+  display: flex;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+
+  .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 2rem;
+    margin-right: 3rem;
+  }
+}
+
+.landing-login {
+  align-items: flex-start;
+  padding-left: 10rem;
+}
+
+.big-icon {
+  transform: scale(3);
+  color: #169bd5;
 }
 
 a {

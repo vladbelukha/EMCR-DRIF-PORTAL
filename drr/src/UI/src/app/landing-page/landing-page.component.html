@@ -1,15 +1,25 @@
 <div class="landing-container" *transloco="let t">
   <div class="landing-info">
-    <h2>{{ t("landingInfoHeader") }}</h2>
-    <p>
-      {{ t("landingInfoText") }}
-    </p>
-    <a href="#">{{ t("landingInfoLink") }}</a>
+    <div class="icon">
+      <mat-icon class="big-icon">payments</mat-icon>
+    </div>
+    <div>
+      <h2>{{ t("landingInfoHeader") }}</h2>
+      <p>
+        {{ t("landingInfoText") }}
+      </p>
+      <a href="#">{{ t("landingInfoLink") }}</a>
+    </div>
   </div>
   <div class="landing-more">
-    <h2>{{ t("landingMoreInfoHeader") }}</h2>
-    <p>{{ t("landingMoreInfoText") }}</p>
-    <a href="#"> {{ t("landingMoreInfoLink") }}</a>
+    <div class="icon">
+      <mat-icon class="big-icon">emergency</mat-icon>
+    </div>
+    <div>
+      <h2>{{ t("landingMoreInfoHeader") }}</h2>
+      <p>{{ t("landingMoreInfoText") }}</p>
+      <a href="#"> {{ t("landingMoreInfoLink") }}</a>
+    </div>
   </div>
   <div class="landing-login">
     <h2>{{ t("landingLoginHeader") }}</h2>
@@ -25,7 +35,12 @@
     >
   </div>
   <div class="landing-contact">
-    <h2>{{ t("landingContactHeader") }}</h2>
-    <p>{{ t("landingContactText") }}</p>
+    <div class="icon">
+      <mat-icon class="big-icon">support_agent</mat-icon>
+    </div>
+    <div>
+      <h2>{{ t("landingContactHeader") }}</h2>
+      <p>{{ t("landingContactText") }} {{ t("supportEmail") }}</p>
+    </div>
   </div>
 </div>
