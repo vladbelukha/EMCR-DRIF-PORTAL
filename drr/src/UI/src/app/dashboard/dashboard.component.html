@@ -19,12 +19,13 @@
         </mat-card-header>
         <mat-card-content class="card-content">
           <p>You have <strong>3</strong> new notifications.</p>
-          <mat-list>
-            <mat-list-item *ngFor="let notification of notifications">
-              <h4 mat-line>{{ notification.title }}</h4>
-              <p mat-line>{{ notification.message }}</p>
-            </mat-list-item>
-          </mat-list>
+
+          <div *ngFor="let notification of notifications">
+            <p>{{ notification.title }}</p>
+            <p>
+              <i>{{ notification.message }}</i>
+            </p>
+          </div>
         </mat-card-content>
       </mat-card>
 
@@ -48,7 +49,6 @@
       <mat-card>
         <mat-card-header>
           <mat-card-title>
-            <mat-icon>support_agent</mat-icon>
             <span>Help & Support</span>
           </mat-card-title>
         </mat-card-header>
@@ -87,27 +87,36 @@
       </mat-card>
     </div>
   </mat-tab>
-  <mat-tab label="Create Submission">
+  <mat-tab label="Submissions">
     <div class="tab">
-      <h2>Create a new submission:</h2>
-      <button mat-raised-button color="primary" (click)="onCreateFormClick()">
-        Create DRIFT Form
-      </button>
-    </div>
-  </mat-tab>
-  <mat-tab label="Manage Submission">
-    <div class="tab application-list">
-      <h2>You have submitted <strong>5</strong> forms in total.</h2>
-      <div *ngFor="let application of applications">
-        <h4>{{ application.title }}</h4>
-        <p>Status: {{ application.status }}</p>
-        <p>Date: {{ application.date | date : "YYYY-MM-dd" }}</p>
-        <button
-          mat-raised-button
-          color="primary"
-          (click)="onViewFormClick(application.id)"
-        >
-          View Form
+      <table class="application-list">
+        <tr>
+          <th>Title</th>
+          <th>Status</th>
+          <th>Date</th>
+          <th>Actions</th>
+        </tr>
+        <tr *ngFor="let application of applications">
+          <td>{{ application.title }}</td>
+          <td>{{ application.status }}</td>
+          <td>{{ application.date | date : "YYYY-MM-dd" }}</td>
+          <td>
+            <button
+              mat-button
+              color="primary"
+              (click)="onViewFormClick(application.id)"
+            >
+              View
+            </button>
+          </td>
+        </tr>
+      </table>
+
+      <div>
+        <p>Create a new submission:</p>
+        <button mat-raised-button color="primary" (click)="onCreateFormClick()">
+          <mat-icon>add</mat-icon>
+          <span>Create DRIFT Form</span>
         </button>
       </div>
     </div>

@@ -47,25 +47,25 @@ export class DashboardComponent {
   applications = [
     {
       id: '1',
-      title: 'Application for the new project',
+      title: 'Park renovation project application',
       status: 'Draft',
       date: '2021-06-01',
     },
     {
       id: '2',
-      title: 'Application for the new project',
+      title: 'New construction project application',
       status: 'Submitted',
       date: '2021-04-05',
     },
     {
       id: '3',
-      title: 'Application for the new project',
+      title: 'Environmental assessment application',
       status: 'Under Review',
       date: '2021-05-16',
     },
     {
       id: '4',
-      title: 'Application for the new project',
+      title: 'Beach cleanup project application',
       status: 'Rejected',
       date: '2021-03-01',
     },
