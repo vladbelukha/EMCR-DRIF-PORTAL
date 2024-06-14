@@ -5,7 +5,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatTabsModule } from '@angular/material/tabs';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { TranslocoModule } from '@ngneat/transloco';
 import { ProfileStore } from '../store/profile.store';
 
 @Component({
@@ -18,6 +19,7 @@ import { ProfileStore } from '../store/profile.store';
     MatExpansionModule,
     MatIconModule,
     MatListModule,
+    TranslocoModule,
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
@@ -25,6 +27,7 @@ import { ProfileStore } from '../store/profile.store';
 export class DashboardComponent {
   router = inject(Router);
   profileStore = inject(ProfileStore);
+  activatedRoute = inject(ActivatedRoute);
 
   notifications = [
     {
@@ -67,6 +70,12 @@ export class DashboardComponent {
       date: '2021-03-01',
     },
   ];
+
+  ngOnInit() {
+    if (this.activatedRoute.snapshot.queryParams['state']) {
+      this.router.navigate([], { queryParams: {}, skipLocationChange: true });
+    }
+  }
 
   onCreateFormClick() {
     this.router.navigate(['/eoi-application']);

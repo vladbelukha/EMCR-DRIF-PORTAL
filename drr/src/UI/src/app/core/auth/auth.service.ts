@@ -46,6 +46,21 @@ export class AuthService {
   }
 
   async login(customConfiuration?: AuthConfig) {
+    if (this.isLoggedIn()) {
+      this.isDoneLoading.set(true);
+      this.isAuthenticationSuccessful.set(true);
+      this._waitUntilAuthenticationSubject$.next(true);
+
+      this.profileStore.setProfile({
+        name: this.getProfile()['name'],
+        email: this.getProfile()['email'],
+        organization: this.getProfile()['bceid_business_name'],
+        loggedIn: true,
+      });
+
+      return;
+    }
+
     const configuration = this.configurationStore.oidc!();
 
     this.oauthService.configure({

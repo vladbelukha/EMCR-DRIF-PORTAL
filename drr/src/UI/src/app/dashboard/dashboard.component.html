@@ -1,4 +1,4 @@
-<mat-tab-group>
+<mat-tab-group *transloco="let t">
   <mat-tab label="Dashboard">
     <div class="tab dashboard">
       <mat-expansion-panel [expanded]="true" [hideToggle]="true">
@@ -47,7 +47,14 @@
             <span>Help & Support</span>
           </mat-panel-title>
         </mat-expansion-panel-header>
-        <p>Need help? Contact us at <strong>SUPPORT_EMAIL </strong></p>
+        <p>
+          Need help? Contact us at
+          <strong
+            ><a href="mailto: {{ t('supportEmail') }}">{{
+              t("supportEmail")
+            }}</a>
+          </strong>
+        </p>
       </mat-expansion-panel>
 
       <mat-expansion-panel [expanded]="true" [hideToggle]="true">

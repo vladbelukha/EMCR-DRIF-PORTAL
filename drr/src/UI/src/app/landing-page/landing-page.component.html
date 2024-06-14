@@ -1,19 +1,14 @@
 <div class="landing-container" *transloco="let t">
   <div class="landing-info">
-    <div class="icon">
-      <mat-icon class="big-icon">payments</mat-icon>
-    </div>
-    <div>
-      <h2>{{ t("landingInfoHeader") }}</h2>
-      <p>
-        {{ t("landingInfoText") }}
-      </p>
-      <a href="#">{{ t("landingInfoLink") }}</a>
-    </div>
+    <h1>{{ t("landingInfoHeader") }}</h1>
+    <p>
+      {{ t("landingInfoText") }}
+    </p>
+    <a href="#">{{ t("landingInfoLink") }}</a>
   </div>
   <div class="landing-more">
-    <div class="icon">
-      <mat-icon class="big-icon">emergency</mat-icon>
+    <div>
+      <img src="assets/images/person.svg" width="128" height="128" />
     </div>
     <div>
       <h2>{{ t("landingMoreInfoHeader") }}</h2>
@@ -22,25 +17,29 @@
     </div>
   </div>
   <div class="landing-login">
-    <h2>{{ t("landingLoginHeader") }}</h2>
-    <p>{{ t("landingLoginText") }}</p>
-    <button mat-raised-button color="primary" (click)="loginClick()">
-      {{ t("landingLoginButtonLabel") }}
-    </button>
-    <br />
-    <a
-      href="{{ configurationStore.oidc!()?.accountRecoveryUrl }}"
-      target="_blank"
-      >{{ t("landingLoginForgotPassword") }}</a
-    >
+    <div>
+      <h2>{{ t("landingLoginHeader") }}</h2>
+      <p>{{ t("landingLoginText") }}</p>
+      <button mat-raised-button color="primary" (click)="loginClick()">
+        {{ t("landingLoginButtonLabel") }}
+      </button>
+      <br />
+      <a
+        href="{{ configurationStore.oidc!()?.accountRecoveryUrl }}"
+        target="_blank"
+        >{{ t("landingLoginForgotPassword") }}</a
+      >
+    </div>
+    <img src="assets/images/umbrella.svg" width="128" height="128" />
   </div>
   <div class="landing-contact">
-    <div class="icon">
-      <mat-icon class="big-icon">support_agent</mat-icon>
-    </div>
+    <img src="assets/images/contact.svg" width="128" height="128" />
     <div>
       <h2>{{ t("landingContactHeader") }}</h2>
-      <p>{{ t("landingContactText") }} {{ t("supportEmail") }}</p>
+      <p>
+        {{ t("landingContactText") }}
+        <a href="mailto: {{ t('supportEmail') }}">{{ t("supportEmail") }}</a>
+      </p>
     </div>
   </div>
 </div>
