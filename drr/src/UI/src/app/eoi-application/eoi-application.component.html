@@ -2,9 +2,14 @@
   <div class="app-stepper-header">
     <h1>{{ t("formHeader") }}</h1>
     <div class="save-info">
-      <i *ngIf="lastSavedAt"
-        >Saved at {{ lastSavedAt | date : "mediumTime" }}</i
-      >
+      <div style="display: flex; flex-direction: column">
+        <i *ngIf="lastSavedAt"
+          >Saved at {{ lastSavedAt | date : "mediumTime" }}</i
+        >
+        <i *ngIf="autoSaveCountdown <= 10 && autoSaveCountdown > 0"
+          >Saving in {{ autoSaveCountdown }} seconds</i
+        >
+      </div>
       <button mat-flat-button color="primary" (click)="save()">
         <mat-icon>save</mat-icon>
         Save

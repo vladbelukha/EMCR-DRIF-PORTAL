@@ -116,15 +116,25 @@ export class EOIApplicationComponent {
   @HostListener('window:touchmove')
   resetAutoSaveTimer() {
     if (!this.formChanged) {
+      this.autoSaveCountdown = 0;
+      clearInterval(this.autoSaveTimer);
       return;
     }
+
+    this.autoSaveCountdown = 15;
     console.log('reset timer');
-    clearTimeout(this.autoSaveTimer);
-    this.autoSaveTimer = setTimeout(() => this.save(), 10000);
+    clearInterval(this.autoSaveTimer);
+    this.autoSaveTimer = setInterval(() => {
+      this.autoSaveCountdown -= 1;
+      if (this.autoSaveCountdown === 0) {
+        this.save();
+        clearInterval(this.autoSaveTimer);
+      }
+    }, 1000);
   }
 
   autoSaveTimer: any;
-  autoSaveCountdown = 10;
+  autoSaveCountdown = 0;
   formChanged = false;
 
   ngOnInit() {
@@ -137,7 +147,7 @@ export class EOIApplicationComponent {
     this.eoiApplicationForm.valueChanges
       .pipe(distinctUntilChanged())
       .subscribe(() => {
-        this.formChanged = this.eoiApplicationForm.touched;
+        this.formChanged = this.eoiApplicationForm.dirty;
         this.resetAutoSaveTimer();
       });
   }
