@@ -182,19 +182,39 @@ export class EOIApplicationComponent {
   lastSavedAt?: Date;
 
   save() {
-    if (!this.formChanged) {
-      return;
-    }
-
     this.lastSavedAt = new Date();
 
-    this.hotToast.close();
-    this.hotToast.success('Application saved successfully', {
-      duration: 5000,
-      autoClose: true,
-    });
+    const eoiApplicationForm =
+      this.eoiApplicationForm.getRawValue() as EOIApplicationForm;
 
-    this.formChanged = false;
+    const drifEoiApplication = {
+      ...eoiApplicationForm.proponentInformation,
+      ...eoiApplicationForm.projectInformation,
+      ...eoiApplicationForm.fundingInformation,
+      ...eoiApplicationForm.locationInformation,
+      ...eoiApplicationForm.projectDetails,
+      ...eoiApplicationForm.engagementPlan,
+      ...eoiApplicationForm.otherSupportingInformation,
+      ...eoiApplicationForm.declaration,
+    } as DrifEoiApplication;
+
+    this.applicationService
+      .dRIFApplicationCreateDraftEOIApplication(drifEoiApplication)
+      .subscribe(
+        (response) => {
+          this.hotToast.close();
+          this.hotToast.success('Application saved successfully', {
+            duration: 5000,
+            autoClose: true,
+          });
+
+          this.formChanged = false;
+        },
+        (error) => {
+          this.hotToast.close();
+          this.hotToast.error('Failed to save application');
+        }
+      );
   }
 
   submit() {

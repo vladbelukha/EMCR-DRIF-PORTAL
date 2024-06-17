@@ -287,7 +287,7 @@ namespace EMCR.DRR.Controllers
     public class DraftFundingInformation
     {
         public string? Name { get; set; }
-        public FundingType Type { get; set; }
+        public FundingType? Type { get; set; }
         [Range(0, ApplicationValidators.FUNDING_MAX_VAL)]
         public decimal? Amount { get; set; }
         public string? OtherDescription { get; set; }
