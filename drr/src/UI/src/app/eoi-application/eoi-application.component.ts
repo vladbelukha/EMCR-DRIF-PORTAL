@@ -121,6 +121,8 @@ export class EOIApplicationComponent {
   }
 
   stepperSelectionChange(event: StepperSelectionEvent) {
+    this.save();
+
     event.previouslySelectedStep.stepControl.markAllAsTouched();
 
     if (this.stepperOrientation === 'horizontal') {
@@ -138,6 +140,19 @@ export class EOIApplicationComponent {
         });
       }, 250);
     }
+  }
+
+  // TODO: remove later
+  lastSavedAt?: Date;
+
+  save() {
+    this.lastSavedAt = new Date();
+
+    this.hotToast.close();
+    this.hotToast.success('Application saved successfully', {
+      duration: 5000,
+      autoClose: true,
+    });
   }
 
   submit() {
