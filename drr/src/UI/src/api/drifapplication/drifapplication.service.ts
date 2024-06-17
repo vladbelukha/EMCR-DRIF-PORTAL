@@ -21,6 +21,7 @@ import {
 import type {
   ApplicationResult,
   DeclarationResult,
+  DrifDrafEoiApplication,
   DrifEoiApplication
 } from '../../model'
 
@@ -45,7 +46,14 @@ type HttpClientOptions = {
 export class DrifapplicationService {
   constructor(
     private http: HttpClient,
-  ) {} dRIFApplicationGetDeclarations<TData = DeclarationResult>(
+  ) {} dRIFApplicationGet<TData = DrifEoiApplication[]>(
+     options?: HttpClientOptions
+  ): Observable<TData>  {
+    return this.http.get<TData>(
+      `/api/drifapplication`,options
+    );
+  }
+ dRIFApplicationGetDeclarations<TData = DeclarationResult>(
      options?: HttpClientOptions
   ): Observable<TData>  {
     return this.http.get<TData>(
@@ -60,7 +68,17 @@ export class DrifapplicationService {
       drifEoiApplication,options
     );
   }
+ dRIFApplicationCreateDraftEOIApplication<TData = ApplicationResult>(
+    drifDrafEoiApplication: DrifDrafEoiApplication, options?: HttpClientOptions
+  ): Observable<TData>  {
+    return this.http.post<TData>(
+      `/api/drifapplication/eoi/draft`,
+      drifDrafEoiApplication,options
+    );
+  }
 };
 
+export type DRIFApplicationGetClientResult = NonNullable<DrifEoiApplication[]>
 export type DRIFApplicationGetDeclarationsClientResult = NonNullable<DeclarationResult>
 export type DRIFApplicationCreateEOIApplicationClientResult = NonNullable<ApplicationResult>
+export type DRIFApplicationCreateDraftEOIApplicationClientResult = NonNullable<ApplicationResult>
