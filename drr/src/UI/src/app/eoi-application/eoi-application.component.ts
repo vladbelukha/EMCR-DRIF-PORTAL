@@ -4,7 +4,7 @@ import {
   StepperSelectionEvent,
 } from '@angular/cdk/stepper';
 import { CommonModule } from '@angular/common';
-import { Component, ViewChild, inject } from '@angular/core';
+import { Component, HostListener, ViewChild, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -28,6 +28,7 @@ import {
   RxFormBuilder,
   RxFormGroup,
 } from '@rxweb/reactive-form-validators';
+import { distinctUntilChanged } from 'rxjs/operators';
 import { DrifapplicationService } from '../../api/drifapplication/drifapplication.service';
 import { DrifEoiApplication, Hazards } from '../../model';
 import { Step1Component } from '../step-1/step-1.component';
@@ -108,11 +109,36 @@ export class EOIApplicationComponent {
     declaration: 'Step 8',
   };
 
+  @HostListener('window:mousemove')
+  @HostListener('window:mousedown')
+  @HostListener('window:keypress')
+  @HostListener('window:scroll')
+  @HostListener('window:touchmove')
+  resetAutoSaveTimer() {
+    if (!this.formChanged) {
+      return;
+    }
+    console.log('reset timer');
+    clearTimeout(this.autoSaveTimer);
+    this.autoSaveTimer = setTimeout(() => this.save(), 10000);
+  }
+
+  autoSaveTimer: any;
+  autoSaveCountdown = 10;
+  formChanged = false;
+
   ngOnInit() {
     this.breakpointObserver
       .observe('(min-width: 768px)')
       .subscribe(({ matches }) => {
         this.stepperOrientation = matches ? 'horizontal' : 'vertical';
+      });
+
+    this.eoiApplicationForm.valueChanges
+      .pipe(distinctUntilChanged())
+      .subscribe(() => {
+        this.formChanged = this.eoiApplicationForm.touched;
+        this.resetAutoSaveTimer();
       });
   }
 
@@ -146,6 +172,10 @@ export class EOIApplicationComponent {
   lastSavedAt?: Date;
 
   save() {
+    if (!this.formChanged) {
+      return;
+    }
+
     this.lastSavedAt = new Date();
 
     this.hotToast.close();
@@ -153,6 +183,8 @@ export class EOIApplicationComponent {
       duration: 5000,
       autoClose: true,
     });
+
+    this.formChanged = false;
   }
 
   submit() {
