@@ -168,14 +168,21 @@ export class EOIApplicationComponent {
         });
     } else {
       // TODO: probably iniate form here instead to avoid ExpressionChangedAfterItHasBeenCheckedError
+      // btw, happens only when form is disaaled
     }
 
-    this.eoiApplicationForm.valueChanges
-      .pipe(distinctUntilChanged())
-      .subscribe(() => {
-        this.formChanged = this.eoiApplicationForm.dirty;
-        this.resetAutoSaveTimer();
-      });
+    setTimeout(() => {
+      this.eoiApplicationForm.valueChanges
+        .pipe(
+          distinctUntilChanged((a, b) => {
+            return JSON.stringify(a) == JSON.stringify(b);
+          })
+        )
+        .subscribe(() => {
+          this.formChanged = true;
+          this.resetAutoSaveTimer();
+        });
+    }, 1000); // TOOD: temp workaround to prevent empty form intiation triggering form change
   }
 
   getFormGroup(groupName: string) {
