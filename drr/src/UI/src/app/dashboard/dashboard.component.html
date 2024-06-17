@@ -89,7 +89,14 @@
   </mat-tab>
   <mat-tab label="Submissions">
     <div class="tab">
-      <table class="application-list">
+      <div class="submissions-header">
+        <h2>Submissions</h2>
+        <button mat-raised-button color="primary" (click)="onCreateFormClick()">
+          <mat-icon>add</mat-icon>
+          <span>Create DRIFT Form</span>
+        </button>
+      </div>
+      <table class="submissions-list">
         <tr>
           <th>Title</th>
           <th>Status</th>
@@ -111,14 +118,6 @@
           </td>
         </tr>
       </table>
-
-      <div>
-        <p>Create a new submission:</p>
-        <button mat-raised-button color="primary" (click)="onCreateFormClick()">
-          <mat-icon>add</mat-icon>
-          <span>Create DRIFT Form</span>
-        </button>
-      </div>
     </div>
   </mat-tab>
 </mat-tab-group>

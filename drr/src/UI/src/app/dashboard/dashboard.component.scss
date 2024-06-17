@@ -10,7 +10,13 @@
   gap: 1rem;
 }
 
-.application-list {
+.submissions-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.submissions-list {
   width: 100%;
   text-align: center;
 
@@ -24,9 +30,15 @@
   }
 }
 
-// ::ng-deep .mdc-tab--active .mdc-tab-indicator {
-//   background-color: map-get($theme-colors, primary-nav);
-// }
+::ng-deep .mdc-tab--active .mdc-tab-indicator {
+  background-color: map-get($theme-colors, primary-nav);
+}
+
+::ng-deep .mdc-tab--active .mdc-tab__text-label {
+  color: white !important;
+  font-weight: bold;
+  font-size: 1rem;
+}
 
 ::ng-deep .mat-mdc-card-header {
   background-color: map-get($theme-colors, primary-nav);
