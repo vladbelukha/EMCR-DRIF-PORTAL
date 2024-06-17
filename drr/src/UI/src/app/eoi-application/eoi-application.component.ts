@@ -20,7 +20,7 @@ import {
   MatStepperModule,
   StepperOrientation,
 } from '@angular/material/stepper';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HotToastService } from '@ngneat/hot-toast';
 import { TranslocoModule } from '@ngneat/transloco';
 import {
@@ -89,6 +89,7 @@ export class EOIApplicationComponent {
   formBuilder = inject(RxFormBuilder);
   applicationService = inject(DrifapplicationService);
   router = inject(Router);
+  route = inject(ActivatedRoute);
   hotToast = inject(HotToastService);
   breakpointObserver = inject(BreakpointObserver);
 
@@ -143,6 +144,31 @@ export class EOIApplicationComponent {
       .subscribe(({ matches }) => {
         this.stepperOrientation = matches ? 'horizontal' : 'vertical';
       });
+
+    // fetch router params
+    const id = this.route.snapshot.params['id'];
+    if (id) {
+      this.applicationService
+        .dRIFApplicationGet(id)
+        .subscribe((application) => {
+          // transform application into step forms
+          const eoiApplicationForm: EOIApplicationForm = {
+            proponentInformation: {
+              ...application,
+            },
+          };
+
+          this.eoiApplicationForm.patchValue(eoiApplicationForm, {
+            emitEvent: false,
+          });
+
+          if (application.status == 'Submitted') {
+            this.eoiApplicationForm.disable();
+          }
+        });
+    } else {
+      // TODO: probably iniate form here instead to avoid ExpressionChangedAfterItHasBeenCheckedError
+    }
 
     this.eoiApplicationForm.valueChanges
       .pipe(distinctUntilChanged())

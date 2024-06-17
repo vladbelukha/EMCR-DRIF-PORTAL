@@ -6,6 +6,8 @@
  */
 
 export * from './applicationResult';
+export * from './applicationStatus';
+export * from './cRAFTApplication';
 export * from './configuration';
 export * from './contactDetails';
 export * from './declarationInfo';

@@ -17,5 +17,6 @@ export interface DraftFundingInformation {
   name?: string;
   /** @nullable */
   otherDescription?: string;
+  /** @nullable */
   type?: FundingType;
 }

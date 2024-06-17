@@ -20,6 +20,7 @@ import {
 } from 'rxjs'
 import type {
   ApplicationResult,
+  CRAFTApplication,
   DeclarationResult,
   DrifDrafEoiApplication,
   DrifEoiApplication
@@ -46,11 +47,18 @@ type HttpClientOptions = {
 export class DrifapplicationService {
   constructor(
     private http: HttpClient,
-  ) {} dRIFApplicationGet<TData = DrifEoiApplication[]>(
+  ) {} dRIFApplicationGetAll<TData = CRAFTApplication[]>(
      options?: HttpClientOptions
   ): Observable<TData>  {
     return this.http.get<TData>(
       `/api/drifapplication`,options
+    );
+  }
+ dRIFApplicationGet<TData = DrifEoiApplication>(
+    id: string, options?: HttpClientOptions
+  ): Observable<TData>  {
+    return this.http.get<TData>(
+      `/api/drifapplication/${id}`,options
     );
   }
  dRIFApplicationGetDeclarations<TData = DeclarationResult>(
@@ -78,7 +86,8 @@ export class DrifapplicationService {
   }
 };
 
-export type DRIFApplicationGetClientResult = NonNullable<DrifEoiApplication[]>
+export type DRIFApplicationGetAllClientResult = NonNullable<CRAFTApplication[]>
+export type DRIFApplicationGetClientResult = NonNullable<DrifEoiApplication>
 export type DRIFApplicationGetDeclarationsClientResult = NonNullable<DeclarationResult>
 export type DRIFApplicationCreateEOIApplicationClientResult = NonNullable<ApplicationResult>
 export type DRIFApplicationCreateDraftEOIApplicationClientResult = NonNullable<ApplicationResult>

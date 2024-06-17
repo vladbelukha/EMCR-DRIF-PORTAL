@@ -104,14 +104,18 @@
           <th>Actions</th>
         </tr>
         <tr *ngFor="let application of applications">
-          <td>{{ application.title }}</td>
-          <td>{{ application.status }}</td>
-          <td>{{ application.date | date : "YYYY-MM-dd" }}</td>
+          <td>{{ application.projectTitle }}</td>
+          <td>
+            <mat-chip>
+              {{ application.status }}
+            </mat-chip>
+          </td>
+          <td>{{ application.createdTime | date : "YYYY-MM-dd" }}</td>
           <td>
             <button
               mat-button
               color="primary"
-              (click)="onViewFormClick(application.id)"
+              (click)="onViewFormClick(application.id!)"
             >
               View
             </button>
