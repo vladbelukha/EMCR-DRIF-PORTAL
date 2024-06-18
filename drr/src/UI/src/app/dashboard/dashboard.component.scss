@@ -1,7 +1,11 @@
 @import "../../styles/_variables.scss";
 
+.dashboard-tabs-container {
+  margin: 1rem;
+}
+
 .tab {
-  padding: 1rem;
+  padding: 1rem 0;
 }
 
 .dashboard {
@@ -25,13 +29,18 @@
   }
 
   th {
-    background-color: map-get($theme-colors, primary-nav);
+    background-color: map-get($theme-colors, secondary-nav);
     color: white;
+    height: 2rem;
   }
 }
 
+::ng-deep .mdc-tab .mdc-tab-indicator {
+  background-color: $gray-400;
+}
+
 ::ng-deep .mdc-tab--active .mdc-tab-indicator {
-  background-color: map-get($theme-colors, primary-nav);
+  background-color: map-get($theme-colors, secondary-nav);
 }
 
 ::ng-deep .mdc-tab--active .mdc-tab__text-label {
@@ -41,7 +50,7 @@
 }
 
 ::ng-deep .mat-mdc-card-header {
-  background-color: map-get($theme-colors, primary-nav);
+  background-color: map-get($theme-colors, secondary-nav);
   color: white;
   padding-bottom: 16px !important;
 }

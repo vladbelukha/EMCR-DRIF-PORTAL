@@ -156,6 +156,24 @@ export class EOIApplicationComponent {
             proponentInformation: {
               ...application,
             },
+            projectInformation: {
+              ...application,
+            },
+            fundingInformation: {
+              ...application,
+            },
+            locationInformation: {
+              ...application,
+            },
+            projectDetails: {
+              ...application,
+            },
+            engagementPlan: {
+              ...application,
+            },
+            otherSupportingInformation: {
+              ...application,
+            },
           };
 
           this.eoiApplicationForm.patchValue(eoiApplicationForm, {
