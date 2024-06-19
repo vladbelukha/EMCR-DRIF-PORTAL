@@ -28,7 +28,6 @@ export const TokenInterceptor = (
 
   const token = oauthStorage.getItem('id_token');
 
-  // TODO: improve by checking if authenticated
   if (!token) {
     console.warn('Token is not available for URL:', req.url);
     return next(req);

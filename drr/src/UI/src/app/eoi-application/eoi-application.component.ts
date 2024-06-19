@@ -184,9 +184,6 @@ export class EOIApplicationComponent {
             this.eoiApplicationForm.disable();
           }
         });
-    } else {
-      // TODO: probably iniate form here instead to avoid ExpressionChangedAfterItHasBeenCheckedError
-      // btw, happens only when form is disaaled
     }
 
     setTimeout(() => {
