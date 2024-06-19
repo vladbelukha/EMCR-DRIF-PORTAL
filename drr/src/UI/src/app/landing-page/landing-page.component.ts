@@ -18,7 +18,6 @@ export class LandingPageComponent {
   configurationStore = inject(ConfigurationStore);
 
   loginClick() {
-    // TODO: maybe trigger login before navigating? but guard can trigger it as well more universally
     this.router.navigate(['/dashboard']);
   }
 }

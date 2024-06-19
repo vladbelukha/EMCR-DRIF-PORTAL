@@ -13,26 +13,6 @@ export class AuthService {
   profileStore = inject(ProfileStore);
   configurationStore = inject(ConfigurationStore);
 
-  private _authConfig: AuthConfig = {
-    responseType: 'code',
-    strictDiscoveryDocumentValidation: false,
-    showDebugInformation: false,
-    requireHttps: true,
-    redirectUri: 'http://localhost:4200/dashboard', // TODO: it supposed to be window.location.origin, but it's not working because of SSR
-    openUri: (uri: string) => {
-      const url = new URL(uri);
-
-      // url.searchParams.delete('id_token_hint');
-      // reconstruct url
-      const reconstructUri = `${url.origin}${
-        url.pathname
-      }?${url.searchParams.toString()}`;
-
-      location.href = reconstructUri;
-    },
-    postLogoutRedirectUri: 'http://localhost:4200/', // TODO: it supposed to be window.location.origin, but it's not working because of SSR
-  };
-
   isDoneLoading = signal(false);
 
   isAuthenticationSuccessful = signal(false);
@@ -46,6 +26,28 @@ export class AuthService {
   }
 
   async login(customConfiuration?: AuthConfig) {
+    console.log('login: ', window.location.origin);
+
+    const authConfig: AuthConfig = {
+      responseType: 'code',
+      strictDiscoveryDocumentValidation: false,
+      showDebugInformation: false,
+      requireHttps: true,
+      redirectUri: window.location.origin + '/dashboard',
+      openUri: (uri: string) => {
+        const url = new URL(uri);
+
+        // url.searchParams.delete('id_token_hint');
+        // reconstruct url
+        const reconstructUri = `${url.origin}${
+          url.pathname
+        }?${url.searchParams.toString()}`;
+
+        location.href = reconstructUri;
+      },
+      postLogoutRedirectUri: window.location.origin, // TODO: maybe it supposed to be landing page?
+    };
+
     if (this.isLoggedIn()) {
       this.isDoneLoading.set(true);
       this.isAuthenticationSuccessful.set(true);
@@ -64,7 +66,7 @@ export class AuthService {
     const configuration = this.configurationStore.oidc!();
 
     this.oauthService.configure({
-      ...this._authConfig,
+      ...authConfig,
       ...configuration,
       ...customConfiuration,
     });
@@ -93,8 +95,7 @@ export class AuthService {
 
       if (isLoggedIn) {
         const profile = this.getProfile();
-        // TODO: API call to fetch more data about user?
-        // TODO: most likely profile is organization, not the user
+        // TODO: API call to fetch more data about user
         this.profileStore.setProfile({
           name: profile['name'],
           email: profile['email'],
