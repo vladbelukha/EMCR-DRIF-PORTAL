@@ -84,12 +84,7 @@ export const appConfig: ApplicationConfig = {
           await configurationService
             .configurationGetConfiguration()
             .subscribe((config) => {
-              authService.setConfig({
-                issuer: config?.oidc?.issuer,
-                clientId: config?.oidc?.clientId,
-                scope: config?.oidc?.scope,
-                // postLogoutRedirectUri: config?.oidc?.postLogoutRedirectUrl, // TODO: solve Invalid redirect uri issue
-              });
+              authService.setConfig(config);
             });
 
           return authService.waitUntilAuthentication$.pipe(filter(Boolean));

@@ -1,6 +1,62 @@
+@import "../../styles/variables";
+
 .landing-container {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+}
+
+.landing-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  padding-left: 3rem;
+
+  background-color: map-get($theme-colors, primary-nav);
+  color: white;
+
+  p {
+    width: 50%;
+  }
+}
+
+.landing-more {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  gap: 2rem;
+  padding-left: 2rem;
+  background-color: #ececec;
+}
+
+.landing-login {
+  display: flex;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  padding-left: 10rem;
+  gap: 2rem;
+  align-items: flex-start;
+
+  div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.landing-contact {
+  display: flex;
+  align-items: center;
+  padding-left: 3rem;
+  gap: 2rem;
+  height: 100%;
+  background-color: map-get($theme-colors, primary-nav);
+  color: white;
 }
 
 a {

@@ -1,27 +1,45 @@
 <div class="landing-container" *transloco="let t">
   <div class="landing-info">
-    <h2>{{ t("landingInfoHeader") }}</h2>
+    <h1>{{ t("header") }}</h1>
     <p>
       {{ t("landingInfoText") }}
     </p>
     <a href="#">{{ t("landingInfoLink") }}</a>
   </div>
   <div class="landing-more">
-    <h2>{{ t("landingMoreInfoHeader") }}</h2>
-    <p>{{ t("landingMoreInfoText") }}</p>
-    <a href="#"> {{ t("landingMoreInfoLink") }}</a>
+    <div>
+      <img src="assets/images/person.svg" width="128" height="128" />
+    </div>
+    <div>
+      <h2>{{ t("landingMoreInfoHeader") }}</h2>
+      <p>{{ t("landingMoreInfoText") }}</p>
+      <a href="#"> {{ t("landingMoreInfoLink") }}</a>
+    </div>
   </div>
   <div class="landing-login">
-    <h2>{{ t("landingLoginHeader") }}</h2>
-    <p>{{ t("landingLoginText") }}</p>
-    <button mat-raised-button color="primary" (click)="loginClick()">
-      {{ t("landingLoginButtonLabel") }}
-    </button>
-    <br />
-    <a href="#">{{ t("landingLoginForgotPassword") }}</a>
+    <div>
+      <h2>{{ t("landingLoginHeader") }}</h2>
+      <p>{{ t("landingLoginText") }}</p>
+      <button mat-raised-button color="primary" (click)="loginClick()">
+        {{ t("landingLoginButtonLabel") }}
+      </button>
+      <br />
+      <a
+        href="{{ configurationStore.oidc!()?.accountRecoveryUrl }}"
+        target="_blank"
+        >{{ t("landingLoginForgotPassword") }}</a
+      >
+    </div>
+    <img src="assets/images/umbrella.svg" width="128" height="128" />
   </div>
   <div class="landing-contact">
-    <h2>{{ t("landingContactHeader") }}</h2>
-    <p>{{ t("landingContactText") }}</p>
+    <img src="assets/images/contact.svg" width="128" height="128" />
+    <div>
+      <h2>{{ t("landingContactHeader") }}</h2>
+      <p>
+        {{ t("landingContactText") }}
+        <a href="mailto: {{ t('supportEmail') }}">{{ t("supportEmail") }}</a>
+      </p>
+    </div>
   </div>
 </div>

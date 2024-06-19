@@ -5,6 +5,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { Router } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
 import { AuthService } from '../core/auth/auth.service';
 import { ProfileStore } from '../store/profile.store';
@@ -26,10 +27,13 @@ import { ProfileStore } from '../store/profile.store';
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class HeaderComponent {
+  router = inject(Router);
   profileStore = inject(ProfileStore);
   authService = inject(AuthService);
 
-  homeClick() {}
+  homeClick() {
+    this.router.navigate(['/dashboard']);
+  }
 
   signOut() {
     this.authService.logout();

@@ -4,7 +4,7 @@ import {
   StepperSelectionEvent,
 } from '@angular/cdk/stepper';
 import { CommonModule } from '@angular/common';
-import { Component, ViewChild, inject } from '@angular/core';
+import { Component, HostListener, ViewChild, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -20,7 +20,7 @@ import {
   MatStepperModule,
   StepperOrientation,
 } from '@angular/material/stepper';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HotToastService } from '@ngneat/hot-toast';
 import { TranslocoModule } from '@ngneat/transloco';
 import {
@@ -28,6 +28,7 @@ import {
   RxFormBuilder,
   RxFormGroup,
 } from '@rxweb/reactive-form-validators';
+import { distinctUntilChanged } from 'rxjs/operators';
 import { DrifapplicationService } from '../../api/drifapplication/drifapplication.service';
 import { DrifEoiApplication, Hazards } from '../../model';
 import { Step1Component } from '../step-1/step-1.component';
@@ -88,6 +89,7 @@ export class EOIApplicationComponent {
   formBuilder = inject(RxFormBuilder);
   applicationService = inject(DrifapplicationService);
   router = inject(Router);
+  route = inject(ActivatedRoute);
   hotToast = inject(HotToastService);
   breakpointObserver = inject(BreakpointObserver);
 
@@ -108,12 +110,97 @@ export class EOIApplicationComponent {
     declaration: 'Step 8',
   };
 
+  @HostListener('window:mousemove')
+  @HostListener('window:mousedown')
+  @HostListener('window:keypress')
+  @HostListener('window:scroll')
+  @HostListener('window:touchmove')
+  resetAutoSaveTimer() {
+    if (!this.formChanged) {
+      this.autoSaveCountdown = 0;
+      clearInterval(this.autoSaveTimer);
+      return;
+    }
+
+    this.autoSaveCountdown = 15;
+    console.log('reset timer');
+    clearInterval(this.autoSaveTimer);
+    this.autoSaveTimer = setInterval(() => {
+      this.autoSaveCountdown -= 1;
+      if (this.autoSaveCountdown === 0) {
+        this.save();
+        clearInterval(this.autoSaveTimer);
+      }
+    }, 1000);
+  }
+
+  autoSaveTimer: any;
+  autoSaveCountdown = 0;
+  formChanged = false;
+
   ngOnInit() {
     this.breakpointObserver
       .observe('(min-width: 768px)')
       .subscribe(({ matches }) => {
         this.stepperOrientation = matches ? 'horizontal' : 'vertical';
       });
+
+    // fetch router params
+    const id = this.route.snapshot.params['id'];
+    if (id) {
+      this.applicationService
+        .dRIFApplicationGet(id)
+        .subscribe((application) => {
+          // transform application into step forms
+          const eoiApplicationForm: EOIApplicationForm = {
+            proponentInformation: {
+              ...application,
+            },
+            projectInformation: {
+              ...application,
+            },
+            fundingInformation: {
+              ...application,
+            },
+            locationInformation: {
+              ...application,
+            },
+            projectDetails: {
+              ...application,
+            },
+            engagementPlan: {
+              ...application,
+            },
+            otherSupportingInformation: {
+              ...application,
+            },
+          };
+
+          this.eoiApplicationForm.patchValue(eoiApplicationForm, {
+            emitEvent: false,
+          });
+
+          if (application.status == 'Submitted') {
+            this.eoiApplicationForm.disable();
+          }
+        });
+    } else {
+      // TODO: probably iniate form here instead to avoid ExpressionChangedAfterItHasBeenCheckedError
+      // btw, happens only when form is disaaled
+    }
+
+    setTimeout(() => {
+      this.eoiApplicationForm.valueChanges
+        .pipe(
+          distinctUntilChanged((a, b) => {
+            return JSON.stringify(a) == JSON.stringify(b);
+          })
+        )
+        .subscribe(() => {
+          this.formChanged = true;
+          this.resetAutoSaveTimer();
+        });
+    }, 1000); // TOOD: temp workaround to prevent empty form intiation triggering form change
   }
 
   getFormGroup(groupName: string) {
@@ -121,6 +208,8 @@ export class EOIApplicationComponent {
   }
 
   stepperSelectionChange(event: StepperSelectionEvent) {
+    this.save();
+
     event.previouslySelectedStep.stepControl.markAllAsTouched();
 
     if (this.stepperOrientation === 'horizontal') {
@@ -138,6 +227,45 @@ export class EOIApplicationComponent {
         });
       }, 250);
     }
+  }
+
+  // TODO: remove later
+  lastSavedAt?: Date;
+
+  save() {
+    this.lastSavedAt = new Date();
+
+    const eoiApplicationForm =
+      this.eoiApplicationForm.getRawValue() as EOIApplicationForm;
+
+    const drifEoiApplication = {
+      ...eoiApplicationForm.proponentInformation,
+      ...eoiApplicationForm.projectInformation,
+      ...eoiApplicationForm.fundingInformation,
+      ...eoiApplicationForm.locationInformation,
+      ...eoiApplicationForm.projectDetails,
+      ...eoiApplicationForm.engagementPlan,
+      ...eoiApplicationForm.otherSupportingInformation,
+      ...eoiApplicationForm.declaration,
+    } as DrifEoiApplication;
+
+    this.applicationService
+      .dRIFApplicationCreateDraftEOIApplication(drifEoiApplication)
+      .subscribe(
+        (response) => {
+          this.hotToast.close();
+          this.hotToast.success('Application saved successfully', {
+            duration: 5000,
+            autoClose: true,
+          });
+
+          this.formChanged = false;
+        },
+        (error) => {
+          this.hotToast.close();
+          this.hotToast.error('Failed to save application');
+        }
+      );
   }
 
   submit() {

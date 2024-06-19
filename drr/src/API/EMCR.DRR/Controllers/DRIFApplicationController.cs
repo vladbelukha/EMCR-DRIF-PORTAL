@@ -27,17 +27,52 @@ namespace EMCR.DRR.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<DrifEoiApplication>>> Get()
+        public async Task<ActionResult<IEnumerable<CRAFTApplication>>> Get()
         {
             await Task.CompletedTask;
             var ret = new[]
             {
-                CreateNewTestEOIApplication(),
-                CreateNewTestEOIApplication(),
-                CreateNewTestEOIApplication(),
-                CreateNewTestEOIApplication(),
+                new CRAFTApplication
+                {
+                    Id = Guid.NewGuid(),
+                    ProjectTitle = "Project 1",
+                    Status = ApplicationStatus.Draft,
+                    CreatedTime = DateTime.Now
+                },
+                new CRAFTApplication
+                {
+                    Id = Guid.Parse("14dabac4-e399-456c-8d48-555a9007e31e"),
+                    ProjectTitle = "Project 2",
+                    Status = ApplicationStatus.Submitted,
+                    CreatedTime = DateTime.Now.AddDays(-1)
+                },
+                new CRAFTApplication
+                {
+                    Id = Guid.NewGuid(),
+                    ProjectTitle = "Project 3",
+                    Status = ApplicationStatus.Draft,
+                    CreatedTime = DateTime.Now.AddDays(-2)
+                },
+                new CRAFTApplication
+                {
+                    Id = Guid.NewGuid(),
+                    ProjectTitle = "Project 4",
+                    Status = ApplicationStatus.Rejected,
+                    CreatedTime = DateTime.Now.AddDays(-3)
+                },
             };
             return Ok(ret);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<DrifEoiApplication>> Get(Guid id)
+        {
+            // TODO: remove after
+            // compare if GUID is 14dabac4-e399-456c-8d48-555a9007e31e
+            var status = id.ToString() == "14dabac4-e399-456c-8d48-555a9007e31e" ? ApplicationStatus.Submitted : ApplicationStatus.Draft;
+
+            await Task.CompletedTask;
+            return Ok(CreateNewTestEOIApplication(id, status));
         }
 
         [HttpGet("Declarations")]
@@ -68,12 +103,14 @@ namespace EMCR.DRR.Controllers
         private string[] lastNames = new[] { "Gaines", "Howell", "Rowe", "Boyer", "Preston", "Salazar", "Xiong", "Zuniga", "Hail", "Cabrera", "Day", "Walton", "Turner", "Kemp", "Campbell", "Dickerson", "Banks", "Williamson", "White", "Mercado", "Myers", "Brown", "Soto", "Russell", "Savage", "Ingram", "Stephenson", "Finley", "Ramirez", "Chandler", "Hernandez", "Wall", "Marin", "McCarty", "McGee", "Archer", "French", "Sloan", "Brown", "Ayala", "Norton", "O’Connor", "Lee", "Herring", "Wagner", "Hale", "McDaniel", "Serrano", "Perry", "Orr", "Alexander", "Salazar", "Burke", "Jones", "Colon", "Wall", "Dennis", "Robertson", "Foster", "McCullough", "Correa", "Miller", "Garner", "Beard", "Knight", "Stuart", "Patel", "Castillo", "Rubio", "Howe", "Hart", "Aguirre", "Foster", "Hodges", "Berry", "Person", "Stone", "Parra", "Bruce", "Newton", "Swanson", "Lynn", "McCarty", "Sellers", "Greer", "Pruitt", "Richmond", "Hicks", "Foster", "Salas", "Moses", "Ochoa", "Zuniga", "Marks", "McClain", "Sims", "Suarez", "Hoover", "Keith", "Roth", };
         private string GenerateName => $"{firstNames[Random.Shared.Next(0, firstNames.Length)]} {lastNames[Random.Shared.Next(0, lastNames.Length)]}";
 
-        private DrifEoiApplication CreateNewTestEOIApplication()
+        private DrifEoiApplication CreateNewTestEOIApplication(Guid id, ApplicationStatus status)
         {
 
             var proponentName = $"{firstNames[Random.Shared.Next(0, firstNames.Length)]} {lastNames[Random.Shared.Next(0, lastNames.Length)]}";
             return new DrifEoiApplication
             {
+                Status = status,
+
                 //Proponent Information
                 ProponentType = ProponentType.LocalGovernment,
                 ProponentName = GenerateName,
@@ -287,15 +324,25 @@ namespace EMCR.DRR.Controllers
     public class DraftFundingInformation
     {
         public string? Name { get; set; }
-        public FundingType Type { get; set; }
+        public FundingType? Type { get; set; }
         [Range(0, ApplicationValidators.FUNDING_MAX_VAL)]
         public decimal? Amount { get; set; }
         public string? OtherDescription { get; set; }
 
     }
 
+    public class CRAFTApplication
+    {
+        public required Guid Id { get; set; }        
+        public required string ProjectTitle { get; set; }
+        public required ApplicationStatus Status { get; set; }
+        public required DateTime CreatedTime { get; set; }
+    }
+
     public class DrifEoiApplication
     {
+        public required ApplicationStatus Status { get; set; }
+
         //Proponent Information
         public ProponentType ProponentType { get; set; }
         public required string ProponentName { get; set; }
@@ -381,6 +428,14 @@ namespace EMCR.DRR.Controllers
         public required string Phone { get; set; }
         [StringLength(ApplicationValidators.CONTACT_MAX_LENGTH)]
         public required string Email { get; set; }
+    }
+
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public enum ApplicationStatus
+    {
+        Draft,
+        Submitted,
+        Rejected
     }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]

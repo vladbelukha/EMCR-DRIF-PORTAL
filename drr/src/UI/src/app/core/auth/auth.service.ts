@@ -1,6 +1,8 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { AuthConfig, OAuthEvent, OAuthService } from 'angular-oauth2-oidc';
 import { Subject } from 'rxjs';
+import { Configuration } from '../../../model';
+import { ConfigurationStore } from '../../store/configuration.store';
 import { ProfileStore } from '../../store/profile.store';
 
 @Injectable({
@@ -9,8 +11,7 @@ import { ProfileStore } from '../../store/profile.store';
 export class AuthService {
   oauthService = inject(OAuthService);
   profileStore = inject(ProfileStore);
-  // platformId = inject(PLATFORM_ID);
-  // windowRef = inject(WindowRef);
+  configurationStore = inject(ConfigurationStore);
 
   private _authConfig: AuthConfig = {
     responseType: 'code',
@@ -29,8 +30,7 @@ export class AuthService {
 
       location.href = reconstructUri;
     },
-    // redirectUriAsPostLogoutRedirectUriFallback: true,
-    // postLogoutRedirectUri: 'http://localhost:4200/', // TODO: it supposed to be window.location.origin, but it's not working because of SSR
+    postLogoutRedirectUri: 'http://localhost:4200/', // TODO: it supposed to be window.location.origin, but it's not working because of SSR
   };
 
   isDoneLoading = signal(false);
@@ -41,17 +41,32 @@ export class AuthService {
   waitUntilAuthentication$ =
     this._waitUntilAuthenticationSubject$.asObservable();
 
-  setConfig(authConfig: AuthConfig) {
-    this._authConfig = {
-      ...this._authConfig,
-      ...authConfig,
-    };
+  setConfig(config: Configuration) {
+    this.configurationStore.setOidc(config.oidc);
   }
 
-  async init(authConfig: AuthConfig) {
+  async login(customConfiuration?: AuthConfig) {
+    if (this.isLoggedIn()) {
+      this.isDoneLoading.set(true);
+      this.isAuthenticationSuccessful.set(true);
+      this._waitUntilAuthenticationSubject$.next(true);
+
+      this.profileStore.setProfile({
+        name: this.getProfile()['name'],
+        email: this.getProfile()['email'],
+        organization: this.getProfile()['bceid_business_name'],
+        loggedIn: true,
+      });
+
+      return;
+    }
+
+    const configuration = this.configurationStore.oidc!();
+
     this.oauthService.configure({
       ...this._authConfig,
-      ...authConfig,
+      ...configuration,
+      ...customConfiuration,
     });
 
     this.oauthService.timeoutFactor = 0.7;
@@ -83,7 +98,7 @@ export class AuthService {
         this.profileStore.setProfile({
           name: profile['name'],
           email: profile['email'],
-          organization: '',
+          organization: profile['bceid_business_name'],
           loggedIn: true,
         });
 

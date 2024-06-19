@@ -6,11 +6,16 @@
  */
 
 export * from './applicationResult';
+export * from './applicationStatus';
+export * from './cRAFTApplication';
 export * from './configuration';
 export * from './contactDetails';
 export * from './declarationInfo';
 export * from './declarationResult';
 export * from './declarationType';
+export * from './draftContactDetails';
+export * from './draftFundingInformation';
+export * from './drifDrafEoiApplication';
 export * from './drifEoiApplication';
 export * from './estimatedNumberOfPeople';
 export * from './fundingInformation';

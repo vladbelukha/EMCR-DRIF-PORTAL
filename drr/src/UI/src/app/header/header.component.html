@@ -3,7 +3,7 @@
     <mat-toolbar-row>
       <div class="header-container">
         <div>
-          <a (click)="homeClick()">
+          <a (click)="homeClick()" style="cursor: pointer">
             <img
               class="img-fluid d-none d-md-block"
               src="/assets/images/bcid-logo-rev-en.svg"
@@ -20,7 +20,9 @@
 
         <div class="header-action">
           <ng-container *ngIf="profileStore.loggedIn()">
-            <span style="color: white"> {{ profileStore.name() }} </span>
+            <span style="color: white">
+              {{ profileStore.organization() }}
+            </span>
             <button mat-icon-button color="primary" [matMenuTriggerFor]="menu">
               <mat-icon>more_vert</mat-icon>
             </button>

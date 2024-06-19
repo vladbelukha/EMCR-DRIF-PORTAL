@@ -24,6 +24,11 @@ export const routes: Routes = [
     canActivate: [AuthenticationGuard],
   },
   {
+    path: 'eoi-application/:id',
+    component: EOIApplicationComponent,
+    canActivate: [AuthenticationGuard],
+  },
+  {
     path: 'success',
     component: SuccessPageComponent,
     canActivate: [AuthenticationGuard],

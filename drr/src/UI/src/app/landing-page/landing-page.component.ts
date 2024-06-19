@@ -4,6 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
+import { ConfigurationStore } from '../store/configuration.store';
 
 @Component({
   selector: 'drr-landing-page',
@@ -14,6 +15,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 })
 export class LandingPageComponent {
   router = inject(Router);
+  configurationStore = inject(ConfigurationStore);
 
   loginClick() {
     // TODO: maybe trigger login before navigating? but guard can trigger it as well more universally

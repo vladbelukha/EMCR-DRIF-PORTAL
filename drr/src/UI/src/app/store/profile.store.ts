@@ -37,5 +37,8 @@ export const ProfileStore = signalStore(
     setProfile(profile: ProfileState) {
       patchState(store, profile);
     },
+    getProfile() {
+      return store;
+    },
   }))
 );

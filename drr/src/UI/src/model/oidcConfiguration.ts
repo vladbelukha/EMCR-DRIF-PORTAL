@@ -6,6 +6,7 @@
  */
 
 export interface OidcConfiguration {
+  accountRecoveryUrl?: string;
   clientId?: string;
   clientSecret?: string;
   issuer?: string;
