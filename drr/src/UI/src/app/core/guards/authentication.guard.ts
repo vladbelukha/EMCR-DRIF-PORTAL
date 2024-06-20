@@ -1,7 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { of, switchMap } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { ConfigurationStore } from '../../store/configuration.store';
 import { ProfileStore } from '../../store/profile.store';
 import { AuthService } from '../auth/auth.service';
@@ -29,17 +28,6 @@ export class AuthenticationGuard {
       await this.authService.login();
     }
 
-    const isAuthenticated = this.authService.waitUntilAuthentication$.pipe(
-      switchMap((isAuthenticated) =>
-        isAuthenticated ? of(this.profileStore.loggedIn()) : of(isAuthenticated)
-      )
-    );
-
-    return isAuthenticated.pipe(
-      take(1),
-      map((isAuthenticated) => {
-        return isAuthenticated;
-      })
-    );
+    return this.authService.waitUntilAuthentication$.pipe(take(1));
   }
 }
