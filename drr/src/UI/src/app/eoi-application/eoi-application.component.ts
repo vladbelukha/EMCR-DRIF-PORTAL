@@ -122,8 +122,7 @@ export class EOIApplicationComponent {
       return;
     }
 
-    this.autoSaveCountdown = 15;
-    console.log('reset timer');
+    this.autoSaveCountdown = 30;
     clearInterval(this.autoSaveTimer);
     this.autoSaveTimer = setInterval(() => {
       this.autoSaveCountdown -= 1;

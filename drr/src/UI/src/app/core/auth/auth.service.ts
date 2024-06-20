@@ -26,8 +26,6 @@ export class AuthService {
   }
 
   async login(customConfiuration?: AuthConfig) {
-    console.log('login: ', window.location.origin);
-
     const authConfig: AuthConfig = {
       responseType: 'code',
       strictDiscoveryDocumentValidation: false,

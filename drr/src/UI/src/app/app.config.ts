@@ -20,12 +20,11 @@ import { provideTransloco } from '@ngneat/transloco';
 import { provideOAuthClient } from 'angular-oauth2-oidc';
 import { provideNgxMask } from 'ngx-mask';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import { filter } from 'rxjs/operators';
-import { ConfigurationService } from '../api/configuration/configuration.service';
 import { DrifapplicationService } from '../api/drifapplication/drifapplication.service';
 import { LoadingInterceptor } from '../interceptors/loading.interceptor';
 import { routes } from './app.routes';
 import { AuthService } from './core/auth/auth.service';
+import { AppConfigurationService } from './core/configuration/app-configuration.service';
 import { TokenInterceptor } from './core/interceptors/token.interceptor';
 import { TranslocoHttpLoader } from './transloco-loader';
 
@@ -74,21 +73,9 @@ export const appConfig: ApplicationConfig = {
     }),
     {
       provide: APP_INITIALIZER,
-      deps: [ConfigurationService, AuthService],
-      useFactory:
-        (
-          configurationService: ConfigurationService,
-          authService: AuthService
-        ) =>
-        async () => {
-          await configurationService
-            .configurationGetConfiguration()
-            .subscribe((config) => {
-              authService.setConfig(config);
-            });
-
-          return authService.waitUntilAuthentication$.pipe(filter(Boolean));
-        },
+      deps: [AppConfigurationService, AuthService],
+      useFactory: (appConfigurationService: AppConfigurationService) => () =>
+        appConfigurationService.loadConfiguration(),
       multi: true,
     },
     importProvidersFrom(NgxSpinnerModule),

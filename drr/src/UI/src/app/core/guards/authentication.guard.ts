@@ -17,6 +17,10 @@ export class AuthenticationGuard {
   async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     if (!this.profileStore.loggedIn()) {
       // to be able to login, configuration need to be fetched from API prior to login
+      console.log(
+        'canActivate, is configuration loaded: ',
+        this.configurationStore.isConfigurationLoaded!()
+      );
       if (!this.configurationStore.isConfigurationLoaded!()) {
         // TODO: redirect to error page
         return false;
