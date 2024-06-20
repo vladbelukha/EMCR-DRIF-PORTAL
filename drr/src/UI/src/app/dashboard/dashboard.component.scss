@@ -1,0 +1,66 @@
+@import "../../styles/_variables.scss";
+
+.dashboard-tabs-container {
+  margin: 1rem;
+}
+
+.tab {
+  padding: 1rem 0;
+}
+
+.dashboard {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.submissions-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.submissions-list {
+  width: 100%;
+  text-align: center;
+
+  tr {
+    background-color: #f9f9f9;
+  }
+
+  th {
+    background-color: map-get($theme-colors, secondary-nav);
+    color: white;
+    height: 2rem;
+  }
+}
+
+::ng-deep .mdc-tab .mdc-tab-indicator {
+  background-color: $gray-400;
+}
+
+::ng-deep .mdc-tab--active .mdc-tab-indicator {
+  background-color: map-get($theme-colors, secondary-nav);
+}
+
+::ng-deep .mdc-tab--active .mdc-tab__text-label {
+  color: white !important;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+::ng-deep .mat-mdc-card-header {
+  background-color: map-get($theme-colors, secondary-nav);
+  color: white;
+  padding-bottom: 16px !important;
+}
+
+.card-content {
+  padding: 1rem;
+}
+
+.list-item {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}

@@ -20,7 +20,9 @@ import {
 } from 'rxjs'
 import type {
   ApplicationResult,
+  CRAFTApplication,
   DeclarationResult,
+  DrifDrafEoiApplication,
   DrifEoiApplication
 } from '../../model'
 
@@ -45,7 +47,21 @@ type HttpClientOptions = {
 export class DrifapplicationService {
   constructor(
     private http: HttpClient,
-  ) {} dRIFApplicationGetDeclarations<TData = DeclarationResult>(
+  ) {} dRIFApplicationGetAll<TData = CRAFTApplication[]>(
+     options?: HttpClientOptions
+  ): Observable<TData>  {
+    return this.http.get<TData>(
+      `/api/drifapplication`,options
+    );
+  }
+ dRIFApplicationGet<TData = DrifEoiApplication>(
+    id: string, options?: HttpClientOptions
+  ): Observable<TData>  {
+    return this.http.get<TData>(
+      `/api/drifapplication/${id}`,options
+    );
+  }
+ dRIFApplicationGetDeclarations<TData = DeclarationResult>(
      options?: HttpClientOptions
   ): Observable<TData>  {
     return this.http.get<TData>(
@@ -60,7 +76,18 @@ export class DrifapplicationService {
       drifEoiApplication,options
     );
   }
+ dRIFApplicationCreateDraftEOIApplication<TData = ApplicationResult>(
+    drifDrafEoiApplication: DrifDrafEoiApplication, options?: HttpClientOptions
+  ): Observable<TData>  {
+    return this.http.post<TData>(
+      `/api/drifapplication/eoi/draft`,
+      drifDrafEoiApplication,options
+    );
+  }
 };
 
+export type DRIFApplicationGetAllClientResult = NonNullable<CRAFTApplication[]>
+export type DRIFApplicationGetClientResult = NonNullable<DrifEoiApplication>
 export type DRIFApplicationGetDeclarationsClientResult = NonNullable<DeclarationResult>
 export type DRIFApplicationCreateEOIApplicationClientResult = NonNullable<ApplicationResult>
+export type DRIFApplicationCreateDraftEOIApplicationClientResult = NonNullable<ApplicationResult>

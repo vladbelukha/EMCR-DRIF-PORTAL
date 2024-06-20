@@ -1,0 +1,132 @@
+<mat-tab-group
+  class="dashboard-tabs-container"
+  mat-stretch-tabs="false"
+  mat-align-tabs="start"
+  *transloco="let t"
+>
+  <mat-tab label="Dashboard">
+    <div class="tab dashboard">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title> Welcome </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="card-content">
+          <p>Welcome, {{ profileStore.name() }}</p>
+          <p>Organization: {{ profileStore.organization() }}</p>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>
+            <span>Notifications</span>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="card-content">
+          <p>You have <strong>3</strong> new notifications.</p>
+
+          <div *ngFor="let notification of notifications">
+            <p>{{ notification.title }}</p>
+            <p>
+              <i>{{ notification.message }}</i>
+            </p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>
+            <span>Quick Actions</span>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-actions>
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="onCreateFormClick()"
+          >
+            Create DRIFT Form
+          </button>
+        </mat-card-actions>
+      </mat-card>
+
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>
+            <span>Help & Support</span>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="card-content">
+          <p>
+            Need help? Contact us at
+            <strong
+              ><a href="mailto: {{ t('supportEmail') }}">{{
+                t("supportEmail")
+              }}</a>
+            </strong>
+          </p>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>
+            <span>Recent Activity</span>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="card-content">
+          <p>You have submitted <strong>2</strong> forms in the last week.</p>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>
+            <span>Submission Summary</span>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="card-content">
+          <p>You have submitted <strong>5</strong> forms in total.</p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </mat-tab>
+  <mat-tab label="Submissions">
+    <div class="tab">
+      <div class="submissions-header">
+        <h2>Submissions</h2>
+        <button mat-raised-button color="primary" (click)="onCreateFormClick()">
+          <mat-icon>add</mat-icon>
+          <span>Create DRIFT Form</span>
+        </button>
+      </div>
+      <table class="submissions-list">
+        <tr>
+          <th>Title</th>
+          <th>Status</th>
+          <th>Date</th>
+          <th>Actions</th>
+        </tr>
+        <tr *ngFor="let application of applications">
+          <td>{{ application.projectTitle }}</td>
+          <td>
+            <mat-chip>
+              {{ application.status }}
+            </mat-chip>
+          </td>
+          <td>{{ application.createdTime | date : "YYYY-MM-dd" }}</td>
+          <td>
+            <button
+              mat-button
+              color="primary"
+              (click)="onViewFormClick(application.id!)"
+            >
+              View
+            </button>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </mat-tab>
+</mat-tab-group>

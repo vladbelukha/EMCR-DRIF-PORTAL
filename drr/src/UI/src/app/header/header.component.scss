@@ -5,8 +5,15 @@ header mat-toolbar {
 
 .header-container {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  width: 100%;
+}
+
+.header-action {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 .heading-text1 {
@@ -39,20 +46,6 @@ header mat-toolbar {
   white-space: initial;
 }
 
-.divider {
-  width: 1px;
-  height: 44px;
-  background-color: #ffffff;
-  border-radius: 0px;
-  margin-right: 20px;
-}
-
-@media (max-width: 768px) {
-  .divider {
-    width: 0px;
-  }
-}
-
 @media (max-width: 1215px) {
   .button-align {
     float: left !important;
@@ -63,10 +56,6 @@ header mat-toolbar {
   .menu-responsive {
     width: 50%;
   }
-}
-
-.divider-col {
-  width: 2% !important;
 }
 
 .mat-toolbar-row,
