@@ -1,7 +1,6 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { AuthConfig, OAuthEvent, OAuthService } from 'angular-oauth2-oidc';
 import { Subject } from 'rxjs';
-import { Configuration } from '../../../model';
 import { ConfigurationStore } from '../../store/configuration.store';
 import { ProfileStore } from '../../store/profile.store';
 
@@ -13,16 +12,27 @@ export class AuthService {
   profileStore = inject(ProfileStore);
   configurationStore = inject(ConfigurationStore);
 
-  isDoneLoading = signal(false);
-
   isAuthenticationSuccessful = signal(false);
 
   private _waitUntilAuthenticationSubject$ = new Subject<boolean>();
   waitUntilAuthentication$ =
     this._waitUntilAuthenticationSubject$.asObservable();
 
-  setConfig(config: Configuration) {
-    this.configurationStore.setOidc(config.oidc);
+  setProfile() {
+    if (this.isLoggedIn()) {
+      const profile = this.getProfile();
+
+      this.profileStore.setProfile({
+        name: profile['name'],
+        email: profile['email'],
+        organization: profile['bceid_business_name'],
+        loggedIn: true,
+      });
+
+      return true;
+    }
+
+    return false;
   }
 
   async login(customConfiuration?: AuthConfig) {
@@ -47,18 +57,17 @@ export class AuthService {
     };
 
     if (this.isLoggedIn()) {
-      this.isDoneLoading.set(true);
       this.isAuthenticationSuccessful.set(true);
       this._waitUntilAuthenticationSubject$.next(true);
 
-      this.profileStore.setProfile({
-        name: this.getProfile()['name'],
-        email: this.getProfile()['email'],
-        organization: this.getProfile()['bceid_business_name'],
-        loggedIn: true,
-      });
+      this.setProfile();
 
-      return;
+      return true;
+    }
+
+    if (!this.configurationStore.isConfigurationLoaded()) {
+      console.error('Configuration is not loaded yet');
+      return false;
     }
 
     const configuration = this.configurationStore.oidc!();
@@ -78,7 +87,6 @@ export class AuthService {
         switch (event.type) {
           case 'token_refresh_error':
             console.error('Session Timeout: Token Refresh Error', event);
-
             break;
 
           default:
@@ -94,16 +102,11 @@ export class AuthService {
       if (isLoggedIn) {
         const profile = this.getProfile();
         // TODO: API call to fetch more data about user
-        this.profileStore.setProfile({
-          name: profile['name'],
-          email: profile['email'],
-          organization: profile['bceid_business_name'],
-          loggedIn: true,
-        });
+        this.setProfile();
 
-        this.isDoneLoading.set(true);
         this.isAuthenticationSuccessful.set(true);
         this._waitUntilAuthenticationSubject$.next(true);
+        return true;
       } else {
         // Pass in the original URL as additional state to the identity provider.  This information will be
         // returned once the user has been authenticated and will be used to redirect the user to the
@@ -115,11 +118,13 @@ export class AuthService {
         );
 
         this.oauthService.initCodeFlow(encodedState);
+        return false;
       }
     } catch (error) {
-      this.isDoneLoading.set(true);
       this.isAuthenticationSuccessful.set(false);
       this._waitUntilAuthenticationSubject$.next(false);
+
+      return false;
     }
   }
 
