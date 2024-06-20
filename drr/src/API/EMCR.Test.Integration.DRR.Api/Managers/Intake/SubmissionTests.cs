@@ -29,6 +29,8 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             var uniqueSignature = TestPrefix + "-" + Guid.NewGuid().ToString().Substring(0, 4);
             return new DrifEoiApplication
             {
+                Status = ApplicationStatus.Draft,
+
                 //Proponent Information
                 ProponentType = EMCR.DRR.Controllers.ProponentType.LocalGovernment,
                 ProponentName = $"{uniqueSignature}_applicant_name",
