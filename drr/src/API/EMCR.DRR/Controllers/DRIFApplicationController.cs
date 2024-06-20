@@ -26,6 +26,55 @@ namespace EMCR.DRR.Controllers
             this.mapper = mapper;
         }
 
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<CRAFTApplication>>> Get()
+        {
+            await Task.CompletedTask;
+            var ret = new[]
+            {
+                new CRAFTApplication
+                {
+                    Id = Guid.NewGuid(),
+                    ProjectTitle = "Project 1",
+                    Status = ApplicationStatus.Draft,
+                    CreatedTime = DateTime.Now
+                },
+                new CRAFTApplication
+                {
+                    Id = Guid.Parse("14dabac4-e399-456c-8d48-555a9007e31e"),
+                    ProjectTitle = "Project 2",
+                    Status = ApplicationStatus.Submitted,
+                    CreatedTime = DateTime.Now.AddDays(-1)
+                },
+                new CRAFTApplication
+                {
+                    Id = Guid.NewGuid(),
+                    ProjectTitle = "Project 3",
+                    Status = ApplicationStatus.Draft,
+                    CreatedTime = DateTime.Now.AddDays(-2)
+                },
+                new CRAFTApplication
+                {
+                    Id = Guid.NewGuid(),
+                    ProjectTitle = "Project 4",
+                    Status = ApplicationStatus.Rejected,
+                    CreatedTime = DateTime.Now.AddDays(-3)
+                },
+            };
+            return Ok(ret);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<DrifEoiApplication>> Get(Guid id)
+        {
+            // TODO: remove after
+            // compare if GUID is 14dabac4-e399-456c-8d48-555a9007e31e
+            var status = id.ToString() == "14dabac4-e399-456c-8d48-555a9007e31e" ? ApplicationStatus.Submitted : ApplicationStatus.Draft;
+
+            await Task.CompletedTask;
+            return Ok(CreateNewTestEOIApplication(id, status));
+        }
+
         [HttpGet("Declarations")]
         public async Task<ActionResult<DeclarationResult>> GetDeclarations()
         {
@@ -39,6 +88,134 @@ namespace EMCR.DRR.Controllers
         {
             var id = await intakeManager.Handle(new DrifEoiApplicationCommand { application = application });
             return Ok(new ApplicationResult { Id = id });
+        }
+
+        [HttpPost("EOI/draft")]
+        public async Task<ActionResult<ApplicationResult>> CreateDraftEOIApplication(DrifDrafEoiApplication application)
+        {
+            var id = "DRIF-EOI-####";
+            await Task.CompletedTask;
+            return Ok(new ApplicationResult { Id = id });
+        }
+
+        //THESE ARE FOR THE MOCK API CALLS ONLY - TO BE REMOVED!
+        private string[] firstNames = new[] { "John", "Ashlynn", "Hector", "Ariah", "Ashlynn", "Talon", "Mckenna", "Kamden", "Chaya", "Vincenzo", "Freya", "Azrael", "Leslie", "Hector", "Daleyza", "Kayson", "Scarlet", "Joshua", "Anika", "Christopher", "Opal", "Martin", "Catherine", "Aiden", "Mckinley", "Adam", "Charlotte", "Barrett", "Raelynn", "Keaton", "Katie", "Joe", "Jovie", "David", "Viviana", "Mason", "Jayda", "Aldo", "Halo", "Conner", "Kadence", "Corey", "Selene", "Elijah", "Blair", "Callen", "Charli", "Jack", "Denver", "Enzo", "Brinley", "Major", "Allie", "Waylon", "Alaiya", "Kingston", "Freya", "Jax", "Sophia", "Bruce", "Jayda", "Emanuel", "Harmony", "Kayden", "Hana", "Zakai", "Isabella", "Sage", "Ezra", "Beckett", "Stormi", "Parker", "Eva", "Titan", "Persephone", "Joel", "Ariah", "Kayden", "Eve", "Adonis", "Dylan", "Finn", "Dalary", "Uriah", "Braelynn", "Hugo", "Samira", "Blaise", "Mercy", "Koda", "Brylee", "Mordechai", "Alina", "Kayden", "Amber", "Niklaus", "Luciana", "Sincere", "Monica", "Mitchell", "Lena", "Soren", "Virginia", "Jagger", };
+        private string[] lastNames = new[] { "Gaines", "Howell", "Rowe", "Boyer", "Preston", "Salazar", "Xiong", "Zuniga", "Hail", "Cabrera", "Day", "Walton", "Turner", "Kemp", "Campbell", "Dickerson", "Banks", "Williamson", "White", "Mercado", "Myers", "Brown", "Soto", "Russell", "Savage", "Ingram", "Stephenson", "Finley", "Ramirez", "Chandler", "Hernandez", "Wall", "Marin", "McCarty", "McGee", "Archer", "French", "Sloan", "Brown", "Ayala", "Norton", "O’Connor", "Lee", "Herring", "Wagner", "Hale", "McDaniel", "Serrano", "Perry", "Orr", "Alexander", "Salazar", "Burke", "Jones", "Colon", "Wall", "Dennis", "Robertson", "Foster", "McCullough", "Correa", "Miller", "Garner", "Beard", "Knight", "Stuart", "Patel", "Castillo", "Rubio", "Howe", "Hart", "Aguirre", "Foster", "Hodges", "Berry", "Person", "Stone", "Parra", "Bruce", "Newton", "Swanson", "Lynn", "McCarty", "Sellers", "Greer", "Pruitt", "Richmond", "Hicks", "Foster", "Salas", "Moses", "Ochoa", "Zuniga", "Marks", "McClain", "Sims", "Suarez", "Hoover", "Keith", "Roth", };
+        private string GenerateName => $"{firstNames[Random.Shared.Next(0, firstNames.Length)]} {lastNames[Random.Shared.Next(0, lastNames.Length)]}";
+
+        private DrifEoiApplication CreateNewTestEOIApplication(Guid id, ApplicationStatus status)
+        {
+
+            var proponentName = $"{firstNames[Random.Shared.Next(0, firstNames.Length)]} {lastNames[Random.Shared.Next(0, lastNames.Length)]}";
+            return new DrifEoiApplication
+            {
+                Status = status,
+
+                //Proponent Information
+                ProponentType = ProponentType.LocalGovernment,
+                ProponentName = GenerateName,
+                Submitter = CreateNewTestContact(),
+                ProjectContact = CreateNewTestContact(),
+                AdditionalContacts = new[]
+                {
+                    CreateNewTestContact(),
+                    CreateNewTestContact(),
+                },
+                PartneringProponents = new[]
+                {
+                    GenerateName,
+                    GenerateName
+                },
+
+                //Project Information
+                FundingStream = FundingStream.Stream1,
+                ProjectTitle = "Project Title",
+                ProjectType = ProjectType.New,
+                ScopeStatement = "scope",
+                RelatedHazards = new[]
+                {
+                    Hazards.Flood,
+                    Hazards.Tsunami,
+                    Hazards.Other
+                },
+                OtherHazardsDescription = "Other Description",
+                StartDate = DateTime.Now,
+                EndDate = DateTime.Now.AddDays(14),
+
+                //Funding Information
+                EstimatedTotal = 1000,
+                FundingRequest = 100,
+                OtherFunding = new[]
+                {
+                    new FundingInformation
+                    {
+                        Name = $"Self",
+                        Amount = 100,
+                        Type = FundingType.SelfFunding,
+                    },
+                    new FundingInformation
+                    {
+                        Name = $"Prov",
+                        Amount = 200,
+                        Type = FundingType.Prov,
+                    },
+                    new FundingInformation
+                    {
+                        Name = $"Other",
+                        Amount = 300,
+                        Type = FundingType.OtherGrants,
+                        OtherDescription = "other funding reason"
+                    },
+                },
+                RemainingAmount = 600,
+                IntendToSecureFunding = "Funding Reasons",
+
+                //Location Information
+                OwnershipDeclaration = true,
+                OwnershipDescription = "owned",
+                LocationDescription = "location description",
+
+                //Project Detail
+                RationaleForFunding = "rationale for funding",
+                EstimatedPeopleImpacted = EstimatedNumberOfPeople.OneToTenK,
+                CommunityImpact = "community impact",
+                InfrastructureImpacted = new[] { $"infrastructure" },
+                DisasterRiskUnderstanding = "helps many people",
+                AdditionalBackgroundInformation = "additional background info",
+                AddressRisksAndHazards = "fix risks",
+                DRIFProgramGoalAlignment = "aligns with goals",
+                AdditionalSolutionInformation = "additional solution info",
+                RationaleForSolution = "rational for solution",
+
+                //Engagement Plan
+                FirstNationsEngagement = "Engagement Proposal",
+                NeighbourEngagement = "engage with neighbours",
+                AdditionalEngagementInformation = "additional engagement info",
+
+                //Other Supporting Information
+                ClimateAdaptation = "Climate Adaptation",
+                OtherInformation = "Other Info",
+
+                //Declaration
+                InformationAccuracyStatement = true,
+                //FOIPPAConfirmation = true,
+                AuthorizedRepresentativeStatement = true
+            };
+        }
+
+        private ContactDetails CreateNewTestContact()
+        {
+            var firstName = firstNames[Random.Shared.Next(0, firstNames.Length)];
+            var lastName = lastNames[Random.Shared.Next(0, lastNames.Length)];
+            return new ContactDetails
+            {
+                FirstName = firstName,
+                LastName = lastName,
+                Email = $"{firstName}.{lastName}@test.com",
+                Phone = "604-123-4567",
+                Department = "Position",
+                Title = "Title"
+            };
         }
     }
 
@@ -65,8 +242,107 @@ namespace EMCR.DRR.Controllers
         public required string Id { get; set; }
     }
 
+    public class DrifDrafEoiApplication
+    {
+        //Proponent Information
+        public ProponentType? ProponentType { get; set; }
+        public string? ProponentName { get; set; }
+        public DraftContactDetails? Submitter { get; set; }
+        public DraftContactDetails? ProjectContact { get; set; }
+        public IEnumerable<DraftContactDetails>? AdditionalContacts { get; set; }
+        [CollectionStringLengthValid(ErrorMessage = "PartneringProponents have a limit of 40 characters per name")]
+        public IEnumerable<string>? PartneringProponents { get; set; }
+
+        //Project Information
+        public FundingStream? FundingStream { get; set; }
+        public string? ProjectTitle { get; set; }
+        public ProjectType? ProjectType { get; set; }
+        public string? ScopeStatement { get; set; }
+        public IEnumerable<Hazards>? RelatedHazards { get; set; }
+        public string? OtherHazardsDescription { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
+
+        //Funding Information
+        [Range(0, ApplicationValidators.FUNDING_MAX_VAL)]
+        public decimal? EstimatedTotal { get; set; }
+        [Range(0, ApplicationValidators.FUNDING_MAX_VAL)]
+        public decimal? FundingRequest { get; set; }
+        public IEnumerable<DraftFundingInformation>? OtherFunding { get; set; }
+        public decimal? RemainingAmount { get; set; }
+        public string? IntendToSecureFunding { get; set; }
+
+        //Location Information
+        public bool? OwnershipDeclaration { get; set; }
+        public string? OwnershipDescription { get; set; }
+        public string? LocationDescription { get; set; }
+
+        //Project Detail
+        public string? RationaleForFunding { get; set; }
+        public EstimatedNumberOfPeople? EstimatedPeopleImpacted { get; set; }
+        public string? CommunityImpact { get; set; }
+        public IEnumerable<string>? InfrastructureImpacted { get; set; }
+        public string? DisasterRiskUnderstanding { get; set; }
+        public string? AdditionalBackgroundInformation { get; set; }
+        public string? AddressRisksAndHazards { get; set; }
+        public string? DRIFProgramGoalAlignment { get; set; }
+        public string? AdditionalSolutionInformation { get; set; }
+        public string? RationaleForSolution { get; set; }
+
+        //Engagement Plan
+        public string? FirstNationsEngagement { get; set; }
+        public string? NeighbourEngagement { get; set; }
+        public string? AdditionalEngagementInformation { get; set; }
+
+        //Other Supporting Information
+        public string? ClimateAdaptation { get; set; }
+        public string? OtherInformation { get; set; }
+
+
+        //Declaration
+        public bool? AuthorizedRepresentativeStatement { get; set; }
+        public bool? FOIPPAConfirmation { get; set; }
+        public bool? InformationAccuracyStatement { get; set; }
+    }
+
+    public class DraftContactDetails
+    {
+        [StringLength(ApplicationValidators.CONTACT_MAX_LENGTH)]
+        public string? FirstName { get; set; }
+        [StringLength(ApplicationValidators.CONTACT_MAX_LENGTH)]
+        public string? LastName { get; set; }
+        [StringLength(ApplicationValidators.CONTACT_MAX_LENGTH)]
+        public string? Title { get; set; }
+        [StringLength(ApplicationValidators.CONTACT_MAX_LENGTH)]
+        public string? Department { get; set; }
+        //[RegularExpression("^\\d\\d\\d-\\d\\d\\d-\\d\\d\\d\\d$", ErrorMessage = "Phone number must be of the format '000-000-0000'")]
+        public string? Phone { get; set; }
+        [StringLength(ApplicationValidators.CONTACT_MAX_LENGTH)]
+        public string? Email { get; set; }
+    }
+
+    public class DraftFundingInformation
+    {
+        public string? Name { get; set; }
+        public FundingType? Type { get; set; }
+        [Range(0, ApplicationValidators.FUNDING_MAX_VAL)]
+        public decimal? Amount { get; set; }
+        public string? OtherDescription { get; set; }
+
+    }
+
+    public class CRAFTApplication
+    {
+        public required Guid Id { get; set; }        
+        public required string ProjectTitle { get; set; }
+        public required ApplicationStatus Status { get; set; }
+        public required DateTime CreatedTime { get; set; }
+    }
+
     public class DrifEoiApplication
     {
+        public required ApplicationStatus Status { get; set; }
+
         //Proponent Information
         public ProponentType ProponentType { get; set; }
         public required string ProponentName { get; set; }
@@ -152,7 +428,14 @@ namespace EMCR.DRR.Controllers
         public required string Phone { get; set; }
         [StringLength(ApplicationValidators.CONTACT_MAX_LENGTH)]
         public required string Email { get; set; }
+    }
 
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public enum ApplicationStatus
+    {
+        Draft,
+        Submitted,
+        Rejected
     }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]

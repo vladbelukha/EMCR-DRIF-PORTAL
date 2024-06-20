@@ -4,71 +4,101 @@
  * DRR API
  * OpenAPI spec version: 1.0.0
  */
-import type { ContactDetails } from './contactDetails';
+import type { DraftContactDetails } from './draftContactDetails';
 import type { EstimatedNumberOfPeople } from './estimatedNumberOfPeople';
 import type { FundingStream } from './fundingStream';
-import type { FundingInformation } from './fundingInformation';
+import type { DraftFundingInformation } from './draftFundingInformation';
 import type { ProjectType } from './projectType';
 import type { ProponentType } from './proponentType';
 import type { Hazards } from './hazards';
-import type { ApplicationStatus } from './applicationStatus';
 
-export interface DrifEoiApplication {
+export interface DrifDrafEoiApplication {
   /** @nullable */
   additionalBackgroundInformation?: string;
-  additionalContacts?: ContactDetails[];
+  /** @nullable */
+  additionalContacts?: DraftContactDetails[];
   /** @nullable */
   additionalEngagementInformation?: string;
   /** @nullable */
   additionalSolutionInformation?: string;
+  /** @nullable */
   addressRisksAndHazards?: string;
+  /** @nullable */
   authorizedRepresentativeStatement?: boolean;
+  /** @nullable */
   climateAdaptation?: string;
+  /** @nullable */
   communityImpact?: string;
+  /** @nullable */
   disasterRiskUnderstanding?: string;
+  /** @nullable */
   drifProgramGoalAlignment?: string;
+  /** @nullable */
   endDate?: string;
+  /** @nullable */
   estimatedPeopleImpacted?: EstimatedNumberOfPeople;
   /**
    * @minimum 0
    * @maximum 999999999.99
+   * @nullable
    */
   estimatedTotal?: number;
+  /** @nullable */
   firstNationsEngagement?: string;
   /** @nullable */
   foippaConfirmation?: boolean;
   /**
    * @minimum 0
    * @maximum 999999999.99
+   * @nullable
    */
   fundingRequest?: number;
+  /** @nullable */
   fundingStream?: FundingStream;
+  /** @nullable */
   informationAccuracyStatement?: boolean;
+  /** @nullable */
   infrastructureImpacted?: string[];
   /** @nullable */
   intendToSecureFunding?: string;
+  /** @nullable */
   locationDescription?: string;
+  /** @nullable */
   neighbourEngagement?: string;
-  otherFunding?: FundingInformation[];
+  /** @nullable */
+  otherFunding?: DraftFundingInformation[];
   /** @nullable */
   otherHazardsDescription?: string;
   /** @nullable */
   otherInformation?: string;
+  /** @nullable */
   ownershipDeclaration?: boolean;
   /** @nullable */
   ownershipDescription?: string;
+  /** @nullable */
   partneringProponents?: string[];
-  projectContact?: ContactDetails;
+  /** @nullable */
+  projectContact?: DraftContactDetails;
+  /** @nullable */
   projectTitle?: string;
+  /** @nullable */
   projectType?: ProjectType;
+  /** @nullable */
   proponentName?: string;
+  /** @nullable */
   proponentType?: ProponentType;
+  /** @nullable */
   rationaleForFunding?: string;
+  /** @nullable */
   rationaleForSolution?: string;
+  /** @nullable */
   relatedHazards?: Hazards[];
+  /** @nullable */
   remainingAmount?: number;
+  /** @nullable */
   scopeStatement?: string;
+  /** @nullable */
   startDate?: string;
-  status?: ApplicationStatus;
-  submitter?: ContactDetails;
+  /** @nullable */
+  submitter?: DraftContactDetails;
 }

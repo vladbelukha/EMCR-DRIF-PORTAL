@@ -3,11 +3,12 @@ import { Component, inject, isDevMode } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { VersionService } from '../../api/version/version.service';
 import { VersionInformation } from '../../model';
+import { TranslocoModule } from '@ngneat/transloco';
 
 @Component({
   selector: 'drr-footer',
   standalone: true,
-  imports: [CommonModule, MatToolbarModule],
+  imports: [CommonModule, MatToolbarModule, TranslocoModule],
   templateUrl: './footer.component.html',
   styleUrl: './footer.component.scss',
 })
@@ -15,7 +16,6 @@ export class FooterComponent {
   versionService = inject(VersionService);
 
   isDevMode = isDevMode();
-  email = 'EMCR.DisasterMitigation@gov.bc.ca';
   versions?: VersionInformation[];
 
   get uiVersion() {
@@ -27,10 +27,6 @@ export class FooterComponent {
   }
 
   ngOnInit() {
-    if (this.isDevMode) {
-      return;
-    }
-
     this.versionService.versionGetVersionInformation().subscribe((version) => {
       this.versions = version;
     });

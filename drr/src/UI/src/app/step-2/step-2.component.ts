@@ -63,7 +63,7 @@ export class Step2Component {
         const otherHazardsDescriptionControl = this.projectInformationForm.get(
           'otherHazardsDescription'
         );
-        if (hazards.includes('Other')) {
+        if (hazards?.includes('Other')) {
           otherHazardsDescriptionControl?.addValidators(Validators.required);
         } else {
           otherHazardsDescriptionControl?.clearValidators();

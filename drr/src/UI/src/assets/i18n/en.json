@@ -1,5 +1,5 @@
 {
-  "header": "Disaster Resilience & Innovation Funding Program",
+  "header": "Community Resilience and Adaptation Funding Tool",
   "formHeader": "Expression of Interest",
   "proponentInformation": "Proponent Information",
   "projectInformation": "Project Information",
@@ -125,5 +125,17 @@
   "TenKToFiftyK": "10,001 - 50,000",
   "FiftyKToHundredK": "50,001 - 100,000",
   "HundredKPlus": "100,001 +",
-  "Unsure": "Unsure"
+  "Unsure": "Unsure",
+  "landingInfoText": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sollicitudin orci eu ante ultricies consectetur. Curabitur interdum massa ut ornare hendrerit. Aenean in pulvinar lectus. Sed pharetra erat eget risus elementum pharetra. Curabitur vehicula semper sem, at aliquet nisl ullamcorper vitae. Fusce lectus ex, sollicitudin non placerat sed, ultricies eu purus. In ante ante, commodo efficitur sem in, scelerisque cursus lorem. Duis accumsan lorem et ex luctus molestie vitae et leo. Pellentesque porttitor, est quis ornare suscipit, mi nunc cursus lacus, mollis facilisis ante eros ac tellus.",
+  "landingInfoLink": "Learn more",
+  "landingMoreInfoHeader": "What is DMAP?",
+  "landingMoreInfoText": "Vestibulum a elit nec lorem iaculis sollicitudin. Donec ornare molestie velit, et faucibus eros ultricies sit amet. Duis ac mauris non nulla sodales dictum.",
+  "landingMoreInfoLink": "Find out more",
+  "landingLoginHeader": "Login with BCeID",
+  "landingLoginText": "If you have a BCeID and would like to submit an application, you can begin by singing in below.",
+  "landingLoginButtonLabel": "Login",
+  "landingLoginForgotPassword": "Forgot your user ID or password?",
+  "landingContactHeader": "Contact Us",
+  "landingContactText": "For disaster mitigation funding support, contact: {{contact}}",
+  "supportEmail": "EMBCDisasterMitigation@gov.bc.ca"
 }
