@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { take } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { ConfigurationStore } from '../../store/configuration.store';
 import { ProfileStore } from '../../store/profile.store';
 import { AuthService } from '../auth/auth.service';
@@ -14,6 +14,7 @@ export class AuthenticationGuard {
   configurationStore = inject(ConfigurationStore);
 
   async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    console.log('canActivate, loggedIn: ', this.profileStore.loggedIn());
     if (!this.profileStore.loggedIn()) {
       // to be able to login, configuration need to be fetched from API prior to login
       console.log(
@@ -28,6 +29,12 @@ export class AuthenticationGuard {
       await this.authService.login();
     }
 
-    return this.authService.waitUntilAuthentication$.pipe(take(1));
+    return this.authService.waitUntilAuthentication$.pipe(
+      take(1),
+      map((isAuthenticated) => {
+        console.log('canActivate, isAuthenticated: ', isAuthenticated);
+        return isAuthenticated;
+      })
+    );
   }
 }
