@@ -19,7 +19,7 @@ import {
   Hazards,
   ProjectType,
   ProponentType,
-} from '../../model';
+} from '../../../model';
 
 export class FundingInformationItemForm implements FundingInformation {
   @prop()

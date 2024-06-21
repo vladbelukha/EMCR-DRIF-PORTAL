@@ -16,10 +16,10 @@ import {
   RxFormBuilder,
   RxFormControl,
 } from '@rxweb/reactive-form-validators';
-import { EstimatedNumberOfPeople } from '../../model';
-import { DrrInputComponent } from '../drr-input/drr-input.component';
-import { DrrSelectComponent } from '../drr-select/drr-select.component';
-import { DrrTextareaComponent } from '../drr-textarea/drr-textarea.component';
+import { EstimatedNumberOfPeople } from '../../../model';
+import { DrrInputComponent } from '../../shared/controls/drr-input/drr-input.component';
+import { DrrSelectComponent } from '../../shared/controls/drr-select/drr-select.component';
+import { DrrTextareaComponent } from '../../shared/controls/drr-textarea/drr-textarea.component';
 import {
   ProjectDetailsForm,
   StringItemRequired,

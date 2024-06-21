@@ -7,8 +7,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { Router } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
-import { AuthService } from '../core/auth/auth.service';
-import { ProfileStore } from '../store/profile.store';
+import { AuthService } from '../../core/auth/auth.service';
+import { ProfileStore } from '../../store/profile.store';
 
 @Component({
   selector: 'drr-header',

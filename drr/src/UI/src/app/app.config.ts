@@ -21,7 +21,7 @@ import { provideOAuthClient } from 'angular-oauth2-oidc';
 import { provideNgxMask } from 'ngx-mask';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { DrifapplicationService } from '../api/drifapplication/drifapplication.service';
-import { LoadingInterceptor } from '../interceptors/loading.interceptor';
+import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
 import { routes } from './app.routes';
 import { AuthService } from './core/auth/auth.service';
 import { AppConfigurationService } from './core/configuration/app-configuration.service';
