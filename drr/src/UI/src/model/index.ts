@@ -23,6 +23,7 @@ export * from './fundingStream';
 export * from './fundingType';
 export * from './hazards';
 export * from './oidcConfiguration';
+export * from './profileDetails';
 export * from './projectType';
 export * from './proponentType';
 export * from './versionInformation';

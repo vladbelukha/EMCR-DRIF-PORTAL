@@ -34,21 +34,6 @@ export class DashboardComponent {
   activatedRoute = inject(ActivatedRoute);
   applicationService = inject(DrifapplicationService);
 
-  notifications = [
-    {
-      title: 'New application was created for your organization',
-      message: 'John Doe created a new application for your organization',
-    },
-    {
-      title: 'Your application got rejected',
-      message: 'Your application was rejected by the DMAP team',
-    },
-    {
-      title: 'Your application status has been updated',
-      message: 'Your application status has been updated to "Under Review"',
-    },
-  ];
-
   applications?: CRAFTApplication[];
 
   ngOnInit() {

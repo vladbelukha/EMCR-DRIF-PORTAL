@@ -11,26 +11,15 @@
           <mat-card-title> Welcome </mat-card-title>
         </mat-card-header>
         <mat-card-content class="card-content">
-          <p>Welcome, {{ profileStore.name() }}</p>
+          <p>Welcome, {{ profileStore.firstName!() }}</p>
+          <p>Here is your profile information:</p>
+          <p>First name: {{ profileStore.firstName!() }}</p>
+          <p>Last name: {{ profileStore.lastName!() }}</p>
+          <p>Email: {{ profileStore.email() }}</p>
+          <p>Phone: {{ profileStore.phone!() }}</p>
+          <p>Title: {{ profileStore.title!() }}</p>
+          <p>Department: {{ profileStore.department!() }}</p>
           <p>Organization: {{ profileStore.organization() }}</p>
-        </mat-card-content>
-      </mat-card>
-
-      <mat-card>
-        <mat-card-header>
-          <mat-card-title>
-            <span>Notifications</span>
-          </mat-card-title>
-        </mat-card-header>
-        <mat-card-content class="card-content">
-          <p>You have <strong>3</strong> new notifications.</p>
-
-          <div *ngFor="let notification of notifications">
-            <p>{{ notification.title }}</p>
-            <p>
-              <i>{{ notification.message }}</i>
-            </p>
-          </div>
         </mat-card-content>
       </mat-card>
 
@@ -66,28 +55,6 @@
               }}</a>
             </strong>
           </p>
-        </mat-card-content>
-      </mat-card>
-
-      <mat-card>
-        <mat-card-header>
-          <mat-card-title>
-            <span>Recent Activity</span>
-          </mat-card-title>
-        </mat-card-header>
-        <mat-card-content class="card-content">
-          <p>You have submitted <strong>2</strong> forms in the last week.</p>
-        </mat-card-content>
-      </mat-card>
-
-      <mat-card>
-        <mat-card-header>
-          <mat-card-title>
-            <span>Submission Summary</span>
-          </mat-card-title>
-        </mat-card-header>
-        <mat-card-content class="card-content">
-          <p>You have submitted <strong>5</strong> forms in total.</p>
         </mat-card-content>
       </mat-card>
     </div>

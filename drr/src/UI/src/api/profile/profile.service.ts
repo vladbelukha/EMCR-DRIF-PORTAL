@@ -18,6 +18,9 @@ import {
 import {
   Observable
 } from 'rxjs'
+import type {
+  ProfileDetails
+} from '../../model'
 
 
 type HttpClientOptions = {
@@ -37,18 +40,16 @@ type HttpClientOptions = {
 
 
 @Injectable({ providedIn: 'root' })
-export class TestService {
+export class ProfileService {
   constructor(
     private http: HttpClient,
-  ) {} testTest<TData = Blob>(
+  ) {} profileProfileDetails<TData = ProfileDetails>(
      options?: HttpClientOptions
   ): Observable<TData>  {
     return this.http.get<TData>(
-      `/api/test`,{
-        responseType: 'blob',
-    ...options,}
+      `/api/profile`,options
     );
   }
 };
 
-export type TestTestClientResult = NonNullable<Blob>
+export type ProfileProfileDetailsClientResult = NonNullable<ProfileDetails>
