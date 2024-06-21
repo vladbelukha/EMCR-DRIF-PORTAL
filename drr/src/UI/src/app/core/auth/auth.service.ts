@@ -1,6 +1,7 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { AuthConfig, OAuthEvent, OAuthService } from 'angular-oauth2-oidc';
-import { Subject } from 'rxjs';
+import { Subject, firstValueFrom } from 'rxjs';
+import { ProfileService } from '../../../api/profile/profile.service';
 import { ConfigurationStore } from '../../store/configuration.store';
 import { ProfileStore } from '../../store/profile.store';
 
@@ -11,6 +12,7 @@ export class AuthService {
   oauthService = inject(OAuthService);
   profileStore = inject(ProfileStore);
   configurationStore = inject(ConfigurationStore);
+  profileService = inject(ProfileService);
 
   isAuthenticationSuccessful = signal(false);
 
@@ -18,12 +20,21 @@ export class AuthService {
   waitUntilAuthentication$ =
     this._waitUntilAuthenticationSubject$.asObservable();
 
-  setProfile() {
+  async setProfile() {
     if (this.isLoggedIn()) {
       const profile = this.getProfile();
+      const profileDetails = await firstValueFrom(
+        this.profileService.profileProfileDetails()
+      );
+      console.log(profileDetails);
 
       this.profileStore.setProfile({
-        name: profile['name'],
+        fullName: profile['name'],
+        firstName: profileDetails.firstName,
+        lastName: profileDetails.lastName,
+        title: profileDetails.title,
+        department: profileDetails.department,
+        phone: profileDetails.phone,
         email: profile['email'],
         organization: profile['bceid_business_name'],
         loggedIn: true,
@@ -100,8 +111,6 @@ export class AuthService {
         await this.oauthService.loadDiscoveryDocumentAndLogin();
 
       if (isLoggedIn) {
-        const profile = this.getProfile();
-        // TODO: API call to fetch more data about user
         this.setProfile();
 
         this.isAuthenticationSuccessful.set(true);
