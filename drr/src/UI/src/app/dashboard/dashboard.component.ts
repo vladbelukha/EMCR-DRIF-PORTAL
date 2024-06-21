@@ -5,11 +5,13 @@ import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
 import { DrifapplicationService } from '../../api/drifapplication/drifapplication.service';
-import { CRAFTApplication } from '../../model';
+
+import { Submission } from '../../model';
 import { ProfileStore } from '../store/profile.store';
 
 @Component({
@@ -23,6 +25,7 @@ import { ProfileStore } from '../store/profile.store';
     MatIconModule,
     MatListModule,
     MatChipsModule,
+    MatTableModule,
     TranslocoModule,
   ],
   templateUrl: './dashboard.component.html',
@@ -34,18 +37,26 @@ export class DashboardComponent {
   activatedRoute = inject(ActivatedRoute);
   applicationService = inject(DrifapplicationService);
 
-  applications?: CRAFTApplication[];
+  submissionListColumns = [
+    'id',
+    'projectTitle',
+    'status',
+    'fundingRequest',
+    'modifiedDate',
+    'submittedDate',
+    'partneringProponents',
+    'actions',
+  ];
+  submissionListDataSource = new MatTableDataSource<Submission>();
 
   ngOnInit() {
     if (this.activatedRoute.snapshot.queryParams['state']) {
       this.router.navigate([], { queryParams: {}, skipLocationChange: true });
     }
 
-    this.applicationService
-      .dRIFApplicationGetAll()
-      .subscribe((applications) => {
-        this.applications = applications;
-      });
+    this.applicationService.dRIFApplicationGetAll().subscribe((submissions) => {
+      this.submissionListDataSource = new MatTableDataSource(submissions);
+    });
   }
 
   onCreateFormClick() {

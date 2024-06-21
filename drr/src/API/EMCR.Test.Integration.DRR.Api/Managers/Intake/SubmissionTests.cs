@@ -1,4 +1,5 @@
-﻿using EMCR.DRR.Controllers;
+﻿using EMCR.DRR.API.Model;
+using EMCR.DRR.Controllers;
 using EMCR.DRR.Managers.Intake;
 using Microsoft.Extensions.DependencyInjection;
 using Shouldly;
@@ -29,7 +30,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             var uniqueSignature = TestPrefix + "-" + Guid.NewGuid().ToString().Substring(0, 4);
             return new DrifEoiApplication
             {
-                Status = ApplicationStatus.Draft,
+                Status = SubmissionPortalStatus.Draft,
 
                 //Proponent Information
                 ProponentType = EMCR.DRR.Controllers.ProponentType.LocalGovernment,

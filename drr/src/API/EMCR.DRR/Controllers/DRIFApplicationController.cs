@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Net.Mime;
 using System.Text.Json.Serialization;
 using AutoMapper;
+using EMCR.DRR.API.Model;
 using EMCR.DRR.Managers.Intake;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,41 +28,54 @@ namespace EMCR.DRR.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CRAFTApplication>>> Get()
+        public async Task<ActionResult<IEnumerable<Submission>>> Get()
         {
             await Task.CompletedTask;
-            var ret = new[]
+            var result = new[]
             {
-                new CRAFTApplication
+                new Submission
                 {
                     Id = Guid.NewGuid(),
                     ProjectTitle = "Project 1",
-                    Status = ApplicationStatus.Draft,
-                    CreatedTime = DateTime.Now
+                    Status = SubmissionPortalStatus.Draft,
+                    FundingRequest = "1000",
+                    ModifiedDate = DateTime.Now.AddDays(-1),
+                    SubmittedDate = DateTime.Now.AddDays(-1),
+                    PartneringProponents = new[] { "Partner 1", "Partner 2" }
                 },
-                new CRAFTApplication
+                new Submission
                 {
                     Id = Guid.Parse("14dabac4-e399-456c-8d48-555a9007e31e"),
                     ProjectTitle = "Project 2",
-                    Status = ApplicationStatus.Submitted,
-                    CreatedTime = DateTime.Now.AddDays(-1)
+                    Status = SubmissionPortalStatus.Submitted,
+                    FundingRequest = "2000",
+                    ModifiedDate = DateTime.Now.AddDays(-1),
+                    SubmittedDate = DateTime.Now.AddDays(-2),
+                    PartneringProponents = new[] { "Partner 3", "Partner 4", "Partner 5" }
                 },
-                new CRAFTApplication
+                new Submission
                 {
                     Id = Guid.NewGuid(),
                     ProjectTitle = "Project 3",
-                    Status = ApplicationStatus.Draft,
-                    CreatedTime = DateTime.Now.AddDays(-2)
+                    Status = SubmissionPortalStatus.Draft,
+                    FundingRequest = "3000",
+                    ModifiedDate = DateTime.Now.AddDays(-5),
+                    SubmittedDate = DateTime.Now.AddDays(-10),
+                    PartneringProponents = new[] { "Partner 5", "Partner 6" }
                 },
-                new CRAFTApplication
+                new Submission
                 {
                     Id = Guid.NewGuid(),
                     ProjectTitle = "Project 4",
-                    Status = ApplicationStatus.Rejected,
-                    CreatedTime = DateTime.Now.AddDays(-3)
+                    Status = SubmissionPortalStatus.Rejected,
+                    FundingRequest = "4000",
+                    ModifiedDate = DateTime.Now.AddDays(-2),
+                    SubmittedDate = DateTime.Now.AddDays(-3),
+                    PartneringProponents = new[] { "Partner 7" }
                 },
             };
-            return Ok(ret);
+
+            return Ok(result);
         }
 
         [HttpGet("{id}")]
@@ -69,7 +83,7 @@ namespace EMCR.DRR.Controllers
         {
             // TODO: remove after
             // compare if GUID is 14dabac4-e399-456c-8d48-555a9007e31e
-            var status = id.ToString() == "14dabac4-e399-456c-8d48-555a9007e31e" ? ApplicationStatus.Submitted : ApplicationStatus.Draft;
+            var status = id.ToString() == "14dabac4-e399-456c-8d48-555a9007e31e" ? SubmissionPortalStatus.Submitted : SubmissionPortalStatus.Draft;
 
             await Task.CompletedTask;
             return Ok(CreateNewTestEOIApplication(id, status));
@@ -103,7 +117,7 @@ namespace EMCR.DRR.Controllers
         private string[] lastNames = new[] { "Gaines", "Howell", "Rowe", "Boyer", "Preston", "Salazar", "Xiong", "Zuniga", "Hail", "Cabrera", "Day", "Walton", "Turner", "Kemp", "Campbell", "Dickerson", "Banks", "Williamson", "White", "Mercado", "Myers", "Brown", "Soto", "Russell", "Savage", "Ingram", "Stephenson", "Finley", "Ramirez", "Chandler", "Hernandez", "Wall", "Marin", "McCarty", "McGee", "Archer", "French", "Sloan", "Brown", "Ayala", "Norton", "O’Connor", "Lee", "Herring", "Wagner", "Hale", "McDaniel", "Serrano", "Perry", "Orr", "Alexander", "Salazar", "Burke", "Jones", "Colon", "Wall", "Dennis", "Robertson", "Foster", "McCullough", "Correa", "Miller", "Garner", "Beard", "Knight", "Stuart", "Patel", "Castillo", "Rubio", "Howe", "Hart", "Aguirre", "Foster", "Hodges", "Berry", "Person", "Stone", "Parra", "Bruce", "Newton", "Swanson", "Lynn", "McCarty", "Sellers", "Greer", "Pruitt", "Richmond", "Hicks", "Foster", "Salas", "Moses", "Ochoa", "Zuniga", "Marks", "McClain", "Sims", "Suarez", "Hoover", "Keith", "Roth", };
         private string GenerateName => $"{firstNames[Random.Shared.Next(0, firstNames.Length)]} {lastNames[Random.Shared.Next(0, lastNames.Length)]}";
 
-        private DrifEoiApplication CreateNewTestEOIApplication(Guid id, ApplicationStatus status)
+        private DrifEoiApplication CreateNewTestEOIApplication(Guid id, SubmissionPortalStatus status)
         {
 
             var proponentName = $"{firstNames[Random.Shared.Next(0, firstNames.Length)]} {lastNames[Random.Shared.Next(0, lastNames.Length)]}";
@@ -331,17 +345,9 @@ namespace EMCR.DRR.Controllers
 
     }
 
-    public class CRAFTApplication
-    {
-        public required Guid Id { get; set; }        
-        public required string ProjectTitle { get; set; }
-        public required ApplicationStatus Status { get; set; }
-        public required DateTime CreatedTime { get; set; }
-    }
-
     public class DrifEoiApplication
     {
-        public required ApplicationStatus Status { get; set; }
+        public required SubmissionPortalStatus Status { get; set; }
 
         //Proponent Information
         public ProponentType ProponentType { get; set; }
@@ -428,14 +434,6 @@ namespace EMCR.DRR.Controllers
         public required string Phone { get; set; }
         [StringLength(ApplicationValidators.CONTACT_MAX_LENGTH)]
         public required string Email { get; set; }
-    }
-
-    [JsonConverter(typeof(JsonStringEnumConverter))]
-    public enum ApplicationStatus
-    {
-        Draft,
-        Submitted,
-        Rejected
     }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
