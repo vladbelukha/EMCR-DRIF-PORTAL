@@ -8,7 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { TranslocoModule } from '@ngneat/transloco';
 import { IFormGroup } from '@rxweb/reactive-form-validators';
 import { RecaptchaFormsModule, RecaptchaModule } from 'ng-recaptcha';
-import { DrifapplicationService } from '../../api/drifapplication/drifapplication.service';
+import { DrifapplicationService } from '../../../api/drifapplication/drifapplication.service';
 import {
   DeclarationForm,
   EOIApplicationForm,

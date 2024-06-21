@@ -17,7 +17,7 @@ import {
   RxFormGroup,
 } from '@rxweb/reactive-form-validators';
 import { Subscription } from 'rxjs';
-import { DrrInputComponent } from '../drr-input/drr-input.component';
+import { DrrInputComponent } from '../../shared/controls/drr-input/drr-input.component';
 import {
   ContactDetailsForm,
   ProponentInformationForm,

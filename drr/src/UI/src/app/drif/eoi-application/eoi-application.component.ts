@@ -29,8 +29,8 @@ import {
   RxFormGroup,
 } from '@rxweb/reactive-form-validators';
 import { distinctUntilChanged } from 'rxjs/operators';
-import { DrifapplicationService } from '../../api/drifapplication/drifapplication.service';
-import { DrifEoiApplication, Hazards } from '../../model';
+import { DrifapplicationService } from '../../../api/drifapplication/drifapplication.service';
+import { DrifEoiApplication, Hazards } from '../../../model';
 import { Step1Component } from '../step-1/step-1.component';
 import { Step2Component } from '../step-2/step-2.component';
 import { Step3Component } from '../step-3/step-3.component';

@@ -6,11 +6,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { TranslocoModule } from '@ngneat/transloco';
 import { IFormGroup } from '@rxweb/reactive-form-validators';
-import { DrrTextareaComponent } from '../drr-textarea/drr-textarea.component';
-import { OtherSupportingInformationForm } from '../eoi-application/eoi-application-form';
+import { DrrTextareaComponent } from '../../shared/controls/drr-textarea/drr-textarea.component';
+import { EngagementPlanForm } from '../eoi-application/eoi-application-form';
 
 @Component({
-  selector: 'drr-step-7',
+  selector: 'drr-step-6',
   standalone: true,
   imports: [
     CommonModule,
@@ -22,14 +22,14 @@ import { OtherSupportingInformationForm } from '../eoi-application/eoi-applicati
     TranslocoModule,
     DrrTextareaComponent,
   ],
-  templateUrl: './step-7.component.html',
-  styleUrl: './step-7.component.scss',
+  templateUrl: './step-6.component.html',
+  styleUrl: './step-6.component.scss',
 })
-export class Step7Component {
+export class Step6Component {
   @Input()
-  otherSupportingInformationForm!: IFormGroup<OtherSupportingInformationForm>;
+  engagementPlanForm!: IFormGroup<EngagementPlanForm>;
 
   getFormControl(name: string): FormControl {
-    return this.otherSupportingInformationForm.get(name) as FormControl;
+    return this.engagementPlanForm.get(name) as FormControl;
   }
 }
