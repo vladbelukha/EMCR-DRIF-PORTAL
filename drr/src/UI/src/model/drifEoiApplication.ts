@@ -11,7 +11,7 @@ import type { FundingInformation } from './fundingInformation';
 import type { ProjectType } from './projectType';
 import type { ProponentType } from './proponentType';
 import type { Hazards } from './hazards';
-import type { ApplicationStatus } from './applicationStatus';
+import type { SubmissionPortalStatus } from './submissionPortalStatus';
 
 export interface DrifEoiApplication {
   /** @nullable */
@@ -69,6 +69,6 @@ export interface DrifEoiApplication {
   remainingAmount?: number;
   scopeStatement?: string;
   startDate?: string;
-  status?: ApplicationStatus;
+  status?: SubmissionPortalStatus;
   submitter?: ContactDetails;
 }

@@ -5,11 +5,11 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type ApplicationStatus = typeof ApplicationStatus[keyof typeof ApplicationStatus];
+export type SubmissionPortalStatus = typeof SubmissionPortalStatus[keyof typeof SubmissionPortalStatus];
 
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ApplicationStatus = {
+export const SubmissionPortalStatus = {
   Draft: 'Draft',
   Submitted: 'Submitted',
   Rejected: 'Rejected',

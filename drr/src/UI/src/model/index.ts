@@ -6,8 +6,6 @@
  */
 
 export * from './applicationResult';
-export * from './applicationStatus';
-export * from './cRAFTApplication';
 export * from './configuration';
 export * from './contactDetails';
 export * from './declarationInfo';
@@ -26,4 +24,6 @@ export * from './oidcConfiguration';
 export * from './profileDetails';
 export * from './projectType';
 export * from './proponentType';
+export * from './submission';
+export * from './submissionPortalStatus';
 export * from './versionInformation';
