@@ -14,27 +14,6 @@
   gap: 1rem;
 }
 
-.submissions-header {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-
-.submissions-list {
-  width: 100%;
-  text-align: center;
-
-  tr {
-    background-color: #f9f9f9;
-  }
-
-  th {
-    background-color: map-get($theme-colors, secondary-nav);
-    color: white;
-    height: 2rem;
-  }
-}
-
 ::ng-deep .mdc-tab .mdc-tab-indicator {
   background-color: $gray-400;
 }

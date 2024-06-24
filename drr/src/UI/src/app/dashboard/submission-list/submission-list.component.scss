@@ -1,0 +1,11 @@
+.submissions-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.submission-actions {
+  button {
+    margin-right: 1rem;
+  }
+}
