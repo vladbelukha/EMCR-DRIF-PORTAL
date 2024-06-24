@@ -73,6 +73,86 @@ namespace EMCR.DRR.Controllers
                     SubmittedDate = DateTime.Now.AddDays(-3),
                     PartneringProponents = new[] { "Partner 7" }
                 },
+                new Submission
+                {
+                    Id = Guid.NewGuid(),
+                    ProjectTitle = "Project 5",
+                    Status = SubmissionPortalStatus.Draft,
+                    FundingRequest = "5000",
+                    ModifiedDate = DateTime.Now.AddDays(-3),
+                    SubmittedDate = DateTime.Now.AddDays(-4),
+                    PartneringProponents = new[] { "Partner 8", "Partner 9" }
+                },
+                new Submission
+                {
+                    Id = Guid.NewGuid(),
+                    ProjectTitle = "Project 6",
+                    Status = SubmissionPortalStatus.Draft,
+                    FundingRequest = "6000",
+                    ModifiedDate = DateTime.Now.AddDays(-4),
+                    SubmittedDate = DateTime.Now.AddDays(-5),
+                    PartneringProponents = new[] { "Partner 10", "Partner 11" }
+                },
+                new Submission
+                {
+                    Id = Guid.NewGuid(),
+                    ProjectTitle = "Project 7",
+                    Status = SubmissionPortalStatus.Draft,
+                    FundingRequest = "7000",
+                    ModifiedDate = DateTime.Now.AddDays(-5),
+                    SubmittedDate = DateTime.Now.AddDays(-6),
+                    PartneringProponents = new[] { "Partner 12", "Partner 13" }
+                },
+                new Submission
+                {
+                    Id = Guid.NewGuid(),
+                    ProjectTitle = "Project 8",
+                    Status = SubmissionPortalStatus.Draft,
+                    FundingRequest = "8000",
+                    ModifiedDate = DateTime.Now.AddDays(-6),
+                    SubmittedDate = DateTime.Now.AddDays(-7),
+                    PartneringProponents = new[] { "Partner 14", "Partner 15" }
+                },
+                new Submission
+                {
+                    Id = Guid.NewGuid(),
+                    ProjectTitle = "Project 9",
+                    Status = SubmissionPortalStatus.Draft,
+                    FundingRequest = "9000",
+                    ModifiedDate = DateTime.Now.AddDays(-7),
+                    SubmittedDate = DateTime.Now.AddDays(-8),
+                    PartneringProponents = new[] { "Partner 16", "Partner 17" }
+                },
+                new Submission
+                {
+                    Id = Guid.NewGuid(),
+                    ProjectTitle = "Project 10",
+                    Status = SubmissionPortalStatus.Draft,
+                    FundingRequest = "10000",
+                    ModifiedDate = DateTime.Now.AddDays(-8),
+                    SubmittedDate = DateTime.Now.AddDays(-9),
+                    PartneringProponents = new[] { "Partner 18", "Partner 19" }
+                },
+                new Submission
+                {
+                    Id = Guid.NewGuid(),
+                    ProjectTitle = "Project 11",
+                    Status = SubmissionPortalStatus.Draft,
+                    FundingRequest = "11000",
+                    ModifiedDate = DateTime.Now.AddDays(-9),
+                    SubmittedDate = DateTime.Now.AddDays(-10),
+                    PartneringProponents = new[] { "Partner 20", "Partner 21" }
+                },
+                new Submission
+                {
+                    Id = Guid.NewGuid(),
+                    ProjectTitle = "Project 12",
+                    Status = SubmissionPortalStatus.Draft,
+                    FundingRequest = "12000",
+                    ModifiedDate = DateTime.Now.AddDays(-10),
+                    SubmittedDate = DateTime.Now.AddDays(-11),
+                    PartneringProponents = new[] { "Partner 22", "Partner 23" }
+                },
             };
 
             return Ok(result);
