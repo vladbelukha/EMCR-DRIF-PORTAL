@@ -8,6 +8,7 @@ namespace EMCR.Tests.Integration.DRR.Resources
     public class ApplicationTests
     {
         private string TestPrefix = "autotest-dev";
+        private string TestBusinessId = "autotest-dev-bceid";
 
         [Test]
         public async Task CanCreateEOIApplication()
@@ -19,7 +20,7 @@ namespace EMCR.Tests.Integration.DRR.Resources
             var id = (await applicationRepository.Manage(new SubmitApplication { Application = originalApplication })).Id;
             id.ShouldNotBeEmpty();
 
-            var newApplication = (await applicationRepository.Query(new ApplicationsQuery { ApplicationName = id })).Items.ShouldHaveSingleItem();
+            var newApplication = (await applicationRepository.Query(new ApplicationsQuery { Id = id })).Items.ShouldHaveSingleItem();
             newApplication.ProjectTitle.ShouldNotBeEmpty();
             //verify submitter
             //verify project contact
@@ -45,7 +46,7 @@ namespace EMCR.Tests.Integration.DRR.Resources
             var host = EMBC.Tests.Integration.DRR.Application.Host;
             var applicationRepository = host.Services.GetRequiredService<IApplicationRepository>();
 
-            var applications = (await applicationRepository.Query(new ApplicationsQuery { })).Items;
+            var applications = (await applicationRepository.Query(new ApplicationsQuery { BusinessId = TestBusinessId })).Items;
             applications.ShouldNotBeEmpty();
             //newApplication.Submitter.FirstName.ShouldBe(originalApplication.Submitter.FirstName);
             //newApplication.AdditionalContacts.Count().ShouldBe(originalApplication.AdditionalContacts.Count());

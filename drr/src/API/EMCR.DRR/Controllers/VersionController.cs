@@ -1,6 +1,5 @@
 ﻿using System.Net.Mime;
 using System.Reflection;
-using EMCR.DRR.Controllers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EMCR.DRR.API.Controllers

@@ -6,6 +6,7 @@ namespace EMCR.DRR.Managers.Intake
     {
         Task<DeclarationQueryResult> Handle(DeclarationQuery query);
         Task<string> Handle(IntakeCommand cmd);
+        Task<IntakeQueryResponse> Handle(IntakeQuery cmd);
     }
 
     public class DeclarationQuery
@@ -28,79 +29,102 @@ namespace EMCR.DRR.Managers.Intake
         AccuracyOfInformation
     }
 
+    public class IntakeQueryResponse
+    {
+        public required IEnumerable<Application> Items { get; set; }
+    }
+
+    public class DrrApplicationsQuery : IntakeQuery
+    {
+        public string? Id { get; set; }
+        public string? BusinessId { get; set; }
+    }
+
+    public abstract class IntakeQuery
+    { }
+
     public abstract class IntakeCommand
     { }
 
     public class DrifEoiApplicationCommand : IntakeCommand
     {
         public DrifEoiApplication application { get; set; } = null!;
+        public required string BusinessId { get; set; }
     }
 
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     public class Application
     {
+        public string? Id { get; set; }
+        public string? BusinessBCeID { get; set; }
         //Proponent Information
-        public ProponentType ProponentType { get; set; }
-        public required string ProponentName { get; set; }
-        public required ContactDetails Submitter { get; set; }
-        public required ContactDetails ProjectContact { get; set; }
+        public ProponentType? ProponentType { get; set; }
+        public string? ProponentName { get; set; }
+        public ContactDetails? Submitter { get; set; }
+        public ContactDetails? ProjectContact { get; set; }
         public ContactDetails? AdditionalContact1 { get; set; }
         public ContactDetails? AdditionalContact2 { get; set; }
-        public required IEnumerable<PartneringProponent> PartneringProponents { get; set; }
+        public IEnumerable<PartneringProponent> PartneringProponents { get; set; }
 
         //Project Information
-        public required FundingStream FundingStream { get; set; }
-        public required string ProjectTitle { get; set; }
-        public ProjectType ProjectType { get; set; }
-        public required string ScopeStatement { get; set; }
-        public required IEnumerable<Hazards> RelatedHazards { get; set; }
+        public FundingStream? FundingStream { get; set; }
+        public string? ProjectTitle { get; set; }
+        public ProjectType? ProjectType { get; set; }
+        public string? ScopeStatement { get; set; }
+        public IEnumerable<Hazards> RelatedHazards { get; set; }
         public string? OtherHazardsDescription { get; set; }
-        public required DateTime StartDate { get; set; }
-        public required DateTime EndDate { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
 
         //Funding Information
-        public required decimal EstimatedTotal { get; set; }
-        public required decimal FundingRequest { get; set; }
-        public required IEnumerable<FundingInformation> OtherFunding { get; set; }
-        public required decimal RemainingAmount { get; set; }
+        public decimal? EstimatedTotal { get; set; }
+        public decimal? FundingRequest { get; set; }
+        public IEnumerable<FundingInformation> OtherFunding { get; set; }
+        public decimal? RemainingAmount { get; set; }
         public string? IntendToSecureFunding { get; set; }
 
         //Location Information
-        public required bool OwnershipDeclaration { get; set; }
+        public bool? OwnershipDeclaration { get; set; }
         public string? OwnershipDescription { get; set; }
-        public required string LocationDescription { get; set; }
+        public string? LocationDescription { get; set; }
 
         //Project Detail
-        public required string RationaleForFunding { get; set; }
-        public required EstimatedNumberOfPeople EstimatedPeopleImpacted { get; set; }
-        public required string CommunityImpact { get; set; }
-        public required IEnumerable<CriticalInfrastructure> InfrastructureImpacted { get; set; }
-        public required string DisasterRiskUnderstanding { get; set; }
+        public string? RationaleForFunding { get; set; }
+        public EstimatedNumberOfPeople? EstimatedPeopleImpacted { get; set; }
+        public string? CommunityImpact { get; set; }
+        public IEnumerable<CriticalInfrastructure> InfrastructureImpacted { get; set; }
+        public string? DisasterRiskUnderstanding { get; set; }
         public string? AdditionalBackgroundInformation { get; set; }
-        public required string AddressRisksAndHazards { get; set; }
-        public required string DRIFProgramGoalAlignment { get; set; }
+        public string? AddressRisksAndHazards { get; set; }
+        public string? DRIFProgramGoalAlignment { get; set; }
         public string? AdditionalSolutionInformation { get; set; }
-        public required string RationaleForSolution { get; set; }
+        public string? RationaleForSolution { get; set; }
 
         //Engagement Plan
-        public required string FirstNationsEngagement { get; set; }
-        public required string NeighbourEngagement { get; set; }
+        public string? FirstNationsEngagement { get; set; }
+        public string? NeighbourEngagement { get; set; }
         public string? AdditionalEngagementInformation { get; set; }
 
         //Other Supporting Information
-        public required string ClimateAdaptation { get; set; }
+        public string? ClimateAdaptation { get; set; }
         public string? OtherInformation { get; set; }
 
 
         //Declaration
-        public required bool AuthorizedRepresentativeStatement { get; set; }
+        public bool? AuthorizedRepresentativeStatement { get; set; }
         public bool? FOIPPAConfirmation { get; set; }
-        public required bool InformationAccuracyStatement { get; set; }
+        public bool? InformationAccuracyStatement { get; set; }
+
+        public ApplicationStatus Status { get; set; }
+        public DateTime? SubmittedDate { get; set; } = null;
+        public DateTime? ModifiedOn { get; set; } = null;
     }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
     public class FundingInformation
     {
         public required string Name { get; set; }
-        public required FundingType Type { get; set; }
+        public required FundingType? Type { get; set; }
         public required decimal Amount { get; set; }
         public string? OtherDescription { get; set; }
 
@@ -181,5 +205,17 @@ namespace EMCR.DRR.Managers.Intake
         Seismic,
         Tsunami,
         Other,
+    }
+
+    public enum ApplicationStatus
+    {
+        DraftStaff,
+        DraftProponent,
+        Submitted,
+        InReview,
+        InPool,
+        Invited,
+        Ineligible,
+        Withdrawn
     }
 }

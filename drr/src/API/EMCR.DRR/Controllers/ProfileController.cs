@@ -1,4 +1,5 @@
 ﻿using System.Net.Mime;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,6 +12,10 @@ namespace EMCR.DRR.API.Controllers
     [Authorize]
     public class ProfileController : Controller
     {
+#pragma warning disable CS8603 // Possible null reference return.
+        private string GetCurrentBusinessName() => User.FindFirstValue("bceid_business_name");
+#pragma warning restore CS8603 // Possible null reference return.
+
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -18,6 +23,7 @@ namespace EMCR.DRR.API.Controllers
         {
             var profile = new ProfileDetails
             {
+                BusinessName = GetCurrentBusinessName(),
                 FirstName = "John",
                 LastName = "Doe",
                 Title = "Sr. Manager",
@@ -32,6 +38,7 @@ namespace EMCR.DRR.API.Controllers
 
     public class ProfileDetails
     {
+        public required string BusinessName { get; set; }
         public required string FirstName { get; set; }
         public required string LastName { get; set; }
         public string? Title { get; set;}

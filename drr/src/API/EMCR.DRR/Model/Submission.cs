@@ -2,7 +2,7 @@
 {
     public class Submission
     {
-        public required Guid Id { get; set; }
+        public required string Id { get; set; }
         public required string ProjectTitle { get; set; }
         public required SubmissionPortalStatus Status { get; set; }
         public required string FundingRequest { get; set; }

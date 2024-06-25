@@ -49,7 +49,8 @@ namespace EMCR.DRR.Resources.Applications
             var readCtx = dRRContextFactory.CreateReadOnly();
 
             var applicationsQuery = readCtx.drr_applications.Where(a => a.statecode == (int)EntityState.Active);
-            if (!string.IsNullOrEmpty(query.ApplicationName)) applicationsQuery = applicationsQuery.Where(f => f.drr_name == query.ApplicationName);
+            if (!string.IsNullOrEmpty(query.Id)) applicationsQuery = applicationsQuery.Where(f => f.drr_name == query.Id);
+            if (!string.IsNullOrEmpty(query.BusinessId)) applicationsQuery = applicationsQuery.Where(f => f.drr_Primary_Proponent_Name.drr_bceidguid == query.BusinessId);
 
             var results = await applicationsQuery.GetAllPagesAsync(ct);
 
@@ -74,10 +75,10 @@ namespace EMCR.DRR.Resources.Applications
             var additionalContact2 = drrApplication.drr_AdditionalContact2;
 
             AssignPrimaryProponent(ctx, drrApplication, primaryProponent);
-            AssignSubmitter(ctx, drrApplication, submitter);
-            AssignPrimaryProjectContact(ctx, drrApplication, primaryProjectContact);
-            AddAdditionalContact1(ctx, drrApplication, additionalContact1);
-            AddAdditionalContact2(ctx, drrApplication, additionalContact2);
+            if (submitter != null) AssignSubmitter(ctx, drrApplication, submitter);
+            if (primaryProjectContact != null) AssignPrimaryProjectContact(ctx, drrApplication, primaryProjectContact);
+            if (additionalContact1 != null) AddAdditionalContact1(ctx, drrApplication, additionalContact1);
+            if (additionalContact2 != null) AddAdditionalContact2(ctx, drrApplication, additionalContact2);
             AddFundinSources(ctx, drrApplication);
             AddInfrastructureImpacted(ctx, drrApplication);
             SetApplicationType(ctx, drrApplication, "EOI");
@@ -213,8 +214,15 @@ namespace EMCR.DRR.Resources.Applications
                 ctx.LoadPropertyAsync(application, nameof(drr_application.drr_application_contact_Application), ct),
                 ctx.LoadPropertyAsync(application, nameof(drr_application.drr_application_fundingsource_Application), ct)
             };
+            loadTasks.Add(LoadPartneringProponents(ctx, application, ct));
 
             await Task.WhenAll(loadTasks);
+        }
+
+        private static async Task LoadPartneringProponents(DRRContext ctx, drr_application application, CancellationToken ct)
+        {
+            var partnerProponents = await ctx.connections.Where(c => c.record1id_drr_application.drr_applicationid == application.drr_applicationid).GetAllPagesAsync();
+            application.drr_application_connections1 = new System.Collections.ObjectModel.Collection<connection>(partnerProponents.ToList());
         }
     }
 }
