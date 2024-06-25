@@ -14,6 +14,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { TranslocoModule } from '@ngneat/transloco';
 import { IFormGroup, RxFormControl } from '@rxweb/reactive-form-validators';
+import { DateTime } from 'luxon';
 import { Hazards } from '../../../model';
 import { DrrDatepickerComponent } from '../../shared/controls/drr-datepicker/drr-datepicker.component';
 import { DrrInputComponent } from '../../shared/controls/drr-input/drr-input.component';
@@ -54,6 +55,10 @@ export class Step2Component {
     this.projectInformationForm
       .get('startDate')
       ?.valueChanges.subscribe((date) => {
+        if (!DateTime.isDateTime(date)) {
+          date = DateTime.fromISO(date.toString());
+        }
+
         this.minEndDate = date?.plus({ days: 1 });
       });
 

@@ -26,7 +26,6 @@ export class AuthService {
       const profileDetails = await firstValueFrom(
         this.profileService.profileProfileDetails()
       );
-      console.log(profileDetails);
 
       this.profileStore.setProfile({
         fullName: profile['name'],

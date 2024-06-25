@@ -229,6 +229,10 @@ export class EOIApplicationComponent {
   lastSavedAt?: Date;
 
   save() {
+    if (!this.formChanged) {
+      return;
+    }
+
     this.lastSavedAt = new Date();
 
     const eoiApplicationForm =

@@ -21,10 +21,11 @@ import { provideOAuthClient } from 'angular-oauth2-oidc';
 import { provideNgxMask } from 'ngx-mask';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { DrifapplicationService } from '../api/drifapplication/drifapplication.service';
-import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
 import { routes } from './app.routes';
 import { AuthService } from './core/auth/auth.service';
 import { AppConfigurationService } from './core/configuration/app-configuration.service';
+import { ErrorInterceptor } from './core/interceptors/error.interceptor';
+import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
 import { TokenInterceptor } from './core/interceptors/token.interceptor';
 import { TranslocoHttpLoader } from './transloco-loader';
 
@@ -46,7 +47,7 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(),
     provideHttpClient(
       withFetch(),
-      withInterceptors([LoadingInterceptor, TokenInterceptor])
+      withInterceptors([LoadingInterceptor, TokenInterceptor, ErrorInterceptor])
     ),
     provideOAuthClient(),
     provideAnimations(),
