@@ -19,7 +19,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
         }
 
         [Test]
-        public async Task CanSubmitEOIApplication()
+        public async Task CanCreateEOIApplication()
         {
             var application = CreateNewTestEOIApplication();
             var id = await manager.Handle(new DrifEoiApplicationCommand { application = application, BusinessId = TestBusinessId });
@@ -27,7 +27,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
         }
 
         [Test]
-        public async Task CanSubmitDraftEOIApplication()
+        public async Task CanCreateDraftEOIApplication()
         {
             var uniqueSignature = TestPrefix + "-" + Guid.NewGuid().ToString().Substring(0, 4);
             var application = new DrifEoiApplication

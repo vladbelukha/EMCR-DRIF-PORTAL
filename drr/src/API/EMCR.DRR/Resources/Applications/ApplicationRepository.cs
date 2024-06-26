@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
 using EMCR.DRR.Dynamics;
 using EMCR.DRR.Managers.Intake;
 using Microsoft.Dynamics.CRM;
@@ -64,10 +65,96 @@ namespace EMCR.DRR.Resources.Applications
         public async Task<ManageApplicationCommandResult> HandleSubmitEOIApplication(SubmitApplication cmd)
         {
             var ctx = dRRContextFactory.Create();
-            var drrApplication = mapper.Map<drr_application>(cmd.Application);
+            if (string.IsNullOrEmpty(cmd.Application.Id))
+            {
+                return new ManageApplicationCommandResult { Id = await Create(ctx, cmd.Application) };
+            }
+            else
+            {
+                return new ManageApplicationCommandResult { Id = await Update(ctx, cmd.Application) };
+            }
+        }
+
+        private async Task<string> Create(DRRContext ctx, Application application)
+        {
+            var drrApplication = mapper.Map<drr_application>(application);
             drrApplication.drr_applicationid = Guid.NewGuid();
             ctx.AddTodrr_applications(drrApplication);
+            return await SaveApplication(ctx, drrApplication, application);
+        }
 
+        private async Task<string> Update(DRRContext ctx, Application application)
+        {
+            var currentApplication = await ctx.drr_applications
+                .Expand(a => a.drr_Primary_Proponent_Name)
+                .Expand(a => a.drr_SubmitterContact)
+                .Expand(a => a.drr_PrimaryProjectContact)
+                .Expand(a => a.drr_AdditionalContact1)
+                .Expand(a => a.drr_AdditionalContact2)
+                .Expand(a => a.drr_application_fundingsource_Application)
+                .Expand(a => a.drr_drr_application_drr_criticalinfrastructureimpacted_Application)
+                .Where(a => a.drr_name == application.Id)
+                .SingleOrDefaultAsync();
+
+            var partnerAccounts = (await ctx.connections.Expand(c => c.record2id_account).Where(c => c.record1id_drr_application.drr_applicationid == currentApplication.drr_applicationid).GetAllPagesAsync()).Select(p => p.record2id_account).ToList();
+            ctx.DetachAll();
+            RemoveOldData(ctx, currentApplication, partnerAccounts);
+
+            var drrApplication = mapper.Map<drr_application>(application);
+            drrApplication.drr_applicationid = currentApplication.drr_applicationid;
+
+            ctx.AttachTo(nameof(ctx.drr_applications), drrApplication);
+            return await SaveApplication(ctx, drrApplication, application);
+        }
+
+        private void RemoveOldData(DRRContext ctx, drr_application drrApplication, IEnumerable<account> partnerAccounts)
+        {
+            foreach (var account in partnerAccounts)
+            {
+                ctx.AttachTo(nameof(ctx.accounts), account);
+                ctx.DeleteObject(account);
+            }
+
+            if (drrApplication.drr_Primary_Proponent_Name != null)
+            {
+                ctx.AttachTo(nameof(ctx.accounts), drrApplication.drr_Primary_Proponent_Name);
+                ctx.DeleteObject(drrApplication.drr_Primary_Proponent_Name);
+            }
+
+            if (drrApplication.drr_SubmitterContact != null)
+            {
+                ctx.AttachTo(nameof(ctx.contacts), drrApplication.drr_SubmitterContact);
+                ctx.DeleteObject(drrApplication.drr_SubmitterContact);
+            }
+            if (drrApplication.drr_PrimaryProjectContact != null)
+            {
+                ctx.AttachTo(nameof(ctx.contacts), drrApplication.drr_PrimaryProjectContact);
+                ctx.DeleteObject(drrApplication.drr_PrimaryProjectContact);
+            }
+            if (drrApplication.drr_AdditionalContact1 != null)
+            {
+                ctx.AttachTo(nameof(ctx.contacts), drrApplication.drr_AdditionalContact1);
+                ctx.DeleteObject(drrApplication.drr_AdditionalContact1);
+            }
+            if (drrApplication.drr_AdditionalContact2 != null)
+            {
+                ctx.AttachTo(nameof(ctx.contacts), drrApplication.drr_AdditionalContact2);
+                ctx.DeleteObject(drrApplication.drr_AdditionalContact2);
+            }
+            foreach (var fund in drrApplication.drr_application_fundingsource_Application)
+            {
+                ctx.AttachTo(nameof(ctx.drr_fundingsources), fund);
+                ctx.DeleteObject(fund);
+            }
+            foreach (var infrastructure in drrApplication.drr_drr_application_drr_criticalinfrastructureimpacted_Application)
+            {
+                ctx.AttachTo(nameof(ctx.drr_criticalinfrastructureimpacteds), infrastructure);
+                ctx.DeleteObject(infrastructure);
+            }
+        }
+
+        private async Task<string> SaveApplication(DRRContext ctx, drr_application drrApplication, Application application)
+        {
             var primaryProponent = drrApplication.drr_Primary_Proponent_Name;
             var submitter = drrApplication.drr_SubmitterContact;
             var primaryProjectContact = drrApplication.drr_PrimaryProjectContact;
@@ -85,7 +172,7 @@ namespace EMCR.DRR.Resources.Applications
             SetProgram(ctx, drrApplication, "DRIF");
             await SetDeclarations(ctx, drrApplication);
 
-            var partnerAccounts = mapper.Map<IEnumerable<account>>(cmd.Application.PartneringProponents);
+            var partnerAccounts = mapper.Map<IEnumerable<account>>(application.PartneringProponents);
             foreach (var account in partnerAccounts)
             {
                 ctx.AddToaccounts(account);
@@ -102,7 +189,7 @@ namespace EMCR.DRR.Resources.Applications
             var drrApplicationNumber = ctx.drr_applications.Where(a => a.drr_applicationid == drrApplication.drr_applicationid).Select(a => a.drr_name).Single();
 
             ctx.DetachAll();
-            return new ManageApplicationCommandResult { Id = drrApplicationNumber };
+            return drrApplicationNumber;
         }
 
         private static async Task SetDeclarations(DRRContext drrContext, drr_application application)
@@ -163,7 +250,6 @@ namespace EMCR.DRR.Resources.Applications
                     name = account.name,
                 };
                 drrContext.AddToconnections(connection);
-                //drrContext.AddToaccounts(partner);
                 drrContext.SetLink(connection, nameof(connection.record2roleid), connectionRole);
                 drrContext.SetLink(connection, nameof(connection.record2id_account), account);
                 drrContext.SetLink(connection, nameof(connection.record1id_drr_application), application);
@@ -210,11 +296,16 @@ namespace EMCR.DRR.Resources.Applications
 
             var loadTasks = new List<Task>
             {
+                ctx.LoadPropertyAsync(application, nameof(drr_application.drr_Primary_Proponent_Name), ct),
                 ctx.LoadPropertyAsync(application, nameof(drr_application.drr_SubmitterContact), ct),
+                ctx.LoadPropertyAsync(application, nameof(drr_application.drr_PrimaryProjectContact), ct),
+                ctx.LoadPropertyAsync(application, nameof(drr_application.drr_AdditionalContact1), ct),
+                ctx.LoadPropertyAsync(application, nameof(drr_application.drr_AdditionalContact2), ct),
                 ctx.LoadPropertyAsync(application, nameof(drr_application.drr_application_contact_Application), ct),
-                ctx.LoadPropertyAsync(application, nameof(drr_application.drr_application_fundingsource_Application), ct)
+                ctx.LoadPropertyAsync(application, nameof(drr_application.drr_application_fundingsource_Application), ct),
+                ctx.LoadPropertyAsync(application, nameof(drr_application.drr_drr_application_drr_criticalinfrastructureimpacted_Application), ct),
+                LoadPartneringProponents(ctx, application, ct)
             };
-            loadTasks.Add(LoadPartneringProponents(ctx, application, ct));
 
             await Task.WhenAll(loadTasks);
         }

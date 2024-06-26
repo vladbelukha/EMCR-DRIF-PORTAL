@@ -146,7 +146,10 @@ namespace EMCR.DRR.Resources.Applications
             ;
 
             CreateMap<CriticalInfrastructure, drr_criticalinfrastructureimpacted>()
-                .ForMember(dest => dest.drr_name, opt => opt.MapFrom(src => src.Name));
+                .ForMember(dest => dest.drr_name, opt => opt.MapFrom(src => src.Name))
+                .ReverseMap()
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.drr_name))
+                ;
 
             CreateMap<drr_legaldeclaration, DeclarationInfo>()
                 .ForMember(dest => dest.Type, opt => opt.MapFrom(src => Enum.Parse<DeclarationTypeOptionSet>(((DeclarationTypeOptionSet)src.drr_declarationtype).ToString())))

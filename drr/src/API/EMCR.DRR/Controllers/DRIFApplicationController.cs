@@ -59,17 +59,27 @@ namespace EMCR.DRR.Controllers
         [HttpPost("EOI")]
         public async Task<ActionResult<ApplicationResult>> CreateEOIApplication(DrifEoiApplication application)
         {
-            application.Status = SubmissionPortalStatus.UnderReview;
+            application.Status = SubmissionPortalStatus.Draft;
             var id = await intakeManager.Handle(new DrifEoiApplicationCommand { application = application, BusinessId = GetCurrentBusinessId() });
             return Ok(new ApplicationResult { Id = id });
         }
 
-        [HttpPost("EOI/draft")]
-        public async Task<ActionResult<ApplicationResult>> CreateDraftEOIApplication(DrifEoiApplication application)
+        [HttpPost("EOI/{id}")]
+        public async Task<ActionResult<ApplicationResult>> UpdateApplication([FromBody] DrifEoiApplication application, string id)
         {
+            application.Id = id;
             application.Status = SubmissionPortalStatus.Draft;
-            var id = await intakeManager.Handle(new DrifEoiApplicationCommand { application = application, BusinessId = GetCurrentBusinessId() });
-            return Ok(new ApplicationResult { Id = id });
+            var drr_id = await intakeManager.Handle(new DrifEoiApplicationCommand { application = application, BusinessId = GetCurrentBusinessId() });
+            return Ok(new ApplicationResult { Id = drr_id });
+        }
+
+        [HttpPost("EOI/{id}/submit")]
+        public async Task<ActionResult<ApplicationResult>> SubmitApplication([FromBody] DrifEoiApplication application, string id)
+        {
+            application.Id = id;
+            application.Status = SubmissionPortalStatus.UnderReview;
+            var drr_id = await intakeManager.Handle(new DrifEoiApplicationCommand { application = application, BusinessId = GetCurrentBusinessId() });
+            return Ok(new ApplicationResult { Id = drr_id });
         }
     }
 
@@ -99,6 +109,7 @@ namespace EMCR.DRR.Controllers
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     public class DrifEoiApplication
     {
+        public string? Id { get; set; }
         public SubmissionPortalStatus? Status { get; set; }
 
         //Proponent Information

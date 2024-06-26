@@ -31,6 +31,46 @@ namespace EMCR.Tests.Integration.DRR.Resources
         }
 
         [Test]
+        public async Task CanUpdateEOIApplication()
+        {
+            var host = EMBC.Tests.Integration.DRR.Application.Host;
+            var applicationRepository = host.Services.GetRequiredService<IApplicationRepository>();
+
+            var originalApplication = CreateTestEOIApplication();
+            var id = (await applicationRepository.Manage(new SubmitApplication { Application = originalApplication })).Id;
+            id.ShouldNotBeEmpty();
+
+            var applicationToUpdate = (await applicationRepository.Query(new ApplicationsQuery { Id = id })).Items.ShouldHaveSingleItem();
+            applicationToUpdate.ProjectTitle.ShouldNotBeEmpty();
+
+            applicationToUpdate.PartneringProponents = new[]
+                {
+                   new PartneringProponent { Name = $"{TestPrefix}_updated_partner1" },
+                   new PartneringProponent { Name = $"{TestPrefix}_updated_partner2" },
+                };
+
+            applicationToUpdate.InfrastructureImpacted = new[]
+                {
+                    new CriticalInfrastructure {Name= $"{TestPrefix}_updated_infrastructure1" },
+                    new CriticalInfrastructure {Name= $"{TestPrefix}_updated_infrastructure2" },
+                };
+
+            await applicationRepository.Manage(new SubmitApplication { Application = applicationToUpdate });
+
+            var updatedApplication = (await applicationRepository.Query(new ApplicationsQuery { Id = id })).Items.ShouldHaveSingleItem();
+            updatedApplication.InfrastructureImpacted.First().Name.ShouldContain("updated");
+            updatedApplication.InfrastructureImpacted.Count().ShouldBe(2);
+            updatedApplication.PartneringProponents.First().Name.ShouldContain("updated");
+            updatedApplication.PartneringProponents.Count().ShouldBe(2);
+            //verify submitter
+            //verify project contact
+            //verify additonal contacts
+            //verify partnering proponents
+            //verify funding sourcres
+            //verify infrastructure
+        }
+
+        [Test]
         public async Task CanQueryDeclarations()
         {
             var host = EMBC.Tests.Integration.DRR.Application.Host;
