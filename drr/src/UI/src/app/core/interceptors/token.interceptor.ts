@@ -5,6 +5,7 @@ import {
   OAuthStorage,
 } from 'angular-oauth2-oidc';
 import { Observable, catchError } from 'rxjs';
+import { AuthService } from '../auth/auth.service';
 
 const includedURLs = [/^\/api\/.+$/];
 const excludedURLs = [/^\/api\/configuration\/?.*/, /^\/api\/version\/?.*/];
@@ -14,6 +15,7 @@ export const TokenInterceptor = (
   next: HttpHandlerFn
 ): Observable<HttpEvent<any>> => {
   const oauthStorage = inject(OAuthStorage);
+  const authService = inject(AuthService);
   const errorHandler = inject(OAuthResourceServerErrorHandler);
 
   if (!includedURLs.some((regexp) => regexp.test(req.url.toLowerCase()))) {
@@ -23,6 +25,12 @@ export const TokenInterceptor = (
 
   if (excludedURLs.some((regexp) => regexp.test(req.url.toLowerCase()))) {
     // all configuration/version requests are skipped
+    return next(req);
+  }
+
+  if (!authService.isLoggedIn()) {
+    // trigger login if user is not logged in
+    authService.login();
     return next(req);
   }
 

@@ -1,6 +1,6 @@
-import { Injectable, inject, signal } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { Injectable, PLATFORM_ID, inject } from '@angular/core';
 import { AuthConfig, OAuthEvent, OAuthService } from 'angular-oauth2-oidc';
-import { Subject, firstValueFrom } from 'rxjs';
 import { ProfileService } from '../../../api/profile/profile.service';
 import { ConfigurationStore } from '../../store/configuration.store';
 import { ProfileStore } from '../../store/profile.store';
@@ -13,29 +13,23 @@ export class AuthService {
   profileStore = inject(ProfileStore);
   configurationStore = inject(ConfigurationStore);
   profileService = inject(ProfileService);
-
-  isAuthenticationSuccessful = signal(false);
-
-  private _waitUntilAuthenticationSubject$ = new Subject<boolean>();
-  waitUntilAuthentication$ =
-    this._waitUntilAuthenticationSubject$.asObservable();
+  platformId = inject(PLATFORM_ID);
 
   async setProfile() {
     if (this.isLoggedIn()) {
       const profile = this.getProfile();
-      const profileDetails = await firstValueFrom(
-        this.profileService.profileProfileDetails()
-      );
-      console.log(profileDetails);
+      // const profileDetails = await firstValueFrom(
+      //   this.profileService.profileProfileDetails()
+      // );
 
       this.profileStore.setProfile({
         fullName: profile['name'],
-        firstName: profileDetails.firstName,
-        lastName: profileDetails.lastName,
-        title: profileDetails.title,
-        department: profileDetails.department,
-        phone: profileDetails.phone,
-        email: profile['email'],
+        // firstName: profileDetails.firstName,
+        // lastName: profileDetails.lastName,
+        // title: profileDetails.title,
+        // department: profileDetails.department,
+        // phone: profileDetails.phone,
+        // email: profile['email'],
         organization: profile['bceid_business_name'],
         loggedIn: true,
       });
@@ -46,7 +40,13 @@ export class AuthService {
     return false;
   }
 
-  async login(customConfiuration?: AuthConfig) {
+  async login() {
+    if (!isPlatformBrowser(this.platformId)) {
+      // this means we are on the server side and window object is not available
+      // this will run again on the client side
+      return false;
+    }
+
     const authConfig: AuthConfig = {
       responseType: 'code',
       strictDiscoveryDocumentValidation: false,
@@ -67,15 +67,6 @@ export class AuthService {
       postLogoutRedirectUri: window.location.origin, // TODO: maybe it supposed to be landing page?
     };
 
-    if (this.isLoggedIn()) {
-      this.isAuthenticationSuccessful.set(true);
-      this._waitUntilAuthenticationSubject$.next(true);
-
-      this.setProfile();
-
-      return true;
-    }
-
     if (!this.configurationStore.isConfigurationLoaded()) {
       console.error('Configuration is not loaded yet');
       return false;
@@ -86,7 +77,6 @@ export class AuthService {
     this.oauthService.configure({
       ...authConfig,
       ...configuration,
-      ...customConfiuration,
     });
 
     this.oauthService.timeoutFactor = 0.7;
@@ -95,14 +85,7 @@ export class AuthService {
 
     this.oauthService.events.subscribe({
       next: (event: OAuthEvent) => {
-        switch (event.type) {
-          case 'token_refresh_error':
-            console.error('Session Timeout: Token Refresh Error', event);
-            break;
-
-          default:
-            break;
-        }
+        console.log('event', event);
       },
     });
 
@@ -110,11 +93,8 @@ export class AuthService {
       const isLoggedIn =
         await this.oauthService.loadDiscoveryDocumentAndLogin();
 
-      if (isLoggedIn) {
+      if (this.isLoggedIn() && isLoggedIn) {
         this.setProfile();
-
-        this.isAuthenticationSuccessful.set(true);
-        this._waitUntilAuthenticationSubject$.next(true);
         return true;
       } else {
         // Pass in the original URL as additional state to the identity provider.  This information will be
@@ -130,10 +110,7 @@ export class AuthService {
         return false;
       }
     } catch (error) {
-      this.isAuthenticationSuccessful.set(false);
-      this._waitUntilAuthenticationSubject$.next(false);
-
-      return false;
+      return Promise.resolve(false);
     }
   }
 
