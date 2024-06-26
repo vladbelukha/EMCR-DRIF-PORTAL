@@ -14,19 +14,19 @@
   gap: 1rem;
 }
 
-::ng-deep .mdc-tab .mdc-tab-indicator {
-  background-color: $gray-400;
-}
+// ::ng-deep .mdc-tab .mdc-tab-indicator {
+//   background-color: $gray-400;
+// }
 
-::ng-deep .mdc-tab--active .mdc-tab-indicator {
-  background-color: map-get($theme-colors, secondary-nav);
-}
+// ::ng-deep .mdc-tab--active .mdc-tab-indicator {
+//   background-color: map-get($theme-colors, secondary-nav);
+// }
 
-::ng-deep .mdc-tab--active .mdc-tab__text-label {
-  color: white !important;
-  font-weight: bold;
-  font-size: 1rem;
-}
+// ::ng-deep .mdc-tab--active .mdc-tab__text-label {
+//   color: white !important;
+//   font-weight: bold;
+//   font-size: 1rem;
+// }
 
 ::ng-deep .mat-mdc-card-header {
   background-color: map-get($theme-colors, secondary-nav);

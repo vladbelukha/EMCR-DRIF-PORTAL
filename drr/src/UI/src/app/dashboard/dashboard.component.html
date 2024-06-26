@@ -4,7 +4,7 @@
   mat-align-tabs="start"
   *transloco="let t"
 >
-  <mat-tab label="Dashboard">
+  <!-- <mat-tab label="Dashboard">
     <div class="tab dashboard">
       <mat-card>
         <mat-card-header>
@@ -15,7 +15,7 @@
           <p>Here is your profile information:</p>
           <p>First name: {{ profileStore.firstName!() }}</p>
           <p>Last name: {{ profileStore.lastName!() }}</p>
-          <p>Email: {{ profileStore.email() }}</p>
+          <p>Email: {{ profileStore.email!() }}</p>
           <p>Phone: {{ profileStore.phone!() }}</p>
           <p>Title: {{ profileStore.title!() }}</p>
           <p>Department: {{ profileStore.department!() }}</p>
@@ -58,7 +58,7 @@
         </mat-card-content>
       </mat-card>
     </div>
-  </mat-tab>
+  </mat-tab> -->
   <mat-tab label="Submissions">
     <div class="tab">
       <drr-submission-list></drr-submission-list>
