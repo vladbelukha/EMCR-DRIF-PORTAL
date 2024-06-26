@@ -9,6 +9,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
     public class SubmissionTests
     {
         private string TestPrefix = "autotest-dev";
+        private string TestBusinessId = "autotest-dev-bceid";
         private readonly IIntakeManager manager;
 
         public SubmissionTests()
@@ -18,10 +19,24 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
         }
 
         [Test]
-        public async Task CanSubmitEOIApplication()
+        public async Task CanCreateEOIApplication()
         {
             var application = CreateNewTestEOIApplication();
-            var id = await manager.Handle(new DrifEoiApplicationCommand { application = application });
+            var id = await manager.Handle(new DrifEoiApplicationCommand { application = application, BusinessId = TestBusinessId });
+            id.ShouldNotBeEmpty();
+        }
+
+        [Test]
+        public async Task CanCreateDraftEOIApplication()
+        {
+            var uniqueSignature = TestPrefix + "-" + Guid.NewGuid().ToString().Substring(0, 4);
+            var application = new DrifEoiApplication
+            {
+                Status = SubmissionPortalStatus.Draft,
+                ProponentName = $"{uniqueSignature}_applicant_name",
+                //RelatedHazards = new[] { EMCR.DRR.Controllers.Hazards.Other },
+            };
+            var id = await manager.Handle(new DrifEoiApplicationCommand { application = application, BusinessId = TestBusinessId });
             id.ShouldNotBeEmpty();
         }
 
