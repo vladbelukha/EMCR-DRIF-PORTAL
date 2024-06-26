@@ -1,13 +1,13 @@
 import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
 
 export interface ProfileState {
-  fullName: string;
+  fullName?: string;
   firstName?: string;
   lastName?: string;
   title?: string;
   department?: string;
   phone?: string;
-  email: string;
+  email?: string;
   organization: string;
   loggedIn: boolean;
 }
