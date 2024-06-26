@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EMCR.DRR.API.Model;
 using EMCR.DRR.Controllers;
 
 namespace EMCR.DRR.API.Mappers
@@ -7,8 +8,39 @@ namespace EMCR.DRR.API.Mappers
     {
         public Mappings()
         {
+            CreateMap<Managers.Intake.Application, Submission>()
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => DRRApplicationStatusMapper(src.Status)))
+                .ForMember(dest => dest.FundingRequest, opt => opt.MapFrom(src => src.FundingRequest.ToString()))
+                .ForMember(dest => dest.ModifiedDate, opt => opt.MapFrom(src => src.ModifiedOn))
+                .ForMember(dest => dest.PartneringProponents, opt => opt.MapFrom(src => src.PartneringProponents.Select(p => p.Name)))
+                ;
+
             CreateMap<Managers.Intake.DeclarationInfo, DeclarationInfo>()
                 ;
+
+            CreateMap<DeclarationInfo, DeclarationInfo>()
+                ;
+        }
+
+        private SubmissionPortalStatus DRRApplicationStatusMapper(Managers.Intake.ApplicationStatus status)
+        {
+            switch (status)
+            {
+                case Managers.Intake.ApplicationStatus.DraftStaff:
+                case Managers.Intake.ApplicationStatus.DraftProponent:
+                    return SubmissionPortalStatus.Draft;
+                case Managers.Intake.ApplicationStatus.Submitted:
+                case Managers.Intake.ApplicationStatus.InReview:
+                    return SubmissionPortalStatus.UnderReview;
+                case Managers.Intake.ApplicationStatus.Invited:
+                    return SubmissionPortalStatus.Approved;
+                case Managers.Intake.ApplicationStatus.Ineligible:
+                    return SubmissionPortalStatus.Ineligible;
+                case Managers.Intake.ApplicationStatus.Withdrawn:
+                    return SubmissionPortalStatus.Withdrawn;
+                default:
+                    return SubmissionPortalStatus.Draft;
+            }
         }
     }
 }

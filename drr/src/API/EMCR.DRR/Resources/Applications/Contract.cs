@@ -27,7 +27,8 @@ namespace EMCR.DRR.Resources.Applications
 
     public class ApplicationsQuery : ApplicationQuery
     {
-        public string? ApplicationName { get; set; }
+        public string? Id { get; set; }
+        public string? BusinessId { get; set; }
     }
 
     public class DeclarationQuery
@@ -113,9 +114,10 @@ namespace EMCR.DRR.Resources.Applications
         No = 172580001
     }
 
-    public enum ApplicationStatus
+    public enum ApplicationStatusOptionSet
     {
-        Draft = 1,
+        DraftStaff = 1,
+        DraftProponent = 172580006,
         Submitted = 172580000,
         InReview = 172580001,
         InPool = 172580002,

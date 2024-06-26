@@ -6,7 +6,9 @@ namespace EMCR.DRR.API.Model
     public enum SubmissionPortalStatus
     {
         Draft,
-        Submitted,
-        Rejected
+        UnderReview,
+        Approved,
+        Ineligible,
+        Withdrawn
     }
 }

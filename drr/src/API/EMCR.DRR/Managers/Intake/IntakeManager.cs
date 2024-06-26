@@ -14,6 +14,15 @@ namespace EMCR.DRR.Managers.Intake
             this.applicationRepository = applicationRepository;
         }
 
+        public async Task<IntakeQueryResponse> Handle(IntakeQuery cmd)
+        {
+            return cmd switch
+            {
+                DrrApplicationsQuery c => await Handle(c),
+                _ => throw new NotSupportedException($"{cmd.GetType().Name} is not supported")
+            };
+        }
+
         public async Task<string> Handle(IntakeCommand cmd)
         {
             return cmd switch
@@ -23,9 +32,16 @@ namespace EMCR.DRR.Managers.Intake
             };
         }
 
+        public async Task<IntakeQueryResponse> Handle(DrrApplicationsQuery q)
+        {
+            var res = await applicationRepository.Query(new ApplicationsQuery { Id = q.Id, BusinessId = q.BusinessId });
+            return new IntakeQueryResponse { Items = mapper.Map<IEnumerable<Application>>(res.Items) };
+        }
+
         public async Task<string> Handle(DrifEoiApplicationCommand cmd)
         {
             var application = mapper.Map<Application>(cmd.application);
+            application.BusinessBCeID = cmd.BusinessId;
             var id = (await applicationRepository.Manage(new SubmitApplication { Application = application })).Id;
             return id;
         }
