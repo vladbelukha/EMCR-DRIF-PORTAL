@@ -1,5 +1,4 @@
-﻿using System;
-using AutoMapper;
+﻿using AutoMapper;
 using EMCR.DRR.Dynamics;
 using EMCR.DRR.Managers.Intake;
 using Microsoft.Dynamics.CRM;
@@ -210,7 +209,10 @@ namespace EMCR.DRR.Resources.Applications
                 }
                 else
                 {
-                    submitter = existingSubmitter;
+                    submitter.contactid = existingSubmitter.contactid;
+                    ctx.Detach(existingSubmitter);
+                    ctx.AttachTo(nameof(DRRContext.contacts), submitter);
+                    ctx.UpdateObject(submitter);
                 }
             }
             return submitter;
