@@ -9,6 +9,6 @@ export class AuthenticationGuard {
   authService = inject(AuthService);
 
   async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    return this.authService.login();
+    return this.authService.isLoggedIn() ? true : this.authService.login();
   }
 }

@@ -40,11 +40,11 @@ export class AuthService {
     return false;
   }
 
-  async login() {
+  async init() {
     if (!isPlatformBrowser(this.platformId)) {
       // this means we are on the server side and window object is not available
       // this will run again on the client side
-      return false;
+      return;
     }
 
     const authConfig: AuthConfig = {
@@ -53,10 +53,10 @@ export class AuthService {
       showDebugInformation: false,
       requireHttps: true,
       redirectUri: window.location.origin + '/dashboard',
+      timeoutFactor: 0.32,
       openUri: (uri: string) => {
         const url = new URL(uri);
 
-        // url.searchParams.delete('id_token_hint');
         // reconstruct url
         const reconstructUri = `${url.origin}${
           url.pathname
@@ -69,7 +69,7 @@ export class AuthService {
 
     if (!this.configurationStore.isConfigurationLoaded()) {
       console.error('Configuration is not loaded yet');
-      return false;
+      return;
     }
 
     const configuration = this.configurationStore.oidc!();
@@ -79,8 +79,6 @@ export class AuthService {
       ...configuration,
     });
 
-    this.oauthService.timeoutFactor = 0.7;
-
     this.oauthService.setupAutomaticSilentRefresh();
 
     this.oauthService.events.subscribe({
@@ -89,9 +87,12 @@ export class AuthService {
       },
     });
 
+    await this.oauthService.loadDiscoveryDocument();
+  }
+
+  async login() {
     try {
-      const isLoggedIn =
-        await this.oauthService.loadDiscoveryDocumentAndLogin();
+      const isLoggedIn = await this.oauthService.tryLogin();
 
       if (this.isLoggedIn() && isLoggedIn) {
         this.setProfile();

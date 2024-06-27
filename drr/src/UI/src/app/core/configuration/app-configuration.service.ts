@@ -13,9 +13,7 @@ export class AppConfigurationService {
     return new Promise((resolve) =>
       this.configurationService.configurationGetConfiguration().subscribe(
         (config) => {
-          console.log('appConfig API config is ready');
           this.configurationStore.setOidc(config.oidc);
-
           resolve(true);
         },
         (error) => {
