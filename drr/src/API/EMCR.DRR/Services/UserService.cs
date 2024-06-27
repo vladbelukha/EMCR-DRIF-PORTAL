@@ -1,4 +1,6 @@
 ﻿using System.Security.Claims;
+using System.Text.Json;
+using BCeIDService;
 using EMCR.Utilities;
 using Microsoft.Extensions.Caching.Distributed;
 
@@ -11,40 +13,63 @@ namespace EMBC.DRR.API.Services;
 public interface IUserService
 {
     Task<ClaimsPrincipal> GetPrincipal(ClaimsPrincipal sourcePrincipal = null);
-    Task<TeamMember> GetTeamMember(string userName = null);
+    Task<AccountDetails> GetAccountDetails(ClaimsPrincipal sourcePrincipal);
 }
 
-public class UserService(IDistributedCache cache, IHttpContextAccessor httpContext) : IUserService
+public class UserService(IDistributedCache cache, IHttpContextAccessor httpContext, IConfiguration configuration) : IUserService
 {
     private ClaimsPrincipal? currentPrincipal => httpContext.HttpContext?.User;
-    private static string GetCurrentUserName(ClaimsPrincipal principal) => principal.FindFirstValue("bceid_business_name");
+    private static string GetCurrentBusinessName(ClaimsPrincipal principal) => principal.FindFirstValue("bceid_business_name");
+    private static string GetCurrentBusinessId(ClaimsPrincipal principal) => principal.FindFirstValue("bceid_business_guid");
+    private static string GetCurrentUserId(ClaimsPrincipal principal) => principal.FindFirstValue("bceid_user_guid");
+    private static string GetCurrentUserName(ClaimsPrincipal principal) => principal.FindFirstValue("bceid_username");
 
     public async Task<ClaimsPrincipal> GetPrincipal(ClaimsPrincipal? sourcePrincipal = null)
     {
         if (sourcePrincipal == null) sourcePrincipal = currentPrincipal;
-        var userName = GetCurrentUserName(sourcePrincipal);
+        var userId = GetCurrentUserId(sourcePrincipal);
 
 
-        var cacheKey = $"user:{userName}";
-        var teamMember = await cache.GetOrSet(cacheKey, async () => await GetTeamMember(userName), TimeSpan.FromMinutes(10));
-        if (teamMember == null) return sourcePrincipal;
+        var cacheKey = $"user:{userId}";
+        var profile = await cache.GetOrSet(cacheKey, async () => await GetAccountDetails(sourcePrincipal), TimeSpan.FromMinutes(10));
+        if (profile == null) return sourcePrincipal;
 
         Claim[] drrClaims =
         [
-            new Claim("user_id", teamMember.Id),
-            new Claim("user_role", teamMember.Role),
-            new Claim("user_team", teamMember.TeamId)
+            new Claim("user_info", JsonSerializer.Serialize(profile)),
         ];
         return new ClaimsPrincipal(new ClaimsIdentity(sourcePrincipal.Identity, sourcePrincipal.Claims.Concat(drrClaims)));
     }
 
-    public async Task<TeamMember> GetTeamMember(string? userName = null)
+    public async Task<AccountDetails> GetAccountDetails(ClaimsPrincipal sourcePrincipal)
     {
-        if (string.IsNullOrEmpty(userName)) userName = GetCurrentUserName(currentPrincipal);
-        await Task.CompletedTask;
-        return new TeamMember { Id = Guid.NewGuid().ToString(), Role = "role", TeamId = Guid.NewGuid().ToString() };
-        //TODO - add httpclient to query BCeID API to get additional user info
-        //return (await messagingClient.Send(new TeamMembersQuery { UserName = userName, IncludeActiveUsersOnly = true })).TeamMembers.SingleOrDefault();
+        var userId = GetCurrentUserId(sourcePrincipal);
+        BCeIDServiceSoapClient client = new BCeIDServiceSoapClient(
+                configuration.GetValue<string>("BCeID:SOAPURL"),
+                TimeSpan.FromSeconds(60),
+                configuration.GetValue<string>("BCeID:serviceAccountName"),
+                configuration.GetValue<string>("BCeID:serviceAcountPassword")
+                );
+
+        var accountDetails = await client.getAccountDetailAsync(new AccountDetailRequest
+        {
+            onlineServiceId = configuration.GetValue<string>("BCeID:serviceAccountId"),
+            requesterAccountTypeCode = BCeIDAccountTypeCode.Business,
+            requesterUserGuid = userId,
+            userGuid = userId,
+            accountTypeCode = BCeIDAccountTypeCode.Business,
+        });
+
+        return new AccountDetails
+        {
+            BusinessName = GetCurrentBusinessName(sourcePrincipal),
+            FirstName = accountDetails.account.individualIdentity.name.firstname.value,
+            LastName = accountDetails.account.individualIdentity.name.surname.value,
+            Title = accountDetails.account.internalIdentity.title.value,
+            Department = accountDetails.account.internalIdentity.department.value,
+            Phone = accountDetails.account.contact.telephone.value,
+            Email = accountDetails.account.contact.email.value,
+        };
     }
 }
 #pragma warning restore CS8603 // Possible null reference return.
@@ -52,17 +77,13 @@ public class UserService(IDistributedCache cache, IHttpContextAccessor httpConte
 #pragma warning restore CS8604 // Possible null reference argument.
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
 
-public class TeamMember
+public class AccountDetails
 {
-    public required string Id { get; set; }
-    public string? TeamId { get; set; }
-    public string? TeamName { get; set; }
-    public string? FirstName { get; set; }
-    public string? LastName { get; set; }
-    public string? UserName { get; set; }
-    public string? ExternalUserId { get; set; }
-    public string? Role { get; set; }
-    public string? Label { get; set; }
-    public string? Email { get; set; }
+    public required string BusinessName { get; set; }
+    public required string FirstName { get; set; }
+    public required string LastName { get; set; }
+    public string? Title { get; set; }
+    public string? Department { get; set; }
     public string? Phone { get; set; }
+    public required string Email { get; set; }
 }

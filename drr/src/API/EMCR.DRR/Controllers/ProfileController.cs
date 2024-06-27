@@ -1,6 +1,8 @@
 ﻿using System.Net.Mime;
 using System.Security.Claims;
-using BCeIDService;
+using System.Text.Json;
+using AutoMapper;
+using EMBC.DRR.API.Services;
 using EMCR.DRR.Managers.Intake;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,18 +17,23 @@ namespace EMCR.DRR.API.Controllers
     public class ProfileController : Controller
     {
 #pragma warning disable CS8603 // Possible null reference return.
+#pragma warning disable CS8604 // Possible null reference argument.
+        private AccountDetails GetCurrentUserInfo() => JsonSerializer.Deserialize<AccountDetails>(User.FindFirstValue("user_info"));
         private string GetCurrentBusinessName() => User.FindFirstValue("bceid_business_name");
         private string GetCurrentBusinessId() => User.FindFirstValue("bceid_business_guid");
         private string GetCurrentUserId() => User.FindFirstValue("bceid_user_guid");
+#pragma warning restore CS8604 // Possible null reference argument.
 #pragma warning restore CS8603 // Possible null reference return.
 
         private readonly IConfiguration configuration;
         private readonly IIntakeManager intakeManager;
+        private readonly IMapper mapper;
 
-        public ProfileController(IConfiguration configuration, IIntakeManager intakeManager)
+        public ProfileController(IConfiguration configuration, IIntakeManager intakeManager, IMapper mapper)
         {
             this.configuration = configuration;
             this.intakeManager = intakeManager;
+            this.mapper = mapper;
         }
 
         [HttpGet]
@@ -34,35 +41,8 @@ namespace EMCR.DRR.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<ProfileDetails>> ProfileDetails()
         {
-            BCeIDServiceSoapClient client = new BCeIDServiceSoapClient(
-                configuration.GetValue<string>("BCeID:SOAPURL"),
-                TimeSpan.FromSeconds(60),
-                configuration.GetValue<string>("BCeID:serviceAccountName"),
-                configuration.GetValue<string>("BCeID:serviceAcountPassword")
-                );
-
-            var accountDetails = await client.getAccountDetailAsync(new AccountDetailRequest
-            {
-                onlineServiceId = configuration.GetValue<string>("BCeID:serviceAccountId"),
-                requesterAccountTypeCode = BCeIDAccountTypeCode.Business,
-                requesterUserGuid = GetCurrentUserId(),
-                userGuid = GetCurrentUserId(),
-                accountTypeCode = BCeIDAccountTypeCode.Business,
-            });
-
-            if (accountDetails == null) return NotFound("BCeID account details not found");
-            var profile = new ProfileDetails
-            {
-                BusinessName = GetCurrentBusinessName(),
-                FirstName = accountDetails.account.individualIdentity.name.firstname.value,
-                LastName = accountDetails.account.individualIdentity.name.surname.value,
-                Title = accountDetails.account.internalIdentity.title.value,
-                Department = accountDetails.account.internalIdentity.department.value,
-                Phone = accountDetails.account.contact.telephone.value,
-                Email = accountDetails.account.contact.email.value,
-            };
-
-            return Ok(await Task.FromResult(profile));
+            var userInfo = GetCurrentUserInfo();
+            return Ok(await Task.FromResult(mapper.Map<ProfileDetails>(userInfo)));
         }
 
         [HttpGet("exists")]

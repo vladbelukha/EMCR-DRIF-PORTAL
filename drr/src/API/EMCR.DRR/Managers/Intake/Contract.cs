@@ -46,11 +46,11 @@ namespace EMCR.DRR.Managers.Intake
     public abstract class IntakeCommand
     { }
 
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     public class DrifEoiApplicationCommand : IntakeCommand
     {
         public DrifEoiApplication application { get; set; } = null!;
-        public required string BusinessId { get; set; }
-        public required string UserId { get; set; }
+        public UserInfo UserInfo { get; set; }
     }
 
     public class CheckProfileExists : IntakeCommand
@@ -59,7 +59,6 @@ namespace EMCR.DRR.Managers.Intake
         public required string BusinessId { get; set; }
     }
 
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     public class Application
     {
         public string? Id { get; set; }
@@ -128,6 +127,13 @@ namespace EMCR.DRR.Managers.Intake
     }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
+    public class UserInfo
+    {
+        public required string UserId { get; set; }
+        public required string BusinessName { get; set; }
+        public required string BusinessId { get; set; }
+    }
+    
     public class FundingInformation
     {
         public string? Name { get; set; }
