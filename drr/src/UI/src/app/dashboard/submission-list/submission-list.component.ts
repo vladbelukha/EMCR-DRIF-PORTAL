@@ -44,6 +44,7 @@ export class SubmissionListComponent {
     pageSize: 10,
     pageSizeOptions: [5, 10, 25, 100],
     pageIndex: 0,
+    showPaginator: false,
   };
   sort: Sort = {
     active: '',

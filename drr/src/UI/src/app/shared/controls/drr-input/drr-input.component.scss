@@ -11,3 +11,12 @@
 .drr-input input[type="number"] {
   -moz-appearance: textfield;
 }
+
+:host {
+  .drr-input
+    ::ng-deep
+    .mdc-text-field--outlined.mdc-text-field--disabled
+    .mdc-text-field__input {
+    color: var(--mdc-outlined-text-field-input-text-color);
+  }
+}

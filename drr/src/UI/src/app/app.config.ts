@@ -93,6 +93,7 @@ export const appConfig: ApplicationConfig = {
       useValue: {
         hideRequiredMarker: false,
         floatLabel: 'always',
+        appearance: 'outline',
       },
     },
     provideNgxMask(),

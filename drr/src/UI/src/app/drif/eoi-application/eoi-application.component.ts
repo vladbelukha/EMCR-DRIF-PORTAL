@@ -31,6 +31,7 @@ import {
 import { distinctUntilChanged } from 'rxjs/operators';
 import { DrifapplicationService } from '../../../api/drifapplication/drifapplication.service';
 import { DrifEoiApplication, Hazards } from '../../../model';
+import { ProfileStore } from '../../store/profile.store';
 import { Step1Component } from '../step-1/step-1.component';
 import { Step2Component } from '../step-2/step-2.component';
 import { Step3Component } from '../step-3/step-3.component';
@@ -81,17 +82,17 @@ import { EOIApplicationForm } from './eoi-application-form';
   ],
 })
 export class EOIApplicationComponent {
-  isDevMode = false; // isDevMode();
-  stepperOrientation: StepperOrientation = 'vertical';
-
-  hazardsOptions = Object.values(Hazards);
-
   formBuilder = inject(RxFormBuilder);
   applicationService = inject(DrifapplicationService);
   router = inject(Router);
   route = inject(ActivatedRoute);
   hotToast = inject(HotToastService);
   breakpointObserver = inject(BreakpointObserver);
+  profileStore = inject(ProfileStore);
+
+  stepperOrientation: StepperOrientation = 'vertical';
+
+  hazardsOptions = Object.values(Hazards);
 
   eoiApplicationForm = this.formBuilder.formGroup(
     EOIApplicationForm
@@ -110,12 +111,22 @@ export class EOIApplicationComponent {
     declaration: 'Step 8',
   };
 
+  isEditMode = false;
+  isAutoSaveOn = false;
+  autoSaveTimer: any;
+  autoSaveCountdown = 0;
+  formChanged = false;
+
   @HostListener('window:mousemove')
   @HostListener('window:mousedown')
   @HostListener('window:keypress')
   @HostListener('window:scroll')
   @HostListener('window:touchmove')
   resetAutoSaveTimer() {
+    if (!this.isAutoSaveOn) {
+      return;
+    }
+
     if (!this.formChanged) {
       this.autoSaveCountdown = 0;
       clearInterval(this.autoSaveTimer);
@@ -133,10 +144,6 @@ export class EOIApplicationComponent {
     }, 1000);
   }
 
-  autoSaveTimer: any;
-  autoSaveCountdown = 0;
-  formChanged = false;
-
   ngOnInit() {
     this.breakpointObserver
       .observe('(min-width: 768px)')
@@ -144,9 +151,19 @@ export class EOIApplicationComponent {
         this.stepperOrientation = matches ? 'horizontal' : 'vertical';
       });
 
-    // fetch router params
+    this.eoiApplicationForm
+      ?.get('proponentInformation')
+      ?.get('proponentName')
+      ?.setValue(this.profileStore.organization(), { emitEvent: false });
+    this.eoiApplicationForm
+      ?.get('proponentInformation')
+      ?.get('proponentName')
+      ?.disable();
+
+    // fetch router params to determine if we are editing an existing application
     const id = this.route.snapshot.params['id'];
     if (id) {
+      this.isEditMode = true;
       this.applicationService
         .dRIFApplicationGet(id)
         .subscribe((application) => {
@@ -197,6 +214,10 @@ export class EOIApplicationComponent {
           this.resetAutoSaveTimer();
         });
     }, 1000); // TOOD: temp workaround to prevent empty form intiation triggering form change
+  }
+
+  ngOnDestroy() {
+    clearInterval(this.autoSaveTimer);
   }
 
   getFormGroup(groupName: string) {
@@ -260,6 +281,8 @@ export class EOIApplicationComponent {
           });
 
           this.formChanged = false;
+
+          this.router.navigate(['/eoi-application/', response['id']]);
         },
         (error) => {
           this.hotToast.close();
