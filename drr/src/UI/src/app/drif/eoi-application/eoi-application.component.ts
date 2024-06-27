@@ -179,7 +179,7 @@ export class EOIApplicationComponent {
             emitEvent: false,
           });
 
-          if (application.status == 'Submitted') {
+          if (application.status == 'UnderReview') {
             this.eoiApplicationForm.disable();
           }
         });
@@ -250,7 +250,7 @@ export class EOIApplicationComponent {
     } as DrifEoiApplication;
 
     this.applicationService
-      .dRIFApplicationCreateDraftEOIApplication(drifEoiApplication)
+      .dRIFApplicationCreateEOIApplication(drifEoiApplication)
       .subscribe(
         (response) => {
           this.hotToast.close();
