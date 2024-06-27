@@ -6,6 +6,7 @@
  */
 
 export interface ProfileDetails {
+  businessName?: string;
   /** @nullable */
   department?: string;
   email?: string;

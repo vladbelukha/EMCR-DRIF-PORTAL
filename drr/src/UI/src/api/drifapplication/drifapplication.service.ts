@@ -21,7 +21,6 @@ import {
 import type {
   ApplicationResult,
   DeclarationResult,
-  DrifDrafEoiApplication,
   DrifEoiApplication,
   Submission
 } from '../../model'
@@ -76,12 +75,22 @@ export class DrifapplicationService {
       drifEoiApplication,options
     );
   }
- dRIFApplicationCreateDraftEOIApplication<TData = ApplicationResult>(
-    drifDrafEoiApplication: DrifDrafEoiApplication, options?: HttpClientOptions
+ dRIFApplicationUpdateApplication<TData = ApplicationResult>(
+    id: string,
+    drifEoiApplication: DrifEoiApplication, options?: HttpClientOptions
   ): Observable<TData>  {
     return this.http.post<TData>(
-      `/api/drifapplication/eoi/draft`,
-      drifDrafEoiApplication,options
+      `/api/drifapplication/eoi/${id}`,
+      drifEoiApplication,options
+    );
+  }
+ dRIFApplicationSubmitApplication<TData = ApplicationResult>(
+    id: string,
+    drifEoiApplication: DrifEoiApplication, options?: HttpClientOptions
+  ): Observable<TData>  {
+    return this.http.post<TData>(
+      `/api/drifapplication/eoi/${id}/submit`,
+      drifEoiApplication,options
     );
   }
 };
@@ -90,4 +99,5 @@ export type DRIFApplicationGetAllClientResult = NonNullable<Submission[]>
 export type DRIFApplicationGetClientResult = NonNullable<DrifEoiApplication>
 export type DRIFApplicationGetDeclarationsClientResult = NonNullable<DeclarationResult>
 export type DRIFApplicationCreateEOIApplicationClientResult = NonNullable<ApplicationResult>
-export type DRIFApplicationCreateDraftEOIApplicationClientResult = NonNullable<ApplicationResult>
+export type DRIFApplicationUpdateApplicationClientResult = NonNullable<ApplicationResult>
+export type DRIFApplicationSubmitApplicationClientResult = NonNullable<ApplicationResult>

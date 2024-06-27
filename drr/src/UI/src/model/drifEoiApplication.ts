@@ -21,54 +21,85 @@ export interface DrifEoiApplication {
   additionalEngagementInformation?: string;
   /** @nullable */
   additionalSolutionInformation?: string;
+  /** @nullable */
   addressRisksAndHazards?: string;
+  /** @nullable */
   authorizedRepresentativeStatement?: boolean;
+  /** @nullable */
   climateAdaptation?: string;
+  /** @nullable */
   communityImpact?: string;
+  /** @nullable */
   disasterRiskUnderstanding?: string;
+  /** @nullable */
   drifProgramGoalAlignment?: string;
+  /** @nullable */
   endDate?: string;
+  /** @nullable */
   estimatedPeopleImpacted?: EstimatedNumberOfPeople;
   /**
    * @minimum 0
    * @maximum 999999999.99
+   * @nullable
    */
   estimatedTotal?: number;
+  /** @nullable */
   firstNationsEngagement?: string;
   /** @nullable */
   foippaConfirmation?: boolean;
   /**
    * @minimum 0
    * @maximum 999999999.99
+   * @nullable
    */
   fundingRequest?: number;
+  /** @nullable */
   fundingStream?: FundingStream;
+  /** @nullable */
+  id?: string;
+  /** @nullable */
   informationAccuracyStatement?: boolean;
   infrastructureImpacted?: string[];
   /** @nullable */
   intendToSecureFunding?: string;
+  /** @nullable */
   locationDescription?: string;
+  /** @nullable */
   neighbourEngagement?: string;
   otherFunding?: FundingInformation[];
   /** @nullable */
   otherHazardsDescription?: string;
   /** @nullable */
   otherInformation?: string;
+  /** @nullable */
   ownershipDeclaration?: boolean;
   /** @nullable */
   ownershipDescription?: string;
   partneringProponents?: string[];
+  /** @nullable */
   projectContact?: ContactDetails;
+  /** @nullable */
   projectTitle?: string;
+  /** @nullable */
   projectType?: ProjectType;
+  /** @nullable */
   proponentName?: string;
+  /** @nullable */
   proponentType?: ProponentType;
+  /** @nullable */
   rationaleForFunding?: string;
+  /** @nullable */
   rationaleForSolution?: string;
+  /** @nullable */
   relatedHazards?: Hazards[];
+  /** @nullable */
   remainingAmount?: number;
+  /** @nullable */
   scopeStatement?: string;
+  /** @nullable */
   startDate?: string;
+  /** @nullable */
   status?: SubmissionPortalStatus;
+  /** @nullable */
   submitter?: ContactDetails;
 }

@@ -9,27 +9,33 @@ export interface ContactDetails {
   /**
    * @minLength 0
    * @maxLength 40
+   * @nullable
    */
   department?: string;
   /**
    * @minLength 0
    * @maxLength 40
+   * @nullable
    */
   email?: string;
   /**
    * @minLength 0
    * @maxLength 40
+   * @nullable
    */
   firstName?: string;
   /**
    * @minLength 0
    * @maxLength 40
+   * @nullable
    */
   lastName?: string;
+  /** @nullable */
   phone?: string;
   /**
    * @minLength 0
    * @maxLength 40
+   * @nullable
    */
   title?: string;
 }
