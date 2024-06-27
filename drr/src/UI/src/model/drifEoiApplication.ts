@@ -83,8 +83,6 @@ export interface DrifEoiApplication {
   /** @nullable */
   projectType?: ProjectType;
   /** @nullable */
-  proponentName?: string;
-  /** @nullable */
   proponentType?: ProponentType;
   /** @nullable */
   rationaleForFunding?: string;
