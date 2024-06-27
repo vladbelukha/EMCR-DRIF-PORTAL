@@ -50,13 +50,20 @@ namespace EMCR.DRR.Managers.Intake
     {
         public DrifEoiApplication application { get; set; } = null!;
         public required string BusinessId { get; set; }
+        public required string UserId { get; set; }
+    }
+
+    public class CheckProfileExists : IntakeCommand
+    {
+        public required string Name { get; set; } = null!;
+        public required string BusinessId { get; set; }
     }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     public class Application
     {
         public string? Id { get; set; }
-        public string? BusinessBCeID { get; set; }
+        public string? BCeIDBusinessId { get; set; }
         //Proponent Information
         public ProponentType? ProponentType { get; set; }
         public string? ProponentName { get; set; }
@@ -123,28 +130,29 @@ namespace EMCR.DRR.Managers.Intake
 
     public class FundingInformation
     {
-        public required string Name { get; set; }
+        public string? Name { get; set; }
         public required FundingType? Type { get; set; }
-        public required decimal Amount { get; set; }
+        public decimal? Amount { get; set; }
         public string? OtherDescription { get; set; }
 
     }
 
     public class LocationInformation
     {
-        public required string Description { get; set; }
+        public string? Description { get; set; }
         public string? Area { get; set; }
         public string? Ownership { get; set; }
     }
 
     public class ContactDetails
     {
-        public required string FirstName { get; set; }
-        public required string LastName { get; set; }
-        public required string Title { get; set; }
-        public required string Department { get; set; }
-        public required string Phone { get; set; }
-        public required string Email { get; set; }
+        public string? BCeId { get; set; }
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
+        public string? Title { get; set; }
+        public string? Department { get; set; }
+        public string? Phone { get; set; }
+        public string? Email { get; set; }
     }
 
     public class PartneringProponent

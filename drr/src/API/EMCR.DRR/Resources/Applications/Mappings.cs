@@ -11,7 +11,7 @@ namespace EMCR.DRR.Resources.Applications
 #pragma warning disable CS8629 // Nullable value type may be null.
             CreateMap<Application, drr_application>(MemberList.None)
                 .ForMember(dest => dest.drr_primaryproponent, opt => opt.MapFrom(src => src.ProponentType.HasValue ? (int?)Enum.Parse<ApplicantTypeOptionSet>(src.ProponentType.Value.ToString()) : null))
-                .ForMember(dest => dest.drr_Primary_Proponent_Name, opt => opt.MapFrom(src => new account { name = src.ProponentName, drr_bceidguid = src.BusinessBCeID }))
+                .ForMember(dest => dest.drr_Primary_Proponent_Name, opt => opt.MapFrom(src => new account { name = src.ProponentName, drr_bceidguid = src.BCeIDBusinessId }))
                 .ForMember(dest => dest.drr_SubmitterContact, opt => opt.MapFrom(src => src.Submitter))
                 .ForMember(dest => dest.drr_PrimaryProjectContact, opt => opt.MapFrom(src => src.ProjectContact))
                 .ForMember(dest => dest.drr_AdditionalContact1, opt => opt.MapFrom(src => src.AdditionalContact1))
@@ -59,6 +59,7 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.drr_name))
                 .ForMember(dest => dest.ProponentType, opt => opt.MapFrom(src => src.drr_primaryproponent.HasValue ? (int?)Enum.Parse<ProponentType>(((ApplicantTypeOptionSet)src.drr_primaryproponent).ToString()) : null))
                 .ForMember(dest => dest.ProponentName, opt => opt.MapFrom(src => src.drr_Primary_Proponent_Name.name))
+                .ForMember(dest => dest.BCeIDBusinessId, opt => opt.MapFrom(src => src.drr_Primary_Proponent_Name.drr_bceidguid))
                 .ForMember(dest => dest.Submitter, opt => opt.MapFrom(src => src.drr_SubmitterContact))
                 .ForMember(dest => dest.ProjectContact, opt => opt.MapFrom(src => src.drr_PrimaryProjectContact))
                 .ForMember(dest => dest.AdditionalContact1, opt => opt.MapFrom(src => src.drr_AdditionalContact1))
@@ -118,6 +119,7 @@ namespace EMCR.DRR.Resources.Applications
             ;
 
             CreateMap<ContactDetails, contact>()
+                .ForMember(dest => dest.drr_userid, opt => opt.MapFrom(src => src.BCeId))
                 .ForMember(dest => dest.firstname, opt => opt.MapFrom(src => src.FirstName))
                 .ForMember(dest => dest.lastname, opt => opt.MapFrom(src => src.LastName))
                 .ForMember(dest => dest.jobtitle, opt => opt.MapFrom(src => src.Title))
@@ -126,6 +128,7 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.emailaddress1, opt => opt.MapFrom(src => src.Email))
                 .ReverseMap()
                 .ValidateMemberList(MemberList.Destination)
+                .ForMember(dest => dest.BCeId, opt => opt.MapFrom(src => src.drr_userid))
                 .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.firstname))
                 .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.lastname))
                 .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.jobtitle))
