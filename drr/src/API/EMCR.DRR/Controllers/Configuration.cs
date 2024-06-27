@@ -1,4 +1,5 @@
-﻿using EMCR.DRR.Resources.Applications;
+﻿using EMCR.DRR.API.Resources.Accounts;
+using EMCR.DRR.Resources.Applications;
 
 namespace EMCR.DRR.Controllers
 {
@@ -7,6 +8,7 @@ namespace EMCR.DRR.Controllers
         public static IServiceCollection AddRepositories(this IServiceCollection services)
         {
             services.AddTransient<IApplicationRepository, ApplicationRepository>();
+            services.AddTransient<IAccountRepository, AccountRepository>();
             return services;
         }
     }

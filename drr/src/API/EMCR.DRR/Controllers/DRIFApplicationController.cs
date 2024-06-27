@@ -25,6 +25,7 @@ namespace EMCR.DRR.Controllers
 
 #pragma warning disable CS8603 // Possible null reference return.
         private string GetCurrentBusinessId() => User.FindFirstValue("bceid_business_guid");
+        private string GetCurrentUserId() => User.FindFirstValue("bceid_user_guid");
 #pragma warning restore CS8603 // Possible null reference return.
 
         public DRIFApplicationController(ILogger<DRIFApplicationController> logger, IIntakeManager intakeManager, IMapper mapper)
@@ -60,7 +61,7 @@ namespace EMCR.DRR.Controllers
         public async Task<ActionResult<ApplicationResult>> CreateEOIApplication(DrifEoiApplication application)
         {
             application.Status = SubmissionPortalStatus.Draft;
-            var id = await intakeManager.Handle(new DrifEoiApplicationCommand { application = application, BusinessId = GetCurrentBusinessId() });
+            var id = await intakeManager.Handle(new DrifEoiApplicationCommand { application = application, BusinessId = GetCurrentBusinessId(), UserId = GetCurrentUserId() });
             return Ok(new ApplicationResult { Id = id });
         }
 
@@ -69,7 +70,7 @@ namespace EMCR.DRR.Controllers
         {
             application.Id = id;
             application.Status = SubmissionPortalStatus.Draft;
-            var drr_id = await intakeManager.Handle(new DrifEoiApplicationCommand { application = application, BusinessId = GetCurrentBusinessId() });
+            var drr_id = await intakeManager.Handle(new DrifEoiApplicationCommand { application = application, BusinessId = GetCurrentBusinessId(), UserId = GetCurrentUserId() });
             return Ok(new ApplicationResult { Id = drr_id });
         }
 
@@ -78,7 +79,7 @@ namespace EMCR.DRR.Controllers
         {
             application.Id = id;
             application.Status = SubmissionPortalStatus.UnderReview;
-            var drr_id = await intakeManager.Handle(new DrifEoiApplicationCommand { application = application, BusinessId = GetCurrentBusinessId() });
+            var drr_id = await intakeManager.Handle(new DrifEoiApplicationCommand { application = application, BusinessId = GetCurrentBusinessId(), UserId = GetCurrentUserId() });
             return Ok(new ApplicationResult { Id = drr_id });
         }
     }

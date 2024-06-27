@@ -8,14 +8,19 @@ namespace EMCR.Tests.Integration.DRR.Resources
     public class ApplicationTests
     {
         private string TestPrefix = "autotest-dev";
-        private string TestBusinessId = "autotest-dev-bceid";
+        private string TestBusinessId = "autotest-dev-business-bceid";
+        private string TestUserId = "autotest-dev-user-bceid";
+        private readonly IApplicationRepository applicationRepository;
+
+        public ApplicationTests()
+        {
+            var host = EMBC.Tests.Integration.DRR.Application.Host;
+            applicationRepository = host.Services.GetRequiredService<IApplicationRepository>();
+        }
 
         [Test]
         public async Task CanCreateEOIApplication()
         {
-            var host = EMBC.Tests.Integration.DRR.Application.Host;
-            var applicationRepository = host.Services.GetRequiredService<IApplicationRepository>();
-
             var originalApplication = CreateTestEOIApplication();
             var id = (await applicationRepository.Manage(new SubmitApplication { Application = originalApplication })).Id;
             id.ShouldNotBeEmpty();
@@ -33,26 +38,25 @@ namespace EMCR.Tests.Integration.DRR.Resources
         [Test]
         public async Task CanUpdateEOIApplication()
         {
-            var host = EMBC.Tests.Integration.DRR.Application.Host;
-            var applicationRepository = host.Services.GetRequiredService<IApplicationRepository>();
-
             var originalApplication = CreateTestEOIApplication();
             var id = (await applicationRepository.Manage(new SubmitApplication { Application = originalApplication })).Id;
             id.ShouldNotBeEmpty();
 
             var applicationToUpdate = (await applicationRepository.Query(new ApplicationsQuery { Id = id })).Items.ShouldHaveSingleItem();
             applicationToUpdate.ProjectTitle.ShouldNotBeEmpty();
+            var currPrefix = applicationToUpdate.PartneringProponents.First().Name;
+            currPrefix = currPrefix.Substring(0, currPrefix.IndexOf("_"));
 
             applicationToUpdate.PartneringProponents = new[]
                 {
-                   new PartneringProponent { Name = $"{TestPrefix}_updated_partner1" },
-                   new PartneringProponent { Name = $"{TestPrefix}_updated_partner2" },
+                   new PartneringProponent { Name = $"{currPrefix}_updated_partner1" },
+                   new PartneringProponent { Name = $"{currPrefix}_updated_partner2" },
                 };
 
             applicationToUpdate.InfrastructureImpacted = new[]
                 {
-                    new CriticalInfrastructure {Name= $"{TestPrefix}_updated_infrastructure1" },
-                    new CriticalInfrastructure {Name= $"{TestPrefix}_updated_infrastructure2" },
+                    new CriticalInfrastructure {Name= $"{currPrefix}_updated_infrastructure1" },
+                    new CriticalInfrastructure {Name= $"{currPrefix}_updated_infrastructure2" },
                 };
 
             await applicationRepository.Manage(new SubmitApplication { Application = applicationToUpdate });
@@ -73,9 +77,6 @@ namespace EMCR.Tests.Integration.DRR.Resources
         [Test]
         public async Task CanQueryDeclarations()
         {
-            var host = EMBC.Tests.Integration.DRR.Application.Host;
-            var applicationRepository = host.Services.GetRequiredService<IApplicationRepository>();
-
             var declarations = (await applicationRepository.Query(new EMCR.DRR.Resources.Applications.DeclarationQuery { })).Items;
             declarations.ShouldNotBeEmpty();
         }
@@ -83,13 +84,8 @@ namespace EMCR.Tests.Integration.DRR.Resources
         [Test]
         public async Task CanQueryApplications()
         {
-            var host = EMBC.Tests.Integration.DRR.Application.Host;
-            var applicationRepository = host.Services.GetRequiredService<IApplicationRepository>();
-
             var applications = (await applicationRepository.Query(new ApplicationsQuery { BusinessId = TestBusinessId })).Items;
             applications.ShouldNotBeEmpty();
-            //newApplication.Submitter.FirstName.ShouldBe(originalApplication.Submitter.FirstName);
-            //newApplication.AdditionalContacts.Count().ShouldBe(originalApplication.AdditionalContacts.Count());
         }
 
         private Application CreateTestEOIApplication()
@@ -97,10 +93,11 @@ namespace EMCR.Tests.Integration.DRR.Resources
             var uniqueSignature = TestPrefix + "-" + Guid.NewGuid().ToString().Substring(0, 4);
             return new Application
             {
+                BCeIDBusinessId = TestBusinessId,
                 //Proponent Information
                 ProponentType = ProponentType.LocalGovernment,
                 ProponentName = $"{uniqueSignature}_applicant_name",
-                Submitter = CreateTestContact(uniqueSignature, "submitter"),
+                Submitter = CreateTestContact(uniqueSignature, "submitter", "user-bceid"),
                 ProjectContact = CreateTestContact(uniqueSignature, "proj"),
                 AdditionalContact1 = CreateTestContact(uniqueSignature, "add1"),
                 //AdditionalContact2 = CreateTestContact(uniqueSignature),
@@ -190,10 +187,11 @@ namespace EMCR.Tests.Integration.DRR.Resources
             };
         }
 
-        private ContactDetails CreateTestContact(string uniqueSignature, string namePrefix)
+        private ContactDetails CreateTestContact(string uniqueSignature, string namePrefix, string? BCeId = null)
         {
             return new ContactDetails
             {
+                BCeId = string.IsNullOrEmpty(BCeId) ? null : $"{uniqueSignature}_{BCeId}",
                 FirstName = $"{uniqueSignature}_{namePrefix}_first",
                 LastName = $"{uniqueSignature}_{namePrefix}_last",
                 Email = "test@test.com",

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EMCR.DRR.API.Resources.Accounts;
 using EMCR.DRR.Resources.Applications;
 
 namespace EMCR.DRR.Managers.Intake
@@ -7,11 +8,13 @@ namespace EMCR.DRR.Managers.Intake
     {
         private readonly IMapper mapper;
         private readonly IApplicationRepository applicationRepository;
+        private readonly IAccountRepository accountRepository;
 
-        public IntakeManager(IMapper mapper, IApplicationRepository applicationRepository)
+        public IntakeManager(IMapper mapper, IApplicationRepository applicationRepository, IAccountRepository accountRepository)
         {
             this.mapper = mapper;
             this.applicationRepository = applicationRepository;
+            this.accountRepository = accountRepository;
         }
 
         public async Task<IntakeQueryResponse> Handle(IntakeQuery cmd)
@@ -28,6 +31,7 @@ namespace EMCR.DRR.Managers.Intake
             return cmd switch
             {
                 DrifEoiApplicationCommand c => await Handle(c),
+                CheckProfileExists c => await Handle(c),
                 _ => throw new NotSupportedException($"{cmd.GetType().Name} is not supported")
             };
         }
@@ -41,7 +45,8 @@ namespace EMCR.DRR.Managers.Intake
         public async Task<string> Handle(DrifEoiApplicationCommand cmd)
         {
             var application = mapper.Map<Application>(cmd.application);
-            application.BusinessBCeID = cmd.BusinessId;
+            application.BCeIDBusinessId = cmd.BusinessId;
+            if (application.Submitter != null) application.Submitter.BCeId = cmd.UserId;
             var id = (await applicationRepository.Manage(new SubmitApplication { Application = application })).Id;
             return id;
         }
@@ -50,6 +55,13 @@ namespace EMCR.DRR.Managers.Intake
         {
             var res = await applicationRepository.Query(new Resources.Applications.DeclarationQuery());
             return new DeclarationQueryResult { Items = mapper.Map<IEnumerable<DeclarationInfo>>(res.Items) };
+        }
+
+        public async Task<string> Handle(CheckProfileExists cmd)
+        {
+            var account = new Account { BCeIDBusinessId = cmd.BusinessId, Name = cmd.Name };
+            var res = (await accountRepository.Manage(new SaveAccountIfNotExists { Account = account })).Id;
+            return res;
         }
     }
 }
