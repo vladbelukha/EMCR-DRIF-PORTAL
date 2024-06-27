@@ -75,8 +75,16 @@ export const appConfig: ApplicationConfig = {
     {
       provide: APP_INITIALIZER,
       deps: [AppConfigurationService, AuthService],
-      useFactory: (appConfigurationService: AppConfigurationService) => () =>
-        appConfigurationService.loadConfiguration(),
+      useFactory:
+        (
+          appConfigurationService: AppConfigurationService,
+          authService: AuthService
+        ) =>
+        async () => {
+          await appConfigurationService.loadConfiguration();
+          await authService.init();
+          await authService.setProfile();
+        },
       multi: true,
     },
     importProvidersFrom(NgxSpinnerModule),
