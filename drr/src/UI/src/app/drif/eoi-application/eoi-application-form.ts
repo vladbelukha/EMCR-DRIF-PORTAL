@@ -11,7 +11,6 @@ import {
 } from '@rxweb/reactive-form-validators';
 import {
   ContactDetails,
-  DrifEoiApplication,
   EstimatedNumberOfPeople,
   FundingInformation,
   FundingStream,
@@ -95,7 +94,7 @@ export class ContactDetailsForm implements ContactDetails {
   }
 }
 
-export class ProponentInformationForm implements DrifEoiApplication {
+export class ProponentInformationForm {
   @prop()
   @required()
   proponentType?: ProponentType;
@@ -130,7 +129,7 @@ export class ProponentInformationForm implements DrifEoiApplication {
   }
 }
 
-export class ProjectInformationForm implements DrifEoiApplication {
+export class ProjectInformationForm {
   @prop()
   @required()
   fundingStream?: FundingStream;
@@ -168,7 +167,7 @@ export class ProjectInformationForm implements DrifEoiApplication {
   }
 }
 
-export class FundingInformationForm implements DrifEoiApplication {
+export class FundingInformationForm {
   @prop()
   @required()
   @minNumber({ value: 0 })
@@ -196,7 +195,7 @@ export class FundingInformationForm implements DrifEoiApplication {
   }
 }
 
-export class LocationInformationForm implements DrifEoiApplication {
+export class LocationInformationForm {
   @prop()
   @required()
   ownershipDeclaration?: boolean;
@@ -213,7 +212,7 @@ export class LocationInformationForm implements DrifEoiApplication {
   }
 }
 
-export class ProjectDetailsForm implements DrifEoiApplication {
+export class ProjectDetailsForm {
   @prop()
   @required()
   rationaleForFunding?: string;
@@ -261,7 +260,7 @@ export class ProjectDetailsForm implements DrifEoiApplication {
   }
 }
 
-export class EngagementPlanForm implements DrifEoiApplication {
+export class EngagementPlanForm {
   @prop()
   @required()
   firstNationsEngagement?: string;
@@ -278,7 +277,7 @@ export class EngagementPlanForm implements DrifEoiApplication {
   }
 }
 
-export class OtherSupportingInformationForm implements DrifEoiApplication {
+export class OtherSupportingInformationForm {
   @prop()
   @required()
   climateAdaptation?: string;
@@ -291,7 +290,7 @@ export class OtherSupportingInformationForm implements DrifEoiApplication {
   }
 }
 
-export class DeclarationForm implements DrifEoiApplication {
+export class DeclarationForm {
   @prop()
   @required()
   @requiredTrue()

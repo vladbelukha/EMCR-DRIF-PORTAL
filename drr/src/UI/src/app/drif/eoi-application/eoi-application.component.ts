@@ -30,7 +30,7 @@ import {
 } from '@rxweb/reactive-form-validators';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { DrifapplicationService } from '../../../api/drifapplication/drifapplication.service';
-import { DrifEoiApplication, Hazards } from '../../../model';
+import { ApplicationResult, DrifEoiApplication, Hazards } from '../../../model';
 import { ProfileStore } from '../../store/profile.store';
 import { Step1Component } from '../step-1/step-1.component';
 import { Step2Component } from '../step-2/step-2.component';
@@ -111,7 +111,11 @@ export class EOIApplicationComponent {
     declaration: 'Step 8',
   };
 
-  isEditMode = false;
+  id?: string;
+  get isEditMode() {
+    return !!this.id;
+  }
+
   isAutoSaveOn = false;
   autoSaveTimer: any;
   autoSaveCountdown = 0;
@@ -163,14 +167,25 @@ export class EOIApplicationComponent {
     // fetch router params to determine if we are editing an existing application
     const id = this.route.snapshot.params['id'];
     if (id) {
-      this.isEditMode = true;
+      this.id = id;
+
       this.applicationService
         .dRIFApplicationGet(id)
         .subscribe((application) => {
           // transform application into step forms
+          // TODO: refactor this
           const eoiApplicationForm: EOIApplicationForm = {
             proponentInformation: {
-              ...application,
+              proponentType: application.proponentType,
+              additionalContacts: application.additionalContacts,
+              partneringProponentsArray: application.partneringProponents?.map(
+                (proponent) => ({
+                  value: proponent,
+                })
+              ),
+              partneringProponents: application.partneringProponents,
+              submitter: application.submitter,
+              projectContact: application.projectContact,
             },
             projectInformation: {
               ...application,
@@ -270,26 +285,41 @@ export class EOIApplicationComponent {
       ...eoiApplicationForm.declaration,
     } as DrifEoiApplication;
 
-    this.applicationService
-      .dRIFApplicationCreateEOIApplication(drifEoiApplication)
-      .subscribe(
-        (response) => {
-          this.hotToast.close();
-          this.hotToast.success('Application saved successfully', {
-            duration: 5000,
-            autoClose: true,
-          });
-
-          this.formChanged = false;
-
-          this.router.navigate(['/eoi-application/', response['id']]);
-        },
-        (error) => {
-          this.hotToast.close();
-          this.hotToast.error('Failed to save application');
-        }
-      );
+    if (this.isEditMode) {
+      this.applicationService
+        .dRIFApplicationUpdateApplication(this.id!, drifEoiApplication)
+        .subscribe({
+          next: this.onSaveSuccess,
+          error: this.onSaveFailure,
+        });
+    } else {
+      this.applicationService
+        .dRIFApplicationCreateEOIApplication(drifEoiApplication)
+        .subscribe({
+          next: this.onSaveSuccess,
+          error: this.onSaveFailure,
+        });
+    }
   }
+
+  onSaveSuccess = (response: ApplicationResult) => {
+    this.hotToast.close();
+    this.hotToast.success('Application saved successfully', {
+      duration: 5000,
+      autoClose: true,
+    });
+
+    this.formChanged = false;
+
+    if (!this.isEditMode) {
+      this.router.navigate(['/eoi-application/', response['id']]);
+    }
+  };
+
+  onSaveFailure = () => {
+    this.hotToast.close();
+    this.hotToast.error('Failed to save application');
+  };
 
   submit() {
     this.eoiApplicationForm.markAllAsTouched();
