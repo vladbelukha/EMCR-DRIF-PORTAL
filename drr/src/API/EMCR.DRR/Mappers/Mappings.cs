@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using EMBC.DRR.API.Services;
+using EMCR.DRR.API.Controllers;
 using EMCR.DRR.API.Model;
 using EMCR.DRR.Controllers;
 
@@ -19,6 +21,10 @@ namespace EMCR.DRR.API.Mappers
                 ;
 
             CreateMap<DeclarationInfo, DeclarationInfo>()
+                ;
+
+            CreateMap<AccountDetails, ProfileDetails>()
+                .ReverseMap()
                 ;
         }
 

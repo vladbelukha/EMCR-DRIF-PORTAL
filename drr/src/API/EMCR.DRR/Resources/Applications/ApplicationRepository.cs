@@ -1,5 +1,4 @@
-﻿using System;
-using AutoMapper;
+﻿using AutoMapper;
 using EMCR.DRR.Dynamics;
 using EMCR.DRR.Managers.Intake;
 using Microsoft.Dynamics.CRM;
@@ -210,7 +209,10 @@ namespace EMCR.DRR.Resources.Applications
                 }
                 else
                 {
-                    submitter = existingSubmitter;
+                    submitter.contactid = existingSubmitter.contactid;
+                    ctx.Detach(existingSubmitter);
+                    ctx.AttachTo(nameof(DRRContext.contacts), submitter);
+                    ctx.UpdateObject(submitter);
                 }
             }
             return submitter;
@@ -282,9 +284,12 @@ namespace EMCR.DRR.Resources.Applications
         {
             foreach (var fund in application.drr_application_fundingsource_Application)
             {
-                drrContext.AddTodrr_fundingsources(fund);
-                drrContext.AddLink(application, nameof(application.drr_application_fundingsource_Application), fund);
-                drrContext.SetLink(fund, nameof(fund.drr_Application), application);
+                if (fund != null)
+                {
+                    drrContext.AddTodrr_fundingsources(fund);
+                    drrContext.AddLink(application, nameof(application.drr_application_fundingsource_Application), fund);
+                    drrContext.SetLink(fund, nameof(fund.drr_Application), application);
+                }
             }
         }
 
@@ -292,9 +297,12 @@ namespace EMCR.DRR.Resources.Applications
         {
             foreach (var infrastructure in application.drr_drr_application_drr_criticalinfrastructureimpacted_Application)
             {
-                drrContext.AddTodrr_criticalinfrastructureimpacteds(infrastructure);
-                drrContext.AddLink(application, nameof(application.drr_drr_application_drr_criticalinfrastructureimpacted_Application), infrastructure);
-                drrContext.SetLink(infrastructure, nameof(infrastructure.drr_Application), application);
+                if (infrastructure != null)
+                {
+                    drrContext.AddTodrr_criticalinfrastructureimpacteds(infrastructure);
+                    drrContext.AddLink(application, nameof(application.drr_drr_application_drr_criticalinfrastructureimpacted_Application), infrastructure);
+                    drrContext.SetLink(infrastructure, nameof(infrastructure.drr_Application), application);
+                }
             }
         }
 

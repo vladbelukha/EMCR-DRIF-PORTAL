@@ -25,7 +25,12 @@ namespace EMCR.DRR.Controllers
 
 #pragma warning disable CS8603 // Possible null reference return.
         private string GetCurrentBusinessId() => User.FindFirstValue("bceid_business_guid");
+        private string GetCurrentBusinessName() => User.FindFirstValue("bceid_business_name");
         private string GetCurrentUserId() => User.FindFirstValue("bceid_user_guid");
+        private UserInfo GetCurrentUser()
+        {
+            return new UserInfo { BusinessId = GetCurrentBusinessId(), BusinessName = GetCurrentBusinessName(), UserId = GetCurrentUserId() };
+        }
 #pragma warning restore CS8603 // Possible null reference return.
 
         public DRIFApplicationController(ILogger<DRIFApplicationController> logger, IIntakeManager intakeManager, IMapper mapper)
@@ -61,7 +66,7 @@ namespace EMCR.DRR.Controllers
         public async Task<ActionResult<ApplicationResult>> CreateEOIApplication(DrifEoiApplication application)
         {
             application.Status = SubmissionPortalStatus.Draft;
-            var id = await intakeManager.Handle(new DrifEoiApplicationCommand { application = application, BusinessId = GetCurrentBusinessId(), UserId = GetCurrentUserId() });
+            var id = await intakeManager.Handle(new DrifEoiApplicationCommand { application = application, UserInfo = GetCurrentUser() });
             return Ok(new ApplicationResult { Id = id });
         }
 
@@ -70,7 +75,7 @@ namespace EMCR.DRR.Controllers
         {
             application.Id = id;
             application.Status = SubmissionPortalStatus.Draft;
-            var drr_id = await intakeManager.Handle(new DrifEoiApplicationCommand { application = application, BusinessId = GetCurrentBusinessId(), UserId = GetCurrentUserId() });
+            var drr_id = await intakeManager.Handle(new DrifEoiApplicationCommand { application = application, UserInfo = GetCurrentUser() });
             return Ok(new ApplicationResult { Id = drr_id });
         }
 
@@ -79,7 +84,7 @@ namespace EMCR.DRR.Controllers
         {
             application.Id = id;
             application.Status = SubmissionPortalStatus.UnderReview;
-            var drr_id = await intakeManager.Handle(new DrifEoiApplicationCommand { application = application, BusinessId = GetCurrentBusinessId(), UserId = GetCurrentUserId() });
+            var drr_id = await intakeManager.Handle(new DrifEoiApplicationCommand { application = application, UserInfo = GetCurrentUser() });
             return Ok(new ApplicationResult { Id = drr_id });
         }
     }
@@ -115,7 +120,6 @@ namespace EMCR.DRR.Controllers
 
         //Proponent Information
         public ProponentType? ProponentType { get; set; }
-        public string? ProponentName { get; set; }
         public ContactDetails? Submitter { get; set; }
         public ContactDetails? ProjectContact { get; set; }
         public IEnumerable<ContactDetails> AdditionalContacts { get; set; }

@@ -45,8 +45,9 @@ namespace EMCR.DRR.Managers.Intake
         public async Task<string> Handle(DrifEoiApplicationCommand cmd)
         {
             var application = mapper.Map<Application>(cmd.application);
-            application.BCeIDBusinessId = cmd.BusinessId;
-            if (application.Submitter != null) application.Submitter.BCeId = cmd.UserId;
+            application.BCeIDBusinessId = cmd.UserInfo.BusinessId;
+            application.ProponentName = cmd.UserInfo.BusinessName;
+            if (application.Submitter != null) application.Submitter.BCeId = cmd.UserInfo.UserId;
             var id = (await applicationRepository.Manage(new SubmitApplication { Application = application })).Id;
             return id;
         }
