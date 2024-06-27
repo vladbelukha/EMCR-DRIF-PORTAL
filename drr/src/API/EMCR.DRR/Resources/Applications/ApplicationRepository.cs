@@ -115,17 +115,6 @@ namespace EMCR.DRR.Resources.Applications
                 ctx.DeleteObject(account);
             }
 
-            if (drrApplication.drr_Primary_Proponent_Name != null)
-            {
-                ctx.AttachTo(nameof(ctx.accounts), drrApplication.drr_Primary_Proponent_Name);
-                ctx.DeleteObject(drrApplication.drr_Primary_Proponent_Name);
-            }
-
-            if (drrApplication.drr_SubmitterContact != null)
-            {
-                ctx.AttachTo(nameof(ctx.contacts), drrApplication.drr_SubmitterContact);
-                ctx.DeleteObject(drrApplication.drr_SubmitterContact);
-            }
             if (drrApplication.drr_PrimaryProjectContact != null)
             {
                 ctx.AttachTo(nameof(ctx.contacts), drrApplication.drr_PrimaryProjectContact);
@@ -156,14 +145,18 @@ namespace EMCR.DRR.Resources.Applications
         private async Task<string> SaveApplication(DRRContext ctx, drr_application drrApplication, Application application)
         {
             var primaryProponent = drrApplication.drr_Primary_Proponent_Name;
+            primaryProponent = await CheckForExistingProponent(ctx, primaryProponent, application);
+
             var submitter = drrApplication.drr_SubmitterContact;
+            submitter = await CheckForExistingSubmitter(ctx, submitter, application);
+
             var primaryProjectContact = drrApplication.drr_PrimaryProjectContact;
             var additionalContact1 = drrApplication.drr_AdditionalContact1;
             var additionalContact2 = drrApplication.drr_AdditionalContact2;
 
             AssignPrimaryProponent(ctx, drrApplication, primaryProponent);
             if (submitter != null) AssignSubmitter(ctx, drrApplication, submitter);
-            if (primaryProjectContact != null) AssignPrimaryProjectContact(ctx, drrApplication, primaryProjectContact);
+            if (primaryProjectContact != null) AddPrimaryProjectContact(ctx, drrApplication, primaryProjectContact);
             if (additionalContact1 != null) AddAdditionalContact1(ctx, drrApplication, additionalContact1);
             if (additionalContact2 != null) AddAdditionalContact2(ctx, drrApplication, additionalContact2);
             AddFundinSources(ctx, drrApplication);
@@ -192,6 +185,37 @@ namespace EMCR.DRR.Resources.Applications
             return drrApplicationNumber;
         }
 
+        private async Task<account> CheckForExistingProponent(DRRContext ctx, account proponent, Application application)
+        {
+            var existingProponent = string.IsNullOrEmpty(application.BCeIDBusinessId) ? null : await ctx.accounts.Where(a => a.drr_bceidguid == application.BCeIDBusinessId).SingleOrDefaultAsync();
+            if (existingProponent == null)
+            {
+                ctx.AddToaccounts(proponent);
+            }
+            else
+            {
+                proponent = existingProponent;
+            }
+            return proponent;
+        }
+
+        private async Task<contact> CheckForExistingSubmitter(DRRContext ctx, contact submitter, Application application)
+        {
+            if (application.Submitter != null)
+            {
+                var existingSubmitter = string.IsNullOrEmpty(application.Submitter.BCeId) ? null : await ctx.contacts.Where(c => c.drr_userid == application.Submitter.BCeId).SingleOrDefaultAsync();
+                if (existingSubmitter == null)
+                {
+                    ctx.AddTocontacts(submitter);
+                }
+                else
+                {
+                    submitter = existingSubmitter;
+                }
+            }
+            return submitter;
+        }
+
         private static async Task SetDeclarations(DRRContext drrContext, drr_application application)
         {
             var accuracyDeclaration = (await drrContext.drr_legaldeclarations.Where(d => d.statecode == (int)EntityState.Active && d.drr_declarationtype == (int)DeclarationTypeOptionSet.AccuracyOfInformation).GetAllPagesAsync()).FirstOrDefault();
@@ -210,17 +234,15 @@ namespace EMCR.DRR.Resources.Applications
 
         private static void AssignPrimaryProponent(DRRContext drrContext, drr_application application, account primaryProponent)
         {
-            drrContext.AddToaccounts(primaryProponent);
             drrContext.AddLink(primaryProponent, nameof(primaryProponent.drr_account_drr_application_PrimaryProponentName), application);
         }
 
         private static void AssignSubmitter(DRRContext drrContext, drr_application application, contact submitter)
         {
-            drrContext.AddTocontacts(submitter);
             drrContext.AddLink(submitter, nameof(submitter.drr_contact_drr_application_SubmitterContact), application);
         }
 
-        private static void AssignPrimaryProjectContact(DRRContext drrContext, drr_application application, contact primaryProjectContact)
+        private static void AddPrimaryProjectContact(DRRContext drrContext, drr_application application, contact primaryProjectContact)
         {
             drrContext.AddTocontacts(primaryProjectContact);
             drrContext.AddLink(primaryProjectContact, nameof(primaryProjectContact.drr_contact_drr_application_PrimaryProjectContact), application);

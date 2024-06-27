@@ -1,7 +1,9 @@
 ﻿using EMCR.DRR.API.Model;
 using EMCR.DRR.Controllers;
+using EMCR.DRR.Dynamics;
 using EMCR.DRR.Managers.Intake;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Shouldly;
 
 namespace EMCR.Tests.Integration.DRR.Managers.Intake
@@ -9,7 +11,8 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
     public class SubmissionTests
     {
         private string TestPrefix = "autotest-dev";
-        private string TestBusinessId = "autotest-dev-bceid";
+        private string TestBusinessId = "autotest-dev-business-bceid";
+        private string TestUserId = "autotest-dev-user-bceid";
         private readonly IIntakeManager manager;
 
         public SubmissionTests()
@@ -22,7 +25,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
         public async Task CanCreateEOIApplication()
         {
             var application = CreateNewTestEOIApplication();
-            var id = await manager.Handle(new DrifEoiApplicationCommand { application = application, BusinessId = TestBusinessId });
+            var id = await manager.Handle(new DrifEoiApplicationCommand { application = application, BusinessId = TestBusinessId, UserId = TestUserId });
             id.ShouldNotBeEmpty();
         }
 
@@ -36,8 +39,30 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
                 ProponentName = $"{uniqueSignature}_applicant_name",
                 //RelatedHazards = new[] { EMCR.DRR.Controllers.Hazards.Other },
             };
-            var id = await manager.Handle(new DrifEoiApplicationCommand { application = application, BusinessId = TestBusinessId });
+            var id = await manager.Handle(new DrifEoiApplicationCommand { application = application, BusinessId = TestBusinessId, UserId = TestUserId });
             id.ShouldNotBeEmpty();
+        }
+
+        [Test]
+        public async Task SubmitMultipleApplications_SameSubmitter_OnlyOneSubmitterContactCreated()
+        {
+            var uniqueSignature = TestPrefix + "-" + Guid.NewGuid().ToString().Substring(0, 4);
+            var application = CreateNewTestEOIApplication();
+            application.ProjectTitle = "First Submission";
+            var id = await manager.Handle(new DrifEoiApplicationCommand { application = application, BusinessId = TestBusinessId, UserId = TestUserId });
+            id.ShouldNotBeEmpty();
+
+            var secondApplication = CreateNewTestEOIApplication();
+            secondApplication.ProjectTitle = "Second Submission";
+            var secondId = await manager.Handle(new DrifEoiApplicationCommand { application = secondApplication, BusinessId = TestBusinessId, UserId = TestUserId });
+            secondId.ShouldNotBeEmpty();
+
+            var host = EMBC.Tests.Integration.DRR.Application.Host;
+            var drrCtxFactory = host.Services.GetRequiredService<IDRRContextFactory>();
+            var ctx = drrCtxFactory.CreateReadOnly();
+
+            var submitters = ctx.contacts.Where(c => c.drr_userid == TestUserId).ToList();
+            submitters.ShouldHaveSingleItem();
         }
 
         private DrifEoiApplication CreateNewTestEOIApplication()
