@@ -48,10 +48,10 @@ namespace EMCR.DRR.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<DrifEoiApplication>> Get(string id)
+        public async Task<ActionResult<DraftEoiApplication>> Get(string id)
         {
             var application = (await intakeManager.Handle(new DrrApplicationsQuery { Id = id })).Items.FirstOrDefault();
-            return Ok(mapper.Map<DrifEoiApplication>(application));
+            return Ok(mapper.Map<DraftEoiApplication>(application));
         }
 
         [HttpGet("Declarations")]
@@ -63,24 +63,24 @@ namespace EMCR.DRR.Controllers
         }
 
         [HttpPost("EOI")]
-        public async Task<ActionResult<ApplicationResult>> CreateEOIApplication(DrifEoiApplication application)
+        public async Task<ActionResult<ApplicationResult>> CreateEOIApplication(DraftEoiApplication application)
         {
             application.Status = SubmissionPortalStatus.Draft;
-            var id = await intakeManager.Handle(new DrifEoiApplicationCommand { application = application, UserInfo = GetCurrentUser() });
+            var id = await intakeManager.Handle(new DrifEoiApplicationCommand { application = mapper.Map<EoiApplication>(application), UserInfo = GetCurrentUser() });
             return Ok(new ApplicationResult { Id = id });
         }
 
         [HttpPost("EOI/{id}")]
-        public async Task<ActionResult<ApplicationResult>> UpdateApplication([FromBody] DrifEoiApplication application, string id)
+        public async Task<ActionResult<ApplicationResult>> UpdateApplication([FromBody] DraftEoiApplication application, string id)
         {
             application.Id = id;
             application.Status = SubmissionPortalStatus.Draft;
-            var drr_id = await intakeManager.Handle(new DrifEoiApplicationCommand { application = application, UserInfo = GetCurrentUser() });
+            var drr_id = await intakeManager.Handle(new DrifEoiApplicationCommand { application = mapper.Map<EoiApplication>(application), UserInfo = GetCurrentUser() });
             return Ok(new ApplicationResult { Id = drr_id });
         }
 
         [HttpPost("EOI/{id}/submit")]
-        public async Task<ActionResult<ApplicationResult>> SubmitApplication([FromBody] DrifEoiApplication application, string id)
+        public async Task<ActionResult<ApplicationResult>> SubmitApplication([FromBody] EoiApplication application, string id)
         {
             application.Id = id;
             application.Status = SubmissionPortalStatus.UnderReview;
@@ -113,7 +113,7 @@ namespace EMCR.DRR.Controllers
     }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-    public class DrifEoiApplication
+    public class DraftEoiApplication
     {
         public string? Id { get; set; }
         public SubmissionPortalStatus? Status { get; set; }
@@ -170,13 +170,16 @@ namespace EMCR.DRR.Controllers
         //Other Supporting Information
         public string? ClimateAdaptation { get; set; }
         public string? OtherInformation { get; set; }
+    }
 
-
+    public class EoiApplication : DraftEoiApplication
+    {
         //Declaration
         public bool? AuthorizedRepresentativeStatement { get; set; }
         public bool? FOIPPAConfirmation { get; set; }
         public bool? InformationAccuracyStatement { get; set; }
     }
+
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
     public class FundingInformation
