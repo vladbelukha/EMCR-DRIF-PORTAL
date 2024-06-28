@@ -137,5 +137,10 @@
   "landingLoginForgotPassword": "Forgot your user ID or password?",
   "landingContactHeader": "Contact Us",
   "landingContactText": "For disaster mitigation funding support, contact: {{contact}}",
-  "supportEmail": "EMBCDisasterMitigation@gov.bc.ca"
+  "supportEmail": "EMBCDisasterMitigation@gov.bc.ca",
+  "Draft": "Draft",
+  "UnderReview": "Under Review",
+  "Approved": "Approved",
+  "Ineligible": "Ineligible",
+  "Withdrawn": "Withdrawn"
 }

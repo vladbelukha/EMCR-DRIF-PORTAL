@@ -6,6 +6,7 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatSortModule, Sort } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { TranslocoModule } from '@ngneat/transloco';
 import { DrifapplicationService } from '../../../api/drifapplication/drifapplication.service';
 import { Submission } from '../../../model';
 
@@ -19,6 +20,7 @@ import { Submission } from '../../../model';
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
+    TranslocoModule,
   ],
   templateUrl: './submission-list.component.html',
   styleUrl: './submission-list.component.scss',
