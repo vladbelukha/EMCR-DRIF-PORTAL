@@ -1,19 +1,26 @@
 <div class="app-stepper-container" *transloco="let t">
   <div class="app-stepper-header">
     <h1>{{ t("formHeader") }}</h1>
-    <div class="save-info">
-      <div style="display: flex; flex-direction: column">
-        <i *ngIf="lastSavedAt"
-          >Saved at {{ lastSavedAt | date : "mediumTime" }}</i
-        >
-        <i *ngIf="autoSaveCountdown <= 10 && autoSaveCountdown > 0"
-          >Saving in {{ autoSaveCountdown }} seconds</i
-        >
+    <div>
+      <div class="header-actions">
+        <button mat-stroked-button color="primary" (click)="goBack()">
+          {{ t("back") }}
+        </button>
+        <button mat-flat-button color="primary" (click)="save()">
+          <mat-icon>save</mat-icon>
+          Save
+        </button>
       </div>
-      <button mat-flat-button color="primary" (click)="save()">
-        <mat-icon>save</mat-icon>
-        Save
-      </button>
+      <div class="save-info">
+        <div style="display: flex; flex-direction: column">
+          <i *ngIf="lastSavedAt"
+            >Saved at {{ lastSavedAt | date : "mediumTime" }}</i
+          >
+          <i *ngIf="autoSaveCountdown <= 10 && autoSaveCountdown > 0"
+            >Saving in {{ autoSaveCountdown }} seconds</i
+          >
+        </div>
+      </div>
     </div>
   </div>
   <mat-stepper
