@@ -40,7 +40,11 @@ import { Step5Component } from '../step-5/step-5.component';
 import { Step6Component } from '../step-6/step-6.component';
 import { Step7Component } from '../step-7/step-7.component';
 import { Step8Component } from '../step-8/step-8.component';
-import { EOIApplicationForm, StringItem } from './eoi-application-form';
+import {
+  EOIApplicationForm,
+  FundingInformationItemForm,
+  StringItem,
+} from './eoi-application-form';
 
 @Component({
   selector: 'drr-eoi-application',
@@ -178,20 +182,25 @@ export class EOIApplicationComponent {
             proponentInformation: {
               proponentType: application.proponentType,
               additionalContacts: application.additionalContacts,
-              // partneringProponentsArray: application.partneringProponents?.map(
-              //   (proponent) => ({
-              //     value: proponent,
-              //   })
-              // ),
               partneringProponents: application.partneringProponents,
               submitter: application.submitter,
               projectContact: application.projectContact,
             },
             projectInformation: {
-              ...application,
+              projectType: application.projectType,
+              projectTitle: application.projectTitle,
+              scopeStatement: application.scopeStatement,
+              fundingStream: application.fundingStream,
+              relatedHazards: application.relatedHazards,
+              otherHazardsDescription: application.otherHazardsDescription,
+              startDate: application.startDate,
+              endDate: application.endDate,
             },
             fundingInformation: {
-              ...application,
+              fundingRequest: application.fundingRequest,
+              remainingAmount: application.remainingAmount,
+              intendToSecureFunding: application.intendToSecureFunding,
+              estimatedTotal: application.estimatedTotal,
             },
             locationInformation: {
               ...application,
@@ -218,6 +227,18 @@ export class EOIApplicationComponent {
           application.partneringProponents?.forEach((proponent) => {
             partneringProponentsArray?.push(
               this.formBuilder.formGroup(new StringItem({ value: proponent }))
+            );
+          });
+
+          const fundingInformationItemFormArray = this.getFormGroup(
+            'fundingInformation'
+          ).get('otherFunding') as FormArray;
+          fundingInformationItemFormArray.clear();
+          application.otherFunding?.forEach((funding) => {
+            fundingInformationItemFormArray?.push(
+              this.formBuilder.formGroup(
+                new FundingInformationItemForm(funding)
+              )
             );
           });
 

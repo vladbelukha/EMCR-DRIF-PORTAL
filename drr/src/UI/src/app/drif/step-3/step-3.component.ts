@@ -163,6 +163,7 @@ export class Step3Component {
   }
 
   hasOtherGrants(selectValue: FundingType[]) {
+    
     return selectValue?.includes(FundingType.OtherGrants);
   }
 
