@@ -1,6 +1,7 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Injectable, PLATFORM_ID, inject } from '@angular/core';
 import { AuthConfig, OAuthEvent, OAuthService } from 'angular-oauth2-oidc';
+import { firstValueFrom } from 'rxjs';
 import { ProfileService } from '../../../api/profile/profile.service';
 import { ConfigurationStore } from '../../store/configuration.store';
 import { ProfileStore } from '../../store/profile.store';
@@ -18,18 +19,18 @@ export class AuthService {
   async setProfile() {
     if (this.isLoggedIn()) {
       const profile = this.getProfile();
-      // const profileDetails = await firstValueFrom(
-      //   this.profileService.profileProfileDetails()
-      // );
+      const profileDetails = await firstValueFrom(
+        this.profileService.profileProfileDetails()
+      );
 
       this.profileStore.setProfile({
         fullName: profile['name'],
-        // firstName: profileDetails.firstName,
-        // lastName: profileDetails.lastName,
-        // title: profileDetails.title,
-        // department: profileDetails.department,
-        // phone: profileDetails.phone,
-        // email: profile['email'],
+        firstName: profileDetails.firstName,
+        lastName: profileDetails.lastName,
+        title: profileDetails.title,
+        department: profileDetails.department,
+        phone: profileDetails.phone,
+        email: profile['email'],
         organization: profile['bceid_business_name'],
         loggedIn: true,
       });
