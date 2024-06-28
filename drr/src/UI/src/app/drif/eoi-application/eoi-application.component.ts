@@ -429,18 +429,33 @@ export class EOIApplicationComponent {
       ...eoiApplicationForm.declaration,
     } as EoiApplication;
 
-    this.applicationService
-      .dRIFApplicationCreateEOIApplication(drifEoiApplication)
-      .subscribe(
-        (response) => {
-          this.hotToast.close();
-          this.router.navigate(['/success']);
-        },
-        (error) => {
-          this.hotToast.close();
-          this.hotToast.error('Failed to submit application');
-        }
-      );
+    if (this.isEditMode) {
+      this.applicationService
+        .dRIFApplicationSubmitApplication2(this.id!, drifEoiApplication)
+        .subscribe(
+          (response) => {
+            this.hotToast.close();
+            this.router.navigate(['/success']);
+          },
+          (error) => {
+            this.hotToast.close();
+            this.hotToast.error('Failed to submit application');
+          }
+        );
+    } else {
+      this.applicationService
+        .dRIFApplicationSubmitApplication(drifEoiApplication)
+        .subscribe(
+          (response) => {
+            this.hotToast.close();
+            this.router.navigate(['/success']);
+          },
+          (error) => {
+            this.hotToast.close();
+            this.hotToast.error('Failed to submit application');
+          }
+        );
+    }
   }
 
   goBack() {

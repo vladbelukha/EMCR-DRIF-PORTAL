@@ -86,6 +86,14 @@ export class DrifapplicationService {
     );
   }
  dRIFApplicationSubmitApplication<TData = ApplicationResult>(
+    eoiApplication: EoiApplication, options?: HttpClientOptions
+  ): Observable<TData>  {
+    return this.http.post<TData>(
+      `/api/drifapplication/eoi/submit`,
+      eoiApplication,options
+    );
+  }
+ dRIFApplicationSubmitApplication2<TData = ApplicationResult>(
     id: string,
     eoiApplication: EoiApplication, options?: HttpClientOptions
   ): Observable<TData>  {
@@ -102,3 +110,4 @@ export type DRIFApplicationGetDeclarationsClientResult = NonNullable<Declaration
 export type DRIFApplicationCreateEOIApplicationClientResult = NonNullable<ApplicationResult>
 export type DRIFApplicationUpdateApplicationClientResult = NonNullable<ApplicationResult>
 export type DRIFApplicationSubmitApplicationClientResult = NonNullable<ApplicationResult>
+export type DRIFApplicationSubmitApplication2ClientResult = NonNullable<ApplicationResult>
