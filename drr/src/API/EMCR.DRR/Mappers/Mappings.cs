@@ -10,6 +10,8 @@ namespace EMCR.DRR.API.Mappers
     {
         public Mappings()
         {
+            CreateMap<DraftEoiApplication, EoiApplication>();
+
             CreateMap<Managers.Intake.Application, Submission>()
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => DRRApplicationStatusMapper(src.Status)))
                 .ForMember(dest => dest.FundingRequest, opt => opt.MapFrom(src => src.FundingRequest.ToString()))
