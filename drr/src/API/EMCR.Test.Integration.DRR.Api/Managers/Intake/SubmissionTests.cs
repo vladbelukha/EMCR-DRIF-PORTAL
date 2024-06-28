@@ -1,4 +1,5 @@
-﻿using EMCR.DRR.API.Model;
+﻿using AutoMapper;
+using EMCR.DRR.API.Model;
 using EMCR.DRR.Controllers;
 using EMCR.DRR.Dynamics;
 using EMCR.DRR.Managers.Intake;
@@ -18,26 +19,48 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             return new UserInfo { BusinessId = TestBusinessId, BusinessName = TestBusinessName, UserId = TestUserId };
         }
         private readonly IIntakeManager manager;
-
+        private readonly IMapper mapper;
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
         public SubmissionTests()
         {
             var host = EMBC.Tests.Integration.DRR.Application.Host;
             manager = host.Services.GetRequiredService<IIntakeManager>();
+            mapper = host.Services.GetRequiredService<IMapper>();
         }
 
         [Test]
         public async Task CanCreateEOIApplication()
         {
             var application = CreateNewTestEOIApplication();
+            var id = await manager.Handle(new DrifEoiApplicationCommand { application = mapper.Map<EoiApplication>(application), UserInfo = GetTestUserInfo() });
+            id.ShouldNotBeEmpty();
+        }
+
+        [Test]
+        public async Task CanSubmitEOIApplication()
+        {
+            var application = mapper.Map<EoiApplication>(CreateNewTestEOIApplication());
+            application.Status = SubmissionPortalStatus.UnderReview;
+            application.AuthorizedRepresentativeStatement = true;
+            application.FOIPPAConfirmation = true;
+            application.InformationAccuracyStatement = true;
+
             var id = await manager.Handle(new DrifEoiApplicationCommand { application = application, UserInfo = GetTestUserInfo() });
             id.ShouldNotBeEmpty();
+
+            var savedApplication = (await manager.Handle(new DrrApplicationsQuery { Id = id })).Items.SingleOrDefault();
+            savedApplication.Id.ShouldBe(id);
+            savedApplication.AuthorizedRepresentativeStatement.ShouldBe(true);
+            savedApplication.FOIPPAConfirmation.ShouldBe(true);
+            savedApplication.InformationAccuracyStatement.ShouldBe(true);
+            savedApplication.Status.ShouldBe(ApplicationStatus.Submitted);
         }
 
         [Test]
         public async Task CanCreateDraftEOIApplication()
         {
             var uniqueSignature = TestPrefix + "-" + Guid.NewGuid().ToString().Substring(0, 4);
-            var application = new DrifEoiApplication
+            var application = new DraftEoiApplication
             {
                 Status = SubmissionPortalStatus.Draft,
                 //RelatedHazards = new[] { EMCR.DRR.Controllers.Hazards.Other },
@@ -48,13 +71,14 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
                 BusinessName = $"{uniqueSignature}_business-name",
                 UserId = $"{uniqueSignature}_user-bceid"
             };
-            var id = await manager.Handle(new DrifEoiApplicationCommand { application = application, UserInfo = userInfo });
+            var id = await manager.Handle(new DrifEoiApplicationCommand { application = mapper.Map<EoiApplication>(application), UserInfo = userInfo });
             id.ShouldNotBeEmpty();
 
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
+
             var savedApplication = (await manager.Handle(new DrrApplicationsQuery { Id = id })).Items.SingleOrDefault();
             savedApplication.Id.ShouldBe(id);
             savedApplication.OwnershipDeclaration.ShouldBeNull();
+            savedApplication.AuthorizedRepresentativeStatement.ShouldBe(false);
         }
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
 
@@ -64,15 +88,15 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             var uniqueSignature = TestPrefix + "-" + Guid.NewGuid().ToString().Substring(0, 4);
             var application = CreateNewTestEOIApplication();
             application.ProjectTitle = "First Submission";
-            var id = await manager.Handle(new DrifEoiApplicationCommand { application = application, UserInfo = GetTestUserInfo() });
+            var id = await manager.Handle(new DrifEoiApplicationCommand { application = mapper.Map<EoiApplication>(application), UserInfo = GetTestUserInfo() });
             id.ShouldNotBeEmpty();
 
             var secondApplication = CreateNewTestEOIApplication();
             secondApplication.ProjectTitle = "Second Submission";
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
-            secondApplication.Submitter.FirstName += "-updated";
+            secondApplication.Submitter.FirstName = $"{uniqueSignature}_submitter_first_update";
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
-            var secondId = await manager.Handle(new DrifEoiApplicationCommand { application = secondApplication, UserInfo = GetTestUserInfo() });
+            var secondId = await manager.Handle(new DrifEoiApplicationCommand { application = mapper.Map<EoiApplication>(secondApplication), UserInfo = GetTestUserInfo() });
             secondId.ShouldNotBeEmpty();
 
             var host = EMBC.Tests.Integration.DRR.Application.Host;
@@ -81,13 +105,13 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
 
             var submitters = ctx.contacts.Where(c => c.drr_userid == TestUserId).ToList();
             submitters.ShouldHaveSingleItem();
-            submitters.First().firstname.ShouldContain("updated");
+            submitters.First().firstname.ShouldContain("update");
         }
 
-        private DrifEoiApplication CreateNewTestEOIApplication()
+        private DraftEoiApplication CreateNewTestEOIApplication()
         {
             var uniqueSignature = TestPrefix + "-" + Guid.NewGuid().ToString().Substring(0, 4);
-            return new DrifEoiApplication
+            return new DraftEoiApplication
             {
                 Status = SubmissionPortalStatus.Draft,
 
@@ -176,9 +200,9 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
                 OtherInformation = "Other Info",
 
                 //Declaration
-                InformationAccuracyStatement = true,
+                //InformationAccuracyStatement = true,
                 //FOIPPAConfirmation = true,
-                AuthorizedRepresentativeStatement = true
+                //AuthorizedRepresentativeStatement = true
             };
         }
 

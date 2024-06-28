@@ -8,7 +8,18 @@ namespace EMCR.DRR.Managers.Intake
     {
         public IntakeMapperProfile()
         {
-            CreateMap<DrifEoiApplication, Application>()
+            CreateMap<EoiApplication, Application>()
+                .ForMember(dest => dest.AdditionalContact1, opt => opt.MapFrom(src => src.AdditionalContacts.FirstOrDefault()))
+                .ForMember(dest => dest.AdditionalContact2, opt => opt.MapFrom(src => src.AdditionalContacts.ElementAtOrDefault(1)))
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => IntakeStatusMapper(src.Status)))
+                .ReverseMap()
+                .ForMember(dest => dest.AdditionalContacts, opt => opt.MapFrom(src => new[] { src.AdditionalContact1, src.AdditionalContact2 }))
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => DRRApplicationStatusMapper(src.Status)))
+                .ForMember(dest => dest.PartneringProponents, opt => opt.MapFrom(src => src.PartneringProponents.Select(p => p.Name)))
+                .ForMember(dest => dest.InfrastructureImpacted, opt => opt.MapFrom(src => src.InfrastructureImpacted.Select(p => p.Name)))
+                ;
+
+            CreateMap<DraftEoiApplication, Application>()
                 .ForMember(dest => dest.AdditionalContact1, opt => opt.MapFrom(src => src.AdditionalContacts.FirstOrDefault()))
                 .ForMember(dest => dest.AdditionalContact2, opt => opt.MapFrom(src => src.AdditionalContacts.ElementAtOrDefault(1)))
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => IntakeStatusMapper(src.Status)))
