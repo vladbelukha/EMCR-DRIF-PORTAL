@@ -330,7 +330,7 @@ namespace EMCR.DRR.Resources.Applications
 
             var loadTasks = new List<Task>
             {
-                LoadPartneringProponents(ctx, application, ct)
+                ctx.LoadPropertyAsync(application, nameof(drr_application.drr_application_connections1), ct),
             };
 
             if (!partnerProponentsOnly)
@@ -349,12 +349,6 @@ namespace EMCR.DRR.Resources.Applications
             }
 
             await Task.WhenAll(loadTasks);
-        }
-
-        private static async Task LoadPartneringProponents(DRRContext ctx, drr_application application, CancellationToken ct)
-        {
-            var partnerProponents = await ctx.connections.Where(c => c.record1id_drr_application.drr_applicationid == application.drr_applicationid).GetAllPagesAsync();
-            application.drr_application_connections1 = new System.Collections.ObjectModel.Collection<connection>(partnerProponents.ToList());
         }
     }
 }
