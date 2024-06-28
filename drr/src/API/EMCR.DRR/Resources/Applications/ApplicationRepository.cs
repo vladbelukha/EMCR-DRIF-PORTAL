@@ -106,6 +106,7 @@ namespace EMCR.DRR.Resources.Applications
             drrApplication.drr_applicationid = currentApplication.drr_applicationid;
 
             ctx.AttachTo(nameof(ctx.drr_applications), drrApplication);
+            ctx.UpdateObject(drrApplication);
             return await SaveApplication(ctx, drrApplication, application);
         }
 
