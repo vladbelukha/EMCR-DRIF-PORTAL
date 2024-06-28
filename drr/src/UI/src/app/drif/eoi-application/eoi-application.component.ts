@@ -250,7 +250,9 @@ export class EOIApplicationComponent {
   }
 
   stepperSelectionChange(event: StepperSelectionEvent) {
-    this.save();
+    if (this.isEditMode) {
+      this.save();
+    }
 
     event.previouslySelectedStep.stepControl.markAllAsTouched();
 
