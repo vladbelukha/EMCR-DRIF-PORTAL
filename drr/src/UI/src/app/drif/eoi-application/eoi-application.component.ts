@@ -203,16 +203,33 @@ export class EOIApplicationComponent {
               estimatedTotal: application.estimatedTotal,
             },
             locationInformation: {
-              ...application,
+              ownershipDeclaration: application.ownershipDeclaration,
+              ownershipDescription: application.ownershipDescription,
+              locationDescription: application.locationDescription,
             },
             projectDetails: {
-              ...application,
+              additionalBackgroundInformation:
+                application.additionalBackgroundInformation,
+              additionalSolutionInformation:
+                application.additionalSolutionInformation,
+              addressRisksAndHazards: application.addressRisksAndHazards,
+              disasterRiskUnderstanding: application.disasterRiskUnderstanding,
+              drifProgramGoalAlignment: application.drifProgramGoalAlignment,
+              estimatedPeopleImpacted: application.estimatedPeopleImpacted,
+              communityImpact: application.communityImpact,
+              infrastructureImpacted: application.infrastructureImpacted,
+              rationaleForFunding: application.rationaleForFunding,
+              rationaleForSolution: application.rationaleForSolution,
             },
             engagementPlan: {
-              ...application,
+              additionalEngagementInformation:
+                application.additionalEngagementInformation,
+              firstNationsEngagement: application.firstNationsEngagement,
+              neighbourEngagement: application.neighbourEngagement,
             },
             otherSupportingInformation: {
-              ...application,
+              climateAdaptation: application.climateAdaptation,
+              otherInformation: application.otherInformation,
             },
           };
 
@@ -241,6 +258,21 @@ export class EOIApplicationComponent {
               )
             );
           });
+
+          const infrastructureImpactedArray = this.getFormGroup(
+            'projectDetails'
+          ).get('infrastructureImpactedArray') as FormArray;
+          infrastructureImpactedArray.clear();
+          application.infrastructureImpacted?.forEach((infrastructure) => {
+            infrastructureImpactedArray?.push(
+              this.formBuilder.formGroup(
+                new StringItem({ value: infrastructure })
+              )
+            );
+          });
+
+          this.eoiApplicationForm.markAsPristine();
+          this.formChanged = false;
 
           if (application.status == 'UnderReview') {
             this.eoiApplicationForm.disable();
