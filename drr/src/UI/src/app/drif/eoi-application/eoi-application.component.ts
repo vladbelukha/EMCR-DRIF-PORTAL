@@ -437,4 +437,8 @@ export class EOIApplicationComponent {
         }
       );
   }
+
+  goBack() {
+    this.router.navigate(['/dashboard']);
+  }
 }
