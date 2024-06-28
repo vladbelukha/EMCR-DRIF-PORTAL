@@ -56,7 +56,10 @@ namespace EMCR.DRR.Resources.Applications
 
             results = results.ToArray();
 
-            await Parallel.ForEachAsync(results, ct, async (f, ct) => await ParallelLoadApplicationAsync(readCtx, f, ct));
+            var partnerProponentsOnly = false;
+            if (string.IsNullOrEmpty(query.Id)) partnerProponentsOnly = true;
+
+            await Parallel.ForEachAsync(results, ct, async (a, ct) => await ParallelLoadApplicationAsync(readCtx, partnerProponentsOnly, a, ct));
             var items = mapper.Map<IEnumerable<Application>>(results);
             return new ApplicationQueryResult { Items = items };
         }
@@ -320,22 +323,29 @@ namespace EMCR.DRR.Resources.Applications
             drrContext.SetLink(application, nameof(application.drr_Program), program);
         }
 
-        private static async Task ParallelLoadApplicationAsync(DRRContext ctx, drr_application application, CancellationToken ct)
+        private static async Task ParallelLoadApplicationAsync(DRRContext ctx, bool partnerProponentsOnly, drr_application application, CancellationToken ct)
         {
             ctx.AttachTo(nameof(DRRContext.drr_applications), application);
 
             var loadTasks = new List<Task>
             {
-                ctx.LoadPropertyAsync(application, nameof(drr_application.drr_Primary_Proponent_Name), ct),
-                ctx.LoadPropertyAsync(application, nameof(drr_application.drr_SubmitterContact), ct),
-                ctx.LoadPropertyAsync(application, nameof(drr_application.drr_PrimaryProjectContact), ct),
-                ctx.LoadPropertyAsync(application, nameof(drr_application.drr_AdditionalContact1), ct),
-                ctx.LoadPropertyAsync(application, nameof(drr_application.drr_AdditionalContact2), ct),
-                ctx.LoadPropertyAsync(application, nameof(drr_application.drr_application_contact_Application), ct),
-                ctx.LoadPropertyAsync(application, nameof(drr_application.drr_application_fundingsource_Application), ct),
-                ctx.LoadPropertyAsync(application, nameof(drr_application.drr_drr_application_drr_criticalinfrastructureimpacted_Application), ct),
                 LoadPartneringProponents(ctx, application, ct)
             };
+
+            if (!partnerProponentsOnly)
+            {
+                loadTasks = loadTasks.Concat(new List<Task>
+                {
+                    ctx.LoadPropertyAsync(application, nameof(drr_application.drr_Primary_Proponent_Name), ct),
+                    ctx.LoadPropertyAsync(application, nameof(drr_application.drr_SubmitterContact), ct),
+                    ctx.LoadPropertyAsync(application, nameof(drr_application.drr_PrimaryProjectContact), ct),
+                    ctx.LoadPropertyAsync(application, nameof(drr_application.drr_AdditionalContact1), ct),
+                    ctx.LoadPropertyAsync(application, nameof(drr_application.drr_AdditionalContact2), ct),
+                    ctx.LoadPropertyAsync(application, nameof(drr_application.drr_application_contact_Application), ct),
+                    ctx.LoadPropertyAsync(application, nameof(drr_application.drr_application_fundingsource_Application), ct),
+                    ctx.LoadPropertyAsync(application, nameof(drr_application.drr_drr_application_drr_criticalinfrastructureimpacted_Application), ct),
+                }).ToList();
+            }
 
             await Task.WhenAll(loadTasks);
         }
