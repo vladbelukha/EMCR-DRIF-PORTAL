@@ -79,10 +79,9 @@ namespace EMCR.DRR.Controllers
             return Ok(new ApplicationResult { Id = drr_id });
         }
 
-        [HttpPost("EOI/{id}/submit")]
-        public async Task<ActionResult<ApplicationResult>> SubmitApplication([FromBody] EoiApplication application, string id)
+        [HttpPost("EOI/submit")]
+        public async Task<ActionResult<ApplicationResult>> SubmitApplication([FromBody] EoiApplication application)
         {
-            application.Id = id;
             application.Status = SubmissionPortalStatus.UnderReview;
             var drr_id = await intakeManager.Handle(new DrifEoiApplicationCommand { application = application, UserInfo = GetCurrentUser() });
             return Ok(new ApplicationResult { Id = drr_id });
