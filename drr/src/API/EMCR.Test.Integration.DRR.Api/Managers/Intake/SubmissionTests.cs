@@ -50,7 +50,13 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             };
             var id = await manager.Handle(new DrifEoiApplicationCommand { application = application, UserInfo = userInfo });
             id.ShouldNotBeEmpty();
+
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+            var savedApplication = (await manager.Handle(new DrrApplicationsQuery { Id = id })).Items.SingleOrDefault();
+            savedApplication.Id.ShouldBe(id);
+            savedApplication.OwnershipDeclaration.ShouldBeNull();
         }
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
 
         [Test]
         public async Task SubmitMultipleApplications_SameSubmitter_OnlyOneSubmitterContactCreated()
