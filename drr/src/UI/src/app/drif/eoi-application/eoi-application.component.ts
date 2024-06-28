@@ -30,7 +30,12 @@ import {
 } from '@rxweb/reactive-form-validators';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { DrifapplicationService } from '../../../api/drifapplication/drifapplication.service';
-import { ApplicationResult, DrifEoiApplication, Hazards } from '../../../model';
+import {
+  ApplicationResult,
+  DraftEoiApplication,
+  EoiApplication,
+  Hazards,
+} from '../../../model';
 import { ProfileStore } from '../../store/profile.store';
 import { Step1Component } from '../step-1/step-1.component';
 import { Step2Component } from '../step-2/step-2.component';
@@ -347,7 +352,7 @@ export class EOIApplicationComponent {
       ...eoiApplicationForm.projectDetails,
       ...eoiApplicationForm.engagementPlan,
       ...eoiApplicationForm.otherSupportingInformation,
-    } as DrifEoiApplication;
+    } as DraftEoiApplication;
 
     if (this.isEditMode) {
       this.applicationService
@@ -422,7 +427,7 @@ export class EOIApplicationComponent {
       ...eoiApplicationForm.engagementPlan,
       ...eoiApplicationForm.otherSupportingInformation,
       ...eoiApplicationForm.declaration,
-    } as DrifEoiApplication;
+    } as EoiApplication;
 
     this.applicationService
       .dRIFApplicationCreateEOIApplication(drifEoiApplication)

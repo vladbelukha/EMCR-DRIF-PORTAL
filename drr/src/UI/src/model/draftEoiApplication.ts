@@ -13,7 +13,7 @@ import type { ProponentType } from './proponentType';
 import type { Hazards } from './hazards';
 import type { SubmissionPortalStatus } from './submissionPortalStatus';
 
-export interface DrifEoiApplication {
+export interface DraftEoiApplication {
   /** @nullable */
   additionalBackgroundInformation?: string;
   additionalContacts?: ContactDetails[];
@@ -23,8 +23,6 @@ export interface DrifEoiApplication {
   additionalSolutionInformation?: string;
   /** @nullable */
   addressRisksAndHazards?: string;
-  /** @nullable */
-  authorizedRepresentativeStatement?: boolean;
   /** @nullable */
   climateAdaptation?: string;
   /** @nullable */
@@ -45,8 +43,6 @@ export interface DrifEoiApplication {
   estimatedTotal?: number;
   /** @nullable */
   firstNationsEngagement?: string;
-  /** @nullable */
-  foippaConfirmation?: boolean;
   /**
    * @minimum 0
    * @maximum 999999999.99
@@ -57,8 +53,6 @@ export interface DrifEoiApplication {
   fundingStream?: FundingStream;
   /** @nullable */
   id?: string;
-  /** @nullable */
-  informationAccuracyStatement?: boolean;
   infrastructureImpacted?: string[];
   /** @nullable */
   intendToSecureFunding?: string;

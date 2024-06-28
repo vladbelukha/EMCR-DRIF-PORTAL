@@ -21,7 +21,8 @@ import {
 import type {
   ApplicationResult,
   DeclarationResult,
-  DrifEoiApplication,
+  DraftEoiApplication,
+  EoiApplication,
   Submission
 } from '../../model'
 
@@ -53,7 +54,7 @@ export class DrifapplicationService {
       `/api/drifapplication`,options
     );
   }
- dRIFApplicationGet<TData = DrifEoiApplication>(
+ dRIFApplicationGet<TData = DraftEoiApplication>(
     id: string, options?: HttpClientOptions
   ): Observable<TData>  {
     return this.http.get<TData>(
@@ -68,35 +69,35 @@ export class DrifapplicationService {
     );
   }
  dRIFApplicationCreateEOIApplication<TData = ApplicationResult>(
-    drifEoiApplication: DrifEoiApplication, options?: HttpClientOptions
+    draftEoiApplication: DraftEoiApplication, options?: HttpClientOptions
   ): Observable<TData>  {
     return this.http.post<TData>(
       `/api/drifapplication/eoi`,
-      drifEoiApplication,options
+      draftEoiApplication,options
     );
   }
  dRIFApplicationUpdateApplication<TData = ApplicationResult>(
     id: string,
-    drifEoiApplication: DrifEoiApplication, options?: HttpClientOptions
+    draftEoiApplication: DraftEoiApplication, options?: HttpClientOptions
   ): Observable<TData>  {
     return this.http.post<TData>(
       `/api/drifapplication/eoi/${id}`,
-      drifEoiApplication,options
+      draftEoiApplication,options
     );
   }
  dRIFApplicationSubmitApplication<TData = ApplicationResult>(
     id: string,
-    drifEoiApplication: DrifEoiApplication, options?: HttpClientOptions
+    eoiApplication: EoiApplication, options?: HttpClientOptions
   ): Observable<TData>  {
     return this.http.post<TData>(
       `/api/drifapplication/eoi/${id}/submit`,
-      drifEoiApplication,options
+      eoiApplication,options
     );
   }
 };
 
 export type DRIFApplicationGetAllClientResult = NonNullable<Submission[]>
-export type DRIFApplicationGetClientResult = NonNullable<DrifEoiApplication>
+export type DRIFApplicationGetClientResult = NonNullable<DraftEoiApplication>
 export type DRIFApplicationGetDeclarationsClientResult = NonNullable<DeclarationResult>
 export type DRIFApplicationCreateEOIApplicationClientResult = NonNullable<ApplicationResult>
 export type DRIFApplicationUpdateApplicationClientResult = NonNullable<ApplicationResult>
