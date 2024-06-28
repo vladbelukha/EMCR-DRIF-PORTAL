@@ -67,7 +67,7 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.PartneringProponents, opt => opt.MapFrom(src => src.drr_application_connections1))
                 .ForMember(dest => dest.FundingStream, opt => opt.MapFrom(src => src.drr_fundingstream.HasValue ? (int?)Enum.Parse<FundingStream>(((FundingStreamOptionSet)src.drr_fundingstream).ToString()) : null))
                 .ForMember(dest => dest.ProjectTitle, opt => opt.MapFrom(src => src.drr_projecttitle))
-                .ForMember(dest => dest.ProjectType, opt => opt.MapFrom(src => src.drr_projecttype))
+                .ForMember(dest => dest.ProjectType, opt => opt.MapFrom(src => src.drr_projecttype.HasValue ? (int?)Enum.Parse<ProjectType>(((ProjectTypeOptionSet)src.drr_projecttype).ToString()) : null))
                 .ForMember(dest => dest.ScopeStatement, opt => opt.MapFrom(src => src.drr_summarizedscopestatement))
                 .ForMember(dest => dest.RelatedHazards, opt => opt.MapFrom(src => !string.IsNullOrEmpty(src.drr_hazards) ? src.drr_hazards.Split(',', StringSplitOptions.None).Select(h => Enum.Parse<Hazards>(((HazardsOptionSet)int.Parse(h)).ToString()).ToString()) : null))
                 .ForMember(dest => dest.OtherHazardsDescription, opt => opt.MapFrom(src => src.drr_reasonswhyotherselectedforhazards))
@@ -113,7 +113,7 @@ namespace EMCR.DRR.Resources.Applications
                 .ReverseMap()
                 .ValidateMemberList(MemberList.Destination)
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.drr_name))
-                .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.drr_typeoffunding))
+                .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.drr_typeoffunding.HasValue ? (int?)Enum.Parse<FundingType>(((FundingTypeOptionSet)src.drr_typeoffunding).ToString()) : null))
                 .ForMember(dest => dest.Amount, opt => opt.MapFrom(src => src.drr_estimated_amount))
                 .ForMember(dest => dest.OtherDescription, opt => opt.MapFrom(src => src.drr_describethefundingsource))
             ;
