@@ -77,6 +77,7 @@
     <tr mat-row *matRowDef="let row; columns: submissionListColumns"></tr>
   </table>
   <mat-paginator
+    *ngIf="paginator.showPaginator"
     [length]="paginator.length"
     [pageSize]="paginator.pageSize"
     [pageSizeOptions]="paginator.pageSizeOptions"

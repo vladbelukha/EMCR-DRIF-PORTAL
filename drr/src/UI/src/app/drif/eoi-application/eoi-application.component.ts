@@ -5,7 +5,7 @@ import {
 } from '@angular/cdk/stepper';
 import { CommonModule } from '@angular/common';
 import { Component, HostListener, ViewChild, inject } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormArray, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -30,7 +30,8 @@ import {
 } from '@rxweb/reactive-form-validators';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { DrifapplicationService } from '../../../api/drifapplication/drifapplication.service';
-import { DrifEoiApplication, Hazards } from '../../../model';
+import { ApplicationResult, DrifEoiApplication, Hazards } from '../../../model';
+import { ProfileStore } from '../../store/profile.store';
 import { Step1Component } from '../step-1/step-1.component';
 import { Step2Component } from '../step-2/step-2.component';
 import { Step3Component } from '../step-3/step-3.component';
@@ -39,7 +40,7 @@ import { Step5Component } from '../step-5/step-5.component';
 import { Step6Component } from '../step-6/step-6.component';
 import { Step7Component } from '../step-7/step-7.component';
 import { Step8Component } from '../step-8/step-8.component';
-import { EOIApplicationForm } from './eoi-application-form';
+import { EOIApplicationForm, StringItem } from './eoi-application-form';
 
 @Component({
   selector: 'drr-eoi-application',
@@ -81,17 +82,17 @@ import { EOIApplicationForm } from './eoi-application-form';
   ],
 })
 export class EOIApplicationComponent {
-  isDevMode = false; // isDevMode();
-  stepperOrientation: StepperOrientation = 'vertical';
-
-  hazardsOptions = Object.values(Hazards);
-
   formBuilder = inject(RxFormBuilder);
   applicationService = inject(DrifapplicationService);
   router = inject(Router);
   route = inject(ActivatedRoute);
   hotToast = inject(HotToastService);
   breakpointObserver = inject(BreakpointObserver);
+  profileStore = inject(ProfileStore);
+
+  stepperOrientation: StepperOrientation = 'vertical';
+
+  hazardsOptions = Object.values(Hazards);
 
   eoiApplicationForm = this.formBuilder.formGroup(
     EOIApplicationForm
@@ -110,12 +111,26 @@ export class EOIApplicationComponent {
     declaration: 'Step 8',
   };
 
+  id?: string;
+  get isEditMode() {
+    return !!this.id;
+  }
+
+  isAutoSaveOn = false;
+  autoSaveTimer: any;
+  autoSaveCountdown = 0;
+  formChanged = false;
+
   @HostListener('window:mousemove')
   @HostListener('window:mousedown')
   @HostListener('window:keypress')
   @HostListener('window:scroll')
   @HostListener('window:touchmove')
   resetAutoSaveTimer() {
+    if (!this.isAutoSaveOn) {
+      return;
+    }
+
     if (!this.formChanged) {
       this.autoSaveCountdown = 0;
       clearInterval(this.autoSaveTimer);
@@ -133,10 +148,6 @@ export class EOIApplicationComponent {
     }, 1000);
   }
 
-  autoSaveTimer: any;
-  autoSaveCountdown = 0;
-  formChanged = false;
-
   ngOnInit() {
     this.breakpointObserver
       .observe('(min-width: 768px)')
@@ -144,16 +155,37 @@ export class EOIApplicationComponent {
         this.stepperOrientation = matches ? 'horizontal' : 'vertical';
       });
 
-    // fetch router params
+    this.eoiApplicationForm
+      ?.get('proponentInformation')
+      ?.get('proponentName')
+      ?.setValue(this.profileStore.organization(), { emitEvent: false });
+    this.eoiApplicationForm
+      ?.get('proponentInformation')
+      ?.get('proponentName')
+      ?.disable();
+
+    // fetch router params to determine if we are editing an existing application
     const id = this.route.snapshot.params['id'];
     if (id) {
+      this.id = id;
+
       this.applicationService
         .dRIFApplicationGet(id)
         .subscribe((application) => {
           // transform application into step forms
+          // TODO: refactor this
           const eoiApplicationForm: EOIApplicationForm = {
             proponentInformation: {
-              ...application,
+              proponentType: application.proponentType,
+              additionalContacts: application.additionalContacts,
+              // partneringProponentsArray: application.partneringProponents?.map(
+              //   (proponent) => ({
+              //     value: proponent,
+              //   })
+              // ),
+              partneringProponents: application.partneringProponents,
+              submitter: application.submitter,
+              projectContact: application.projectContact,
             },
             projectInformation: {
               ...application,
@@ -179,7 +211,17 @@ export class EOIApplicationComponent {
             emitEvent: false,
           });
 
-          if (application.status == 'Submitted') {
+          const partneringProponentsArray = this.getFormGroup(
+            'proponentInformation'
+          ).get('partneringProponentsArray') as FormArray;
+          partneringProponentsArray.clear();
+          application.partneringProponents?.forEach((proponent) => {
+            partneringProponentsArray?.push(
+              this.formBuilder.formGroup(new StringItem({ value: proponent }))
+            );
+          });
+
+          if (application.status == 'UnderReview') {
             this.eoiApplicationForm.disable();
           }
         });
@@ -197,6 +239,10 @@ export class EOIApplicationComponent {
           this.resetAutoSaveTimer();
         });
     }, 1000); // TOOD: temp workaround to prevent empty form intiation triggering form change
+  }
+
+  ngOnDestroy() {
+    clearInterval(this.autoSaveTimer);
   }
 
   getFormGroup(groupName: string) {
@@ -249,24 +295,41 @@ export class EOIApplicationComponent {
       ...eoiApplicationForm.declaration,
     } as DrifEoiApplication;
 
-    this.applicationService
-      .dRIFApplicationCreateDraftEOIApplication(drifEoiApplication)
-      .subscribe(
-        (response) => {
-          this.hotToast.close();
-          this.hotToast.success('Application saved successfully', {
-            duration: 5000,
-            autoClose: true,
-          });
-
-          this.formChanged = false;
-        },
-        (error) => {
-          this.hotToast.close();
-          this.hotToast.error('Failed to save application');
-        }
-      );
+    if (this.isEditMode) {
+      this.applicationService
+        .dRIFApplicationUpdateApplication(this.id!, drifEoiApplication)
+        .subscribe({
+          next: this.onSaveSuccess,
+          error: this.onSaveFailure,
+        });
+    } else {
+      this.applicationService
+        .dRIFApplicationCreateEOIApplication(drifEoiApplication)
+        .subscribe({
+          next: this.onSaveSuccess,
+          error: this.onSaveFailure,
+        });
+    }
   }
+
+  onSaveSuccess = (response: ApplicationResult) => {
+    this.hotToast.close();
+    this.hotToast.success('Application saved successfully', {
+      duration: 5000,
+      autoClose: true,
+    });
+
+    this.formChanged = false;
+
+    if (!this.isEditMode) {
+      this.router.navigate(['/eoi-application/', response['id']]);
+    }
+  };
+
+  onSaveFailure = () => {
+    this.hotToast.close();
+    this.hotToast.error('Failed to save application');
+  };
 
   submit() {
     this.eoiApplicationForm.markAllAsTouched();

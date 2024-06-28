@@ -1,10 +1,12 @@
-<mat-tab-group
-  class="dashboard-tabs-container"
-  mat-stretch-tabs="false"
-  mat-align-tabs="start"
-  *transloco="let t"
->
-  <!-- <mat-tab label="Dashboard">
+<div class="dashboard-tabs-container">
+  <h2>Welcome, {{ profileStore.firstName!() }}</h2>
+
+  <mat-tab-group
+    mat-stretch-tabs="false"
+    mat-align-tabs="start"
+    *transloco="let t"
+  >
+    <!-- <mat-tab label="Dashboard">
     <div class="tab dashboard">
       <mat-card>
         <mat-card-header>
@@ -59,9 +61,10 @@
       </mat-card>
     </div>
   </mat-tab> -->
-  <mat-tab label="Submissions">
-    <div class="tab">
-      <drr-submission-list></drr-submission-list>
-    </div>
-  </mat-tab>
-</mat-tab-group>
+    <mat-tab label="Submissions">
+      <div class="tab">
+        <drr-submission-list></drr-submission-list>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>

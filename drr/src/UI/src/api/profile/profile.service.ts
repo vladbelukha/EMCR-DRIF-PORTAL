@@ -50,6 +50,14 @@ export class ProfileService {
       `/api/profile`,options
     );
   }
+ profileGetProfileExists<TData = boolean>(
+     options?: HttpClientOptions
+  ): Observable<TData>  {
+    return this.http.get<TData>(
+      `/api/profile/exists`,options
+    );
+  }
 };
 
 export type ProfileProfileDetailsClientResult = NonNullable<ProfileDetails>
+export type ProfileGetProfileExistsClientResult = NonNullable<boolean>

@@ -11,6 +11,8 @@ export type SubmissionPortalStatus = typeof SubmissionPortalStatus[keyof typeof 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SubmissionPortalStatus = {
   Draft: 'Draft',
-  Submitted: 'Submitted',
-  Rejected: 'Rejected',
+  UnderReview: 'UnderReview',
+  Approved: 'Approved',
+  Ineligible: 'Ineligible',
+  Withdrawn: 'Withdrawn',
 } as const;

@@ -10,10 +10,13 @@ export interface FundingInformation {
   /**
    * @minimum 0
    * @maximum 999999999.99
+   * @nullable
    */
   amount?: number;
+  /** @nullable */
   name?: string;
   /** @nullable */
   otherDescription?: string;
+  /** @nullable */
   type?: FundingType;
 }
