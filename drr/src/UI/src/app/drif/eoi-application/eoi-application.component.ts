@@ -5,7 +5,7 @@ import {
 } from '@angular/cdk/stepper';
 import { CommonModule } from '@angular/common';
 import { Component, HostListener, ViewChild, inject } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormArray, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -40,7 +40,7 @@ import { Step5Component } from '../step-5/step-5.component';
 import { Step6Component } from '../step-6/step-6.component';
 import { Step7Component } from '../step-7/step-7.component';
 import { Step8Component } from '../step-8/step-8.component';
-import { EOIApplicationForm } from './eoi-application-form';
+import { EOIApplicationForm, StringItem } from './eoi-application-form';
 
 @Component({
   selector: 'drr-eoi-application',
@@ -178,11 +178,11 @@ export class EOIApplicationComponent {
             proponentInformation: {
               proponentType: application.proponentType,
               additionalContacts: application.additionalContacts,
-              partneringProponentsArray: application.partneringProponents?.map(
-                (proponent) => ({
-                  value: proponent,
-                })
-              ),
+              // partneringProponentsArray: application.partneringProponents?.map(
+              //   (proponent) => ({
+              //     value: proponent,
+              //   })
+              // ),
               partneringProponents: application.partneringProponents,
               submitter: application.submitter,
               projectContact: application.projectContact,
@@ -209,6 +209,16 @@ export class EOIApplicationComponent {
 
           this.eoiApplicationForm.patchValue(eoiApplicationForm, {
             emitEvent: false,
+          });
+
+          const partneringProponentsArray = this.getFormGroup(
+            'proponentInformation'
+          ).get('partneringProponentsArray') as FormArray;
+          partneringProponentsArray.clear();
+          application.partneringProponents?.forEach((proponent) => {
+            partneringProponentsArray?.push(
+              this.formBuilder.formGroup(new StringItem({ value: proponent }))
+            );
           });
 
           if (application.status == 'UnderReview') {
