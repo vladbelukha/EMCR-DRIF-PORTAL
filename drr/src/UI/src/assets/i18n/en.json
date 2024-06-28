@@ -142,5 +142,8 @@
   "UnderReview": "Under Review",
   "Approved": "Approved",
   "Ineligible": "Ineligible",
-  "Withdrawn": "Withdrawn"
+  "Withdrawn": "Withdrawn",
+  "edit": "Edit",
+  "delete": "Delete",
+  "withdraw": "Withdraw"
 }

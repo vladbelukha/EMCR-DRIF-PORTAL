@@ -66,10 +66,10 @@
           color="accent"
           (click)="onViewFormClick(element.id)"
         >
-          View
+          {{ t("edit") }}
         </button>
-        <button mat-raised-button color="primary">Edit</button>
-        <button mat-raised-button color="warn">Delete</button>
+        <button mat-raised-button color="warn">{{ t("delete") }}</button>
+        <button mat-raised-button color="accent">{{ t("withdraw") }}</button>
       </td>
     </ng-container>
 
