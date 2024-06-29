@@ -147,5 +147,6 @@
   "delete": "Delete",
   "withdraw": "Withdraw",
   "submissionDetails": "Submission Details for {{id}}",
-  "noSubmissions": "You don't have any submissions yet."
+  "noSubmissions": "You don't have any submissions yet.",
+  "startNewEOI": "Start New EOI"
 }
