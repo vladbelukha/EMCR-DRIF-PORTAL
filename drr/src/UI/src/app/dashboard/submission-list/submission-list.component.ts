@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatSortModule, Sort } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
 import { DrifapplicationService } from '../../../api/drifapplication/drifapplication.service';
 import { Submission } from '../../../model';
@@ -21,14 +21,16 @@ import { Submission } from '../../../model';
     MatSortModule,
     MatPaginatorModule,
     TranslocoModule,
+    RouterModule,
   ],
   templateUrl: './submission-list.component.html',
   styleUrl: './submission-list.component.scss',
 })
 export class SubmissionListComponent {
   router = inject(Router);
-
   applicationService = inject(DrifapplicationService);
+
+  submissions?: Submission[];
 
   submissionListColumns = [
     'id',
@@ -55,7 +57,8 @@ export class SubmissionListComponent {
 
   ngOnInit() {
     this.applicationService.dRIFApplicationGetAll().subscribe((submissions) => {
-      this.submissionListDataSource = new MatTableDataSource(submissions);
+      this.submissions = submissions;
+      this.submissionListDataSource = new MatTableDataSource(this.submissions);
       this.paginator.length = submissions.length;
     });
   }
