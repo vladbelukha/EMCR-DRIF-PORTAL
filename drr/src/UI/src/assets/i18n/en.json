@@ -145,5 +145,6 @@
   "Withdrawn": "Withdrawn",
   "edit": "Edit",
   "delete": "Delete",
-  "withdraw": "Withdraw"
+  "withdraw": "Withdraw",
+  "submissionDetails": "Submission Details for {{id}}"
 }
