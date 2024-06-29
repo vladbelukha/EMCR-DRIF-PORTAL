@@ -28,8 +28,9 @@ import { Submission } from '../../../model';
 })
 export class SubmissionListComponent {
   router = inject(Router);
-
   applicationService = inject(DrifapplicationService);
+
+  submissions?: Submission[];
 
   submissionListColumns = [
     'id',
@@ -56,7 +57,8 @@ export class SubmissionListComponent {
 
   ngOnInit() {
     this.applicationService.dRIFApplicationGetAll().subscribe((submissions) => {
-      this.submissionListDataSource = new MatTableDataSource(submissions);
+      this.submissions = submissions;
+      this.submissionListDataSource = new MatTableDataSource(this.submissions);
       this.paginator.length = submissions.length;
     });
   }

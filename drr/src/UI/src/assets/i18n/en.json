@@ -146,5 +146,6 @@
   "edit": "Edit",
   "delete": "Delete",
   "withdraw": "Withdraw",
-  "submissionDetails": "Submission Details for {{id}}"
+  "submissionDetails": "Submission Details for {{id}}",
+  "noSubmissions": "You don't have any submissions yet."
 }
