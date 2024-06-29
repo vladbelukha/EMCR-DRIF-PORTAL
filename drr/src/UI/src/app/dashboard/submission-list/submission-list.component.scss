@@ -1,8 +1,11 @@
 .submissions-header {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  margin-bottom: 1rem;
+  flex-direction: column;
+  padding: 1rem;
+
+  button {
+    margin-left: auto;
+  }
 }
 
 .submission-actions {

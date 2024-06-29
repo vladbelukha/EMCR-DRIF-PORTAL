@@ -1,9 +1,8 @@
 <div *transloco="let t">
   <div class="submissions-header">
-    <!-- <h2>Submissions</h2> -->
     <button mat-raised-button color="primary" (click)="onCreateFormClick()">
       <mat-icon>add</mat-icon>
-      <span>Create New Application</span>
+      <span>{{ t("startNewEOI") }}</span>
     </button>
   </div>
   <table
