@@ -75,10 +75,10 @@ export class Step8Component {
       {
         firstName: profileData.firstName?.(),
         lastName: profileData.lastName?.(),
-        title: profileData.title?.(),
-        department: profileData.department?.(),
-        phone: profileData.phone?.(),
-        email: profileData.email?.(),
+        title: profileData.title?.() ?? '',
+        department: profileData.department?.() ?? '',
+        phone: profileData.phone?.() ?? '',
+        email: profileData.email?.() ?? '',
       },
       { emitEvent: false }
     );
