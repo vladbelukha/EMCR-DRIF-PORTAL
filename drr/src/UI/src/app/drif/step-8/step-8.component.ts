@@ -6,9 +6,12 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { TranslocoModule } from '@ngneat/transloco';
-import { IFormGroup } from '@rxweb/reactive-form-validators';
+import { IFormGroup, RxFormControl } from '@rxweb/reactive-form-validators';
 import { RecaptchaFormsModule, RecaptchaModule } from 'ng-recaptcha';
 import { DrifapplicationService } from '../../../api/drifapplication/drifapplication.service';
+import { DeclarationType } from '../../../model';
+import { DrrInputComponent } from '../../shared/controls/drr-input/drr-input.component';
+import { ProfileStore } from '../../store/profile.store';
 import {
   DeclarationForm,
   EOIApplicationForm,
@@ -30,12 +33,14 @@ import { SummaryComponent } from '../summary/summary.component';
     TranslocoModule,
     RecaptchaModule,
     RecaptchaFormsModule,
+    DrrInputComponent,
   ],
   templateUrl: './step-8.component.html',
   styleUrl: './step-8.component.scss',
 })
 export class Step8Component {
   drifAppService = inject(DrifapplicationService);
+  profileStore = inject(ProfileStore);
 
   isDevMode = isDevMode();
   private _formGroup!: IFormGroup<EOIApplicationForm>;
@@ -52,16 +57,44 @@ export class Step8Component {
   accuracyOfInformationText?: string;
 
   ngOnInit() {
-    // this.drifAppService
-    //   .dRIFApplicationGetDeclarations()
-    //   .subscribe((declarations) => {
-    //     this.authorizedRepresentativeText = declarations.items?.find(
-    //       (d) => d.type === DeclarationType.AuthorizedRepresentative
-    //     )?.text;
-    //     this.accuracyOfInformationText = declarations.items?.find(
-    //       (d) => d.type === DeclarationType.AccuracyOfInformation
-    //     )?.text;
-    //   });
+    this.drifAppService
+      .dRIFApplicationGetDeclarations()
+      .subscribe((declarations) => {
+        this.authorizedRepresentativeText = declarations.items?.find(
+          (d) => d.type === DeclarationType.AuthorizedRepresentative
+        )?.text;
+        this.accuracyOfInformationText = declarations.items?.find(
+          (d) => d.type === DeclarationType.AccuracyOfInformation
+        )?.text;
+      });
+
+    const profileData = this.profileStore.getProfile();
+
+    const submitterForm = this.declarationForm.get('submitter');
+    submitterForm?.setValue(
+      {
+        firstName: profileData.firstName?.(),
+        lastName: profileData.lastName?.(),
+        title: profileData.title?.(),
+        department: profileData.department?.(),
+        phone: profileData.phone?.(),
+        email: profileData.email?.(),
+      },
+      { emitEvent: false }
+    );
+
+    if (profileData.firstName?.()) {
+      submitterForm?.get('firstName')?.disable();
+    }
+    if (profileData.lastName?.()) {
+      submitterForm?.get('lastName')?.disable();
+    }
+  }
+
+  getGroupFormControl(controlName: string, groupName: string): RxFormControl {
+    return this.declarationForm
+      .get(groupName)
+      ?.get(controlName) as RxFormControl;
   }
 
   get eoiApplicationForm(): IFormGroup<EOIApplicationForm> {

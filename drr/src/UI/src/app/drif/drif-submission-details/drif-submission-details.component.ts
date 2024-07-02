@@ -55,7 +55,6 @@ export class DrifSubmissionDetailsComponent {
           proponentType: application.proponentType,
           additionalContacts: application.additionalContacts,
           partneringProponents: application.partneringProponents,
-          submitter: application.submitter,
           projectContact: application.projectContact,
         },
         projectInformation: {
@@ -102,6 +101,9 @@ export class DrifSubmissionDetailsComponent {
         otherSupportingInformation: {
           climateAdaptation: application.climateAdaptation,
           otherInformation: application.otherInformation,
+        },
+        declaration: {
+          submitter: application.submitter,
         },
       };
 

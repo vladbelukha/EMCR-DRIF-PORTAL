@@ -164,15 +164,6 @@ export class EOIApplicationComponent {
         this.stepperOrientation = matches ? 'horizontal' : 'vertical';
       });
 
-    this.eoiApplicationForm
-      ?.get('proponentInformation')
-      ?.get('proponentName')
-      ?.setValue(this.profileStore.organization(), { emitEvent: false });
-    this.eoiApplicationForm
-      ?.get('proponentInformation')
-      ?.get('proponentName')
-      ?.disable();
-
     // fetch router params to determine if we are editing an existing application
     const id = this.route.snapshot.params['id'];
     if (id) {
@@ -188,7 +179,6 @@ export class EOIApplicationComponent {
               proponentType: application.proponentType,
               additionalContacts: application.additionalContacts,
               partneringProponents: application.partneringProponents,
-              submitter: application.submitter,
               projectContact: application.projectContact,
             },
             projectInformation: {
@@ -235,6 +225,9 @@ export class EOIApplicationComponent {
             otherSupportingInformation: {
               climateAdaptation: application.climateAdaptation,
               otherInformation: application.otherInformation,
+            },
+            declaration: {
+              submitter: application.submitter,
             },
           };
 

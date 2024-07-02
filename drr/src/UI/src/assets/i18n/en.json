@@ -32,7 +32,6 @@
   "department": "Department",
   "phone": "Phone",
   "email": "Email",
-  "sameAsSubmitter": "Same as Submitter",
   "projectContact": "Project Contact Information",
   "additionalContacts": "Additional Contacts",
   "addAdditionalContact": "Add additional contact",

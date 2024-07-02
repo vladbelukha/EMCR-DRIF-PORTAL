@@ -30,6 +30,9 @@ export class SummaryComponent {
   private _eoiApplicationForm?: IFormGroup<EOIApplicationForm>;
 
   @Input()
+  showSubmitterInfo = true;
+
+  @Input()
   set eoiApplicationForm(eoiApplicationForm: IFormGroup<EOIApplicationForm>) {
     this._eoiApplicationForm = eoiApplicationForm;
   }
@@ -40,7 +43,6 @@ export class SummaryComponent {
 
   objectKeys(obj: any) {
     const excludeKeys = [
-      'sameAsSubmitter',
       'partneringProponentsArray',
       'infrastructureImpactedArray',
       'recaptcha',

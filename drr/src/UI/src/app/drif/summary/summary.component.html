@@ -15,103 +15,6 @@
 
   <div
     [class.required]="
-      !objectHasValues(
-        eoiApplicationForm.get('proponentInformation')?.get('submitter')?.value
-      )
-    "
-  >
-    <mat-label class="drr-label">{{ t("submitter") }}</mat-label>
-    <div class="summary-row">
-      <drr-summary-item
-        [label]="t('firstName')"
-        [value]="
-          getRxGroupFormControl(
-            'proponentInformation',
-            'submitter',
-            'firstName'
-          ).value
-        "
-        [rxFormControl]="
-          getRxGroupFormControl(
-            'proponentInformation',
-            'submitter',
-            'firstName'
-          )
-        "
-      >
-      </drr-summary-item>
-
-      <drr-summary-item
-        [label]="t('lastName')"
-        [value]="
-          getRxGroupFormControl('proponentInformation', 'submitter', 'lastName')
-            .value
-        "
-        [rxFormControl]="
-          getRxGroupFormControl('proponentInformation', 'submitter', 'lastName')
-        "
-      >
-      </drr-summary-item>
-
-      <drr-summary-item
-        [label]="t('title')"
-        [value]="
-          getRxGroupFormControl('proponentInformation', 'submitter', 'title')
-            .value
-        "
-        [rxFormControl]="
-          getRxGroupFormControl('proponentInformation', 'submitter', 'title')
-        "
-      >
-      </drr-summary-item>
-
-      <drr-summary-item
-        [label]="t('department')"
-        [value]="
-          getRxGroupFormControl(
-            'proponentInformation',
-            'submitter',
-            'department'
-          ).value
-        "
-        [rxFormControl]="
-          getRxGroupFormControl(
-            'proponentInformation',
-            'submitter',
-            'department'
-          )
-        "
-      >
-      </drr-summary-item>
-
-      <drr-summary-item
-        [label]="t('phone')"
-        [value]="
-          getRxGroupFormControl('proponentInformation', 'submitter', 'phone')
-            .value | mask : '000-000-0000'
-        "
-        [rxFormControl]="
-          getRxGroupFormControl('proponentInformation', 'submitter', 'phone')
-        "
-      >
-      </drr-summary-item>
-
-      <drr-summary-item
-        [label]="t('email')"
-        [value]="
-          getRxGroupFormControl('proponentInformation', 'submitter', 'email')
-            .value
-        "
-        [rxFormControl]="
-          getRxGroupFormControl('proponentInformation', 'submitter', 'email')
-        "
-      >
-      </drr-summary-item>
-    </div>
-  </div>
-
-  <div
-    [class.required]="
       objectHasValues(
         eoiApplicationForm.get('proponentInformation')?.get('projectContact')
       )
@@ -669,4 +572,83 @@
     "
   >
   </drr-summary-item>
+
+  <div
+    *ngIf="showSubmitterInfo"
+    [class.required]="
+      !objectHasValues(
+        eoiApplicationForm.get('declaration')?.get('submitter')?.value
+      )
+    "
+  >
+    <mat-label class="drr-label">{{ t("submitter") }}</mat-label>
+    <div class="summary-row">
+      <drr-summary-item
+        [label]="t('firstName')"
+        [value]="
+          getRxGroupFormControl('declaration', 'submitter', 'firstName').value
+        "
+        [rxFormControl]="
+          getRxGroupFormControl('declaration', 'submitter', 'firstName')
+        "
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('lastName')"
+        [value]="
+          getRxGroupFormControl('declaration', 'submitter', 'lastName').value
+        "
+        [rxFormControl]="
+          getRxGroupFormControl('declaration', 'submitter', 'lastName')
+        "
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('title')"
+        [value]="
+          getRxGroupFormControl('declaration', 'submitter', 'title').value
+        "
+        [rxFormControl]="
+          getRxGroupFormControl('declaration', 'submitter', 'title')
+        "
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('department')"
+        [value]="
+          getRxGroupFormControl('declaration', 'submitter', 'department').value
+        "
+        [rxFormControl]="
+          getRxGroupFormControl('declaration', 'submitter', 'department')
+        "
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('phone')"
+        [value]="
+          getRxGroupFormControl('declaration', 'submitter', 'phone').value
+            | mask : '000-000-0000'
+        "
+        [rxFormControl]="
+          getRxGroupFormControl('declaration', 'submitter', 'phone')
+        "
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('email')"
+        [value]="
+          getRxGroupFormControl('declaration', 'submitter', 'email').value
+        "
+        [rxFormControl]="
+          getRxGroupFormControl('declaration', 'submitter', 'email')
+        "
+      >
+      </drr-summary-item>
+    </div>
+  </div>
 </div>

@@ -105,13 +105,6 @@ export class ProponentInformationForm {
 
   @required()
   @propObject(ContactDetailsForm)
-  submitter?: ContactDetailsForm = new ContactDetailsForm({});
-
-  @prop()
-  sameAsSubmitter?: boolean;
-
-  @required()
-  @propObject(ContactDetailsForm)
   projectContact?: ContactDetailsForm = new ContactDetailsForm({});
 
   @required()
@@ -291,6 +284,10 @@ export class OtherSupportingInformationForm {
 }
 
 export class DeclarationForm {
+  @required()
+  @propObject(ContactDetailsForm)
+  submitter?: ContactDetailsForm = new ContactDetailsForm({});
+
   @prop()
   @required()
   @requiredTrue()

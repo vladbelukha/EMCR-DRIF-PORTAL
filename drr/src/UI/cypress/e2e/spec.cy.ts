@@ -25,8 +25,6 @@ describe('EOI application happy path', () => {
     cy.get('#submitter_phone').type('123-456-7890');
     cy.get('#submitter_email').type('john.doe@example.com');
 
-    cy.get('#sameAsSubmitter [type="checkbox"]').first().check();
-
     // add project contacts
     cy.get('#projectContact_firstName_0').type('Jane');
     cy.get('#projectContact_lastName_0').type('Doe');
