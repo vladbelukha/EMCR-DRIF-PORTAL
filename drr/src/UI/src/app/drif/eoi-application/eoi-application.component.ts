@@ -345,6 +345,7 @@ export class EOIApplicationComponent {
       ...eoiApplicationForm.projectDetails,
       ...eoiApplicationForm.engagementPlan,
       ...eoiApplicationForm.otherSupportingInformation,
+      submitter: eoiApplicationForm.declaration?.submitter,
     } as DraftEoiApplication;
 
     if (this.isEditMode) {
