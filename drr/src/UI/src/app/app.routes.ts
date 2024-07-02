@@ -17,11 +17,13 @@ export const routes: Routes = [
     path: 'eoi-application',
     component: EOIApplicationComponent,
     canActivate: [AuthenticationGuard],
-  },
-  {
-    path: 'eoi-application/:id',
-    component: EOIApplicationComponent,
-    canActivate: [AuthenticationGuard],
+    children: [
+      {
+        path: ':id',
+        component: EOIApplicationComponent,
+        canActivate: [AuthenticationGuard],
+      },
+    ],
   },
   {
     path: 'submission-details/:id',

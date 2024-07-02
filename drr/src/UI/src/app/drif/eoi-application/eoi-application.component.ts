@@ -46,6 +46,7 @@ import { Step6Component } from '../step-6/step-6.component';
 import { Step7Component } from '../step-7/step-7.component';
 import { Step8Component } from '../step-8/step-8.component';
 import {
+  ContactDetailsForm,
   EOIApplicationForm,
   FundingInformationItemForm,
   StringItem,
@@ -165,7 +166,7 @@ export class EOIApplicationComponent {
       });
 
     // fetch router params to determine if we are editing an existing application
-    const id = this.route.snapshot.params['id'];
+    const id = this.route.snapshot.children[0]?.params['id'];
     if (id) {
       this.id = id;
 
@@ -241,6 +242,18 @@ export class EOIApplicationComponent {
           application.partneringProponents?.forEach((proponent) => {
             partneringProponentsArray?.push(
               this.formBuilder.formGroup(new StringItem({ value: proponent }))
+            );
+          });
+
+          const additionalContactsArray = this.getFormGroup(
+            'proponentInformation'
+          ).get('additionalContacts') as FormArray;
+          if (application.additionalContacts?.length! > 0) {
+            additionalContactsArray.clear();
+          }
+          application.additionalContacts?.forEach((contact) => {
+            additionalContactsArray?.push(
+              this.formBuilder.formGroup(new ContactDetailsForm(contact))
             );
           });
 
@@ -378,6 +391,7 @@ export class EOIApplicationComponent {
     this.formChanged = false;
 
     if (!this.isEditMode) {
+      this.id = response.id;
       this.router.navigate(['/eoi-application/', response['id']]);
     }
   };
