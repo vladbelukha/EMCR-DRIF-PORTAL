@@ -7,7 +7,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { TranslocoModule } from '@ngneat/transloco';
 import { IFormGroup, RxFormControl } from '@rxweb/reactive-form-validators';
-import { RecaptchaFormsModule, RecaptchaModule } from 'ng-recaptcha';
 import { DrifapplicationService } from '../../../api/drifapplication/drifapplication.service';
 import { DeclarationType } from '../../../model';
 import { DrrInputComponent } from '../../shared/controls/drr-input/drr-input.component';
@@ -31,8 +30,6 @@ import { SummaryComponent } from '../summary/summary.component';
     MatCheckboxModule,
     SummaryComponent,
     TranslocoModule,
-    RecaptchaModule,
-    RecaptchaFormsModule,
     DrrInputComponent,
   ],
   templateUrl: './step-8.component.html',
@@ -90,11 +87,4 @@ export class Step8Component {
   }
 
   declarationForm!: IFormGroup<DeclarationForm>;
-
-  get siteKey(): string {
-    // Use a test key for development and a actual key for other environments
-    return this.isDevMode
-      ? '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'
-      : '6LeTReUpAAAAAKgQVQrUEP6-1rpbjFcfg-kCFY-m';
-  }
 }

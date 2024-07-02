@@ -180,7 +180,6 @@ export class EOIApplicationComponent {
             profileData.lastName?.() != application.submitter?.lastName;
 
           // transform application into step forms
-          // TODO: refactor this
           const eoiApplicationForm: EOIApplicationForm = {
             proponentInformation: {
               proponentType: application.proponentType,
@@ -358,7 +357,7 @@ export class EOIApplicationComponent {
     }
   }
 
-  // TODO: remove later
+  // TODO: take from server response
   lastSavedAt?: Date;
 
   save() {

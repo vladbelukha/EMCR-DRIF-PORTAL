@@ -298,10 +298,6 @@ export class DeclarationForm {
   @requiredTrue()
   informationAccuracyStatement?: boolean;
 
-  @prop()
-  @required()
-  recaptcha?: string;
-
   constructor(values: DeclarationForm) {
     Object.assign(this, values);
   }
