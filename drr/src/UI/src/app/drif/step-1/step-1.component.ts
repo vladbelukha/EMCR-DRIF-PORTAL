@@ -18,6 +18,7 @@ import {
 } from '@rxweb/reactive-form-validators';
 import { Subscription } from 'rxjs';
 import { DrrInputComponent } from '../../shared/controls/drr-input/drr-input.component';
+import { ProfileStore } from '../../store/profile.store';
 import {
   ContactDetailsForm,
   ProponentInformationForm,
@@ -47,6 +48,8 @@ import {
 export class Step1Component {
   formBuilder = inject(RxFormBuilder);
   breakpointObserver = inject(BreakpointObserver);
+  profileStore = inject(ProfileStore);
+
   submitterSub: Subscription | undefined;
   isMobile = false;
 
@@ -54,6 +57,11 @@ export class Step1Component {
   proponentInformationForm!: IFormGroup<ProponentInformationForm>;
 
   ngOnInit() {
+    this.proponentInformationForm
+      ?.get('proponentName')
+      ?.setValue(this.profileStore.organization(), { emitEvent: false });
+    this.proponentInformationForm?.get('proponentName')?.disable();
+
     this.proponentInformationForm
       .get('partneringProponentsArray')
       ?.valueChanges.subscribe((proponents: StringItem[]) => {
@@ -102,31 +110,7 @@ export class Step1Component {
   removeAdditionalContact(index: number) {
     const additionalContacts = this.getFormArray('additionalContacts');
     additionalContacts.removeAt(index);
-  }
-
-  toggleSameAsSubmitter() {
-    const sameAsSubmitter =
-      this.proponentInformationForm.get('sameAsSubmitter')?.value;
-
-    const projectContact = this.proponentInformationForm.get(
-      'projectContact'
-    ) as RxFormGroup;
-
-    if (sameAsSubmitter) {
-      const submitter = this.proponentInformationForm.get('submitter')?.value;
-      projectContact.disable();
-      projectContact.patchValue(submitter);
-      this.submitterSub = this.proponentInformationForm
-        .get('submitter')
-        ?.valueChanges.subscribe((submitter) => {
-          projectContact.patchValue(submitter);
-        });
-    } else {
-      projectContact.reset();
-      projectContact.enable();
-      this.submitterSub?.unsubscribe();
-    }
-  }
+  }  
 
   addProponent() {
     const proponents = this.getFormArray('partneringProponentsArray');

@@ -31,58 +31,9 @@
       [label]="t('proponentName')"
       [rxFormControl]="getFormControl('proponentName')"
       [maxlength]="100"
-    ></drr-input>
+    ></drr-input>    
 
-    <mat-label class="drr-label">{{ t("submitter") }}</mat-label>
-    <div class="contacts-container">
-      <drr-input
-        [id]="'submitter_firstName'"
-        [label]="t('firstName')"
-        [rxFormControl]="getGroupFormControl('firstName', 'submitter')"
-        [maxlength]="40"
-      ></drr-input>
-      <drr-input
-        [id]="'submitter_lastName'"
-        [label]="t('lastName')"
-        [rxFormControl]="getGroupFormControl('lastName', 'submitter')"
-        [maxlength]="40"
-      ></drr-input>
-      <drr-input
-        [id]="'submitter_title'"
-        [label]="t('title')"
-        [rxFormControl]="getGroupFormControl('title', 'submitter')"
-        [maxlength]="40"
-      ></drr-input>
-      <drr-input
-        [id]="'submitter_department'"
-        [label]="t('department')"
-        [rxFormControl]="getGroupFormControl('department', 'submitter')"
-        [maxlength]="40"
-      ></drr-input>
-      <drr-input
-        [id]="'submitter_phone'"
-        [label]="t('phone')"
-        [rxFormControl]="getGroupFormControl('phone', 'submitter')"
-        [maxlength]="10"
-        [type]="'tel'"
-      ></drr-input>
-      <drr-input
-        [id]="'submitter_email'"
-        [label]="t('email')"
-        [rxFormControl]="getGroupFormControl('email', 'submitter')"
-        [maxlength]="40"
-        [type]="'email'"
-      ></drr-input>
-    </div>
-
-    <mat-label class="drr-label">{{ t("projectContact") }}</mat-label>
-
-    <mat-checkbox
-      id="sameAsSubmitter"
-      formControlName="sameAsSubmitter"
-      (change)="toggleSameAsSubmitter()"
-      >{{ t("sameAsSubmitter") }}</mat-checkbox
-    >
+    <mat-label class="drr-label">{{ t("projectContact") }}</mat-label>    
 
     <div class="contacts-container">
       <drr-input
