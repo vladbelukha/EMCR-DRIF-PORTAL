@@ -48,8 +48,7 @@ export class DrifSubmissionDetailsComponent {
     this.id = id;
 
     this.applicationService.dRIFApplicationGet(id).subscribe((application) => {
-      // transform application into step forms
-      // TODO: refactor this
+      // transform application into step forms      
       const eoiApplicationForm: EOIApplicationForm = {
         proponentInformation: {
           proponentType: application.proponentType,

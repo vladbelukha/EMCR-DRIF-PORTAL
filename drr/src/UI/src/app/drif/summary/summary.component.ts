@@ -45,7 +45,6 @@ export class SummaryComponent {
     const excludeKeys = [
       'partneringProponentsArray',
       'infrastructureImpactedArray',
-      'recaptcha',
       'declaration',
     ];
     return Object.keys(obj?.controls).filter(
