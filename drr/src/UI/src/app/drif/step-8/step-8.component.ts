@@ -71,18 +71,6 @@ export class Step8Component {
     const profileData = this.profileStore.getProfile();
 
     const submitterForm = this.declarationForm.get('submitter');
-    submitterForm?.setValue(
-      {
-        firstName: profileData.firstName?.(),
-        lastName: profileData.lastName?.(),
-        title: profileData.title?.() ?? '',
-        department: profileData.department?.() ?? '',
-        phone: profileData.phone?.() ?? '',
-        email: profileData.email?.() ?? '',
-      },
-      { emitEvent: false }
-    );
-
     if (profileData.firstName?.()) {
       submitterForm?.get('firstName')?.disable();
     }

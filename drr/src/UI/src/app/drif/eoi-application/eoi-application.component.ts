@@ -173,6 +173,12 @@ export class EOIApplicationComponent {
       this.applicationService
         .dRIFApplicationGet(id)
         .subscribe((application) => {
+          const profileData = this.profileStore.getProfile();
+
+          const resetSubmitter =
+            profileData.firstName?.() != application.submitter?.firstName ||
+            profileData.lastName?.() != application.submitter?.lastName;
+
           // transform application into step forms
           // TODO: refactor this
           const eoiApplicationForm: EOIApplicationForm = {
@@ -226,6 +232,18 @@ export class EOIApplicationComponent {
             otherSupportingInformation: {
               climateAdaptation: application.climateAdaptation,
               otherInformation: application.otherInformation,
+            },
+            declaration: {
+              submitter: !resetSubmitter
+                ? application.submitter
+                : {
+                    firstName: profileData.firstName?.(),
+                    lastName: profileData.lastName?.(),
+                    title: profileData.title?.() ?? '',
+                    department: profileData.department?.() ?? '',
+                    phone: profileData.phone?.() ?? '',
+                    email: profileData.email?.() ?? '',
+                  },
             },
           };
 
