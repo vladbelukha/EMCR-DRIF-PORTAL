@@ -226,9 +226,6 @@ export class EOIApplicationComponent {
               climateAdaptation: application.climateAdaptation,
               otherInformation: application.otherInformation,
             },
-            declaration: {
-              submitter: application.submitter,
-            },
           };
 
           this.eoiApplicationForm.patchValue(eoiApplicationForm, {
