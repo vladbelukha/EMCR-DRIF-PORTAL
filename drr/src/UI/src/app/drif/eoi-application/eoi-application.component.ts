@@ -235,7 +235,9 @@ export class EOIApplicationComponent {
           const partneringProponentsArray = this.getFormGroup(
             'proponentInformation'
           ).get('partneringProponentsArray') as FormArray;
-          partneringProponentsArray.clear();
+          if (application.partneringProponents?.length! > 0) {
+            partneringProponentsArray.clear();
+          }
           application.partneringProponents?.forEach((proponent) => {
             partneringProponentsArray?.push(
               this.formBuilder.formGroup(new StringItem({ value: proponent }))
@@ -245,7 +247,9 @@ export class EOIApplicationComponent {
           const fundingInformationItemFormArray = this.getFormGroup(
             'fundingInformation'
           ).get('otherFunding') as FormArray;
-          fundingInformationItemFormArray.clear();
+          if (application.otherFunding?.length! > 0) {
+            fundingInformationItemFormArray.clear();
+          }
           application.otherFunding?.forEach((funding) => {
             fundingInformationItemFormArray?.push(
               this.formBuilder.formGroup(
@@ -257,7 +261,9 @@ export class EOIApplicationComponent {
           const infrastructureImpactedArray = this.getFormGroup(
             'projectDetails'
           ).get('infrastructureImpactedArray') as FormArray;
-          infrastructureImpactedArray.clear();
+          if (application.infrastructureImpacted?.length! > 0) {
+            infrastructureImpactedArray.clear();
+          }
           application.infrastructureImpacted?.forEach((infrastructure) => {
             infrastructureImpactedArray?.push(
               this.formBuilder.formGroup(
