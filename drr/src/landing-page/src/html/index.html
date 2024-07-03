@@ -161,9 +161,23 @@
         margin-bottom: 1rem;
       }
 
-      .landing-login button {
+      .landing-login .button {
         font-size: 1rem;
+        color: #fff; /* Change text color to white for better contrast */
+        background-color: #036; /* Blue background */
+        text-decoration: none;
         margin-bottom: 1rem;
+        padding: 0.5rem 1rem; /* Add padding to increase the size and make it look like a button */
+        border: 2px solid #036; /* Sharp border with a slightly darker blue for depth */
+        border-radius: 0; /* Ensure borders are sharp */
+        display: inline-block; /* Change display to inline-block to allow padding */
+        transition: background-color 0.3s, color 0.3s; /* Smooth transition for hover effect */
+      }
+
+      .landing-login .button:hover,
+      .landing-login .button:focus {
+        background-color: #0056b3; /* Darker blue on hover/focus for interaction feedback */
+        color: #fff; /* Keep text color white for consistency */
       }
 
       .landing-login a {
@@ -287,7 +301,7 @@
         <div>
           <h2>Login with BCeID</h2>
           <p>If you have a BCeID and would like to submit an application, you can begin by singing in below.</p>
-          <button mat-raised-button color="primary" (click)="loginClick()">Login</button>
+          <a class="button" href="http:localhost:4200">Login with BCeID</a>
           <br />
           <a href="https://www.development.bceid.ca/clp/account_recovery.aspx" target="_blank">Forgot your user ID or password?</a>
         </div>
