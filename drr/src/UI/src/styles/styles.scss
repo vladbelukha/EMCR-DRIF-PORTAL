@@ -18,7 +18,6 @@ $my-app-theme: mat.define-light-theme(
 @include mat.all-component-themes($my-app-theme);
 
 @import "./fonts";
-// @import './defaults.scss';
 @import "./variables";
 
 // monospace font used for fixed-size text blocks (eg, referral comments)
