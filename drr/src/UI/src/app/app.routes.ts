@@ -3,11 +3,10 @@ import { AuthenticationGuard } from './core/guards/authentication.guard';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DrifSubmissionDetailsComponent } from './drif/drif-submission-details/drif-submission-details.component';
 import { EOIApplicationComponent } from './drif/eoi-application/eoi-application.component';
-import { LandingPageComponent } from './landing-page/landing-page.component';
 import { SuccessPageComponent } from './success-page/success-page.component';
 
 export const routes: Routes = [
-  { path: '', component: LandingPageComponent },
+  { path: '', component: DashboardComponent },
   {
     path: 'dashboard',
     component: DashboardComponent,
