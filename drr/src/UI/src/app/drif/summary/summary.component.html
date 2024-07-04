@@ -246,7 +246,7 @@
   </drr-summary-item>
 
   <drr-summary-item
-    [label]="t('relatedHazards')"
+    [label]="t('relatedHazardsSummary')"
     [value]="
       t(getRxFormControl('projectInformation', 'relatedHazards').value)?.join(
         ', '
@@ -302,7 +302,7 @@
   </drr-summary-item>
 
   <drr-summary-item
-    [label]="t('estimatedTotal')"
+    [label]="t('fundingRequest')"
     [value]="
       getRxFormControl('fundingInformation', 'fundingRequest').value | currency
     "
