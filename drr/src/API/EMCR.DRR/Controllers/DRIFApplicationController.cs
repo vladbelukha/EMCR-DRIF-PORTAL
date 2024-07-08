@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Net.Mime;
 using System.Security.Claims;
 using System.Text.Json.Serialization;
@@ -66,6 +67,8 @@ namespace EMCR.DRR.Controllers
         public async Task<ActionResult<ApplicationResult>> CreateEOIApplication(DraftEoiApplication application)
         {
             application.Status = SubmissionPortalStatus.Draft;
+            application.AdditionalContacts = MapAdditionalContacts(application);
+
             var id = await intakeManager.Handle(new DrifEoiApplicationCommand { application = mapper.Map<EoiApplication>(application), UserInfo = GetCurrentUser() });
             return Ok(new ApplicationResult { Id = id });
         }
@@ -75,6 +78,8 @@ namespace EMCR.DRR.Controllers
         {
             application.Id = id;
             application.Status = SubmissionPortalStatus.Draft;
+            application.AdditionalContacts = MapAdditionalContacts(application);
+
             var drr_id = await intakeManager.Handle(new DrifEoiApplicationCommand { application = mapper.Map<EoiApplication>(application), UserInfo = GetCurrentUser() });
             return Ok(new ApplicationResult { Id = drr_id });
         }
@@ -83,6 +88,8 @@ namespace EMCR.DRR.Controllers
         public async Task<ActionResult<ApplicationResult>> SubmitApplication([FromBody] EoiApplication application)
         {
             application.Status = SubmissionPortalStatus.UnderReview;
+            application.AdditionalContacts = MapAdditionalContacts(application);
+
             var drr_id = await intakeManager.Handle(new DrifEoiApplicationCommand { application = application, UserInfo = GetCurrentUser() });
             return Ok(new ApplicationResult { Id = drr_id });
         }
@@ -92,8 +99,34 @@ namespace EMCR.DRR.Controllers
         {
             application.Id = id;
             application.Status = SubmissionPortalStatus.UnderReview;
+            application.AdditionalContacts = MapAdditionalContacts(application);
+
             var drr_id = await intakeManager.Handle(new DrifEoiApplicationCommand { application = application, UserInfo = GetCurrentUser() });
             return Ok(new ApplicationResult { Id = drr_id });
+        }
+
+        private IEnumerable<ContactDetails> MapAdditionalContacts(DraftEoiApplication application)
+        {
+            var additionalContact1 = application.AdditionalContacts.FirstOrDefault();
+            var additionalContact2 = application.AdditionalContacts.ElementAtOrDefault(1);
+            if (IsEmptyContact(additionalContact1))
+            {
+                additionalContact1 = additionalContact2;
+                additionalContact2 = null;
+            }
+            return [additionalContact1 ?? new ContactDetails(), additionalContact2 ?? new ContactDetails()];
+        }
+
+        private bool IsEmptyContact(ContactDetails? contact)
+        {
+            if (contact == null) return true;
+            if (string.IsNullOrEmpty(contact.FirstName)
+                && string.IsNullOrEmpty(contact.LastName)
+                && string.IsNullOrEmpty(contact.Title)
+                && string.IsNullOrEmpty(contact.Department)
+                && string.IsNullOrEmpty(contact.Phone)
+                && string.IsNullOrEmpty(contact.Email)) return true;
+            return false;
         }
     }
 
