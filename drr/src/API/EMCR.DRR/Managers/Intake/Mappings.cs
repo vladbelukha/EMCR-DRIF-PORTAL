@@ -13,7 +13,7 @@ namespace EMCR.DRR.Managers.Intake
                 .ForMember(dest => dest.AdditionalContact2, opt => opt.MapFrom(src => src.AdditionalContacts.ElementAtOrDefault(1)))
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => IntakeStatusMapper(src.Status)))
                 .ReverseMap()
-                .ForMember(dest => dest.AdditionalContacts, opt => opt.MapFrom(src => new[] { src.AdditionalContact1, src.AdditionalContact2 }))
+                .ForMember(dest => dest.AdditionalContacts, opt => opt.MapFrom(src => DRRAdditionalContactMapper(src.AdditionalContact1, src.AdditionalContact2)))
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => DRRApplicationStatusMapper(src.Status)))
                 .ForMember(dest => dest.PartneringProponents, opt => opt.MapFrom(src => src.PartneringProponents.Select(p => p.Name)))
                 .ForMember(dest => dest.InfrastructureImpacted, opt => opt.MapFrom(src => src.InfrastructureImpacted.Select(p => p.Name)))
@@ -24,7 +24,7 @@ namespace EMCR.DRR.Managers.Intake
                 .ForMember(dest => dest.AdditionalContact2, opt => opt.MapFrom(src => src.AdditionalContacts.ElementAtOrDefault(1)))
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => IntakeStatusMapper(src.Status)))
                 .ReverseMap()
-                .ForMember(dest => dest.AdditionalContacts, opt => opt.MapFrom(src => new[] { src.AdditionalContact1, src.AdditionalContact2 }))
+                .ForMember(dest => dest.AdditionalContacts, opt => opt.MapFrom(src => DRRAdditionalContactMapper(src.AdditionalContact1, src.AdditionalContact2)))
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => DRRApplicationStatusMapper(src.Status)))
                 .ForMember(dest => dest.PartneringProponents, opt => opt.MapFrom(src => src.PartneringProponents.Select(p => p.Name)))
                 .ForMember(dest => dest.InfrastructureImpacted, opt => opt.MapFrom(src => src.InfrastructureImpacted.Select(p => p.Name)))
@@ -49,6 +49,14 @@ namespace EMCR.DRR.Managers.Intake
             CreateMap<Resources.Applications.DeclarationInfo, DeclarationInfo>()
                 .ReverseMap()
                 ;
+        }
+
+        private IEnumerable<ContactDetails> DRRAdditionalContactMapper(ContactDetails? contact1, ContactDetails? contact2)
+        {
+            var ret = new List<ContactDetails>();
+            if (contact1 != null) ret.Add(contact1);
+            if (contact2 != null) ret.Add(contact2);
+            return ret;
         }
 
         private SubmissionPortalStatus DRRApplicationStatusMapper(ApplicationStatus status)

@@ -54,6 +54,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             savedApplication.FOIPPAConfirmation.ShouldBe(true);
             savedApplication.InformationAccuracyStatement.ShouldBe(true);
             savedApplication.Status.ShouldBe(ApplicationStatus.Submitted);
+            savedApplication.AdditionalContact1.ShouldNotBeNull();
         }
 
         [Test]
