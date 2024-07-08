@@ -105,6 +105,7 @@ namespace EMCR.DRR.Controllers
             return Ok(new ApplicationResult { Id = drr_id });
         }
 
+        //Prevent empty additional contact 1, but populated additional contact 2
         private IEnumerable<ContactDetails> MapAdditionalContacts(DraftEoiApplication application)
         {
             var additionalContact1 = application.AdditionalContacts.FirstOrDefault();
