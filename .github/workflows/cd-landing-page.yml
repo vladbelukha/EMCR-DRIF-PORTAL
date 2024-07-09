@@ -18,7 +18,6 @@ env:
   IMAGE_NAME: drr-landing-page
   WORKING_DIRECTORY: ./drr/src/landing-page/src
   INDEX_FILE: index.html
-  ENV_FILE: dev_values.yaml
 
 jobs:
   build:
@@ -29,17 +28,13 @@ jobs:
         id: LandingDir
         run: |
           if [[ "${{ github.event.inputs.environment }}" == "dev" ]];then
-              echo "::set-output name=Landing_INDEX_FILE::project-dev.html"
-              echo "::set-output name=ENV_FILE::dev_values.yaml"
+              echo "::set-output name=Landing_INDEX_FILE::index-dev.html"
           elif [[ "${{ github.event.inputs.environment }}" == "test" ]];then
-              echo "::set-output name=Landing_INDEX_FILE::project-test.html"
-              echo "::set-output name=ENV_FILE::test_values.yaml"
+              echo "::set-output name=Landing_INDEX_FILE::index-test.html"
           elif [[ "${{ github.event.inputs.environment }}" == "training" ]];then
-              echo "::set-output name=Landing_INDEX_FILE::project-training.html"
-              echo "::set-output name=ENV_FILE::train_values.yaml"
+              echo "::set-output name=Landing_INDEX_FILE::index-stage.html"
           elif [[ "${{ github.event.inputs.environment }}" == "prod" ]];then
-              echo "::set-output name=Landing_INDEX_FILE::prod-index.html"
-              echo "::set-output name=ENV_FILE::prod_values.yaml"
+              echo "::set-output name=Landing_INDEX_FILE::index-prod.html"
           fi
 
       - uses: actions/checkout@v3
