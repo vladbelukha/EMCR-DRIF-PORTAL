@@ -16,7 +16,7 @@ on:
 
 env:
   IMAGE_NAME: drr-landing-page
-  WORKING_DIRECTORY: ./src/landing-page/src
+  WORKING_DIRECTORY: ./drr/src/landing-page/src
   INDEX_FILE: index.html
   ENV_FILE: dev_values.yaml
 
