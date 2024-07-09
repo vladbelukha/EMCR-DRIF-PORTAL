@@ -80,7 +80,12 @@ export class SubmissionListComponent {
     this.router.navigate(['/eoi-application']);
   }
 
-  onViewFormClick(id: string) {
-    this.router.navigate(['/eoi-application', id]);
+  onViewFormClick(submission: Submission, event: Event) {
+    event.preventDefault();
+
+    this.router.navigate([
+      submission.status == 'Draft' ? '/eoi-application' : '/submission-details',
+      submission.id,
+    ]);
   }
 }

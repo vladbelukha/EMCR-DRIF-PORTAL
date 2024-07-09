@@ -10,6 +10,7 @@ import {
   RxFormGroup,
 } from '@rxweb/reactive-form-validators';
 import { DrifapplicationService } from '../../../api/drifapplication/drifapplication.service';
+import { ProfileStore } from '../../store/profile.store';
 import {
   EOIApplicationForm,
   FundingInformationItemForm,
@@ -37,6 +38,7 @@ export class DrifSubmissionDetailsComponent {
   route = inject(ActivatedRoute);
   router = inject(Router);
   formBuilder = inject(RxFormBuilder);
+  profileStore = inject(ProfileStore);
 
   id!: string;
   eoiApplicationForm = this.formBuilder.formGroup(
@@ -48,7 +50,7 @@ export class DrifSubmissionDetailsComponent {
     this.id = id;
 
     this.applicationService.dRIFApplicationGet(id).subscribe((application) => {
-      // transform application into step forms      
+      // transform application into step forms
       const eoiApplicationForm: EOIApplicationForm = {
         proponentInformation: {
           proponentType: application.proponentType,
@@ -109,6 +111,11 @@ export class DrifSubmissionDetailsComponent {
       this.eoiApplicationForm.patchValue(eoiApplicationForm, {
         emitEvent: false,
       });
+
+      this.eoiApplicationForm
+        .get('proponentInformation')
+        ?.get('proponentName')
+        ?.setValue(this.profileStore.organization(), { emitEvent: false });
 
       const partneringProponentsArray = this.getFormGroup(
         'proponentInformation'
