@@ -463,7 +463,7 @@ export class EOIApplicationComponent {
         .subscribe(
           (response) => {
             this.hotToast.close();
-            this.router.navigate(['/success']);
+            this.router.navigate(['/dashboard']);
           },
           (error) => {
             this.hotToast.close();

@@ -69,10 +69,40 @@ export class Step8Component {
 
     const submitterForm = this.declarationForm.get('submitter');
     if (profileData.firstName?.()) {
+      submitterForm
+        ?.get('firstName')
+        ?.setValue(profileData.firstName(), { emitEvent: false });
       submitterForm?.get('firstName')?.disable();
     }
     if (profileData.lastName?.()) {
+      submitterForm
+        ?.get('lastName')
+        ?.setValue(profileData.lastName(), { emitEvent: false });
       submitterForm?.get('lastName')?.disable();
+    }
+    if (profileData.title?.()) {
+      submitterForm?.get('title')?.setValue(profileData.title(), {
+        emitEvent: false,
+      });
+      submitterForm?.get('title')?.disable();
+    }
+    if (profileData.department?.()) {
+      submitterForm?.get('department')?.setValue(profileData.department(), {
+        emitEvent: false,
+      });
+      submitterForm?.get('department')?.disable();
+    }
+    if (profileData.phone?.()) {
+      submitterForm?.get('phone')?.setValue(profileData.phone(), {
+        emitEvent: false,
+      });
+      submitterForm?.get('phone')?.disable();
+    }
+    if (profileData.email?.()) {
+      submitterForm?.get('email')?.setValue(profileData.email(), {
+        emitEvent: false,
+      });
+      submitterForm?.get('email')?.disable();
     }
   }
 
