@@ -12,6 +12,7 @@ import {
 import { NgxMaskPipe } from 'ngx-mask';
 import { EOIApplicationForm } from '../eoi-application/eoi-application-form';
 import { SummaryItemComponent } from '../summary-item/summary-item.component';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'drr-summary',
@@ -22,6 +23,7 @@ import { SummaryItemComponent } from '../summary-item/summary-item.component';
     TranslocoModule,
     NgxMaskPipe,
     SummaryItemComponent,
+    MatCardModule
   ],
   templateUrl: './summary.component.html',
   styleUrl: './summary.component.scss',

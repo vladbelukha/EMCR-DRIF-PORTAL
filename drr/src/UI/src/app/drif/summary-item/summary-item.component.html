@@ -1,9 +1,7 @@
-<div
-  class="summary-item"
-  [class.required]="
-    rxFormControl?.hasError('required') || rxFormControl?.hasError('minLength')
-  "
->
+<div class="summary-item" *transloco="let t">
   <mat-label class="drr-label">{{ label }}</mat-label>
+  <mat-label *ngIf="!value" [class.required]="isRequired()">
+    ({{ isRequired() ? "Required" : "Optional" }})</mat-label
+  >
   <mat-label>{{ value }}</mat-label>
 </div>
