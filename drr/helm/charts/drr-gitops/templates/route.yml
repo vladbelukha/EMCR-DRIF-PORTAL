@@ -1,0 +1,20 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: {{ .Values.env }}-drr-landing-tmp
+  labels:
+    app: {{ .Values.app }}
+    role: {{ .Values.role }}
+    env: {{ .Values.env }}
+spec:  
+  host: dev-{{ .Values.hostTmp }}
+  to:
+    kind: Service
+    name: {{ .Values.env }}-drr-landing
+    weight: 100
+  port:
+    targetPort: 2015-tcp
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+  wildcardPolicy: None

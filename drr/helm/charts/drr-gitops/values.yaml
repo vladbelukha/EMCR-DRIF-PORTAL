@@ -1,0 +1,18 @@
+# Default values for drr-gitops.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+app: dev-drr
+env: dev
+role: landing
+service:
+  type: ClusterIP
+  port: 2015
+  targetPort: 2015
+hostTmp: drr-landing.apps.silver.devops.gov.bc.ca
+replicas: 1
+cpuLimit: 50m
+memoryLimit: 256Mi
+cpuRequest: 25m
+memoryRequest: 128Mi
+imageRepository: image-registry.openshift-image-registry.svc:5000/f0d514-tools/drr-landing-page
