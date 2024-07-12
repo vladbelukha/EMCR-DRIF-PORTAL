@@ -12,12 +12,16 @@
         </button>
       </div>
       <div class="save-info">
-        <div style="display: flex; flex-direction: column">
-          <i *ngIf="lastSavedAt"
+        <div style="display: flex; flex-direction: row; gap: 1rem">
+          <i *ngIf="autoSaveCountdown <= 30 && autoSaveCountdown > 0"
+            >Saving in {{ autoSaveCountdown }}
+            {{ autoSaveCountdown === 1 ? "second" : "seconds" }}...
+          </i>
+          <i
+            *ngIf="
+              lastSavedAt && (autoSaveCountdown === 0 || autoSaveCountdown > 30)
+            "
             >Saved at {{ lastSavedAt | date : "mediumTime" }}</i
-          >
-          <i *ngIf="autoSaveCountdown <= 10 && autoSaveCountdown > 0"
-            >Saving in {{ autoSaveCountdown }} seconds</i
           >
         </div>
       </div>

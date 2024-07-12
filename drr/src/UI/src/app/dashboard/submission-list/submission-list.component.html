@@ -16,9 +16,9 @@
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
       <td mat-cell *matCellDef="let element">
-        <a [routerLink]="['/submission-details/', element.id]">{{
-          element.id
-        }}</a>
+        <a (click)="onViewFormClick(element, $event)" href="">
+          {{ element.id }}
+        </a>
       </td>
     </ng-container>
 
@@ -69,7 +69,7 @@
           *ngIf="element.status !== 'UnderReview'"
           mat-stroked-button
           color="accent"
-          (click)="onViewFormClick(element.id)"
+          (click)="onViewFormClick(element, $event)"
         >
           {{ t("edit") }}
         </button>

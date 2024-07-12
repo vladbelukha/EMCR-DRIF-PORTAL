@@ -126,9 +126,10 @@ export class EOIApplicationComponent {
     return !!this.id;
   }
 
-  isAutoSaveOn = false;
+  isAutoSaveOn = true;
   autoSaveTimer: any;
   autoSaveCountdown = 0;
+  autoSaveInterval = 60;
   formChanged = false;
 
   @HostListener('window:mousemove')
@@ -147,7 +148,7 @@ export class EOIApplicationComponent {
       return;
     }
 
-    this.autoSaveCountdown = 30;
+    this.autoSaveCountdown = this.autoSaveInterval;
     clearInterval(this.autoSaveTimer);
     this.autoSaveTimer = setInterval(() => {
       this.autoSaveCountdown -= 1;
@@ -365,8 +366,6 @@ export class EOIApplicationComponent {
       return;
     }
 
-    this.lastSavedAt = new Date();
-
     const eoiApplicationForm =
       this.eoiApplicationForm.getRawValue() as EOIApplicationForm;
 
@@ -381,6 +380,7 @@ export class EOIApplicationComponent {
       submitter: eoiApplicationForm.declaration?.submitter,
     } as DraftEoiApplication;
 
+    this.lastSavedAt = undefined;
     if (this.isEditMode) {
       this.applicationService
         .dRIFApplicationUpdateApplication(this.id!, drifEoiApplication)
@@ -399,6 +399,8 @@ export class EOIApplicationComponent {
   }
 
   onSaveSuccess = (response: ApplicationResult) => {
+    this.lastSavedAt = new Date();
+
     this.hotToast.close();
     this.hotToast.success('Application saved successfully', {
       duration: 5000,
@@ -463,7 +465,7 @@ export class EOIApplicationComponent {
         .subscribe(
           (response) => {
             this.hotToast.close();
-            this.router.navigate(['/success']);
+            this.router.navigate(['/dashboard']);
           },
           (error) => {
             this.hotToast.close();
