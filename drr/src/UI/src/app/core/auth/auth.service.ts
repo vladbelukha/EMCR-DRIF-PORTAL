@@ -84,7 +84,9 @@ export class AuthService {
 
     this.oauthService.events.subscribe({
       next: (event: OAuthEvent) => {
-        console.log('event', event);
+        if (event.type === 'token_refresh_error') {
+          this.logout();
+        }
       },
     });
 
