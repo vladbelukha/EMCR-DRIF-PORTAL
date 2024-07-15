@@ -25,7 +25,7 @@ import {
 } from '../drif-eoi/drif-eoi-form';
 
 @Component({
-  selector: 'drr-step-1',
+  selector: 'drif-eoi-step-1',
   standalone: true,
   imports: [
     CommonModule,
@@ -41,10 +41,10 @@ import {
     TranslocoModule,
     DrrInputComponent,
   ],
-  templateUrl: './step-1.component.html',
-  styleUrl: './step-1.component.scss',
+  templateUrl: './drif-eoi-step-1.component.html',
+  styleUrl: './drif-eoi-step-1.component.scss',
 })
-export class Step1Component {
+export class DrifEoiStep1Component {
   formBuilder = inject(RxFormBuilder);
   breakpointObserver = inject(BreakpointObserver);
   profileStore = inject(ProfileStore);

@@ -17,7 +17,7 @@ import { DrrTextareaComponent } from '../../shared/controls/drr-textarea/drr-tex
 import { LocationInformationForm } from '../drif-eoi/drif-eoi-form';
 
 @Component({
-  selector: 'drr-step-4',
+  selector: 'drif-eoi-step-4',
   standalone: true,
   imports: [
     CommonModule,
@@ -31,10 +31,10 @@ import { LocationInformationForm } from '../drif-eoi/drif-eoi-form';
     TranslocoModule,
     DrrTextareaComponent,
   ],
-  templateUrl: './step-4.component.html',
-  styleUrl: './step-4.component.scss',
+  templateUrl: './drif-eoi-step-4.component.html',
+  styleUrl: './drif-eoi-step-4.component.scss',
 })
-export class Step4Component {
+export class DrifEoiStep4Component {
   @Input()
   locationInformationForm!: IFormGroup<LocationInformationForm>;
 

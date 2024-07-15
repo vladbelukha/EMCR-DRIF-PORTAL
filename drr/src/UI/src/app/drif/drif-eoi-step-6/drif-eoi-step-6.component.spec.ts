@@ -1,18 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Step6Component } from './step-6.component';
+import { DrifEoiStep6Component } from './drif-eoi-step-6.component';
 
 describe('Step6Component', () => {
-  let component: Step6Component;
-  let fixture: ComponentFixture<Step6Component>;
+  let component: DrifEoiStep6Component;
+  let fixture: ComponentFixture<DrifEoiStep6Component>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Step6Component]
-    })
-    .compileComponents();
-    
-    fixture = TestBed.createComponent(Step6Component);
+      imports: [DrifEoiStep6Component],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(DrifEoiStep6Component);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

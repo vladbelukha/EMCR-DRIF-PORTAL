@@ -40,9 +40,9 @@
       [stepControl]="getFormGroup('proponentInformation')"
       [errorMessage]="t('stepError')"
     >
-      <drr-step-1
+      <drif-eoi-step-1
         [proponentInformationForm]="getFormGroup('proponentInformation')"
-      ></drr-step-1>
+      ></drif-eoi-step-1>
       <div class="drr-stepper-action">
         <button
           id="next1"
@@ -60,9 +60,9 @@
       [stepControl]="getFormGroup('projectInformation')"
       [errorMessage]="t('stepError')"
     >
-      <drr-step-2
+      <drif-eoi-step-2
         [projectInformationForm]="getFormGroup('projectInformation')"
-      ></drr-step-2>
+      ></drif-eoi-step-2>
       <div class="drr-stepper-actions">
         <button mat-stroked-button color="primary" matStepperPrevious>
           {{ t("back") }}
@@ -83,9 +83,9 @@
       [stepControl]="getFormGroup('fundingInformation')"
       [errorMessage]="t('stepError')"
     >
-      <drr-step-3
+      <drif-eoi-step-3
         [fundingInformationForm]="getFormGroup('fundingInformation')"
-      ></drr-step-3>
+      ></drif-eoi-step-3>
       <div class="drr-stepper-actions">
         <button mat-stroked-button color="primary" matStepperPrevious>
           {{ t("back") }}
@@ -106,9 +106,9 @@
       [stepControl]="getFormGroup('locationInformation')"
       [errorMessage]="t('stepError')"
     >
-      <drr-step-4
+      <drif-eoi-step-4
         [locationInformationForm]="getFormGroup('locationInformation')"
-      ></drr-step-4>
+      ></drif-eoi-step-4>
       <div class="drr-stepper-actions">
         <button mat-stroked-button color="primary" matStepperPrevious>
           {{ t("back") }}
@@ -129,9 +129,9 @@
       [stepControl]="getFormGroup('projectDetails')"
       [errorMessage]="t('stepError')"
     >
-      <drr-step-5
+      <drif-eoi-step-5
         [projectDetailsForm]="getFormGroup('projectDetails')"
-      ></drr-step-5>
+      ></drif-eoi-step-5>
       <div class="drr-stepper-actions">
         <button mat-stroked-button color="primary" matStepperPrevious>
           {{ t("back") }}
@@ -152,9 +152,9 @@
       [stepControl]="getFormGroup('engagementPlan')"
       [errorMessage]="t('stepError')"
     >
-      <drr-step-6
+      <drif-eoi-step-6
         [engagementPlanForm]="getFormGroup('engagementPlan')"
-      ></drr-step-6>
+      ></drif-eoi-step-6>
       <div class="drr-stepper-actions">
         <button mat-stroked-button color="primary" matStepperPrevious>
           {{ t("back") }}
@@ -175,11 +175,11 @@
       [stepControl]="getFormGroup('otherSupportingInformation')"
       [errorMessage]="t('stepError')"
     >
-      <drr-step-7
+      <drif-eoi-step-7
         [otherSupportingInformationForm]="
           getFormGroup('otherSupportingInformation')
         "
-      ></drr-step-7>
+      ></drif-eoi-step-7>
       <div class="drr-stepper-actions">
         <button mat-stroked-button color="primary" matStepperPrevious>
           {{ t("back") }}
@@ -200,7 +200,9 @@
       [stepControl]="getFormGroup('declaration')"
       [errorMessage]="t('stepError')"
     >
-      <drr-step-8 [eoiApplicationForm]="eoiApplicationForm"></drr-step-8>
+      <drif-eoi-step-8
+        [eoiApplicationForm]="eoiApplicationForm"
+      ></drif-eoi-step-8>
       <div class="drr-stepper-actions">
         <button mat-stroked-button color="primary" matStepperPrevious>
           {{ t("back") }}

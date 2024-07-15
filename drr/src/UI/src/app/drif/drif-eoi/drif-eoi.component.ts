@@ -37,14 +37,14 @@ import {
   Hazards,
 } from '../../../model';
 import { ProfileStore } from '../../store/profile.store';
-import { Step1Component } from '../step-1/step-1.component';
-import { Step2Component } from '../step-2/step-2.component';
-import { Step3Component } from '../step-3/step-3.component';
-import { Step4Component } from '../step-4/step-4.component';
-import { Step5Component } from '../step-5/step-5.component';
-import { Step6Component } from '../step-6/step-6.component';
-import { Step7Component } from '../step-7/step-7.component';
-import { Step8Component } from '../step-8/step-8.component';
+import { DrifEoiStep1Component } from '../drif-eoi-step-1/drif-eoi-step-1.component';
+import { DrifEoiStep2Component } from '../drif-eoi-step-2/drif-eoi-step-2.component';
+import { DrifEoiStep3Component } from '../drif-eoi-step-3/drif-eoi-step-3.component';
+import { DrifEoiStep4Component } from '../drif-eoi-step-4/drif-eoi-step-4.component';
+import { DrifEoiStep5Component } from '../drif-eoi-step-5/drif-eoi-step-5.component';
+import { DrifEoiStep6Component } from '../drif-eoi-step-6/drif-eoi-step-6.component';
+import { DrifEoiStep7Component } from '../drif-eoi-step-7/drif-eoi-step-7.component';
+import { Step8Component } from '../drif-eoi-step-8/drif-eoi-step-8.component';
 import {
   ContactDetailsForm,
   EOIApplicationForm,
@@ -70,13 +70,13 @@ import {
     MatSelectModule,
     MatDatepickerModule,
     MatCheckboxModule,
-    Step1Component,
-    Step2Component,
-    Step3Component,
-    Step4Component,
-    Step5Component,
-    Step6Component,
-    Step7Component,
+    DrifEoiStep1Component,
+    DrifEoiStep2Component,
+    DrifEoiStep3Component,
+    DrifEoiStep4Component,
+    DrifEoiStep5Component,
+    DrifEoiStep6Component,
+    DrifEoiStep7Component,
     Step8Component,
     TranslocoModule,
   ],

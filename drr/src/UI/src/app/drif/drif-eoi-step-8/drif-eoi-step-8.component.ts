@@ -15,7 +15,7 @@ import { DeclarationForm, EOIApplicationForm } from '../drif-eoi/drif-eoi-form';
 import { SummaryComponent } from '../summary/summary.component';
 
 @Component({
-  selector: 'drr-step-8',
+  selector: 'drif-eoi-step-8',
   standalone: true,
   imports: [
     CommonModule,
@@ -29,8 +29,8 @@ import { SummaryComponent } from '../summary/summary.component';
     TranslocoModule,
     DrrInputComponent,
   ],
-  templateUrl: './step-8.component.html',
-  styleUrl: './step-8.component.scss',
+  templateUrl: './drif-eoi-step-8.component.html',
+  styleUrl: './drif-eoi-step-8.component.scss',
 })
 export class Step8Component {
   drifAppService = inject(DrifapplicationService);

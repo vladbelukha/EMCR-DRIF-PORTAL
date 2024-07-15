@@ -26,7 +26,7 @@ import {
 } from '../drif-eoi/drif-eoi-form';
 
 @Component({
-  selector: 'drr-step-5',
+  selector: 'drif-eoi-step-5',
   standalone: true,
   imports: [
     CommonModule,
@@ -41,10 +41,10 @@ import {
     DrrInputComponent,
     DrrSelectComponent,
   ],
-  templateUrl: './step-5.component.html',
-  styleUrl: './step-5.component.scss',
+  templateUrl: './drif-eoi-step-5.component.html',
+  styleUrl: './drif-eoi-step-5.component.scss',
 })
-export class Step5Component {
+export class DrifEoiStep5Component {
   formBuilder = inject(RxFormBuilder);
 
   estimatedNumberOfPeopleOptions = Object.values(EstimatedNumberOfPeople);
