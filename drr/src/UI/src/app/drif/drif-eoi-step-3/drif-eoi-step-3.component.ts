@@ -32,7 +32,7 @@ import {
 } from '../drif-eoi/drif-eoi-form';
 
 @Component({
-  selector: 'drr-step-3',
+  selector: 'drif-eoi-step-3',
   standalone: true,
   imports: [
     CommonModule,
@@ -49,10 +49,10 @@ import {
     DrrSelectComponent,
     DrrCurrencyInputComponent,
   ],
-  templateUrl: './step-3.component.html',
-  styleUrl: './step-3.component.scss',
+  templateUrl: './drif-eoi-step-3.component.html',
+  styleUrl: './drif-eoi-step-3.component.scss',
 })
-export class Step3Component {
+export class DrifEoiStep3Component {
   breakpointObserver = inject(BreakpointObserver);
   isMobile = false;
 
