@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { TranslocoModule } from '@ngneat/transloco';
 import {
@@ -10,9 +11,8 @@ import {
   RxFormGroup,
 } from '@rxweb/reactive-form-validators';
 import { NgxMaskPipe } from 'ngx-mask';
-import { EOIApplicationForm } from '../eoi-application/eoi-application-form';
+import { EOIApplicationForm } from '../drif-eoi/drif-eoi-form';
 import { SummaryItemComponent } from '../summary-item/summary-item.component';
-import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'drr-summary',
@@ -23,7 +23,7 @@ import { MatCardModule } from '@angular/material/card';
     TranslocoModule,
     NgxMaskPipe,
     SummaryItemComponent,
-    MatCardModule
+    MatCardModule,
   ],
   templateUrl: './summary.component.html',
   styleUrl: './summary.component.scss',

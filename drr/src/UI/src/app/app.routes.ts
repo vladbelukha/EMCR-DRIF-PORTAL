@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
 import { AuthenticationGuard } from './core/guards/authentication.guard';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { DrifSubmissionDetailsComponent } from './drif/drif-submission-details/drif-submission-details.component';
-import { EOIApplicationComponent } from './drif/eoi-application/eoi-application.component';
+import { DrifSubmissionDetailsComponent } from './drif/drif-eoi-summary/drif-eoi-summary.component';
+import { EOIApplicationComponent } from './drif/drif-eoi/drif-eoi.component';
 import { SuccessPageComponent } from './success-page/success-page.component';
 
 export const routes: Routes = [
@@ -13,7 +13,7 @@ export const routes: Routes = [
     canActivate: [AuthenticationGuard],
   },
   {
-    path: 'eoi-application',
+    path: 'drif-eoi',
     component: EOIApplicationComponent,
     canActivate: [AuthenticationGuard],
     children: [

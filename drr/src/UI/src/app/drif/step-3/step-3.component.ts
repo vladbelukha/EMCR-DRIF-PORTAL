@@ -29,7 +29,7 @@ import { DrrTextareaComponent } from '../../shared/controls/drr-textarea/drr-tex
 import {
   FundingInformationForm,
   FundingInformationItemForm,
-} from '../eoi-application/eoi-application-form';
+} from '../drif-eoi/drif-eoi-form';
 
 @Component({
   selector: 'drr-step-3',
@@ -163,7 +163,6 @@ export class Step3Component {
   }
 
   hasOtherGrants(selectValue: FundingType[]) {
-    
     return selectValue?.includes(FundingType.OtherGrants);
   }
 

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EOIApplicationComponent } from './eoi-application.component';
+import { EOIApplicationComponent } from './drif-eoi.component';
 
 describe('StartApplicationComponent', () => {
   let component: EOIApplicationComponent;
