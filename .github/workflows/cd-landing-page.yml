@@ -11,7 +11,7 @@ on:
        options:
        - dev
        - test
-       - training
+       - stage
        - prod
 
 env:
