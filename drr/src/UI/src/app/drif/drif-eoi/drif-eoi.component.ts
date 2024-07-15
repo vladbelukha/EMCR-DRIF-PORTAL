@@ -41,7 +41,7 @@ import { DrifEoiStep1Component } from '../drif-eoi-step-1/drif-eoi-step-1.compon
 import { DrifEoiStep2Component } from '../drif-eoi-step-2/drif-eoi-step-2.component';
 import { DrifEoiStep3Component } from '../drif-eoi-step-3/drif-eoi-step-3.component';
 import { DrifEoiStep4Component } from '../drif-eoi-step-4/drif-eoi-step-4.component';
-import { Step5Component } from '../step-5/step-5.component';
+import { DrifEoiStep5Component } from '../drif-eoi-step-5/drif-eoi-step-5.component';
 import { Step6Component } from '../step-6/step-6.component';
 import { Step7Component } from '../step-7/step-7.component';
 import { Step8Component } from '../step-8/step-8.component';
@@ -74,7 +74,7 @@ import {
     DrifEoiStep2Component,
     DrifEoiStep3Component,
     DrifEoiStep4Component,
-    Step5Component,
+    DrifEoiStep5Component,
     Step6Component,
     Step7Component,
     Step8Component,
