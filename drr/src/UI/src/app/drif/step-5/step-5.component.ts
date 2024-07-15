@@ -23,7 +23,7 @@ import { DrrTextareaComponent } from '../../shared/controls/drr-textarea/drr-tex
 import {
   ProjectDetailsForm,
   StringItemRequired,
-} from '../eoi-application/eoi-application-form';
+} from '../drif-eoi/drif-eoi-form';
 
 @Component({
   selector: 'drr-step-5',

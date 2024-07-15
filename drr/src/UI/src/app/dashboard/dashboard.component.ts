@@ -39,6 +39,6 @@ export class DashboardComponent {
   }
 
   onCreateFormClick() {
-    this.router.navigate(['/eoi-application']);
+    this.router.navigate(['/drif-eoi']);
   }
 }

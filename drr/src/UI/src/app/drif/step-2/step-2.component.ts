@@ -19,7 +19,7 @@ import { Hazards } from '../../../model';
 import { DrrDatepickerComponent } from '../../shared/controls/drr-datepicker/drr-datepicker.component';
 import { DrrInputComponent } from '../../shared/controls/drr-input/drr-input.component';
 import { DrrSelectComponent } from '../../shared/controls/drr-select/drr-select.component';
-import { ProjectInformationForm } from '../eoi-application/eoi-application-form';
+import { ProjectInformationForm } from '../drif-eoi/drif-eoi-form';
 
 @Component({
   selector: 'drr-step-2',

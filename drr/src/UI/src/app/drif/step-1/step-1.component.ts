@@ -14,7 +14,6 @@ import {
   IFormGroup,
   RxFormBuilder,
   RxFormControl,
-  RxFormGroup,
 } from '@rxweb/reactive-form-validators';
 import { Subscription } from 'rxjs';
 import { DrrInputComponent } from '../../shared/controls/drr-input/drr-input.component';
@@ -23,7 +22,7 @@ import {
   ContactDetailsForm,
   ProponentInformationForm,
   StringItem,
-} from '../eoi-application/eoi-application-form';
+} from '../drif-eoi/drif-eoi-form';
 
 @Component({
   selector: 'drr-step-1',
@@ -110,7 +109,7 @@ export class Step1Component {
   removeAdditionalContact(index: number) {
     const additionalContacts = this.getFormArray('additionalContacts');
     additionalContacts.removeAt(index);
-  }  
+  }
 
   addProponent() {
     const proponents = this.getFormArray('partneringProponentsArray');
