@@ -44,7 +44,7 @@ import { DrifEoiStep4Component } from '../drif-eoi-step-4/drif-eoi-step-4.compon
 import { DrifEoiStep5Component } from '../drif-eoi-step-5/drif-eoi-step-5.component';
 import { DrifEoiStep6Component } from '../drif-eoi-step-6/drif-eoi-step-6.component';
 import { DrifEoiStep7Component } from '../drif-eoi-step-7/drif-eoi-step-7.component';
-import { Step8Component } from '../step-8/step-8.component';
+import { Step8Component } from '../drif-eoi-step-8/drif-eoi-step-8.component';
 import {
   ContactDetailsForm,
   EOIApplicationForm,
