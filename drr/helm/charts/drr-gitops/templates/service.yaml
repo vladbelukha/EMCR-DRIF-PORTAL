@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: {{ .Values.env }}-drr-landing
   labels:
-    app: {{ .Values.app }}
+    app: {{ .Values.env }}-{{ .Values.app }}
     role: {{ .Values.role }}
     env: {{ .Values.env }}
     app.kubernetes.io/part-of: {{ .Values.env }}

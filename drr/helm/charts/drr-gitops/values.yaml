@@ -2,14 +2,14 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-app: dev-drr
+app: drr
 env: dev
 role: landing
 service:
   type: ClusterIP
   port: 2015
   targetPort: 2015
-hostTmp: drr-landing.apps.silver.devops.gov.bc.ca
+landingHostTmp: drr-landing.apps.silver.devops.bcgov
 replicas: 1
 cpuLimit: 50m
 memoryLimit: 256Mi

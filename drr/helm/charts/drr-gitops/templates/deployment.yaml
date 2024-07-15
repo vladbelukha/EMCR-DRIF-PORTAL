@@ -3,7 +3,7 @@ apiVersion: apps/v1
 metadata:
   name: {{ .Values.env }}-drr-landing
   labels:
-    app: {{ .Values.app }}
+    app: {{ .Values.env }}-{{ .Values.app }}
     role: {{ .Values.role }}
     env: {{ .Values.env }}
     app.kubernetes.io/part-of: {{ .Values.env }}
@@ -11,12 +11,12 @@ spec:
   replicas: {{ .Values.replicas }}
   selector:
     matchLabels:
-      app: {{ .Values.app }}
+      app: {{ .Values.env }}-{{ .Values.app }}
       name: {{ .Values.env }}-drr-landing
   template:
     metadata:      
       labels:
-        app: {{ .Values.app }}
+        app: {{ .Values.env }}-{{ .Values.app }}
         role: {{ .Values.role }}
         name: {{ .Values.env }}-drr-landing
     spec:
@@ -48,10 +48,21 @@ spec:
             periodSeconds: 10
             successThreshold: 1
             failureThreshold: 3
+          securityContext:
+            allowPrivilegeEscalation: true
           ports:
             - containerPort: 2015
               protocol: TCP
           imagePullPolicy: Always
+          startupProbe:
+            httpGet:
+              path: /
+              port: 2016
+              scheme: HTTP
+            timeoutSeconds: 1
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
           terminationMessagePolicy: File
           image: {{ .Values.imageRepository }}:{{ .Values.env }}
       restartPolicy: Always
