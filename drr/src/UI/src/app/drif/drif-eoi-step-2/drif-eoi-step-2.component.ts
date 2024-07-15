@@ -22,7 +22,7 @@ import { DrrSelectComponent } from '../../shared/controls/drr-select/drr-select.
 import { ProjectInformationForm } from '../drif-eoi/drif-eoi-form';
 
 @Component({
-  selector: 'drr-step-2',
+  selector: 'drif-eoi-step-2',
   standalone: true,
   imports: [
     CommonModule,
@@ -39,10 +39,10 @@ import { ProjectInformationForm } from '../drif-eoi/drif-eoi-form';
     DrrSelectComponent,
     DrrDatepickerComponent,
   ],
-  templateUrl: './step-2.component.html',
-  styleUrl: './step-2.component.scss',
+  templateUrl: './drif-eoi-step-2.component.html',
+  styleUrl: './drif-eoi-step-2.component.scss',
 })
-export class Step2Component {
+export class DrifEoiStep2Component {
   @Input()
   projectInformationForm!: IFormGroup<ProjectInformationForm>;
 

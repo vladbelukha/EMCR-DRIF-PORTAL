@@ -38,7 +38,7 @@ import {
 } from '../../../model';
 import { ProfileStore } from '../../store/profile.store';
 import { DrifEoiStep1Component } from '../drif-eoi-step-1/drif-eoi-step-1.component';
-import { Step2Component } from '../step-2/step-2.component';
+import { DrifEoiStep2Component } from '../drif-eoi-step-2/drif-eoi-step-2.component';
 import { Step3Component } from '../step-3/step-3.component';
 import { Step4Component } from '../step-4/step-4.component';
 import { Step5Component } from '../step-5/step-5.component';
@@ -71,7 +71,7 @@ import {
     MatDatepickerModule,
     MatCheckboxModule,
     DrifEoiStep1Component,
-    Step2Component,
+    DrifEoiStep2Component,
     Step3Component,
     Step4Component,
     Step5Component,
