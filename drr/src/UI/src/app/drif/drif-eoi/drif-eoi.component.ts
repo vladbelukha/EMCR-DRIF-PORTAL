@@ -50,10 +50,10 @@ import {
   EOIApplicationForm,
   FundingInformationItemForm,
   StringItem,
-} from './eoi-application-form';
+} from './drif-eoi-form';
 
 @Component({
-  selector: 'drr-eoi-application',
+  selector: 'drr-drif-eoi',
   standalone: true,
   imports: [
     CommonModule,
@@ -80,8 +80,8 @@ import {
     Step8Component,
     TranslocoModule,
   ],
-  templateUrl: './eoi-application.component.html',
-  styleUrl: './eoi-application.component.scss',
+  templateUrl: './drif-eoi.component.html',
+  styleUrl: './drif-eoi.component.scss',
   providers: [
     RxFormBuilder,
     HotToastService,
@@ -411,7 +411,7 @@ export class EOIApplicationComponent {
 
     if (!this.isEditMode) {
       this.id = response.id;
-      this.router.navigate(['/eoi-application/', response['id']]);
+      this.router.navigate(['/drif-eoi/', response['id']]);
     }
   };
 

@@ -77,14 +77,14 @@ export class SubmissionListComponent {
   }
 
   onCreateFormClick() {
-    this.router.navigate(['/eoi-application']);
+    this.router.navigate(['/drif-eoi']);
   }
 
   onViewFormClick(submission: Submission, event: Event) {
     event.preventDefault();
 
     this.router.navigate([
-      submission.status == 'Draft' ? '/eoi-application' : '/submission-details',
+      submission.status == 'Draft' ? '/drif-eoi' : '/submission-details',
       submission.id,
     ]);
   }

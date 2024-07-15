@@ -15,11 +15,11 @@ import {
   EOIApplicationForm,
   FundingInformationItemForm,
   StringItem,
-} from '../eoi-application/eoi-application-form';
+} from '../drif-eoi/drif-eoi-form';
 import { SummaryComponent } from '../summary/summary.component';
 
 @Component({
-  selector: 'drif-submission-details',
+  selector: 'drif-eoi-summary',
   standalone: true,
   imports: [
     CommonModule,
@@ -30,8 +30,8 @@ import { SummaryComponent } from '../summary/summary.component';
     TranslocoModule,
   ],
   providers: [RxFormBuilder],
-  templateUrl: './drif-submission-details.component.html',
-  styleUrl: './drif-submission-details.component.scss',
+  templateUrl: './drif-eoi-summary.component.html',
+  styleUrl: './drif-eoi-summary.component.scss',
 })
 export class DrifSubmissionDetailsComponent {
   applicationService = inject(DrifapplicationService);

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DrifSubmissionDetailsComponent } from './drif-submission-details.component';
+import { DrifSubmissionDetailsComponent } from './drif-eoi-summary.component';
 
 describe('DrifSubmissionDetailsComponent', () => {
   let component: DrifSubmissionDetailsComponent;
