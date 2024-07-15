@@ -9,6 +9,6 @@ export interface OidcConfiguration {
   accountRecoveryUrl?: string;
   clientId?: string;
   issuer?: string;
-  postLogoutRedirectUrl?: string;
+  postLogoutRedirectUri?: string;
   scope?: string;
 }

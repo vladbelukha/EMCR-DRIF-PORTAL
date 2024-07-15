@@ -5,7 +5,7 @@ export interface ConfigurationState {
     clientId?: string;
     issuer?: string;
     scope?: string;
-    postLogoutRedirectUrl?: string;
+    postLogoutRedirectUri?: string;
     accountRecoveryUrl?: string;
   };
   isConfigurationLoaded: boolean;
@@ -20,7 +20,7 @@ const initialState: ConfigurationState = {
     clientId: '',
     issuer: '',
     scope: '',
-    postLogoutRedirectUrl: '',
+    postLogoutRedirectUri: '',
     accountRecoveryUrl: '',
   },
   isConfigurationLoaded: false,
