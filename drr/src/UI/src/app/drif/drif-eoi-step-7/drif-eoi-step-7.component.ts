@@ -10,7 +10,7 @@ import { DrrTextareaComponent } from '../../shared/controls/drr-textarea/drr-tex
 import { OtherSupportingInformationForm } from '../drif-eoi/drif-eoi-form';
 
 @Component({
-  selector: 'drr-step-7',
+  selector: 'drif-eoi-step-7',
   standalone: true,
   imports: [
     CommonModule,
@@ -22,10 +22,10 @@ import { OtherSupportingInformationForm } from '../drif-eoi/drif-eoi-form';
     TranslocoModule,
     DrrTextareaComponent,
   ],
-  templateUrl: './step-7.component.html',
-  styleUrl: './step-7.component.scss',
+  templateUrl: './drif-eoi-step-7.component.html',
+  styleUrl: './drif-eoi-step-7.component.scss',
 })
-export class Step7Component {
+export class DrifEoiStep7Component {
   @Input()
   otherSupportingInformationForm!: IFormGroup<OtherSupportingInformationForm>;
 

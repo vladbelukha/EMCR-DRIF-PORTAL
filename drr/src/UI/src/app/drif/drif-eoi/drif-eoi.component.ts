@@ -43,7 +43,7 @@ import { DrifEoiStep3Component } from '../drif-eoi-step-3/drif-eoi-step-3.compon
 import { DrifEoiStep4Component } from '../drif-eoi-step-4/drif-eoi-step-4.component';
 import { DrifEoiStep5Component } from '../drif-eoi-step-5/drif-eoi-step-5.component';
 import { DrifEoiStep6Component } from '../drif-eoi-step-6/drif-eoi-step-6.component';
-import { Step7Component } from '../step-7/step-7.component';
+import { DrifEoiStep7Component } from '../drif-eoi-step-7/drif-eoi-step-7.component';
 import { Step8Component } from '../step-8/step-8.component';
 import {
   ContactDetailsForm,
@@ -76,7 +76,7 @@ import {
     DrifEoiStep4Component,
     DrifEoiStep5Component,
     DrifEoiStep6Component,
-    Step7Component,
+    DrifEoiStep7Component,
     Step8Component,
     TranslocoModule,
   ],
