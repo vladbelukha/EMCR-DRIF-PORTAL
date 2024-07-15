@@ -37,7 +37,7 @@ import {
   Hazards,
 } from '../../../model';
 import { ProfileStore } from '../../store/profile.store';
-import { Step1Component } from '../step-1/step-1.component';
+import { DrifEoiStep1Component } from '../drif-eoi-step-1/drif-eoi-step-1.component';
 import { Step2Component } from '../step-2/step-2.component';
 import { Step3Component } from '../step-3/step-3.component';
 import { Step4Component } from '../step-4/step-4.component';
@@ -70,7 +70,7 @@ import {
     MatSelectModule,
     MatDatepickerModule,
     MatCheckboxModule,
-    Step1Component,
+    DrifEoiStep1Component,
     Step2Component,
     Step3Component,
     Step4Component,
