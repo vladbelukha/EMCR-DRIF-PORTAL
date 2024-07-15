@@ -58,7 +58,9 @@
         Partnering Proponents
       </th>
       <td mat-cell *matCellDef="let element">
-        {{ element.partneringProponents.join(", ") }}
+        <p *ngFor="let proponent of element.partneringProponents">
+          {{ proponent }}
+        </p>
       </td>
     </ng-container>
 
