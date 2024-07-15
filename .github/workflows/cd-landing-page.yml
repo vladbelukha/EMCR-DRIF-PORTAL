@@ -32,7 +32,7 @@ jobs:
               echo "::set-output name=Landing_INDEX_FILE::index-dev.html"
           elif [[ "${{ github.event.inputs.environment }}" == "test" ]];then
               echo "::set-output name=Landing_INDEX_FILE::index-test.html"
-          elif [[ "${{ github.event.inputs.environment }}" == "training" ]];then
+          elif [[ "${{ github.event.inputs.environment }}" == "stage" ]];then
               echo "::set-output name=Landing_INDEX_FILE::index-stage.html"
           elif [[ "${{ github.event.inputs.environment }}" == "prod" ]];then
               echo "::set-output name=Landing_INDEX_FILE::index-prod.html"
