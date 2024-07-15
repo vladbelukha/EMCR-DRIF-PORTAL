@@ -65,7 +65,6 @@ export class AuthService {
 
         location.href = reconstructUri;
       },
-      postLogoutRedirectUri: window.location.origin, // TODO: maybe it supposed to be landing page?
     };
 
     if (!this.configurationStore.isConfigurationLoaded()) {
