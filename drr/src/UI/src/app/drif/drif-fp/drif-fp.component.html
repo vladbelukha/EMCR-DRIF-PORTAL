@@ -1,1 +1,197 @@
-<p>drif-fp works!</p>
+<ng-container *transloco="let t">
+  <div
+    class="instructions-container"
+    *ngIf="!isEditMode && !isInstructionAcknowledged"
+  >
+    <h2>{{ t("proponentInstructions") }}</h2>
+    <p>{{ t("proponentInstructionsText") }}</p>
+
+    <div style="display: flex; justify-content: space-between">
+      <button mat-stroked-button color="primary" (click)="goBack()">
+        {{ t("back") }}
+      </button>
+      <button
+        mat-flat-button
+        color="primary"
+        (click)="acknowledgeInstructions()"
+      >
+        {{ t("continue") }}
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="isInstructionAcknowledged" class="app-stepper-container">
+    <div class="app-stepper-header">
+      <h1>{{ t("fpFormHeader") }}</h1>
+      <div>
+        <div class="header-actions">
+          <button mat-stroked-button color="primary" (click)="goBack()">
+            {{ t("back") }}
+          </button>
+          <button mat-flat-button color="primary" (click)="save()">
+            <mat-icon>save</mat-icon>
+            Save
+          </button>
+        </div>
+        <div class="save-info">
+          <div style="display: flex; flex-direction: row; gap: 1rem">
+            <!-- <i *ngIf="autoSaveCountdown <= 30 && autoSaveCountdown > 0"
+              >Saving in {{ autoSaveCountdown }}
+              {{ autoSaveCountdown === 1 ? "second" : "seconds" }}...
+            </i>
+            <i
+              *ngIf="
+                lastSavedAt && (autoSaveCountdown === 0 || autoSaveCountdown > 30)
+              "
+              >Saved at {{ lastSavedAt | date : "mediumTime" }}</i
+            > -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <mat-stepper
+      class="app-stepper"
+      [linear]="false"
+      labelPosition="bottom"
+      (selectionChange)="stepperSelectionChange($event)"
+      [orientation]="stepperOrientation"
+      #stepper
+    >
+      <mat-step
+        [label]="t('proponentInformation')"
+        [stepControl]="getFormGroup('proponentInformation')"
+        [errorMessage]="t('stepError')"
+      >
+        <!-- <drif-fp-step-1
+          [proponentInformationForm]="getFormGroup('proponentInformation')"
+        ></drif-fp-step-1> -->
+        <div class="drr-stepper-action">
+          <button
+            id="next1"
+            mat-flat-button
+            color="primary"
+            matStepperNext
+            type="button"
+          >
+            {{ t("next") }}
+          </button>
+        </div>
+      </mat-step>
+      <mat-step
+        [label]="t('proponentEligibility')"
+        [stepControl]="getFormGroup('proponentEligibility')"
+        [errorMessage]="t('stepError')"
+      >
+        <!-- <drif-fp-step-2
+          [projectInformationForm]="getFormGroup('projectInformation')"
+        ></drif-fp-step-2> -->
+        <div class="drr-stepper-actions">
+          <button mat-stroked-button color="primary" matStepperPrevious>
+            {{ t("back") }}
+          </button>
+          <button
+            id="next2"
+            mat-flat-button
+            color="primary"
+            matStepperNext
+            type="button"
+          >
+            {{ t("next") }}
+          </button>
+        </div>
+      </mat-step>
+      <mat-step
+        [label]="t('projectEligibility')"
+        [stepControl]="getFormGroup('projectEligibility')"
+        [errorMessage]="t('stepError')"
+      >
+        <!-- <drif-fp-step-3
+          [fundingInformationForm]="getFormGroup('fundingInformation')"
+        ></drif-fp-step-3> -->
+        <div class="drr-stepper-actions">
+          <button mat-stroked-button color="primary" matStepperPrevious>
+            {{ t("back") }}
+          </button>
+          <button
+            id="next3"
+            mat-flat-button
+            color="primary"
+            matStepperNext
+            type="button"
+          >
+            {{ t("next") }}
+          </button>
+        </div>
+      </mat-step>
+      <mat-step
+        [label]="t('projectDetails')"
+        [stepControl]="getFormGroup('projectDetails')"
+        [errorMessage]="t('stepError')"
+      >
+        <!-- <drif-fp-step-4
+          [locationInformationForm]="getFormGroup('locationInformation')"
+        ></drif-fp-step-4> -->
+        <div class="drr-stepper-actions">
+          <button mat-stroked-button color="primary" matStepperPrevious>
+            {{ t("back") }}
+          </button>
+          <button
+            id="next4"
+            mat-flat-button
+            color="primary"
+            matStepperNext
+            type="button"
+          >
+            {{ t("next") }}
+          </button>
+        </div>
+      </mat-step>
+      <mat-step
+        [label]="t('budget')"
+        [stepControl]="getFormGroup('budget')"
+        [errorMessage]="t('stepError')"
+      >
+        <!-- <drif-fp-step-5
+          [projectDetailsForm]="getFormGroup('projectDetails')"
+        ></drif-fp-step-5> -->
+        <div class="drr-stepper-actions">
+          <button mat-stroked-button color="primary" matStepperPrevious>
+            {{ t("back") }}
+          </button>
+          <button
+            id="next5"
+            mat-flat-button
+            color="primary"
+            matStepperNext
+            type="button"
+          >
+            {{ t("next") }}
+          </button>
+        </div>
+      </mat-step>
+      <mat-step
+        [label]="t('declaration')"
+        [stepControl]="getFormGroup('declaration')"
+        [errorMessage]="t('stepError')"
+      >
+        <!-- <drif-fp-step-6
+          [eoiApplicationForm]="eoiApplicationForm"
+        ></drif-fp-step-6> -->
+        <div class="drr-stepper-actions">
+          <button mat-stroked-button color="primary" matStepperPrevious>
+            {{ t("back") }}
+          </button>
+          <button
+            id="submit"
+            mat-flat-button
+            color="primary"
+            type="button"
+            (click)="submit()"
+          >
+            {{ t("submit") }}
+          </button>
+        </div>
+      </mat-step>
+    </mat-stepper>
+  </div>
+</ng-container>

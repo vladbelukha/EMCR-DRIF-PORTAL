@@ -1,6 +1,7 @@
 {
   "header": "Community Resilience and Adaptation Funding Tool",
-  "formHeader": "Expression of Interest",
+  "ioeFormHeader": "Expression of Interest",
+  "fpFormHeader": "Full Proposal",
   "proponentInformation": "Proponent Information",
   "projectInformation": "Project Information",
   "fundingInformation": "Funding Information",
@@ -9,6 +10,9 @@
   "engagementPlan": "Engagement Plan",
   "otherSupportingInformation": "Other Supporting Information",
   "declaration": "Declaration",
+  "proponentEligibility": "Proponent Eligibility",
+  "projectEligibility": "Project Eligibility",
+  "budget": "Budget",
   "stepError": "Missing fields",
   "next": "Next",
   "back": "Back",
@@ -148,5 +152,8 @@
   "withdraw": "Withdraw",
   "submissionDetails": "Submission Details for {{id}}",
   "noSubmissions": "You don't have any submissions yet.",
-  "startNewEOI": "Start New EOI"
+  "startNewEOI": "Start New EOI",
+  "proponentInstructions": "Proponent Instructions",
+  "proponentInstructionsText": "Proponent Instructions text goes here",
+  "continue": "Continue"
 }

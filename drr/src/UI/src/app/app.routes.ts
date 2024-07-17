@@ -3,6 +3,7 @@ import { AuthenticationGuard } from './core/guards/authentication.guard';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DrifSubmissionDetailsComponent } from './drif/drif-eoi-summary/drif-eoi-summary.component';
 import { EOIApplicationComponent } from './drif/drif-eoi/drif-eoi.component';
+import { DrifFpComponent } from './drif/drif-fp/drif-fp.component';
 import { SuccessPageComponent } from './success-page/success-page.component';
 
 export const routes: Routes = [
@@ -20,6 +21,18 @@ export const routes: Routes = [
       {
         path: ':id',
         component: EOIApplicationComponent,
+        canActivate: [AuthenticationGuard],
+      },
+    ],
+  },
+  {
+    path: 'drif-fp',
+    component: DrifFpComponent,
+    canActivate: [AuthenticationGuard],
+    children: [
+      {
+        path: ':id',
+        component: DrifFpComponent,
         canActivate: [AuthenticationGuard],
       },
     ],
