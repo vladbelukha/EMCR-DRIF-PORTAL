@@ -32,7 +32,7 @@ import { SummaryComponent } from '../summary/summary.component';
   templateUrl: './drif-eoi-step-8.component.html',
   styleUrl: './drif-eoi-step-8.component.scss',
 })
-export class Step8Component {
+export class DrifEoiStep8Component {
   drifAppService = inject(DrifapplicationService);
   profileStore = inject(ProfileStore);
 
