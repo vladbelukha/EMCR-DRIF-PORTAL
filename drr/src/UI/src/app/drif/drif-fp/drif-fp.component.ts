@@ -61,8 +61,6 @@ export class DrifFpComponent {
     return !!this.id;
   }
 
-  isInstructionAcknowledged = false;
-
   eoiApplicationForm = this.formBuilder.formGroup(
     DrifFpForm
   ) as IFormGroup<DrifFpForm>;
@@ -88,10 +86,6 @@ export class DrifFpComponent {
   save() {}
 
   submit() {}
-
-  acknowledgeInstructions() {
-    this.isInstructionAcknowledged = true;
-  }
 
   stepperSelectionChange(event: StepperSelectionEvent) {
     if (this.isEditMode) {

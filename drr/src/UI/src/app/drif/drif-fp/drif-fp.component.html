@@ -1,26 +1,5 @@
 <ng-container *transloco="let t">
-  <div
-    class="instructions-container"
-    *ngIf="!isEditMode && !isInstructionAcknowledged"
-  >
-    <h2>{{ t("proponentInstructions") }}</h2>
-    <p>{{ t("proponentInstructionsText") }}</p>
-
-    <div style="display: flex; justify-content: space-between">
-      <button mat-stroked-button color="primary" (click)="goBack()">
-        {{ t("back") }}
-      </button>
-      <button
-        mat-flat-button
-        color="primary"
-        (click)="acknowledgeInstructions()"
-      >
-        {{ t("continue") }}
-      </button>
-    </div>
-  </div>
-
-  <div *ngIf="isInstructionAcknowledged" class="app-stepper-container">
+  <div class="app-stepper-container">
     <div class="app-stepper-header">
       <h1>{{ t("fpFormHeader") }}</h1>
       <div>
