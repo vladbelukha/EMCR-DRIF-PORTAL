@@ -126,7 +126,6 @@ export class EOIApplicationComponent {
     return !!this.id;
   }
 
-  isAutoSaveOn = true;
   autoSaveTimer: any;
   autoSaveCountdown = 0;
   autoSaveInterval = 60;
@@ -138,10 +137,6 @@ export class EOIApplicationComponent {
   @HostListener('window:scroll')
   @HostListener('window:touchmove')
   resetAutoSaveTimer() {
-    if (!this.isAutoSaveOn) {
-      return;
-    }
-
     if (!this.formChanged) {
       this.autoSaveCountdown = 0;
       clearInterval(this.autoSaveTimer);

@@ -21,6 +21,7 @@ import {
   RxFormBuilder,
   RxFormGroup,
 } from '@rxweb/reactive-form-validators';
+import { DrifFpStep1Component } from '../drif-fp-step-1/drif-fp-step-1.component';
 import { DrifFpForm } from './drif-fp-form';
 
 @Component({
@@ -36,6 +37,7 @@ import { DrifFpForm } from './drif-fp-form';
     MatIconModule,
     TranslocoModule,
     LayoutModule,
+    DrifFpStep1Component,
   ],
   providers: [
     RxFormBuilder,
@@ -54,6 +56,12 @@ export class DrifFpComponent {
 
   stepperOrientation: StepperOrientation = 'vertical';
 
+  autoSaveTimer: any;
+  autoSaveCountdown = 0;
+  autoSaveInterval = 60;
+  lastSavedAt = new Date();
+  formChanged = false;
+
   @ViewChild(MatStepper) stepper!: MatStepper;
 
   id?: string;
@@ -61,9 +69,7 @@ export class DrifFpComponent {
     return !!this.id;
   }
 
-  eoiApplicationForm = this.formBuilder.formGroup(
-    DrifFpForm
-  ) as IFormGroup<DrifFpForm>;
+  drifFpForm = this.formBuilder.formGroup(DrifFpForm) as IFormGroup<DrifFpForm>;
 
   ngOnInit() {
     if (this.isEditMode) {
@@ -78,7 +84,7 @@ export class DrifFpComponent {
   }
 
   getFormGroup(groupName: string) {
-    return this.eoiApplicationForm?.get(groupName) as RxFormGroup;
+    return this.drifFpForm?.get(groupName) as RxFormGroup;
   }
 
   goBack() {}
