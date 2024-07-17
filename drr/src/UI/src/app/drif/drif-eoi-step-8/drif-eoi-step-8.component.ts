@@ -32,7 +32,7 @@ import { SummaryComponent } from '../summary/summary.component';
   templateUrl: './drif-eoi-step-8.component.html',
   styleUrl: './drif-eoi-step-8.component.scss',
 })
-export class Step8Component {
+export class DrifEoiStep8Component {
   drifAppService = inject(DrifapplicationService);
   profileStore = inject(ProfileStore);
 
@@ -81,25 +81,21 @@ export class Step8Component {
       submitterForm?.get('title')?.setValue(profileData.title(), {
         emitEvent: false,
       });
-      submitterForm?.get('title')?.disable();
     }
     if (profileData.department?.()) {
       submitterForm?.get('department')?.setValue(profileData.department(), {
         emitEvent: false,
       });
-      submitterForm?.get('department')?.disable();
     }
     if (profileData.phone?.()) {
       submitterForm?.get('phone')?.setValue(profileData.phone(), {
         emitEvent: false,
       });
-      submitterForm?.get('phone')?.disable();
     }
     if (profileData.email?.()) {
       submitterForm?.get('email')?.setValue(profileData.email(), {
         emitEvent: false,
       });
-      submitterForm?.get('email')?.disable();
     }
   }
 
