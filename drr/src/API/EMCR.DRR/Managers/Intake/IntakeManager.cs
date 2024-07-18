@@ -31,7 +31,6 @@ namespace EMCR.DRR.Managers.Intake
             return cmd switch
             {
                 DrifEoiApplicationCommand c => await Handle(c),
-                CheckProfileExists c => await Handle(c),
                 _ => throw new NotSupportedException($"{cmd.GetType().Name} is not supported")
             };
         }
@@ -56,13 +55,6 @@ namespace EMCR.DRR.Managers.Intake
         {
             var res = await applicationRepository.Query(new Resources.Applications.DeclarationQuery());
             return new DeclarationQueryResult { Items = mapper.Map<IEnumerable<DeclarationInfo>>(res.Items) };
-        }
-
-        public async Task<string> Handle(CheckProfileExists cmd)
-        {
-            var account = new Account { BCeIDBusinessId = cmd.BusinessId, Name = cmd.Name };
-            var res = (await accountRepository.Manage(new SaveAccountIfNotExists { Account = account })).Id;
-            return res;
         }
     }
 }

@@ -7,8 +7,9 @@ namespace EMCR.DRR.API.Model
     {
         Draft,
         UnderReview,
-        Approved,
         Ineligible,
+        EligiblePending,
+        EligibleInvited,
         Withdrawn
     }
 }

@@ -70,7 +70,9 @@ namespace EMCR.DRR.Managers.Intake
                 case ApplicationStatus.InReview:
                     return SubmissionPortalStatus.UnderReview;
                 case ApplicationStatus.Invited:
-                    return SubmissionPortalStatus.Approved;
+                    return SubmissionPortalStatus.EligibleInvited;
+                case ApplicationStatus.InPool:
+                    return SubmissionPortalStatus.EligiblePending;
                 case ApplicationStatus.Ineligible:
                     return SubmissionPortalStatus.Ineligible;
                 case ApplicationStatus.Withdrawn:
@@ -88,8 +90,10 @@ namespace EMCR.DRR.Managers.Intake
                     return ApplicationStatus.DraftProponent;
                 case SubmissionPortalStatus.UnderReview:
                     return ApplicationStatus.Submitted;
-                case SubmissionPortalStatus.Approved:
+                case SubmissionPortalStatus.EligibleInvited:
                     return ApplicationStatus.Invited;
+                case SubmissionPortalStatus.EligiblePending:
+                    return ApplicationStatus.InPool;
                 case SubmissionPortalStatus.Ineligible:
                     return ApplicationStatus.Ineligible;
                 case SubmissionPortalStatus.Withdrawn:
