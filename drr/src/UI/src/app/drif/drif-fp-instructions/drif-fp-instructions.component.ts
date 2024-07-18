@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
 
 @Component({
@@ -13,6 +13,16 @@ import { TranslocoModule } from '@ngneat/transloco';
 })
 export class DrifFpInstructionsComponent {
   router = inject(Router);
+  route = inject(ActivatedRoute);
+
+  id?: string;
+  fundingStream?: string;
+
+  ngOnInit() {
+    // get ID from route and funding stream from query params
+    this.id = this.route.snapshot.params['id'];
+    this.fundingStream = this.route.snapshot.queryParams['fundingStream'];
+  }
 
   goBack() {
     this.router.navigate(['/dashboard']);

@@ -8,7 +8,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Router, RouterModule } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
 import { DrifapplicationService } from '../../../api/drifapplication/drifapplication.service';
-import { Submission } from '../../../model';
+import { FundingStream, Submission } from '../../../model';
 
 @Component({
   selector: 'drr-submission-list',
@@ -87,5 +87,18 @@ export class SubmissionListComponent {
       submission.status == 'Draft' ? '/drif-eoi' : '/submission-details',
       submission.id,
     ]);
+  }
+
+  createFullProposal(submission: Submission, event: Event) {
+    event.preventDefault();
+
+    // TODO: remove after API integration
+    submission.fundingStream = FundingStream.Stream2;
+
+    this.router.navigate(['/drif-fp-instructions', submission.id], {
+      queryParams: {
+        fundingStream: submission.fundingStream,
+      },
+    });
   }
 }

@@ -1,7 +1,7 @@
 {
   "header": "Community Resilience and Adaptation Funding Tool",
-  "ioeFormHeader": "Expression of Interest",
-  "fpFormHeader": "Full Proposal",
+  "eoiFormHeader": "DRIF Expression of Interest",
+  "fpFormHeader": "DRIF Full Proposal",
   "proponentInformation": "Proponent Information",
   "projectInformation": "Project Information",
   "fundingInformation": "Funding Information",
@@ -16,6 +16,7 @@
   "stepError": "Missing fields",
   "next": "Next",
   "back": "Back",
+  "cancel": "Cancel",
   "submit": "Submit",
   "proponentType": "Primary Proponent",
   "FirstNation": "First Nation",
@@ -154,6 +155,6 @@
   "noSubmissions": "You don't have any submissions yet.",
   "startNewEOI": "Start New EOI",
   "proponentInstructions": "Proponent Instructions",
-  "proponentInstructionsText": "Complete all mandatory sections of the full proposal form with details of your proposed project before submitting to the Disaster Mitigation and Adaptation Programs (DMAP) team at the Ministry of Emergency Management and Climate Readiness (EMCR).\n\nFields marked with an asterisk (*) are mandatory. The following documents must be submitted as part of this full proposal: 1. Detailed project workplan 2. Project schedule (unless included in workplan) 3. Detailed cost estimate 4. Site plan (not required for Stream 1: Foundational and Non-Structural Projects) A preliminary design must be submitted if applicable. A Council Resolution and/or a Band Council Resolution from all proponents, or the appropriate authorization/endorsement as determined by the eligible First Nations proponent’s governance structure must be submitted as part of this full proposal if available or later via email to abc@xyz.com when available. The EMCR DMAP team may request additional information, including engagement with local First Nations before the project begins (see Section 5.5 of DRIF Program Guide). Projects may require permits or approvals from local, regional, or provincial government agencies. It is the proponent’s responsibility to ensure that any approvals and permits are identified and/or obtained. The Province may request documentation of permits or approvals.",
-  "continue": "Continue"
+  "continue": "Continue",
+  "createFP": "Create Full Proposal"
 }

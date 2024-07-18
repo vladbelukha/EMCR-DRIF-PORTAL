@@ -27,7 +27,7 @@ export const routes: Routes = [
     ],
   },
   {
-    path: 'drif-fp-instructions',
+    path: 'drif-fp-instructions/:id',
     component: DrifFpInstructionsComponent,
     canActivate: [AuthenticationGuard],
   },

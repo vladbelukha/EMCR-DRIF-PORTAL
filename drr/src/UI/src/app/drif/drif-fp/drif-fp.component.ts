@@ -14,6 +14,7 @@ import {
   MatStepperModule,
   StepperOrientation,
 } from '@angular/material/stepper';
+import { Router } from '@angular/router';
 import { HotToastService } from '@ngneat/hot-toast';
 import { TranslocoModule } from '@ngneat/transloco';
 import {
@@ -53,13 +54,14 @@ import { DrifFpForm } from './drif-fp-form';
 export class DrifFpComponent {
   formBuilder = inject(RxFormBuilder);
   breakpointObserver = inject(BreakpointObserver);
+  router = inject(Router);
 
   stepperOrientation: StepperOrientation = 'vertical';
 
   autoSaveTimer: any;
   autoSaveCountdown = 0;
   autoSaveInterval = 60;
-  lastSavedAt = new Date();
+  lastSavedAt?: Date;
   formChanged = false;
 
   @ViewChild(MatStepper) stepper!: MatStepper;
@@ -87,7 +89,9 @@ export class DrifFpComponent {
     return this.drifFpForm?.get(groupName) as RxFormGroup;
   }
 
-  goBack() {}
+  goBack() {
+    this.router.navigate(['/dashboard']);
+  }
 
   save() {}
 
