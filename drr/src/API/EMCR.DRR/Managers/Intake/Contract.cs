@@ -53,12 +53,6 @@ namespace EMCR.DRR.Managers.Intake
         public UserInfo UserInfo { get; set; }
     }
 
-    public class CheckProfileExists : IntakeCommand
-    {
-        public required string Name { get; set; } = null!;
-        public required string BusinessId { get; set; }
-    }
-
     public class Application
     {
         public string? Id { get; set; }

@@ -84,7 +84,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
 
         [Test]
-        public async Task SubmitMultipleApplications_SameSubmitter_OnlyOneSubmitterContactCreated()
+        public async Task SubmitMultipleApplications_SameSubmitter_MultipleSubmitterContactCreated()
         {
             var uniqueSignature = TestPrefix + "-" + Guid.NewGuid().ToString().Substring(0, 4);
             var application = CreateNewTestEOIApplication();
@@ -94,9 +94,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
 
             var secondApplication = CreateNewTestEOIApplication();
             secondApplication.ProjectTitle = "Second Submission";
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-            secondApplication.Submitter.FirstName = $"{uniqueSignature}_submitter_first_update";
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
+            secondApplication.Submitter = application.Submitter;
             var secondId = await manager.Handle(new DrifEoiApplicationCommand { application = mapper.Map<EoiApplication>(secondApplication), UserInfo = GetTestUserInfo() });
             secondId.ShouldNotBeEmpty();
 
@@ -105,8 +103,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             var ctx = drrCtxFactory.CreateReadOnly();
 
             var submitters = ctx.contacts.Where(c => c.drr_userid == TestUserId).ToList();
-            submitters.ShouldHaveSingleItem();
-            submitters.First().firstname.ShouldContain("update");
+            submitters.Count.ShouldBeGreaterThan(1);
         }
 
         private DraftEoiApplication CreateNewTestEOIApplication()

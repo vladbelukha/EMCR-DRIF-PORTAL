@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
 using System.Text.Json;
 using BCeIDService;
+using EMCR.DRR.API.Resources.Accounts;
 using EMCR.Utilities;
 using Microsoft.Extensions.Caching.Distributed;
 
@@ -16,7 +17,7 @@ public interface IUserService
     Task<AccountDetails> GetAccountDetails(ClaimsPrincipal sourcePrincipal);
 }
 
-public class UserService(IDistributedCache cache, IHttpContextAccessor httpContext, IConfiguration configuration) : IUserService
+public class UserService(IDistributedCache cache, IHttpContextAccessor httpContext, IConfiguration configuration, IAccountRepository accountRepository) : IUserService
 {
     private ClaimsPrincipal? currentPrincipal => httpContext.HttpContext?.User;
     private static string GetCurrentBusinessName(ClaimsPrincipal principal) => principal.FindFirstValue("bceid_business_name");
@@ -59,6 +60,16 @@ public class UserService(IDistributedCache cache, IHttpContextAccessor httpConte
             userGuid = userId,
             accountTypeCode = BCeIDAccountTypeCode.Business,
         });
+
+        //Ensure an account exists in CRM for this business id
+        var businessId = GetCurrentBusinessId(sourcePrincipal);
+        var cacheKey = $"account:{businessId}";
+        var didCheck = await cache.Get<bool>(cacheKey);
+        if (!didCheck)
+        {
+            await cache.Set<bool>(cacheKey, true, TimeSpan.FromMinutes(10));
+            await accountRepository.Manage(new SaveAccountIfNotExists { Account = new Account { BCeIDBusinessId = GetCurrentBusinessId(sourcePrincipal), Name = GetCurrentBusinessName(sourcePrincipal) } });
+        }
 
         return new AccountDetails
         {
