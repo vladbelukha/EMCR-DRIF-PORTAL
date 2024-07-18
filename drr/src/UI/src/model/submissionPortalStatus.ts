@@ -12,7 +12,8 @@ export type SubmissionPortalStatus = typeof SubmissionPortalStatus[keyof typeof 
 export const SubmissionPortalStatus = {
   Draft: 'Draft',
   UnderReview: 'UnderReview',
-  Approved: 'Approved',
   Ineligible: 'Ineligible',
+  EligiblePending: 'EligiblePending',
+  EligibleInvited: 'EligibleInvited',
   Withdrawn: 'Withdrawn',
 } as const;

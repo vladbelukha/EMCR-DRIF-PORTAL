@@ -41,7 +41,9 @@ namespace EMCR.DRR.API.Mappers
                 case Managers.Intake.ApplicationStatus.InReview:
                     return SubmissionPortalStatus.UnderReview;
                 case Managers.Intake.ApplicationStatus.Invited:
-                    return SubmissionPortalStatus.Approved;
+                    return SubmissionPortalStatus.EligibleInvited;
+                case Managers.Intake.ApplicationStatus.InPool:
+                    return SubmissionPortalStatus.EligiblePending;
                 case Managers.Intake.ApplicationStatus.Ineligible:
                     return SubmissionPortalStatus.Ineligible;
                 case Managers.Intake.ApplicationStatus.Withdrawn:
