@@ -151,14 +151,12 @@ namespace EMCR.DRR.Resources.Applications
             primaryProponent = await CheckForExistingProponent(ctx, primaryProponent, application);
 
             var submitter = drrApplication.drr_SubmitterContact;
-            submitter = await CheckForExistingSubmitter(ctx, submitter, application);
-
             var primaryProjectContact = drrApplication.drr_PrimaryProjectContact;
             var additionalContact1 = drrApplication.drr_AdditionalContact1;
             var additionalContact2 = drrApplication.drr_AdditionalContact2;
 
             AssignPrimaryProponent(ctx, drrApplication, primaryProponent);
-            if (submitter != null) AssignSubmitter(ctx, drrApplication, submitter);
+            if (submitter != null) AddSubmitter(ctx, drrApplication, submitter);
             if (primaryProjectContact != null) AddPrimaryProjectContact(ctx, drrApplication, primaryProjectContact);
             if (additionalContact1 != null) AddAdditionalContact1(ctx, drrApplication, additionalContact1);
             if (additionalContact2 != null) AddAdditionalContact2(ctx, drrApplication, additionalContact2);
@@ -202,26 +200,6 @@ namespace EMCR.DRR.Resources.Applications
             return proponent;
         }
 
-        private async Task<contact> CheckForExistingSubmitter(DRRContext ctx, contact submitter, Application application)
-        {
-            if (application.Submitter != null)
-            {
-                var existingSubmitter = string.IsNullOrEmpty(application.Submitter.BCeId) ? null : await ctx.contacts.Where(c => c.drr_userid == application.Submitter.BCeId).SingleOrDefaultAsync();
-                if (existingSubmitter == null)
-                {
-                    ctx.AddTocontacts(submitter);
-                }
-                else
-                {
-                    submitter.contactid = existingSubmitter.contactid;
-                    ctx.Detach(existingSubmitter);
-                    ctx.AttachTo(nameof(DRRContext.contacts), submitter);
-                    ctx.UpdateObject(submitter);
-                }
-            }
-            return submitter;
-        }
-
         private static async Task SetDeclarations(DRRContext drrContext, drr_application application)
         {
             var accuracyDeclaration = (await drrContext.drr_legaldeclarations.Where(d => d.statecode == (int)EntityState.Active && d.drr_declarationtype == (int)DeclarationTypeOptionSet.AccuracyOfInformation).GetAllPagesAsync()).FirstOrDefault();
@@ -243,8 +221,9 @@ namespace EMCR.DRR.Resources.Applications
             drrContext.AddLink(primaryProponent, nameof(primaryProponent.drr_account_drr_application_PrimaryProponentName), application);
         }
 
-        private static void AssignSubmitter(DRRContext drrContext, drr_application application, contact submitter)
+        private static void AddSubmitter(DRRContext drrContext, drr_application application, contact submitter)
         {
+            drrContext.AddTocontacts(submitter);
             drrContext.AddLink(submitter, nameof(submitter.drr_contact_drr_application_SubmitterContact), application);
         }
 
