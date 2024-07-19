@@ -32,16 +32,9 @@ export const routes: Routes = [
     canActivate: [AuthenticationGuard],
   },
   {
-    path: 'drif-fp',
+    path: 'drif-fp/:id',
     component: DrifFpComponent,
     canActivate: [AuthenticationGuard],
-    children: [
-      {
-        path: ':id',
-        component: DrifFpComponent,
-        canActivate: [AuthenticationGuard],
-      },
-    ],
   },
   {
     path: 'submission-details/:id',

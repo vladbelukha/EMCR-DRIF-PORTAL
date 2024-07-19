@@ -30,6 +30,6 @@ export class DrifFpInstructionsComponent {
 
   continue() {
     // make a call
-    this.router.navigate(['/drif-fp']);
+    this.router.navigate(['/drif-fp', 'DRIF-FP-1111']);
   }
 }

@@ -23,6 +23,7 @@
   "LocalGovernment": "Local Government",
   "RegionalDistrict": "Regional District",
   "proponentName": "Primary Proponent Name",
+  "proponentLabel": "Primary Proponent",
   "proponentNameText": "Name of Community",
   "partneringProponentNameText": "Partnering First Nation, Municipality, or Regional District",
   "partneringProponent": "Partnering Proponent",
@@ -98,7 +99,9 @@
   "required": "Required",
   "fundingStream": "Funding Stream",
   "Stream1": "Stream 1: Foundational and Non-Structural (up to $400,000 per proponent)",
+  "shortStream1": "Stream 1",
   "Stream2": "Stream 2: Structural (up to $5M per proponent, maximum $15M)",
+  "shortStream2": "Stream 2",
   "Fed": "Federal",
   "Prov": "Provincial",
   "FedProv": "Federal/Provincial",
@@ -114,6 +117,7 @@
   "Tsunami": "Tsunami",
   "New": "New Project",
   "Existing": "New Phase of Existing Project",
+  "shortExisting": "New Phase",
   "scopeStatement": "Summarized Scope Statement",
   "maxValueError": "Cost must be less than {{max}}",
   "minValueError": "Cost must be greater than {{min}}",
@@ -157,5 +161,6 @@
   "startNewEOI": "Start New EOI",
   "proponentInstructions": "Proponent Instructions",
   "continue": "Continue",
-  "createFP": "Create Full Proposal"
+  "createFP": "Create Full Proposal",
+  "relatedEOI": "Related EOI"
 }

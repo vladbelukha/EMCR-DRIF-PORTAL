@@ -14,7 +14,7 @@ import {
   MatStepperModule,
   StepperOrientation,
 } from '@angular/material/stepper';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HotToastService } from '@ngneat/hot-toast';
 import { TranslocoModule } from '@ngneat/transloco';
 import {
@@ -55,6 +55,7 @@ export class DrifFpComponent {
   formBuilder = inject(RxFormBuilder);
   breakpointObserver = inject(BreakpointObserver);
   router = inject(Router);
+  route = inject(ActivatedRoute);
 
   stepperOrientation: StepperOrientation = 'vertical';
 
@@ -74,8 +75,10 @@ export class DrifFpComponent {
   drifFpForm = this.formBuilder.formGroup(DrifFpForm) as IFormGroup<DrifFpForm>;
 
   ngOnInit() {
+    this.id = this.route.snapshot.params['id'];
+
     if (this.isEditMode) {
-      // this.load();
+      this.load();
     }
 
     this.breakpointObserver
@@ -85,8 +88,68 @@ export class DrifFpComponent {
       });
   }
 
+  load() {
+    const formData: DrifFpForm = {
+      eoiId: 'DRIF-EOI-1111',
+      fundingStream: 'Stream1',
+      projectType: 'Existing',
+      proponentInformation: {
+        proponentType: 'FirstNation',
+        projectContact: {
+          firstName: 'Jane',
+          lastName: 'Doe',
+          email: 'asd@.asda.asd',
+          phone: '123-456-7890',
+          department: 'IT',
+          title: 'Ms.',
+        },
+        additionalContacts: [
+          {
+            firstName: 'John1',
+            lastName: 'Doe1',
+            email: 'jd1@exmapl.as',
+            phone: '123-456-7890',
+            department: 'IT1',
+            title: 'Mr.1',
+          },
+          {
+            firstName: 'John2',
+            lastName: 'Doe2',
+            email: 'jd2@exmapl.as',
+            phone: '123-456-7890',
+            department: 'IT2',
+            title: 'Mr.2',
+          },
+        ],
+      },
+    };
+
+    this.drifFpForm.patchValue(formData, { emitEvent: false });
+  }
+
   getFormGroup(groupName: string) {
     return this.drifFpForm?.get(groupName) as RxFormGroup;
+  }
+
+  getFundingStream() {
+    return this.drifFpForm?.get('fundingStream')?.value == 'Stream1'
+      ? 'shortStream1'
+      : 'shortStream2';
+  }
+
+  getPrimaryProponent() {
+    return this.drifFpForm?.get('proponentInformation')?.get('proponentName')
+      ?.value;
+  }
+
+  getProjectType() {
+    return this.drifFpForm?.get('projectType')?.value == 'Existing'
+      ? 'shortExisting'
+      : 'new';
+  }
+
+  getRelatedEOI() {
+    return this.drifFpForm?.get('eoiId')?.value;
   }
 
   goBack() {

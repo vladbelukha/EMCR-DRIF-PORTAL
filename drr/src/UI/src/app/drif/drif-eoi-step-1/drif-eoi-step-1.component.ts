@@ -55,6 +55,9 @@ export class DrifEoiStep1Component {
   @Input()
   proponentInformationForm!: IFormGroup<ProponentInformationForm>;
 
+  @Input()
+  showProponentName = true;
+
   ngOnInit() {
     this.proponentInformationForm
       ?.get('proponentName')

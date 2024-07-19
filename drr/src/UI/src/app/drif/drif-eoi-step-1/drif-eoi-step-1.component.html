@@ -24,8 +24,11 @@
         t("RegionalDistrict")
       }}</mat-radio-button>
     </mat-radio-group>
-    <mat-label class="drr-label">{{ t("proponentName") }}</mat-label>
+    <mat-label *ngIf="showProponentName" class="drr-label">{{
+      t("proponentName")
+    }}</mat-label>
     <drr-input
+      *ngIf="showProponentName"
       class="drr-single-input"
       [id]="'proponentName'"
       [label]="t('proponentNameText')"

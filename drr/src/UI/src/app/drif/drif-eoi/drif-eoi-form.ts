@@ -331,4 +331,6 @@ export class EOIApplicationForm {
 
   @propObject(DeclarationForm)
   declaration?: DeclarationForm = new DeclarationForm({});
+
+  // TODO: have a factory method to create a new instance of this form
 }
