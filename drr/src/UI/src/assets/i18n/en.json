@@ -162,5 +162,17 @@
   "proponentInstructions": "Proponent Instructions",
   "continue": "Continue",
   "createFP": "Create Full Proposal",
-  "relatedEOI": "Related EOI"
+  "relatedEOI": "Related EOI",
+  "regionalProject": "Regional Project",
+  "regionalProjectText": "Eligible Proponents may partner together to develop a regional proposal. Regional proposals may be eligible for additional funding based on the number of Proponents.",
+  "regionalProjectQuestion": "Is this a regional project?",
+  "regionalProjectComments": "If yes, please provide comments",
+  "authorityAndOwnership": "Authority and Ownership",
+  "authorityAndOwnershipQuestion": "Is the proponent a First Nation/local government/regional district in British Columbia who has the authority and ownership to develop, implement, maintain and operate the proposed project?",
+  "authorityAndOwnershipComments": "Comments",
+  "operationAndMaintenance": "Operation and Maintenance",
+  "operationAndMaintenanceQuestion": "Will the proponent own and be able to operate and maintain the resulting infrastructure (if applicable) over the long term?",
+  "operationAndMaintenanceComments": "Comments",
+  "supportingDocumentation": "Supporting Documentation",
+  "supportingDocumentationOptionalText": "Attach supporting documentation (optional)"
 }
