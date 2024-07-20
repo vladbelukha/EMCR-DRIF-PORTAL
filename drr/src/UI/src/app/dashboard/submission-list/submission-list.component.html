@@ -82,6 +82,14 @@
           >
             {{ t("edit") }}
           </button>
+          <button
+            *ngIf="element.status === 'EligibleInvited'"
+            mat-raised-button
+            color="accent"
+            (click)="createFullProposal(element, $event)"
+          >
+            {{ t("createFP") }}
+          </button>
           <!-- <button mat-raised-button color="warn">{{ t("delete") }}</button>
         <button mat-raised-button color="accent">{{ t("withdraw") }}</button> -->
         </td>

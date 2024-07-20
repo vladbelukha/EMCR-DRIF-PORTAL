@@ -1,0 +1,95 @@
+<div class="drr-step-container" *transloco="let t">
+  <form [formGroup]="proponentEligibilityForm">
+    <mat-label class="drr-label">{{ t("regionalProject") }}</mat-label>
+    <mat-label>{{ t("regionalProjectText") }}</mat-label>
+    <mat-label style="margin-top: 10px"
+      >{{ t("regionalProjectQuestion") }}*</mat-label
+    >
+    <mat-radio-group
+      id="regionalProject"
+      class="drr-radio-group"
+      style="margin-bottom: 10px"
+      aria-label="Select an option"
+      formControlName="regionalProject"
+    >
+      <mat-error
+        *ngIf="
+          proponentEligibilityForm.get('regionalProject')?.touched &&
+          proponentEligibilityForm.get('regionalProject')?.hasError('required')
+        "
+        >{{ t("required") }}</mat-error
+      >
+      <mat-radio-button [value]="true">Yes</mat-radio-button>
+      <mat-radio-button [value]="false">No</mat-radio-button>
+    </mat-radio-group>
+
+    <drr-textarea
+      [id]="'regionalProjectComments'"
+      [label]="t('regionalProjectComments')"
+      [maxlength]="2000"
+      [rxFormControl]="proponentEligibilityForm.get('regionalProjectComments')"
+    ></drr-textarea>
+
+    <mat-label class="drr-label">{{ t("authorityAndOwnership") }}</mat-label>
+    <mat-label>{{ t("authorityAndOwnershipQuestion") }}*</mat-label>
+    <mat-radio-group
+      id="authorityAndOwnership"
+      class="drr-radio-group"
+      style="margin-bottom: 10px"
+      aria-label="Select an option"
+      formControlName="authorityAndOwnership"
+    >
+      <mat-error
+        *ngIf="
+          proponentEligibilityForm.get('authorityAndOwnership')?.touched &&
+          proponentEligibilityForm
+            .get('authorityAndOwnership')
+            ?.hasError('required')
+        "
+        >{{ t("required") }}</mat-error
+      >
+      <mat-radio-button [value]="true">Yes</mat-radio-button>
+      <mat-radio-button [value]="false">No</mat-radio-button>
+    </mat-radio-group>
+
+    <drr-textarea
+      [id]="'authorityAndOwnershipComments'"
+      [label]="t('authorityAndOwnershipComments')"
+      [maxlength]="2000"
+      [rxFormControl]="
+        proponentEligibilityForm.get('authorityAndOwnershipComments')
+      "
+    ></drr-textarea>
+
+    <mat-label class="drr-label">{{ t("operationAndMaintenance") }}</mat-label>
+    <mat-label>{{ t("operationAndMaintenanceQuestion") }}*</mat-label>
+    <mat-radio-group
+      id="operationAndMaintenance"
+      class="drr-radio-group"
+      style="margin-bottom: 10px"
+      aria-label="Select an option"
+      formControlName="operationAndMaintenance"
+    >
+      <mat-error
+        *ngIf="
+          proponentEligibilityForm.get('operationAndMaintenance')?.touched &&
+          proponentEligibilityForm
+            .get('operationAndMaintenance')
+            ?.hasError('required')
+        "
+        >{{ t("required") }}</mat-error
+      >
+      <mat-radio-button [value]="true">Yes</mat-radio-button>
+      <mat-radio-button [value]="false">No</mat-radio-button>
+    </mat-radio-group>
+
+    <drr-textarea
+      [id]="'operationAndMaintenanceComments'"
+      [label]="t('operationAndMaintenanceComments')"
+      [maxlength]="2000"
+      [rxFormControl]="
+        proponentEligibilityForm.get('operationAndMaintenanceComments')
+      "
+    ></drr-textarea>
+  </form>
+</div>

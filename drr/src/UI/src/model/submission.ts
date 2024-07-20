@@ -4,6 +4,7 @@
  * DRR API
  * OpenAPI spec version: 1.0.0
  */
+import { FundingStream } from './fundingStream';
 import type { SubmissionPortalStatus } from './submissionPortalStatus';
 
 export interface Submission {
@@ -14,4 +15,5 @@ export interface Submission {
   projectTitle?: string;
   status?: SubmissionPortalStatus;
   submittedDate?: string;
+  fundingStream?: FundingStream;
 }
