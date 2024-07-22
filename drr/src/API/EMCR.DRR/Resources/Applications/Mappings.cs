@@ -57,6 +57,8 @@ namespace EMCR.DRR.Resources.Applications
                 .ValidateMemberList(MemberList.Destination)
                 //These are incomplete - but they've really just been for testing...
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.drr_name))
+                .ForMember(dest => dest.ApplicationTypeName, opt => opt.MapFrom(src => src.drr_ApplicationType.drr_name))
+                .ForMember(dest => dest.ProgramName, opt => opt.MapFrom(src => src.drr_Program.drr_name))
                 .ForMember(dest => dest.ProponentType, opt => opt.MapFrom(src => src.drr_primaryproponent.HasValue ? (int?)Enum.Parse<ProponentType>(((ApplicantTypeOptionSet)src.drr_primaryproponent).ToString()) : null))
                 .ForMember(dest => dest.ProponentName, opt => opt.MapFrom(src => src.drr_Primary_Proponent_Name.name))
                 .ForMember(dest => dest.BCeIDBusinessId, opt => opt.MapFrom(src => src.drr_Primary_Proponent_Name.drr_bceidguid))

@@ -30,7 +30,7 @@ namespace EMCR.DRR.Managers.Intake
         {
             return cmd switch
             {
-                DrifEoiApplicationCommand c => await Handle(c),
+                EoiApplicationCommand c => await Handle(c),
                 _ => throw new NotSupportedException($"{cmd.GetType().Name} is not supported")
             };
         }
@@ -41,7 +41,7 @@ namespace EMCR.DRR.Managers.Intake
             return new IntakeQueryResponse { Items = mapper.Map<IEnumerable<Application>>(res.Items) };
         }
 
-        public async Task<string> Handle(DrifEoiApplicationCommand cmd)
+        public async Task<string> Handle(EoiApplicationCommand cmd)
         {
             var application = mapper.Map<Application>(cmd.application);
             application.BCeIDBusinessId = cmd.UserInfo.BusinessId;

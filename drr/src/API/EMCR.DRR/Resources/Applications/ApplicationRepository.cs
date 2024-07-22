@@ -162,8 +162,8 @@ namespace EMCR.DRR.Resources.Applications
             if (additionalContact2 != null) AddAdditionalContact2(ctx, drrApplication, additionalContact2);
             AddFundinSources(ctx, drrApplication);
             AddInfrastructureImpacted(ctx, drrApplication);
-            SetApplicationType(ctx, drrApplication, "EOI");
-            SetProgram(ctx, drrApplication, "DRIF");
+            SetApplicationType(ctx, drrApplication, application.ApplicationTypeName);
+            SetProgram(ctx, drrApplication, application.ProgramName);
             await SetDeclarations(ctx, drrApplication);
 
             var partnerAccounts = mapper.Map<IEnumerable<account>>(application.PartneringProponents);
@@ -316,6 +316,8 @@ namespace EMCR.DRR.Resources.Applications
             {
                 loadTasks = loadTasks.Concat(new List<Task>
                 {
+                    ctx.LoadPropertyAsync(application, nameof(drr_application.drr_ApplicationType), ct),
+                    ctx.LoadPropertyAsync(application, nameof(drr_application.drr_Program), ct),
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_Primary_Proponent_Name), ct),
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_SubmitterContact), ct),
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_PrimaryProjectContact), ct),

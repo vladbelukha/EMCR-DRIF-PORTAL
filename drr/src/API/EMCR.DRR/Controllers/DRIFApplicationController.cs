@@ -69,7 +69,7 @@ namespace EMCR.DRR.Controllers
             application.Status = SubmissionPortalStatus.Draft;
             application.AdditionalContacts = MapAdditionalContacts(application);
 
-            var id = await intakeManager.Handle(new DrifEoiApplicationCommand { application = mapper.Map<EoiApplication>(application), UserInfo = GetCurrentUser() });
+            var id = await intakeManager.Handle(new EoiApplicationCommand { application = mapper.Map<EoiApplication>(application), UserInfo = GetCurrentUser() });
             return Ok(new ApplicationResult { Id = id });
         }
 
@@ -80,7 +80,7 @@ namespace EMCR.DRR.Controllers
             application.Status = SubmissionPortalStatus.Draft;
             application.AdditionalContacts = MapAdditionalContacts(application);
 
-            var drr_id = await intakeManager.Handle(new DrifEoiApplicationCommand { application = mapper.Map<EoiApplication>(application), UserInfo = GetCurrentUser() });
+            var drr_id = await intakeManager.Handle(new EoiApplicationCommand { application = mapper.Map<EoiApplication>(application), UserInfo = GetCurrentUser() });
             return Ok(new ApplicationResult { Id = drr_id });
         }
 
@@ -90,7 +90,7 @@ namespace EMCR.DRR.Controllers
             application.Status = SubmissionPortalStatus.UnderReview;
             application.AdditionalContacts = MapAdditionalContacts(application);
 
-            var drr_id = await intakeManager.Handle(new DrifEoiApplicationCommand { application = application, UserInfo = GetCurrentUser() });
+            var drr_id = await intakeManager.Handle(new EoiApplicationCommand { application = application, UserInfo = GetCurrentUser() });
             return Ok(new ApplicationResult { Id = drr_id });
         }
 
@@ -101,12 +101,62 @@ namespace EMCR.DRR.Controllers
             application.Status = SubmissionPortalStatus.UnderReview;
             application.AdditionalContacts = MapAdditionalContacts(application);
 
-            var drr_id = await intakeManager.Handle(new DrifEoiApplicationCommand { application = application, UserInfo = GetCurrentUser() });
+            var drr_id = await intakeManager.Handle(new EoiApplicationCommand { application = application, UserInfo = GetCurrentUser() });
             return Ok(new ApplicationResult { Id = drr_id });
         }
 
+        [HttpPost("FP")]
+        public async Task<ActionResult<ApplicationResult>> CreateFPApplication(DraftFpApplication application)
+        {
+            //application.Status = SubmissionPortalStatus.Draft;
+            //application.AdditionalContacts = MapAdditionalContacts(application);
+
+            //var id = await intakeManager.Handle(new DrifFpApplicationCommand { application = mapper.Map<FpApplication>(application), UserInfo = GetCurrentUser() });
+            //return Ok(new ApplicationResult { Id = id });
+            await Task.CompletedTask;
+            return Ok(new ApplicationResult { Id = "DRIF-FP-1000" });
+        }
+
+        [HttpPost("FP/{id}")]
+        public async Task<ActionResult<ApplicationResult>> UpdateFPApplication([FromBody] DraftFpApplication application, string id)
+        {
+            //application.Id = id;
+            //application.Status = SubmissionPortalStatus.Draft;
+            //application.AdditionalContacts = MapAdditionalContacts(application);
+
+            //var drr_id = await intakeManager.Handle(new DrifFpApplicationCommand { application = mapper.Map<FpApplication>(application), UserInfo = GetCurrentUser() });
+            //return Ok(new ApplicationResult { Id = drr_id });
+            await Task.CompletedTask;
+            return Ok(new ApplicationResult { Id = "DRIF-FP-1000" });
+        }
+
+        [HttpPost("FP/submit")]
+        public async Task<ActionResult<ApplicationResult>> SubmitFPApplication([FromBody] FpApplication application)
+        {
+            //application.Status = SubmissionPortalStatus.UnderReview;
+            //application.AdditionalContacts = MapAdditionalContacts(application);
+
+            //var drr_id = await intakeManager.Handle(new DrifFpApplicationCommand { application = application, UserInfo = GetCurrentUser() });
+            //return Ok(new ApplicationResult { Id = drr_id });
+            await Task.CompletedTask;
+            return Ok(new ApplicationResult { Id = "DRIF-FP-1000" });
+        }
+
+        [HttpPost("FP/{id}/submit")]
+        public async Task<ActionResult<ApplicationResult>> SubmitFPApplication([FromBody] FpApplication application, string id)
+        {
+            //application.Id = id;
+            //application.Status = SubmissionPortalStatus.UnderReview;
+            //application.AdditionalContacts = MapAdditionalContacts(application);
+
+            //var drr_id = await intakeManager.Handle(new DrifFpApplicationCommand { application = application, UserInfo = GetCurrentUser() });
+            //return Ok(new ApplicationResult { Id = drr_id });
+            await Task.CompletedTask;
+            return Ok(new ApplicationResult { Id = "DRIF-FP-1000" });
+        }
+
         //Prevent empty additional contact 1, but populated additional contact 2
-        private IEnumerable<ContactDetails> MapAdditionalContacts(DraftEoiApplication application)
+        private IEnumerable<ContactDetails> MapAdditionalContacts(DraftApplication application)
         {
             var additionalContact1 = application.AdditionalContacts.FirstOrDefault();
             var additionalContact2 = application.AdditionalContacts.ElementAtOrDefault(1);
@@ -155,7 +205,7 @@ namespace EMCR.DRR.Controllers
     }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-    public class DraftEoiApplication
+    public class DraftApplication
     {
         public string? Id { get; set; }
         public SubmissionPortalStatus? Status { get; set; }
@@ -214,12 +264,27 @@ namespace EMCR.DRR.Controllers
         public string? OtherInformation { get; set; }
     }
 
+    public class DraftEoiApplication : DraftApplication
+    {
+        
+    }
+
     public class EoiApplication : DraftEoiApplication
     {
         //Declaration
         public bool? AuthorizedRepresentativeStatement { get; set; }
         public bool? FOIPPAConfirmation { get; set; }
         public bool? InformationAccuracyStatement { get; set; }
+    }
+
+    public class DraftFpApplication : DraftApplication
+    {
+
+    }
+
+    public class FpApplication : DraftFpApplication
+    {
+
     }
 
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.

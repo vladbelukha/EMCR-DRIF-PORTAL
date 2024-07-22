@@ -93,6 +93,8 @@ namespace EMCR.Tests.Integration.DRR.Resources
             var uniqueSignature = TestPrefix + "-" + Guid.NewGuid().ToString().Substring(0, 4);
             return new Application
             {
+                ApplicationTypeName = "EOI",
+                ProgramName = "DRIF",
                 BCeIDBusinessId = TestBusinessId,
                 //Proponent Information
                 ProponentType = ProponentType.LocalGovernment,
