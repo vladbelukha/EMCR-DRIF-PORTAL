@@ -91,5 +91,21 @@
         proponentEligibilityForm.get('operationAndMaintenanceComments')
       "
     ></drr-textarea>
+
+    <mat-label class="drr-label">{{ t("supportingDocumentation") }}</mat-label>
+    <div *ngIf="files.length > 0" class="file-list">
+      <div *ngFor="let file of files; let i = index" class="list-item">
+        <h4 mat-line>{{ file.relativePath }}</h4>
+        <drr-input
+          class="drr-single-input"
+          [label]="'Provide a comment'"
+        ></drr-input>
+        <button mat-mini-fab color="warn" (click)="removeFile(i)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </div>
+    <mat-label>{{ t("supportingDocumentationOptionalText") }}</mat-label>
+    <drr-file-upload (files)="filesSelected($event)"></drr-file-upload>
   </form>
 </div>

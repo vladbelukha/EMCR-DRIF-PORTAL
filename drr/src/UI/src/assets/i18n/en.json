@@ -174,5 +174,8 @@
   "operationAndMaintenanceQuestion": "Will the proponent own and be able to operate and maintain the resulting infrastructure (if applicable) over the long term?",
   "operationAndMaintenanceComments": "Comments",
   "supportingDocumentation": "Supporting Documentation",
-  "supportingDocumentationOptionalText": "Attach supporting documentation (optional)"
+  "supportingDocumentationOptionalText": "Attach supporting documentation (optional)",
+  "supportingDocumentationRequiredText": "Attach supporting documentation (required)",
+  "dropFilesHere": "Drop files here or click to upload",
+  "browseFiles": "Browse files on your device"
 }
