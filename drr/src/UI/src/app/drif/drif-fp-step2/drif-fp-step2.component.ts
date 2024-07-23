@@ -9,11 +9,10 @@ import { MatListModule } from '@angular/material/list';
 import { MatRadioModule } from '@angular/material/radio';
 import { TranslocoModule } from '@ngneat/transloco';
 import { IFormGroup } from '@rxweb/reactive-form-validators';
-import { NgxFileDropEntry } from 'ngx-file-drop';
 import { DrrFileUploadComponent } from '../../shared/controls/drr-file-upload/drr-file-upload.component';
 import { DrrInputComponent } from '../../shared/controls/drr-input/drr-input.component';
 import { DrrTextareaComponent } from '../../shared/controls/drr-textarea/drr-textarea.component';
-import { ProponentEligibilityForm } from '../drif-fp/drif-fp-form';
+import { FileForm, ProponentEligibilityForm } from '../drif-fp/drif-fp-form';
 
 @Component({
   selector: 'drif-fp-step-2',
@@ -40,10 +39,10 @@ export class DrifFpStep2Component {
   @Input()
   proponentEligibilityForm!: IFormGroup<ProponentEligibilityForm>;
 
-  files: NgxFileDropEntry[] = [];
+  files: FileForm[] = [];
 
-  filesSelected(files: NgxFileDropEntry[]) {
-    this.files = files;
+  filesSelected(files: FileForm[]) {
+    this.files.push(...files);
   }
 
   removeFile(index: number) {

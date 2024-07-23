@@ -1,8 +1,9 @@
 <ng-container *transloco="let t">
   <ngx-file-drop
-    dropZoneLabel="Drop files here"
-    (onFileDrop)="dropped($event)"
+    (onFileDrop)="filesDropped($event)"
     dropZoneClassName="drr-drop-zone"
+    [multiple]="multiple"
+    *ngIf="useDropzone; else fileInputContainer"
   >
     <ng-template
       ngx-file-drop-content-tmp
@@ -21,4 +22,21 @@
       </div>
     </ng-template>
   </ngx-file-drop>
+  <ng-template #fileInputContainer>
+    <input
+      #fileInput
+      type="file"
+      (change)="filesSelectedFromInput($event)"
+      [multiple]="multiple"
+      style="display: none"
+    />
+    <button
+      mat-raised-button
+      color="primary"
+      type="button"
+      (click)="fileInput.click()"
+    >
+      {{ t("browseFiles") }}
+    </button>
+  </ng-template>
 </ng-container>
