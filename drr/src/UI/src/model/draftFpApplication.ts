@@ -5,6 +5,6 @@
  * OpenAPI spec version: 1.0.0
  */
 import type { DraftApplication } from './draftApplication';
-import type { DraftEoiApplicationAllOf } from './draftEoiApplicationAllOf';
+import type { DraftFpApplicationAllOf } from './draftFpApplicationAllOf';
 
-export type DraftEoiApplication = DraftApplication & DraftEoiApplicationAllOf;
+export type DraftFpApplication = DraftApplication & DraftFpApplicationAllOf;
