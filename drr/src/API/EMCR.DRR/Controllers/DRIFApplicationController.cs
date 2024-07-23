@@ -106,7 +106,7 @@ namespace EMCR.DRR.Controllers
         }
 
         [HttpPost("FP")]
-        public async Task<ActionResult<ApplicationResult>> CreateFPApplication(DraftFpApplication application)
+        public async Task<ActionResult<ApplicationResult>> CreateFPApplication([FromQuery] string eoiId)
         {
             //application.Status = SubmissionPortalStatus.Draft;
             //application.AdditionalContacts = MapAdditionalContacts(application);

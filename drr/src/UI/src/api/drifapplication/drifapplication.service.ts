@@ -20,6 +20,7 @@ import {
 } from 'rxjs'
 import type {
   ApplicationResult,
+  DRIFApplicationCreateFPApplicationParams,
   DeclarationResult,
   DraftEoiApplication,
   DraftFpApplication,
@@ -105,11 +106,12 @@ export class DrifapplicationService {
     );
   }
  dRIFApplicationCreateFPApplication<TData = ApplicationResult>(
-    draftFpApplication: DraftFpApplication, options?: HttpClientOptions
+    params?: DRIFApplicationCreateFPApplicationParams, options?: HttpClientOptions
   ): Observable<TData>  {
     return this.http.post<TData>(
-      `/api/drifapplication/fp`,
-      draftFpApplication,options
+      `/api/drifapplication/fp`,undefined,{
+    ...options,
+        params: {...params, ...options?.params},}
     );
   }
  dRIFApplicationUpdateFPApplication<TData = ApplicationResult>(

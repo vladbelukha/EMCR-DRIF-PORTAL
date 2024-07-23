@@ -8,6 +8,7 @@
 export * from './applicationResult';
 export * from './configuration';
 export * from './contactDetails';
+export * from './dRIFApplicationCreateFPApplicationParams';
 export * from './declarationInfo';
 export * from './declarationResult';
 export * from './declarationType';
