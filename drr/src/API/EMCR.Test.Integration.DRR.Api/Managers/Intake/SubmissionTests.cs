@@ -58,6 +58,29 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
         }
 
         [Test]
+        public async Task CanQueryApplications()
+        {
+            var application = CreateNewTestEOIApplication();
+            var id = await manager.Handle(new EoiApplicationCommand { application = mapper.Map<EoiApplication>(application), UserInfo = GetTestUserInfo() });
+            id.ShouldNotBeEmpty();
+
+            var secondApplication = mapper.Map<EoiApplication>(CreateNewTestEOIApplication());
+            secondApplication.Status = SubmissionPortalStatus.UnderReview;
+            secondApplication.AuthorizedRepresentativeStatement = true;
+            secondApplication.FOIPPAConfirmation = true;
+            secondApplication.InformationAccuracyStatement = true;
+
+            var secondId = await manager.Handle(new EoiApplicationCommand { application = secondApplication, UserInfo = GetTestUserInfo() });
+            secondId.ShouldNotBeEmpty();
+
+            var applications = (await manager.Handle(new DrrApplicationsQuery { BusinessId = GetTestUserInfo().BusinessId })).Items;
+            var submissions = mapper.Map<IEnumerable<Submission>>(applications);
+            submissions.ShouldContain(s => s.Id == id);
+            submissions.ShouldContain(s => s.Id == secondId);
+            submissions.All(s => !string.IsNullOrEmpty(s.ApplicationType)).ShouldBe(true);
+        }
+
+        [Test]
         public async Task CanCreateDraftEOIApplication()
         {
             var uniqueSignature = TestPrefix + "-" + Guid.NewGuid().ToString().Substring(0, 4);
