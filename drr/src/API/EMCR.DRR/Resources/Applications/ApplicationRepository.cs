@@ -310,13 +310,13 @@ namespace EMCR.DRR.Resources.Applications
             var loadTasks = new List<Task>
             {
                 ctx.LoadPropertyAsync(application, nameof(drr_application.drr_application_connections1), ct),
+                ctx.LoadPropertyAsync(application, nameof(drr_application.drr_ApplicationType), ct),
             };
 
             if (!partnerProponentsOnly)
             {
                 loadTasks = loadTasks.Concat(new List<Task>
                 {
-                    ctx.LoadPropertyAsync(application, nameof(drr_application.drr_ApplicationType), ct),
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_Program), ct),
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_Primary_Proponent_Name), ct),
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_SubmitterContact), ct),
