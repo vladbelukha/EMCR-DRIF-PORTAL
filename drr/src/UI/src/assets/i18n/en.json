@@ -150,5 +150,15 @@
   "withdraw": "Withdraw",
   "submissionDetails": "Submission Details for {{id}}",
   "noSubmissions": "You don't have any submissions yet.",
-  "startNewEOI": "Start New EOI"
+  "startNewEOI": "Start New EOI",
+  "submission-list": {
+    "id": "Application ID #",
+    "projectTitle": "Project Title",
+    "status": "Status",
+    "fundingRequest": "Funding Request",
+    "modified": "Modified On",
+    "submitted": "Submitted On",
+    "partneringProponent": "Partnering Proponent",
+    "action": "Action"
+  }
 }
