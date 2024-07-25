@@ -177,5 +177,13 @@
   "supportingDocumentationOptionalText": "Attach supporting documentation (optional)",
   "supportingDocumentationRequiredText": "Attach supporting documentation (required)",
   "dropFilesHere": "Drop files here or click to upload",
-  "browseFiles": "Browse files on your device"
+  "browseFiles": "Browse files on your device",
+  "totalProjectCost": "Total Project Cost",
+  "estimatedDrifFunding": "Estimated DRIF Program Funding Request (from EOI)",
+  "yearOverYearFundingRequest": "Year-over-Year DRIF Funding Request",
+  "yearOverYearFundingRequestText": "Provide a year-over-year breakdown of your DRIF Program funding request. Ensure that these numbers align with your Detailed Cost Estimate, which you will attach at the bottom of this page.",
+  "fiscalYear": "Fiscal Year",
+  "addYear": "Add Year",
+  "totalDrifFundingRequest": "Total DRIF Program Funding Request",
+  "discrepancyComment": "Explain discrepancy between estimated and total DRIF Program funding request amounts"
 }

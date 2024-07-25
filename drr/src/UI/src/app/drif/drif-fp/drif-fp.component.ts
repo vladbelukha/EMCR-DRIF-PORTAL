@@ -5,7 +5,7 @@ import {
 } from '@angular/cdk/stepper';
 import { CommonModule } from '@angular/common';
 import { Component, HostListener, inject, ViewChild } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormArray, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -27,8 +27,13 @@ import { DrifFpStep1Component } from '../drif-fp-step-1/drif-fp-step-1.component
 import { distinctUntilChanged } from 'rxjs/operators';
 import { DrifapplicationService } from '../../../api/drifapplication/drifapplication.service';
 import { DraftFpApplication } from '../../../model';
-import { DrifFpStep5Component } from '../drif-fp-step-5/drif-fp-step-5.component';
+import {
+  ContactDetailsForm,
+  FundingInformationItemForm,
+  StringItem,
+} from '../drif-eoi/drif-eoi-form';
 import { DrifFpStep2Component } from '../drif-fp-step-2/drif-fp-step-2.component';
+import { DrifFpStep5Component } from '../drif-fp-step-5/drif-fp-step-5.component';
 import { DrifFpForm } from './drif-fp-form';
 
 @Component({
@@ -136,6 +141,34 @@ export class DrifFpComponent {
   }
 
   load() {
+    // TODO: load application data from API
+    const application = {
+      partneringProponents: ['Proponent1', 'Proponent2'],
+      additionalContacts: [
+        {
+          firstName: 'John1',
+          lastName: 'Doe1',
+          email: '',
+          phone: '',
+          department: '',
+          title: '',
+        },
+      ],
+      otherFunding: [
+        {
+          fundingType: 'Type1',
+          amount: 100000,
+          description: 'Description1',
+        },
+        {
+          fundingType: 'Type2',
+          amount: 200000,
+          description: 'Description2',
+        },
+      ],
+    };
+
+    // TODO: initiate DrifFpForm using API response
     const formData: DrifFpForm = {
       eoiId: 'DRIF-EOI-1111',
       fundingStream: 'Stream1',
@@ -171,10 +204,48 @@ export class DrifFpComponent {
       },
       budget: {
         totalProjectCost: 1304020,
+        fundingRequest: 1200000,
       },
     };
 
     this.drifFpForm.patchValue(formData, { emitEvent: false });
+
+    const partneringProponentsArray = this.getFormGroup(
+      'proponentInformation'
+    ).get('partneringProponentsArray') as FormArray;
+    if (application.partneringProponents?.length! > 0) {
+      partneringProponentsArray.clear();
+    }
+    application.partneringProponents?.forEach((proponent) => {
+      partneringProponentsArray?.push(
+        this.formBuilder.formGroup(new StringItem({ value: proponent }))
+      );
+    });
+
+    const additionalContactsArray = this.getFormGroup(
+      'proponentInformation'
+    ).get('additionalContacts') as FormArray;
+    if (application.additionalContacts?.length! > 0) {
+      additionalContactsArray.clear();
+    }
+    application.additionalContacts?.forEach((contact) => {
+      additionalContactsArray?.push(
+        this.formBuilder.formGroup(new ContactDetailsForm(contact))
+      );
+    });
+
+    const fundingInformationItemFormArray = this.getFormGroup('budget').get(
+      'otherFunding'
+    ) as FormArray;
+    if (application.otherFunding?.length! > 0) {
+      fundingInformationItemFormArray.clear();
+    }
+    application.otherFunding?.forEach((funding) => {
+      fundingInformationItemFormArray?.push(
+        this.formBuilder.formGroup(new FundingInformationItemForm(funding))
+      );
+    });
+
     this.drifFpForm.markAsPristine();
   }
 

@@ -1,6 +1,14 @@
-import { prop, propObject, required } from '@rxweb/reactive-form-validators';
+import {
+  prop,
+  propArray,
+  propObject,
+  required,
+} from '@rxweb/reactive-form-validators';
 import { FundingStream, ProjectType } from '../../../model';
-import { ProponentInformationForm } from '../drif-eoi/drif-eoi-form';
+import {
+  FundingInformationItemForm,
+  ProponentInformationForm,
+} from '../drif-eoi/drif-eoi-form';
 
 // TODO: temp before API provides the correct structure
 export class FileForm {
@@ -51,10 +59,37 @@ export class ProponentEligibilityForm {
   }
 }
 
+export class YearOverYearFundingForm {
+  @prop()
+  @required()
+  year?: number;
+
+  @prop()
+  @required()
+  amount?: number;
+}
+
 export class BudgetForm {
   @prop()
   @required()
   totalProjectCost?: number;
+
+  @prop()
+  @required()
+  fundingRequest?: number;
+
+  @propArray(YearOverYearFundingForm)
+  yearOverYearFunding?: YearOverYearFundingForm[] = [{}];
+
+  @prop()
+  @required()
+  totalDrifFundingRequest?: number;
+
+  @prop()
+  discrepancyComment?: string;
+
+  @propArray(FundingInformationItemForm)
+  otherFunding?: FundingInformationItemForm[] = [{}];
 }
 
 export class DrifFpForm {
