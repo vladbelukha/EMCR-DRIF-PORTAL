@@ -4,7 +4,7 @@ import {
   StepperSelectionEvent,
 } from '@angular/cdk/stepper';
 import { CommonModule } from '@angular/common';
-import { Component, inject, ViewChild } from '@angular/core';
+import { Component, HostListener, inject, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -24,6 +24,9 @@ import {
 } from '@rxweb/reactive-form-validators';
 import { DrifFpStep1Component } from '../drif-fp-step-1/drif-fp-step-1.component';
 
+import { distinctUntilChanged } from 'rxjs/operators';
+import { DrifapplicationService } from '../../../api/drifapplication/drifapplication.service';
+import { DraftFpApplication } from '../../../model';
 import { DrifFpStep2Component } from '../drif-fp-step2/drif-fp-step2.component';
 import { DrifFpForm } from './drif-fp-form';
 
@@ -59,6 +62,8 @@ export class DrifFpComponent {
   breakpointObserver = inject(BreakpointObserver);
   router = inject(Router);
   route = inject(ActivatedRoute);
+  appService = inject(DrifapplicationService);
+  hotToast = inject(HotToastService);
 
   stepperOrientation: StepperOrientation = 'vertical';
 
@@ -67,6 +72,29 @@ export class DrifFpComponent {
   autoSaveInterval = 60;
   lastSavedAt?: Date;
   formChanged = false;
+
+  @HostListener('window:mousemove')
+  @HostListener('window:mousedown')
+  @HostListener('window:keypress')
+  @HostListener('window:scroll')
+  @HostListener('window:touchmove')
+  resetAutoSaveTimer() {
+    if (!this.formChanged) {
+      this.autoSaveCountdown = 0;
+      clearInterval(this.autoSaveTimer);
+      return;
+    }
+
+    this.autoSaveCountdown = this.autoSaveInterval;
+    clearInterval(this.autoSaveTimer);
+    this.autoSaveTimer = setInterval(() => {
+      this.autoSaveCountdown -= 1;
+      if (this.autoSaveCountdown === 0) {
+        this.save();
+        clearInterval(this.autoSaveTimer);
+      }
+    }, 1000);
+  }
 
   @ViewChild(MatStepper) stepper!: MatStepper;
 
@@ -78,17 +106,31 @@ export class DrifFpComponent {
   drifFpForm = this.formBuilder.formGroup(DrifFpForm) as IFormGroup<DrifFpForm>;
 
   ngOnInit() {
-    this.id = this.route.snapshot.params['id'];
-
-    if (this.isEditMode) {
-      this.load();
-    }
-
     this.breakpointObserver
       .observe('(min-width: 768px)')
       .subscribe(({ matches }) => {
         this.stepperOrientation = matches ? 'horizontal' : 'vertical';
       });
+
+    this.id = this.route.snapshot.params['id'];
+
+    if (this.isEditMode) {
+      this.load();
+      this.formChanged = false;
+    }
+
+    setTimeout(() => {
+      this.drifFpForm.valueChanges
+        .pipe(
+          distinctUntilChanged((a, b) => {
+            return JSON.stringify(a) == JSON.stringify(b);
+          })
+        )
+        .subscribe(() => {
+          this.formChanged = true;
+          this.resetAutoSaveTimer();
+        });
+    }, 1000);
   }
 
   load() {
@@ -128,6 +170,7 @@ export class DrifFpComponent {
     };
 
     this.drifFpForm.patchValue(formData, { emitEvent: false });
+    this.drifFpForm.markAsPristine();
   }
 
   getFormGroup(groupName: string) {
@@ -159,7 +202,39 @@ export class DrifFpComponent {
     this.router.navigate(['/dashboard']);
   }
 
-  save() {}
+  save() {
+    if (!this.formChanged) {
+      return;
+    }
+
+    const drifFpForm = this.drifFpForm.getRawValue() as DrifFpForm;
+
+    const fpDraft = {
+      // initialize draft object from form data
+    } as DraftFpApplication;
+
+    this.lastSavedAt = undefined;
+    this.appService
+      .dRIFApplicationUpdateFPApplication(this.id!, fpDraft)
+      .subscribe(
+        (response) => {
+          this.lastSavedAt = new Date();
+
+          this.hotToast.close();
+          this.hotToast.success('Application saved successfully', {
+            duration: 5000,
+            autoClose: true,
+          });
+
+          this.formChanged = false;
+          this.resetAutoSaveTimer();
+        },
+        (error) => {
+          this.hotToast.close();
+          this.hotToast.error('Failed to save application');
+        }
+      );
+  }
 
   submit() {}
 
