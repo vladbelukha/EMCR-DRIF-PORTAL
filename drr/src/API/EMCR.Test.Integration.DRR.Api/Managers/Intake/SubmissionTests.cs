@@ -32,7 +32,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
         public async Task CanCreateEOIApplication()
         {
             var application = CreateNewTestEOIApplication();
-            var id = await manager.Handle(new DrifEoiApplicationCommand { application = mapper.Map<EoiApplication>(application), UserInfo = GetTestUserInfo() });
+            var id = await manager.Handle(new DrifEoiSaveApplicationCommand { application = mapper.Map<EoiApplication>(application), UserInfo = GetTestUserInfo() });
             id.ShouldNotBeEmpty();
         }
 
@@ -45,7 +45,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             application.FOIPPAConfirmation = true;
             application.InformationAccuracyStatement = true;
 
-            var id = await manager.Handle(new DrifEoiApplicationCommand { application = application, UserInfo = GetTestUserInfo() });
+            var id = await manager.Handle(new DrifEoiSubmitApplicationCommand { application = application, UserInfo = GetTestUserInfo() });
             id.ShouldNotBeEmpty();
 
             var savedApplication = (await manager.Handle(new DrrApplicationsQuery { Id = id })).Items.SingleOrDefault();
@@ -55,6 +55,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             savedApplication.InformationAccuracyStatement.ShouldBe(true);
             savedApplication.Status.ShouldBe(ApplicationStatus.Submitted);
             savedApplication.AdditionalContact1.ShouldNotBeNull();
+            savedApplication.SubmittedDate.ShouldNotBeNull();
         }
 
         [Test]
@@ -72,7 +73,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
                 BusinessName = $"{uniqueSignature}_business-name",
                 UserId = $"{uniqueSignature}_user-bceid"
             };
-            var id = await manager.Handle(new DrifEoiApplicationCommand { application = mapper.Map<EoiApplication>(application), UserInfo = userInfo });
+            var id = await manager.Handle(new DrifEoiSaveApplicationCommand { application = mapper.Map<EoiApplication>(application), UserInfo = userInfo });
             id.ShouldNotBeEmpty();
 
 
@@ -80,6 +81,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             savedApplication.Id.ShouldBe(id);
             savedApplication.OwnershipDeclaration.ShouldBeNull();
             savedApplication.AuthorizedRepresentativeStatement.ShouldBe(false);
+            savedApplication.SubmittedDate.ShouldBeNull();
         }
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
 
@@ -88,14 +90,16 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
         {
             var uniqueSignature = TestPrefix + "-" + Guid.NewGuid().ToString().Substring(0, 4);
             var application = CreateNewTestEOIApplication();
+            application.Status = SubmissionPortalStatus.UnderReview;
             application.ProjectTitle = "First Submission";
-            var id = await manager.Handle(new DrifEoiApplicationCommand { application = mapper.Map<EoiApplication>(application), UserInfo = GetTestUserInfo() });
+            var id = await manager.Handle(new DrifEoiSubmitApplicationCommand { application = mapper.Map<EoiApplication>(application), UserInfo = GetTestUserInfo() });
             id.ShouldNotBeEmpty();
 
             var secondApplication = CreateNewTestEOIApplication();
+            secondApplication.Status = SubmissionPortalStatus.UnderReview;
             secondApplication.ProjectTitle = "Second Submission";
             secondApplication.Submitter = application.Submitter;
-            var secondId = await manager.Handle(new DrifEoiApplicationCommand { application = mapper.Map<EoiApplication>(secondApplication), UserInfo = GetTestUserInfo() });
+            var secondId = await manager.Handle(new DrifEoiSubmitApplicationCommand { application = mapper.Map<EoiApplication>(secondApplication), UserInfo = GetTestUserInfo() });
             secondId.ShouldNotBeEmpty();
 
             var host = EMBC.Tests.Integration.DRR.Application.Host;
