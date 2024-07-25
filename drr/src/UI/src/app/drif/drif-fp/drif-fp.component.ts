@@ -27,6 +27,7 @@ import { DrifFpStep1Component } from '../drif-fp-step-1/drif-fp-step-1.component
 import { distinctUntilChanged } from 'rxjs/operators';
 import { DrifapplicationService } from '../../../api/drifapplication/drifapplication.service';
 import { DraftFpApplication } from '../../../model';
+import { DrifFpStep5Component } from '../drif-fp-step-5/drif-fp-step-5.component';
 import { DrifFpStep2Component } from '../drif-fp-step2/drif-fp-step2.component';
 import { DrifFpForm } from './drif-fp-form';
 
@@ -45,6 +46,7 @@ import { DrifFpForm } from './drif-fp-form';
     LayoutModule,
     DrifFpStep1Component,
     DrifFpStep2Component,
+    DrifFpStep5Component,
   ],
   providers: [
     RxFormBuilder,
@@ -166,6 +168,9 @@ export class DrifFpComponent {
             title: 'Mr.2',
           },
         ],
+      },
+      budget: {
+        totalProjectCost: 1304020,
       },
     };
 

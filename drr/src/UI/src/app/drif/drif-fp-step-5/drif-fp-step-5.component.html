@@ -1,0 +1,10 @@
+<div class="drr-step-container" *transloco="let t">
+  <form [formGroup]="budgetForm">
+    <mat-label class="drr-label">{{ t("totalProjectCost") }}</mat-label>
+    <drr-input
+      [id]="'totalProjectCost'"
+      [label]="t('totalProjectCost')"
+      [rxFormControl]="budgetForm.get('totalProjectCost')"
+    ></drr-input>
+  </form>
+</div>

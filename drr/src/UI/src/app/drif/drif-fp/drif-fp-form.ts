@@ -51,6 +51,12 @@ export class ProponentEligibilityForm {
   }
 }
 
+export class BudgetForm {
+  @prop()
+  @required()
+  totalProjectCost?: number;
+}
+
 export class DrifFpForm {
   @propObject(ProponentInformationForm)
   proponentInformation?: ProponentInformationForm =
@@ -59,6 +65,9 @@ export class DrifFpForm {
   @propObject(ProponentEligibilityForm)
   proponentEligibility?: ProponentEligibilityForm =
     new ProponentEligibilityForm({});
+
+  @propObject(BudgetForm)
+  budget?: BudgetForm = new BudgetForm();
 
   @prop()
   eoiId?: string;
