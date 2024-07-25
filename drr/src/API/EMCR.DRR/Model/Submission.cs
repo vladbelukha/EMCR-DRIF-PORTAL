@@ -7,7 +7,7 @@
         public required SubmissionPortalStatus Status { get; set; }
         public required string FundingRequest { get; set; }
         public required DateTime ModifiedDate { get; set; }
-        public required DateTime SubmittedDate { get; set; }
+        public DateTime? SubmittedDate { get; set; }
         public required string[] PartneringProponents { get; set; }
     }
 }
