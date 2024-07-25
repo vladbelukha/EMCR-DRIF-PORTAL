@@ -51,7 +51,7 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.drr_authorizedrepresentative, opt => opt.MapFrom(src => src.AuthorizedRepresentativeStatement.HasValue && src.AuthorizedRepresentativeStatement.Value ? DRRTwoOptions.Yes : DRRTwoOptions.No))
                 .ForMember(dest => dest.drr_foippaconfirmation, opt => opt.MapFrom(src => src.FOIPPAConfirmation.HasValue && src.FOIPPAConfirmation.Value ? DRRTwoOptions.Yes : DRRTwoOptions.No))
                 .ForMember(dest => dest.drr_accuracyofinformation, opt => opt.MapFrom(src => src.InformationAccuracyStatement.HasValue && src.InformationAccuracyStatement.Value ? DRRTwoOptions.Yes : DRRTwoOptions.No))
-                .ForMember(dest => dest.drr_submitteddate, opt => opt.MapFrom(src => DateTime.UtcNow))
+                .ForMember(dest => dest.drr_submitteddate, opt => opt.MapFrom(src => src.SubmittedDate))
                 .ForMember(dest => dest.statuscode, opt => opt.MapFrom(src => (int?)Enum.Parse<ApplicationStatusOptionSet>(src.Status.ToString())))
                 .ReverseMap()
                 .ValidateMemberList(MemberList.Destination)
@@ -99,8 +99,8 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.AuthorizedRepresentativeStatement, opt => opt.MapFrom(src => src.drr_authorizedrepresentative == (int)DRRTwoOptions.Yes))
                 .ForMember(dest => dest.FOIPPAConfirmation, opt => opt.MapFrom(src => src.drr_foippaconfirmation == (int)DRRTwoOptions.Yes))
                 .ForMember(dest => dest.InformationAccuracyStatement, opt => opt.MapFrom(src => src.drr_accuracyofinformation == (int)DRRTwoOptions.Yes))
-                .ForMember(dest => dest.SubmittedDate, opt => opt.MapFrom(src => src.drr_submitteddate.HasValue ? src.drr_submitteddate.Value.UtcDateTime : new DateTime()))
-                .ForMember(dest => dest.ModifiedOn, opt => opt.MapFrom(src => src.modifiedon.HasValue ? src.modifiedon.Value.UtcDateTime : new DateTime()))
+                .ForMember(dest => dest.SubmittedDate, opt => opt.MapFrom(src => src.drr_submitteddate.HasValue ? src.drr_submitteddate.Value.UtcDateTime : (DateTime?)null))
+                .ForMember(dest => dest.ModifiedOn, opt => opt.MapFrom(src => src.modifiedon.HasValue ? src.modifiedon.Value.UtcDateTime : (DateTime?)null))
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => (int?)Enum.Parse<ApplicationStatus>(((ApplicationStatusOptionSet)src.statuscode).ToString())))
             ;
 

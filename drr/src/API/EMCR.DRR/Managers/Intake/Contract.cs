@@ -47,7 +47,13 @@ namespace EMCR.DRR.Managers.Intake
     { }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-    public class DrifEoiApplicationCommand : IntakeCommand
+    public class DrifEoiSaveApplicationCommand : IntakeCommand
+    {
+        public EoiApplication application { get; set; } = null!;
+        public UserInfo UserInfo { get; set; }
+    }
+
+    public class DrifEoiSubmitApplicationCommand : IntakeCommand
     {
         public EoiApplication application { get; set; } = null!;
         public UserInfo UserInfo { get; set; }

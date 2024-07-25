@@ -94,6 +94,7 @@ namespace EMCR.Tests.Integration.DRR.Resources
             return new Application
             {
                 BCeIDBusinessId = TestBusinessId,
+                Status = ApplicationStatus.DraftProponent,
                 //Proponent Information
                 ProponentType = ProponentType.LocalGovernment,
                 ProponentName = $"{uniqueSignature}_applicant_name",

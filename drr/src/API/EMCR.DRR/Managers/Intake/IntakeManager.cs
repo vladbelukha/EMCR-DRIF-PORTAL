@@ -30,7 +30,8 @@ namespace EMCR.DRR.Managers.Intake
         {
             return cmd switch
             {
-                DrifEoiApplicationCommand c => await Handle(c),
+                DrifEoiSaveApplicationCommand c => await Handle(c),
+                DrifEoiSubmitApplicationCommand c => await Handle(c),
                 _ => throw new NotSupportedException($"{cmd.GetType().Name} is not supported")
             };
         }
@@ -41,11 +42,22 @@ namespace EMCR.DRR.Managers.Intake
             return new IntakeQueryResponse { Items = mapper.Map<IEnumerable<Application>>(res.Items) };
         }
 
-        public async Task<string> Handle(DrifEoiApplicationCommand cmd)
+        public async Task<string> Handle(DrifEoiSaveApplicationCommand cmd)
         {
             var application = mapper.Map<Application>(cmd.application);
             application.BCeIDBusinessId = cmd.UserInfo.BusinessId;
             application.ProponentName = cmd.UserInfo.BusinessName;
+            if (application.Submitter != null) application.Submitter.BCeId = cmd.UserInfo.UserId;
+            var id = (await applicationRepository.Manage(new SubmitApplication { Application = application })).Id;
+            return id;
+        }
+
+        public async Task<string> Handle(DrifEoiSubmitApplicationCommand cmd)
+        {
+            var application = mapper.Map<Application>(cmd.application);
+            application.BCeIDBusinessId = cmd.UserInfo.BusinessId;
+            application.ProponentName = cmd.UserInfo.BusinessName;
+            application.SubmittedDate = DateTime.UtcNow;
             if (application.Submitter != null) application.Submitter.BCeId = cmd.UserInfo.UserId;
             var id = (await applicationRepository.Manage(new SubmitApplication { Application = application })).Id;
             return id;
