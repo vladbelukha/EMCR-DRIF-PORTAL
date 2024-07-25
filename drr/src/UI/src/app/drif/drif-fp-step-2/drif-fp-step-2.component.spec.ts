@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DrifFpStep2Component } from '../summary/drif-fp-step2.component';
+import { DrifFpStep2Component } from './drif-fp-step-2.component';
 
 describe('DrifFpStep2Component', () => {
   let component: DrifFpStep2Component;

@@ -28,7 +28,7 @@ import { distinctUntilChanged } from 'rxjs/operators';
 import { DrifapplicationService } from '../../../api/drifapplication/drifapplication.service';
 import { DraftFpApplication } from '../../../model';
 import { DrifFpStep5Component } from '../drif-fp-step-5/drif-fp-step-5.component';
-import { DrifFpStep2Component } from '../drif-fp-step2/drif-fp-step2.component';
+import { DrifFpStep2Component } from '../drif-fp-step-2/drif-fp-step-2.component';
 import { DrifFpForm } from './drif-fp-form';
 
 @Component({

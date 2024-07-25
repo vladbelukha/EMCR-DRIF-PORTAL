@@ -32,8 +32,8 @@ import { FileForm, ProponentEligibilityForm } from '../drif-fp/drif-fp-form';
     DrrFileUploadComponent,
     DrrInputComponent,
   ],
-  templateUrl: './drif-fp-step2.component.html',
-  styleUrl: './drif-fp-step2.component.scss',
+  templateUrl: './drif-fp-step-2.component.html',
+  styleUrl: './drif-fp-step-2.component.scss',
 })
 export class DrifFpStep2Component {
   @Input()
