@@ -14,11 +14,11 @@ namespace BCeIDService
 
 
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
-    [System.ServiceModel.ServiceContractAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/", ConfigurationName = "BCeIDService.BCeIDServiceSoap")]
+    [System.ServiceModel.ServiceContractAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/", ConfigurationName = "BCeIDService.BCeIDServiceSoap")]
     public interface BCeIDServiceSoap
     {
 
-        [System.ServiceModel.OperationContractAttribute(Action = "http://www.bceid.ca/webservices/Client/V9/getInternalUserGroupInfo", ReplyAction = "*")]
+        [System.ServiceModel.OperationContractAttribute(Action = "http://www.bceid.ca/webservices/Client/V10/getInternalUserGroupInfo", ReplyAction = "*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults = true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ResponseBase))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BCeIDPropertyBase))]
@@ -26,7 +26,7 @@ namespace BCeIDService
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
         System.Threading.Tasks.Task<BCeIDService.InternalUserGroupInfoResponse> getInternalUserGroupInfoAsync(BCeIDService.InternalUserGroupInfoRequest internalUserGroupInfoRequest);
 
-        [System.ServiceModel.OperationContractAttribute(Action = "http://www.bceid.ca/webservices/Client/V9/searchBCeIDAccount", ReplyAction = "*")]
+        [System.ServiceModel.OperationContractAttribute(Action = "http://www.bceid.ca/webservices/Client/V10/searchBCeIDAccount", ReplyAction = "*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults = true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ResponseBase))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BCeIDPropertyBase))]
@@ -34,7 +34,7 @@ namespace BCeIDService
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
         System.Threading.Tasks.Task<BCeIDService.BCeIDAccountSearchResponse> searchBCeIDAccountAsync(BCeIDService.BCeIDAccountSearchRequest bceidAccountSearchRequest);
 
-        [System.ServiceModel.OperationContractAttribute(Action = "http://www.bceid.ca/webservices/Client/V9/searchInternalAccount", ReplyAction = "*")]
+        [System.ServiceModel.OperationContractAttribute(Action = "http://www.bceid.ca/webservices/Client/V10/searchInternalAccount", ReplyAction = "*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults = true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ResponseBase))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BCeIDPropertyBase))]
@@ -42,7 +42,7 @@ namespace BCeIDService
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
         System.Threading.Tasks.Task<BCeIDService.InternalAccountSearchResponse> searchInternalAccountAsync(BCeIDService.InternalAccountSearchRequest internalAccountSearchRequest);
 
-        [System.ServiceModel.OperationContractAttribute(Action = "http://www.bceid.ca/webservices/Client/V9/getAccountDetailList", ReplyAction = "*")]
+        [System.ServiceModel.OperationContractAttribute(Action = "http://www.bceid.ca/webservices/Client/V10/getAccountDetailList", ReplyAction = "*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults = true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ResponseBase))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BCeIDPropertyBase))]
@@ -50,7 +50,7 @@ namespace BCeIDService
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
         System.Threading.Tasks.Task<BCeIDService.AccountDetailListResponse> getAccountDetailListAsync(BCeIDService.AccountDetailListRequest accountDetailListRequest);
 
-        [System.ServiceModel.OperationContractAttribute(Action = "http://www.bceid.ca/webservices/Client/V9/getAccountDetail", ReplyAction = "*")]
+        [System.ServiceModel.OperationContractAttribute(Action = "http://www.bceid.ca/webservices/Client/V10/getAccountDetail", ReplyAction = "*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults = true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ResponseBase))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BCeIDPropertyBase))]
@@ -58,7 +58,7 @@ namespace BCeIDService
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
         System.Threading.Tasks.Task<BCeIDService.AccountDetailResponse> getAccountDetailAsync(BCeIDService.AccountDetailRequest accountDetailRequest);
 
-        [System.ServiceModel.OperationContractAttribute(Action = "http://www.bceid.ca/webservices/Client/V9/createSubscriptionBatch", ReplyAction = "*")]
+        [System.ServiceModel.OperationContractAttribute(Action = "http://www.bceid.ca/webservices/Client/V10/createSubscriptionBatch", ReplyAction = "*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults = true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ResponseBase))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BCeIDPropertyBase))]
@@ -66,7 +66,7 @@ namespace BCeIDService
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
         System.Threading.Tasks.Task<BCeIDService.CreateSubscriptionBatchResponse> createSubscriptionBatchAsync(BCeIDService.CreateSubscriptionBatchRequest createSubscriptionBatchRequest);
 
-        [System.ServiceModel.OperationContractAttribute(Action = "http://www.bceid.ca/webservices/Client/V9/createAccountRequest", ReplyAction = "*")]
+        [System.ServiceModel.OperationContractAttribute(Action = "http://www.bceid.ca/webservices/Client/V10/createAccountRequest", ReplyAction = "*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults = true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ResponseBase))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BCeIDPropertyBase))]
@@ -74,7 +74,7 @@ namespace BCeIDService
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
         System.Threading.Tasks.Task<BCeIDService.CreateAccountRequestResponse> createAccountRequestAsync(BCeIDService.CreateAccountRequestRequest createAccountRequestRequest);
 
-        [System.ServiceModel.OperationContractAttribute(Action = "http://www.bceid.ca/webservices/Client/V9/getSubscriptionCodeList", ReplyAction = "*")]
+        [System.ServiceModel.OperationContractAttribute(Action = "http://www.bceid.ca/webservices/Client/V10/getSubscriptionCodeList", ReplyAction = "*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults = true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ResponseBase))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BCeIDPropertyBase))]
@@ -86,7 +86,7 @@ namespace BCeIDService
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public partial class InternalUserGroupInfoRequest : RequestBase
     {
 
@@ -142,7 +142,7 @@ namespace BCeIDService
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public partial class BCeIDInternalGroupMatch
     {
 
@@ -182,7 +182,7 @@ namespace BCeIDService
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public partial class BCeIDAccountRequest
     {
 
@@ -302,7 +302,7 @@ namespace BCeIDService
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public partial class BCeIDAccountType : BCeIDTypeBase
     {
 
@@ -325,7 +325,7 @@ namespace BCeIDService
 
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public enum BCeIDAccountTypeCode
     {
 
@@ -352,6 +352,9 @@ namespace BCeIDService
 
         /// <remarks/>
         THS,
+
+        /// <remarks/>
+        BCOL,
     }
 
     /// <remarks/>
@@ -361,7 +364,7 @@ namespace BCeIDService
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(BCeIDAccountType))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public abstract partial class BCeIDTypeBase : BCeIDPropertyBase
     {
 
@@ -409,7 +412,7 @@ namespace BCeIDService
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(BCeIDString))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public partial class BCeIDPropertyBase
     {
 
@@ -433,7 +436,7 @@ namespace BCeIDService
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public partial class BCeIDBoolean : BCeIDPropertyBase
     {
 
@@ -457,7 +460,7 @@ namespace BCeIDService
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public partial class BCeIDDateTime : BCeIDPropertyBase
     {
 
@@ -481,7 +484,7 @@ namespace BCeIDService
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public partial class BCeIDString : BCeIDPropertyBase
     {
 
@@ -505,7 +508,7 @@ namespace BCeIDService
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public partial class BCeIDAccountContactPreferenceType : BCeIDTypeBase
     {
 
@@ -528,7 +531,7 @@ namespace BCeIDService
 
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public enum BCeIDAccountContactPreferenceTypeCode
     {
 
@@ -548,7 +551,7 @@ namespace BCeIDService
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public partial class BCeIDBusinessType : BCeIDTypeBase
     {
 
@@ -571,7 +574,7 @@ namespace BCeIDService
 
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public enum BCeIDBusinessTypeCode
     {
 
@@ -597,7 +600,7 @@ namespace BCeIDService
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public partial class BCeIDBNHubBusinessType : BCeIDTypeBase
     {
 
@@ -620,7 +623,7 @@ namespace BCeIDService
 
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public enum BCeIDBNHubBusinessTypeCode
     {
 
@@ -643,7 +646,7 @@ namespace BCeIDService
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public partial class BCeIDSubscription
     {
 
@@ -922,7 +925,7 @@ namespace BCeIDService
 
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public enum BCeIDSubscriptionCodeType
     {
 
@@ -938,7 +941,7 @@ namespace BCeIDService
 
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public enum BCeIDSubscriptionScope
     {
 
@@ -955,7 +958,7 @@ namespace BCeIDService
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public partial class BCeIDAccount
     {
 
@@ -1171,7 +1174,7 @@ namespace BCeIDService
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public partial class BCeIDAccountState
     {
 
@@ -1275,7 +1278,7 @@ namespace BCeIDService
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public partial class BCeIDAccountContact
     {
 
@@ -1379,7 +1382,7 @@ namespace BCeIDService
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public partial class BCeIDAddress
     {
 
@@ -1499,7 +1502,7 @@ namespace BCeIDService
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public partial class BCeIDIndividualIdentity
     {
 
@@ -1571,7 +1574,7 @@ namespace BCeIDService
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public partial class BCeIDName
     {
 
@@ -1659,7 +1662,7 @@ namespace BCeIDService
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public partial class BCeIDBusiness
     {
 
@@ -1907,7 +1910,7 @@ namespace BCeIDService
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public partial class BCeIDBusinessState
     {
 
@@ -1931,7 +1934,7 @@ namespace BCeIDService
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public partial class BCeIDInternalIdentity
     {
 
@@ -2050,7 +2053,7 @@ namespace BCeIDService
 
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public enum BCeIDSubscriptionStatus
     {
 
@@ -2067,7 +2070,7 @@ namespace BCeIDService
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public partial class PaginationResponse
     {
 
@@ -2139,7 +2142,7 @@ namespace BCeIDService
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public partial class BCeIDInternalGroup
     {
 
@@ -2190,7 +2193,7 @@ namespace BCeIDService
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(InternalUserGroupInfoResponse))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public abstract partial class ResponseBase
     {
 
@@ -2245,7 +2248,7 @@ namespace BCeIDService
 
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public enum ResponseCode
     {
 
@@ -2261,7 +2264,7 @@ namespace BCeIDService
 
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public enum FailureCode
     {
 
@@ -2293,7 +2296,7 @@ namespace BCeIDService
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public partial class SubscriptionCodeListResponse : ResponseBase
     {
 
@@ -2317,7 +2320,7 @@ namespace BCeIDService
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public partial class CreateAccountRequestResponse : ResponseBase
     {
 
@@ -2341,7 +2344,7 @@ namespace BCeIDService
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public partial class CreateSubscriptionBatchResponse : ResponseBase
     {
 
@@ -2365,7 +2368,7 @@ namespace BCeIDService
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public partial class CreateSubscriptionBatchResponseItem : ResponseBase
     {
 
@@ -2390,7 +2393,7 @@ namespace BCeIDService
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(AccountDetailListResponseItem))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public partial class AccountDetailResponse : ResponseBase
     {
 
@@ -2414,7 +2417,7 @@ namespace BCeIDService
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public partial class AccountDetailListResponseItem : AccountDetailResponse
     {
 
@@ -2438,7 +2441,7 @@ namespace BCeIDService
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public partial class AccountDetailListResponse : ResponseBase
     {
 
@@ -2464,7 +2467,7 @@ namespace BCeIDService
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(BCeIDAccountSearchResponse))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public partial class SearchResponseBase : ResponseBase
     {
 
@@ -2488,7 +2491,7 @@ namespace BCeIDService
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public partial class InternalAccountSearchResponse : SearchResponseBase
     {
 
@@ -2512,7 +2515,7 @@ namespace BCeIDService
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public partial class BCeIDAccountSearchResponse : SearchResponseBase
     {
 
@@ -2536,7 +2539,7 @@ namespace BCeIDService
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public partial class InternalUserGroupInfoResponse : ResponseBase
     {
 
@@ -2560,7 +2563,7 @@ namespace BCeIDService
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public partial class BCeIDSubscriptionBatch
     {
 
@@ -2680,7 +2683,7 @@ namespace BCeIDService
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public partial class InternalAccountMatch
     {
 
@@ -2816,7 +2819,7 @@ namespace BCeIDService
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public partial class MatchPropertyOfString
     {
 
@@ -2855,7 +2858,7 @@ namespace BCeIDService
 
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public enum MatchPropertyUsing
     {
 
@@ -2872,7 +2875,7 @@ namespace BCeIDService
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public partial class SortOfSortInternalAccountOnProperty
     {
 
@@ -2911,7 +2914,7 @@ namespace BCeIDService
 
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public enum SortDirection
     {
 
@@ -2927,7 +2930,7 @@ namespace BCeIDService
 
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public enum SortInternalAccountOnProperty
     {
 
@@ -2962,7 +2965,7 @@ namespace BCeIDService
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public partial class BCeIDBusinessMatch
     {
 
@@ -3161,7 +3164,7 @@ namespace BCeIDService
 
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public enum BCeIDSearchableBusinessNumberVerified
     {
 
@@ -3177,7 +3180,7 @@ namespace BCeIDService
 
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public enum BCeIDSearchableBusinessType
     {
 
@@ -3202,7 +3205,7 @@ namespace BCeIDService
 
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public enum BCeIDSearchableBusinessState
     {
 
@@ -3219,7 +3222,7 @@ namespace BCeIDService
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public partial class BCeIDAccountMatch
     {
 
@@ -3450,7 +3453,7 @@ namespace BCeIDService
 
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public enum BCeIDSearchableAccountType
     {
 
@@ -3470,7 +3473,7 @@ namespace BCeIDService
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public partial class SortOfSortBCeIDAccountOnProperty
     {
 
@@ -3509,7 +3512,7 @@ namespace BCeIDService
 
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public enum SortBCeIDAccountOnProperty
     {
 
@@ -3550,7 +3553,7 @@ namespace BCeIDService
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public partial class PaginationRequest
     {
 
@@ -3600,7 +3603,7 @@ namespace BCeIDService
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(InternalUserGroupInfoRequest))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public abstract partial class RequestBase
     {
 
@@ -3672,7 +3675,7 @@ namespace BCeIDService
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public partial class SubscriptionCodeListRequest : RequestBase
     {
 
@@ -3696,7 +3699,7 @@ namespace BCeIDService
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public partial class CreateAccountRequestRequest : RequestBase
     {
 
@@ -3720,7 +3723,7 @@ namespace BCeIDService
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public partial class CreateSubscriptionBatchRequest : RequestBase
     {
 
@@ -3745,7 +3748,7 @@ namespace BCeIDService
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(AccountDetailListRequestItem))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public partial class AccountDetailRequest : RequestBase
     {
 
@@ -3801,7 +3804,7 @@ namespace BCeIDService
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public partial class AccountDetailListRequestItem : AccountDetailRequest
     {
 
@@ -3825,7 +3828,7 @@ namespace BCeIDService
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public partial class AccountDetailListRequest : RequestBase
     {
 
@@ -3851,7 +3854,7 @@ namespace BCeIDService
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(BCeIDAccountSearchRequest))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public partial class SearchRequestBase : RequestBase
     {
 
@@ -3875,7 +3878,7 @@ namespace BCeIDService
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public partial class InternalAccountSearchRequest : SearchRequestBase
     {
 
@@ -3915,7 +3918,7 @@ namespace BCeIDService
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V9/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.bceid.ca/webservices/Client/V10/")]
     public partial class BCeIDAccountSearchRequest : SearchRequestBase
     {
 
@@ -3997,33 +4000,6 @@ namespace BCeIDService
          base(binding, remoteAddress)
         {
         }
-
-        //public BCeIDServiceSoapClient(EndpointConfiguration endpointConfiguration) :
-        //        base(BCeIDServiceSoapClient.GetBindingForEndpoint(endpointConfiguration), BCeIDServiceSoapClient.GetEndpointAddress(endpointConfiguration))
-        //{
-        //    this.Endpoint.Name = endpointConfiguration.ToString();
-        //    ConfigureEndpoint(this.Endpoint, this.ClientCredentials);
-        //}
-
-        //public BCeIDServiceSoapClient(EndpointConfiguration endpointConfiguration, string remoteAddress) :
-        //        base(BCeIDServiceSoapClient.GetBindingForEndpoint(endpointConfiguration), new System.ServiceModel.EndpointAddress(remoteAddress))
-        //{
-        //    this.Endpoint.Name = endpointConfiguration.ToString();
-        //    ConfigureEndpoint(this.Endpoint, this.ClientCredentials);
-        //}
-
-        //public BCeIDServiceSoapClient(EndpointConfiguration endpointConfiguration, System.ServiceModel.EndpointAddress remoteAddress) :
-        //        base(BCeIDServiceSoapClient.GetBindingForEndpoint(endpointConfiguration), remoteAddress)
-        //{
-        //    this.Endpoint.Name = endpointConfiguration.ToString();
-        //    ConfigureEndpoint(this.Endpoint, this.ClientCredentials);
-        //}
-
-        //public BCeIDServiceSoapClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) :
-        //        base(binding, remoteAddress)
-        //{
-        //}
-
         public System.Threading.Tasks.Task<BCeIDService.InternalUserGroupInfoResponse> getInternalUserGroupInfoAsync(BCeIDService.InternalUserGroupInfoRequest internalUserGroupInfoRequest)
         {
             return base.Channel.getInternalUserGroupInfoAsync(internalUserGroupInfoRequest);
@@ -4088,35 +4064,6 @@ namespace BCeIDService
 
             return httpsBinding;
         }
-
-        //private static System.ServiceModel.Channels.Binding GetBindingForEndpoint(EndpointConfiguration endpointConfiguration)
-        //{
-        //if ((endpointConfiguration == EndpointConfiguration.BCeIDServiceSoap))
-        //{
-        //    System.ServiceModel.BasicHttpBinding result = new System.ServiceModel.BasicHttpBinding();
-        //    result.MaxBufferSize = int.MaxValue;
-        //    result.ReaderQuotas = System.Xml.XmlDictionaryReaderQuotas.Max;
-        //    result.MaxReceivedMessageSize = int.MaxValue;
-        //    result.AllowCookies = true;
-        //    result.Security.Mode = System.ServiceModel.BasicHttpSecurityMode.Transport;
-        //    return result;
-        //}
-        //if ((endpointConfiguration == EndpointConfiguration.BCeIDServiceSoap12))
-        //{
-        //    System.ServiceModel.Channels.CustomBinding result = new System.ServiceModel.Channels.CustomBinding();
-        //    System.ServiceModel.Channels.TextMessageEncodingBindingElement textBindingElement = new System.ServiceModel.Channels.TextMessageEncodingBindingElement();
-        //    textBindingElement.MessageVersion = System.ServiceModel.Channels.MessageVersion.CreateVersion(System.ServiceModel.EnvelopeVersion.Soap12, System.ServiceModel.Channels.AddressingVersion.None);
-        //    result.Elements.Add(textBindingElement);
-        //    System.ServiceModel.Channels.HttpsTransportBindingElement httpsBindingElement = new System.ServiceModel.Channels.HttpsTransportBindingElement();
-        //    httpsBindingElement.AllowCookies = true;
-        //    httpsBindingElement.MaxBufferSize = int.MaxValue;
-        //    httpsBindingElement.MaxReceivedMessageSize = int.MaxValue;
-        //    result.Elements.Add(httpsBindingElement);
-        //    return result;
-        //}
-        //throw new System.InvalidOperationException(string.Format("Could not find endpoint with name \'{0}\'.", endpointConfiguration));
-        //}
-
         private static System.ServiceModel.EndpointAddress GetEndpointAddress(string endpointUrl)
         {
             if (!endpointUrl.StartsWith("https://"))
@@ -4125,26 +4072,9 @@ namespace BCeIDService
             }
             return new System.ServiceModel.EndpointAddress(endpointUrl);
         }
-
-        //private static System.ServiceModel.EndpointAddress GetEndpointAddress(EndpointConfiguration endpointConfiguration)
-        //{
-        //    switch (endpointConfiguration)
-        //    {
-        //        case EndpointConfiguration.BCeIDServiceSoap:
-        //        case EndpointConfiguration.BCeIDServiceSoap12:
-        //        case EndpointConfiguration.DEV:
-        //            return new System.ServiceModel.EndpointAddress("https://gws1.development.bceid.ca/webservices/Client/V9/BCeIDService.asmx");
-        //        case EndpointConfiguration.TEST:
-        //            return new System.ServiceModel.EndpointAddress("https://gws1.test.bceid.ca/webservices/Client/V9/BCeIDService.asmx");
-        //        case EndpointConfiguration.PROD:
-        //            return new System.ServiceModel.EndpointAddress("https://gws1.bceid.ca/webservices/Client/V9/BCeIDService.asmx");
-        //    }
-
-        //    throw new System.InvalidOperationException(string.Format("Could not find endpoint with name \'{0}\'.", endpointConfiguration));
-        //}
-
         public enum EndpointConfiguration
         {
+
             BCeIDServiceSoap,
             BCeIDServiceSoap12,
             DEV,
