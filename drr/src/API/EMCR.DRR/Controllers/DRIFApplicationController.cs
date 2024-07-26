@@ -155,6 +155,34 @@ namespace EMCR.DRR.Controllers
             return Ok(new ApplicationResult { Id = "DRIF-FP-1000" });
         }
 
+        [HttpPost("{id}/attachment")]
+        public async Task<ActionResult<ApplicationResult>> UploadAttachment([FromBody] Attachment attachment, string id)
+        {
+            await Task.CompletedTask;
+            return Ok(new ApplicationResult { Id = "fileId" });
+        }
+
+        [HttpGet("{id}/attachment/{fileId}")]
+        public async Task<ActionResult<ApplicationResult>> DownloadAttachment([FromBody] Attachment attachment, string id, string fileId)
+        {
+            await Task.CompletedTask;
+            return Ok(new { Name = "FileName", Body = "base64encodedfile" });
+        }
+
+        [HttpPost("{id}/attachment/{fileId}")]
+        public async Task<ActionResult<ApplicationResult>> UpdateAttachment([FromBody] Attachment attachment, string id, string fileId)
+        {
+            await Task.CompletedTask;
+            return Ok(new ApplicationResult { Id = "fileId" });
+        }
+
+        [HttpDelete("{id}/attachment/{fileId}")]
+        public async Task<ActionResult<ApplicationResult>> DeleteAttachment([FromBody] Attachment attachment, string id, string fileId)
+        {
+            await Task.CompletedTask;
+            return Ok(new ApplicationResult { Id = "fileId" });
+        }
+
         //Prevent empty additional contact 1, but populated additional contact 2
         private IEnumerable<ContactDetails> MapAdditionalContacts(DraftApplication application)
         {
@@ -279,7 +307,7 @@ namespace EMCR.DRR.Controllers
 
     public class DraftFpApplication : DraftApplication
     {
-
+        public IEnumerable<Attachment> Attachments { get; set; }
     }
 
     public class FpApplication : DraftFpApplication
