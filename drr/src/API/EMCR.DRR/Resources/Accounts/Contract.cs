@@ -23,4 +23,10 @@
         public required string Name { get; set; }
         public required string BCeIDBusinessId { get; set; }
     }
+
+    public enum BCeIDOptionSet
+    {
+        Yes = 172580000,
+        No = 172580001
+    }
 }
