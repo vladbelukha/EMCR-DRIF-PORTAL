@@ -23,6 +23,7 @@ public class UserService(IDistributedCache cache, IHttpContextAccessor httpConte
     private static string GetCurrentBusinessName(ClaimsPrincipal principal) => principal.FindFirstValue("bceid_business_name");
     private static string GetCurrentBusinessId(ClaimsPrincipal principal) => principal.FindFirstValue("bceid_business_guid");
     private static string GetCurrentUserId(ClaimsPrincipal principal) => principal.FindFirstValue("bceid_user_guid");
+    private static string GetPathClaim(ClaimsPrincipal principal) => principal.FindFirstValue("path");
     private static string GetCurrentUserName(ClaimsPrincipal principal) => principal.FindFirstValue("bceid_username");
 
     public async Task<ClaimsPrincipal> GetPrincipal(ClaimsPrincipal? sourcePrincipal = null)
@@ -64,6 +65,14 @@ public class UserService(IDistributedCache cache, IHttpContextAccessor httpConte
         //Ensure an account exists in CRM for this business id
         var businessId = GetCurrentBusinessId(sourcePrincipal);
         var cacheKey = $"account:{businessId}";
+        var path = GetPathClaim(sourcePrincipal);
+
+        //Immediately after login 2 requests from the front end come in at the same time. So close together that using the cache to prevent duplicates is failing
+        //So add a slight delay to any requests that don't match the profile endpoint to give this a chance to set the cache and prevent creating 2 accounts
+        if (!path.Contains("profile"))
+        {
+            System.Threading.Thread.Sleep(300);
+        }
         var didCheck = await cache.Get<bool>(cacheKey);
         if (!didCheck)
         {

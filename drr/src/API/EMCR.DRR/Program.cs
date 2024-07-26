@@ -76,15 +76,23 @@ services.AddAuthentication(options =>
 
     configuration.GetSection("jwt").Bind(options);
 
+#pragma warning disable CS8604 // Possible null reference argument.
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
     options.Events = new JwtBearerEvents
     {
         OnTokenValidated = async c =>
         {
             var userService = c.HttpContext.RequestServices.GetRequiredService<IUserService>();
-#pragma warning disable CS8604 // Possible null reference argument.
+            Claim[] pathClaim =
+            [
+                new Claim("path", c.HttpContext.Request.Path.Value),
+            ];
+            c.Principal = new ClaimsPrincipal(new ClaimsIdentity(c.Principal.Identity, c.Principal.Claims.Concat(pathClaim)));
+
             c.Principal = await userService.GetPrincipal(c.Principal);
-#pragma warning restore CS8604 // Possible null reference argument.
         }
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
+#pragma warning restore CS8604 // Possible null reference argument.
     };
     options.Validate();
 });
