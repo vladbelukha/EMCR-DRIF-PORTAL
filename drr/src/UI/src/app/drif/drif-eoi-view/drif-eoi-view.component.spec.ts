@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DrifEoiSummaryComponent } from './drif-eoi-summary.component';
+import { DrifEoiViewComponent } from './drif-eoi-view.component';
 
-describe('SummaryComponent', () => {
-  let component: DrifEoiSummaryComponent;
-  let fixture: ComponentFixture<DrifEoiSummaryComponent>;
+describe('DrifSubmissionDetailsComponent', () => {
+  let component: DrifEoiViewComponent;
+  let fixture: ComponentFixture<DrifEoiViewComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DrifEoiSummaryComponent],
+      imports: [DrifEoiViewComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(DrifEoiSummaryComponent);
+    fixture = TestBed.createComponent(DrifEoiViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
