@@ -402,7 +402,7 @@ export class EOIApplicationComponent {
     this.lastSavedAt = new Date();
 
     this.hotToast.close();
-    this.hotToast.success('Application saved successfully', {
+    this.hotToast.success('Form saved successfully', {
       duration: 5000,
       autoClose: true,
     });
@@ -417,7 +417,7 @@ export class EOIApplicationComponent {
 
   onSaveFailure = () => {
     this.hotToast.close();
-    this.hotToast.error('Failed to save application');
+    this.hotToast.error('Failed to save form');
   };
 
   submit() {
