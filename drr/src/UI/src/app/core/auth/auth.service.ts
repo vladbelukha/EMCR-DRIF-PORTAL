@@ -54,7 +54,7 @@ export class AuthService {
       showDebugInformation: false,
       requireHttps: true,
       redirectUri: window.location.origin + '/dashboard',
-      timeoutFactor: 0.32,
+      timeoutFactor: 0.7,
       openUri: (uri: string) => {
         const url = new URL(uri);
 
