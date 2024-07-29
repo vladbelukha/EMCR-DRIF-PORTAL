@@ -60,7 +60,7 @@ namespace EMCR.DRR.Resources.Applications
             if (string.IsNullOrEmpty(query.Id)) partnerProponentsOnly = true;
 
             await Parallel.ForEachAsync(results, ct, async (a, ct) => await ParallelLoadApplicationAsync(readCtx, partnerProponentsOnly, a, ct));
-            var items = mapper.Map<IEnumerable<Application>>(results);
+            var items = mapper.Map<IEnumerable<Application>>(results.OrderBy(a => a.drr_name));
             return new ApplicationQueryResult { Items = items };
         }
 
