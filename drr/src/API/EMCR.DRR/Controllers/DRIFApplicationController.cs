@@ -7,6 +7,7 @@ using System.Security.Claims;
 using System.Text.Json.Serialization;
 using AutoMapper;
 using EMCR.DRR.API.Model;
+using EMCR.DRR.API.Services;
 using EMCR.DRR.Managers.Intake;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -23,6 +24,7 @@ namespace EMCR.DRR.Controllers
         private readonly ILogger<DRIFApplicationController> logger;
         private readonly IIntakeManager intakeManager;
         private readonly IMapper mapper;
+        private readonly ErrorParser errorParser;
 
 #pragma warning disable CS8603 // Possible null reference return.
         private string GetCurrentBusinessId() => User.FindFirstValue("bceid_business_guid");
@@ -39,6 +41,7 @@ namespace EMCR.DRR.Controllers
             this.logger = logger;
             this.intakeManager = intakeManager;
             this.mapper = mapper;
+            this.errorParser = new ErrorParser();
         }
 
         [HttpGet]
@@ -51,7 +54,7 @@ namespace EMCR.DRR.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<DraftEoiApplication>> Get(string id)
         {
-            var application = (await intakeManager.Handle(new DrrApplicationsQuery { Id = id })).Items.FirstOrDefault();
+            var application = (await intakeManager.Handle(new DrrApplicationsQuery { Id = id, BusinessId = GetCurrentBusinessId() })).Items.FirstOrDefault();
             return Ok(mapper.Map<DraftEoiApplication>(application));
         }
 
@@ -76,33 +79,54 @@ namespace EMCR.DRR.Controllers
         [HttpPost("EOI/{id}")]
         public async Task<ActionResult<ApplicationResult>> UpdateApplication([FromBody] DraftEoiApplication application, string id)
         {
-            application.Id = id;
-            application.Status = SubmissionPortalStatus.Draft;
-            application.AdditionalContacts = MapAdditionalContacts(application);
+            try
+            {
+                application.Id = id;
+                application.Status = SubmissionPortalStatus.Draft;
+                application.AdditionalContacts = MapAdditionalContacts(application);
 
-            var drr_id = await intakeManager.Handle(new DrifEoiSaveApplicationCommand { application = mapper.Map<EoiApplication>(application), UserInfo = GetCurrentUser() });
-            return Ok(new ApplicationResult { Id = drr_id });
+                var drr_id = await intakeManager.Handle(new DrifEoiSaveApplicationCommand { application = mapper.Map<EoiApplication>(application), UserInfo = GetCurrentUser() });
+                return Ok(new ApplicationResult { Id = drr_id });
+            }
+            catch (DrrApplicationException e)
+            {
+                return errorParser.Parse(e);
+            }
         }
 
         [HttpPost("EOI/submit")]
         public async Task<ActionResult<ApplicationResult>> SubmitApplication([FromBody] EoiApplication application)
         {
-            application.Status = SubmissionPortalStatus.UnderReview;
-            application.AdditionalContacts = MapAdditionalContacts(application);
+            try
+            {
+                application.Status = SubmissionPortalStatus.UnderReview;
+                application.AdditionalContacts = MapAdditionalContacts(application);
 
-            var drr_id = await intakeManager.Handle(new DrifEoiSubmitApplicationCommand { application = application, UserInfo = GetCurrentUser() });
-            return Ok(new ApplicationResult { Id = drr_id });
+                var drr_id = await intakeManager.Handle(new DrifEoiSubmitApplicationCommand { application = application, UserInfo = GetCurrentUser() });
+                return Ok(new ApplicationResult { Id = drr_id });
+            }
+            catch (DrrApplicationException e)
+            {
+                return errorParser.Parse(e);
+            }
         }
 
         [HttpPost("EOI/{id}/submit")]
         public async Task<ActionResult<ApplicationResult>> SubmitApplication([FromBody] EoiApplication application, string id)
         {
-            application.Id = id;
-            application.Status = SubmissionPortalStatus.UnderReview;
-            application.AdditionalContacts = MapAdditionalContacts(application);
+            try
+            {
+                application.Id = id;
+                application.Status = SubmissionPortalStatus.UnderReview;
+                application.AdditionalContacts = MapAdditionalContacts(application);
 
-            var drr_id = await intakeManager.Handle(new DrifEoiSubmitApplicationCommand { application = application, UserInfo = GetCurrentUser() });
-            return Ok(new ApplicationResult { Id = drr_id });
+                var drr_id = await intakeManager.Handle(new DrifEoiSubmitApplicationCommand { application = application, UserInfo = GetCurrentUser() });
+                return Ok(new ApplicationResult { Id = drr_id });
+            }
+            catch (DrrApplicationException e)
+            {
+                return errorParser.Parse(e);
+            }
         }
 
         //Prevent empty additional contact 1, but populated additional contact 2
