@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using EMCR.DRR.API.Resources.Accounts;
+using EMCR.DRR.API.Services;
 using EMCR.DRR.Resources.Applications;
 
 namespace EMCR.DRR.Managers.Intake
@@ -44,6 +45,8 @@ namespace EMCR.DRR.Managers.Intake
 
         public async Task<string> Handle(DrifEoiSaveApplicationCommand cmd)
         {
+            var canAccess = await CanAccessApplication(cmd.application.Id, cmd.UserInfo.BusinessId);
+            if (!canAccess) throw new UnauthorizedException("Not allowed to access this application.");
             var application = mapper.Map<Application>(cmd.application);
             application.BCeIDBusinessId = cmd.UserInfo.BusinessId;
             application.ProponentName = cmd.UserInfo.BusinessName;
@@ -54,6 +57,8 @@ namespace EMCR.DRR.Managers.Intake
 
         public async Task<string> Handle(DrifEoiSubmitApplicationCommand cmd)
         {
+            var canAccess = await CanAccessApplication(cmd.application.Id, cmd.UserInfo.BusinessId);
+            if (!canAccess) throw new UnauthorizedException("Not allowed to access this application.");
             var application = mapper.Map<Application>(cmd.application);
             application.BCeIDBusinessId = cmd.UserInfo.BusinessId;
             application.ProponentName = cmd.UserInfo.BusinessName;
@@ -67,6 +72,12 @@ namespace EMCR.DRR.Managers.Intake
         {
             var res = await applicationRepository.Query(new Resources.Applications.DeclarationQuery());
             return new DeclarationQueryResult { Items = mapper.Map<IEnumerable<DeclarationInfo>>(res.Items) };
+        }
+
+        private async Task<bool> CanAccessApplication(string? id, string businessId)
+        {
+            if (string.IsNullOrEmpty(id)) return true;
+            return await applicationRepository.CanAccessApplication(id, businessId);
         }
     }
 }

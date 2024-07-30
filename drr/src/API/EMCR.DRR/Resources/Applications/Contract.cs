@@ -7,6 +7,7 @@ namespace EMCR.DRR.Resources.Applications
         Task<ManageApplicationCommandResult> Manage(ManageApplicationCommand cmd);
         Task<ApplicationQueryResult> Query(ApplicationQuery query);
         Task<DeclarationQueryResult> Query(DeclarationQuery query);
+        Task<bool> CanAccessApplication(string id, string businessId);
     }
 
     public abstract class ManageApplicationCommand
