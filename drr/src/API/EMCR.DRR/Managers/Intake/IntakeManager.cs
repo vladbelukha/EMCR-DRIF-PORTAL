@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using EMCR.DRR.API.Resources.Accounts;
+using EMCR.DRR.API.Services;
 using EMCR.DRR.Resources.Applications;
 
 namespace EMCR.DRR.Managers.Intake
@@ -30,7 +31,8 @@ namespace EMCR.DRR.Managers.Intake
         {
             return cmd switch
             {
-                EoiApplicationCommand c => await Handle(c),
+                EoiSaveApplicationCommand c => await Handle(c),
+                EoiSubmitApplicationCommand c => await Handle(c),
                 _ => throw new NotSupportedException($"{cmd.GetType().Name} is not supported")
             };
         }
@@ -41,11 +43,26 @@ namespace EMCR.DRR.Managers.Intake
             return new IntakeQueryResponse { Items = mapper.Map<IEnumerable<Application>>(res.Items) };
         }
 
-        public async Task<string> Handle(EoiApplicationCommand cmd)
+        public async Task<string> Handle(EoiSaveApplicationCommand cmd)
         {
+            var canAccess = await CanAccessApplication(cmd.application.Id, cmd.UserInfo.BusinessId);
+            if (!canAccess) throw new UnauthorizedException("Not allowed to access this application.");
             var application = mapper.Map<Application>(cmd.application);
             application.BCeIDBusinessId = cmd.UserInfo.BusinessId;
             application.ProponentName = cmd.UserInfo.BusinessName;
+            if (application.Submitter != null) application.Submitter.BCeId = cmd.UserInfo.UserId;
+            var id = (await applicationRepository.Manage(new SubmitApplication { Application = application })).Id;
+            return id;
+        }
+
+        public async Task<string> Handle(EoiSubmitApplicationCommand cmd)
+        {
+            var canAccess = await CanAccessApplication(cmd.application.Id, cmd.UserInfo.BusinessId);
+            if (!canAccess) throw new UnauthorizedException("Not allowed to access this application.");
+            var application = mapper.Map<Application>(cmd.application);
+            application.BCeIDBusinessId = cmd.UserInfo.BusinessId;
+            application.ProponentName = cmd.UserInfo.BusinessName;
+            application.SubmittedDate = DateTime.UtcNow;
             if (application.Submitter != null) application.Submitter.BCeId = cmd.UserInfo.UserId;
             var id = (await applicationRepository.Manage(new SubmitApplication { Application = application })).Id;
             return id;
@@ -55,6 +72,12 @@ namespace EMCR.DRR.Managers.Intake
         {
             var res = await applicationRepository.Query(new Resources.Applications.DeclarationQuery());
             return new DeclarationQueryResult { Items = mapper.Map<IEnumerable<DeclarationInfo>>(res.Items) };
+        }
+
+        private async Task<bool> CanAccessApplication(string? id, string businessId)
+        {
+            if (string.IsNullOrEmpty(id)) return true;
+            return await applicationRepository.CanAccessApplication(id, businessId);
         }
     }
 }

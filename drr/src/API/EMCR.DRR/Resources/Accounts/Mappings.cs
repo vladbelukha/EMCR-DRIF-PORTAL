@@ -10,6 +10,7 @@ namespace EMCR.DRR.API.Resources.Accounts
             CreateMap<Account, account>(MemberList.None)
                 .ForMember(dest => dest.name, opt => opt.MapFrom(src => src.Name))
                 .ForMember(dest => dest.drr_bceidguid, opt => opt.MapFrom(src => src.BCeIDBusinessId))
+                .ForMember(dest => dest.drr_bceid, opt => opt.MapFrom(src => !string.IsNullOrEmpty(src.BCeIDBusinessId) ? (int?)BCeIDOptionSet.Yes : null))
                 ;
         }
     }
