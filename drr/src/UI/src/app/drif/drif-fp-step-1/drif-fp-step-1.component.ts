@@ -3,7 +3,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { IFormGroup } from '@rxweb/reactive-form-validators';
 import { DrifEoiStep1Component } from '../drif-eoi-step-1/drif-eoi-step-1.component';
-import { ProponentInformationForm } from '../drif-eoi/drif-eoi-form';
+import { ProponentAndProjectInformationForm } from '../drif-fp/drif-fp-form';
 
 @Component({
   selector: 'drif-fp-step-1',
@@ -14,5 +14,5 @@ import { ProponentInformationForm } from '../drif-eoi/drif-eoi-form';
 })
 export class DrifFpStep1Component {
   @Input()
-  proponentInformationForm!: IFormGroup<ProponentInformationForm>;
+  proponentAndProjectInformationForm!: IFormGroup<ProponentAndProjectInformationForm>;
 }

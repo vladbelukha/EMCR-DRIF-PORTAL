@@ -4,10 +4,12 @@ import {
   propObject,
   required,
 } from '@rxweb/reactive-form-validators';
-import { FundingStream, ProjectType } from '../../../model';
+import { FundingStream, ProjectType, ProponentType } from '../../../model';
 import {
+  ContactDetailsForm,
   FundingInformationItemForm,
   ProponentInformationForm,
+  StringItem,
 } from '../drif-eoi/drif-eoi-form';
 
 // TODO: temp before API provides the correct structure
@@ -92,10 +94,38 @@ export class BudgetForm {
   otherFunding?: FundingInformationItemForm[] = [{}];
 }
 
+export class ProponentAndProjectInformationForm {
+  @prop()
+  @required()
+  proponentType?: ProponentType;
+
+  @prop()
+  @required()
+  proponentName?: string;
+
+  @required()
+  @propObject(ContactDetailsForm)
+  projectContact?: ContactDetailsForm = new ContactDetailsForm({});
+
+  @required()
+  @propArray(ContactDetailsForm)
+  additionalContacts?: ContactDetailsForm[] = [{}];
+
+  @prop()
+  partneringProponents?: string[] = [];
+
+  @propArray(StringItem)
+  partneringProponentsArray?: StringItem[] = [{ value: '' }];
+
+  constructor(values: ProponentInformationForm) {
+    Object.assign(this, values);
+  }
+}
+
 export class DrifFpForm {
-  @propObject(ProponentInformationForm)
-  proponentInformation?: ProponentInformationForm =
-    new ProponentInformationForm({});
+  @propObject(ProponentAndProjectInformationForm)
+  proponentAndProjectInformationForm?: ProponentAndProjectInformationForm =
+    new ProponentAndProjectInformationForm({});
 
   @propObject(ProponentEligibilityForm)
   proponentEligibility?: ProponentEligibilityForm =

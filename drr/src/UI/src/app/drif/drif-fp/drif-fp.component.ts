@@ -26,7 +26,12 @@ import { DrifFpStep1Component } from '../drif-fp-step-1/drif-fp-step-1.component
 
 import { distinctUntilChanged } from 'rxjs/operators';
 import { DrifapplicationService } from '../../../api/drifapplication/drifapplication.service';
-import { DraftFpApplication } from '../../../model';
+import {
+  DraftFpApplication,
+  FundingStream,
+  ProjectType,
+  ProponentType,
+} from '../../../model';
 import {
   ContactDetailsForm,
   FundingInformationItemForm,
@@ -142,105 +147,114 @@ export class DrifFpComponent {
 
   load() {
     // TODO: load application data from API
-    const application = {
-      partneringProponents: ['Proponent1', 'Proponent2'],
-      additionalContacts: [
-        {
-          firstName: 'John1',
-          lastName: 'Doe1',
-          email: '',
-          phone: '',
-          department: '',
-          title: '',
-        },
-      ],
-      otherFunding: [
-        {
-          fundingType: 'Type1',
-          amount: 100000,
-          description: 'Description1',
-        },
-        {
-          fundingType: 'Type2',
-          amount: 200000,
-          description: 'Description2',
-        },
-      ],
-    };
-
-    // TODO: initiate DrifFpForm using API response
-    const formData: DrifFpForm = {
+    const response = {
       eoiId: 'DRIF-EOI-1111',
-      fundingStream: 'Stream1',
-      projectType: 'Existing',
-      proponentInformation: {
-        proponentType: 'FirstNation',
+      fundingStream: FundingStream.Stream1,
+      projectType: ProjectType.Existing,
+      proponentAndProjectInformationForm: {
+        proponentType: ProponentType.FirstNation,
         projectContact: {
-          firstName: 'Jane',
+          firstName: 'John',
           lastName: 'Doe',
-          email: 'asd@.asda.asd',
-          phone: '123-456-7890',
-          department: 'IT',
-          title: 'Ms.',
+          email: 'email',
+          phone: '123456',
+          department: 'department',
+          title: 'title',
         },
         additionalContacts: [
           {
             firstName: 'John1',
             lastName: 'Doe1',
-            email: 'jd1@exmapl.as',
-            phone: '123-456-7890',
-            department: 'IT1',
-            title: 'Mr.1',
+            email: 'e1',
+            phone: '11111',
+            department: 'd1',
+            title: 't1',
           },
           {
             firstName: 'John2',
             lastName: 'Doe2',
-            email: 'jd2@exmapl.as',
-            phone: '123-456-7890',
-            department: 'IT2',
-            title: 'Mr.2',
+            email: 'e2',
+            phone: '22222',
+            department: 'd2',
+            title: 't2',
           },
         ],
+        partneringProponents: ['Proponent1', 'Proponent2'],
       },
       budget: {
         totalProjectCost: 1304020,
         fundingRequest: 1200000,
+        otherFunding: [
+          {
+            fundingType: 'Type1',
+            amount: 100000,
+            description: 'Description1',
+          },
+          {
+            fundingType: 'Type2',
+            amount: 200000,
+            description: 'Description2',
+          },
+        ],
+      },
+    };
+
+    // TODO: initiate DrifFpForm using API response
+    const formData: DrifFpForm = {
+      eoiId: response.eoiId,
+      fundingStream: response.fundingStream,
+      projectType: response.projectType,
+      proponentAndProjectInformationForm: {
+        ...response.proponentAndProjectInformationForm,
+      },
+      budget: {
+        ...response.budget,
       },
     };
 
     this.drifFpForm.patchValue(formData, { emitEvent: false });
 
     const partneringProponentsArray = this.getFormGroup(
-      'proponentInformation'
+      'proponentAndProjectInformationForm'
     ).get('partneringProponentsArray') as FormArray;
-    if (application.partneringProponents?.length! > 0) {
+    if (
+      response.proponentAndProjectInformationForm.partneringProponents
+        ?.length! > 0
+    ) {
       partneringProponentsArray.clear();
     }
-    application.partneringProponents?.forEach((proponent) => {
-      partneringProponentsArray?.push(
-        this.formBuilder.formGroup(new StringItem({ value: proponent }))
-      );
-    });
+    response.proponentAndProjectInformationForm.partneringProponents?.forEach(
+      (proponent) => {
+        partneringProponentsArray?.push(
+          this.formBuilder.formGroup(new StringItem({ value: proponent }))
+        );
+      }
+    );
 
     const additionalContactsArray = this.getFormGroup(
-      'proponentInformation'
+      'proponentAndProjectInformationForm'
     ).get('additionalContacts') as FormArray;
-    if (application.additionalContacts?.length! > 0) {
+    if (
+      response.proponentAndProjectInformationForm.additionalContacts?.length! >
+      0
+    ) {
       additionalContactsArray.clear();
     }
-    application.additionalContacts?.forEach((contact) => {
-      additionalContactsArray?.push(
-        this.formBuilder.formGroup(new ContactDetailsForm(contact))
-      );
-    });
+    response.proponentAndProjectInformationForm.additionalContacts?.forEach(
+      (contact) => {
+        additionalContactsArray?.push(
+          this.formBuilder.formGroup(new ContactDetailsForm(contact))
+        );
+      }
+    );
 
     const fundingInformationItemFormArray = this.getFormGroup('budget').get(
       'otherFunding'
     ) as FormArray;
-    if (application.otherFunding?.length! > 0) {
+    if (response.budget.otherFunding?.length! > 0) {
       fundingInformationItemFormArray.clear();
     }
-    application.otherFunding?.forEach((funding) => {
+    response.budget.otherFunding?.forEach((funding) => {
       fundingInformationItemFormArray?.push(
         this.formBuilder.formGroup(new FundingInformationItemForm(funding))
       );
@@ -260,8 +274,9 @@ export class DrifFpComponent {
   }
 
   getPrimaryProponent() {
-    return this.drifFpForm?.get('proponentInformation')?.get('proponentName')
-      ?.value;
+    return this.drifFpForm
+      ?.get('proponentAndProjectInformationForm')
+      ?.get('proponentName')?.value;
   }
 
   getProjectType() {
