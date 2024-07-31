@@ -43,14 +43,22 @@ namespace EMCR.DRR.Resources.Applications
             return new DeclarationQueryResult { Items = items };
         }
 
+        public async Task<bool> CanAccessApplication(string id, string businessId)
+        {
+            var readCtx = dRRContextFactory.CreateReadOnly();
+            var existingApplication = await readCtx.drr_applications.Expand(a => a.drr_Primary_Proponent_Name).Where(a => a.drr_name == id).SingleOrDefaultAsync();
+            if (existingApplication == null) return true;
+            return (!string.IsNullOrEmpty(existingApplication.drr_Primary_Proponent_Name.drr_bceidguid)) && existingApplication.drr_Primary_Proponent_Name.drr_bceidguid.Equals(businessId);
+        }
+
         private async Task<ApplicationQueryResult> HandleQueryApplication(ApplicationsQuery query)
         {
             var ct = new CancellationTokenSource().Token;
             var readCtx = dRRContextFactory.CreateReadOnly();
 
             var applicationsQuery = readCtx.drr_applications.Where(a => a.statecode == (int)EntityState.Active);
-            if (!string.IsNullOrEmpty(query.Id)) applicationsQuery = applicationsQuery.Where(f => f.drr_name == query.Id);
-            if (!string.IsNullOrEmpty(query.BusinessId)) applicationsQuery = applicationsQuery.Where(f => f.drr_Primary_Proponent_Name.drr_bceidguid == query.BusinessId);
+            if (!string.IsNullOrEmpty(query.Id)) applicationsQuery = applicationsQuery.Where(a => a.drr_name == query.Id);
+            if (!string.IsNullOrEmpty(query.BusinessId)) applicationsQuery = applicationsQuery.Where(a => a.drr_Primary_Proponent_Name.drr_bceidguid == query.BusinessId);
 
             var results = await applicationsQuery.GetAllPagesAsync(ct);
 
@@ -60,7 +68,7 @@ namespace EMCR.DRR.Resources.Applications
             if (string.IsNullOrEmpty(query.Id)) partnerProponentsOnly = true;
 
             await Parallel.ForEachAsync(results, ct, async (a, ct) => await ParallelLoadApplicationAsync(readCtx, partnerProponentsOnly, a, ct));
-            var items = mapper.Map<IEnumerable<Application>>(results);
+            var items = mapper.Map<IEnumerable<Application>>(results.OrderBy(a => a.drr_name));
             return new ApplicationQueryResult { Items = items };
         }
 

@@ -46,15 +46,9 @@ header mat-toolbar {
   white-space: initial;
 }
 
-@media (max-width: 1215px) {
-  .button-align {
-    float: left !important;
-    white-space: normal;
-    padding: 0px;
-  }
-
-  .menu-responsive {
-    width: 50%;
+@media (max-width: 768px) {
+  .header-container {
+    display: block;
   }
 }
 
