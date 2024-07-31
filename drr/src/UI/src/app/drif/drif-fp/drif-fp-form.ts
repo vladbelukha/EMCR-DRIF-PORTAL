@@ -33,13 +33,6 @@ export class FileForm {
 export class ProponentEligibilityForm {
   @prop()
   @required()
-  regionalProject?: boolean;
-
-  @prop()
-  regionalProjectComments?: string;
-
-  @prop()
-  @required()
   authorityAndOwnership?: boolean;
 
   @prop()
@@ -116,6 +109,13 @@ export class ProponentAndProjectInformationForm {
 
   @propArray(StringItem)
   partneringProponentsArray?: StringItem[] = [{ value: '' }];
+
+  @prop()
+  @required()
+  regionalProject?: boolean;
+
+  @prop()
+  regionalProjectComments?: string;
 
   constructor(values: ProponentInformationForm) {
     Object.assign(this, values);
