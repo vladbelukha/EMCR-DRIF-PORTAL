@@ -48,7 +48,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ secrets.OCP4_REGISTRY }}/${{ secrets.OCP4_NAMESPACE }}/${{ inputs.IMAGE_NAME }}
+          images: ${{ secrets.OCP4_REGISTRY }}/${{ secrets.OCP4_NAMESPACE }}${{ inputs.IMAGE_NAME }}
           tags: |
             type=ref,event=branch
             type=ref,event=pr
