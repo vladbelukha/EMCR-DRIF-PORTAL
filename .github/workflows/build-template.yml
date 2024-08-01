@@ -18,6 +18,8 @@ on:
         type: string
 
     secrets:
+      REGISTRY:
+        required: true
       REGISTRY_USER:
         required: true
       REGISTRY_PASSWORD:
