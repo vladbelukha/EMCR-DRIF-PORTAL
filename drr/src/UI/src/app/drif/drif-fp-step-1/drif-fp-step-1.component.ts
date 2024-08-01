@@ -20,7 +20,9 @@ import {
   RxFormBuilder,
   RxFormControl,
 } from '@rxweb/reactive-form-validators';
+import { Hazards } from '../../../model';
 import { DrrInputComponent } from '../../shared/controls/drr-input/drr-input.component';
+import { DrrSelectComponent } from '../../shared/controls/drr-select/drr-select.component';
 import { DrrTextareaComponent } from '../../shared/controls/drr-textarea/drr-textarea.component';
 import { ContactDetailsForm, StringItem } from '../drif-eoi/drif-eoi-form';
 import { ProponentAndProjectInformationForm } from '../drif-fp/drif-fp-form';
@@ -42,6 +44,7 @@ import { ProponentAndProjectInformationForm } from '../drif-fp/drif-fp-form';
     TranslocoModule,
     DrrInputComponent,
     DrrTextareaComponent,
+    DrrSelectComponent,
   ],
   templateUrl: './drif-fp-step-1.component.html',
   styleUrl: './drif-fp-step-1.component.scss',
@@ -51,6 +54,7 @@ export class DrifFpStep1Component {
   breakpointObserver = inject(BreakpointObserver);
 
   isMobile = false;
+  hazardsOptions = Object.values(Hazards);
 
   @Input()
   proponentAndProjectInformationForm!: IFormGroup<ProponentAndProjectInformationForm>;
@@ -120,5 +124,9 @@ export class DrifFpStep1Component {
   removeProponent(index: number) {
     const proponents = this.getFormArray('partneringProponentsArray');
     proponents.removeAt(index);
+  }
+
+  otherHazardSelected() {
+    return this.getFormArray('relatedHazards').value?.includes('Other');
   }
 }
