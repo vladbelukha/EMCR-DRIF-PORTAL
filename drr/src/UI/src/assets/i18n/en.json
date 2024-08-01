@@ -42,6 +42,7 @@
   "additionalContacts": "Additional Contacts",
   "addAdditionalContact": "Add additional contact",
   "projectTitle": "Project Title",
+  "projectTitleText": "What is the title of the Project?",
   "projectType": "Project Type",
   "relatedHazards": "Related Hazard(s) (select all that apply):",
   "relatedHazardsSummary": "Related Hazard(s)",

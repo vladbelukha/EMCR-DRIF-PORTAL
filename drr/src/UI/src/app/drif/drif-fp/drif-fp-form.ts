@@ -90,6 +90,10 @@ export class BudgetForm {
 export class ProponentAndProjectInformationForm {
   @prop()
   @required()
+  projectTitle?: string;
+
+  @prop()
+  @required()
   proponentType?: ProponentType;
 
   @prop()

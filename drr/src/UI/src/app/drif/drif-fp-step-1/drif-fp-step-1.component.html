@@ -176,7 +176,7 @@
       </button>
     </div>
 
-    <mat-label class="drr-label" style="margin-top: 20px">{{
+    <mat-label class="drr-label" style="margin-top: 2rem">{{
       t("partneringProponents")
     }}</mat-label>
 
@@ -205,7 +205,7 @@
 
       <button
         id="addProponent"
-        style="margin-top: 10px"
+        style="margin-top: 1rem"
         [style.padding]="isMobile ? '24px 16px' : ''"
         mat-stroked-button
         type="button"
@@ -217,11 +217,11 @@
       </button>
     </div>
 
-    <mat-label style="margin-top: 10px" class="drr-label">{{
+    <mat-label style="margin-top: 1rem" class="drr-label">{{
       t("regionalProject")
     }}</mat-label>
     <mat-label>{{ t("regionalProjectText") }}</mat-label>
-    <mat-label style="margin-top: 10px"
+    <mat-label style="margin-top: 1rem"
       >{{ t("regionalProjectQuestion") }}*</mat-label
     >
     <div class="drr-radio-comment">
@@ -256,5 +256,15 @@
         [useTopLabel]="false"
       ></drr-textarea>
     </div>
+
+    <mat-label class="drr-label">{{ t("projectTitle") }}</mat-label>
+    <drr-input
+      style="margin-top: 1rem"
+      class="drr-single-input"
+      [id]="'projectTitle'"
+      [label]="t('projectTitleText')"
+      [rxFormControl]="proponentAndProjectInformationForm.get('projectTitle')"
+      [maxlength]="100"
+    ></drr-input>
   </form>
 </div>
