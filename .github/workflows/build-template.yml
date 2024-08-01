@@ -50,7 +50,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ secrets.REGISTRY }}/${{ secrets.NAMESPACE }}${{ inputs.IMAGE_NAME }}
+          images: ${{ secrets.REGISTRY }}${{ secrets.NAMESPACE }}${{ inputs.IMAGE_NAME }}
           tags: |
             type=ref,event=branch
             type=ref,event=pr
