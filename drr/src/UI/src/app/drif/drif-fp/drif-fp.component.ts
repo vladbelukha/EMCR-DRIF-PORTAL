@@ -29,6 +29,7 @@ import { DrifapplicationService } from '../../../api/drifapplication/drifapplica
 import {
   DraftFpApplication,
   FundingStream,
+  Hazards,
   ProjectType,
   ProponentType,
 } from '../../../model';
@@ -180,6 +181,10 @@ export class DrifFpComponent {
           },
         ],
         partneringProponents: ['Proponent1', 'Proponent2'],
+        projectTitle: 'Project Title 1',
+        scopeStatement: 'Scope Statement 1',
+        relatedHazards: [Hazards.Drought, Hazards.Flood, Hazards.Other],
+        otherHazardsDescription: 'Other Hazards Description',
       },
       budget: {
         totalProjectCost: 1304020,
