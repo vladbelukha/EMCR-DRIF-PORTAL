@@ -1,0 +1,87 @@
+<div class="drr-step-container" *transloco="let t">
+  <form [formGroup]="proponentEligibilityForm">
+    <mat-label class="drr-label">{{ t("authorityAndOwnership") }}</mat-label>
+    <mat-label>{{ t("authorityAndOwnershipQuestion") }}*</mat-label>
+    <div class="drr-radio-comment">
+      <mat-radio-group
+        id="authorityAndOwnership"
+        class="drr-radio-group"
+        style="margin-bottom: 10px"
+        aria-label="Select an option"
+        formControlName="authorityAndOwnership"
+      >
+        <mat-error
+          *ngIf="
+            proponentEligibilityForm.get('authorityAndOwnership')?.touched &&
+            proponentEligibilityForm
+              .get('authorityAndOwnership')
+              ?.hasError('required')
+          "
+          >{{ t("required") }}</mat-error
+        >
+        <mat-radio-button [value]="true">Yes</mat-radio-button>
+        <mat-radio-button [value]="false">No</mat-radio-button>
+      </mat-radio-group>
+
+      <drr-textarea
+        [id]="'authorityAndOwnershipComments'"
+        [label]="t('authorityAndOwnershipComments')"
+        [maxlength]="2000"
+        [rxFormControl]="
+          proponentEligibilityForm.get('authorityAndOwnershipComments')
+        "
+        [useTopLabel]="false"
+      ></drr-textarea>
+    </div>
+
+    <mat-label class="drr-label">{{ t("operationAndMaintenance") }}</mat-label>
+    <mat-label>{{ t("operationAndMaintenanceQuestion") }}*</mat-label>
+    <div class="drr-radio-comment">
+      <mat-radio-group
+        id="operationAndMaintenance"
+        class="drr-radio-group"
+        style="margin-bottom: 10px"
+        aria-label="Select an option"
+        formControlName="operationAndMaintenance"
+      >
+        <mat-error
+          *ngIf="
+            proponentEligibilityForm.get('operationAndMaintenance')?.touched &&
+            proponentEligibilityForm
+              .get('operationAndMaintenance')
+              ?.hasError('required')
+          "
+          >{{ t("required") }}</mat-error
+        >
+        <mat-radio-button [value]="true">Yes</mat-radio-button>
+        <mat-radio-button [value]="false">No</mat-radio-button>
+      </mat-radio-group>
+
+      <drr-textarea
+        [id]="'operationAndMaintenanceComments'"
+        [label]="t('operationAndMaintenanceComments')"
+        [maxlength]="2000"
+        [rxFormControl]="
+          proponentEligibilityForm.get('operationAndMaintenanceComments')
+        "
+        [useTopLabel]="false"
+      ></drr-textarea>
+    </div>
+
+    <mat-label class="drr-label">{{ t("supportingDocumentation") }}</mat-label>
+    <div *ngIf="files.length > 0" class="file-list">
+      <div *ngFor="let file of files; let i = index" class="list-item">
+        <h4 mat-line>{{ file.name }}</h4>
+        <drr-input
+          class="drr-single-input"
+          [label]="'Provide a comment'"
+        ></drr-input>
+        <button mat-mini-fab color="warn" (click)="removeFile(i)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </div>
+    <mat-label>{{ t("supportingDocumentationOptionalText") }}</mat-label>
+    <drr-file-upload (filesSelected)="filesSelected($event)"></drr-file-upload>
+  </form>
+</div>

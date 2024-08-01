@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DrifFpStep2Component } from './drif-fp-step2.component';
+import { DrifFpSummaryComponent } from './drif-fp-summary.component';
 
-describe('DrifFpStep2Component', () => {
-  let component: DrifFpStep2Component;
-  let fixture: ComponentFixture<DrifFpStep2Component>;
+describe('DrifFpSummaryComponent', () => {
+  let component: DrifFpSummaryComponent;
+  let fixture: ComponentFixture<DrifFpSummaryComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DrifFpStep2Component]
+      imports: [DrifFpSummaryComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(DrifFpStep2Component);
+    fixture = TestBed.createComponent(DrifFpSummaryComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

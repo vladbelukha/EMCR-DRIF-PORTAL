@@ -4,7 +4,6 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { TranslocoModule } from '@ngneat/transloco';
 import { VersionService } from '../../../api/version/version.service';
 import { VersionInformation } from '../../../model';
-import { ConfigurationStore } from '../../store/configuration.store';
 
 @Component({
   selector: 'drr-footer',
@@ -15,11 +14,6 @@ import { ConfigurationStore } from '../../store/configuration.store';
 })
 export class FooterComponent {
   versionService = inject(VersionService);
-  configStore = inject(ConfigurationStore);
-
-  get homeUrl() {
-    return this.configStore.oidc!()?.postLogoutRedirectUri;
-  }
 
   isDevMode = isDevMode();
   versions?: VersionInformation[];

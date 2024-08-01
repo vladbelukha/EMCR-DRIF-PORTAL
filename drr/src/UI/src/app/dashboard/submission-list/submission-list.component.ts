@@ -89,6 +89,13 @@ export class SubmissionListComponent {
     ]);
   }
 
+  canCreateFullProposal(submission: Submission) {
+    return (
+      submission.status === 'EligibleInvited' &&
+      submission.existingFpId === null
+    );
+  }
+
   createFullProposal(submission: Submission, event: Event) {
     event.preventDefault();
 

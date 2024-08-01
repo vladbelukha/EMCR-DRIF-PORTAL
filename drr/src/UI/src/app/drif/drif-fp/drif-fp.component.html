@@ -42,12 +42,14 @@
       #stepper
     >
       <mat-step
-        [label]="t('proponentInformation')"
-        [stepControl]="getFormGroup('proponentInformation')"
+        [label]="t('proponentAndProjectInformationForm')"
+        [stepControl]="getFormGroup('proponentAndProjectInformationForm')"
         [errorMessage]="t('stepError')"
       >
         <drif-fp-step-1
-          [proponentInformationForm]="getFormGroup('proponentInformation')"
+          [proponentAndProjectInformationForm]="
+            getFormGroup('proponentAndProjectInformationForm')
+          "
         ></drif-fp-step-1>
         <div class="drr-stepper-action">
           <button
@@ -135,9 +137,7 @@
         [stepControl]="getFormGroup('budget')"
         [errorMessage]="t('stepError')"
       >
-        <!-- <drif-fp-step-5
-          [projectDetailsForm]="getFormGroup('projectDetails')"
-        ></drif-fp-step-5> -->
+        <drif-fp-step-5 [budgetForm]="getFormGroup('budget')"></drif-fp-step-5>
         <div class="drr-stepper-actions">
           <button mat-stroked-button color="primary" matStepperPrevious>
             {{ t("back") }}

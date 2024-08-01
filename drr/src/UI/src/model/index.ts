@@ -6,15 +6,23 @@
  */
 
 export * from './applicationResult';
+export * from './attachment';
 export * from './configuration';
 export * from './contactDetails';
 export * from './declarationInfo';
 export * from './declarationResult';
 export * from './declarationType';
+export * from './documentType';
+export * from './draftApplication';
 export * from './draftEoiApplication';
+export * from './draftEoiApplicationAllOf';
+export * from './draftFpApplication';
+export * from './draftFpApplicationAllOf';
 export * from './eoiApplication';
 export * from './eoiApplicationAllOf';
 export * from './estimatedNumberOfPeople';
+export * from './fpApplication';
+export * from './fpApplicationAllOf';
 export * from './fundingInformation';
 export * from './fundingStream';
 export * from './fundingType';

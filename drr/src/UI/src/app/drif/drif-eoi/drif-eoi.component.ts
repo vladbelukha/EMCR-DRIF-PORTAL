@@ -330,7 +330,9 @@ export class EOIApplicationComponent {
   }
 
   stepperSelectionChange(event: StepperSelectionEvent) {
-    this.save();
+    if (this.isEditMode) {
+      this.save();
+    }
 
     event.previouslySelectedStep.stepControl.markAllAsTouched();
 
@@ -395,7 +397,7 @@ export class EOIApplicationComponent {
     this.lastSavedAt = new Date();
 
     this.hotToast.close();
-    this.hotToast.success('Form saved successfully', {
+    this.hotToast.success('Application saved successfully', {
       duration: 5000,
       autoClose: true,
     });
@@ -410,7 +412,7 @@ export class EOIApplicationComponent {
 
   onSaveFailure = () => {
     this.hotToast.close();
-    this.hotToast.error('Failed to save form');
+    this.hotToast.error('Failed to save application');
   };
 
   submit() {

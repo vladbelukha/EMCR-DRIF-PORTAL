@@ -20,9 +20,12 @@ import {
 } from 'rxjs'
 import type {
   ApplicationResult,
+  Attachment,
   DeclarationResult,
   DraftEoiApplication,
+  DraftFpApplication,
   EoiApplication,
+  FpApplication,
   Submission
 } from '../../model'
 
@@ -102,6 +105,78 @@ export class DrifapplicationService {
       eoiApplication,options
     );
   }
+ dRIFApplicationCreateFPApplication<TData = ApplicationResult>(
+    draftFpApplication: DraftFpApplication, options?: HttpClientOptions
+  ): Observable<TData>  {
+    return this.http.post<TData>(
+      `/api/drifapplication/fp`,
+      draftFpApplication,options
+    );
+  }
+ dRIFApplicationUpdateFPApplication<TData = ApplicationResult>(
+    id: string,
+    draftFpApplication: DraftFpApplication, options?: HttpClientOptions
+  ): Observable<TData>  {
+    return this.http.post<TData>(
+      `/api/drifapplication/fp/${id}`,
+      draftFpApplication,options
+    );
+  }
+ dRIFApplicationSubmitFPApplication<TData = ApplicationResult>(
+    fpApplication: FpApplication, options?: HttpClientOptions
+  ): Observable<TData>  {
+    return this.http.post<TData>(
+      `/api/drifapplication/fp/submit`,
+      fpApplication,options
+    );
+  }
+ dRIFApplicationSubmitFPApplication2<TData = ApplicationResult>(
+    id: string,
+    fpApplication: FpApplication, options?: HttpClientOptions
+  ): Observable<TData>  {
+    return this.http.post<TData>(
+      `/api/drifapplication/fp/${id}/submit`,
+      fpApplication,options
+    );
+  }
+ dRIFApplicationUploadAttachment<TData = ApplicationResult>(
+    id: string,
+    attachment: Attachment, options?: HttpClientOptions
+  ): Observable<TData>  {
+    return this.http.post<TData>(
+      `/api/drifapplication/${id}/attachment`,
+      attachment,options
+    );
+  }
+ dRIFApplicationDownloadAttachment<TData = ApplicationResult>(
+    id: string,
+    fileId: string,
+    attachment: Attachment, options?: HttpClientOptions
+  ): Observable<TData>  {
+    return this.http.get<TData>(
+      `/api/drifapplication/${id}/attachment/${fileId}`,options
+    );
+  }
+ dRIFApplicationUpdateAttachment<TData = ApplicationResult>(
+    id: string,
+    fileId: string,
+    attachment: Attachment, options?: HttpClientOptions
+  ): Observable<TData>  {
+    return this.http.post<TData>(
+      `/api/drifapplication/${id}/attachment/${fileId}`,
+      attachment,options
+    );
+  }
+ dRIFApplicationDeleteAttachment<TData = ApplicationResult>(
+    id: string,
+    fileId: string,
+    attachment: Attachment, options?: HttpClientOptions
+  ): Observable<TData>  {
+    return this.http.delete<TData>(
+      `/api/drifapplication/${id}/attachment/${fileId}`,{body:
+      attachment, ...options}
+    );
+  }
 };
 
 export type DRIFApplicationGetAllClientResult = NonNullable<Submission[]>
@@ -111,3 +186,11 @@ export type DRIFApplicationCreateEOIApplicationClientResult = NonNullable<Applic
 export type DRIFApplicationUpdateApplicationClientResult = NonNullable<ApplicationResult>
 export type DRIFApplicationSubmitApplicationClientResult = NonNullable<ApplicationResult>
 export type DRIFApplicationSubmitApplication2ClientResult = NonNullable<ApplicationResult>
+export type DRIFApplicationCreateFPApplicationClientResult = NonNullable<ApplicationResult>
+export type DRIFApplicationUpdateFPApplicationClientResult = NonNullable<ApplicationResult>
+export type DRIFApplicationSubmitFPApplicationClientResult = NonNullable<ApplicationResult>
+export type DRIFApplicationSubmitFPApplication2ClientResult = NonNullable<ApplicationResult>
+export type DRIFApplicationUploadAttachmentClientResult = NonNullable<ApplicationResult>
+export type DRIFApplicationDownloadAttachmentClientResult = NonNullable<ApplicationResult>
+export type DRIFApplicationUpdateAttachmentClientResult = NonNullable<ApplicationResult>
+export type DRIFApplicationDeleteAttachmentClientResult = NonNullable<ApplicationResult>

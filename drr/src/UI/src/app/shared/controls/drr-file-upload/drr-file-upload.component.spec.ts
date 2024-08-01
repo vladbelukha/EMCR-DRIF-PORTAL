@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SummaryComponent } from './summary.component';
+import { DrrFileUploadComponent } from './drr-file-upload.component';
 
-describe('SummaryComponent', () => {
-  let component: SummaryComponent;
-  let fixture: ComponentFixture<SummaryComponent>;
+describe('DrrFileUploadComponent', () => {
+  let component: DrrFileUploadComponent;
+  let fixture: ComponentFixture<DrrFileUploadComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SummaryComponent]
+      imports: [DrrFileUploadComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(SummaryComponent);
+    fixture = TestBed.createComponent(DrrFileUploadComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

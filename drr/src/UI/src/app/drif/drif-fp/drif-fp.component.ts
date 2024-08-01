@@ -4,8 +4,8 @@ import {
   StepperSelectionEvent,
 } from '@angular/cdk/stepper';
 import { CommonModule } from '@angular/common';
-import { Component, inject, ViewChild } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Component, HostListener, inject, ViewChild } from '@angular/core';
+import { FormArray, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -23,7 +23,23 @@ import {
   RxFormGroup,
 } from '@rxweb/reactive-form-validators';
 import { DrifFpStep1Component } from '../drif-fp-step-1/drif-fp-step-1.component';
-import { DrifFpStep2Component } from '../drif-fp-step2/drif-fp-step2.component';
+
+import { distinctUntilChanged } from 'rxjs/operators';
+import { DrifapplicationService } from '../../../api/drifapplication/drifapplication.service';
+import {
+  DraftFpApplication,
+  FundingStream,
+  Hazards,
+  ProjectType,
+  ProponentType,
+} from '../../../model';
+import {
+  ContactDetailsForm,
+  FundingInformationItemForm,
+  StringItem,
+} from '../drif-eoi/drif-eoi-form';
+import { DrifFpStep2Component } from '../drif-fp-step-2/drif-fp-step-2.component';
+import { DrifFpStep5Component } from '../drif-fp-step-5/drif-fp-step-5.component';
 import { DrifFpForm } from './drif-fp-form';
 
 @Component({
@@ -41,6 +57,7 @@ import { DrifFpForm } from './drif-fp-form';
     LayoutModule,
     DrifFpStep1Component,
     DrifFpStep2Component,
+    DrifFpStep5Component,
   ],
   providers: [
     RxFormBuilder,
@@ -58,6 +75,8 @@ export class DrifFpComponent {
   breakpointObserver = inject(BreakpointObserver);
   router = inject(Router);
   route = inject(ActivatedRoute);
+  appService = inject(DrifapplicationService);
+  hotToast = inject(HotToastService);
 
   stepperOrientation: StepperOrientation = 'vertical';
 
@@ -66,6 +85,29 @@ export class DrifFpComponent {
   autoSaveInterval = 60;
   lastSavedAt?: Date;
   formChanged = false;
+
+  @HostListener('window:mousemove')
+  @HostListener('window:mousedown')
+  @HostListener('window:keypress')
+  @HostListener('window:scroll')
+  @HostListener('window:touchmove')
+  resetAutoSaveTimer() {
+    if (!this.formChanged) {
+      this.autoSaveCountdown = 0;
+      clearInterval(this.autoSaveTimer);
+      return;
+    }
+
+    this.autoSaveCountdown = this.autoSaveInterval;
+    clearInterval(this.autoSaveTimer);
+    this.autoSaveTimer = setInterval(() => {
+      this.autoSaveCountdown -= 1;
+      if (this.autoSaveCountdown === 0) {
+        this.save();
+        clearInterval(this.autoSaveTimer);
+      }
+    }, 1000);
+  }
 
   @ViewChild(MatStepper) stepper!: MatStepper;
 
@@ -77,56 +119,153 @@ export class DrifFpComponent {
   drifFpForm = this.formBuilder.formGroup(DrifFpForm) as IFormGroup<DrifFpForm>;
 
   ngOnInit() {
-    this.id = this.route.snapshot.params['id'];
-
-    if (this.isEditMode) {
-      this.load();
-    }
-
     this.breakpointObserver
       .observe('(min-width: 768px)')
       .subscribe(({ matches }) => {
         this.stepperOrientation = matches ? 'horizontal' : 'vertical';
       });
+
+    this.id = this.route.snapshot.params['id'];
+
+    if (this.isEditMode) {
+      this.load();
+      this.formChanged = false;
+    }
+
+    setTimeout(() => {
+      this.drifFpForm.valueChanges
+        .pipe(
+          distinctUntilChanged((a, b) => {
+            return JSON.stringify(a) == JSON.stringify(b);
+          })
+        )
+        .subscribe(() => {
+          this.formChanged = true;
+          this.resetAutoSaveTimer();
+        });
+    }, 1000);
   }
 
   load() {
-    const formData: DrifFpForm = {
+    // TODO: load application data from API
+    const response = {
       eoiId: 'DRIF-EOI-1111',
-      fundingStream: 'Stream1',
-      projectType: 'Existing',
-      proponentInformation: {
-        proponentType: 'FirstNation',
+      fundingStream: FundingStream.Stream1,
+      projectType: ProjectType.Existing,
+      proponentAndProjectInformationForm: {
+        proponentType: ProponentType.FirstNation,
         projectContact: {
-          firstName: 'Jane',
+          firstName: 'John',
           lastName: 'Doe',
-          email: 'asd@.asda.asd',
-          phone: '123-456-7890',
-          department: 'IT',
-          title: 'Ms.',
+          email: 'email',
+          phone: '123456',
+          department: 'department',
+          title: 'title',
         },
         additionalContacts: [
           {
             firstName: 'John1',
             lastName: 'Doe1',
-            email: 'jd1@exmapl.as',
-            phone: '123-456-7890',
-            department: 'IT1',
-            title: 'Mr.1',
+            email: 'e1',
+            phone: '11111',
+            department: 'd1',
+            title: 't1',
           },
           {
             firstName: 'John2',
             lastName: 'Doe2',
-            email: 'jd2@exmapl.as',
-            phone: '123-456-7890',
-            department: 'IT2',
-            title: 'Mr.2',
+            email: 'e2',
+            phone: '22222',
+            department: 'd2',
+            title: 't2',
+          },
+        ],
+        partneringProponents: ['Proponent1', 'Proponent2'],
+        projectTitle: 'Project Title 1',
+        scopeStatement: 'Scope Statement 1',
+        relatedHazards: [Hazards.Drought, Hazards.Flood, Hazards.Other],
+        otherHazardsDescription: 'Other Hazards Description',
+      },
+      budget: {
+        totalProjectCost: 1304020,
+        fundingRequest: 1200000,
+        otherFunding: [
+          {
+            fundingType: 'Type1',
+            amount: 100000,
+            description: 'Description1',
+          },
+          {
+            fundingType: 'Type2',
+            amount: 200000,
+            description: 'Description2',
           },
         ],
       },
     };
 
+    // TODO: initiate DrifFpForm using API response
+    const formData: DrifFpForm = {
+      eoiId: response.eoiId,
+      fundingStream: response.fundingStream,
+      projectType: response.projectType,
+      proponentAndProjectInformationForm: {
+        ...response.proponentAndProjectInformationForm,
+      },
+      budget: {
+        ...response.budget,
+      },
+    };
+
     this.drifFpForm.patchValue(formData, { emitEvent: false });
+
+    const partneringProponentsArray = this.getFormGroup(
+      'proponentAndProjectInformationForm'
+    ).get('partneringProponentsArray') as FormArray;
+    if (
+      response.proponentAndProjectInformationForm.partneringProponents
+        ?.length! > 0
+    ) {
+      partneringProponentsArray.clear();
+    }
+    response.proponentAndProjectInformationForm.partneringProponents?.forEach(
+      (proponent) => {
+        partneringProponentsArray?.push(
+          this.formBuilder.formGroup(new StringItem({ value: proponent }))
+        );
+      }
+    );
+
+    const additionalContactsArray = this.getFormGroup(
+      'proponentAndProjectInformationForm'
+    ).get('additionalContacts') as FormArray;
+    if (
+      response.proponentAndProjectInformationForm.additionalContacts?.length! >
+      0
+    ) {
+      additionalContactsArray.clear();
+    }
+    response.proponentAndProjectInformationForm.additionalContacts?.forEach(
+      (contact) => {
+        additionalContactsArray?.push(
+          this.formBuilder.formGroup(new ContactDetailsForm(contact))
+        );
+      }
+    );
+
+    const fundingInformationItemFormArray = this.getFormGroup('budget').get(
+      'otherFunding'
+    ) as FormArray;
+    if (response.budget.otherFunding?.length! > 0) {
+      fundingInformationItemFormArray.clear();
+    }
+    response.budget.otherFunding?.forEach((funding) => {
+      fundingInformationItemFormArray?.push(
+        this.formBuilder.formGroup(new FundingInformationItemForm(funding))
+      );
+    });
+
+    this.drifFpForm.markAsPristine();
   }
 
   getFormGroup(groupName: string) {
@@ -140,8 +279,9 @@ export class DrifFpComponent {
   }
 
   getPrimaryProponent() {
-    return this.drifFpForm?.get('proponentInformation')?.get('proponentName')
-      ?.value;
+    return this.drifFpForm
+      ?.get('proponentAndProjectInformationForm')
+      ?.get('proponentName')?.value;
   }
 
   getProjectType() {
@@ -158,7 +298,39 @@ export class DrifFpComponent {
     this.router.navigate(['/dashboard']);
   }
 
-  save() {}
+  save() {
+    if (!this.formChanged) {
+      return;
+    }
+
+    const drifFpForm = this.drifFpForm.getRawValue() as DrifFpForm;
+
+    const fpDraft = {
+      // initialize draft object from form data
+    } as DraftFpApplication;
+
+    this.lastSavedAt = undefined;
+    this.appService
+      .dRIFApplicationUpdateFPApplication(this.id!, fpDraft)
+      .subscribe(
+        (response) => {
+          this.lastSavedAt = new Date();
+
+          this.hotToast.close();
+          this.hotToast.success('Application saved successfully', {
+            duration: 5000,
+            autoClose: true,
+          });
+
+          this.formChanged = false;
+          this.resetAutoSaveTimer();
+        },
+        (error) => {
+          this.hotToast.close();
+          this.hotToast.error('Failed to save application');
+        }
+      );
+  }
 
   submit() {}
 

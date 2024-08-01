@@ -17,6 +17,17 @@
 .submissions-table {
   width: 100%;
   border-collapse: collapse;
+
+  td.long {
+    max-width: 25rem;
+  }
+
+  td,
+  p {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 
 .no-data {

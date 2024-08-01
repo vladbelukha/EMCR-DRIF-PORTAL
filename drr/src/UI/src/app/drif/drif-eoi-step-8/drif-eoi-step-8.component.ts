@@ -11,8 +11,8 @@ import { DrifapplicationService } from '../../../api/drifapplication/drifapplica
 import { DeclarationType } from '../../../model';
 import { DrrInputComponent } from '../../shared/controls/drr-input/drr-input.component';
 import { ProfileStore } from '../../store/profile.store';
+import { DrifEoiSummaryComponent } from '../drif-eoi-summary/drif-eoi-summary.component';
 import { DeclarationForm, EOIApplicationForm } from '../drif-eoi/drif-eoi-form';
-import { SummaryComponent } from '../summary/summary.component';
 
 @Component({
   selector: 'drif-eoi-step-8',
@@ -25,7 +25,7 @@ import { SummaryComponent } from '../summary/summary.component';
     MatFormFieldModule,
     MatInputModule,
     MatCheckboxModule,
-    SummaryComponent,
+    DrifEoiSummaryComponent,
     TranslocoModule,
     DrrInputComponent,
   ],

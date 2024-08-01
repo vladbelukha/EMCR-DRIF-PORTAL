@@ -83,7 +83,7 @@
             {{ t("edit") }}
           </button>
           <button
-            *ngIf="element.status === 'EligibleInvited'"
+            *ngIf="canCreateFullProposal(element)"
             mat-raised-button
             color="accent"
             (click)="createFullProposal(element, $event)"
