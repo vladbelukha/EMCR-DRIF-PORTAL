@@ -1,0 +1,64 @@
+name: cd-landing-page
+
+on:
+  workflow_dispatch:
+  push:
+    # Publish `main` as Docker `latest` image.
+    branches:
+      - main
+      - "release/**"
+
+    paths:    
+      - "drr/src/landing-page/**"
+      - ".github/workflows/cd-landing-page.yml"
+
+env:
+  IMAGE_NAME: drr-landing-page
+  IMAGE_ID: ${{ secrets.OCP4_REGISTRY }}/${{ secrets.OCP4_NAMESPACE }}
+  WORKING_DIRECTORY: ./drr/src/landing-page/src
+  INDEX_FILE: index.html
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set working directory
+        id: LandingDir
+        run: |
+          if [[ "${{ github.event.inputs.environment }}" == "dev" ]];then
+              echo "::set-output name=Landing_INDEX_FILE::index-dev.html"
+          elif [[ "${{ github.event.inputs.environment }}" == "test" ]];then
+              echo "::set-output name=Landing_INDEX_FILE::index-test.html"
+          elif [[ "${{ github.event.inputs.environment }}" == "stage" ]];then
+              echo "::set-output name=Landing_INDEX_FILE::index-stage.html"
+          elif [[ "${{ github.event.inputs.environment }}" == "prod" ]];then
+              echo "::set-output name=Landing_INDEX_FILE::index-prod.html"
+          fi
+      - uses: actions/checkout@v3
+
+      - name: Log into registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ secrets.OCP4_REGISTRY }}
+          username: ${{ secrets.OCP4_USERNAME }}
+          password: ${{ secrets.OCP4_PASSWORD }}
+
+      - name: Set the index page according to the environment
+        working-directory: ${{env.WORKING_DIRECTORY}}
+        run: |
+          cd html
+          ls -ltr
+          mv ${{steps.LandingDir.outputs.Landing_INDEX_FILE}} ${{env.INDEX_FILE}}
+          ls -ltr
+      - name: Build Image
+        working-directory: ${{env.WORKING_DIRECTORY}}
+        run: |
+          docker build -t ${{env.IMAGE_NAME}} .
+      - name: Tag Image
+        run: |
+          docker tag ${{env.IMAGE_NAME}} ${{env.IMAGE_ID}}/${{env.IMAGE_NAME}}:${{ github.event.inputs.environment }}
+          #docker tag from_image to_image_name:dev/test/train
+      - name: Docker Push
+        run: |
+          docker push ${{env.IMAGE_ID}}/${{env.IMAGE_NAME}}:${{ github.event.inputs.environment }}
