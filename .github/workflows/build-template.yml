@@ -16,9 +16,6 @@ on:
       IMAGE_NAME:
         required: true
         type: string
-      REGISTRY:
-        required: true
-        type: string
 
     secrets:
       REGISTRY_USER:
