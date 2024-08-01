@@ -46,28 +46,31 @@ jobs:
           username: ${{ secrets.REGISTRY_USER }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
 
-      - name: Extract Docker metadata
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ secrets.REGISTRY }}${{ secrets.NAMESPACE }}${{ inputs.IMAGE_NAME }}
-          tags: |
-            type=ref,event=branch
-            type=ref,event=pr
-            type=ref,event=tag
+      - name: Set image repository
+        id: set_image_repository
+        run: |
+          # Set image repository and change all uppercase to lowercase
+          DOCKER_REPOSITORY=$(echo ${{ secrets.REGISTRY }}/${{ secrets.NAMESPACE }}/${{ env.IMAGE_NAME }} | tr '[A-Z]' '[a-z]')
+          echo "::set-output name=docker-repository::$DOCKER_REPOSITORY"
 
-      - name: Build and push Docker image
-        id: build-and-push
-        uses: docker/build-push-action@v5
-        with:
-          context: ${{ inputs.IMAGE_CONTEXT }}
-          build-contexts: ${{ inputs.BUILD_CONTEXT }}
-          build-args: |
-            "VERSION=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.version'] }}"
-          file: ${{ inputs.IMAGE_FILE }}
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          annotations: ${{ steps.meta.outputs.annotations }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+      - name: Pull image
+        env:
+          DOCKER_REPOSITORY: ${{ steps.set_image_repository.outputs.docker-repository }}
+        run: docker pull $DOCKER_REPOSITORY:latest || true
+
+      - name: Build image
+        env:
+          DOCKER_REPOSITORY: ${{ steps.set_image_repository.outputs.docker-repository }}
+        working-directory: ${{ inputs.IMAGE_CONTEXT }}
+        run: |
+          VERSION=$(echo "${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.version'] }}" | awk -F=v '{print $NF}')
+          echo DOCKER_REPOSITORY=${{ env.DOCKER_REPOSITORY }}
+          echo VERSION=$VERSION          
+          tar -czh . | docker build --load --tag ${{ env.DOCKER_REPOSITORY }}:latest --cache-from=${{ env.DOCKER_REPOSITORY }}:latest --build-arg VERSION=$VERSION -
+          docker tag ${{ env.DOCKER_REPOSITORY }}:latest ${{ env.DOCKER_REPOSITORY }}:$VERSION
+
+      - name: Push image
+        env:
+          DOCKER_REPOSITORY: ${{ steps.set_image_repository.outputs.docker-repository }}
+        run: |
+          docker push --all-tags ${{ env.DOCKER_REPOSITORY }}
