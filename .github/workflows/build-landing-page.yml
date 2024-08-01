@@ -26,7 +26,8 @@ jobs:
       IMAGE_CONTEXT: drr/src/landing-page/src
       IMAGE_FILE: drr/src/landing-page/src/Dockerfile
       IMAGE_NAME: landing-page
-      REGISTRY: ${{ secrets.OCP4_REGISTRY }}/${{ secrets.OCP4_NAMESPACE }}
+      REGISTRY: ${{ secrets.OCP4_REGISTRY }}
+      NAMESPACE: ${{ secrets.OCP4_NAMESPACE }}
     secrets:
       REGISTRY_USER: ${{ secrets.OCP4_USERNAME }}
       REGISTRY_PASSWORD: ${{ secrets.OCP4_PASSWORD }}
