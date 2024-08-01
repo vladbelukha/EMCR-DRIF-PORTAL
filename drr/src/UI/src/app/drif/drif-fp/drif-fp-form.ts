@@ -1,10 +1,11 @@
 import {
+  minLength,
   prop,
   propArray,
   propObject,
   required,
 } from '@rxweb/reactive-form-validators';
-import { FundingStream, ProjectType, ProponentType } from '../../../model';
+import { FundingStream, Hazards, ProjectType, ProponentType } from '../../../model';
 import {
   ContactDetailsForm,
   FundingInformationItemForm,
@@ -94,6 +95,10 @@ export class ProponentAndProjectInformationForm {
 
   @prop()
   @required()
+  scopeStatement?: string;
+
+  @prop()
+  @required()
   proponentType?: ProponentType;
 
   @prop()
@@ -120,6 +125,14 @@ export class ProponentAndProjectInformationForm {
 
   @prop()
   regionalProjectComments?: string;
+
+  @prop()
+  @required()
+  @minLength({ value: 1 })
+  relatedHazards?: Hazards[];
+
+  @prop()
+  otherHazardsDescription?: string;
 
   constructor(values: ProponentInformationForm) {
     Object.assign(this, values);

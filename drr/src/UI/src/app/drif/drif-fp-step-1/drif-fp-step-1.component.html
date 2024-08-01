@@ -259,12 +259,21 @@
 
     <mat-label class="drr-label">{{ t("projectTitle") }}</mat-label>
     <drr-input
-      style="margin-top: 1rem"
+      style="margin-top: 0.5rem"
       class="drr-single-input"
       [id]="'projectTitle'"
       [label]="t('projectTitleText')"
       [rxFormControl]="proponentAndProjectInformationForm.get('projectTitle')"
       [maxlength]="100"
     ></drr-input>
+
+    <mat-label class="drr-label">{{ t("projectType") }}</mat-label>
+    <drr-textarea
+      [id]="'scopeStatement'"
+      [label]="t('projectTypeText')"
+      [maxlength]="2000"
+      [rxFormControl]="proponentAndProjectInformationForm.get('scopeStatement')"
+      [useTopLabel]="false"
+    ></drr-textarea>
   </form>
 </div>
