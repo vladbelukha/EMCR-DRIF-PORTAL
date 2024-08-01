@@ -2,7 +2,7 @@ name: landing-page Build
 on:
   push:
     branches:
-      - master
+      - main
       - "release/**"
     paths:
       - "drr/src/landing-page/**"
