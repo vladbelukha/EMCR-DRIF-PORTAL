@@ -10,6 +10,7 @@ on:
        type: choice
        options:
        - dev
+       - dev-prj
        - test
        - stage
        - prod
@@ -29,6 +30,8 @@ jobs:
         id: LandingDir
         run: |
           if [[ "${{ github.event.inputs.environment }}" == "dev" ]];then
+              echo "::set-output name=Landing_INDEX_FILE::index-dev.html"
+          elif [[ "${{ github.event.inputs.environment }}" == "dev-prj" ]];then
               echo "::set-output name=Landing_INDEX_FILE::index-dev.html"
           elif [[ "${{ github.event.inputs.environment }}" == "test" ]];then
               echo "::set-output name=Landing_INDEX_FILE::index-test.html"
@@ -59,8 +62,8 @@ jobs:
           docker build -t ${{env.IMAGE_NAME}} .
       - name: Tag Image
         run: |
-          docker tag ${{env.IMAGE_ID}}/${{env.IMAGE_NAME}}:latest ${{env.IMAGE_ID}}/${{env.IMAGE_NAME}}:${{ github.event.inputs.environment }}
+          docker tag ${{env.IMAGE_NAME}} ${{env.IMAGE_ID}}/${{env.IMAGE_NAME}}:${{ github.event.inputs.environment }}
           #docker tag from_image to_image_name:dev/test/train
       - name: Docker Push
         run: |
-          docker push --all-tags ${{env.IMAGE_ID}}/${{env.IMAGE_NAME}}:${{ github.event.inputs.environment }}
+          docker push ${{env.IMAGE_ID}}/${{env.IMAGE_NAME}}:${{ github.event.inputs.environment }}
