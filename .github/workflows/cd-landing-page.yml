@@ -2,15 +2,17 @@ name: cd-landing-page
 
 on:
   workflow_dispatch:
-  push:
-    # Publish `main` as Docker `latest` image.
-    branches:
-      - main
-      - "release/**"
-
-    paths:    
-      - "drr/src/landing-page/**"
-      - ".github/workflows/cd-landing-page.yml"
+    inputs:
+      environment:
+       description: Please select the environment for Landing Page
+       required: true
+       default: 'dev'
+       type: choice
+       options:
+       - dev
+       - test
+       - stage
+       - prod
 
 env:
   IMAGE_NAME: drr-landing-page
