@@ -2,7 +2,7 @@ name: drr-portal Build
 on:
   push:
     branches:
-      - master
+      - main
       - "release/**"
     paths:
       - "drr/src/API/**"
