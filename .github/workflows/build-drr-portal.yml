@@ -26,7 +26,6 @@ jobs:
     uses: ./.github/workflows/build-template.yml
     with:
       IMAGE_CONTEXT:  drr/src/API
-      BUILD_CONTEXT: "shared=./shared/src"
       IMAGE_FILE: drr/src/API/Dockerfile
       IMAGE_NAME: drr-api
       REGISTRY: ${{ vars.DOCKER_REGISTRY }}
