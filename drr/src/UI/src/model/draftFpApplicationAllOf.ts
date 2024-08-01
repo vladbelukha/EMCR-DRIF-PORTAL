@@ -4,5 +4,8 @@
  * DRR API
  * OpenAPI spec version: 1.0.0
  */
+import type { Attachment } from './attachment';
 
-export type DraftFpApplicationAllOf = { [key: string]: any };
+export type DraftFpApplicationAllOf = {
+  attachments?: Attachment[];
+};

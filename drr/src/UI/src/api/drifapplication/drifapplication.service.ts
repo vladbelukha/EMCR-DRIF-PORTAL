@@ -20,7 +20,7 @@ import {
 } from 'rxjs'
 import type {
   ApplicationResult,
-  DRIFApplicationCreateFPApplicationParams,
+  Attachment,
   DeclarationResult,
   DraftEoiApplication,
   DraftFpApplication,
@@ -106,12 +106,11 @@ export class DrifapplicationService {
     );
   }
  dRIFApplicationCreateFPApplication<TData = ApplicationResult>(
-    params?: DRIFApplicationCreateFPApplicationParams, options?: HttpClientOptions
+    draftFpApplication: DraftFpApplication, options?: HttpClientOptions
   ): Observable<TData>  {
     return this.http.post<TData>(
-      `/api/drifapplication/fp`,undefined,{
-    ...options,
-        params: {...params, ...options?.params},}
+      `/api/drifapplication/fp`,
+      draftFpApplication,options
     );
   }
  dRIFApplicationUpdateFPApplication<TData = ApplicationResult>(
@@ -140,6 +139,44 @@ export class DrifapplicationService {
       fpApplication,options
     );
   }
+ dRIFApplicationUploadAttachment<TData = ApplicationResult>(
+    id: string,
+    attachment: Attachment, options?: HttpClientOptions
+  ): Observable<TData>  {
+    return this.http.post<TData>(
+      `/api/drifapplication/${id}/attachment`,
+      attachment,options
+    );
+  }
+ dRIFApplicationDownloadAttachment<TData = ApplicationResult>(
+    id: string,
+    fileId: string,
+    attachment: Attachment, options?: HttpClientOptions
+  ): Observable<TData>  {
+    return this.http.get<TData>(
+      `/api/drifapplication/${id}/attachment/${fileId}`,options
+    );
+  }
+ dRIFApplicationUpdateAttachment<TData = ApplicationResult>(
+    id: string,
+    fileId: string,
+    attachment: Attachment, options?: HttpClientOptions
+  ): Observable<TData>  {
+    return this.http.post<TData>(
+      `/api/drifapplication/${id}/attachment/${fileId}`,
+      attachment,options
+    );
+  }
+ dRIFApplicationDeleteAttachment<TData = ApplicationResult>(
+    id: string,
+    fileId: string,
+    attachment: Attachment, options?: HttpClientOptions
+  ): Observable<TData>  {
+    return this.http.delete<TData>(
+      `/api/drifapplication/${id}/attachment/${fileId}`,{body:
+      attachment, ...options}
+    );
+  }
 };
 
 export type DRIFApplicationGetAllClientResult = NonNullable<Submission[]>
@@ -153,3 +190,7 @@ export type DRIFApplicationCreateFPApplicationClientResult = NonNullable<Applica
 export type DRIFApplicationUpdateFPApplicationClientResult = NonNullable<ApplicationResult>
 export type DRIFApplicationSubmitFPApplicationClientResult = NonNullable<ApplicationResult>
 export type DRIFApplicationSubmitFPApplication2ClientResult = NonNullable<ApplicationResult>
+export type DRIFApplicationUploadAttachmentClientResult = NonNullable<ApplicationResult>
+export type DRIFApplicationDownloadAttachmentClientResult = NonNullable<ApplicationResult>
+export type DRIFApplicationUpdateAttachmentClientResult = NonNullable<ApplicationResult>
+export type DRIFApplicationDeleteAttachmentClientResult = NonNullable<ApplicationResult>
