@@ -16,11 +16,10 @@ on:
       IMAGE_NAME:
         required: true
         type: string
-      REGISTRY:
-        required: true
-        type: string
 
     secrets:
+      REGISTRY:
+        required: true
       REGISTRY_USER:
         required: true
       REGISTRY_PASSWORD:

@@ -28,8 +28,8 @@ jobs:
       IMAGE_CONTEXT:  drr/src/API
       IMAGE_FILE: drr/src/API/Dockerfile
       IMAGE_NAME: drr-api
-      REGISTRY: ${{ secrets.OCP4_REGISTRY }}/${{ secrets.OCP4_NAMESPACE }}
     secrets:
+      REGISTRY: ${{ secrets.OCP4_REGISTRY }}/${{ secrets.OCP4_NAMESPACE }}
       REGISTRY_USER: ${{ secrets.OCP4_USERNAME  }}
       REGISTRY_PASSWORD: ${{ secrets.OCP4_PASSWORD  }}
 
@@ -43,7 +43,7 @@ jobs:
       IMAGE_CONTEXT: drr/src/UI
       IMAGE_FILE: drr/src/UI/Dockerfile
       IMAGE_NAME: drr-ui
-      REGISTRY: ${{ secrets.OCP4_REGISTRY }}/${{ secrets.OCP4_NAMESPACE }}
     secrets:
+      REGISTRY: ${{ secrets.OCP4_REGISTRY }}/${{ secrets.OCP4_NAMESPACE }}
       REGISTRY_USER: ${{ secrets.OCP4_USERNAME  }}
       REGISTRY_PASSWORD: ${{ secrets.OCP4_PASSWORD  }}
