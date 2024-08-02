@@ -10,6 +10,7 @@ on:
        type: choice
        options:
        - dev
+       - dev-prj
        - test
        - stage
        - prod
@@ -30,6 +31,8 @@ jobs:
         run: |
           if [[ "${{ github.event.inputs.environment }}" == "dev" ]];then
               echo "::set-output name=Landing_INDEX_FILE::index-dev.html"
+          elif [[ "${{ github.event.inputs.environment }}" == "dev-prj" ]];then
+              echo "::set-output name=Landing_INDEX_FILE::index-dev.html"
           elif [[ "${{ github.event.inputs.environment }}" == "test" ]];then
               echo "::set-output name=Landing_INDEX_FILE::index-test.html"
           elif [[ "${{ github.event.inputs.environment }}" == "stage" ]];then
@@ -37,7 +40,6 @@ jobs:
           elif [[ "${{ github.event.inputs.environment }}" == "prod" ]];then
               echo "::set-output name=Landing_INDEX_FILE::index-prod.html"
           fi
-
       - uses: actions/checkout@v3
 
       - name: Log into registry
@@ -54,17 +56,14 @@ jobs:
           ls -ltr
           mv ${{steps.LandingDir.outputs.Landing_INDEX_FILE}} ${{env.INDEX_FILE}}
           ls -ltr
-
       - name: Build Image
         working-directory: ${{env.WORKING_DIRECTORY}}
         run: |
           docker build -t ${{env.IMAGE_NAME}} .
-
       - name: Tag Image
         run: |
           docker tag ${{env.IMAGE_NAME}} ${{env.IMAGE_ID}}/${{env.IMAGE_NAME}}:${{ github.event.inputs.environment }}
           #docker tag from_image to_image_name:dev/test/train
-
       - name: Docker Push
         run: |
           docker push ${{env.IMAGE_ID}}/${{env.IMAGE_NAME}}:${{ github.event.inputs.environment }}

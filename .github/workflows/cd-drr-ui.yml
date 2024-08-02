@@ -4,12 +4,14 @@ on:
   workflow_dispatch:
   push:
     # Publish `main` as Docker `latest` image.
-    branches: [main]
+    branches:
+      - main
+      - "release/**"
 
     paths:    
       - "drr/src/UI/**"
       - ".github/workflows/cd-drr-ui.yml"
-    
+
 env:
   IMAGE_NAME: drr-ui
   IMAGE_ID: ${{ secrets.OCP4_REGISTRY }}/${{ secrets.OCP4_NAMESPACE }}/drr-ui
@@ -19,7 +21,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
-    
+
     steps:
       - uses: actions/checkout@v4
 
@@ -41,33 +43,31 @@ jobs:
           # Set image repository and change all uppercase to lowercase
           DOCKER_REPOSITORY=$(echo ${{ secrets.OCP4_REGISTRY }}/${{ secrets.OCP4_NAMESPACE }}/${{ env.IMAGE_NAME }} | tr '[A-Z]' '[a-z]')
           echo "::set-output name=docker-repository::$DOCKER_REPOSITORY"
-
       - name: Pull image
         env:
           DOCKER_REPOSITORY: ${{ steps.set_image_repository.outputs.docker-repository }}
         run: docker pull $DOCKER_REPOSITORY:latest || true
 
-      - name: Bump version and push tag
-        id: tag_version
-        uses: mathieudutour/github-tag-action@v6.2
+      - name: Extract Docker metadata
+        id: meta
+        uses: docker/metadata-action@v5
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          tag_prefix: ${{ env.IMAGE_NAME }}=v
-          fetch_all_tags: true
+          images: ${{ env.IMAGE_ID }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=ref,event=tag
 
       - name: Build image
         env:
           DOCKER_REPOSITORY: ${{ steps.set_image_repository.outputs.docker-repository }}
         working-directory: ${{ env.WORKING_DIRECTORY }}
         run: |
-          VERSION=$(echo "${{ steps.tag_version.outputs.new_tag }}" | awk -F=v '{print $NF}')
-
+          VERSION=$(echo "${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.version'] }}" | awk -F=v '{print $NF}')
           echo DOCKER_REPOSITORY=${{ env.DOCKER_REPOSITORY }}
           echo VERSION=$VERSION          
-
           tar -czh . | docker build --load --tag ${{ env.DOCKER_REPOSITORY }}:latest --cache-from=${{ env.DOCKER_REPOSITORY }}:latest --build-arg VERSION=$VERSION -
           docker tag ${{ env.DOCKER_REPOSITORY }}:latest ${{ env.DOCKER_REPOSITORY }}:$VERSION
-
       - name: Push image
         env:
           DOCKER_REPOSITORY: ${{ steps.set_image_repository.outputs.docker-repository }}
