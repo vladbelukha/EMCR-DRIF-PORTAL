@@ -42,7 +42,7 @@
       #stepper
     >
       <mat-step
-        [label]="t('proponentAndProjectInformationForm')"
+        [label]="t('proponentAndProjectInformation')"
         [stepControl]="getFormGroup('proponentAndProjectInformationForm')"
         [errorMessage]="t('stepError')"
       >
@@ -64,12 +64,12 @@
         </div>
       </mat-step>
       <mat-step
-        [label]="t('proponentEligibility')"
-        [stepControl]="getFormGroup('proponentEligibility')"
+        [label]="t('ownershipAndAuthorization')"
+        [stepControl]="getFormGroup('ownershipAndAuthorization')"
         [errorMessage]="t('stepError')"
       >
         <drif-fp-step-2
-          [proponentEligibilityForm]="getFormGroup('proponentEligibility')"
+          [ownershipAndAuthorizationForm]="getFormGroup('ownershipAndAuthorization')"
         ></drif-fp-step-2>
         <div class="drr-stepper-actions">
           <button mat-stroked-button color="primary" matStepperPrevious>

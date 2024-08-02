@@ -186,6 +186,12 @@ export class DrifFpComponent {
         relatedHazards: [Hazards.Drought, Hazards.Flood, Hazards.Other],
         otherHazardsDescription: 'Other Hazards Description',
       },
+      ownershipAndAuthorization: {
+        ownership: true,
+        ownershipComments: 'Ownership Comments',
+        authorityAndOwnership: false,
+        firstNationsEndorsement: 3,
+      },
       budget: {
         totalProjectCost: 1304020,
         fundingRequest: 1200000,
@@ -211,6 +217,9 @@ export class DrifFpComponent {
       projectType: response.projectType,
       proponentAndProjectInformationForm: {
         ...response.proponentAndProjectInformationForm,
+      },
+      ownershipAndAuthorization: {
+        ...response.ownershipAndAuthorization,
       },
       budget: {
         ...response.budget,
