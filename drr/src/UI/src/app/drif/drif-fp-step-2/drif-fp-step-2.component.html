@@ -1,5 +1,35 @@
 <div class="drr-step-container" *transloco="let t">
-  <form [formGroup]="proponentEligibilityForm">
+  <form [formGroup]="ownershipAndAuthorizationForm">
+    <mat-label class="drr-label">{{ t("fpOwnership") }}</mat-label>
+    <mat-label>{{ t("fpOwnershipQuestion") }}*</mat-label>
+    <div class="drr-radio-comment">
+      <mat-radio-group
+        id="ownership"
+        class="drr-radio-group"
+        style="margin-bottom: 10px"
+        aria-label="Select an option"
+        formControlName="ownership"
+      >
+        <mat-error
+          *ngIf="
+            ownershipAndAuthorizationForm.get('ownership')?.touched &&
+            ownershipAndAuthorizationForm.get('ownership')?.hasError('required')
+          "
+          >{{ t("required") }}</mat-error
+        >
+        <mat-radio-button [value]="true">Yes</mat-radio-button>
+        <mat-radio-button [value]="false">No</mat-radio-button>
+      </mat-radio-group>
+
+      <drr-textarea
+        [id]="'ownershipComments'"
+        [label]="t('fpOwnershipComments')"
+        [maxlength]="2000"
+        [rxFormControl]="ownershipAndAuthorizationForm.get('ownershipComments')"
+        [useTopLabel]="false"
+      ></drr-textarea>
+    </div>
+
     <mat-label class="drr-label">{{ t("authorityAndOwnership") }}</mat-label>
     <mat-label>{{ t("authorityAndOwnershipQuestion") }}*</mat-label>
     <div class="drr-radio-comment">
@@ -12,8 +42,9 @@
       >
         <mat-error
           *ngIf="
-            proponentEligibilityForm.get('authorityAndOwnership')?.touched &&
-            proponentEligibilityForm
+            ownershipAndAuthorizationForm.get('authorityAndOwnership')
+              ?.touched &&
+            ownershipAndAuthorizationForm
               .get('authorityAndOwnership')
               ?.hasError('required')
           "
@@ -28,7 +59,7 @@
         [label]="t('authorityAndOwnershipComments')"
         [maxlength]="2000"
         [rxFormControl]="
-          proponentEligibilityForm.get('authorityAndOwnershipComments')
+          ownershipAndAuthorizationForm.get('authorityAndOwnershipComments')
         "
         [useTopLabel]="false"
       ></drr-textarea>
@@ -46,8 +77,9 @@
       >
         <mat-error
           *ngIf="
-            proponentEligibilityForm.get('operationAndMaintenance')?.touched &&
-            proponentEligibilityForm
+            ownershipAndAuthorizationForm.get('operationAndMaintenance')
+              ?.touched &&
+            ownershipAndAuthorizationForm
               .get('operationAndMaintenance')
               ?.hasError('required')
           "
@@ -62,26 +94,68 @@
         [label]="t('operationAndMaintenanceComments')"
         [maxlength]="2000"
         [rxFormControl]="
-          proponentEligibilityForm.get('operationAndMaintenanceComments')
+          ownershipAndAuthorizationForm.get('operationAndMaintenanceComments')
         "
         [useTopLabel]="false"
       ></drr-textarea>
     </div>
 
-    <mat-label class="drr-label">{{ t("supportingDocumentation") }}</mat-label>
-    <div *ngIf="files.length > 0" class="file-list">
-      <div *ngFor="let file of files; let i = index" class="list-item">
-        <h4 mat-line>{{ file.name }}</h4>
-        <drr-input
-          class="drr-single-input"
-          [label]="'Provide a comment'"
-        ></drr-input>
-        <button mat-mini-fab color="warn" (click)="removeFile(i)">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </div>
+    <mat-label class="drr-label">{{
+      t("authorizationOrEndorsement")
+    }}</mat-label>
+    <mat-label>{{ t("authorizationOrEndorsementQuestion") }}</mat-label>
+    <div style="padding: 1rem 0 0 1rem">
+      <mat-label>{{ t("firstNationsEndorsementQuestion") }}</mat-label>
+      <mat-radio-group
+        class="drr-radio-group"
+        style="margin-bottom: 10px"
+        aria-label="Select an option"
+        formControlName="firstNationsEndorsement"
+      >
+        <mat-error
+          *ngIf="
+            ownershipAndAuthorizationForm.get('firstNationsEndorsement')
+              ?.touched &&
+            ownershipAndAuthorizationForm
+              .get('firstNationsEndorsement')
+              ?.hasError('required')
+          "
+          >{{ t("required") }}</mat-error
+        >
+        <mat-radio-button [value]="1">Yes</mat-radio-button>
+        <mat-radio-button [value]="2">No</mat-radio-button>
+        <mat-radio-button [value]="3">Not Applicable</mat-radio-button>
+      </mat-radio-group>
+      <mat-label>{{ t("localGovernmentEndorsementQuestion") }}</mat-label>
+      <mat-radio-group
+        class="drr-radio-group"
+        style="margin-bottom: 10px"
+        aria-label="Select an option"
+        formControlName="localGovernmentEndorsement"
+      >
+        <mat-error
+          *ngIf="
+            ownershipAndAuthorizationForm.get('localGovernmentEndorsement')
+              ?.touched &&
+            ownershipAndAuthorizationForm
+              .get('localGovernmentEndorsement')
+              ?.hasError('required')
+          "
+          >{{ t("required") }}</mat-error
+        >
+        <mat-radio-button [value]="1">Yes</mat-radio-button>
+        <mat-radio-button [value]="2">No</mat-radio-button>
+        <mat-radio-button [value]="3">Not Applicable</mat-radio-button>
+      </mat-radio-group>
     </div>
-    <mat-label>{{ t("supportingDocumentationOptionalText") }}</mat-label>
-    <drr-file-upload (filesSelected)="filesSelected($event)"></drr-file-upload>
+
+    <drr-textarea
+      [label]="t('authorizationOrEndorsementComments')"
+      [maxlength]="2000"
+      [rxFormControl]="
+        ownershipAndAuthorizationForm.get('authorizationOrEndorsementComments')
+      "
+      [useTopLabel]="true"
+    ></drr-textarea>
   </form>
 </div>

@@ -5,7 +5,12 @@ import {
   propObject,
   required,
 } from '@rxweb/reactive-form-validators';
-import { FundingStream, Hazards, ProjectType, ProponentType } from '../../../model';
+import {
+  FundingStream,
+  Hazards,
+  ProjectType,
+  ProponentType,
+} from '../../../model';
 import {
   ContactDetailsForm,
   FundingInformationItemForm,
@@ -31,7 +36,14 @@ export class FileForm {
   comment?: string;
 }
 
-export class ProponentEligibilityForm {
+export class OwnershipAndAuthorizationForm {
+  @prop()
+  @required()
+  ownership?: boolean;
+
+  @prop()
+  ownershipComments?: string;
+
   @prop()
   @required()
   authorityAndOwnership?: boolean;
@@ -48,9 +60,19 @@ export class ProponentEligibilityForm {
   @required()
   operationAndMaintenanceComments?: string;
 
-  // TODO: supportingDocuments should be an array of file type capturing name, url, type, id and comment?
+  @prop()
+  @required()
+  firstNationsEndorsement?: number; // TODO: change to enum
 
-  constructor(values: ProponentEligibilityForm) {
+  @prop()
+  @required()
+  localGovernmentEndorsement?: number; // TODO: change to enum
+
+  @prop()
+  @required()
+  authorizationOrEndorsementComments?: string;
+
+  constructor(values: OwnershipAndAuthorizationForm) {
     Object.assign(this, values);
   }
 }
@@ -144,9 +166,9 @@ export class DrifFpForm {
   proponentAndProjectInformationForm?: ProponentAndProjectInformationForm =
     new ProponentAndProjectInformationForm({});
 
-  @propObject(ProponentEligibilityForm)
-  proponentEligibility?: ProponentEligibilityForm =
-    new ProponentEligibilityForm({});
+  @propObject(OwnershipAndAuthorizationForm)
+  ownershipAndAuthorization?: OwnershipAndAuthorizationForm =
+    new OwnershipAndAuthorizationForm({});
 
   @propObject(BudgetForm)
   budget?: BudgetForm = new BudgetForm();
