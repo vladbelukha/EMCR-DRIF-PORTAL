@@ -54,7 +54,7 @@ namespace EMCR.DRR.Controllers
         public async Task<ActionResult<DraftApplication>> Get(string id)
         {
             var application = (await intakeManager.Handle(new DrrApplicationsQuery { Id = id, BusinessId = GetCurrentBusinessId() })).Items.FirstOrDefault();
-            if (application == null) return new NotFoundObjectResult(new ProblemDetails { Type = "NotFoundException", Title = "Not Found", Detail = e.Message }), 
+            if (application == null) return new NotFoundObjectResult(new ProblemDetails { Type = "NotFoundException", Title = "Not Found", Detail = ""});
             switch (application.ApplicationTypeName)
             {
                 case "EOI": return Ok(mapper.Map<DraftEoiApplication>(application));
