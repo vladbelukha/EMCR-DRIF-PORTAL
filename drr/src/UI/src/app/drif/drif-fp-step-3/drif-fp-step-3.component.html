@@ -1,0 +1,34 @@
+<ng-container *transloco="let t">
+  <mat-form-field style="width: 100%">
+    <mat-label>STANDARDS</mat-label>
+    <mat-chip-grid #chipGrid aria-label="STANDARDS selection">
+      @for (standard of selectedStandards(); track $index) {
+      <mat-chip-row (removed)="removeStandard($index)">
+        {{ standard }}
+        <button matChipRemove [attr.aria-label]="'remove ' + standard">
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip-row>
+      }
+    </mat-chip-grid>
+    <input
+      name="currentStandard"
+      placeholder="Select or type standard name..."
+      #standardInput
+      [formControl]="standardControl"
+      [matChipInputFor]="chipGrid"
+      [matAutocomplete]="auto"
+      [ariaMultiLine]="true"
+      [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+      (matChipInputTokenEnd)="addStandard($event)"
+    />
+    <mat-autocomplete
+      #auto="matAutocomplete"
+      (optionSelected)="standardSelected($event)"
+    >
+      @for (standard of filteredStandards | async; track standard) {
+      <mat-option [value]="standard">{{ standard }}</mat-option>
+      }
+    </mat-autocomplete>
+  </mat-form-field>
+</ng-container>

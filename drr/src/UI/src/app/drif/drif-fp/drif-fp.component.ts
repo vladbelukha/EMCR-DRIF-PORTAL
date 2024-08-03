@@ -39,6 +39,7 @@ import {
   StringItem,
 } from '../drif-eoi/drif-eoi-form';
 import { DrifFpStep2Component } from '../drif-fp-step-2/drif-fp-step-2.component';
+import { DrifFpStep3Component } from '../drif-fp-step-3/drif-fp-step-3.component';
 import { DrifFpStep5Component } from '../drif-fp-step-5/drif-fp-step-5.component';
 import { DrifFpForm } from './drif-fp-form';
 
@@ -57,6 +58,7 @@ import { DrifFpForm } from './drif-fp-form';
     LayoutModule,
     DrifFpStep1Component,
     DrifFpStep2Component,
+    DrifFpStep3Component,
     DrifFpStep5Component,
   ],
   providers: [
