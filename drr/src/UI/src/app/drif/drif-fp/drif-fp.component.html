@@ -69,7 +69,9 @@
         [errorMessage]="t('stepError')"
       >
         <drif-fp-step-2
-          [ownershipAndAuthorizationForm]="getFormGroup('ownershipAndAuthorization')"
+          [ownershipAndAuthorizationForm]="
+            getFormGroup('ownershipAndAuthorization')
+          "
         ></drif-fp-step-2>
         <div class="drr-stepper-actions">
           <button mat-stroked-button color="primary" matStepperPrevious>
@@ -87,13 +89,15 @@
         </div>
       </mat-step>
       <mat-step
-        [label]="t('projectEligibility')"
+        [label]="t('permitsRegulationsAndStandards')"
         [stepControl]="getFormGroup('projectEligibility')"
         [errorMessage]="t('stepError')"
       >
-        <!-- <drif-fp-step-3
-          [fundingInformationForm]="getFormGroup('fundingInformation')"
-        ></drif-fp-step-3> -->
+        <drif-fp-step-3
+          [permitsRegulationsAndStandardsForm]="
+            getFormGroup('permitsRegulationsAndStandards')
+          "
+        ></drif-fp-step-3>
         <div class="drr-stepper-actions">
           <button mat-stroked-button color="primary" matStepperPrevious>
             {{ t("back") }}
