@@ -34,6 +34,12 @@ export class DrrChipAutocompleteComponent {
   formBuilder = inject(RxFormBuilder);
 
   @Input()
+  label = '';
+
+  @Input()
+  placeholder = '';
+
+  @Input()
   options?: string[];
 
   private _formControl = this.formBuilder.control('', []) as RxFormControl;

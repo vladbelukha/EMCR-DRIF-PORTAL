@@ -141,7 +141,8 @@ export class DrifFpComponent {
             return JSON.stringify(a) == JSON.stringify(b);
           })
         )
-        .subscribe(() => {
+        .subscribe((val) => {
+          console.log('Form changed', val);
           this.formChanged = true;
           this.resetAutoSaveTimer();
         });

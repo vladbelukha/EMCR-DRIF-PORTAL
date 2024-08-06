@@ -1,5 +1,5 @@
 <ng-container *transloco="let t">
-  <mat-label>{{ label }}*</mat-label>
+  <mat-label *ngIf="label">{{ label }}</mat-label>
   <mat-radio-group
     class="drr-radio-group"
     aria-label="Select an option"

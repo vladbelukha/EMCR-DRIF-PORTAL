@@ -12,6 +12,7 @@
   "otherSupportingInformation": "Other Supporting Information",
   "declaration": "Declaration",
   "ownershipAndAuthorization": "Ownership & Authorization",
+  "permitsRegulationsAndStandards": "Permits, Regulations & Standards",
   "fpOwnership": "Ownership",
   "fpOwnershipQuestion": "Will the project will be in BC on land that the proponent has legal access to either though ownership, right of way, or other at the time the Shared Cost Agreement is signed?",
   "fpOwnershipComments": "If No, provide context",
@@ -196,5 +197,14 @@
   "authorizationOrEndorsementQuestion": "Has this project proposal been duly authorized or endorsed by all partnering proponents, as applicable*:",
   "firstNationsEndorsementQuestion": "In the case of a First Nations proponent, a resolution from its band council or council/board, or the appropriate authorization/endorsement as determined by the eligible proponent’s governance structure?",
   "localGovernmentEndorsementQuestion": "In the case of a local government proponent, a resolution from its council/board?",
-  "authorizationOrEndorsementComments": "Comments"
+  "authorizationOrEndorsementComments": "Comments",
+  "approvals": "Permits, Authorizations, and Regulatory Approvals",
+  "approvalsQuestion": "Will the project be eligible for required permits, authorizations, and regulatory approvals?",
+  "approvalsComments": "Comments",
+  "professionalGuidance": "Guidance of Qualified Professional",
+  "professionalGuidanceQuestion": "Will the project be completed under the guidance of a Qualified Professional?",
+  "professionals": "List types of Qualified Professionals providing guidance",
+  "professionalsPlaceholder": "Select a professional or type to add",
+  "standards": "List Provincial Standards relevant to the Project",
+  "standardsPlaceholder": "Select a standard or type to add"
 }

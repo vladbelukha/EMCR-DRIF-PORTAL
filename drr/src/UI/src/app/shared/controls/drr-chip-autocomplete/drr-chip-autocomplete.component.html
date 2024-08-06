@@ -1,11 +1,7 @@
 <ng-container *transloco="let t">
   <mat-form-field style="width: 100%">
-    <mat-label>STANDARDS</mat-label>
-    <mat-chip-grid
-      #chipGrid
-      aria-label="STANDARDS selection"
-      [formControl]="rxFormControl"
-    >
+    <mat-label>{{ label }}</mat-label>
+    <mat-chip-grid #chipGrid [formControl]="rxFormControl">
       @for (standard of selectedOptions(); track $index) {
       <mat-chip-row (removed)="removeOption($index)">
         {{ standard }}
@@ -17,7 +13,7 @@
     </mat-chip-grid>
     <input
       name="currentStandard"
-      placeholder="Select or type standard name..."
+      placeholder="{{ placeholder }}"
       #standardInput
       [formControl]="inputControl"
       [matChipInputFor]="chipGrid"
