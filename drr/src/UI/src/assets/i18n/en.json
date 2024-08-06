@@ -205,6 +205,12 @@
   "professionalGuidanceQuestion": "Will the project be completed under the guidance of a Qualified Professional?",
   "professionals": "List types of Qualified Professionals providing guidance",
   "professionalsPlaceholder": "Select a professional or type to add",
+  "standardsAcceptable": "Acceptable Provincial Standards",
+  "standardsAcceptableQuestion": "Will the project be completed to acceptable Provincial standards including financial management, permitting, licencing, environmental assessments, archaeological assessments?",
   "standards": "List Provincial Standards relevant to the Project",
-  "standardsPlaceholder": "Select a standard or type to add"
+  "standardsPlaceholder": "Select a standard or type to add",
+  "standardsComments": "Comments",
+  "regulations": "Regulations",
+  "regulationsQuestion": "Have dissolutions with applicable agencies taken place and/or have required approvals, authorizations and permits been applied for or received?",
+  "regulationsComments": "Explain how the project will meet provincial standards, permitting, fisheries windows, right of way, etc."
 }

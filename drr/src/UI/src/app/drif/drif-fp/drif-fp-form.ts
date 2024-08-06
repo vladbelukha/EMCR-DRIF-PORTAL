@@ -173,7 +173,7 @@ export class PermitsRegulationsAndStandardsForm {
 
   @prop()
   @required()
-  projectCompliensComments?: string;
+  regulationsComments?: string;
 
   constructor(values: PermitsRegulationsAndStandardsForm) {
     Object.assign(this, values);

@@ -7,7 +7,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { RxFormBuilder, RxFormControl } from '@rxweb/reactive-form-validators';
 
 export class RadioOption {
-  value!: string | boolean;
+  value!: string | boolean | number;
   label!: string;
 }
 

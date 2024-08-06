@@ -8,7 +8,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { TranslocoModule } from '@ngneat/transloco';
 import { IFormGroup } from '@rxweb/reactive-form-validators';
 import { DrrChipAutocompleteComponent } from '../../shared/controls/drr-chip-autocomplete/drr-chip-autocomplete.component';
-import { DrrRadioButtonComponent } from '../../shared/controls/drr-radio-button/drr-radio-button.component';
+import {
+  DrrRadioButtonComponent,
+  RadioOption,
+} from '../../shared/controls/drr-radio-button/drr-radio-button.component';
 import { DrrTextareaComponent } from '../../shared/controls/drr-textarea/drr-textarea.component';
 import {
   PermitsRegulationsAndStandardsForm,
@@ -40,6 +43,11 @@ export class DrifFpStep3Component {
   permitsRegulationsAndStandardsForm!: IFormGroup<PermitsRegulationsAndStandardsForm>;
 
   professionalGuidanceOptions = [];
+  standardsAcceptableOptions: RadioOption[] = [
+    { value: 1, label: 'Yes' },
+    { value: 2, label: 'No' },
+    { value: 3, label: 'Not Applicable' },
+  ];
   provincialStandardsOptions = Object.values(Standards);
 
   ngOnInit() {}
