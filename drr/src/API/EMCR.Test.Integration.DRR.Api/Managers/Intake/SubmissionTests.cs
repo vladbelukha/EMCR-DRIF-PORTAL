@@ -74,10 +74,24 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             var secondId = await manager.Handle(new EoiSubmitApplicationCommand { application = secondApplication, UserInfo = GetTestUserInfo() });
             secondId.ShouldNotBeEmpty();
 
+            var thirdApplication = mapper.Map<EoiApplication>(CreateNewTestEOIApplication());
+            thirdApplication.Status = SubmissionPortalStatus.EligibleInvited;
+            thirdApplication.AuthorizedRepresentativeStatement = true;
+            thirdApplication.FOIPPAConfirmation = true;
+            thirdApplication.InformationAccuracyStatement = true;
+
+            var thirdId = await manager.Handle(new EoiSubmitApplicationCommand { application = thirdApplication, UserInfo = GetTestUserInfo() });
+            thirdId.ShouldNotBeEmpty();
+
+            var fpId = await manager.Handle(new CreateFpFromEoiCommand { EoiId = thirdId, UserInfo = GetTestUserInfo() });
+            fpId.ShouldNotBeEmpty();
+
             var applications = (await manager.Handle(new DrrApplicationsQuery { BusinessId = GetTestUserInfo().BusinessId })).Items;
             var submissions = mapper.Map<IEnumerable<Submission>>(applications);
             submissions.ShouldContain(s => s.Id == id);
             submissions.ShouldContain(s => s.Id == secondId);
+            submissions.ShouldContain(s => s.Id == thirdId);
+            submissions.Single(s => s.Id == thirdId).ExistingFpId.ShouldNotBeNull();
             submissions.All(s => !string.IsNullOrEmpty(s.ApplicationType)).ShouldBe(true);
         }
 
@@ -106,7 +120,6 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             savedApplication.AuthorizedRepresentativeStatement.ShouldBe(false);
             savedApplication.SubmittedDate.ShouldBeNull();
         }
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
 
         [Test]
         public async Task SubmitMultipleApplications_SameSubmitter_MultipleSubmitterContactCreated()
@@ -133,6 +146,26 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             submitters.Count.ShouldBeGreaterThan(1);
         }
 
+        [Test]
+        public async Task CanCreateFpFromEoi()
+        {
+            var eoi = mapper.Map<EoiApplication>(CreateNewTestEOIApplication());
+            eoi.Status = SubmissionPortalStatus.EligibleInvited;
+            eoi.AuthorizedRepresentativeStatement = true;
+            eoi.FOIPPAConfirmation = true;
+            eoi.InformationAccuracyStatement = true;
+
+            var eoiId = await manager.Handle(new EoiSubmitApplicationCommand { application = eoi, UserInfo = GetTestUserInfo() });
+            eoiId.ShouldNotBeEmpty();
+
+            var fpId = await manager.Handle(new CreateFpFromEoiCommand { EoiId = eoiId, UserInfo = GetTestUserInfo() });
+            fpId.ShouldNotBeEmpty();
+
+            var fullProposal = (await manager.Handle(new DrrApplicationsQuery { Id = fpId })).Items.SingleOrDefault();
+            fullProposal.Id.ShouldBe(fpId);
+        }
+
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
         private DraftEoiApplication CreateNewTestEOIApplication()
         {
             var uniqueSignature = TestPrefix + "-" + Guid.NewGuid().ToString().Substring(0, 4);

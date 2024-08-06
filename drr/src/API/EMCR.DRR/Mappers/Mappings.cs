@@ -17,6 +17,7 @@ namespace EMCR.DRR.API.Mappers
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => DRRApplicationStatusMapper(src.Status)))
                 .ForMember(dest => dest.FundingRequest, opt => opt.MapFrom(src => src.FundingRequest.ToString()))
                 .ForMember(dest => dest.ModifiedDate, opt => opt.MapFrom(src => src.ModifiedOn))
+                .ForMember(dest => dest.ExistingFpId, opt => opt.MapFrom(src => src.FpId))
                 .ForMember(dest => dest.PartneringProponents, opt => opt.MapFrom(src => src.PartneringProponents.Select(p => p.Name)))
                 ;
 

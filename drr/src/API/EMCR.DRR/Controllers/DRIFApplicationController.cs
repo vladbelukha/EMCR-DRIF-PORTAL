@@ -137,13 +137,8 @@ namespace EMCR.DRR.Controllers
         [HttpPost("FP/EOI/{eoiId}")]
         public async Task<ActionResult<ApplicationResult>> CreateFPFromEOI(string eoiId)
         {
-            //application.Status = SubmissionPortalStatus.Draft;
-            //application.AdditionalContacts = MapAdditionalContacts(application);
-
-            //var id = await intakeManager.Handle(new DrifFpApplicationCommand { application = mapper.Map<FpApplication>(application), UserInfo = GetCurrentUser() });
-            //return Ok(new ApplicationResult { Id = id });
-            await Task.CompletedTask;
-            return Ok(new ApplicationResult { Id = "DRIF-FP-1000" });
+            var id = await intakeManager.Handle(new CreateFpFromEoiCommand { EoiId = eoiId, UserInfo = GetCurrentUser() });
+            return Ok(new ApplicationResult { Id = id });
         }
 
         [HttpPost("FP/{id}")]
