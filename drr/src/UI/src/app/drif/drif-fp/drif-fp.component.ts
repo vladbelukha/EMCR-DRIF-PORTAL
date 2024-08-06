@@ -194,6 +194,9 @@ export class DrifFpComponent {
         authorityAndOwnership: false,
         firstNationsEndorsement: 3,
       },
+      permitsRegulationsAndStandards: {
+        standards: ['Standard1', 'Standard2'],
+      },
       budget: {
         totalProjectCost: 1304020,
         fundingRequest: 1200000,
@@ -222,6 +225,9 @@ export class DrifFpComponent {
       },
       ownershipAndAuthorization: {
         ...response.ownershipAndAuthorization,
+      },
+      permitsRegulationsAndStandards: {
+        ...response.permitsRegulationsAndStandards,
       },
       budget: {
         ...response.budget,

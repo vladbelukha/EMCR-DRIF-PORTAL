@@ -52,6 +52,13 @@ export class DrrChipAutocompleteComponent {
   filteredOptions?: Observable<string[]>;
 
   ngOnInit() {
+    if (this.rxFormControl.value.length) {
+      this.selectedOptions.update((standards) => [
+        ...standards,
+        ...this.rxFormControl.value,
+      ]);
+    }
+
     this.filteredOptions = this.inputControl.valueChanges.pipe(
       startWith(null),
       map((standard: string | null) =>

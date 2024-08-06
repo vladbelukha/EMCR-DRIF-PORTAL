@@ -168,9 +168,6 @@ export class PermitsRegulationsAndStandardsForm {
   @minLength({ value: 1 })
   standards?: string[] = [];
 
-  // @propArray(StringItemRequired)
-  // standardsArray?: StringItemRequired[] = [{ value: '' }];
-
   @prop()
   standardsComments?: string;
 
