@@ -1,6 +1,14 @@
-<ng-container *transloco="let t">
-  <drr-chip-autocomplete
-    [options]="provincialStandardsOptions"
-    [rxFormControl]="permitsRegulationsAndStandardsForm.get('standards')"
-  ></drr-chip-autocomplete>
-</ng-container>
+<div class="drr-step-container" *transloco="let t">
+  <form [formGroup]="permitsRegulationsAndStandardsForm">
+    <mat-label class="drr-label">{{ t("approvals") }}</mat-label>
+    <drr-radio-button
+      [label]="t('approvalsQuestion')"
+      [rxFormControl]="permitsRegulationsAndStandardsForm.get('approvals')"
+    ></drr-radio-button>
+
+    <drr-chip-autocomplete
+      [options]="provincialStandardsOptions"
+      [rxFormControl]="permitsRegulationsAndStandardsForm.get('standards')"
+    ></drr-chip-autocomplete>
+  </form>
+</div>

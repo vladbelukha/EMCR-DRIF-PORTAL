@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { TranslocoModule } from '@ngneat/transloco';
 import { IFormGroup } from '@rxweb/reactive-form-validators';
 import { DrrChipAutocompleteComponent } from '../../shared/controls/drr-chip-autocomplete/drr-chip-autocomplete.component';
+import { DrrRadioButtonComponent } from '../../shared/controls/drr-radio-button/drr-radio-button.component';
 import {
   PermitsRegulationsAndStandardsForm,
   Standards,
@@ -27,6 +28,7 @@ import {
     MatAutocompleteModule,
     AsyncPipe,
     DrrChipAutocompleteComponent,
+    DrrRadioButtonComponent,
   ],
   templateUrl: './drif-fp-step-3.component.html',
   styleUrl: './drif-fp-step-3.component.scss',

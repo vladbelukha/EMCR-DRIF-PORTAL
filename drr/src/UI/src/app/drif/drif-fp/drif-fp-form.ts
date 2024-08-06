@@ -16,7 +16,6 @@ import {
   FundingInformationItemForm,
   ProponentInformationForm,
   StringItem,
-  StringItemRequired,
 } from '../drif-eoi/drif-eoi-form';
 
 export enum Standards {
@@ -152,9 +151,6 @@ export class PermitsRegulationsAndStandardsForm {
   @required()
   @minLength({ value: 1 })
   professionals?: string[] = [];
-
-  @propArray(StringItemRequired)
-  professionalsArray?: StringItemRequired[] = [{ value: '' }];
 
   @prop()
   professionalGuidanceComments?: string;

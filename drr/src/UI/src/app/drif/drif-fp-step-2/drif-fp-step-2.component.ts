@@ -9,7 +9,6 @@ import { MatListModule } from '@angular/material/list';
 import { MatRadioModule } from '@angular/material/radio';
 import { TranslocoModule } from '@ngneat/transloco';
 import { IFormGroup } from '@rxweb/reactive-form-validators';
-import { DrrFileUploadComponent } from '../../shared/controls/drr-file-upload/drr-file-upload.component';
 import { DrrInputComponent } from '../../shared/controls/drr-input/drr-input.component';
 import { DrrTextareaComponent } from '../../shared/controls/drr-textarea/drr-textarea.component';
 import { OwnershipAndAuthorizationForm } from '../drif-fp/drif-fp-form';
@@ -29,7 +28,7 @@ import { OwnershipAndAuthorizationForm } from '../drif-fp/drif-fp-form';
     MatIconModule,
     MatButtonModule,
     DrrTextareaComponent,
-    
+
     DrrInputComponent,
   ],
   templateUrl: './drif-fp-step-2.component.html',
