@@ -60,9 +60,7 @@ namespace EMCR.DRR.Resources.Applications
             if (!string.IsNullOrEmpty(query.Id)) applicationsQuery = applicationsQuery.Where(a => a.drr_name == query.Id);
             if (!string.IsNullOrEmpty(query.BusinessId)) applicationsQuery = applicationsQuery.Where(a => a.drr_Primary_Proponent_Name.drr_bceidguid == query.BusinessId);
 
-            var results = await applicationsQuery.GetAllPagesAsync(ct);
-
-            results = results.ToArray();
+            var results = (await applicationsQuery.GetAllPagesAsync(ct)).ToArray();
 
             var partnerProponentsOnly = false;
             if (string.IsNullOrEmpty(query.Id)) partnerProponentsOnly = true;
@@ -319,6 +317,7 @@ namespace EMCR.DRR.Resources.Applications
             {
                 ctx.LoadPropertyAsync(application, nameof(drr_application.drr_application_connections1), ct),
                 ctx.LoadPropertyAsync(application, nameof(drr_application.drr_ApplicationType), ct),
+                ctx.LoadPropertyAsync(application, nameof(drr_application.drr_FullProposalApplication), ct),
             };
 
             if (!partnerProponentsOnly)

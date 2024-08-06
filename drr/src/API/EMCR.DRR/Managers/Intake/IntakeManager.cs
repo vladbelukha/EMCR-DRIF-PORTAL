@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using EMCR.DRR.API.Resources.Accounts;
+using EMCR.DRR.API.Resources.Cases;
 using EMCR.DRR.API.Services;
 using EMCR.DRR.Resources.Applications;
 
@@ -10,12 +11,14 @@ namespace EMCR.DRR.Managers.Intake
         private readonly IMapper mapper;
         private readonly IApplicationRepository applicationRepository;
         private readonly IAccountRepository accountRepository;
+        private readonly ICaseRepository caseRepository;
 
-        public IntakeManager(IMapper mapper, IApplicationRepository applicationRepository, IAccountRepository accountRepository)
+        public IntakeManager(IMapper mapper, IApplicationRepository applicationRepository, IAccountRepository accountRepository, ICaseRepository caseRepository)
         {
             this.mapper = mapper;
             this.applicationRepository = applicationRepository;
             this.accountRepository = accountRepository;
+            this.caseRepository = caseRepository;
         }
 
         public async Task<IntakeQueryResponse> Handle(IntakeQuery cmd)
@@ -33,6 +36,7 @@ namespace EMCR.DRR.Managers.Intake
             {
                 EoiSaveApplicationCommand c => await Handle(c),
                 EoiSubmitApplicationCommand c => await Handle(c),
+                CreateFpFromEoiCommand c => await Handle(c),
                 _ => throw new NotSupportedException($"{cmd.GetType().Name} is not supported")
             };
         }
@@ -66,6 +70,15 @@ namespace EMCR.DRR.Managers.Intake
             if (application.Submitter != null) application.Submitter.BCeId = cmd.UserInfo.UserId;
             var id = (await applicationRepository.Manage(new SubmitApplication { Application = application })).Id;
             return id;
+        }
+        
+        public async Task<string> Handle(CreateFpFromEoiCommand cmd)
+        {
+            var canAccess = await CanAccessApplication(cmd.EoiId, cmd.UserInfo.BusinessId);
+            if (!canAccess) throw new UnauthorizedException("Not allowed to access this application.");
+
+            var res = (await caseRepository.Manage(new GenerateFpFromEoi { EoiId = cmd.EoiId })).Id;
+            return res;
         }
 
         public async Task<DeclarationQueryResult> Handle(DeclarationQuery _)

@@ -59,6 +59,12 @@ namespace EMCR.DRR.Managers.Intake
         public UserInfo UserInfo { get; set; }
     }
 
+    public class CreateFpFromEoiCommand : IntakeCommand
+    {
+        public required string EoiId { get; set; }
+        public UserInfo UserInfo { get; set; }
+    }
+
     public class FpSaveApplicationCommand : IntakeCommand
     {
         public FpApplication application { get; set; } = null!;
@@ -74,6 +80,7 @@ namespace EMCR.DRR.Managers.Intake
     public class Application
     {
         public string? Id { get; set; }
+        public string? FpId { get; set; }
         public required string ApplicationTypeName { get; set; }
         public required string ProgramName { get; set; }
         public string? BCeIDBusinessId { get; set; }
