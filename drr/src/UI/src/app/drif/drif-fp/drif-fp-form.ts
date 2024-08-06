@@ -168,8 +168,8 @@ export class PermitsRegulationsAndStandardsForm {
   @minLength({ value: 1 })
   standards?: string[] = [];
 
-  @propArray(StringItemRequired)
-  standardsArray?: StringItemRequired[] = [{ value: '' }];
+  // @propArray(StringItemRequired)
+  // standardsArray?: StringItemRequired[] = [{ value: '' }];
 
   @prop()
   standardsComments?: string;
@@ -181,6 +181,10 @@ export class PermitsRegulationsAndStandardsForm {
   @prop()
   @required()
   projectCompliensComments?: string;
+
+  constructor(values: PermitsRegulationsAndStandardsForm) {
+    Object.assign(this, values);
+  }
 }
 
 export class YearOverYearFundingForm {
@@ -224,6 +228,10 @@ export class DrifFpForm {
   @propObject(OwnershipAndAuthorizationForm)
   ownershipAndAuthorization?: OwnershipAndAuthorizationForm =
     new OwnershipAndAuthorizationForm({});
+
+  @propObject(PermitsRegulationsAndStandardsForm)
+  permitsRegulationsAndStandards?: PermitsRegulationsAndStandardsForm =
+    new PermitsRegulationsAndStandardsForm({});
 
   @propObject(BudgetForm)
   budget?: BudgetForm = new BudgetForm();
