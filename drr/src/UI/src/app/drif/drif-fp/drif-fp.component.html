@@ -158,6 +158,29 @@
         </div>
       </mat-step>
       <mat-step
+        [label]="t('climateAdaptation')"
+        [stepControl]="getFormGroup('climateAdaptation')"
+        [errorMessage]="t('stepError')"
+      >
+        <drif-fp-step-6
+          [climateAdaptationForm]="getFormGroup('climateAdaptation')"
+        ></drif-fp-step-6>
+        <div class="drr-stepper-actions">
+          <button mat-stroked-button color="primary" matStepperPrevious>
+            {{ t("back") }}
+          </button>
+          <button
+            id="next5"
+            mat-flat-button
+            color="primary"
+            matStepperNext
+            type="button"
+          >
+            {{ t("next") }}
+          </button>
+        </div>
+      </mat-step>
+      <mat-step
         [label]="t('declaration')"
         [stepControl]="getFormGroup('declaration')"
         [errorMessage]="t('stepError')"

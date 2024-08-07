@@ -213,6 +213,20 @@ export class BudgetForm {
   otherFunding?: FundingInformationItemForm[] = [{}];
 }
 
+export class ClimateAdaptationForm {
+  @prop()
+  @required()
+  climateAdaptation?: boolean;
+
+  @prop()
+  @required()
+  climateAdaptationComments?: string;
+
+  constructor(values: ClimateAdaptationForm) {
+    Object.assign(this, values);
+  }
+}
+
 export class DrifFpForm {
   @propObject(ProponentAndProjectInformationForm)
   proponentAndProjectInformationForm?: ProponentAndProjectInformationForm =
@@ -225,6 +239,9 @@ export class DrifFpForm {
   @propObject(PermitsRegulationsAndStandardsForm)
   permitsRegulationsAndStandards?: PermitsRegulationsAndStandardsForm =
     new PermitsRegulationsAndStandardsForm({});
+
+  @propObject(ClimateAdaptationForm)
+  climateAdaptation?: ClimateAdaptationForm = new ClimateAdaptationForm({});
 
   @propObject(BudgetForm)
   budget?: BudgetForm = new BudgetForm();

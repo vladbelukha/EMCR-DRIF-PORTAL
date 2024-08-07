@@ -41,6 +41,7 @@ import {
 import { DrifFpStep2Component } from '../drif-fp-step-2/drif-fp-step-2.component';
 import { DrifFpStep3Component } from '../drif-fp-step-3/drif-fp-step-3.component';
 import { DrifFpStep5Component } from '../drif-fp-step-5/drif-fp-step-5.component';
+import { DrifFpStep6Component } from '../drif-fp-step-6/drif-fp-step-6.component';
 import { DrifFpForm } from './drif-fp-form';
 
 @Component({
@@ -60,6 +61,7 @@ import { DrifFpForm } from './drif-fp-form';
     DrifFpStep2Component,
     DrifFpStep3Component,
     DrifFpStep5Component,
+    DrifFpStep6Component,
   ],
   providers: [
     RxFormBuilder,
@@ -198,6 +200,10 @@ export class DrifFpComponent {
       permitsRegulationsAndStandards: {
         standards: ['Standard1', 'Standard2'],
       },
+      climateAdaptation: {
+        climateAdaptation: true,
+        climateAdaptationComments: 'Climate Adaptation Comments',
+      },
       budget: {
         totalProjectCost: 1304020,
         fundingRequest: 1200000,
@@ -229,6 +235,9 @@ export class DrifFpComponent {
       },
       permitsRegulationsAndStandards: {
         ...response.permitsRegulationsAndStandards,
+      },
+      climateAdaptation: {
+        ...response.climateAdaptation,
       },
       budget: {
         ...response.budget,

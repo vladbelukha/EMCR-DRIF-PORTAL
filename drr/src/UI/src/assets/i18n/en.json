@@ -96,6 +96,7 @@
   "engagementProposal": "Engagement/Planned Engagement with First Nations and/or Indigenous Organizations Prior to Full Proposal",
   "climateAdaptation": "Climate Adaptation",
   "climateAdaptationText": "Describe how project will incorporate future climate conditions and consider climate change in the project methodology, including considering future impacts of the project on the environment.",
+  "climateAdaptationScreenerQuestion": "Does the project incorporate future climate conditions and consider climate change in the project methodology, including considering future impacts of the project on the environment?",
   "otherInformation": "Other Relevant Information",
   "otherInformationText": "Provide any other relevant information that would support this project’s EOI.",
   "authorizedRepresentativeStatement": "Authorized Representative",
