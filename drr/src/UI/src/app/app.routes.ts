@@ -37,7 +37,7 @@ export const routes: Routes = [
     canActivate: [AuthenticationGuard],
   },
   {
-    path: 'submission-details/:id',
+    path: 'eoi-submission-details/:id',
     component: DrifEoiViewComponent,
     canActivate: [AuthenticationGuard],
   },

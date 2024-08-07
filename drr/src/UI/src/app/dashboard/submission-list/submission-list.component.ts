@@ -83,17 +83,21 @@ export class SubmissionListComponent {
   onViewFormClick(submission: Submission, event: Event) {
     event.preventDefault();
 
-    this.router.navigate([
-      submission.status == 'Draft' ? '/drif-eoi' : '/submission-details',
-      submission.id,
-    ]);
+    submission.applicationType === 'EOI'
+      ? this.router.navigate([
+          submission.status == 'Draft'
+            ? '/drif-eoi'
+            : '/eoi-submission-details',
+          submission.id,
+        ])
+      : this.router.navigate([
+          submission.status == 'Draft' ? '/drif-fp' : '/fp-submission-details',
+          submission.id,
+        ]);
   }
 
   canCreateFullProposal(submission: Submission) {
-    return (
-      submission.status === 'EligibleInvited' &&
-      submission.existingFpId === null
-    );
+    return submission.status === 'EligibleInvited' && !submission.existingFpId;
   }
 
   createFullProposal(submission: Submission, event: Event) {
