@@ -31,11 +31,10 @@ export class DrifFpInstructionsComponent {
   }
 
   continue() {
-    // this.appService
-    //   .dRIFApplicationCreateFPApplication({ eoiId: this.eoiId! })
-    //   .subscribe((res) => {
-    //     this.router.navigate(['/drif-fp', res.id]);
-    //   });
-    this.router.navigate(['/drif-fp', 'DRIF-FP-1111']);
+    this.appService
+      .dRIFApplicationCreateFPFromEOI(this.eoiId!)
+      .subscribe((res) => {
+        this.router.navigate(['/drif-fp', res.id]);
+      });
   }
 }
