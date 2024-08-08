@@ -53,8 +53,16 @@ namespace EMCR.DRR.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<DraftEoiApplication>> Get(string id)
         {
-            var application = (await intakeManager.Handle(new DrrApplicationsQuery { Id = id, BusinessId = GetCurrentBusinessId() })).Items.FirstOrDefault();
-            return Ok(mapper.Map<DraftEoiApplication>(application));
+            try
+            {
+                var application = (await intakeManager.Handle(new DrrApplicationsQuery { Id = id, BusinessId = GetCurrentBusinessId() })).Items.FirstOrDefault();
+                if (application == null) return NotFound();
+                return Ok(mapper.Map<DraftEoiApplication>(application));
+            }
+            catch (DrrApplicationException e)
+            {
+                return errorParser.Parse(e);
+            }
         }
 
         [HttpGet("Declarations")]
