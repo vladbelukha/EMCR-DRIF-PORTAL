@@ -42,6 +42,7 @@ import { DrifFpStep2Component } from '../drif-fp-step-2/drif-fp-step-2.component
 import { DrifFpStep3Component } from '../drif-fp-step-3/drif-fp-step-3.component';
 import { DrifFpStep5Component } from '../drif-fp-step-5/drif-fp-step-5.component';
 import { DrifFpStep6Component } from '../drif-fp-step-6/drif-fp-step-6.component';
+import { DrifFpStep9Component } from '../drif-fp-step-9/drif-fp-step-9.component';
 import { DrifFpForm } from './drif-fp-form';
 
 @Component({
@@ -62,6 +63,7 @@ import { DrifFpForm } from './drif-fp-form';
     DrifFpStep3Component,
     DrifFpStep5Component,
     DrifFpStep6Component,
+    DrifFpStep9Component,
   ],
   providers: [
     RxFormBuilder,

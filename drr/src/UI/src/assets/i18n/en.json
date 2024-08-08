@@ -213,5 +213,11 @@
   "standardsComments": "Comments",
   "regulations": "Regulations",
   "regulationsQuestion": "Have dissolutions with applicable agencies taken place and/or have required approvals, authorizations and permits been applied for or received?",
-  "regulationsComments": "Explain how the project will meet provincial standards, permitting, fisheries windows, right of way, etc."
+  "regulationsComments": "Explain how the project will meet provincial standards, permitting, fisheries windows, right of way, etc.",
+  "projectRisks": "Project Risks",
+  "projectComplexity": "Project Complexity",
+  "complexityRiskMitigated": "Will project complexity risks be mitigated during this project?",
+  "complexityRisks": "If yes, which project complexity risks will be mitigated during this project? (select all that apply)",
+  "complexityRisksPlaceholder": "Select or type risk name",
+  "complexityRiskComments": "How will project complexity risks be mitigated during this project, if applicable?"
 }

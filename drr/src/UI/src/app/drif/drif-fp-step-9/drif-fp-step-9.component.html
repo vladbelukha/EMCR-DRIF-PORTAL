@@ -1,0 +1,21 @@
+<div class="drr-step-container" *transloco="let t">
+  <form [formGroup]="projectRisksForm">
+    <mat-label class="drr-label">{{ t("projectComplexity") }}</mat-label>
+    <drr-radio-button
+      [label]="t('complexityRiskMitigated')"
+      [rxFormControl]="projectRisksForm.get('complexityRiskMitigated')"
+    ></drr-radio-button>
+    <drr-chip-autocomplete
+      [label]="t('complexityRisks')"
+      [placeholder]="t('complexityRisksPlaceholder')"
+      [options]="complexityRiskOptions"
+      [rxFormControl]="projectRisksForm.get('complexityRisks')"
+    ></drr-chip-autocomplete>
+    <drr-textarea
+      [label]="t('complexityRiskComments')"
+      [maxlength]="2000"
+      [rxFormControl]="projectRisksForm.get('complexityRiskComments')"
+      [useTopLabel]="true"
+    ></drr-textarea>
+  </form>
+</div>

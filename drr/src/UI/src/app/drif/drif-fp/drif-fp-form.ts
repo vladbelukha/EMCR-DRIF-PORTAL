@@ -18,10 +18,19 @@ import {
   StringItem,
 } from '../drif-eoi/drif-eoi-form';
 
+// TODO: use enum from model
 export enum Standards {
   ProvincialStandard134b = 'Provincial Standard 134/b',
   ProvincialStandard144c = 'Provincial Standard 14.4/c',
   BuildingCodex099GNAP = 'Building Codex 0.99 GNAP',
+}
+
+export enum ComplexityRisks {
+  RemoteGeographicLocation = 'Remote Geographic Location',
+  UnpredictableWeather = 'Unpredictable Weather',
+  UntestedOrUnprovenTechnologies = 'Untested or Unproven Technologies',
+  HighlyTechnicalOrComplexProject = 'Highly Technical or Complex Project',
+  InterdependenciesBetweenPhases = 'Interdependencies Between Phases',
 }
 
 // TODO: temp before API provides the correct structure
@@ -227,6 +236,62 @@ export class ClimateAdaptationForm {
   }
 }
 
+export class ProjectRisksForm {
+  @prop()
+  @required()
+  complexityRiskMitigated?: boolean;
+
+  @prop()
+  complexityRisks?: string[];
+
+  @prop()
+  complexityRiskComments?: string;
+
+  @prop()
+  @required()
+  readinessRiskMitigated?: boolean;
+
+  @prop()
+  readinessRisks?: string[];
+
+  @prop()
+  readinessRiskComments?: string;
+
+  @prop()
+  @required()
+  sensitivityRiskMitigated?: boolean;
+
+  @prop()
+  sensitivityRisks?: string[];
+
+  @prop()
+  sensitivityRiskComments?: string;
+
+  @prop()
+  @required()
+  capacityRiskMitigated?: boolean;
+
+  @prop()
+  capacityRisks?: string[];
+
+  @prop()
+  capacityRiskComments?: string;
+
+  @prop()
+  @required()
+  riskIncreasedOrTransferredQuestion?: boolean;
+
+  @prop()
+  riskIncreasedOrTransferred?: string[];
+
+  @prop()
+  riskIncreasedOrTransferComments?: string;
+
+  constructor(values: ProjectRisksForm) {
+    Object.assign(this, values);
+  }
+}
+
 export class DrifFpForm {
   @propObject(ProponentAndProjectInformationForm)
   proponentAndProjectInformationForm?: ProponentAndProjectInformationForm =
@@ -242,6 +307,9 @@ export class DrifFpForm {
 
   @propObject(ClimateAdaptationForm)
   climateAdaptation?: ClimateAdaptationForm = new ClimateAdaptationForm({});
+
+  @propObject(ProjectRisksForm)
+  projectRisks?: ProjectRisksForm = new ProjectRisksForm({});
 
   @propObject(BudgetForm)
   budget?: BudgetForm = new BudgetForm();
