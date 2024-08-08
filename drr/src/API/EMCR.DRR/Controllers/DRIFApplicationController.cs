@@ -51,13 +51,13 @@ namespace EMCR.DRR.Controllers
                 var applications = (await intakeManager.Handle(new DrrApplicationsQuery { BusinessId = GetCurrentBusinessId() })).Items;
                 return Ok(mapper.Map<IEnumerable<Submission>>(applications));
             }
-            catch (DrrApplicationException e)
+            catch (Exception e)
             {
                 return errorParser.Parse(e);
             }
         }
 
-        [HttpGet("Declarations")]
+        [HttpGet("declarations")]
         public async Task<ActionResult<DeclarationResult>> GetDeclarations()
         {
             try
@@ -65,7 +65,7 @@ namespace EMCR.DRR.Controllers
                 var res = await intakeManager.Handle(new DeclarationQuery());
                 return Ok(new DeclarationResult { Items = mapper.Map<IEnumerable<DeclarationInfo>>(res.Items) });
             }
-            catch (DrrApplicationException e)
+            catch (Exception e)
             {
                 return errorParser.Parse(e);
             }
