@@ -18,7 +18,7 @@ namespace EMCR.DRR.Controllers
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
     [Authorize]
-    public class DRIFApplicationController : ControllerBase
+    public partial class DRIFApplicationController : ControllerBase
     {
         private readonly ILogger<DRIFApplicationController> logger;
         private readonly IIntakeManager intakeManager;
@@ -50,19 +50,6 @@ namespace EMCR.DRR.Controllers
             return Ok(mapper.Map<IEnumerable<Submission>>(applications));
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<DraftApplication>> Get(string id)
-        {
-            var application = (await intakeManager.Handle(new DrrApplicationsQuery { Id = id, BusinessId = GetCurrentBusinessId() })).Items.FirstOrDefault();
-            if (application == null) return new NotFoundObjectResult(new ProblemDetails { Type = "NotFoundException", Title = "Not Found", Detail = ""});
-            switch (application.ApplicationTypeName)
-            {
-                case "EOI": return Ok(mapper.Map<DraftEoiApplication>(application));
-                case "FP": return Ok(mapper.Map<DraftFpApplication>(application));
-                default: return Ok(mapper.Map<DraftApplication>(application));
-            }
-        }
-
         [HttpGet("Declarations")]
         public async Task<ActionResult<DeclarationResult>> GetDeclarations()
         {
@@ -70,104 +57,6 @@ namespace EMCR.DRR.Controllers
 
             return Ok(new DeclarationResult { Items = mapper.Map<IEnumerable<DeclarationInfo>>(res.Items) });
         }
-
-        [HttpPost("EOI")]
-        public async Task<ActionResult<ApplicationResult>> CreateEOIApplication(DraftEoiApplication application)
-        {
-            application.Status = SubmissionPortalStatus.Draft;
-            application.AdditionalContacts = MapAdditionalContacts(application);
-
-            var id = await intakeManager.Handle(new EoiSaveApplicationCommand { application = mapper.Map<EoiApplication>(application), UserInfo = GetCurrentUser() });
-            return Ok(new ApplicationResult { Id = id });
-        }
-
-        [HttpPost("EOI/{id}")]
-        public async Task<ActionResult<ApplicationResult>> UpdateApplication([FromBody] DraftEoiApplication application, string id)
-        {
-            try
-            {
-                application.Id = id;
-                application.Status = SubmissionPortalStatus.Draft;
-                application.AdditionalContacts = MapAdditionalContacts(application);
-
-                var drr_id = await intakeManager.Handle(new EoiSaveApplicationCommand { application = mapper.Map<EoiApplication>(application), UserInfo = GetCurrentUser() });
-                return Ok(new ApplicationResult { Id = drr_id });
-            }
-            catch (DrrApplicationException e)
-            {
-                return errorParser.Parse(e);
-            }
-        }
-
-        [HttpPost("EOI/submit")]
-        public async Task<ActionResult<ApplicationResult>> SubmitApplication([FromBody] EoiApplication application)
-        {
-            try
-            {
-                application.Status = SubmissionPortalStatus.UnderReview;
-                application.AdditionalContacts = MapAdditionalContacts(application);
-
-                var drr_id = await intakeManager.Handle(new EoiSubmitApplicationCommand { application = application, UserInfo = GetCurrentUser() });
-                return Ok(new ApplicationResult { Id = drr_id });
-            }
-            catch (DrrApplicationException e)
-            {
-                return errorParser.Parse(e);
-            }
-        }
-
-        [HttpPost("EOI/{id}/submit")]
-        public async Task<ActionResult<ApplicationResult>> SubmitApplication([FromBody] EoiApplication application, string id)
-        {
-            try
-            {
-                application.Id = id;
-                application.Status = SubmissionPortalStatus.UnderReview;
-                application.AdditionalContacts = MapAdditionalContacts(application);
-
-                var drr_id = await intakeManager.Handle(new EoiSubmitApplicationCommand { application = application, UserInfo = GetCurrentUser() });
-                return Ok(new ApplicationResult { Id = drr_id });
-            }
-            catch (DrrApplicationException e)
-            {
-                return errorParser.Parse(e);
-            }
-        }
-
-        [HttpPost("FP/EOI/{eoiId}")]
-        public async Task<ActionResult<ApplicationResult>> CreateFPFromEOI(string eoiId)
-        {
-            var id = await intakeManager.Handle(new CreateFpFromEoiCommand { EoiId = eoiId, UserInfo = GetCurrentUser() });
-            return Ok(new ApplicationResult { Id = id });
-        }
-
-        [HttpPost("FP/{id}")]
-        public async Task<ActionResult<ApplicationResult>> UpdateFPApplication([FromBody] DraftFpApplication application, string id)
-        {
-            //application.Id = id;
-            //application.Status = SubmissionPortalStatus.Draft;
-            //application.AdditionalContacts = MapAdditionalContacts(application);
-
-            //var drr_id = await intakeManager.Handle(new DrifFpApplicationCommand { application = mapper.Map<FpApplication>(application), UserInfo = GetCurrentUser() });
-            //return Ok(new ApplicationResult { Id = drr_id });
-            await Task.CompletedTask;
-            return Ok(new ApplicationResult { Id = "DRIF-FP-1000" });
-        }
-
-        [HttpPost("FP/{id}/submit")]
-        public async Task<ActionResult<ApplicationResult>> SubmitFPApplication([FromBody] FpApplication application, string id)
-        {
-            //application.Id = id;
-            //application.Status = SubmissionPortalStatus.UnderReview;
-            //application.AdditionalContacts = MapAdditionalContacts(application);
-
-            //var drr_id = await intakeManager.Handle(new DrifFpApplicationCommand { application = application, UserInfo = GetCurrentUser() });
-            //return Ok(new ApplicationResult { Id = drr_id });
-            await Task.CompletedTask;
-            return Ok(new ApplicationResult { Id = "DRIF-FP-1000" });
-        }
-
-
 
         //Prevent empty additional contact 1, but populated additional contact 2
         private IEnumerable<ContactDetails> MapAdditionalContacts(DraftApplication application)
