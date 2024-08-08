@@ -13,7 +13,7 @@ namespace EMCR.DRR.API.Mappers
             CreateMap<DraftEoiApplication, EoiApplication>();
 
             CreateMap<Managers.Intake.Application, Submission>()
-                .ForMember(dest => dest.ApplicationType, opt => opt.MapFrom(src => src.ApplicationTypeName))
+                .ForMember(dest => dest.ApplicationType, opt => opt.MapFrom(src => DRRApplicationTypeMapper(src.ApplicationTypeName)))
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => DRRApplicationStatusMapper(src.Status)))
                 .ForMember(dest => dest.FundingRequest, opt => opt.MapFrom(src => src.FundingRequest.ToString()))
                 .ForMember(dest => dest.ModifiedDate, opt => opt.MapFrom(src => src.ModifiedOn))
@@ -30,6 +30,18 @@ namespace EMCR.DRR.API.Mappers
             CreateMap<AccountDetails, ProfileDetails>()
                 .ReverseMap()
                 ;
+        }
+
+        private ApplicationType DRRApplicationTypeMapper(string type)
+        {
+            switch (type)
+            {
+                case "EOI":
+                    return ApplicationType.EOI;
+                case "Full Proposal":
+                    return ApplicationType.FP;
+                default: return ApplicationType.EOI;
+            }
         }
 
         private SubmissionPortalStatus DRRApplicationStatusMapper(Managers.Intake.ApplicationStatus status)
