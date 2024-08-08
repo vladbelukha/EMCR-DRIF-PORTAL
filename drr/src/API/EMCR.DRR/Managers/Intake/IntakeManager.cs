@@ -43,6 +43,11 @@ namespace EMCR.DRR.Managers.Intake
 
         public async Task<IntakeQueryResponse> Handle(DrrApplicationsQuery q)
         {
+            if (!string.IsNullOrEmpty(q.Id) && !string.IsNullOrEmpty(q.BusinessId))
+            {
+                var canAccess = await CanAccessApplication(q.Id, q.BusinessId);
+                if (!canAccess) throw new UnauthorizedException("Not allowed to access this application.");
+            }
             var res = await applicationRepository.Query(new ApplicationsQuery { Id = q.Id, BusinessId = q.BusinessId });
             return new IntakeQueryResponse { Items = mapper.Map<IEnumerable<Application>>(res.Items) };
         }

@@ -46,16 +46,29 @@ namespace EMCR.DRR.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Submission>>> Get()
         {
-            var applications = (await intakeManager.Handle(new DrrApplicationsQuery { BusinessId = GetCurrentBusinessId() })).Items;
-            return Ok(mapper.Map<IEnumerable<Submission>>(applications));
+            try
+            {
+                var applications = (await intakeManager.Handle(new DrrApplicationsQuery { BusinessId = GetCurrentBusinessId() })).Items;
+                return Ok(mapper.Map<IEnumerable<Submission>>(applications));
+            }
+            catch (DrrApplicationException e)
+            {
+                return errorParser.Parse(e);
+            }
         }
 
         [HttpGet("Declarations")]
         public async Task<ActionResult<DeclarationResult>> GetDeclarations()
         {
-            var res = await intakeManager.Handle(new DeclarationQuery());
-
-            return Ok(new DeclarationResult { Items = mapper.Map<IEnumerable<DeclarationInfo>>(res.Items) });
+            try
+            {
+                var res = await intakeManager.Handle(new DeclarationQuery());
+                return Ok(new DeclarationResult { Items = mapper.Map<IEnumerable<DeclarationInfo>>(res.Items) });
+            }
+            catch (DrrApplicationException e)
+            {
+                return errorParser.Parse(e);
+            }
         }
 
         //Prevent empty additional contact 1, but populated additional contact 2
