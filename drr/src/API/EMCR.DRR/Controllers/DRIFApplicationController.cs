@@ -59,7 +59,7 @@ namespace EMCR.DRR.Controllers
                 if (application == null) return NotFound();
                 return Ok(mapper.Map<DraftEoiApplication>(application));
             }
-            catch (DrrApplicationException e)
+            catch (Exception e)
             {
                 return errorParser.Parse(e);
             }
@@ -95,7 +95,7 @@ namespace EMCR.DRR.Controllers
                 var drr_id = await intakeManager.Handle(new DrifEoiSaveApplicationCommand { application = mapper.Map<EoiApplication>(application), UserInfo = GetCurrentUser() });
                 return Ok(new ApplicationResult { Id = drr_id });
             }
-            catch (DrrApplicationException e)
+            catch (Exception e)
             {
                 return errorParser.Parse(e);
             }
@@ -112,7 +112,7 @@ namespace EMCR.DRR.Controllers
                 var drr_id = await intakeManager.Handle(new DrifEoiSubmitApplicationCommand { application = application, UserInfo = GetCurrentUser() });
                 return Ok(new ApplicationResult { Id = drr_id });
             }
-            catch (DrrApplicationException e)
+            catch (Exception e)
             {
                 return errorParser.Parse(e);
             }
@@ -130,7 +130,7 @@ namespace EMCR.DRR.Controllers
                 var drr_id = await intakeManager.Handle(new DrifEoiSubmitApplicationCommand { application = application, UserInfo = GetCurrentUser() });
                 return Ok(new ApplicationResult { Id = drr_id });
             }
-            catch (DrrApplicationException e)
+            catch (Exception e)
             {
                 return errorParser.Parse(e);
             }
