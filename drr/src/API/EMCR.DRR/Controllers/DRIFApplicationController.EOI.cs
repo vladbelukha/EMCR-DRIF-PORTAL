@@ -10,19 +10,33 @@ namespace EMCR.DRR.Controllers
         [HttpGet("EOI/{id}")]
         public async Task<ActionResult<DraftEoiApplication>> GetEOI(string id)
         {
-            var application = (await intakeManager.Handle(new DrrApplicationsQuery { Id = id, BusinessId = GetCurrentBusinessId() })).Items.FirstOrDefault();
-            if (application == null) return new NotFoundObjectResult(new ProblemDetails { Type = "NotFoundException", Title = "Not Found", Detail = "" });
-            return Ok(mapper.Map<DraftEoiApplication>(application));
+            try
+            {
+                var application = (await intakeManager.Handle(new DrrApplicationsQuery { Id = id, BusinessId = GetCurrentBusinessId() })).Items.FirstOrDefault();
+                if (application == null) return new NotFoundObjectResult(new ProblemDetails { Type = "NotFoundException", Title = "Not Found", Detail = "" });
+                return Ok(mapper.Map<DraftEoiApplication>(application));
+            }
+            catch (DrrApplicationException e)
+            {
+                return errorParser.Parse(e);
+            }
         }
 
         [HttpPost("EOI")]
         public async Task<ActionResult<ApplicationResult>> CreateEOIApplication(DraftEoiApplication application)
         {
-            application.Status = SubmissionPortalStatus.Draft;
-            application.AdditionalContacts = MapAdditionalContacts(application);
+            try
+            {
+                application.Status = SubmissionPortalStatus.Draft;
+                application.AdditionalContacts = MapAdditionalContacts(application);
 
-            var id = await intakeManager.Handle(new EoiSaveApplicationCommand { application = mapper.Map<EoiApplication>(application), UserInfo = GetCurrentUser() });
-            return Ok(new ApplicationResult { Id = id });
+                var id = await intakeManager.Handle(new EoiSaveApplicationCommand { application = mapper.Map<EoiApplication>(application), UserInfo = GetCurrentUser() });
+                return Ok(new ApplicationResult { Id = id });
+            }
+            catch (DrrApplicationException e)
+            {
+                return errorParser.Parse(e);
+            }
         }
 
         [HttpPost("EOI/{id}")]
