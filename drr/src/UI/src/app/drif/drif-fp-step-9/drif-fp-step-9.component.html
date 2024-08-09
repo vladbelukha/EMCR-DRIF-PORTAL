@@ -17,5 +17,23 @@
       [rxFormControl]="projectRisksForm.get('complexityRiskComments')"
       [useTopLabel]="true"
     ></drr-textarea>
+
+    <mat-label class="drr-label">{{ t("projectReadiness") }}</mat-label>
+    <drr-radio-button
+      [label]="t('readinessRiskMitigated')"
+      [rxFormControl]="projectRisksForm.get('readinessRiskMitigated')"
+    ></drr-radio-button>
+    <drr-chip-autocomplete
+      [label]="t('readinessRisks')"
+      [placeholder]="t('readinessRisksPlaceholder')"
+      [options]="readinessRiskOptions"
+      [rxFormControl]="projectRisksForm.get('readinessRisks')"
+    ></drr-chip-autocomplete>
+    <drr-textarea
+      [label]="t('readinessRiskComments')"
+      [maxlength]="2000"
+      [rxFormControl]="projectRisksForm.get('readinessRiskComments')"
+      [useTopLabel]="true"
+    ></drr-textarea>
   </form>
 </div>

@@ -219,5 +219,10 @@
   "complexityRiskMitigated": "Will project complexity risks be mitigated during this project?",
   "complexityRisks": "If yes, which project complexity risks will be mitigated during this project? (select all that apply)",
   "complexityRisksPlaceholder": "Select or type risk name",
-  "complexityRiskComments": "How will project complexity risks be mitigated during this project, if applicable?"
+  "complexityRiskComments": "How will project complexity risks be mitigated during this project, if applicable?",
+  "projectReadiness": "Project Readiness",
+  "readinessRiskMitigated": "Will project readiness risks be mitigated during this project?",
+  "readinessRisks": "If yes, which project readiness risks will be mitigated during this project? (select all that apply)",
+  "readinessRisksPlaceholder": "Select or type risk name",
+  "readinessRiskComments": "How will project readiness risks be mitigated during this project, if applicable?"
 }

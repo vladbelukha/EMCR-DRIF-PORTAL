@@ -7,7 +7,11 @@ import { IFormGroup } from '@rxweb/reactive-form-validators';
 import { DrrChipAutocompleteComponent } from '../../shared/controls/drr-chip-autocomplete/drr-chip-autocomplete.component';
 import { DrrRadioButtonComponent } from '../../shared/controls/drr-radio-button/drr-radio-button.component';
 import { DrrTextareaComponent } from '../../shared/controls/drr-textarea/drr-textarea.component';
-import { ComplexityRisks, ProjectRisksForm } from '../drif-fp/drif-fp-form';
+import {
+  ComplexityRisks,
+  ProjectRisksForm,
+  ReadinessRisks,
+} from '../drif-fp/drif-fp-form';
 
 @Component({
   selector: 'drif-fp-step-9',
@@ -30,6 +34,7 @@ export class DrifFpStep9Component {
   projectRisksForm!: IFormGroup<ProjectRisksForm>;
 
   complexityRiskOptions = Object.values(ComplexityRisks);
+  readinessRiskOptions = Object.values(ReadinessRisks);
 
   ngOnInit() {
     console.log('complexityRiskOptions', this.complexityRiskOptions);

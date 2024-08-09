@@ -33,6 +33,14 @@ export enum ComplexityRisks {
   InterdependenciesBetweenPhases = 'Interdependencies Between Phases',
 }
 
+export enum ReadinessRisks {
+  Projectsitehasntbeenfinalized = 'Project site hasn’t been finalized',
+  Landhasntbeenacquired = 'Land hasn’t been acquired',
+  Potentialissueswithpermitsorauthorizations = 'Potential issues with permits or authorizations',
+  Industrysupplymaynotbeabletomeetdemand = 'Industry supply may not be able to meet demand',
+  NonDRIFfundingsourcesarenotsecuredfortheentireprojectcost = 'Non-DRIF funding sources are not secured for the entire project cost',
+}
+
 // TODO: temp before API provides the correct structure
 export class FileForm {
   @prop()
