@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
+import { MatListModule } from '@angular/material/list';
 import { TranslocoModule } from '@ngneat/transloco';
 import { IFormGroup } from '@rxweb/reactive-form-validators';
 import { DrrChipAutocompleteComponent } from '../../shared/controls/drr-chip-autocomplete/drr-chip-autocomplete.component';
@@ -13,6 +14,7 @@ import {
   ProjectRisksForm,
   ReadinessRisks,
   SensitivityRisks,
+  TransferRisks,
 } from '../drif-fp/drif-fp-form';
 
 @Component({
@@ -27,6 +29,7 @@ import {
     DrrRadioButtonComponent,
     FormsModule,
     ReactiveFormsModule,
+    MatListModule,
   ],
   templateUrl: './drif-fp-step-9.component.html',
   styleUrl: './drif-fp-step-9.component.scss',
@@ -39,8 +42,11 @@ export class DrifFpStep9Component {
   readinessRiskOptions = Object.values(ReadinessRisks);
   sensitivityRiskOptions = Object.values(SensitivityRisks);
   capacityRiskOptions = Object.values(CapacityRisks);
+  transferRisksOptions = Object.values(TransferRisks);
 
-  ngOnInit() {
-    console.log('complexityRiskOptions', this.complexityRiskOptions);
+  ngOnInit() {}
+
+  getFormControl(name: string) {
+    return this.projectRisksForm.get(name) as FormControl;
   }
 }

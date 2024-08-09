@@ -52,6 +52,11 @@ export enum CapacityRisks {
   Previouschallengeshaveoccurredwithsimilarprojects = 'Previous challenges have occurred with similar projects',
 }
 
+export enum TransferRisks {
+  increased = 'Increased',
+  transferred = 'Transferred',
+}
+
 // TODO: temp before API provides the correct structure
 export class FileForm {
   @prop()
@@ -298,13 +303,13 @@ export class ProjectRisksForm {
 
   @prop()
   @required()
-  riskIncreasedOrTransferredQuestion?: boolean;
+  riskTransferMigigated?: boolean;
 
   @prop()
-  riskIncreasedOrTransferred?: string[];
+  transferRisks?: string[];
 
   @prop()
-  riskIncreasedOrTransferComments?: string;
+  transferRisksComments?: string;
 
   constructor(values: ProjectRisksForm) {
     Object.assign(this, values);

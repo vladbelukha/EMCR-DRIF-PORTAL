@@ -71,5 +71,28 @@
       [rxFormControl]="projectRisksForm.get('capacityRiskComments')"
       [useTopLabel]="true"
     ></drr-textarea>
+
+    <mat-label class="drr-label">{{ t("riskTransfer") }}</mat-label>
+    <drr-radio-button
+      [label]="t('riskTransferMigigated')"
+      [rxFormControl]="projectRisksForm.get('riskTransferMigigated')"
+    ></drr-radio-button>
+    <mat-label>{{ t("transferRisks") }}</mat-label>
+    <mat-selection-list
+      class="drr-single-input"
+      [formControl]="getFormControl('transferRisks')"
+    >
+      @for (option of transferRisksOptions; track $index) {
+      <mat-list-option [value]="option" togglePosition="before">{{
+        t(option)
+      }}</mat-list-option>
+      }
+    </mat-selection-list>
+    <drr-textarea
+      [label]="t('transferRiskComments')"
+      [maxlength]="2000"
+      [rxFormControl]="projectRisksForm.get('transferRisksComments')"
+      [useTopLabel]="true"
+    ></drr-textarea>
   </form>
 </div>
