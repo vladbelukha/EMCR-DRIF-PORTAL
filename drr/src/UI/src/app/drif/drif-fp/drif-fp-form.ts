@@ -18,10 +18,43 @@ import {
   StringItem,
 } from '../drif-eoi/drif-eoi-form';
 
+// TODO: use enum from model
 export enum Standards {
   ProvincialStandard134b = 'Provincial Standard 134/b',
   ProvincialStandard144c = 'Provincial Standard 14.4/c',
   BuildingCodex099GNAP = 'Building Codex 0.99 GNAP',
+}
+
+export enum ComplexityRisks {
+  RemoteGeographicLocation = 'Remote Geographic Location',
+  UnpredictableWeather = 'Unpredictable Weather',
+  UntestedOrUnprovenTechnologies = 'Untested or Unproven Technologies',
+  HighlyTechnicalOrComplexProject = 'Highly Technical or Complex Project',
+  InterdependenciesBetweenPhases = 'Interdependencies Between Phases',
+}
+
+export enum ReadinessRisks {
+  Projectsitehasntbeenfinalized = 'Project site hasn’t been finalized',
+  Landhasntbeenacquired = 'Land hasn’t been acquired',
+  Potentialissueswithpermitsorauthorizations = 'Potential issues with permits or authorizations',
+  Industrysupplymaynotbeabletomeetdemand = 'Industry supply may not be able to meet demand',
+  NonDRIFfundingsourcesarenotsecuredfortheentireprojectcost = 'Non-DRIF funding sources are not secured for the entire project cost',
+}
+
+export enum SensitivityRisks {
+  Projecthasreceivednegativemediaattention = 'Project has received negative media attention',
+  Certainstakeholdershavebeenvocalabouttheproject = 'Certain stakeholders have been vocal about the project',
+}
+
+export enum CapacityRisks {
+  Limitedhumanresourcestocompletetheproject = 'Limited human resources to complete the project',
+  Limitedtechnicalexpertisetocompletetheproject = 'Limited technical expertise to complete the project',
+  Previouschallengeshaveoccurredwithsimilarprojects = 'Previous challenges have occurred with similar projects',
+}
+
+export enum TransferRisks {
+  increased = 'Increased',
+  transferred = 'Transferred',
 }
 
 // TODO: temp before API provides the correct structure
@@ -213,6 +246,76 @@ export class BudgetForm {
   otherFunding?: FundingInformationItemForm[] = [{}];
 }
 
+export class ClimateAdaptationForm {
+  @prop()
+  @required()
+  climateAdaptation?: boolean;
+
+  @prop()
+  @required()
+  climateAdaptationComments?: string;
+
+  constructor(values: ClimateAdaptationForm) {
+    Object.assign(this, values);
+  }
+}
+
+export class ProjectRisksForm {
+  @prop()
+  @required()
+  complexityRiskMitigated?: boolean;
+
+  @prop()
+  complexityRisks?: string[];
+
+  @prop()
+  complexityRiskComments?: string;
+
+  @prop()
+  @required()
+  readinessRiskMitigated?: boolean;
+
+  @prop()
+  readinessRisks?: string[];
+
+  @prop()
+  readinessRiskComments?: string;
+
+  @prop()
+  @required()
+  sensitivityRiskMitigated?: boolean;
+
+  @prop()
+  sensitivityRisks?: string[];
+
+  @prop()
+  sensitivityRiskComments?: string;
+
+  @prop()
+  @required()
+  capacityRiskMitigated?: boolean;
+
+  @prop()
+  capacityRisks?: string[];
+
+  @prop()
+  capacityRiskComments?: string;
+
+  @prop()
+  @required()
+  riskTransferMigigated?: boolean;
+
+  @prop()
+  transferRisks?: string[];
+
+  @prop()
+  transferRisksComments?: string;
+
+  constructor(values: ProjectRisksForm) {
+    Object.assign(this, values);
+  }
+}
+
 export class DrifFpForm {
   @propObject(ProponentAndProjectInformationForm)
   proponentAndProjectInformationForm?: ProponentAndProjectInformationForm =
@@ -225,6 +328,12 @@ export class DrifFpForm {
   @propObject(PermitsRegulationsAndStandardsForm)
   permitsRegulationsAndStandards?: PermitsRegulationsAndStandardsForm =
     new PermitsRegulationsAndStandardsForm({});
+
+  @propObject(ClimateAdaptationForm)
+  climateAdaptation?: ClimateAdaptationForm = new ClimateAdaptationForm({});
+
+  @propObject(ProjectRisksForm)
+  projectRisks?: ProjectRisksForm = new ProjectRisksForm({});
 
   @propObject(BudgetForm)
   budget?: BudgetForm = new BudgetForm();
