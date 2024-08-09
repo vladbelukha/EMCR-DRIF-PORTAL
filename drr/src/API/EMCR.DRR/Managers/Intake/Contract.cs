@@ -145,6 +145,41 @@ namespace EMCR.DRR.Managers.Intake
         public ApplicationStatus Status { get; set; }
         public DateTime? SubmittedDate { get; set; } = null;
         public DateTime? ModifiedOn { get; set; } = null;
+
+        //Full Proposal
+        //Proponent & Project Information - 1
+        public bool? RegionalProject { get; set; }
+        public string? RegionalProjectComments { get; set; }
+
+        //Ownership & Authorization - 2
+        public bool? Ownership { get; set; }
+        public string? OwnershipComments { get; set; }
+        public bool? AuthorityAndOwnership { get; set; }
+        public string? AuthorityAndOwnershipComments { get; set; }
+        public YesNoOption? OperationAndMaintenance { get; set; }
+        public string? OperationAndMaintenanceComments { get; set; }
+        public string? AuthorizationOrEndorsementComments { get; set; }
+
+        //Permits Regulations & Standards - 7
+        public bool? Approvals { get; set; }
+        public string? ApprovalsComments { get; set; }
+        public bool? ProfessionalGuidance { get; set; }
+        public IEnumerable<ProfessionalInfo> Professionals { get; set; }
+        public YesNoOption? StandardsAcceptable { get; set; }
+        public IEnumerable<ProvincialStandard> Standards { get; set; }
+        public string? StandardsComments { get; set; }
+        public bool? Regulations { get; set; }
+        public string? RegulationsComments { get; set; }
+
+        //Project Risks - 9
+        public bool? ProjectComplexity { get; set; }
+        public bool? ProjectReadiness { get; set; }
+        public bool? ProjectSensitivity { get; set; }
+        public bool? CapacityChallenges { get; set; }
+        public bool? RiskTransfer { get; set; }
+
+        //Budget - 10
+        public decimal? TotalProjectCost { get; set; }
     }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
@@ -188,6 +223,16 @@ namespace EMCR.DRR.Managers.Intake
     }
 
     public class CriticalInfrastructure
+    {
+        public required string Name { get; set; }
+    }
+
+    public class ProfessionalInfo
+    {
+        public required string Name { get; set; }
+    }
+
+    public class ProvincialStandard
     {
         public required string Name { get; set; }
     }
@@ -252,5 +297,12 @@ namespace EMCR.DRR.Managers.Intake
         Invited,
         Ineligible,
         Withdrawn
+    }
+
+    public enum YesNoOption
+    {
+        No,
+        Yes,
+        NotApplicable
     }
 }

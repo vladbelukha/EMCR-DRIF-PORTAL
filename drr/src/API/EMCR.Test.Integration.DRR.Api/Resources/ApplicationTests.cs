@@ -1,5 +1,7 @@
-﻿using EMCR.DRR.Managers.Intake;
+﻿using EMCR.DRR.API.Resources.Cases;
+using EMCR.DRR.Managers.Intake;
 using EMCR.DRR.Resources.Applications;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Shouldly;
 
@@ -11,11 +13,13 @@ namespace EMCR.Tests.Integration.DRR.Resources
         private string TestBusinessId = "autotest-dev-business-bceid";
         private string TestUserId = "autotest-dev-user-bceid";
         private readonly IApplicationRepository applicationRepository;
+        private readonly ICaseRepository caseRepository;
 
         public ApplicationTests()
         {
             var host = EMBC.Tests.Integration.DRR.Application.Host;
             applicationRepository = host.Services.GetRequiredService<IApplicationRepository>();
+            caseRepository = host.Services.GetRequiredService<ICaseRepository>();
         }
 
         [Test]
@@ -72,6 +76,53 @@ namespace EMCR.Tests.Integration.DRR.Resources
             //verify partnering proponents
             //verify funding sourcres
             //verify infrastructure
+        }
+
+        [Test]
+        public async Task CanCreateFPApplication()
+        {
+            var originalApplication = CreateTestEOIApplication();
+            originalApplication.SubmittedDate = DateTime.UtcNow;
+            originalApplication.Status = ApplicationStatus.Invited;
+            var eoiId = (await applicationRepository.Manage(new SubmitApplication { Application = originalApplication })).Id;
+            eoiId.ShouldNotBeEmpty();
+
+            var eoiApplication = (await applicationRepository.Query(new ApplicationsQuery { Id = eoiId })).Items.ShouldHaveSingleItem();
+            eoiApplication.ProjectTitle.ShouldNotBeEmpty();
+
+            var fpId = (await caseRepository.Manage(new GenerateFpFromEoi { EoiId = eoiId })).Id;
+            var fpApplication = (await applicationRepository.Query(new ApplicationsQuery { Id = fpId })).Items.ShouldHaveSingleItem();
+            fpApplication.ProjectTitle.ShouldNotBeEmpty();
+        }
+
+        [Test]
+        public async Task CanUpdateFPApplication()
+        {
+            var originalEOI = CreateTestEOIApplication();
+            originalEOI.SubmittedDate = DateTime.UtcNow;
+            originalEOI.Status = ApplicationStatus.Invited;
+            var eoiId = (await applicationRepository.Manage(new SubmitApplication { Application = originalEOI })).Id;
+            eoiId.ShouldNotBeEmpty();
+
+            var eoiApplication = (await applicationRepository.Query(new ApplicationsQuery { Id = eoiId })).Items.ShouldHaveSingleItem();
+            eoiApplication.ProjectTitle.ShouldNotBeEmpty();
+
+            var fpId = (await caseRepository.Manage(new GenerateFpFromEoi { EoiId = eoiId })).Id;
+            var fpApplication = (await applicationRepository.Query(new ApplicationsQuery { Id = fpId })).Items.ShouldHaveSingleItem();
+            fpApplication.ProjectTitle.ShouldNotBeEmpty();
+
+            fpApplication.Standards = new[]
+            {
+                new ProvincialStandard {Name = "Test 1"},
+                new ProvincialStandard {Name = "Some custom standard"},
+            };
+
+            await applicationRepository.Manage(new SubmitApplication { Application = fpApplication });
+
+            var updatedFpApplication = (await applicationRepository.Query(new ApplicationsQuery { Id = fpId })).Items.ShouldHaveSingleItem();
+            updatedFpApplication.Standards.ShouldNotBeEmpty();
+            updatedFpApplication.Standards.FirstOrDefault(s => s.Name == "Test 1").ShouldNotBeNull();
+            updatedFpApplication.Standards.FirstOrDefault(s => s.Name == "Some custom standard").ShouldNotBeNull();
         }
 
         [Test]
