@@ -16,13 +16,13 @@ import {
   RxFormControl,
 } from '@rxweb/reactive-form-validators';
 import { Subscription } from 'rxjs';
-import { DrrInputComponent } from '../../shared/controls/drr-input/drr-input.component';
-import { ProfileStore } from '../../store/profile.store';
+import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
+import { ProfileStore } from '../../../store/profile.store';
 import {
   ContactDetailsForm,
   ProponentInformationForm,
   StringItem,
-} from '../drif-eoi/drif-eoi-form';
+} from '../drif-eoi-form';
 
 @Component({
   selector: 'drif-eoi-step-1',

@@ -15,11 +15,11 @@ import { MatSelectModule } from '@angular/material/select';
 import { TranslocoModule } from '@ngneat/transloco';
 import { IFormGroup, RxFormControl } from '@rxweb/reactive-form-validators';
 import { DateTime } from 'luxon';
-import { Hazards } from '../../../model';
-import { DrrDatepickerComponent } from '../../shared/controls/drr-datepicker/drr-datepicker.component';
-import { DrrInputComponent } from '../../shared/controls/drr-input/drr-input.component';
-import { DrrSelectComponent } from '../../shared/controls/drr-select/drr-select.component';
-import { ProjectInformationForm } from '../drif-eoi/drif-eoi-form';
+import { Hazards } from '../../../../model';
+import { DrrDatepickerComponent } from '../../../shared/controls/drr-datepicker/drr-datepicker.component';
+import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
+import { DrrSelectComponent } from '../../../shared/controls/drr-select/drr-select.component';
+import { ProjectInformationForm } from '../drif-eoi-form';
 
 @Component({
   selector: 'drif-eoi-step-2',

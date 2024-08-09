@@ -16,14 +16,11 @@ import {
   RxFormBuilder,
   RxFormControl,
 } from '@rxweb/reactive-form-validators';
-import { EstimatedNumberOfPeople } from '../../../model';
-import { DrrInputComponent } from '../../shared/controls/drr-input/drr-input.component';
-import { DrrSelectComponent } from '../../shared/controls/drr-select/drr-select.component';
-import { DrrTextareaComponent } from '../../shared/controls/drr-textarea/drr-textarea.component';
-import {
-  ProjectDetailsForm,
-  StringItemRequired,
-} from '../drif-eoi/drif-eoi-form';
+import { EstimatedNumberOfPeople } from '../../../../model';
+import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
+import { DrrSelectComponent } from '../../../shared/controls/drr-select/drr-select.component';
+import { DrrTextareaComponent } from '../../../shared/controls/drr-textarea/drr-textarea.component';
+import { ProjectDetailsForm, StringItemRequired } from '../drif-eoi-form';
 
 @Component({
   selector: 'drif-eoi-step-5',

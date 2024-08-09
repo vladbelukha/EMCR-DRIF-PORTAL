@@ -37,20 +37,21 @@ import {
   Hazards,
 } from '../../../model';
 import { ProfileStore } from '../../store/profile.store';
-import { DrifEoiStep1Component } from '../drif-eoi-step-1/drif-eoi-step-1.component';
-import { DrifEoiStep2Component } from '../drif-eoi-step-2/drif-eoi-step-2.component';
-import { DrifEoiStep3Component } from '../drif-eoi-step-3/drif-eoi-step-3.component';
-import { DrifEoiStep4Component } from '../drif-eoi-step-4/drif-eoi-step-4.component';
-import { DrifEoiStep5Component } from '../drif-eoi-step-5/drif-eoi-step-5.component';
-import { DrifEoiStep6Component } from '../drif-eoi-step-6/drif-eoi-step-6.component';
-import { DrifEoiStep7Component } from '../drif-eoi-step-7/drif-eoi-step-7.component';
-import { DrifEoiStep8Component } from '../drif-eoi-step-8/drif-eoi-step-8.component';
+
 import {
   ContactDetailsForm,
   EOIApplicationForm,
   FundingInformationItemForm,
   StringItem,
 } from './drif-eoi-form';
+import { DrifEoiStep1Component } from './drif-eoi-step-1/drif-eoi-step-1.component';
+import { DrifEoiStep2Component } from './drif-eoi-step-2/drif-eoi-step-2.component';
+import { DrifEoiStep3Component } from './drif-eoi-step-3/drif-eoi-step-3.component';
+import { DrifEoiStep4Component } from './drif-eoi-step-4/drif-eoi-step-4.component';
+import { DrifEoiStep5Component } from './drif-eoi-step-5/drif-eoi-step-5.component';
+import { DrifEoiStep6Component } from './drif-eoi-step-6/drif-eoi-step-6.component';
+import { DrifEoiStep7Component } from './drif-eoi-step-7/drif-eoi-step-7.component';
+import { DrifEoiStep8Component } from './drif-eoi-step-8/drif-eoi-step-8.component';
 
 @Component({
   selector: 'drr-drif-eoi',

@@ -7,12 +7,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { TranslocoModule } from '@ngneat/transloco';
 import { IFormGroup, RxFormControl } from '@rxweb/reactive-form-validators';
-import { DrifapplicationService } from '../../../api/drifapplication/drifapplication.service';
-import { DeclarationType } from '../../../model';
-import { DrrInputComponent } from '../../shared/controls/drr-input/drr-input.component';
-import { ProfileStore } from '../../store/profile.store';
+import { DrifapplicationService } from '../../../../api/drifapplication/drifapplication.service';
+import { DeclarationType } from '../../../../model';
+import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
+import { ProfileStore } from '../../../store/profile.store';
+import { DeclarationForm, EOIApplicationForm } from '../drif-eoi-form';
 import { DrifEoiSummaryComponent } from '../drif-eoi-summary/drif-eoi-summary.component';
-import { DeclarationForm, EOIApplicationForm } from '../drif-eoi/drif-eoi-form';
 
 @Component({
   selector: 'drif-eoi-step-8',

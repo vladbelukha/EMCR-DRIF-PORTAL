@@ -11,8 +11,8 @@ import {
   RxFormGroup,
 } from '@rxweb/reactive-form-validators';
 import { NgxMaskPipe } from 'ngx-mask';
-import { EOIApplicationForm } from '../drif-eoi/drif-eoi-form';
-import { SummaryItemComponent } from '../summary-item/summary-item.component';
+import { SummaryItemComponent } from '../../summary-item/summary-item.component';
+import { EOIApplicationForm } from '../drif-eoi-form';
 
 @Component({
   selector: 'drr-summary',

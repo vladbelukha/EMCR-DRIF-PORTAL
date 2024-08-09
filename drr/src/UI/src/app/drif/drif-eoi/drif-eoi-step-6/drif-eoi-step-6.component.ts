@@ -6,11 +6,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { TranslocoModule } from '@ngneat/transloco';
 import { IFormGroup } from '@rxweb/reactive-form-validators';
-import { DrrTextareaComponent } from '../../shared/controls/drr-textarea/drr-textarea.component';
-import { OtherSupportingInformationForm } from '../drif-eoi/drif-eoi-form';
+import { DrrTextareaComponent } from '../../../shared/controls/drr-textarea/drr-textarea.component';
+import { EngagementPlanForm } from '../drif-eoi-form';
 
 @Component({
-  selector: 'drif-eoi-step-7',
+  selector: 'drif-eoi-step-6',
   standalone: true,
   imports: [
     CommonModule,
@@ -22,14 +22,14 @@ import { OtherSupportingInformationForm } from '../drif-eoi/drif-eoi-form';
     TranslocoModule,
     DrrTextareaComponent,
   ],
-  templateUrl: './drif-eoi-step-7.component.html',
-  styleUrl: './drif-eoi-step-7.component.scss',
+  templateUrl: './drif-eoi-step-6.component.html',
+  styleUrl: './drif-eoi-step-6.component.scss',
 })
-export class DrifEoiStep7Component {
+export class DrifEoiStep6Component {
   @Input()
-  otherSupportingInformationForm!: IFormGroup<OtherSupportingInformationForm>;
+  engagementPlanForm!: IFormGroup<EngagementPlanForm>;
 
   getFormControl(name: string): FormControl {
-    return this.otherSupportingInformationForm.get(name) as FormControl;
+    return this.engagementPlanForm.get(name) as FormControl;
   }
 }

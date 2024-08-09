@@ -9,14 +9,14 @@ import {
   RxFormBuilder,
   RxFormGroup,
 } from '@rxweb/reactive-form-validators';
-import { DrifapplicationService } from '../../../api/drifapplication/drifapplication.service';
-import { ProfileStore } from '../../store/profile.store';
-import { DrifEoiSummaryComponent } from '../drif-eoi-summary/drif-eoi-summary.component';
+import { DrifapplicationService } from '../../../../api/drifapplication/drifapplication.service';
+import { ProfileStore } from '../../../store/profile.store';
 import {
   EOIApplicationForm,
   FundingInformationItemForm,
   StringItem,
-} from '../drif-eoi/drif-eoi-form';
+} from '../drif-eoi-form';
+import { DrifEoiSummaryComponent } from '../drif-eoi-summary/drif-eoi-summary.component';
 
 @Component({
   selector: 'drif-eoi-summary',
