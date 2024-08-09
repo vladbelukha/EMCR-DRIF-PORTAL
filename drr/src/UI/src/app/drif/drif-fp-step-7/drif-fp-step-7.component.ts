@@ -19,7 +19,7 @@ import {
 } from '../drif-fp/drif-fp-form';
 
 @Component({
-  selector: 'drif-fp-step-3',
+  selector: 'drif-fp-step-7',
   standalone: true,
   imports: [
     CommonModule,
@@ -35,10 +35,10 @@ import {
     DrrRadioButtonComponent,
     DrrTextareaComponent,
   ],
-  templateUrl: './drif-fp-step-3.component.html',
-  styleUrl: './drif-fp-step-3.component.scss',
+  templateUrl: './drif-fp-step-7.component.html',
+  styleUrl: './drif-fp-step-7.component.scss',
 })
-export class DrifFpStep3Component {
+export class DrifFpStep7Component {
   @Input()
   permitsRegulationsAndStandardsForm!: IFormGroup<PermitsRegulationsAndStandardsForm>;
 
