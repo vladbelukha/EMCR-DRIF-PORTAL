@@ -7,6 +7,7 @@
 import type { DocumentType } from './documentType';
 
 export interface Attachment {
+  applicationId?: string;
   /** @nullable */
   body?: string;
   /** @nullable */

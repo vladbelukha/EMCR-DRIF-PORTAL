@@ -20,8 +20,8 @@ import {
 } from 'rxjs'
 import type {
   ApplicationResult,
-  Attachment,
   DeclarationResult,
+  DraftApplication,
   DraftEoiApplication,
   DraftFpApplication,
   EoiApplication,
@@ -57,7 +57,7 @@ export class DrifapplicationService {
       `/api/drifapplication`,options
     );
   }
- dRIFApplicationGet<TData = DraftEoiApplication>(
+ dRIFApplicationGet<TData = DraftApplication>(
     id: string, options?: HttpClientOptions
   ): Observable<TData>  {
     return this.http.get<TData>(
@@ -105,12 +105,11 @@ export class DrifapplicationService {
       eoiApplication,options
     );
   }
- dRIFApplicationCreateFPApplication<TData = ApplicationResult>(
-    draftFpApplication: DraftFpApplication, options?: HttpClientOptions
+ dRIFApplicationCreateFPFromEOI<TData = ApplicationResult>(
+    eoiId: string, options?: HttpClientOptions
   ): Observable<TData>  {
     return this.http.post<TData>(
-      `/api/drifapplication/fp`,
-      draftFpApplication,options
+      `/api/drifapplication/fp/eoi/${eoiId}`,undefined,options
     );
   }
  dRIFApplicationUpdateFPApplication<TData = ApplicationResult>(
@@ -123,14 +122,6 @@ export class DrifapplicationService {
     );
   }
  dRIFApplicationSubmitFPApplication<TData = ApplicationResult>(
-    fpApplication: FpApplication, options?: HttpClientOptions
-  ): Observable<TData>  {
-    return this.http.post<TData>(
-      `/api/drifapplication/fp/submit`,
-      fpApplication,options
-    );
-  }
- dRIFApplicationSubmitFPApplication2<TData = ApplicationResult>(
     id: string,
     fpApplication: FpApplication, options?: HttpClientOptions
   ): Observable<TData>  {
@@ -139,58 +130,15 @@ export class DrifapplicationService {
       fpApplication,options
     );
   }
- dRIFApplicationUploadAttachment<TData = ApplicationResult>(
-    id: string,
-    attachment: Attachment, options?: HttpClientOptions
-  ): Observable<TData>  {
-    return this.http.post<TData>(
-      `/api/drifapplication/${id}/attachment`,
-      attachment,options
-    );
-  }
- dRIFApplicationDownloadAttachment<TData = ApplicationResult>(
-    id: string,
-    fileId: string,
-    attachment: Attachment, options?: HttpClientOptions
-  ): Observable<TData>  {
-    return this.http.get<TData>(
-      `/api/drifapplication/${id}/attachment/${fileId}`,options
-    );
-  }
- dRIFApplicationUpdateAttachment<TData = ApplicationResult>(
-    id: string,
-    fileId: string,
-    attachment: Attachment, options?: HttpClientOptions
-  ): Observable<TData>  {
-    return this.http.post<TData>(
-      `/api/drifapplication/${id}/attachment/${fileId}`,
-      attachment,options
-    );
-  }
- dRIFApplicationDeleteAttachment<TData = ApplicationResult>(
-    id: string,
-    fileId: string,
-    attachment: Attachment, options?: HttpClientOptions
-  ): Observable<TData>  {
-    return this.http.delete<TData>(
-      `/api/drifapplication/${id}/attachment/${fileId}`,{body:
-      attachment, ...options}
-    );
-  }
 };
 
 export type DRIFApplicationGetAllClientResult = NonNullable<Submission[]>
-export type DRIFApplicationGetClientResult = NonNullable<DraftEoiApplication>
+export type DRIFApplicationGetClientResult = NonNullable<DraftApplication>
 export type DRIFApplicationGetDeclarationsClientResult = NonNullable<DeclarationResult>
 export type DRIFApplicationCreateEOIApplicationClientResult = NonNullable<ApplicationResult>
 export type DRIFApplicationUpdateApplicationClientResult = NonNullable<ApplicationResult>
 export type DRIFApplicationSubmitApplicationClientResult = NonNullable<ApplicationResult>
 export type DRIFApplicationSubmitApplication2ClientResult = NonNullable<ApplicationResult>
-export type DRIFApplicationCreateFPApplicationClientResult = NonNullable<ApplicationResult>
+export type DRIFApplicationCreateFPFromEOIClientResult = NonNullable<ApplicationResult>
 export type DRIFApplicationUpdateFPApplicationClientResult = NonNullable<ApplicationResult>
 export type DRIFApplicationSubmitFPApplicationClientResult = NonNullable<ApplicationResult>
-export type DRIFApplicationSubmitFPApplication2ClientResult = NonNullable<ApplicationResult>
-export type DRIFApplicationUploadAttachmentClientResult = NonNullable<ApplicationResult>
-export type DRIFApplicationDownloadAttachmentClientResult = NonNullable<ApplicationResult>
-export type DRIFApplicationUpdateAttachmentClientResult = NonNullable<ApplicationResult>
-export type DRIFApplicationDeleteAttachmentClientResult = NonNullable<ApplicationResult>
