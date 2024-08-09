@@ -167,7 +167,7 @@ export class EOIApplicationComponent {
       this.id = id;
 
       this.applicationService
-        .dRIFApplicationGet(id)
+        .dRIFApplicationGetEOI(id)
         .subscribe((application) => {
           const profileData = this.profileStore.getProfile();
 

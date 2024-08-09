@@ -21,7 +21,6 @@ import {
 import type {
   ApplicationResult,
   DeclarationResult,
-  DraftApplication,
   DraftEoiApplication,
   DraftFpApplication,
   EoiApplication,
@@ -50,18 +49,11 @@ type HttpClientOptions = {
 export class DrifapplicationService {
   constructor(
     private http: HttpClient,
-  ) {} dRIFApplicationGetAll<TData = Submission[]>(
+  ) {} dRIFApplicationGet<TData = Submission[]>(
      options?: HttpClientOptions
   ): Observable<TData>  {
     return this.http.get<TData>(
       `/api/drifapplication`,options
-    );
-  }
- dRIFApplicationGet<TData = DraftApplication>(
-    id: string, options?: HttpClientOptions
-  ): Observable<TData>  {
-    return this.http.get<TData>(
-      `/api/drifapplication/${id}`,options
     );
   }
  dRIFApplicationGetDeclarations<TData = DeclarationResult>(
@@ -71,12 +63,11 @@ export class DrifapplicationService {
       `/api/drifapplication/declarations`,options
     );
   }
- dRIFApplicationCreateEOIApplication<TData = ApplicationResult>(
-    draftEoiApplication: DraftEoiApplication, options?: HttpClientOptions
+ dRIFApplicationGetEOI<TData = DraftEoiApplication>(
+    id: string, options?: HttpClientOptions
   ): Observable<TData>  {
-    return this.http.post<TData>(
-      `/api/drifapplication/eoi`,
-      draftEoiApplication,options
+    return this.http.get<TData>(
+      `/api/drifapplication/eoi/${id}`,options
     );
   }
  dRIFApplicationUpdateApplication<TData = ApplicationResult>(
@@ -85,6 +76,14 @@ export class DrifapplicationService {
   ): Observable<TData>  {
     return this.http.post<TData>(
       `/api/drifapplication/eoi/${id}`,
+      draftEoiApplication,options
+    );
+  }
+ dRIFApplicationCreateEOIApplication<TData = ApplicationResult>(
+    draftEoiApplication: DraftEoiApplication, options?: HttpClientOptions
+  ): Observable<TData>  {
+    return this.http.post<TData>(
+      `/api/drifapplication/eoi`,
       draftEoiApplication,options
     );
   }
@@ -105,11 +104,11 @@ export class DrifapplicationService {
       eoiApplication,options
     );
   }
- dRIFApplicationCreateFPFromEOI<TData = ApplicationResult>(
-    eoiId: string, options?: HttpClientOptions
+ dRIFApplicationGetFP<TData = DraftFpApplication>(
+    id: string, options?: HttpClientOptions
   ): Observable<TData>  {
-    return this.http.post<TData>(
-      `/api/drifapplication/fp/eoi/${eoiId}`,undefined,options
+    return this.http.get<TData>(
+      `/api/drifapplication/fp/${id}`,options
     );
   }
  dRIFApplicationUpdateFPApplication<TData = ApplicationResult>(
@@ -119,6 +118,13 @@ export class DrifapplicationService {
     return this.http.post<TData>(
       `/api/drifapplication/fp/${id}`,
       draftFpApplication,options
+    );
+  }
+ dRIFApplicationCreateFPFromEOI<TData = ApplicationResult>(
+    eoiId: string, options?: HttpClientOptions
+  ): Observable<TData>  {
+    return this.http.post<TData>(
+      `/api/drifapplication/fp/eoi/${eoiId}`,undefined,options
     );
   }
  dRIFApplicationSubmitFPApplication<TData = ApplicationResult>(
@@ -132,13 +138,14 @@ export class DrifapplicationService {
   }
 };
 
-export type DRIFApplicationGetAllClientResult = NonNullable<Submission[]>
-export type DRIFApplicationGetClientResult = NonNullable<DraftApplication>
+export type DRIFApplicationGetClientResult = NonNullable<Submission[]>
 export type DRIFApplicationGetDeclarationsClientResult = NonNullable<DeclarationResult>
-export type DRIFApplicationCreateEOIApplicationClientResult = NonNullable<ApplicationResult>
+export type DRIFApplicationGetEOIClientResult = NonNullable<DraftEoiApplication>
 export type DRIFApplicationUpdateApplicationClientResult = NonNullable<ApplicationResult>
+export type DRIFApplicationCreateEOIApplicationClientResult = NonNullable<ApplicationResult>
 export type DRIFApplicationSubmitApplicationClientResult = NonNullable<ApplicationResult>
 export type DRIFApplicationSubmitApplication2ClientResult = NonNullable<ApplicationResult>
-export type DRIFApplicationCreateFPFromEOIClientResult = NonNullable<ApplicationResult>
+export type DRIFApplicationGetFPClientResult = NonNullable<DraftFpApplication>
 export type DRIFApplicationUpdateFPApplicationClientResult = NonNullable<ApplicationResult>
+export type DRIFApplicationCreateFPFromEOIClientResult = NonNullable<ApplicationResult>
 export type DRIFApplicationSubmitFPApplicationClientResult = NonNullable<ApplicationResult>

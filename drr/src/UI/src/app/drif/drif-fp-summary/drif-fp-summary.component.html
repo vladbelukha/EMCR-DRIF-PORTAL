@@ -6,17 +6,6 @@
     </mat-card-header>
     <mat-card-content>
       <drr-summary-item
-        [label]="t('proponentType')"
-        [value]="
-          t(getRxFormControl('proponentInformation', 'proponentType').value)
-        "
-        [rxFormControl]="
-          getRxFormControl('proponentInformation', 'proponentType')
-        "
-      >
-      </drr-summary-item>
-
-      <drr-summary-item
         [label]="t('proponentName')"
         [value]="
           getRxFormControl('proponentInformation', 'proponentName').value
@@ -30,9 +19,7 @@
       <div
         [class.required]="
           objectHasValues(
-            DrifFpForm
-              .get('proponentInformation')
-              ?.get('projectContact')
+            DrifFpForm.get('proponentInformation')?.get('projectContact')
           )
         "
       >

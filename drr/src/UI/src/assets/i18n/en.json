@@ -44,6 +44,7 @@
   "phone": "Phone",
   "email": "Email",
   "projectContact": "Project Contact Information",
+  "primaryProjectContact": "Primary Project Contact",
   "additionalContacts": "Additional Contacts",
   "addAdditionalContact": "Add additional contact",
   "projectTitle": "Project Title",
