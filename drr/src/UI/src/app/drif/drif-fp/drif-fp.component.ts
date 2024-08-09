@@ -34,10 +34,16 @@ import {
 } from '../drif-eoi/drif-eoi-form';
 
 import { DrifFpForm } from './drif-fp-form';
+import { DrifFpStep10Component } from './drif-fp-step-10/drif-fp-step-10.component';
+import { DrifFpStep11Component } from './drif-fp-step-11/drif-fp-step-11.component';
+import { DrifFpStep12Component } from './drif-fp-step-12/drif-fp-step-12.component';
 import { DrifFpStep2Component } from './drif-fp-step-2/drif-fp-step-2.component';
+import { DrifFpStep3Component } from './drif-fp-step-3/drif-fp-step-3.component';
+import { DrifFpStep4Component } from './drif-fp-step-4/drif-fp-step-4.component';
 import { DrifFpStep5Component } from './drif-fp-step-5/drif-fp-step-5.component';
 import { DrifFpStep6Component } from './drif-fp-step-6/drif-fp-step-6.component';
 import { DrifFpStep7Component } from './drif-fp-step-7/drif-fp-step-7.component';
+import { DrifFpStep8Component } from './drif-fp-step-8/drif-fp-step-8.component';
 import { DrifFpStep9Component } from './drif-fp-step-9/drif-fp-step-9.component';
 
 @Component({
@@ -55,10 +61,16 @@ import { DrifFpStep9Component } from './drif-fp-step-9/drif-fp-step-9.component'
     LayoutModule,
     DrifFpStep1Component,
     DrifFpStep2Component,
-    DrifFpStep7Component,
+    DrifFpStep3Component,
+    DrifFpStep4Component,
     DrifFpStep5Component,
     DrifFpStep6Component,
+    DrifFpStep7Component,
+    DrifFpStep8Component,
     DrifFpStep9Component,
+    DrifFpStep10Component,
+    DrifFpStep11Component,
+    DrifFpStep12Component,
   ],
   providers: [
     RxFormBuilder,
@@ -178,6 +190,16 @@ export class DrifFpComponent {
             authorizationOrEndorsementComments:
               response.authorizationOrEndorsementComments,
           },
+          projectArea: {},
+          projectPlan: {},
+          projectEngagement: {},
+          climateAdaptation: {},
+          permitsRegulationsAndStandards: {},
+          projectOutcomes: {},
+          projectRisks: {},
+          budget: {},
+          attachments: {},
+          declarations: {},
           // permitsRegulationsAndStandards: {
           //   ...response.permitsRegulationsAndStandards,
           // },
