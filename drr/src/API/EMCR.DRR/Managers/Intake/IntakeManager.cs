@@ -39,10 +39,10 @@ namespace EMCR.DRR.Managers.Intake
 
         public async Task<IntakeQueryResponse> Handle(DrrApplicationsQuery q)
         {
-            if (!string.IsNullOrEmpty(q.Id) && !string.IsNullOrEmpty(q.BusinessId))
+            if (!string.IsNullOrEmpty(q.Id))
             {
                 var canAccess = await CanAccessApplication(q.Id, q.BusinessId);
-                if (!canAccess) throw new UnauthorizedException("Not allowed to access this application.");
+                if (!canAccess) throw new ForbiddenException("Not allowed to access this application.");
             }
             var res = await applicationRepository.Query(new ApplicationsQuery { Id = q.Id, BusinessId = q.BusinessId });
             return new IntakeQueryResponse { Items = mapper.Map<IEnumerable<Application>>(res.Items) };
@@ -51,7 +51,7 @@ namespace EMCR.DRR.Managers.Intake
         public async Task<string> Handle(DrifEoiSaveApplicationCommand cmd)
         {
             var canAccess = await CanAccessApplication(cmd.application.Id, cmd.UserInfo.BusinessId);
-            if (!canAccess) throw new UnauthorizedException("Not allowed to access this application.");
+            if (!canAccess) throw new ForbiddenException("Not allowed to access this application.");
             var application = mapper.Map<Application>(cmd.application);
             application.BCeIDBusinessId = cmd.UserInfo.BusinessId;
             application.ProponentName = cmd.UserInfo.BusinessName;
@@ -63,7 +63,7 @@ namespace EMCR.DRR.Managers.Intake
         public async Task<string> Handle(DrifEoiSubmitApplicationCommand cmd)
         {
             var canAccess = await CanAccessApplication(cmd.application.Id, cmd.UserInfo.BusinessId);
-            if (!canAccess) throw new UnauthorizedException("Not allowed to access this application.");
+            if (!canAccess) throw new ForbiddenException("Not allowed to access this application.");
             var application = mapper.Map<Application>(cmd.application);
             application.BCeIDBusinessId = cmd.UserInfo.BusinessId;
             application.ProponentName = cmd.UserInfo.BusinessName;
@@ -79,8 +79,9 @@ namespace EMCR.DRR.Managers.Intake
             return new DeclarationQueryResult { Items = mapper.Map<IEnumerable<DeclarationInfo>>(res.Items) };
         }
 
-        private async Task<bool> CanAccessApplication(string? id, string businessId)
+        private async Task<bool> CanAccessApplication(string? id, string? businessId)
         {
+            if (string.IsNullOrEmpty(businessId)) throw new ArgumentNullException("Missing user's BusinessId");
             if (string.IsNullOrEmpty(id)) return true;
             return await applicationRepository.CanAccessApplication(id, businessId);
         }
