@@ -229,5 +229,10 @@
   "sensitivityRiskMitigated": "Will project sensitivity risks be mitigated during this project?",
   "sensitivityRisks": "If yes, which project sensitivity risks will be mitigated during this project? (select all that apply)",
   "sensitivityRisksPlaceholder": "Select or type risk name",
-  "sensitivityRiskComments": "How will project sensitivity risks be mitigated during this project, if applicable?"
+  "sensitivityRiskComments": "How will project sensitivity risks be mitigated during this project, if applicable?",
+  "capacityChallenges": "Capacity Challenges",
+  "capacityRiskMitigated": "Will project capacity challenge risks be mitigated during this project?",
+  "capacityRisks": "If yes, which project capacity challenge risks will be mitigated during this project? (select all that apply)",
+  "capacityRisksPlaceholder": "Select or type risk name",
+  "capacityRiskComments": "How will the project capacity challenge risks be mitigated during this project, if applicable?"
 }

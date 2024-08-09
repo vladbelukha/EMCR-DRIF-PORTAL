@@ -8,6 +8,7 @@ import { DrrChipAutocompleteComponent } from '../../shared/controls/drr-chip-aut
 import { DrrRadioButtonComponent } from '../../shared/controls/drr-radio-button/drr-radio-button.component';
 import { DrrTextareaComponent } from '../../shared/controls/drr-textarea/drr-textarea.component';
 import {
+  CapacityRisks,
   ComplexityRisks,
   ProjectRisksForm,
   ReadinessRisks,
@@ -37,6 +38,7 @@ export class DrifFpStep9Component {
   complexityRiskOptions = Object.values(ComplexityRisks);
   readinessRiskOptions = Object.values(ReadinessRisks);
   sensitivityRiskOptions = Object.values(SensitivityRisks);
+  capacityRiskOptions = Object.values(CapacityRisks);
 
   ngOnInit() {
     console.log('complexityRiskOptions', this.complexityRiskOptions);

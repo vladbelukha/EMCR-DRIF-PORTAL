@@ -46,6 +46,12 @@ export enum SensitivityRisks {
   Certainstakeholdershavebeenvocalabouttheproject = 'Certain stakeholders have been vocal about the project',
 }
 
+export enum CapacityRisks {
+  Limitedhumanresourcestocompletetheproject = 'Limited human resources to complete the project',
+  Limitedtechnicalexpertisetocompletetheproject = 'Limited technical expertise to complete the project',
+  Previouschallengeshaveoccurredwithsimilarprojects = 'Previous challenges have occurred with similar projects',
+}
+
 // TODO: temp before API provides the correct structure
 export class FileForm {
   @prop()

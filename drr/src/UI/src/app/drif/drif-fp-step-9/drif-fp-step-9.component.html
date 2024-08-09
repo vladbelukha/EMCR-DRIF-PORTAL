@@ -53,5 +53,23 @@
       [rxFormControl]="projectRisksForm.get('sensitivityRiskComments')"
       [useTopLabel]="true"
     ></drr-textarea>
+
+    <mat-label class="drr-label">{{ t("capacityChallenges") }}</mat-label>
+    <drr-radio-button
+      [label]="t('capacityRiskMitigated')"
+      [rxFormControl]="projectRisksForm.get('capacityRiskMitigated')"
+    ></drr-radio-button>
+    <drr-chip-autocomplete
+      [label]="t('capacityRisks')"
+      [placeholder]="t('capacityRisksPlaceholder')"
+      [options]="capacityRiskOptions"
+      [rxFormControl]="projectRisksForm.get('capacityRisks')"
+    ></drr-chip-autocomplete>
+    <drr-textarea
+      [label]="t('capacityRiskComments')"
+      [maxlength]="2000"
+      [rxFormControl]="projectRisksForm.get('capacityRiskComments')"
+      [useTopLabel]="true"
+    ></drr-textarea>
   </form>
 </div>
