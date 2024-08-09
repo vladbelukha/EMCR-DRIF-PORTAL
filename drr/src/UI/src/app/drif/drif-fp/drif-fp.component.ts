@@ -163,9 +163,17 @@ export class DrifFpComponent {
             // TODO: regionalProject: response.regionalProject,
             // TODO: regionalProjectComments: response.regionalProjectComments,
           },
-          // ownershipAndAuthorization: {
-          //   ...response.ownershipAndAuthorization,
-          // },
+          ownershipAndAuthorization: {
+            ownershipDeclaration: response.ownershipDeclaration,
+            ownershipDescription: response.ownershipDescription,
+            // TODO: authorityAndOwnership: response.authorityAndOwnership,
+            // TODO: authorityAndOwnershipComments: response.authorityAndOwnershipComments,
+            // TODO: operationAndMaintenance: response.operationAndMaintenance,
+            // TODO: operationAndMaintenanceComments: response.operationAndMaintenanceComments,
+            // TODO: firstNationsEndorsement: response.firstNationsEndorsement,
+            // TODO: localGovernmentEndorsement: response.localGovernmentEndorsement,
+            // TODO: authorizationOrEndorsementComments: response.authorizationOrEndorsementComments,
+          },
           // permitsRegulationsAndStandards: {
           //   ...response.permitsRegulationsAndStandards,
           // },

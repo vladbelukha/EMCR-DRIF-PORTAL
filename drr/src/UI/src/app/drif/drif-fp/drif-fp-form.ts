@@ -116,10 +116,10 @@ export class ProponentAndProjectInformationForm {
 export class OwnershipAndAuthorizationForm {
   @prop()
   @required()
-  ownership?: boolean;
+  ownershipDeclaration?: boolean;
 
   @prop()
-  ownershipComments?: string;
+  ownershipDescription?: string;
 
   @prop()
   @required()

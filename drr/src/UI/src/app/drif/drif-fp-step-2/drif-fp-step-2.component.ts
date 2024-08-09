@@ -39,19 +39,29 @@ export class DrifFpStep2Component {
   ownershipAndAuthorizationForm!: IFormGroup<OwnershipAndAuthorizationForm>;
 
   ngOnInit() {
-    const ownershipComments =
-      this.ownershipAndAuthorizationForm.get('ownershipComments');
+    const ownershipDescription = this.ownershipAndAuthorizationForm.get(
+      'ownershipDescription'
+    );
+
+    // check if comments should be mandatory
+    if (
+      !this.ownershipAndAuthorizationForm.get('ownershipDeclaration')!.value
+    ) {
+      ownershipDescription?.addValidators(Validators.required);
+      ownershipDescription?.updateValueAndValidity();
+    }
+
     this.ownershipAndAuthorizationForm
-      .get('ownership')!
+      .get('ownershipDeclaration')!
       .valueChanges.subscribe((value) => {
         if (!value) {
-          ownershipComments?.addValidators(Validators.required);
+          ownershipDescription?.addValidators(Validators.required);
         } else {
-          ownershipComments?.clearValidators();
+          ownershipDescription?.clearValidators();
         }
 
-        ownershipComments?.reset();
-        ownershipComments?.updateValueAndValidity();
+        ownershipDescription?.reset();
+        ownershipDescription?.updateValueAndValidity();
       });
   }
 }

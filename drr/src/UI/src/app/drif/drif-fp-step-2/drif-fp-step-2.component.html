@@ -4,15 +4,17 @@
     <mat-label>{{ t("fpOwnershipQuestion") }}*</mat-label>
     <div class="drr-radio-comment">
       <mat-radio-group
-        id="ownership"
         class="drr-radio-group"
         aria-label="Select an option"
-        formControlName="ownership"
+        formControlName="ownershipDeclaration"
       >
         <mat-error
           *ngIf="
-            ownershipAndAuthorizationForm.get('ownership')?.touched &&
-            ownershipAndAuthorizationForm.get('ownership')?.hasError('required')
+            ownershipAndAuthorizationForm.get('ownershipDeclaration')
+              ?.touched &&
+            ownershipAndAuthorizationForm
+              .get('ownershipDeclaration')
+              ?.hasError('required')
           "
           >{{ t("required") }}</mat-error
         >
@@ -21,10 +23,11 @@
       </mat-radio-group>
 
       <drr-textarea
-        [id]="'ownershipComments'"
         [label]="t('fpOwnershipComments')"
         [maxlength]="2000"
-        [rxFormControl]="ownershipAndAuthorizationForm.get('ownershipComments')"
+        [rxFormControl]="
+          ownershipAndAuthorizationForm.get('ownershipDescription')
+        "
         [useTopLabel]="false"
       ></drr-textarea>
     </div>
