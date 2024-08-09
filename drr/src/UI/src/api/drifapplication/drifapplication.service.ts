@@ -20,6 +20,7 @@ import {
 } from 'rxjs'
 import type {
   ApplicationResult,
+  DRIFApplicationCreateFPFromEOIParams,
   DeclarationResult,
   DraftEoiApplication,
   DraftFpApplication,
@@ -121,10 +122,12 @@ export class DrifapplicationService {
     );
   }
  dRIFApplicationCreateFPFromEOI<TData = ApplicationResult>(
-    eoiId: string, options?: HttpClientOptions
+    params?: DRIFApplicationCreateFPFromEOIParams, options?: HttpClientOptions
   ): Observable<TData>  {
     return this.http.post<TData>(
-      `/api/drifapplication/fp/eoi/${eoiId}`,undefined,options
+      `/api/drifapplication/fp`,undefined,{
+    ...options,
+        params: {...params, ...options?.params},}
     );
   }
  dRIFApplicationSubmitFPApplication<TData = ApplicationResult>(

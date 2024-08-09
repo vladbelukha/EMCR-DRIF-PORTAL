@@ -5,7 +5,12 @@ import {
   propObject,
   required,
 } from '@rxweb/reactive-form-validators';
-import { FundingStream, Hazards, ProjectType } from '../../../model';
+import {
+  FundingStream,
+  Hazards,
+  ProjectType,
+  YesNoOption,
+} from '../../../model';
 import {
   ContactDetailsForm,
   FundingInformationItemForm,
@@ -131,7 +136,7 @@ export class OwnershipAndAuthorizationForm {
 
   @prop()
   @required()
-  operationAndMaintenance?: boolean;
+  operationAndMaintenance?: YesNoOption;
 
   @prop()
   @required()
@@ -139,11 +144,11 @@ export class OwnershipAndAuthorizationForm {
 
   @prop()
   @required()
-  firstNationsEndorsement?: number; // TODO: change to enum
+  firstNationsEndorsement?: YesNoOption;
 
   @prop()
   @required()
-  localGovernmentEndorsement?: number; // TODO: change to enum
+  localGovernmentEndorsement?: YesNoOption;
 
   @prop()
   @required()

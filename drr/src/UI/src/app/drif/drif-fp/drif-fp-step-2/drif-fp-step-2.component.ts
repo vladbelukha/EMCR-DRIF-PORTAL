@@ -9,7 +9,12 @@ import { MatListModule } from '@angular/material/list';
 import { MatRadioModule } from '@angular/material/radio';
 import { TranslocoModule } from '@ngneat/transloco';
 import { IFormGroup } from '@rxweb/reactive-form-validators';
+import { YesNoOption } from '../../../../model';
 import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
+import {
+  DrrRadioButtonComponent,
+  RadioOption,
+} from '../../../shared/controls/drr-radio-button/drr-radio-button.component';
 import { DrrTextareaComponent } from '../../../shared/controls/drr-textarea/drr-textarea.component';
 import { OwnershipAndAuthorizationForm } from '../drif-fp-form';
 
@@ -28,7 +33,7 @@ import { OwnershipAndAuthorizationForm } from '../drif-fp-form';
     MatIconModule,
     MatButtonModule,
     DrrTextareaComponent,
-
+    DrrRadioButtonComponent,
     DrrInputComponent,
   ],
   templateUrl: './drif-fp-step-2.component.html',
@@ -37,6 +42,16 @@ import { OwnershipAndAuthorizationForm } from '../drif-fp-form';
 export class DrifFpStep2Component {
   @Input()
   ownershipAndAuthorizationForm!: IFormGroup<OwnershipAndAuthorizationForm>;
+
+  yesNoBoolOptions: RadioOption[] = [
+    { value: true, label: 'Yes' },
+    { value: false, label: 'No' },
+  ];
+
+  allYesNoOptions: RadioOption[] = Object.values(YesNoOption).map((value) => ({
+    value,
+    label: value,
+  }));
 
   ngOnInit() {
     const ownershipDescription = this.ownershipAndAuthorizationForm.get(

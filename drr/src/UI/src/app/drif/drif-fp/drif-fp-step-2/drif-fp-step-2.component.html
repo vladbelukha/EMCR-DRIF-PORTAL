@@ -3,24 +3,12 @@
     <mat-label class="drr-label">{{ t("fpOwnership") }}</mat-label>
     <mat-label>{{ t("fpOwnershipQuestion") }}*</mat-label>
     <div class="drr-radio-comment">
-      <mat-radio-group
-        class="drr-radio-group"
-        aria-label="Select an option"
-        formControlName="ownershipDeclaration"
-      >
-        <mat-error
-          *ngIf="
-            ownershipAndAuthorizationForm.get('ownershipDeclaration')
-              ?.touched &&
-            ownershipAndAuthorizationForm
-              .get('ownershipDeclaration')
-              ?.hasError('required')
-          "
-          >{{ t("required") }}</mat-error
-        >
-        <mat-radio-button [value]="true">Yes</mat-radio-button>
-        <mat-radio-button [value]="false">No</mat-radio-button>
-      </mat-radio-group>
+      <drr-radio-button
+        [options]="yesNoBoolOptions"
+        [rxFormControl]="
+          ownershipAndAuthorizationForm.get('ownershipDeclaration')
+        "
+      ></drr-radio-button>
 
       <drr-textarea
         [label]="t('fpOwnershipComments')"
@@ -35,25 +23,12 @@
     <mat-label class="drr-label">{{ t("authorityAndOwnership") }}</mat-label>
     <mat-label>{{ t("authorityAndOwnershipQuestion") }}*</mat-label>
     <div class="drr-radio-comment">
-      <mat-radio-group
-        id="authorityAndOwnership"
-        class="drr-radio-group"
-        aria-label="Select an option"
-        formControlName="authorityAndOwnership"
-      >
-        <mat-error
-          *ngIf="
-            ownershipAndAuthorizationForm.get('authorityAndOwnership')
-              ?.touched &&
-            ownershipAndAuthorizationForm
-              .get('authorityAndOwnership')
-              ?.hasError('required')
-          "
-          >{{ t("required") }}</mat-error
-        >
-        <mat-radio-button [value]="true">Yes</mat-radio-button>
-        <mat-radio-button [value]="false">No</mat-radio-button>
-      </mat-radio-group>
+      <drr-radio-button
+        [options]="yesNoBoolOptions"
+        [rxFormControl]="
+          ownershipAndAuthorizationForm.get('authorityAndOwnership')
+        "
+      ></drr-radio-button>
 
       <drr-textarea
         [id]="'authorityAndOwnershipComments'"
@@ -69,25 +44,12 @@
     <mat-label class="drr-label">{{ t("operationAndMaintenance") }}</mat-label>
     <mat-label>{{ t("operationAndMaintenanceQuestion") }}*</mat-label>
     <div class="drr-radio-comment">
-      <mat-radio-group
-        id="operationAndMaintenance"
-        class="drr-radio-group"
-        aria-label="Select an option"
-        formControlName="operationAndMaintenance"
-      >
-        <mat-error
-          *ngIf="
-            ownershipAndAuthorizationForm.get('operationAndMaintenance')
-              ?.touched &&
-            ownershipAndAuthorizationForm
-              .get('operationAndMaintenance')
-              ?.hasError('required')
-          "
-          >{{ t("required") }}</mat-error
-        >
-        <mat-radio-button [value]="true">Yes</mat-radio-button>
-        <mat-radio-button [value]="false">No</mat-radio-button>
-      </mat-radio-group>
+      <drr-radio-button
+        [options]="allYesNoOptions"
+        [rxFormControl]="
+          ownershipAndAuthorizationForm.get('operationAndMaintenance')
+        "
+      ></drr-radio-button>
 
       <drr-textarea
         [id]="'operationAndMaintenanceComments'"
@@ -105,46 +67,21 @@
     }}</mat-label>
     <mat-label>{{ t("authorizationOrEndorsementQuestion") }}</mat-label>
     <div style="padding: 1rem 0 0 1rem">
-      <mat-label>{{ t("firstNationsEndorsementQuestion") }}</mat-label>
-      <mat-radio-group
-        class="drr-radio-group"
-        aria-label="Select an option"
-        formControlName="firstNationsEndorsement"
-      >
-        <mat-error
-          *ngIf="
-            ownershipAndAuthorizationForm.get('firstNationsEndorsement')
-              ?.touched &&
-            ownershipAndAuthorizationForm
-              .get('firstNationsEndorsement')
-              ?.hasError('required')
-          "
-          >{{ t("required") }}</mat-error
-        >
-        <mat-radio-button [value]="1">Yes</mat-radio-button>
-        <mat-radio-button [value]="2">No</mat-radio-button>
-        <mat-radio-button [value]="3">Not Applicable</mat-radio-button>
-      </mat-radio-group>
-      <mat-label>{{ t("localGovernmentEndorsementQuestion") }}</mat-label>
-      <mat-radio-group
-        class="drr-radio-group"
-        aria-label="Select an option"
-        formControlName="localGovernmentEndorsement"
-      >
-        <mat-error
-          *ngIf="
-            ownershipAndAuthorizationForm.get('localGovernmentEndorsement')
-              ?.touched &&
-            ownershipAndAuthorizationForm
-              .get('localGovernmentEndorsement')
-              ?.hasError('required')
-          "
-          >{{ t("required") }}</mat-error
-        >
-        <mat-radio-button [value]="1">Yes</mat-radio-button>
-        <mat-radio-button [value]="2">No</mat-radio-button>
-        <mat-radio-button [value]="3">Not Applicable</mat-radio-button>
-      </mat-radio-group>
+      <drr-radio-button
+        [label]="t('firstNationsEndorsementQuestion')"
+        [options]="allYesNoOptions"
+        [rxFormControl]="
+          ownershipAndAuthorizationForm.get('firstNationsEndorsement')
+        "
+      ></drr-radio-button>
+
+      <drr-radio-button
+        [label]="t('localGovernmentEndorsementQuestion')"
+        [options]="allYesNoOptions"
+        [rxFormControl]="
+          ownershipAndAuthorizationForm.get('localGovernmentEndorsement')
+        "
+      ></drr-radio-button>
     </div>
 
     <drr-textarea

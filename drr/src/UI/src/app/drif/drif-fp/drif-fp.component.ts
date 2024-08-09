@@ -152,7 +152,7 @@ export class DrifFpComponent {
     this.appService.dRIFApplicationGetFP(this.id!).subscribe({
       next: (response) => {
         const formData: DrifFpForm = {
-          eoiId: '', // TODO: response.eoiId,
+          eoiId: response.eoiId,
           fundingStream: response.fundingStream,
           projectType: response.projectType,
           proponentAndProjectInformationForm: {
@@ -161,19 +161,22 @@ export class DrifFpComponent {
             scopeStatement: response.scopeStatement,
             relatedHazards: response.relatedHazards,
             otherHazardsDescription: response.otherHazardsDescription,
-            // TODO: regionalProject: response.regionalProject,
-            // TODO: regionalProjectComments: response.regionalProjectComments,
+            regionalProject: response.regionalProject,
+            regionalProjectComments: response.regionalProjectComments,
           },
           ownershipAndAuthorization: {
             ownershipDeclaration: response.ownershipDeclaration,
             ownershipDescription: response.ownershipDescription,
-            // TODO: authorityAndOwnership: response.authorityAndOwnership,
-            // TODO: authorityAndOwnershipComments: response.authorityAndOwnershipComments,
-            // TODO: operationAndMaintenance: response.operationAndMaintenance,
-            // TODO: operationAndMaintenanceComments: response.operationAndMaintenanceComments,
-            // TODO: firstNationsEndorsement: response.firstNationsEndorsement,
-            // TODO: localGovernmentEndorsement: response.localGovernmentEndorsement,
-            // TODO: authorizationOrEndorsementComments: response.authorizationOrEndorsementComments,
+            authorityAndOwnership: response.authorityAndOwnership,
+            authorityAndOwnershipComments:
+              response.authorityAndOwnershipComments,
+            operationAndMaintenance: response.operationAndMaintenance,
+            operationAndMaintenanceComments:
+              response.operationAndMaintenanceComments,
+            firstNationsEndorsement: response.firstNationsEndorsement,
+            localGovernmentEndorsement: response.localGovernmentEndorsement,
+            authorizationOrEndorsementComments:
+              response.authorizationOrEndorsementComments,
           },
           // permitsRegulationsAndStandards: {
           //   ...response.permitsRegulationsAndStandards,
