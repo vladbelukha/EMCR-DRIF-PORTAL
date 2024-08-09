@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Net;
+using System.Runtime.Serialization;
 using Microsoft.AspNetCore.Mvc;
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
@@ -41,13 +42,13 @@ namespace EMCR.DRR.API.Services
         public string Id { get; }
     }
 
-    public class UnauthorizedException : DrrApplicationException
+    public class ForbiddenException : DrrApplicationException
     {
-        public UnauthorizedException(string message) : base(message)
+        public ForbiddenException(string message) : base(message)
         {
         }
 
-        public UnauthorizedException(string message, string id) : base(message)
+        public ForbiddenException(string message, string id) : base(message)
         {
             Id = id;
         }
@@ -57,13 +58,14 @@ namespace EMCR.DRR.API.Services
 
     public class ErrorParser
     {
-        public ActionResult Parse(DrrApplicationException ex)
+        public ActionResult Parse(Exception ex)
         {
             return ex switch
             {
-                NotFoundException e => new NotFoundObjectResult(new ProblemDetails { Type = "NotFoundException", Title = "Not Found", Detail = e.Message }),
-                UnauthorizedException e => new UnauthorizedObjectResult(new ProblemDetails { Type = "UnauthorizedException", Title = "Not Authorized", Detail = e.Message }),
-                _ => throw ex
+                NotFoundException e => new NotFoundObjectResult(new ProblemDetails { Type = "NotFoundException", Title = "Not Found", Detail = e.Message }) { StatusCode = (int)HttpStatusCode.NotFound },
+                ForbiddenException e => new ObjectResult(new ProblemDetails { Type = "ForbiddenException", Title = "Forbidden", Detail = e.Message }) { StatusCode = (int)HttpStatusCode.Forbidden },
+                ArgumentNullException e => new BadRequestObjectResult(new ProblemDetails { Type = "BadRequest", Title = "Null Argument", Detail = e.Message }) { StatusCode = (int)HttpStatusCode.BadRequest },
+                _ => new BadRequestObjectResult(new ProblemDetails { Type = "Unknown", Title = "Unexpected error", Detail = ex.Message }) { StatusCode = (int)HttpStatusCode.BadRequest },
             };
         }
     }

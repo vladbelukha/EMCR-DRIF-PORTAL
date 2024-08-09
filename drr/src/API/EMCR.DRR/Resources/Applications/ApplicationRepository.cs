@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EMCR.Utilities.Extensions;
 using EMCR.DRR.API.Services;
 using EMCR.DRR.Dynamics;
 using EMCR.DRR.Managers.Intake;
@@ -21,7 +22,7 @@ namespace EMCR.DRR.Resources.Applications
         {
             return cmd switch
             {
-                SubmitApplication c => await HandleSubmitEOIApplication(c),
+                SubmitApplication c => await HandleSubmitApplication(c),
                 _ => throw new NotSupportedException($"{cmd.GetType().Name} is not supported")
             };
         }
@@ -71,7 +72,7 @@ namespace EMCR.DRR.Resources.Applications
             return new ApplicationQueryResult { Items = items };
         }
 
-        public async Task<ManageApplicationCommandResult> HandleSubmitEOIApplication(SubmitApplication cmd)
+        public async Task<ManageApplicationCommandResult> HandleSubmitApplication(SubmitApplication cmd)
         {
             var ctx = dRRContextFactory.Create();
             if (string.IsNullOrEmpty(cmd.Application.Id))
@@ -102,6 +103,7 @@ namespace EMCR.DRR.Resources.Applications
                 .Expand(a => a.drr_AdditionalContact2)
                 .Expand(a => a.drr_application_fundingsource_Application)
                 .Expand(a => a.drr_drr_application_drr_criticalinfrastructureimpacted_Application)
+                .Expand(a => a.drr_drr_application_drr_provincialstandarditem_Application)
                 .Where(a => a.drr_name == application.Id)
                 .SingleOrDefaultAsync();
 
@@ -152,6 +154,11 @@ namespace EMCR.DRR.Resources.Applications
                 ctx.AttachTo(nameof(ctx.drr_criticalinfrastructureimpacteds), infrastructure);
                 ctx.DeleteObject(infrastructure);
             }
+            foreach (var standard in drrApplication.drr_drr_application_drr_provincialstandarditem_Application)
+            {
+                ctx.AttachTo(nameof(ctx.drr_provincialstandarditems), standard);
+                ctx.DeleteObject(standard);
+            }
         }
 
         private async Task<string> SaveApplication(DRRContext ctx, drr_application drrApplication, Application application)
@@ -171,6 +178,12 @@ namespace EMCR.DRR.Resources.Applications
             if (additionalContact2 != null) AddAdditionalContact2(ctx, drrApplication, additionalContact2);
             AddFundinSources(ctx, drrApplication);
             AddInfrastructureImpacted(ctx, drrApplication);
+
+            var standardsMasterList = drrApplication.drr_drr_application_drr_provincialstandarditem_Application.Count > 0 ?
+                (await ctx.drr_provincialstandards.GetAllPagesAsync()).ToList() :
+                new List<drr_provincialstandard>();
+
+            AddProvincialStandards(ctx, drrApplication, standardsMasterList);
             SetApplicationType(ctx, drrApplication, application.ApplicationTypeName);
             SetProgram(ctx, drrApplication, application.ProgramName);
             await SetDeclarations(ctx, drrApplication);
@@ -298,6 +311,28 @@ namespace EMCR.DRR.Resources.Applications
             }
         }
 
+        private static void AddProvincialStandards(DRRContext drrContext, drr_application application, List<drr_provincialstandard> standardsMasterList)
+        {
+            foreach (var standard in application.drr_drr_application_drr_provincialstandarditem_Application)
+            {
+                if (standard != null)
+                {
+                    var masterStandard = standardsMasterList.FirstOrDefault(s => s.drr_name == standard.drr_ProvincialStandard?.drr_name);
+                    if (masterStandard == null)
+                    {
+                        masterStandard = standardsMasterList.FirstOrDefault(s => s.drr_name == "Other");
+                        standard.drr_provincialstandarditemcomments = standard.drr_ProvincialStandard?.drr_name;
+                    }
+                    standard.drr_ProvincialStandard = masterStandard;
+
+                    drrContext.AddTodrr_provincialstandarditems(standard);
+                    drrContext.AddLink(application, nameof(application.drr_drr_application_drr_provincialstandarditem_Application), standard);
+                    drrContext.SetLink(standard, nameof(standard.drr_Application), application);
+                    drrContext.SetLink(standard, nameof(standard.drr_ProvincialStandard), masterStandard);
+                }
+            }
+        }
+
         private static void SetApplicationType(DRRContext drrContext, drr_application application, string ApplicationTypeName)
         {
             var applicationType = drrContext.drr_applicationtypes.Where(type => type.drr_name == ApplicationTypeName).SingleOrDefault();
@@ -336,10 +371,17 @@ namespace EMCR.DRR.Resources.Applications
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_application_contact_Application), ct),
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_application_fundingsource_Application), ct),
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_drr_application_drr_criticalinfrastructureimpacted_Application), ct),
+                    ctx.LoadPropertyAsync(application, nameof(drr_application.drr_drr_application_drr_provincialstandarditem_Application), ct),
                 }).ToList();
             }
 
             await Task.WhenAll(loadTasks);
+
+            await application.drr_drr_application_drr_provincialstandarditem_Application.ForEachAsync(5, async s =>
+            {
+                ctx.AttachTo(nameof(DRRContext.drr_provincialstandarditems), s);
+                await ctx.LoadPropertyAsync(s, nameof(drr_provincialstandarditem.drr_ProvincialStandard), ct);
+            });
         }
     }
 }

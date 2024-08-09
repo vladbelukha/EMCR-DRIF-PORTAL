@@ -16,7 +16,6 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.drr_PrimaryProjectContact, opt => opt.MapFrom(src => src.ProjectContact))
                 .ForMember(dest => dest.drr_AdditionalContact1, opt => opt.MapFrom(src => src.AdditionalContact1))
                 .ForMember(dest => dest.drr_AdditionalContact2, opt => opt.MapFrom(src => src.AdditionalContact2))
-                //.ForMember(dest => dest.drr_drr_application_account, opt => opt.MapFrom(src => src.PartneringProponents))
                 .ForMember(dest => dest.drr_fundingstream, opt => opt.MapFrom(src => src.FundingStream.HasValue ? (int?)Enum.Parse<FundingStreamOptionSet>(src.FundingStream.Value.ToString()) : null))
                 .ForMember(dest => dest.drr_projecttitle, opt => opt.MapFrom(src => src.ProjectTitle))
                 .ForMember(dest => dest.drr_projecttype, opt => opt.MapFrom(src => src.ProjectType.HasValue ? (int?)Enum.Parse<ProjectTypeOptionSet>(src.ProjectType.Value.ToString()) : null))
@@ -53,6 +52,30 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.drr_accuracyofinformation, opt => opt.MapFrom(src => src.InformationAccuracyStatement.HasValue && src.InformationAccuracyStatement.Value ? DRRTwoOptions.Yes : DRRTwoOptions.No))
                 .ForMember(dest => dest.drr_submitteddate, opt => opt.MapFrom(src => src.SubmittedDate))
                 .ForMember(dest => dest.statuscode, opt => opt.MapFrom(src => (int?)Enum.Parse<ApplicationStatusOptionSet>(src.Status.ToString())))
+                //FP Only Fields
+                //.ForMember(dest => dest.drr_regionalproject, opt => opt.MapFrom(src => src.RegionalProject))
+                //.ForMember(dest => dest.drr_regionalprojectcomments, opt => opt.MapFrom(src => src.RegionalProjectComments))
+                //.ForMember(dest => dest.drr_ownership, opt => opt.MapFrom(src => src.Ownership))
+                //.ForMember(dest => dest.drr_ownershipcomments, opt => opt.MapFrom(src => src.OwnershipComments))
+                //.ForMember(dest => dest.drr_AuthorityAndOwnership, opt => opt.MapFrom(src => src.AuthorityAndOwnership))
+                //.ForMember(dest => dest.drr_AuthorityAndOwnershipcomments, opt => opt.MapFrom(src => src.AuthorityAndOwnershipComments))
+                //.ForMember(dest => dest.drr_OperationAndMaintenance, opt => opt.MapFrom(src => src.OperationAndMaintenance))
+                //.ForMember(dest => dest.drr_OperationAndMaintenanceComments, opt => opt.MapFrom(src => src.OperationAndMaintenanceComments))
+                //.ForMember(dest => dest.drr_AuthorizationOrEndorsementComments, opt => opt.MapFrom(src => src.AuthorizationOrEndorsementComments))
+                //.ForMember(dest => dest.drr_Approvals, opt => opt.MapFrom(src => src.Approvals))
+                //.ForMember(dest => dest.drr_ApprovalsComments, opt => opt.MapFrom(src => src.ApprovalsComments))
+                //.ForMember(dest => dest.drr_ProfessionalGuidance, opt => opt.MapFrom(src => src.ProfessionalGuidance))
+                //.ForMember(dest => dest.drr_StandardsAcceptable, opt => opt.MapFrom(src => src.StandardsAcceptable))
+                .ForMember(dest => dest.drr_drr_application_drr_provincialstandarditem_Application, opt => opt.MapFrom(src => src.Standards))
+                //.ForMember(dest => dest.drr_StandardsComments, opt => opt.MapFrom(src => src.StandardsComments))
+                //.ForMember(dest => dest.drr_Regulations, opt => opt.MapFrom(src => src.Regulations))
+                //.ForMember(dest => dest.drr_RegulationsComments, opt => opt.MapFrom(src => src.RegulationsComments))
+                //.ForMember(dest => dest.drr_ProjectComplexity, opt => opt.MapFrom(src => src.ProjectComplexity))
+                //.ForMember(dest => dest.drr_ProjectReadiness, opt => opt.MapFrom(src => src.ProjectReadiness))
+                //.ForMember(dest => dest.drr_ProjectSensitivity, opt => opt.MapFrom(src => src.ProjectSensitivity))
+                //.ForMember(dest => dest.drr_CapacityChallenges, opt => opt.MapFrom(src => src.CapacityChallenges))
+                //.ForMember(dest => dest.drr_RiskTransfer, opt => opt.MapFrom(src => src.RiskTransfer))
+                //.ForMember(dest => dest.drr_TotalProjectCost, opt => opt.MapFrom(src => src.TotalProjectCost))
                 .ReverseMap()
                 .ValidateMemberList(MemberList.Destination)
                 //These are incomplete - but they've really just been for testing...
@@ -160,6 +183,13 @@ namespace EMCR.DRR.Resources.Applications
             CreateMap<drr_legaldeclaration, DeclarationInfo>()
                 .ForMember(dest => dest.Type, opt => opt.MapFrom(src => Enum.Parse<DeclarationTypeOptionSet>(((DeclarationTypeOptionSet)src.drr_declarationtype).ToString())))
                 .ForMember(dest => dest.Text, opt => opt.MapFrom(src => src.drr_declarationtext));
+
+            CreateMap<ProvincialStandard, drr_provincialstandarditem>()
+                .ForMember(dest => dest.drr_ProvincialStandard, opt => opt.MapFrom(src => new drr_provincialstandard { drr_name = src.Name }))
+                .ReverseMap()
+                .ValidateMemberList(MemberList.Destination)
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => string.IsNullOrEmpty(src.drr_provincialstandarditemcomments) ? src.drr_ProvincialStandard.drr_name : src.drr_provincialstandarditemcomments))
+            ;
         }
     }
 }
