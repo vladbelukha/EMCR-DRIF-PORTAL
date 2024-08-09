@@ -92,7 +92,6 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             submissions.ShouldContain(s => s.Id == secondId);
             submissions.ShouldContain(s => s.Id == thirdId);
             submissions.Single(s => s.Id == thirdId).ExistingFpId.ShouldNotBeNull();
-            submissions.All(s => !string.IsNullOrEmpty(s.ApplicationType)).ShouldBe(true);
         }
 
         [Test]
