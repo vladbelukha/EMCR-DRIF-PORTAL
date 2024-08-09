@@ -41,6 +41,11 @@ export enum ReadinessRisks {
   NonDRIFfundingsourcesarenotsecuredfortheentireprojectcost = 'Non-DRIF funding sources are not secured for the entire project cost',
 }
 
+export enum SensitivityRisks {
+  Projecthasreceivednegativemediaattention = 'Project has received negative media attention',
+  Certainstakeholdershavebeenvocalabouttheproject = 'Certain stakeholders have been vocal about the project',
+}
+
 // TODO: temp before API provides the correct structure
 export class FileForm {
   @prop()

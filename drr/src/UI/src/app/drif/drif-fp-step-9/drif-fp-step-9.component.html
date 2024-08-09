@@ -35,5 +35,23 @@
       [rxFormControl]="projectRisksForm.get('readinessRiskComments')"
       [useTopLabel]="true"
     ></drr-textarea>
+
+    <mat-label class="drr-label">{{ t("projectSensitivity") }}</mat-label>
+    <drr-radio-button
+      [label]="t('sensitivityRiskMitigated')"
+      [rxFormControl]="projectRisksForm.get('sensitivityRiskMitigated')"
+    ></drr-radio-button>
+    <drr-chip-autocomplete
+      [label]="t('sensitivityRisks')"
+      [placeholder]="t('sensitivityRisksPlaceholder')"
+      [options]="sensitivityRiskOptions"
+      [rxFormControl]="projectRisksForm.get('sensitivityRisks')"
+    ></drr-chip-autocomplete>
+    <drr-textarea
+      [label]="t('sensitivityRiskComments')"
+      [maxlength]="2000"
+      [rxFormControl]="projectRisksForm.get('sensitivityRiskComments')"
+      [useTopLabel]="true"
+    ></drr-textarea>
   </form>
 </div>

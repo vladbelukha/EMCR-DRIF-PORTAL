@@ -224,5 +224,10 @@
   "readinessRiskMitigated": "Will project readiness risks be mitigated during this project?",
   "readinessRisks": "If yes, which project readiness risks will be mitigated during this project? (select all that apply)",
   "readinessRisksPlaceholder": "Select or type risk name",
-  "readinessRiskComments": "How will project readiness risks be mitigated during this project, if applicable?"
+  "readinessRiskComments": "How will project readiness risks be mitigated during this project, if applicable?",
+  "projectSensitivity": "Project Sensitivity",
+  "sensitivityRiskMitigated": "Will project sensitivity risks be mitigated during this project?",
+  "sensitivityRisks": "If yes, which project sensitivity risks will be mitigated during this project? (select all that apply)",
+  "sensitivityRisksPlaceholder": "Select or type risk name",
+  "sensitivityRiskComments": "How will project sensitivity risks be mitigated during this project, if applicable?"
 }

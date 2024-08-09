@@ -11,6 +11,7 @@ import {
   ComplexityRisks,
   ProjectRisksForm,
   ReadinessRisks,
+  SensitivityRisks,
 } from '../drif-fp/drif-fp-form';
 
 @Component({
@@ -35,6 +36,7 @@ export class DrifFpStep9Component {
 
   complexityRiskOptions = Object.values(ComplexityRisks);
   readinessRiskOptions = Object.values(ReadinessRisks);
+  sensitivityRiskOptions = Object.values(SensitivityRisks);
 
   ngOnInit() {
     console.log('complexityRiskOptions', this.complexityRiskOptions);
