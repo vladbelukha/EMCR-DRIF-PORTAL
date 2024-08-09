@@ -80,7 +80,7 @@ namespace EMCR.DRR.Managers.Intake
         public async Task<string> Handle(CreateFpFromEoiCommand cmd)
         {
             var canAccess = await CanAccessApplication(cmd.EoiId, cmd.UserInfo.BusinessId);
-            if (!canAccess) throw new UnauthorizedException("Not allowed to access this application.");
+            if (!canAccess) throw new ForbiddenException("Not allowed to access this application.");
 
             var res = (await caseRepository.Manage(new GenerateFpFromEoi { EoiId = cmd.EoiId })).Id;
             return res;

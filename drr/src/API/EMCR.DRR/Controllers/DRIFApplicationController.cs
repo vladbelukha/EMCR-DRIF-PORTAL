@@ -195,6 +195,45 @@ namespace EMCR.DRR.Controllers
 
     public class DraftFpApplication : DraftApplication
     {
+        public string? EoiId { get; set; }
+
+        //Proponent & Project Information - 1
+        public bool? RegionalProject { get; set; }
+        public string? RegionalProjectComments { get; set; }
+
+        //Ownership & Authorization - 2
+        public bool? Ownership { get; set; }
+        public string? OwnershipComments { get; set; }
+        public bool? AuthorityAndOwnership { get; set; }
+        public string? AuthorityAndOwnershipComments { get; set; }
+        public YesNoOption? OperationAndMaintenance { get; set; }
+        public string? OperationAndMaintenanceComments { get; set; }
+        public YesNoOption? FirstNationsEndorsement { get; set; }
+        public YesNoOption? LocalGovernmentEndorsement { get; set; }
+        public string? AuthorizationOrEndorsementComments { get; set; }
+
+        //Permits Regulations & Standards - 7
+        public bool? Approvals { get; set; }
+        public string? ApprovalsComments { get; set; }
+        public bool? ProfessionalGuidance { get; set; }
+        public IEnumerable<string> Professionals { get; set; }
+        public YesNoOption? StandardsAcceptable {  get; set; }
+        public IEnumerable<string> Standards { get; set; }
+        public string? StandardsComments { get; set; }
+        public bool? Regulations { get; set; }
+        public string? RegulationsComments { get; set; }
+
+        //Project Risks - 9
+        //public bool? ProjectComplexity { get; set; }
+        //public bool? ProjectReadiness { get; set; }
+        //public bool? ProjectSensitivity { get; set; }
+        //public bool? CapacityChallenges { get; set; }
+        //public bool? RiskTransfer { get; set; }
+
+        //Budget - 10
+        //[Range(0, ApplicationValidators.FUNDING_MAX_VAL)]
+        //public decimal? TotalProjectCost { get; set; }
+
         public IEnumerable<Attachment> Attachments { get; set; }
     }
 
@@ -329,6 +368,14 @@ namespace EMCR.DRR.Controllers
 
         [Description("Other")]
         Other,
+    }
+
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public enum YesNoOption
+    {
+        No,
+        Yes,
+        NotApplicable
     }
 
 #pragma warning disable CS8765 // nullability
