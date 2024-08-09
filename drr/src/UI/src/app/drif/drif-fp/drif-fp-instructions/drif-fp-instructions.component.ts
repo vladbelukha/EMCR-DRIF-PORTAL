@@ -3,7 +3,7 @@ import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
-import { DrifapplicationService } from '../../../api/drifapplication/drifapplication.service';
+import { DrifapplicationService } from '../../../../api/drifapplication/drifapplication.service';
 
 @Component({
   selector: 'drr-drif-fp-instructions',

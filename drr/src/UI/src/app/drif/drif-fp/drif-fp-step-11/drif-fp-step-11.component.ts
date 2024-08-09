@@ -5,9 +5,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { TranslocoModule } from '@ngneat/transloco';
-import { DrrFileUploadComponent } from '../../shared/controls/drr-file-upload/drr-file-upload.component';
-import { DrrInputComponent } from '../../shared/controls/drr-input/drr-input.component';
-import { FileForm } from '../drif-fp/drif-fp-form';
+import { DrrFileUploadComponent } from '../../../shared/controls/drr-file-upload/drr-file-upload.component';
+import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
+import { FileForm } from '../drif-fp-form';
 
 @Component({
   selector: 'drif-fp-step-11',

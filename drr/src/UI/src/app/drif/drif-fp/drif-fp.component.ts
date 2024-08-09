@@ -22,7 +22,7 @@ import {
   RxFormBuilder,
   RxFormGroup,
 } from '@rxweb/reactive-form-validators';
-import { DrifFpStep1Component } from '../drif-fp-step-1/drif-fp-step-1.component';
+import { DrifFpStep1Component } from './drif-fp-step-1/drif-fp-step-1.component';
 
 import { distinctUntilChanged } from 'rxjs/operators';
 import { DrifapplicationService } from '../../../api/drifapplication/drifapplication.service';
@@ -32,12 +32,13 @@ import {
   FundingInformationItemForm,
   StringItem,
 } from '../drif-eoi/drif-eoi-form';
-import { DrifFpStep2Component } from '../drif-fp-step-2/drif-fp-step-2.component';
-import { DrifFpStep7Component } from '../drif-fp-step-7/drif-fp-step-7.component';
-import { DrifFpStep5Component } from '../drif-fp-step-5/drif-fp-step-5.component';
-import { DrifFpStep6Component } from '../drif-fp-step-6/drif-fp-step-6.component';
-import { DrifFpStep9Component } from '../drif-fp-step-9/drif-fp-step-9.component';
+
 import { DrifFpForm } from './drif-fp-form';
+import { DrifFpStep2Component } from './drif-fp-step-2/drif-fp-step-2.component';
+import { DrifFpStep5Component } from './drif-fp-step-5/drif-fp-step-5.component';
+import { DrifFpStep6Component } from './drif-fp-step-6/drif-fp-step-6.component';
+import { DrifFpStep7Component } from './drif-fp-step-7/drif-fp-step-7.component';
+import { DrifFpStep9Component } from './drif-fp-step-9/drif-fp-step-9.component';
 
 @Component({
   selector: 'drr-drif-fp',

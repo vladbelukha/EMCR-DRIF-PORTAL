@@ -7,16 +7,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslocoModule } from '@ngneat/transloco';
 import { IFormGroup } from '@rxweb/reactive-form-validators';
-import { DrrChipAutocompleteComponent } from '../../shared/controls/drr-chip-autocomplete/drr-chip-autocomplete.component';
+import { DrrChipAutocompleteComponent } from '../../../shared/controls/drr-chip-autocomplete/drr-chip-autocomplete.component';
 import {
   DrrRadioButtonComponent,
   RadioOption,
-} from '../../shared/controls/drr-radio-button/drr-radio-button.component';
-import { DrrTextareaComponent } from '../../shared/controls/drr-textarea/drr-textarea.component';
-import {
-  PermitsRegulationsAndStandardsForm,
-  Standards,
-} from '../drif-fp/drif-fp-form';
+} from '../../../shared/controls/drr-radio-button/drr-radio-button.component';
+import { DrrTextareaComponent } from '../../../shared/controls/drr-textarea/drr-textarea.component';
+import { PermitsRegulationsAndStandardsForm, Standards } from '../drif-fp-form';
 
 @Component({
   selector: 'drif-fp-step-7',

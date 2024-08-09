@@ -11,8 +11,8 @@ import {
   RxFormGroup,
 } from '@rxweb/reactive-form-validators';
 import { NgxMaskPipe } from 'ngx-mask';
-import { DrifFpForm } from '../drif-fp/drif-fp-form';
-import { SummaryItemComponent } from '../summary-item/summary-item.component';
+import { DrifFpForm } from '../drif-fp-form';
+import { SummaryItemComponent } from '../../summary-item/summary-item.component';
 
 @Component({
   selector: 'drif-fp-summary',

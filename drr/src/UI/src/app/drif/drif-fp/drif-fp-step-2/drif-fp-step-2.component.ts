@@ -9,9 +9,9 @@ import { MatListModule } from '@angular/material/list';
 import { MatRadioModule } from '@angular/material/radio';
 import { TranslocoModule } from '@ngneat/transloco';
 import { IFormGroup } from '@rxweb/reactive-form-validators';
-import { DrrInputComponent } from '../../shared/controls/drr-input/drr-input.component';
-import { DrrTextareaComponent } from '../../shared/controls/drr-textarea/drr-textarea.component';
-import { OwnershipAndAuthorizationForm } from '../drif-fp/drif-fp-form';
+import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
+import { DrrTextareaComponent } from '../../../shared/controls/drr-textarea/drr-textarea.component';
+import { OwnershipAndAuthorizationForm } from '../drif-fp-form';
 
 @Component({
   selector: 'drif-fp-step-2',

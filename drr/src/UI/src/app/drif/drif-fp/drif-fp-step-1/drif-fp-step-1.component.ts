@@ -20,12 +20,12 @@ import {
   RxFormBuilder,
   RxFormControl,
 } from '@rxweb/reactive-form-validators';
-import { Hazards } from '../../../model';
-import { DrrInputComponent } from '../../shared/controls/drr-input/drr-input.component';
-import { DrrSelectComponent } from '../../shared/controls/drr-select/drr-select.component';
-import { DrrTextareaComponent } from '../../shared/controls/drr-textarea/drr-textarea.component';
-import { ContactDetailsForm, StringItem } from '../drif-eoi/drif-eoi-form';
-import { ProponentAndProjectInformationForm } from '../drif-fp/drif-fp-form';
+import { Hazards } from '../../../../model';
+import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
+import { DrrSelectComponent } from '../../../shared/controls/drr-select/drr-select.component';
+import { DrrTextareaComponent } from '../../../shared/controls/drr-textarea/drr-textarea.component';
+import { ContactDetailsForm, StringItem } from '../../drif-eoi/drif-eoi-form';
+import { ProponentAndProjectInformationForm } from '../drif-fp-form';
 
 @Component({
   selector: 'drif-fp-step-1',

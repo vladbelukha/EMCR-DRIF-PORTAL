@@ -12,13 +12,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectChange } from '@angular/material/select';
 import { TranslocoModule } from '@ngneat/transloco';
 import { IFormGroup, RxFormBuilder } from '@rxweb/reactive-form-validators';
-import { FundingType } from '../../../model';
-import { DrrCurrencyInputComponent } from '../../shared/controls/drr-currency-input/drr-currency-input.component';
-import { DrrInputComponent } from '../../shared/controls/drr-input/drr-input.component';
-import { DrrSelectComponent } from '../../shared/controls/drr-select/drr-select.component';
-import { DrrTextareaComponent } from '../../shared/controls/drr-textarea/drr-textarea.component';
-import { FundingInformationItemForm } from '../drif-eoi/drif-eoi-form';
-import { BudgetForm, YearOverYearFundingForm } from '../drif-fp/drif-fp-form';
+import { FundingType } from '../../../../model';
+import { DrrCurrencyInputComponent } from '../../../shared/controls/drr-currency-input/drr-currency-input.component';
+import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
+import { DrrSelectComponent } from '../../../shared/controls/drr-select/drr-select.component';
+import { DrrTextareaComponent } from '../../../shared/controls/drr-textarea/drr-textarea.component';
+import { FundingInformationItemForm } from '../../drif-eoi/drif-eoi-form';
+import { BudgetForm, YearOverYearFundingForm } from '../drif-fp-form';
 
 @Component({
   selector: 'drif-fp-step-5',

@@ -5,9 +5,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { TranslocoModule } from '@ngneat/transloco';
 import { IFormGroup } from '@rxweb/reactive-form-validators';
-import { DrrChipAutocompleteComponent } from '../../shared/controls/drr-chip-autocomplete/drr-chip-autocomplete.component';
-import { DrrRadioButtonComponent } from '../../shared/controls/drr-radio-button/drr-radio-button.component';
-import { DrrTextareaComponent } from '../../shared/controls/drr-textarea/drr-textarea.component';
+import { DrrChipAutocompleteComponent } from '../../../shared/controls/drr-chip-autocomplete/drr-chip-autocomplete.component';
+import { DrrRadioButtonComponent } from '../../../shared/controls/drr-radio-button/drr-radio-button.component';
+import { DrrTextareaComponent } from '../../../shared/controls/drr-textarea/drr-textarea.component';
 import {
   CapacityRisks,
   ComplexityRisks,
@@ -15,7 +15,7 @@ import {
   ReadinessRisks,
   SensitivityRisks,
   TransferRisks,
-} from '../drif-fp/drif-fp-form';
+} from '../drif-fp-form';
 
 @Component({
   selector: 'drif-fp-step-9',
