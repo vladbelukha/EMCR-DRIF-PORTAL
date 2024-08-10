@@ -9,7 +9,7 @@ import {
   FundingStream,
   Hazards,
   ProjectType,
-  ProponentType,
+  YesNoOption,
 } from '../../../model';
 import {
   ContactDetailsForm,
@@ -84,14 +84,6 @@ export class ProponentAndProjectInformationForm {
   @required()
   scopeStatement?: string;
 
-  @prop()
-  @required()
-  proponentType?: ProponentType;
-
-  @prop()
-  @required()
-  proponentName?: string;
-
   @required()
   @propObject(ContactDetailsForm)
   projectContact?: ContactDetailsForm = new ContactDetailsForm({});
@@ -129,10 +121,10 @@ export class ProponentAndProjectInformationForm {
 export class OwnershipAndAuthorizationForm {
   @prop()
   @required()
-  ownership?: boolean;
+  ownershipDeclaration?: boolean;
 
   @prop()
-  ownershipComments?: string;
+  ownershipDescription?: string;
 
   @prop()
   @required()
@@ -144,7 +136,7 @@ export class OwnershipAndAuthorizationForm {
 
   @prop()
   @required()
-  operationAndMaintenance?: boolean;
+  operationAndMaintenance?: YesNoOption;
 
   @prop()
   @required()
@@ -152,11 +144,11 @@ export class OwnershipAndAuthorizationForm {
 
   @prop()
   @required()
-  firstNationsEndorsement?: number; // TODO: change to enum
+  firstNationsEndorsement?: YesNoOption;
 
   @prop()
   @required()
-  localGovernmentEndorsement?: number; // TODO: change to enum
+  localGovernmentEndorsement?: YesNoOption;
 
   @prop()
   @required()
@@ -244,16 +236,20 @@ export class BudgetForm {
 
   @propArray(FundingInformationItemForm)
   otherFunding?: FundingInformationItemForm[] = [{}];
+
+  constructor(values: BudgetForm) {
+    Object.assign(this, values);
+  }
 }
 
 export class ClimateAdaptationForm {
   @prop()
   @required()
-  climateAdaptation?: boolean;
+  climateAdaptationScreener?: boolean;
 
   @prop()
   @required()
-  climateAdaptationComments?: string;
+  climateAdaptation?: string;
 
   constructor(values: ClimateAdaptationForm) {
     Object.assign(this, values);
@@ -316,6 +312,65 @@ export class ProjectRisksForm {
   }
 }
 
+export class ProjectAreaForm {
+  @prop()
+  @required()
+  locationDescription?: string;
+
+  constructor(values: ProjectAreaForm) {
+    Object.assign(this, values);
+  }
+}
+
+export class ProjectPlanForm {
+  @prop()
+  @required()
+  startDate?: string;
+
+  constructor(values: ProjectPlanForm) {
+    Object.assign(this, values);
+  }
+}
+
+export class ProjectEngagementForm {
+  @prop()
+  @required()
+  firstNationsEngagement?: boolean;
+
+  constructor(values: ProjectEngagementForm) {
+    Object.assign(this, values);
+  }
+}
+
+export class ProjectOutcomesForm {
+  @prop()
+  @required()
+  publicBenefit?: boolean;
+
+  constructor(values: ProjectOutcomesForm) {
+    Object.assign(this, values);
+  }
+}
+
+export class AttachmentsForm {
+  @propArray(FileForm)
+  projectDocuments?: FileForm[] = [{}];
+
+  constructor(values: AttachmentsForm) {
+    Object.assign(this, values);
+  }
+}
+
+export class DeclarationsForm {
+  @prop()
+  @required()
+  authorizedRepresentativeStatement?: boolean;
+
+  constructor(values: DeclarationsForm) {
+    Object.assign(this, values);
+  }
+}
+
 export class DrifFpForm {
   @propObject(ProponentAndProjectInformationForm)
   proponentAndProjectInformationForm?: ProponentAndProjectInformationForm =
@@ -325,18 +380,36 @@ export class DrifFpForm {
   ownershipAndAuthorization?: OwnershipAndAuthorizationForm =
     new OwnershipAndAuthorizationForm({});
 
+  @propObject(ProjectAreaForm)
+  projectArea?: ProjectAreaForm = new ProjectAreaForm({});
+
+  @propObject(ProjectPlanForm)
+  projectPlan?: ProjectPlanForm = new ProjectPlanForm({});
+
+  @propObject(ProjectEngagementForm)
+  projectEngagement?: ProjectEngagementForm = new ProjectEngagementForm({});
+
+  @propObject(ClimateAdaptationForm)
+  climateAdaptation?: ClimateAdaptationForm = new ClimateAdaptationForm({});
+
   @propObject(PermitsRegulationsAndStandardsForm)
   permitsRegulationsAndStandards?: PermitsRegulationsAndStandardsForm =
     new PermitsRegulationsAndStandardsForm({});
 
-  @propObject(ClimateAdaptationForm)
-  climateAdaptation?: ClimateAdaptationForm = new ClimateAdaptationForm({});
+  @propObject(ProjectOutcomesForm)
+  projectOutcomes?: ProjectOutcomesForm = new ProjectOutcomesForm({});
 
   @propObject(ProjectRisksForm)
   projectRisks?: ProjectRisksForm = new ProjectRisksForm({});
 
   @propObject(BudgetForm)
-  budget?: BudgetForm = new BudgetForm();
+  budget?: BudgetForm = new BudgetForm({});
+
+  @propObject(AttachmentsForm)
+  attachments?: AttachmentsForm = new AttachmentsForm({});
+
+  @propObject(DeclarationsForm)
+  declarations?: DeclarationsForm = new DeclarationsForm({});
 
   @prop()
   eoiId?: string;

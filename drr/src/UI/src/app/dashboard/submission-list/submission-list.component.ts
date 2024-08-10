@@ -56,7 +56,7 @@ export class SubmissionListComponent {
   };
 
   ngOnInit() {
-    this.applicationService.dRIFApplicationGetAll().subscribe((submissions) => {
+    this.applicationService.dRIFApplicationGet().subscribe((submissions) => {
       this.submissions = submissions;
       this.submissionListDataSource = new MatTableDataSource(this.submissions);
       this.paginator.length = submissions.length;

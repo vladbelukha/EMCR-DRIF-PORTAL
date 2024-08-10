@@ -5,7 +5,48 @@
  * OpenAPI spec version: 1.0.0
  */
 import type { Attachment } from './attachment';
+import type { YesNoOption } from './yesNoOption';
 
 export type DraftFpApplicationAllOf = {
+  /** @nullable */
+  approvals?: boolean;
+  /** @nullable */
+  approvalsComments?: string;
   attachments?: Attachment[];
+  /** @nullable */
+  authorityAndOwnership?: boolean;
+  /** @nullable */
+  authorityAndOwnershipComments?: string;
+  /** @nullable */
+  authorizationOrEndorsementComments?: string;
+  /** @nullable */
+  eoiId?: string;
+  /** @nullable */
+  firstNationsEndorsement?: YesNoOption;
+  /** @nullable */
+  localGovernmentEndorsement?: YesNoOption;
+  /** @nullable */
+  operationAndMaintenance?: YesNoOption;
+  /** @nullable */
+  operationAndMaintenanceComments?: string;
+  /** @nullable */
+  ownership?: boolean;
+  /** @nullable */
+  ownershipComments?: string;
+  /** @nullable */
+  professionalGuidance?: boolean;
+  professionals?: string[];
+  /** @nullable */
+  regionalProject?: boolean;
+  /** @nullable */
+  regionalProjectComments?: string;
+  /** @nullable */
+  regulations?: boolean;
+  /** @nullable */
+  regulationsComments?: string;
+  standards?: string[];
+  /** @nullable */
+  standardsAcceptable?: YesNoOption;
+  /** @nullable */
+  standardsComments?: string;
 };

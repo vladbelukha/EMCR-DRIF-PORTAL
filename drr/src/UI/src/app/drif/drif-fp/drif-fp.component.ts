@@ -22,28 +22,29 @@ import {
   RxFormBuilder,
   RxFormGroup,
 } from '@rxweb/reactive-form-validators';
-import { DrifFpStep1Component } from '../drif-fp-step-1/drif-fp-step-1.component';
+import { DrifFpStep1Component } from './drif-fp-step-1/drif-fp-step-1.component';
 
 import { distinctUntilChanged } from 'rxjs/operators';
 import { DrifapplicationService } from '../../../api/drifapplication/drifapplication.service';
-import {
-  DraftFpApplication,
-  FundingStream,
-  Hazards,
-  ProjectType,
-  ProponentType,
-} from '../../../model';
+import { DraftFpApplication } from '../../../model';
 import {
   ContactDetailsForm,
   FundingInformationItemForm,
   StringItem,
 } from '../drif-eoi/drif-eoi-form';
-import { DrifFpStep2Component } from '../drif-fp-step-2/drif-fp-step-2.component';
-import { DrifFpStep3Component } from '../drif-fp-step-3/drif-fp-step-3.component';
-import { DrifFpStep5Component } from '../drif-fp-step-5/drif-fp-step-5.component';
-import { DrifFpStep6Component } from '../drif-fp-step-6/drif-fp-step-6.component';
-import { DrifFpStep9Component } from '../drif-fp-step-9/drif-fp-step-9.component';
+
 import { DrifFpForm } from './drif-fp-form';
+import { DrifFpStep10Component } from './drif-fp-step-10/drif-fp-step-10.component';
+import { DrifFpStep11Component } from './drif-fp-step-11/drif-fp-step-11.component';
+import { DrifFpStep12Component } from './drif-fp-step-12/drif-fp-step-12.component';
+import { DrifFpStep2Component } from './drif-fp-step-2/drif-fp-step-2.component';
+import { DrifFpStep3Component } from './drif-fp-step-3/drif-fp-step-3.component';
+import { DrifFpStep4Component } from './drif-fp-step-4/drif-fp-step-4.component';
+import { DrifFpStep5Component } from './drif-fp-step-5/drif-fp-step-5.component';
+import { DrifFpStep6Component } from './drif-fp-step-6/drif-fp-step-6.component';
+import { DrifFpStep7Component } from './drif-fp-step-7/drif-fp-step-7.component';
+import { DrifFpStep8Component } from './drif-fp-step-8/drif-fp-step-8.component';
+import { DrifFpStep9Component } from './drif-fp-step-9/drif-fp-step-9.component';
 
 @Component({
   selector: 'drr-drif-fp',
@@ -61,9 +62,15 @@ import { DrifFpForm } from './drif-fp-form';
     DrifFpStep1Component,
     DrifFpStep2Component,
     DrifFpStep3Component,
+    DrifFpStep4Component,
     DrifFpStep5Component,
     DrifFpStep6Component,
+    DrifFpStep7Component,
+    DrifFpStep8Component,
     DrifFpStep9Component,
+    DrifFpStep10Component,
+    DrifFpStep11Component,
+    DrifFpStep12Component,
   ],
   providers: [
     RxFormBuilder,
@@ -153,148 +160,108 @@ export class DrifFpComponent {
     }, 1000);
   }
 
+  ngOnDestroy() {
+    clearInterval(this.autoSaveTimer);
+  }
+
   load() {
-    // TODO: load application data from API
-    const response = {
-      eoiId: 'DRIF-EOI-1111',
-      fundingStream: FundingStream.Stream1,
-      projectType: ProjectType.Existing,
-      proponentAndProjectInformationForm: {
-        proponentType: ProponentType.FirstNation,
-        projectContact: {
-          firstName: 'John',
-          lastName: 'Doe',
-          email: 'email',
-          phone: '123456',
-          department: 'department',
-          title: 'title',
-        },
-        additionalContacts: [
-          {
-            firstName: 'John1',
-            lastName: 'Doe1',
-            email: 'e1',
-            phone: '11111',
-            department: 'd1',
-            title: 't1',
+    this.appService.dRIFApplicationGetFP(this.id!).subscribe({
+      next: (response) => {
+        const formData: DrifFpForm = {
+          eoiId: response.eoiId,
+          fundingStream: response.fundingStream,
+          projectType: response.projectType,
+          proponentAndProjectInformationForm: {
+            projectContact: response.projectContact,
+            projectTitle: response.projectTitle,
+            scopeStatement: response.scopeStatement,
+            relatedHazards: response.relatedHazards,
+            otherHazardsDescription: response.otherHazardsDescription,
+            regionalProject: response.regionalProject,
+            regionalProjectComments: response.regionalProjectComments,
           },
-          {
-            firstName: 'John2',
-            lastName: 'Doe2',
-            email: 'e2',
-            phone: '22222',
-            department: 'd2',
-            title: 't2',
+          ownershipAndAuthorization: {
+            ownershipDeclaration: response.ownershipDeclaration,
+            ownershipDescription: response.ownershipDescription,
+            authorityAndOwnership: response.authorityAndOwnership,
+            authorityAndOwnershipComments:
+              response.authorityAndOwnershipComments,
+            operationAndMaintenance: response.operationAndMaintenance,
+            operationAndMaintenanceComments:
+              response.operationAndMaintenanceComments,
+            firstNationsEndorsement: response.firstNationsEndorsement,
+            localGovernmentEndorsement: response.localGovernmentEndorsement,
+            authorizationOrEndorsementComments:
+              response.authorizationOrEndorsementComments,
           },
-        ],
-        partneringProponents: ['Proponent1', 'Proponent2'],
-        projectTitle: 'Project Title 1',
-        scopeStatement: 'Scope Statement 1',
-        relatedHazards: [Hazards.Drought, Hazards.Flood, Hazards.Other],
-        otherHazardsDescription: 'Other Hazards Description',
-      },
-      ownershipAndAuthorization: {
-        ownership: true,
-        ownershipComments: 'Ownership Comments',
-        authorityAndOwnership: false,
-        firstNationsEndorsement: 3,
-      },
-      permitsRegulationsAndStandards: {
-        standards: ['Standard1', 'Standard2'],
-      },
-      climateAdaptation: {
-        climateAdaptation: true,
-        climateAdaptationComments: 'Climate Adaptation Comments',
-      },
-      budget: {
-        totalProjectCost: 1304020,
-        fundingRequest: 1200000,
-        otherFunding: [
-          {
-            fundingType: 'Type1',
-            amount: 100000,
-            description: 'Description1',
+          projectArea: {},
+          projectPlan: {},
+          projectEngagement: {},
+          climateAdaptation: {
+            // TODO: climateAdaptationScreener: response.climateAdaptationScreener,
+            climateAdaptation: response.climateAdaptation,
           },
-          {
-            fundingType: 'Type2',
-            amount: 200000,
-            description: 'Description2',
-          },
-        ],
-      },
-    };
+          permitsRegulationsAndStandards: {},
+          projectOutcomes: {},
+          projectRisks: {},
+          budget: {},
+          attachments: {},
+          declarations: {},
+          // permitsRegulationsAndStandards: {
+          //   ...response.permitsRegulationsAndStandards,
+          // },
+          // climateAdaptation: {
+          //   ...response.climateAdaptation,
+          // },
+          // budget: {
+          //   ...response.budget,
+          // },
+        };
 
-    // TODO: initiate DrifFpForm using API response
-    const formData: DrifFpForm = {
-      eoiId: response.eoiId,
-      fundingStream: response.fundingStream,
-      projectType: response.projectType,
-      proponentAndProjectInformationForm: {
-        ...response.proponentAndProjectInformationForm,
-      },
-      ownershipAndAuthorization: {
-        ...response.ownershipAndAuthorization,
-      },
-      permitsRegulationsAndStandards: {
-        ...response.permitsRegulationsAndStandards,
-      },
-      climateAdaptation: {
-        ...response.climateAdaptation,
-      },
-      budget: {
-        ...response.budget,
-      },
-    };
+        this.drifFpForm.patchValue(formData, { emitEvent: false });
 
-    this.drifFpForm.patchValue(formData, { emitEvent: false });
+        const partneringProponentsArray = this.getFormGroup(
+          'proponentAndProjectInformationForm'
+        ).get('partneringProponentsArray') as FormArray;
+        if (response.partneringProponents?.length! > 0) {
+          partneringProponentsArray.clear();
+        }
+        response.partneringProponents?.forEach((proponent) => {
+          partneringProponentsArray?.push(
+            this.formBuilder.formGroup(new StringItem({ value: proponent }))
+          );
+        });
 
-    const partneringProponentsArray = this.getFormGroup(
-      'proponentAndProjectInformationForm'
-    ).get('partneringProponentsArray') as FormArray;
-    if (
-      response.proponentAndProjectInformationForm.partneringProponents
-        ?.length! > 0
-    ) {
-      partneringProponentsArray.clear();
-    }
-    response.proponentAndProjectInformationForm.partneringProponents?.forEach(
-      (proponent) => {
-        partneringProponentsArray?.push(
-          this.formBuilder.formGroup(new StringItem({ value: proponent }))
-        );
-      }
-    );
+        const additionalContactsArray = this.getFormGroup(
+          'proponentAndProjectInformationForm'
+        ).get('additionalContacts') as FormArray;
+        if (response.additionalContacts?.length! > 0) {
+          additionalContactsArray.clear();
+        }
+        response.additionalContacts?.forEach((contact) => {
+          additionalContactsArray?.push(
+            this.formBuilder.formGroup(new ContactDetailsForm(contact))
+          );
+        });
 
-    const additionalContactsArray = this.getFormGroup(
-      'proponentAndProjectInformationForm'
-    ).get('additionalContacts') as FormArray;
-    if (
-      response.proponentAndProjectInformationForm.additionalContacts?.length! >
-      0
-    ) {
-      additionalContactsArray.clear();
-    }
-    response.proponentAndProjectInformationForm.additionalContacts?.forEach(
-      (contact) => {
-        additionalContactsArray?.push(
-          this.formBuilder.formGroup(new ContactDetailsForm(contact))
-        );
-      }
-    );
+        const fundingInformationItemFormArray = this.getFormGroup('budget').get(
+          'otherFunding'
+        ) as FormArray;
+        if (response.otherFunding?.length! > 0) {
+          fundingInformationItemFormArray.clear();
+        }
+        response.otherFunding?.forEach((funding) => {
+          fundingInformationItemFormArray?.push(
+            this.formBuilder.formGroup(new FundingInformationItemForm(funding))
+          );
+        });
 
-    const fundingInformationItemFormArray = this.getFormGroup('budget').get(
-      'otherFunding'
-    ) as FormArray;
-    if (response.budget.otherFunding?.length! > 0) {
-      fundingInformationItemFormArray.clear();
-    }
-    response.budget.otherFunding?.forEach((funding) => {
-      fundingInformationItemFormArray?.push(
-        this.formBuilder.formGroup(new FundingInformationItemForm(funding))
-      );
+        this.drifFpForm.markAsPristine();
+      },
+      error: (error) => {
+        this.hotToast.error('Failed to load application');
+      },
     });
-
-    this.drifFpForm.markAsPristine();
   }
 
   getFormGroup(groupName: string) {
@@ -341,8 +308,8 @@ export class DrifFpComponent {
     this.lastSavedAt = undefined;
     this.appService
       .dRIFApplicationUpdateFPApplication(this.id!, fpDraft)
-      .subscribe(
-        (response) => {
+      .subscribe({
+        next: (response) => {
           this.lastSavedAt = new Date();
 
           this.hotToast.close();
@@ -354,11 +321,11 @@ export class DrifFpComponent {
           this.formChanged = false;
           this.resetAutoSaveTimer();
         },
-        (error) => {
+        error: (error) => {
           this.hotToast.close();
           this.hotToast.error('Failed to save application');
-        }
-      );
+        },
+      });
   }
 
   submit() {}

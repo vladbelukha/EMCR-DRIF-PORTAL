@@ -34,3 +34,7 @@
   display: flex;
   justify-content: space-evenly;
 }
+
+::ng-deep .mat-step-text-label {
+  white-space: normal;
+}

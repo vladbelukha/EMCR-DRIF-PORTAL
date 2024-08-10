@@ -6,9 +6,11 @@
  */
 
 export * from './applicationResult';
+export * from './applicationType';
 export * from './attachment';
 export * from './configuration';
 export * from './contactDetails';
+export * from './dRIFApplicationCreateFPFromEOIParams';
 export * from './declarationInfo';
 export * from './declarationResult';
 export * from './declarationType';
@@ -34,3 +36,4 @@ export * from './proponentType';
 export * from './submission';
 export * from './submissionPortalStatus';
 export * from './versionInformation';
+export * from './yesNoOption';
