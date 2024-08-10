@@ -3,12 +3,12 @@
     <mat-label class="drr-label">{{ t("climateAdaptation") }}</mat-label>
     <mat-label>{{ t("climateAdaptationScreenerQuestion") }}*</mat-label>
     <drr-radio-button
-      [rxFormControl]="climateAdaptationForm.get('climateAdaptation')"
+      [rxFormControl]="climateAdaptationForm.get('climateAdaptationScreener')"
     ></drr-radio-button>
 
     <drr-textarea
       [label]="t('climateAdaptationText')"
-      [rxFormControl]="climateAdaptationForm.get('climateAdaptationComments')"
+      [rxFormControl]="climateAdaptationForm.get('climateAdaptation')"
     ></drr-textarea>
   </form>
 </div>

@@ -245,11 +245,11 @@ export class BudgetForm {
 export class ClimateAdaptationForm {
   @prop()
   @required()
-  climateAdaptation?: boolean;
+  climateAdaptationScreener?: boolean;
 
   @prop()
   @required()
-  climateAdaptationComments?: string;
+  climateAdaptation?: string;
 
   constructor(values: ClimateAdaptationForm) {
     Object.assign(this, values);

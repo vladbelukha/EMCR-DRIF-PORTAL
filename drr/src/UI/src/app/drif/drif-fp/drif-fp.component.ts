@@ -160,6 +160,10 @@ export class DrifFpComponent {
     }, 1000);
   }
 
+  ngOnDestroy() {
+    clearInterval(this.autoSaveTimer);
+  }
+
   load() {
     this.appService.dRIFApplicationGetFP(this.id!).subscribe({
       next: (response) => {
@@ -193,7 +197,10 @@ export class DrifFpComponent {
           projectArea: {},
           projectPlan: {},
           projectEngagement: {},
-          climateAdaptation: {},
+          climateAdaptation: {
+            // TODO: climateAdaptationScreener: response.climateAdaptationScreener,
+            climateAdaptation: response.climateAdaptation,
+          },
           permitsRegulationsAndStandards: {},
           projectOutcomes: {},
           projectRisks: {},
