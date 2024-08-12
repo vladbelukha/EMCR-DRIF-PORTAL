@@ -58,6 +58,13 @@ export class DrrChipAutocompleteComponent {
   filteredOptions?: Observable<string[]>;
 
   ngOnInit() {
+    this.rxFormControl.statusChanges.subscribe((status: any) => {
+      if (status === 'DISABLED') {
+        this.selectedOptions.update(() => []);
+        this.rxFormControl.setValue([], { emitEvent: false });
+      }
+    });
+
     if (this.rxFormControl.value?.length) {
       this.selectedOptions.update((standards) => [
         ...standards,

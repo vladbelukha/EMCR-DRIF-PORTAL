@@ -262,6 +262,8 @@ export class ProjectRisksForm {
   complexityRiskMitigated?: boolean;
 
   @prop()
+  @required()
+  @minLength({ value: 1 })
   complexityRisks?: string[];
 
   @prop()
@@ -272,6 +274,8 @@ export class ProjectRisksForm {
   readinessRiskMitigated?: boolean;
 
   @prop()
+  @required()
+  @minLength({ value: 1 })
   readinessRisks?: string[];
 
   @prop()
@@ -282,6 +286,8 @@ export class ProjectRisksForm {
   sensitivityRiskMitigated?: boolean;
 
   @prop()
+  @required()
+  @minLength({ value: 1 })
   sensitivityRisks?: string[];
 
   @prop()
@@ -292,6 +298,8 @@ export class ProjectRisksForm {
   capacityRiskMitigated?: boolean;
 
   @prop()
+  @required()
+  @minLength({ value: 1 })
   capacityRisks?: string[];
 
   @prop()
@@ -302,6 +310,8 @@ export class ProjectRisksForm {
   riskTransferMigigated?: boolean;
 
   @prop()
+  @required()
+  @minLength({ value: 1 })
   transferRisks?: string[];
 
   @prop()

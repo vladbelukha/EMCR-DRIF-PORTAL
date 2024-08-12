@@ -44,7 +44,57 @@ export class DrifFpStep9Component {
   capacityRiskOptions = Object.values(CapacityRisks);
   transferRisksOptions = Object.values(TransferRisks);
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.projectRisksForm
+      .get('complexityRiskMitigated')
+      ?.valueChanges.subscribe((value) => {
+        if (value === false) {
+          this.projectRisksForm.get('complexityRisks')?.disable();
+        } else {
+          this.projectRisksForm.get('complexityRisks')?.enable();
+        }
+      });
+
+    this.projectRisksForm
+      .get('readinessRiskMitigated')
+      ?.valueChanges.subscribe((value) => {
+        if (value === false) {
+          this.projectRisksForm.get('readinessRisks')?.disable();
+        } else {
+          this.projectRisksForm.get('readinessRisks')?.enable();
+        }
+      });
+
+    this.projectRisksForm
+      .get('sensitivityRiskMitigated')
+      ?.valueChanges.subscribe((value) => {
+        if (value === false) {
+          this.projectRisksForm.get('sensitivityRisks')?.disable();
+        } else {
+          this.projectRisksForm.get('sensitivityRisks')?.enable();
+        }
+      });
+
+    this.projectRisksForm
+      .get('capacityRiskMitigated')
+      ?.valueChanges.subscribe((value) => {
+        if (value === false) {
+          this.projectRisksForm.get('capacityRisks')?.disable();
+        } else {
+          this.projectRisksForm.get('capacityRisks')?.enable();
+        }
+      });
+
+    this.projectRisksForm
+      .get('riskTransferMigigated')
+      ?.valueChanges.subscribe((value) => {
+        if (value === false) {
+          this.projectRisksForm.get('transferRisks')?.disable();
+        } else {
+          this.projectRisksForm.get('transferRisks')?.enable();
+        }
+      });
+  }
 
   getFormControl(name: string) {
     return this.projectRisksForm.get(name) as FormControl;
