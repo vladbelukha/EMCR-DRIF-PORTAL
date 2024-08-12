@@ -1,5 +1,4 @@
-﻿using EMCR.DRR.API.Services;
-using EMCR.DRR.Managers.Intake;
+﻿using EMCR.DRR.Managers.Intake;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EMCR.DRR.Controllers
