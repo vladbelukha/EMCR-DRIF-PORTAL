@@ -162,7 +162,7 @@ namespace EMCR.DRR.Controllers
         public string? RationaleForFunding { get; set; }
         public EstimatedNumberOfPeople? EstimatedPeopleImpacted { get; set; }
         public string? CommunityImpact { get; set; }
-        public IEnumerable<string> InfrastructureImpacted { get; set; }
+        public IEnumerable<string>? InfrastructureImpacted { get; set; }
         public string? DisasterRiskUnderstanding { get; set; }
         public string? AdditionalBackgroundInformation { get; set; }
         public string? AddressRisksAndHazards { get; set; }
@@ -216,9 +216,9 @@ namespace EMCR.DRR.Controllers
         public bool? Approvals { get; set; }
         public string? ApprovalsComments { get; set; }
         public bool? ProfessionalGuidance { get; set; }
-        public IEnumerable<string> Professionals { get; set; }
+        public IEnumerable<string>? Professionals { get; set; }
         public YesNoOption? StandardsAcceptable {  get; set; }
-        public IEnumerable<string> Standards { get; set; }
+        public IEnumerable<string>? Standards { get; set; }
         public string? StandardsComments { get; set; }
         public bool? Regulations { get; set; }
         public string? RegulationsComments { get; set; }
@@ -234,7 +234,7 @@ namespace EMCR.DRR.Controllers
         //[Range(0, ApplicationValidators.FUNDING_MAX_VAL)]
         //public decimal? TotalProjectCost { get; set; }
 
-        public IEnumerable<Attachment> Attachments { get; set; }
+        public IEnumerable<Attachment>? Attachments { get; set; }
     }
 
     public class FpApplication : DraftFpApplication
