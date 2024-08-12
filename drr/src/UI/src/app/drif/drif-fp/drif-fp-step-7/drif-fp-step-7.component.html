@@ -32,6 +32,15 @@
       [rxFormControl]="permitsRegulationsAndStandardsForm.get('professionals')"
     ></drr-chip-autocomplete>
 
+    <drr-textarea
+      [label]="t('professionalGuidanceComments')"
+      [maxlength]="2000"
+      [rxFormControl]="
+        permitsRegulationsAndStandardsForm.get('professionalGuidanceComments')
+      "
+      [useTopLabel]="false"
+    ></drr-textarea>
+
     <mat-label class="drr-label">{{ t("standardsAcceptable") }}</mat-label>
     <mat-label>{{ t("standardsAcceptableQuestion") }}*</mat-label>
     <drr-radio-button

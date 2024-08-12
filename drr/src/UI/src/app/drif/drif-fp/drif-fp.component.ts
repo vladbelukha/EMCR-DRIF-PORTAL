@@ -302,7 +302,18 @@ export class DrifFpComponent {
     const drifFpForm = this.drifFpForm.getRawValue() as DrifFpForm;
 
     const fpDraft = {
-      // initialize draft object from form data
+      ...drifFpForm.proponentAndProjectInformationForm,
+      ...drifFpForm.ownershipAndAuthorization,
+      ...drifFpForm.projectArea,
+      ...drifFpForm.projectPlan,
+      ...drifFpForm.projectEngagement,
+      ...drifFpForm.climateAdaptation,
+      ...drifFpForm.permitsRegulationsAndStandards,
+      ...drifFpForm.projectOutcomes,
+      ...drifFpForm.projectRisks,
+      ...drifFpForm.budget,
+      ...drifFpForm.attachments,
+      ...drifFpForm.declarations,
     } as DraftFpApplication;
 
     this.lastSavedAt = undefined;
