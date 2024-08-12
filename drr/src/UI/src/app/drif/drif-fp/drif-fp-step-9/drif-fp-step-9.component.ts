@@ -89,6 +89,7 @@ export class DrifFpStep9Component {
       .get('riskTransferMigigated')
       ?.valueChanges.subscribe((value) => {
         if (value === false) {
+          this.projectRisksForm.get('transferRisks')?.setValue([]);
           this.projectRisksForm.get('transferRisks')?.disable();
         } else {
           this.projectRisksForm.get('transferRisks')?.enable();
