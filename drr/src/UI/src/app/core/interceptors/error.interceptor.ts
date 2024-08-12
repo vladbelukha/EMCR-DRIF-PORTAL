@@ -23,7 +23,10 @@ export const ErrorInterceptor = (
         //   break;
         case 403:
           router.navigate(['/']);
-          hotToast.error('You do not have permission to access this resource.');
+          hotToast.error(
+            'You do not have permission to access this resource.',
+            { autoClose: true, duration: 5000 }
+          );
           break;
         default:
           break;
