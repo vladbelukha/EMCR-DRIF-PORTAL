@@ -12,6 +12,7 @@ export type DraftFpApplicationAllOf = {
   approvals?: boolean;
   /** @nullable */
   approvalsComments?: string;
+  /** @nullable */
   attachments?: Attachment[];
   /** @nullable */
   authorityAndOwnership?: boolean;
@@ -35,6 +36,7 @@ export type DraftFpApplicationAllOf = {
   ownershipComments?: string;
   /** @nullable */
   professionalGuidance?: boolean;
+  /** @nullable */
   professionals?: string[];
   /** @nullable */
   regionalProject?: boolean;
@@ -44,6 +46,7 @@ export type DraftFpApplicationAllOf = {
   regulations?: boolean;
   /** @nullable */
   regulationsComments?: string;
+  /** @nullable */
   standards?: string[];
   /** @nullable */
   standardsAcceptable?: YesNoOption;

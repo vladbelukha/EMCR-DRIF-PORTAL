@@ -332,10 +332,56 @@ export class ProjectAreaForm {
   }
 }
 
+export class ProposedActivityForm {
+  @prop()
+  @required()
+  activityName?: string;
+
+  @prop()
+  @required()
+  activityStart?: string;
+
+  @prop()
+  @required()
+  activityEnd?: string;
+
+  @prop()
+  relatedMilestone?: string;
+
+  constructor(values: ProposedActivityForm) {
+    Object.assign(this, values);
+  }
+}
+
 export class ProjectPlanForm {
   @prop()
   @required()
   startDate?: string;
+
+  @prop()
+  @required()
+  endDate?: string;
+
+  @prop()
+  @required()
+  projectDescription?: string;
+
+  @propArray(ProposedActivityForm)
+  // TODO: @minLength({ value: 1}) doesn't work with object arrays?
+  proposedActivities?: ProposedActivityForm[] = [{}];
+
+  @prop()
+  @required()
+  @minLength({ value: 1 })
+  verificationMethods?: string[];
+
+  @prop()
+  @required()
+  verificationMethodsComments?: string;
+
+  @prop()
+  @required()
+  projectAlternateOptions?: string;
 
   constructor(values: ProjectPlanForm) {
     Object.assign(this, values);
