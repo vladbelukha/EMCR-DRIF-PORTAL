@@ -308,7 +308,7 @@ namespace EMCR.DRR.Resources.Applications
         {
             foreach (var infrastructure in application.drr_drr_application_drr_criticalinfrastructureimpacted_Application)
             {
-                if (infrastructure != null)
+                if (infrastructure != null && !string.IsNullOrEmpty(infrastructure.drr_name))
                 {
                     drrContext.AddTodrr_criticalinfrastructureimpacteds(infrastructure);
                     drrContext.AddLink(application, nameof(application.drr_drr_application_drr_criticalinfrastructureimpacted_Application), infrastructure);
@@ -321,7 +321,7 @@ namespace EMCR.DRR.Resources.Applications
         {
             foreach (var professional in application.drr_drr_application_drr_qualifiedprofessional_Application)
             {
-                if (professional != null)
+                if (professional != null && !string.IsNullOrEmpty(professional.drr_name))
                 {
                     drrContext.AddTodrr_qualifiedprofessionals(professional);
                     drrContext.AddLink(application, nameof(application.drr_drr_application_drr_qualifiedprofessional_Application), professional);
