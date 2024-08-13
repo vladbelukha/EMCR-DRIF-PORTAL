@@ -292,15 +292,17 @@ export class EOIApplicationComponent {
           const infrastructureImpactedArray = this.getFormGroup(
             'projectDetails'
           ).get('infrastructureImpactedArray') as FormArray;
-          if (application.infrastructureImpacted?.length! > 0) {
+          if (application.infrastructureImpacted?.some((i) => i)) {
             infrastructureImpactedArray.clear();
           }
           application.infrastructureImpacted?.forEach((infrastructure) => {
-            infrastructureImpactedArray?.push(
-              this.formBuilder.formGroup(
-                new StringItem({ value: infrastructure })
-              )
-            );
+            if (infrastructure) {
+              infrastructureImpactedArray?.push(
+                this.formBuilder.formGroup(
+                  new StringItem({ value: infrastructure })
+                )
+              );
+            }
           });
 
           this.eoiApplicationForm.markAsPristine();
