@@ -195,7 +195,11 @@ export class DrifFpComponent {
               response.authorizationOrEndorsementComments,
           },
           projectArea: {},
-          projectPlan: {},
+          projectPlan: {
+            startDate: response.startDate,
+            endDate: response.endDate,
+            // TODO: projectDescription: response.projectDescription,
+          },
           projectEngagement: {},
           climateAdaptation: {
             // TODO: climateAdaptationScreener: response.climateAdaptationScreener,
@@ -207,15 +211,6 @@ export class DrifFpComponent {
           budget: {},
           attachments: {},
           declarations: {},
-          // permitsRegulationsAndStandards: {
-          //   ...response.permitsRegulationsAndStandards,
-          // },
-          // climateAdaptation: {
-          //   ...response.climateAdaptation,
-          // },
-          // budget: {
-          //   ...response.budget,
-          // },
         };
 
         this.drifFpForm.patchValue(formData, { emitEvent: false });
@@ -243,6 +238,18 @@ export class DrifFpComponent {
             this.formBuilder.formGroup(new ContactDetailsForm(contact))
           );
         });
+
+        const proposedActivitiesArray = this.getFormGroup('projectPlan').get(
+          'proposedActivities'
+        ) as FormArray;
+        // if (response.proposedActivities?.length! > 0) {
+        //   proposedActivitiesArray.clear();
+        // }
+        // response.proposedActivities?.forEach((activity) => {
+        //   proposedActivitiesArray?.push(
+        //     this.formBuilder.formGroup(new StringItem({ value: activity }))
+        //   );
+        // });
 
         const fundingInformationItemFormArray = this.getFormGroup('budget').get(
           'otherFunding'
