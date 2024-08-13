@@ -17,7 +17,7 @@ namespace EMCR.DRR.Controllers
             }
             catch (Exception e)
             {
-                return errorParser.Parse(e);
+                return errorParser.Parse(e, logger);
             }
         }
 
@@ -34,7 +34,7 @@ namespace EMCR.DRR.Controllers
             }
             catch (Exception e)
             {
-                return errorParser.Parse(e);
+                return errorParser.Parse(e, logger);
             }
         }
 
@@ -52,7 +52,7 @@ namespace EMCR.DRR.Controllers
             }
             catch (Exception e)
             {
-                return errorParser.Parse(e);
+                return errorParser.Parse(e, logger);
             }
         }
 
@@ -69,7 +69,7 @@ namespace EMCR.DRR.Controllers
             }
             catch (Exception e)
             {
-                return errorParser.Parse(e);
+                return errorParser.Parse(e, logger);
             }
         }
 
@@ -87,7 +87,7 @@ namespace EMCR.DRR.Controllers
             }
             catch (Exception e)
             {
-                return errorParser.Parse(e);
+                return errorParser.Parse(e, logger);
             }
         }
     }

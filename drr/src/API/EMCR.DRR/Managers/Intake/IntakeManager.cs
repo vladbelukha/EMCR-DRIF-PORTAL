@@ -37,6 +37,8 @@ namespace EMCR.DRR.Managers.Intake
                 EoiSaveApplicationCommand c => await Handle(c),
                 EoiSubmitApplicationCommand c => await Handle(c),
                 CreateFpFromEoiCommand c => await Handle(c),
+                FpSaveApplicationCommand c => await Handle(c),
+                FpSubmitApplicationCommand c => await Handle(c),
                 _ => throw new NotSupportedException($"{cmd.GetType().Name} is not supported")
             };
         }
@@ -84,6 +86,31 @@ namespace EMCR.DRR.Managers.Intake
 
             var res = (await caseRepository.Manage(new GenerateFpFromEoi { EoiId = cmd.EoiId })).Id;
             return res;
+        }
+
+        public async Task<string> Handle(FpSaveApplicationCommand cmd)
+        {
+            var canAccess = await CanAccessApplication(cmd.application.Id, cmd.UserInfo.BusinessId);
+            if (!canAccess) throw new ForbiddenException("Not allowed to access this application.");
+            var application = mapper.Map<Application>(cmd.application);
+            application.BCeIDBusinessId = cmd.UserInfo.BusinessId;
+            application.ProponentName = cmd.UserInfo.BusinessName;
+            if (application.Submitter != null) application.Submitter.BCeId = cmd.UserInfo.UserId;
+            var id = (await applicationRepository.Manage(new SubmitApplication { Application = application })).Id;
+            return id;
+        }
+
+        public async Task<string> Handle(FpSubmitApplicationCommand cmd)
+        {
+            var canAccess = await CanAccessApplication(cmd.application.Id, cmd.UserInfo.BusinessId);
+            if (!canAccess) throw new ForbiddenException("Not allowed to access this application.");
+            var application = mapper.Map<Application>(cmd.application);
+            application.BCeIDBusinessId = cmd.UserInfo.BusinessId;
+            application.ProponentName = cmd.UserInfo.BusinessName;
+            application.SubmittedDate = DateTime.UtcNow;
+            if (application.Submitter != null) application.Submitter.BCeId = cmd.UserInfo.UserId;
+            var id = (await applicationRepository.Manage(new SubmitApplication { Application = application })).Id;
+            return id;
         }
 
         public async Task<DeclarationQueryResult> Handle(DeclarationQuery _)

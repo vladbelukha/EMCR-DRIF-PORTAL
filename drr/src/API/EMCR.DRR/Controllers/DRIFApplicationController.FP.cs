@@ -1,4 +1,5 @@
-﻿using EMCR.DRR.Managers.Intake;
+﻿using EMCR.DRR.API.Model;
+using EMCR.DRR.Managers.Intake;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EMCR.DRR.Controllers
@@ -16,7 +17,7 @@ namespace EMCR.DRR.Controllers
             }
             catch (Exception e)
             {
-                return errorParser.Parse(e);
+                return errorParser.Parse(e, logger);
             }
         }
 
@@ -31,7 +32,7 @@ namespace EMCR.DRR.Controllers
             }
             catch (Exception e)
             {
-                return errorParser.Parse(e);
+                return errorParser.Parse(e, logger);
             }
         }
 
@@ -40,18 +41,16 @@ namespace EMCR.DRR.Controllers
         {
             try
             {
-                //application.Id = id;
-                //application.Status = SubmissionPortalStatus.Draft;
-                //application.AdditionalContacts = MapAdditionalContacts(application);
+                application.Id = id;
+                application.Status = SubmissionPortalStatus.Draft;
+                application.AdditionalContacts = MapAdditionalContacts(application);
 
-                //var drr_id = await intakeManager.Handle(new DrifFpApplicationCommand { application = mapper.Map<FpApplication>(application), UserInfo = GetCurrentUser() });
-                //return Ok(new ApplicationResult { Id = drr_id });
-                await Task.CompletedTask;
-                return Ok(new ApplicationResult { Id = "DRIF-FP-1000" });
+                var drr_id = await intakeManager.Handle(new FpSaveApplicationCommand { application = mapper.Map<FpApplication>(application), UserInfo = GetCurrentUser() });
+                return Ok(new ApplicationResult { Id = drr_id });
             }
             catch (Exception e)
             {
-                return errorParser.Parse(e);
+                return errorParser.Parse(e, logger);
             }
         }
 
@@ -60,18 +59,16 @@ namespace EMCR.DRR.Controllers
         {
             try
             {
-                //application.Id = id;
-                //application.Status = SubmissionPortalStatus.UnderReview;
-                //application.AdditionalContacts = MapAdditionalContacts(application);
+                application.Id = id;
+                application.Status = SubmissionPortalStatus.UnderReview;
+                application.AdditionalContacts = MapAdditionalContacts(application);
 
-                //var drr_id = await intakeManager.Handle(new DrifFpApplicationCommand { application = application, UserInfo = GetCurrentUser() });
-                //return Ok(new ApplicationResult { Id = drr_id });
-                await Task.CompletedTask;
-                return Ok(new ApplicationResult { Id = "DRIF-FP-1000" });
+                var drr_id = await intakeManager.Handle(new FpSubmitApplicationCommand { application = application, UserInfo = GetCurrentUser() });
+                return Ok(new ApplicationResult { Id = drr_id });
             }
             catch (Exception e)
             {
-                return errorParser.Parse(e);
+                return errorParser.Parse(e, logger);
             }
         }
     }
