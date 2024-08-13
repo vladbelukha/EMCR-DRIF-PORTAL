@@ -154,6 +154,11 @@ namespace EMCR.DRR.Resources.Applications
                 ctx.AttachTo(nameof(ctx.drr_criticalinfrastructureimpacteds), infrastructure);
                 ctx.DeleteObject(infrastructure);
             }
+            foreach (var professional in drrApplication.drr_drr_application_drr_qualifiedprofessional_Application)
+            {
+                ctx.AttachTo(nameof(ctx.drr_qualifiedprofessionals), professional);
+                ctx.DeleteObject(professional);
+            }
             foreach (var standard in drrApplication.drr_drr_application_drr_provincialstandarditem_Application)
             {
                 ctx.AttachTo(nameof(ctx.drr_provincialstandarditems), standard);
@@ -184,6 +189,7 @@ namespace EMCR.DRR.Resources.Applications
                 new List<drr_provincialstandard>();
 
             AddProvincialStandards(ctx, drrApplication, standardsMasterList);
+            AddQualifiedProfessionals(ctx, drrApplication);
             SetApplicationType(ctx, drrApplication, application.ApplicationTypeName);
             SetProgram(ctx, drrApplication, application.ProgramName);
             await SetDeclarations(ctx, drrApplication);
@@ -311,6 +317,19 @@ namespace EMCR.DRR.Resources.Applications
             }
         }
 
+        private static void AddQualifiedProfessionals(DRRContext drrContext, drr_application application)
+        {
+            foreach (var professional in application.drr_drr_application_drr_qualifiedprofessional_Application)
+            {
+                if (professional != null)
+                {
+                    drrContext.AddTodrr_qualifiedprofessionals(professional);
+                    drrContext.AddLink(application, nameof(application.drr_drr_application_drr_qualifiedprofessional_Application), professional);
+                    drrContext.SetLink(professional, nameof(professional.drr_Application), application);
+                }
+            }
+        }
+
         private static void AddProvincialStandards(DRRContext drrContext, drr_application application, List<drr_provincialstandard> standardsMasterList)
         {
             foreach (var standard in application.drr_drr_application_drr_provincialstandarditem_Application)
@@ -371,6 +390,7 @@ namespace EMCR.DRR.Resources.Applications
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_application_contact_Application), ct),
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_application_fundingsource_Application), ct),
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_drr_application_drr_criticalinfrastructureimpacted_Application), ct),
+                    ctx.LoadPropertyAsync(application, nameof(drr_application.drr_drr_application_drr_qualifiedprofessional_Application), ct),
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_drr_application_drr_provincialstandarditem_Application), ct),
                 }).ToList();
             }

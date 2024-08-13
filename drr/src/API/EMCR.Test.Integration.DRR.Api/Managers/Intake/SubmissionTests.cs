@@ -48,7 +48,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             var id = await manager.Handle(new EoiSubmitApplicationCommand { application = application, UserInfo = GetTestUserInfo() });
             id.ShouldNotBeEmpty();
 
-            var savedApplication = (await manager.Handle(new DrrApplicationsQuery { Id = id })).Items.SingleOrDefault();
+            var savedApplication = (await manager.Handle(new DrrApplicationsQuery { Id = id, BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault();
             savedApplication.Id.ShouldBe(id);
             savedApplication.AuthorizedRepresentativeStatement.ShouldBe(true);
             savedApplication.FOIPPAConfirmation.ShouldBe(true);
@@ -113,7 +113,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             id.ShouldNotBeEmpty();
 
 
-            var savedApplication = (await manager.Handle(new DrrApplicationsQuery { Id = id })).Items.SingleOrDefault();
+            var savedApplication = (await manager.Handle(new DrrApplicationsQuery { Id = id, BusinessId = userInfo.BusinessId })).Items.SingleOrDefault();
             savedApplication.Id.ShouldBe(id);
             savedApplication.OwnershipDeclaration.ShouldBeNull();
             savedApplication.AuthorizedRepresentativeStatement.ShouldBe(false);
@@ -160,8 +160,36 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             var fpId = await manager.Handle(new CreateFpFromEoiCommand { EoiId = eoiId, UserInfo = GetTestUserInfo() });
             fpId.ShouldNotBeEmpty();
 
-            var fullProposal = (await manager.Handle(new DrrApplicationsQuery { Id = fpId })).Items.SingleOrDefault();
+            var fullProposal = (await manager.Handle(new DrrApplicationsQuery { Id = fpId, BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault();
             fullProposal.Id.ShouldBe(fpId);
+        }
+
+        [Test]
+        public async Task CanUpdateFp()
+        {
+            var eoi = mapper.Map<EoiApplication>(CreateNewTestEOIApplication());
+            eoi.Status = SubmissionPortalStatus.EligibleInvited;
+            eoi.AuthorizedRepresentativeStatement = true;
+            eoi.FOIPPAConfirmation = true;
+            eoi.InformationAccuracyStatement = true;
+
+            var eoiId = await manager.Handle(new EoiSubmitApplicationCommand { application = eoi, UserInfo = GetTestUserInfo() });
+            eoiId.ShouldNotBeEmpty();
+
+            var fpId = await manager.Handle(new CreateFpFromEoiCommand { EoiId = eoiId, UserInfo = GetTestUserInfo() });
+            fpId.ShouldNotBeEmpty();
+
+            var fullProposal = (await manager.Handle(new DrrApplicationsQuery { Id = fpId, BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault();
+            fullProposal.Id.ShouldBe(fpId);
+
+            var fpToUpdate = FillInFullProposal(mapper.Map<DraftFpApplication>(fullProposal));
+            await manager.Handle(new FpSaveApplicationCommand { application = mapper.Map<FpApplication>(fpToUpdate), UserInfo = GetTestUserInfo() });
+
+            var updatedFp = (await manager.Handle(new DrrApplicationsQuery { Id = fpId, BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault();
+            updatedFp.RegionalProject.ShouldBe(true);
+            updatedFp.Standards.ShouldContain(s => s.Name == "Standard 1");
+            updatedFp.Professionals.ShouldContain(p => p.Name == "professional1");
+            updatedFp.LocalGovernmentEndorsement.ShouldBe(EMCR.DRR.Managers.Intake.YesNoOption.NotApplicable);
         }
 
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
@@ -261,6 +289,31 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
                 //FOIPPAConfirmation = true,
                 //AuthorizedRepresentativeStatement = true
             };
+        }
+
+        private DraftFpApplication FillInFullProposal(DraftFpApplication application)
+        {
+            application.RegionalProject = true;
+            application.RegionalProjectComments = "regional comments";
+            application.AuthorityAndOwnership = true;
+            application.AuthorityAndOwnershipComments = "authority and ownership comments";
+            application.OperationAndMaintenance = EMCR.DRR.Controllers.YesNoOption.Yes;
+            application.OperationAndMaintenanceComments = "operation and maint. comments";
+            application.FirstNationsEndorsement = EMCR.DRR.Controllers.YesNoOption.No;
+            application.LocalGovernmentEndorsement = EMCR.DRR.Controllers.YesNoOption.NotApplicable;
+            application.AuthorizationOrEndorsementComments = "authority or endorsement comments";
+            application.Approvals = false;
+            application.ApprovalsComments = "approvals comments";
+            application.ProfessionalGuidance = false;
+            application.Professionals = new[] { "professional1", "professional2" };
+            application.ProfessionalGuidanceComments = "professional guidance comments";
+            application.StandardsAcceptable = EMCR.DRR.Controllers.YesNoOption.NotApplicable;
+            application.Standards = new[] { "Standard 1", "Standard 2" };
+            application.StandardsComments = "professional guidance comments";
+            application.Regulations = false;
+            application.RegulationsComments = "regulations comments";
+
+            return application;
         }
 
         private EMCR.DRR.Controllers.ContactDetails CreateNewTestContact(string uniqueSignature, string namePrefix)

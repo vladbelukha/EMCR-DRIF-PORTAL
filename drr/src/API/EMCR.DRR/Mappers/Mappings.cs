@@ -10,7 +10,14 @@ namespace EMCR.DRR.API.Mappers
     {
         public Mappings()
         {
-            CreateMap<DraftEoiApplication, EoiApplication>();
+            CreateMap<DraftEoiApplication, EoiApplication>()
+                .ForMember(dest => dest.AuthorizedRepresentativeStatement, opt => opt.Ignore())
+                .ForMember(dest => dest.FOIPPAConfirmation, opt => opt.Ignore())
+                .ForMember(dest => dest.InformationAccuracyStatement, opt => opt.Ignore())
+                ;
+
+            CreateMap<DraftFpApplication, FpApplication>()
+                ;
 
             CreateMap<Managers.Intake.Application, Submission>()
                 .ForMember(dest => dest.ApplicationType, opt => opt.MapFrom(src => DRRApplicationTypeMapper(src.ApplicationTypeName)))

@@ -115,6 +115,13 @@ namespace EMCR.DRR.Resources.Applications
         No = 172580001
     }
 
+    public enum DRRYesNoNotApplicable
+    {
+        Yes = 172580000,
+        No = 172580001,
+        NotApplicable = 172580002
+    }
+
     public enum ApplicationStatusOptionSet
     {
         DraftStaff = 1,

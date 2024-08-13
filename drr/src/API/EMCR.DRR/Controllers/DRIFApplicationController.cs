@@ -53,7 +53,7 @@ namespace EMCR.DRR.Controllers
             }
             catch (Exception e)
             {
-                return errorParser.Parse(e);
+                return errorParser.Parse(e, logger);
             }
         }
 
@@ -67,7 +67,7 @@ namespace EMCR.DRR.Controllers
             }
             catch (Exception e)
             {
-                return errorParser.Parse(e);
+                return errorParser.Parse(e, logger);
             }
         }
 
@@ -202,8 +202,8 @@ namespace EMCR.DRR.Controllers
         public string? RegionalProjectComments { get; set; }
 
         //Ownership & Authorization - 2
-        public bool? Ownership { get; set; }
-        public string? OwnershipComments { get; set; }
+        //public bool? Ownership { get; set; }
+        //public string? OwnershipComments { get; set; }
         public bool? AuthorityAndOwnership { get; set; }
         public string? AuthorityAndOwnershipComments { get; set; }
         public YesNoOption? OperationAndMaintenance { get; set; }
@@ -212,16 +212,27 @@ namespace EMCR.DRR.Controllers
         public YesNoOption? LocalGovernmentEndorsement { get; set; }
         public string? AuthorizationOrEndorsementComments { get; set; }
 
+        //Project Area - 3
+
+        //Project Plan - 4
+
+        //Project Engagement - 5
+
+        //Climate Adaptation - 6
+
         //Permits Regulations & Standards - 7
         public bool? Approvals { get; set; }
         public string? ApprovalsComments { get; set; }
         public bool? ProfessionalGuidance { get; set; }
         public IEnumerable<string>? Professionals { get; set; }
+        public string? ProfessionalGuidanceComments { get; set; }
         public YesNoOption? StandardsAcceptable {  get; set; }
         public IEnumerable<string>? Standards { get; set; }
         public string? StandardsComments { get; set; }
         public bool? Regulations { get; set; }
         public string? RegulationsComments { get; set; }
+
+        //Project Outcomes - 8
 
         //Project Risks - 9
         //public bool? ProjectComplexity { get; set; }
@@ -234,7 +245,10 @@ namespace EMCR.DRR.Controllers
         //[Range(0, ApplicationValidators.FUNDING_MAX_VAL)]
         //public decimal? TotalProjectCost { get; set; }
 
+        //Attachments - 11
         public IEnumerable<Attachment>? Attachments { get; set; }
+
+        //Review & Declaration - 12
     }
 
     public class FpApplication : DraftFpApplication
