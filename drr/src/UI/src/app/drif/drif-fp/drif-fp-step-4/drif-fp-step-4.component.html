@@ -1,7 +1,7 @@
 <div class="drr-step-container" *transloco="let t">
   <form [formGroup]="projectPlanForm">
     <span style="display: flex; align-items: center">
-      <mat-icon style="color: grey">info</mat-icon>
+      <mat-icon style="color: #96c0e6" [inline]="true">info</mat-icon>
       <i style="margin-left: 1rem">{{ t("projectPlanDisclaimer") }}</i>
     </span>
     <mat-label class="drr-label" style="margin-top: 1rem">{{
@@ -23,7 +23,9 @@
       ></drr-datepicker>
     </div>
 
-    <mat-label class="drr-label">{{ t("projectDescription") }}</mat-label>
+    <mat-label class="drr-label" style="margin-top: 1rem">{{
+      t("projectDescription")
+    }}</mat-label>
     <drr-textarea
       [label]="t('projectDescriptionText')"
       [maxlength]="2000"
@@ -33,7 +35,10 @@
 
     <mat-label class="drr-label">{{ t("proposedActivities") }}</mat-label>
     <mat-label>{{ t("proposedActivitiesText") }}</mat-label>
-    <i>{{ t("proposedActivitiesDisclaimer") }}</i>
+    <span style="display: flex; align-items: center">
+      <mat-icon style="color: #96c0e6" [inline]="true">info</mat-icon>
+      <i style="margin-left: 1rem">{{ t("proposedActivitiesDisclaimer") }}</i>
+    </span>
     <div class="proposed-activity-container">
       @for (activity of getActivitiesFormArray().controls; track $index) {
       <div class="proposed-activities-item">
@@ -79,5 +84,30 @@
         {{ t("addActivity") }}
       </button>
     </div>
+
+    <mat-label class="drr-label" style="margin-top: 1rem">{{
+      t("verification")
+    }}</mat-label>
+    <drr-select
+      class="drr-single-input"
+      [label]="t('verificationMethods')"
+      [rxFormControl]="projectPlanForm.get('verificationMethods')"
+      [options]="verificationMethodOptions"
+      [isMultiple]="true"
+    ></drr-select>
+    <drr-textarea
+      [label]="t('verificationMethodsComments')"
+      [maxlength]="2000"
+      [rxFormControl]="projectPlanForm.get('verificationMethodsComments')"
+      [useTopLabel]="true"
+    ></drr-textarea>
+
+    <mat-label class="drr-label">{{ t("projectAlternates") }}</mat-label>
+    <drr-textarea
+      [label]="t('projectAlternatesText')"
+      [maxlength]="2000"
+      [rxFormControl]="projectPlanForm.get('projectAlternateOptions')"
+      [useTopLabel]="true"
+    ></drr-textarea>
   </form>
 </div>

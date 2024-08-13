@@ -373,11 +373,11 @@ export class ProjectPlanForm {
   @prop()
   @required()
   @minLength({ value: 1 })
-  projectReasons?: string[];
+  verificationMethods?: string[];
 
   @prop()
   @required()
-  projectReasonsComments?: string;
+  verificationMethodsComments?: string;
 
   @prop()
   @required()

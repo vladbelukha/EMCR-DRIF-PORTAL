@@ -254,5 +254,10 @@
   "proposedActivitiesDisclaimer": "Please ensure this aligns with your Project Schedule and/or Workplan.",
   "activityName": "Proposed Activity",
   "relatedMilstone": "Related Milestone (if applicable)",
-  "addActivity": "Add additional activity"
+  "addActivity": "Add additional activity",
+  "verification": "Verification",
+  "verificationMethods": "How was the need for the project identified?",
+  "verificationMethodsComments": "Explain need for project",
+  "projectAlternates": "Project Alternates",
+  "projectAlternatesText": "To what extent were alternate project options considered?"
 }

@@ -43,6 +43,8 @@ export class DrifFpStep4Component {
   minStartDate = new Date();
   minEndDate = new Date();
 
+  verificationMethodOptions = ['Method 1', 'Method 2', 'Method 3'];
+
   ngOnInit() {
     this.projectPlanForm.get('startDate')?.valueChanges.subscribe((date) => {
       if (!DateTime.isDateTime(date)) {
