@@ -89,11 +89,18 @@ export class DrifEoiStep3Component {
         this.calculateRemainingAmount();
       });
 
+    if (this.fundingInformationForm.get('haveOtherFunding')?.value !== true) {
+      this.getFormArray('otherFunding').clear();
+      this.getFormArray('otherFunding').disable();
+    }
     this.fundingInformationForm
       .get('haveOtherFunding')
       ?.valueChanges.subscribe((value) => {
         if (value) {
           this.getFormArray('otherFunding').enable();
+          this.getFormArray('otherFunding').push(
+            this.formBuilder.formGroup(FundingInformationItemForm)
+          );
         } else {
           this.getFormArray('otherFunding').clear();
           this.getFormArray('otherFunding').disable();

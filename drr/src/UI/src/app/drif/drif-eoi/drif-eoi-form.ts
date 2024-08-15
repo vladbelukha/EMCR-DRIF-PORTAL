@@ -178,7 +178,7 @@ export class FundingInformationForm {
   haveOtherFunding?: boolean;
 
   @propArray(FundingInformationItemForm)
-  otherFunding?: FundingInformationItemForm[] = [{}];
+  otherFunding?: FundingInformationItemForm[] = [];
 
   @prop()
   @minNumber({ value: 0 })
