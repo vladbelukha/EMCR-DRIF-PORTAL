@@ -21,65 +21,24 @@
     ></drr-currency-input>
 
     <mat-label class="drr-label">{{ t("otherFunding") }}</mat-label>
-    <div formArrayName="otherFunding">
-      <div
-        class="funding-sources-container"
-        *ngFor="
-          let otherFunding of getFormArray('otherFunding').controls;
-          let i = index
-        "
-        [formGroupName]="i"
-      >
-        <drr-currency-input
-          class="drr-single-input"
-          [id]="'otherFunding_amount_' + i"
-          [label]="t('amount')"
-          [rxFormControl]="otherFunding.get('amount')"
-          [max]="1000000000"
-        ></drr-currency-input>
 
-        <drr-input
-          class="drr-single-input"
-          [id]="'otherFunding_name_' + i"
-          [label]="t('name')"
-          [rxFormControl]="otherFunding.get('name')"
-          [maxlength]="100"
-        ></drr-input>
-        <drr-select
-          class="other-grants-input"
-          [id]="'otherFunding_type_' + i"
-          [label]="t('type')"
-          [rxFormControl]="getArrayFormControl('type', 'otherFunding', i)"
-          [options]="fundingTypeOptions"
-          (selectionChange)="setFundingTypeDesctiption($event, i)"
-        ></drr-select>
-        <drr-input
-          class="other-grants-input"
-          *ngIf="hasOtherGrants(otherFunding.get('type')?.value)"
-          [id]="'otherFunding_description_' + i"
-          [label]="t('otherDescription')"
-          [rxFormControl]="
-            getArrayFormControl('otherDescription', 'otherFunding', i)
-          "
-          [maxlength]="100"
-        ></drr-input>
-        <button mat-mini-fab color="warn" (click)="removeOtherSource(i)">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </div>
-      <button
-        id="addOtherFundingButton"
-        style="margin-top: 10px"
-        [style.padding]="isMobile ? '24px 16px' : ''"
-        mat-stroked-button
-        type="button"
-        color="primary"
-        (click)="addOtherFunding()"
+    <mat-radio-group formControlName="haveOtherFunding" class="drr-radio-group">
+      <mat-error
+        *ngIf="
+          fundingInformationForm.get('haveOtherFunding')?.touched &&
+          fundingInformationForm.get('haveOtherFunding')?.hasError('required')
+        "
+        >{{ t("required") }}</mat-error
       >
-        <mat-icon>add</mat-icon>
-        {{ t("addOtherFunding") }}
-      </button>
-    </div>
+
+      <mat-radio-button [value]="true">Yes</mat-radio-button>
+      <mat-radio-button [value]="false">No</mat-radio-button>
+    </mat-radio-group>
+
+    <drr-funding-list
+      [fundingFormArray]="getFormArray('otherFunding')"
+    ></drr-funding-list>
+
     <mat-label class="drr-label" style="margin-top: 10px">{{
       getRemainingAmount() > 0
         ? t("missingFundsLabel")
