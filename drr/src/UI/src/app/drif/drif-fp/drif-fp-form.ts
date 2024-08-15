@@ -393,6 +393,27 @@ export class ProjectEngagementForm {
   @required()
   firstNationsEngagement?: boolean;
 
+  @prop()
+  @required()
+  firstNationsEngagementComments?: string;
+
+  @prop()
+  @required()
+  otherEngagement?: YesNoOption;
+
+  @prop()
+  @required()
+  @minLength({ value: 1 })
+  affectedParties?: string[] = [];
+
+  @prop()
+  @required()
+  otherEngagementComments?: string;
+
+  @prop()
+  @required()
+  collaborationComments?: string;
+
   constructor(values: ProjectEngagementForm) {
     Object.assign(this, values);
   }
