@@ -157,6 +157,14 @@ export class DrifEoiViewComponent {
     return this.eoiApplicationForm?.get(groupName) as RxFormGroup;
   }
 
+  createFP() {
+    this.router.navigate(['/drif-fp-instructions', this.id], {
+      queryParams: {
+        fundingStream: this.eoiApplicationForm?.value?.projectInformation?.fundingStream,
+      },
+    });
+  }
+
   goBack() {
     this.router.navigate(['/dashboard']);
   }

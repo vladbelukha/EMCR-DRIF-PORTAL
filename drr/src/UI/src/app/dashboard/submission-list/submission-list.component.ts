@@ -103,9 +103,6 @@ export class SubmissionListComponent {
   createFullProposal(submission: Submission, event: Event) {
     event.preventDefault();
 
-    // TODO: remove after API integration
-    submission.fundingStream = FundingStream.Stream2;
-
     this.router.navigate(['/drif-fp-instructions', submission.id], {
       queryParams: {
         fundingStream: submission.fundingStream,
