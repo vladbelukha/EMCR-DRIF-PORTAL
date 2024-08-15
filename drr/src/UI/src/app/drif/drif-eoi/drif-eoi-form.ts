@@ -173,8 +173,12 @@ export class FundingInformationForm {
   @maxNumber({ value: 999999999.99 })
   fundingRequest?: number;
 
+  @prop()
+  @required()
+  haveOtherFunding?: boolean;
+
   @propArray(FundingInformationItemForm)
-  otherFunding?: FundingInformationItemForm[] = [{}];
+  otherFunding?: FundingInformationItemForm[] = [];
 
   @prop()
   @minNumber({ value: 0 })
