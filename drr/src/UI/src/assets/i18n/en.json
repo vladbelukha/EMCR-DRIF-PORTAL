@@ -259,5 +259,15 @@
   "verificationMethods": "How was the need for the project identified?",
   "verificationMethodsComments": "Explain need for project",
   "projectAlternates": "Project Alternates",
-  "projectAlternatesText": "To what extent were alternate project options considered?"
+  "projectAlternatesText": "To what extent were alternate project options considered?",
+  "fpFirstNationsEngagement": "First Nations Engagement",
+  "firstNationsEngagementText": "Engagement with local First Nations communities and organizations before proposal development and throughout the project is mandatory to ensure that concerns related to downstream project impacts, vulnerability, equity denied populations, and reconciliation are appropriately raised and addressed.",
+  "firstNationsEngagementQuestion": "Have you meaningfully engaged with local First Nations regarding this project proposal?",
+  "firstNationsEngagementComments": "Describe engagement",
+  "otherEngagement": "Other Engagement",
+  "otherEngagementText": "Have you effectively engaged with neighbouring jurisdictions, and other impacted or affected parties (e.g., equity organizations, agricultural sector, critical infrastructure owners) as appropriate for the project?",
+  "affectedParties": "List impacted or affected parties that have been engaged with",
+  "otherEngagementComments": "Describe engagement",
+  "collaboration": "Collaboration",
+  "collaborationComments": "How does the proposed project contribute to a comprehensive, cooperative, and regional approach? Include a description of how current and potential partnerships will be included in the proposed project (if applicable)"
 }

@@ -1,1 +1,46 @@
-<p>drif-fp-step-5 works!</p>
+<div class="drr-step-container" *transloco="let t">
+  <form [formGroup]="projectEngagementForm">
+    <mat-label class="drr-label">{{ t("fpFirstNationsEngagement") }}</mat-label>
+    <mat-label>{{ t("firstNationsEngagementText") }}</mat-label>
+    <drr-radio-button
+      style="margin-top: 1rem"
+      [label]="t('firstNationsEngagementQuestion')"
+      [rxFormControl]="projectEngagementForm.get('firstNationsEngagement')"
+    ></drr-radio-button>
+    <drr-textarea
+      [label]="t('firstNationsEngagementComments')"
+      [rxFormControl]="
+        projectEngagementForm.get('firstNationsEngagementComments')
+      "
+      [maxlength]="2000"
+      [useTopLabel]="false"
+    ></drr-textarea>
+
+    <mat-label class="drr-label">{{ t("otherEngagement") }}</mat-label>
+    <mat-label>{{ t("otherEngagementText") }}</mat-label>
+    <drr-radio-button
+      style="margin-top: 1rem"
+      [rxFormControl]="projectEngagementForm.get('otherEngagement')"
+      [options]="otherEngagementOptions"
+    ></drr-radio-button>
+    <drr-chip-autocomplete
+      [label]="t('affectedParties')"
+      [rxFormControl]="projectEngagementForm.get('affectedParties')"
+      [options]="affectedParties"
+    ></drr-chip-autocomplete>
+    <drr-textarea
+      [label]="t('otherEngagementComments')"
+      [rxFormControl]="projectEngagementForm.get('otherEngagementComments')"
+      [maxlength]="2000"
+      [useTopLabel]="false"
+    ></drr-textarea>
+
+    <mat-label class="drr-label">{{ t("collaboration") }}</mat-label>
+    <drr-textarea
+      [label]="t('collaborationComments')"
+      [rxFormControl]="projectEngagementForm.get('collaborationComments')"
+      [maxlength]="2000"
+      [useTopLabel]="true"
+    ></drr-textarea>
+  </form>
+</div>
