@@ -179,6 +179,7 @@ namespace EMCR.Tests.Integration.DRR.Resources
                 //Funding Information
                 EstimatedTotal = 1000,
                 FundingRequest = 100,
+                HaveOtherFunding = true,
                 OtherFunding = new[]
                 {
                     new FundingInformation
