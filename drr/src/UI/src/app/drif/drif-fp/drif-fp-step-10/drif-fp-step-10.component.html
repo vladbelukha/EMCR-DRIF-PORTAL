@@ -5,15 +5,14 @@
       [id]="'totalProjectCost'"
       class="drr-single-input"
       [label]="t('totalProjectCost')"
-      [rxFormControl]="budgetForm.get('totalProjectCost')"
+      [rxFormControl]="budgetForm.get('fundingRequest')"
     ></drr-currency-input>
 
     <mat-label class="drr-label">{{ t("estimatedDrifFunding") }}</mat-label>
     <drr-currency-input
-      [id]="'fundingRequest'"
       class="drr-single-input"
       [label]="t('fundingRequest')"
-      [rxFormControl]="budgetForm.get('fundingRequest')"
+      [rxFormControl]="budgetForm.get('estimatedTotal')"
     ></drr-currency-input>
 
     <mat-label class="drr-label">{{
@@ -64,7 +63,6 @@
       t("totalDrifFundingRequest")
     }}</mat-label>
     <drr-currency-input
-      [id]="'totalDrifFundingRequest'"
       class="drr-single-input"
       [label]="t('totalDrifFundingRequest')"
       [rxFormControl]="budgetForm.get('totalDrifFundingRequest')"
@@ -72,7 +70,6 @@
 
     <mat-label class="drr-label">{{ t("discrepancyComment") }}</mat-label>
     <drr-textarea
-      [id]="'discrepancyComment'"
       [label]="t('discrepancyComment')"
       [maxlength]="2000"
       [rxFormControl]="budgetForm.get('discrepancyComment')"
@@ -88,5 +85,29 @@
     <drr-funding-list
       [fundingFormArray]="getFormArray('otherFunding')"
     ></drr-funding-list>
+
+    <mat-label class="drr-label" style="margin-top: 10px">{{
+      getRemainingAmount() > 0
+        ? t("missingFundsLabel")
+        : t("excessFundingLabel")
+    }}</mat-label>
+    <mat-label [style.color]="getRemainingAmount() < 0 ? 'red' : 'initial'">{{
+      getRemainingAmountAbs() | currency
+    }}</mat-label>
+    <mat-hint *ngIf="getRemainingAmount() < 0" style="color: red">{{
+      t("excessFundingText")
+    }}</mat-hint>
+    <mat-hint *ngIf="getRemainingAmount() == 0">{{
+      t("noExcessFundingText")
+    }}</mat-hint>
+
+    <drr-textarea
+      *ngIf="getRemainingAmount() > 0"
+      style="margin-top: 10px"
+      [id]="'intendToSecureFunding'"
+      [label]="t('intendToSecureFunding')"
+      [maxlength]="2000"
+      [rxFormControl]="budgetForm.get('intendToSecureFunding')"
+    ></drr-textarea>
   </form>
 </div>

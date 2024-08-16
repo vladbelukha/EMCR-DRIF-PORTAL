@@ -222,7 +222,15 @@ export class BudgetForm {
 
   @prop()
   @required()
+  estimatedTotal?: number;
+
+  @prop()
+  @required()
   fundingRequest?: number;
+
+  @prop()
+  @required()
+  remainingAmount?: number;
 
   @propArray(YearOverYearFundingForm)
   yearOverYearFunding?: YearOverYearFundingForm[] = [{}];
@@ -240,6 +248,9 @@ export class BudgetForm {
 
   @propArray(FundingInformationItemForm)
   otherFunding?: FundingInformationItemForm[] = [{}];
+
+  @prop()
+  intendToSecureFunding?: string;
 
   constructor(values: BudgetForm) {
     Object.assign(this, values);

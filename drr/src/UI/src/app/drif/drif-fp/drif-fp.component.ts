@@ -208,7 +208,12 @@ export class DrifFpComponent {
           permitsRegulationsAndStandards: {},
           projectOutcomes: {},
           projectRisks: {},
-          budget: {},
+          budget: {
+            haveOtherFunding: response.haveOtherFunding,
+            estimatedTotal: response.estimatedTotal,
+            fundingRequest: response.fundingRequest,
+            remainingAmount: response.remainingAmount,
+          },
           attachments: {},
           declarations: {},
         };
