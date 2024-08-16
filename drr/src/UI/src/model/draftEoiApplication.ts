@@ -52,6 +52,8 @@ export interface DraftEoiApplication {
   /** @nullable */
   fundingStream?: FundingStream;
   /** @nullable */
+  haveOtherFunding?: boolean;
+  /** @nullable */
   id?: string;
   infrastructureImpacted?: string[];
   /** @nullable */
