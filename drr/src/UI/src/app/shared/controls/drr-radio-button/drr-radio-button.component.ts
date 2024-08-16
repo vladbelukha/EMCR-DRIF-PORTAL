@@ -45,4 +45,8 @@ export class DrrRadioButtonComponent {
   get rxFormControl() {
     return this._formControl;
   }
+
+  getMandatoryMark() {
+    return !!this.rxFormControl?.validator?.({})?.required ? '*' : '';
+  }
 }

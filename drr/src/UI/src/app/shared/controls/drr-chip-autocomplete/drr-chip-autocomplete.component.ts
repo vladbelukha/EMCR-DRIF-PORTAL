@@ -116,4 +116,8 @@ export class DrrChipAutocompleteComponent {
       standard.toLowerCase().includes(filterValue)
     );
   }
+
+  getMandatoryMark() {
+    return !!this.rxFormControl?.validator?.({})?.required ? '*' : '';
+  }
 }
