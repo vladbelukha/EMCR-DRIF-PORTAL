@@ -13,5 +13,6 @@ export interface Submission {
   partneringProponents?: string[];
   projectTitle?: string;
   status?: SubmissionPortalStatus;
+  /** @nullable */
   submittedDate?: string;
 }

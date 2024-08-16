@@ -203,6 +203,7 @@ export class EOIApplicationComponent {
               remainingAmount: application.remainingAmount,
               intendToSecureFunding: application.intendToSecureFunding,
               estimatedTotal: application.estimatedTotal,
+              haveOtherFunding: application.haveOtherFunding,
             },
             locationInformation: {
               ownershipDeclaration: application.ownershipDeclaration,
