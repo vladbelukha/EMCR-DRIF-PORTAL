@@ -98,9 +98,11 @@ export class DrifEoiStep3Component {
       ?.valueChanges.subscribe((value) => {
         if (value) {
           this.getFormArray('otherFunding').enable();
-          this.getFormArray('otherFunding').push(
-            this.formBuilder.formGroup(FundingInformationItemForm)
-          );
+          if (this.getFormArray('otherFunding').length === 0) {
+            this.getFormArray('otherFunding').push(
+              this.formBuilder.formGroup(FundingInformationItemForm)
+            );
+          }
         } else {
           this.getFormArray('otherFunding').clear();
           this.getFormArray('otherFunding').disable();
