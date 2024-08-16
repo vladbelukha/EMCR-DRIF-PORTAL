@@ -47,7 +47,7 @@
       <ng-container matColumnDef="modifiedDate">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Modified Date</th>
         <td mat-cell *matCellDef="let element">
-          {{ element.modifiedDate | date : "YYYY-MM-dd" }}
+          {{ element.modifiedDate | date : "yyyy-MM-dd" }}
         </td>
       </ng-container>
 
@@ -56,7 +56,7 @@
           Submitted Date
         </th>
         <td mat-cell *matCellDef="let element">
-          {{ element.submittedDate | date : "YYYY-MM-dd" }}
+          {{ element.submittedDate | date : "yyyy-MM-dd" }}
         </td>
       </ng-container>
 
