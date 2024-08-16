@@ -78,7 +78,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             id.ShouldNotBeEmpty();
 
 
-            var savedApplication = (await manager.Handle(new DrrApplicationsQuery { Id = id, BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault();
+            var savedApplication = (await manager.Handle(new DrrApplicationsQuery { Id = id, BusinessId = userInfo.BusinessId })).Items.SingleOrDefault();
             savedApplication.Id.ShouldBe(id);
             savedApplication.OwnershipDeclaration.ShouldBeNull();
             savedApplication.AuthorizedRepresentativeStatement.ShouldBe(false);
@@ -170,6 +170,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
                 //Funding Information
                 EstimatedTotal = 1000,
                 FundingRequest = 100,
+                HaveOtherFunding = true,
                 OtherFunding = new[]
                 {
                     new EMCR.DRR.Controllers.FundingInformation
