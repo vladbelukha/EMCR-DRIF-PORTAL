@@ -52,6 +52,8 @@ export interface DraftApplication {
   /** @nullable */
   fundingStream?: FundingStream;
   /** @nullable */
+  haveOtherFunding?: boolean;
+  /** @nullable */
   id?: string;
   /** @nullable */
   infrastructureImpacted?: string[];

@@ -31,11 +31,9 @@ export type DraftFpApplicationAllOf = {
   /** @nullable */
   operationAndMaintenanceComments?: string;
   /** @nullable */
-  ownership?: boolean;
-  /** @nullable */
-  ownershipComments?: string;
-  /** @nullable */
   professionalGuidance?: boolean;
+  /** @nullable */
+  professionalGuidanceComments?: string;
   /** @nullable */
   professionals?: string[];
   /** @nullable */
