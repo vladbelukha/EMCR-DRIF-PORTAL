@@ -149,6 +149,7 @@ namespace EMCR.DRR.Controllers
         public decimal? EstimatedTotal { get; set; }
         [Range(0, ApplicationValidators.FUNDING_MAX_VAL)]
         public decimal? FundingRequest { get; set; }
+        public bool? HaveOtherFunding { get; set; }
         public IEnumerable<FundingInformation> OtherFunding { get; set; }
         public decimal? RemainingAmount { get; set; }
         public string? IntendToSecureFunding { get; set; }
