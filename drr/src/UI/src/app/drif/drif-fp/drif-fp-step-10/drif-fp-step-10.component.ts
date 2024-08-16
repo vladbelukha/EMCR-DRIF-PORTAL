@@ -15,9 +15,11 @@ import { IFormGroup, RxFormBuilder } from '@rxweb/reactive-form-validators';
 import { FundingType } from '../../../../model';
 import { DrrCurrencyInputComponent } from '../../../shared/controls/drr-currency-input/drr-currency-input.component';
 import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
+import { DrrRadioButtonComponent } from '../../../shared/controls/drr-radio-button/drr-radio-button.component';
 import { DrrSelectComponent } from '../../../shared/controls/drr-select/drr-select.component';
 import { DrrTextareaComponent } from '../../../shared/controls/drr-textarea/drr-textarea.component';
 import { FundingInformationItemForm } from '../../drif-eoi/drif-eoi-form';
+import { DrrFundingListComponent } from '../../drr-funding-list/drr-funding-list.component';
 import { BudgetForm, YearOverYearFundingForm } from '../drif-fp-form';
 
 @Component({
@@ -35,6 +37,8 @@ import { BudgetForm, YearOverYearFundingForm } from '../drif-fp-form';
     ReactiveFormsModule,
     MatIconModule,
     MatButtonModule,
+    DrrFundingListComponent,
+    DrrRadioButtonComponent,
   ],
   templateUrl: './drif-fp-step-10.component.html',
   styleUrl: './drif-fp-step-10.component.scss',
@@ -49,6 +53,26 @@ export class DrifFpStep10Component {
 
   fiscalYearsOptions = ['2023/2024'];
   fundingTypeOptions = Object.values(FundingType);
+
+  ngOnInit() {
+    if (this.budgetForm.get('haveOtherFunding')?.value !== true) {
+      this.getFormArray('otherFunding').clear();
+      this.getFormArray('otherFunding').disable();
+    }
+    this.budgetForm.get('haveOtherFunding')?.valueChanges.subscribe((value) => {
+      if (value) {
+        this.getFormArray('otherFunding').enable();
+        if (this.getFormArray('otherFunding').length === 0) {
+          this.getFormArray('otherFunding').push(
+            this.formBuilder.formGroup(FundingInformationItemForm)
+          );
+        }
+      } else {
+        this.getFormArray('otherFunding').clear();
+        this.getFormArray('otherFunding').disable();
+      }
+    });
+  }
 
   getFormArray(formArrayName: string) {
     return this.budgetForm.get(formArrayName) as FormArray;

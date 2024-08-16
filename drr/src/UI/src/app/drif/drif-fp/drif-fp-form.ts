@@ -234,6 +234,10 @@ export class BudgetForm {
   @prop()
   discrepancyComment?: string;
 
+  @prop()
+  @required()
+  haveOtherFunding?: boolean;
+
   @propArray(FundingInformationItemForm)
   otherFunding?: FundingInformationItemForm[] = [{}];
 
