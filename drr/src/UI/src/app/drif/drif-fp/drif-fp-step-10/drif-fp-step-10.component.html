@@ -35,13 +35,12 @@
           "
           [options]="fiscalYearsOptions"
         ></drr-select>
-        <drr-input
+        <drr-currency-input
           [label]="t('amount')"
           [rxFormControl]="
             getArrayFormControl('yearOverYearFunding', 'amount', i)
           "
-          [maxlength]="100"
-        ></drr-input>
+        ></drr-currency-input>
         <button mat-mini-fab color="warn" (click)="removeYear(i)">
           <mat-icon>delete</mat-icon>
         </button>
@@ -108,6 +107,36 @@
       [label]="t('intendToSecureFunding')"
       [maxlength]="2000"
       [rxFormControl]="budgetForm.get('intendToSecureFunding')"
+    ></drr-textarea>
+
+    <mat-label class="drr-label">{{ t("costEffective") }}</mat-label>
+    <drr-radio-button
+      [label]="t('costEffectiveQuestion')"
+      [rxFormControl]="budgetForm.get('costEffective')"
+    ></drr-radio-button>
+    <drr-textarea
+      [label]="t('costEffectiveComments')"
+      [rxFormControl]="budgetForm.get('costEffectiveComments')"
+      [maxlength]="2000"
+      [useTopLabel]="false"
+    ></drr-textarea>
+
+    <mat-label class="drr-label">{{ t("previosResponse") }}</mat-label>
+    <drr-radio-button
+      [label]="t('previosResponseQuestion')"
+      [rxFormControl]="budgetForm.get('previosResponse')"
+      [options]="previosResponseOptions"
+    ></drr-radio-button>
+    <drr-currency-input
+      *ngIf="budgetForm.get('previosResponse')?.value === 'Yes'"
+      [label]="t('previosResponseCost')"
+      [rxFormControl]="budgetForm.get('previosResponseCost')"
+    ></drr-currency-input>
+    <drr-textarea
+      [label]="t('previosResponseComments')"
+      [rxFormControl]="budgetForm.get('previosResponseComments')"
+      [maxlength]="2000"
+      [useTopLabel]="false"
     ></drr-textarea>
   </form>
 </div>

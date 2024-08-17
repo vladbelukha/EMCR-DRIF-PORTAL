@@ -252,6 +252,24 @@ export class BudgetForm {
   @prop()
   intendToSecureFunding?: string;
 
+  @prop()
+  @required()
+  costEffective?: boolean;
+
+  @prop()
+  @required()
+  costEffectiveComments?: string;
+
+  @prop()
+  @required()
+  previosResponse?: YesNoOption;
+
+  @prop()
+  previosResponseCost?: number;
+
+  @prop()
+  previosResponseComments?: string;
+
   constructor(values: BudgetForm) {
     Object.assign(this, values);
   }

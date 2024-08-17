@@ -13,7 +13,7 @@ import { MatSelectChange } from '@angular/material/select';
 import { TranslocoModule } from '@ngneat/transloco';
 import { IFormGroup, RxFormBuilder } from '@rxweb/reactive-form-validators';
 import { distinctUntilChanged } from 'rxjs';
-import { FundingType } from '../../../../model';
+import { FundingType, YesNoOption } from '../../../../model';
 import { DrrCurrencyInputComponent } from '../../../shared/controls/drr-currency-input/drr-currency-input.component';
 import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
 import { DrrRadioButtonComponent } from '../../../shared/controls/drr-radio-button/drr-radio-button.component';
@@ -55,6 +55,11 @@ export class DrifFpStep10Component {
 
   fiscalYearsOptions: string[] = [];
   fundingTypeOptions = Object.values(FundingType);
+  previosResponseOptions = [
+    { value: YesNoOption.Yes, label: 'Yes' },
+    { value: YesNoOption.NotApplicable, label: 'Yes, but costs unknown' },
+    { value: YesNoOption.No, label: 'No' },
+  ];
 
   ngOnInit() {
     const currentYear = new Date().getFullYear();
