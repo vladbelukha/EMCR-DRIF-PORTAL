@@ -57,6 +57,13 @@ export enum TransferRisks {
   transferred = 'Transferred',
 }
 
+export enum CostConsiderations {
+  IneligibleCosts = 'Ineligible Costs',
+  InKindContributions = 'In-kind Contributions',
+  CostStacking = 'Cost Stacking',
+  PhasedCosts = 'Phased Costs',
+}
+
 // TODO: temp before API provides the correct structure
 export class FileForm {
   @prop()
@@ -269,6 +276,22 @@ export class BudgetForm {
 
   @prop()
   previosResponseComments?: string;
+
+  @prop()
+  @required()
+  activityCostEffectiveness?: string;
+
+  @prop()
+  @required()
+  costConsiderationsApplied?: boolean;
+
+  @prop()
+  @required()
+  @minLength({ value: 1 })
+  costConsiderations?: string[];
+
+  @prop()
+  costConsiderationsComments?: string;
 
   constructor(values: BudgetForm) {
     Object.assign(this, values);

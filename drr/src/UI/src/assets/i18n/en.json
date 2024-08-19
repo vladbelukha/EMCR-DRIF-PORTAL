@@ -278,5 +278,11 @@
   "previosResponse": "Previous Response Costs",
   "previosResponseQuestion": "TODO: Previous Response Costs",
   "previosResponseCost": "Previous Response Costs",
-  "previosResponseComments": "Provide details on previous response costs"
+  "previosResponseComments": "Provide details on previous response costs",
+  "activityCostEffectiveness": "Project Activity Cost Effectiveness",
+  "activityCostEffectivenessQuestion": "What steps have you taken to ensure that the project activities will be cost effective (e.g. locally sourced resources, minimalized travel)?",
+  "costConsiderations": "Cost Considerations",
+  "costConsiderationsApplied": "Do cost considerations apply to this project?",
+  "costConsiderationsQuestions": "If yes, which cost considerations apply?",
+  "costConsiderationsComments": "Explain cost considerations, if applicable"
 }

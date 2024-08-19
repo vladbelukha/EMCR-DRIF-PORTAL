@@ -14,6 +14,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { IFormGroup, RxFormBuilder } from '@rxweb/reactive-form-validators';
 import { distinctUntilChanged } from 'rxjs';
 import { FundingType, YesNoOption } from '../../../../model';
+import { DrrChipAutocompleteComponent } from '../../../shared/controls/drr-chip-autocomplete/drr-chip-autocomplete.component';
 import { DrrCurrencyInputComponent } from '../../../shared/controls/drr-currency-input/drr-currency-input.component';
 import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
 import { DrrRadioButtonComponent } from '../../../shared/controls/drr-radio-button/drr-radio-button.component';
@@ -21,7 +22,11 @@ import { DrrSelectComponent } from '../../../shared/controls/drr-select/drr-sele
 import { DrrTextareaComponent } from '../../../shared/controls/drr-textarea/drr-textarea.component';
 import { FundingInformationItemForm } from '../../drif-eoi/drif-eoi-form';
 import { DrrFundingListComponent } from '../../drr-funding-list/drr-funding-list.component';
-import { BudgetForm, YearOverYearFundingForm } from '../drif-fp-form';
+import {
+  BudgetForm,
+  CostConsiderations,
+  YearOverYearFundingForm,
+} from '../drif-fp-form';
 
 @Component({
   selector: 'drif-fp-step-10',
@@ -40,6 +45,7 @@ import { BudgetForm, YearOverYearFundingForm } from '../drif-fp-form';
     MatButtonModule,
     DrrFundingListComponent,
     DrrRadioButtonComponent,
+    DrrChipAutocompleteComponent,
   ],
   providers: [CurrencyPipe],
   templateUrl: './drif-fp-step-10.component.html',
@@ -60,6 +66,7 @@ export class DrifFpStep10Component {
     { value: YesNoOption.NotApplicable, label: 'Yes, but costs unknown' },
     { value: YesNoOption.No, label: 'No' },
   ];
+  costConsiderationsOptions = Object.values(CostConsiderations);
 
   ngOnInit() {
     const currentYear = new Date().getFullYear();
@@ -117,6 +124,24 @@ export class DrifFpStep10Component {
         this.getFormArray('otherFunding').disable();
       }
     });
+
+    this.budgetForm
+      .get('costConsiderationsApplied')
+      ?.valueChanges.subscribe((value) => {
+        if (value) {
+          this.budgetForm.get('costConsiderations')?.enable();
+          this.budgetForm
+            .get('costConsiderationsComments')
+            ?.setValidators(Validators.required);
+        } else {
+          this.budgetForm.get('costConsiderations')?.disable();
+          this.budgetForm.get('costConsiderationsComments')?.clearValidators();
+        }
+
+        this.budgetForm
+          .get('costConsiderationsComments')
+          ?.updateValueAndValidity();
+      });
   }
 
   calculateRemainingAmount() {

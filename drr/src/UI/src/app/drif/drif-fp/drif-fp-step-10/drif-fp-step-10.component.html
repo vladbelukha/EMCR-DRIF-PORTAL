@@ -138,5 +138,32 @@
       [maxlength]="2000"
       [useTopLabel]="false"
     ></drr-textarea>
+
+    <mat-label class="drr-label">{{
+      t("activityCostEffectiveness")
+    }}</mat-label>
+    <drr-textarea
+      [label]="t('activityCostEffectivenessQuestion')"
+      [rxFormControl]="budgetForm.get('activityCostEffectiveness')"
+      [maxlength]="2000"
+      [useTopLabel]="false"
+    ></drr-textarea>
+
+    <mat-label class="drr-label">{{ t("costConsiderations") }}</mat-label>
+    <drr-radio-button
+      [label]="t('costConsiderationsApplied')"
+      [rxFormControl]="budgetForm.get('costConsiderationsApplied')"
+    ></drr-radio-button>
+    <drr-chip-autocomplete
+      [label]="t('costConsiderationsQuestions')"
+      [rxFormControl]="budgetForm.get('costConsiderations')"
+      [options]="costConsiderationsOptions"
+    ></drr-chip-autocomplete>
+    <drr-textarea
+      [label]="t('costConsiderationsComments')"
+      [rxFormControl]="budgetForm.get('costConsiderationsComments')"
+      [maxlength]="2000"
+      [useTopLabel]="false"
+    ></drr-textarea>
   </form>
 </div>
