@@ -28,7 +28,7 @@
 
 	encode zstd gzip
 
-	handle /api/version {
+	handle /version {
 		reverse_proxy {$API_URL} {
 			header_up Accept-Encoding identity
 		}
