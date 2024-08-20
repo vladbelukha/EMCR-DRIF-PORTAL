@@ -329,6 +329,11 @@ export class EOIApplicationComponent {
     clearInterval(this.autoSaveTimer);
   }
 
+  getProjectTitle() {
+    return this.eoiApplicationForm.get('projectInformation.projectTitle')
+      ?.value;
+  }
+
   getFormGroup(groupName: string) {
     return this.eoiApplicationForm?.get(groupName) as RxFormGroup;
   }

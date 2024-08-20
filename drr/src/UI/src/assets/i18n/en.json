@@ -1,6 +1,7 @@
 {
   "header": "Community Resilience and Adaptation Funding Tool",
-  "eoiFormHeader": "DRIF Expression of Interest",
+  "eoiFormHeader": "DRIF EOI",
+  "eoiFormHeaderFor": "DRIF EOI for {{projectTitle}}",
   "fpFormHeader": "DRIF Full Proposal",
   "proponentInformation": "Proponent Information",
   "projectInformation": "Project Information",
