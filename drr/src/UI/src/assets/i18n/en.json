@@ -3,6 +3,8 @@
   "eoiFormHeader": "DRIF EOI",
   "eoiFormHeaderFor": "DRIF EOI for {{projectTitle}}",
   "fpFormHeader": "DRIF Full Proposal",
+  "fpFormHeaderFor": "DRIF Full Proposal for {{projectTitle}}",
+  "relatedEoi": "Related EOI #:",
   "proponentInformation": "Proponent Information",
   "projectInformation": "Project Information",
   "proponentAndProjectInformation": "Proponent & Project Information",

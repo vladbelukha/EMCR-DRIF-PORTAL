@@ -1,15 +1,25 @@
 <ng-container *transloco="let t">
   <div class="app-stepper-container">
     <div class="app-stepper-header">
-      <h1>
-        {{ t("fpFormHeader") }} - {{ getPrimaryProponent() }} - ({{
-          t(getFundingStream())
-        }}, {{ t(getProjectType()) }}, {{ getRelatedEOI() }})
-      </h1>
+      <div>
+        <h1 style="margin-bottom: 0.5rem">
+          {{
+            getProjectTitle()
+              ? t("fpFormHeaderFor", { projectTitle: getProjectTitle() })
+              : t("fpFormHeader")
+          }}
+        </h1>
+        <span>
+          {{ t("relatedEoi") }}
+            <a href="{{ getRelatedEOILink() }}" target="_blank">
+            {{ getRelatedEOI() }}
+            </a>
+        </span>
+      </div>
       <div>
         <div class="header-actions">
           <button mat-stroked-button color="primary" (click)="goBack()">
-            {{ t("back") }}
+            {{ t("exitForm") }}
           </button>
           <button mat-flat-button color="primary" (click)="save()">
             <mat-icon>save</mat-icon>
