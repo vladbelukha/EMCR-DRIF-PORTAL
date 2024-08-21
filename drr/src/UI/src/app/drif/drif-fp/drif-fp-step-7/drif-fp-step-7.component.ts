@@ -1,5 +1,5 @@
 import { AsyncPipe, CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatChipsModule } from '@angular/material/chips';
@@ -13,6 +13,7 @@ import {
   RadioOption,
 } from '../../../shared/controls/drr-radio-button/drr-radio-button.component';
 import { DrrTextareaComponent } from '../../../shared/controls/drr-textarea/drr-textarea.component';
+import { EntitiesStore } from '../../../store/entities.store';
 import { PermitsRegulationsAndStandardsForm, Standards } from '../drif-fp-form';
 
 @Component({
@@ -36,10 +37,14 @@ import { PermitsRegulationsAndStandardsForm, Standards } from '../drif-fp-form';
   styleUrl: './drif-fp-step-7.component.scss',
 })
 export class DrifFpStep7Component {
+  entitiesStore = inject(EntitiesStore);
+
   @Input()
   permitsRegulationsAndStandardsForm!: IFormGroup<PermitsRegulationsAndStandardsForm>;
 
-  professionalGuidanceOptions = [];
+  professionalGuidanceOptions = this.entitiesStore
+    .getEntities()
+    .professionals();
   standardsAcceptableOptions: RadioOption[] = [
     { value: 1, label: 'Yes' },
     { value: 2, label: 'No' },

@@ -2,6 +2,7 @@ import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
 
 export interface EntitiesState {
   affectedParties: string[];
+  professionals: string[];
 }
 
 type EntitiesStore = {
@@ -18,6 +19,20 @@ const initialState: EntitiesState = {
     'Friendship Centres',
     'Neighbouring Jurisdictions',
     'Regional District',
+  ],
+  professionals: [
+    'Accountant',
+    'Agrologist',
+    'Architect',
+    'Biologist',
+    'Ecologist',
+    'Engineer',
+    'Forester',
+    'Geologist',
+    'Geomorphologist',
+    'Geoscientist',
+    'Hydrologist',
+    'Lawyer',
   ],
 };
 
