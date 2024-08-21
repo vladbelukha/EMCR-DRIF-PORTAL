@@ -85,6 +85,7 @@ namespace EMCR.DRR.Resources.Applications
                 //These are incomplete - but they've really just been for testing...
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.drr_name))
                 .ForMember(dest => dest.FpId, opt => opt.MapFrom(src => src.drr_FullProposalApplication != null ? src.drr_FullProposalApplication.drr_name : string.Empty))
+                .ForMember(dest => dest.EoiId, opt => opt.MapFrom(src => src.drr_EOIApplication != null ? src.drr_EOIApplication.drr_name : string.Empty))
                 .ForMember(dest => dest.ApplicationTypeName, opt => opt.MapFrom(src => src.drr_ApplicationType.drr_name))
                 .ForMember(dest => dest.ProgramName, opt => opt.MapFrom(src => src.drr_Program.drr_name))
                 .ForMember(dest => dest.ProponentType, opt => opt.MapFrom(src => src.drr_primaryproponent.HasValue ? (int?)Enum.Parse<ProponentType>(((ApplicantTypeOptionSet)src.drr_primaryproponent).ToString()) : null))

@@ -81,6 +81,7 @@ namespace EMCR.DRR.Managers.Intake
     {
         public string? Id { get; set; }
         public string? FpId { get; set; }
+        public string? EoiId { get; set; }
         public required string ApplicationTypeName { get; set; }
         public required string ProgramName { get; set; }
         public string? BCeIDBusinessId { get; set; }
