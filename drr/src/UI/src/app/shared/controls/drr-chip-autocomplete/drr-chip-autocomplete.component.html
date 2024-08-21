@@ -2,20 +2,19 @@
   <mat-form-field style="width: 100%">
     <mat-label>{{ label }}{{ getMandatoryMark() }}</mat-label>
     <mat-chip-grid #chipGrid [formControl]="rxFormControl">
-      @for (standard of selectedOptions(); track $index) {
+      @for (option of rxFormControl.value; track $index) {
       <mat-chip-row (removed)="removeOption($index)">
-        {{ standard }}
-        <button matChipRemove [attr.aria-label]="'remove ' + standard">
+        {{ option }}
+        <button matChipRemove [attr.aria-label]="'remove ' + option">
           <mat-icon>cancel</mat-icon>
         </button>
       </mat-chip-row>
       }
     </mat-chip-grid>
     <input
-      name="currentStandard"
       placeholder="{{ placeholder }}"
-      #standardInput
-      [formControl]="inputControl"
+      #currentInput
+      [formControl]="currentInputControl"
       [matChipInputFor]="chipGrid"
       [matAutocomplete]="auto"
       [ariaMultiLine]="true"
@@ -26,8 +25,8 @@
       #auto="matAutocomplete"
       (optionSelected)="optionSelected($event)"
     >
-      @for (standard of filteredOptions | async; track standard) {
-      <mat-option [value]="standard">{{ standard }}</mat-option>
+      @for (option of filteredOptions | async; track option) {
+      <mat-option [value]="option">{{ option }}</mat-option>
       }
     </mat-autocomplete>
   </mat-form-field>
