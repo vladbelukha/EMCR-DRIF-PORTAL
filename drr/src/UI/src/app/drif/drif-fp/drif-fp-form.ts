@@ -135,11 +135,11 @@ export class OwnershipAndAuthorizationForm {
 
   @prop()
   @required()
-  authorityAndOwnership?: boolean;
+  projectAuthority?: boolean;
 
   @prop()
   @required()
-  authorityAndOwnershipComments?: string;
+  projectAuthorityComments?: string;
 
   @prop()
   @required()

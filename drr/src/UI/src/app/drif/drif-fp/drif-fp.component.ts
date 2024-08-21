@@ -182,9 +182,8 @@ export class DrifFpComponent {
           ownershipAndAuthorization: {
             ownershipDeclaration: response.ownershipDeclaration,
             ownershipDescription: response.ownershipDescription,
-            authorityAndOwnership: response.authorityAndOwnership,
-            authorityAndOwnershipComments:
-              response.authorityAndOwnershipComments,
+            projectAuthority: response.authorityAndOwnership,
+            projectAuthorityComments: response.authorityAndOwnershipComments,
             operationAndMaintenance: response.operationAndMaintenance,
             operationAndMaintenanceComments:
               response.operationAndMaintenanceComments,
@@ -312,6 +311,11 @@ export class DrifFpComponent {
     const fpDraft = {
       ...drifFpForm.proponentAndProjectInformationForm,
       ...drifFpForm.ownershipAndAuthorization,
+      // TODO: temporary fix for missing fields
+      authorityAndOwnership:
+        drifFpForm.ownershipAndAuthorization?.projectAuthority,
+      authorityAndOwnershipComments:
+        drifFpForm.ownershipAndAuthorization?.projectAuthorityComments,
       ...drifFpForm.projectArea,
       ...drifFpForm.projectPlan,
       ...drifFpForm.projectEngagement,

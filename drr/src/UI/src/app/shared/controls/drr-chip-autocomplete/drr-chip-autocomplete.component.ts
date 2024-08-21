@@ -95,7 +95,14 @@ export class DrrChipAutocompleteComponent {
 
   optionSelected(event: MatAutocompleteSelectedEvent) {
     this.currentInputControl.setValue('');
+
+    const value = event.option.viewValue;
+
     event.option.deselect();
+
+    if (!value || this.rxFormControl.value.includes(value)) {
+      return;
+    }
 
     this.rxFormControl.setValue(
       [...this.rxFormControl.value, event.option.viewValue],

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatRadioModule } from '@angular/material/radio';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { IFormGroup } from '@rxweb/reactive-form-validators';
 import { YesNoOption } from '../../../../model';
 import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
@@ -40,6 +40,8 @@ import { OwnershipAndAuthorizationForm } from '../drif-fp-form';
   styleUrl: './drif-fp-step-2.component.scss',
 })
 export class DrifFpStep2Component {
+  tranlocoService = inject(TranslocoService);
+
   @Input()
   ownershipAndAuthorizationForm!: IFormGroup<OwnershipAndAuthorizationForm>;
 
@@ -50,7 +52,7 @@ export class DrifFpStep2Component {
 
   allYesNoOptions: RadioOption[] = Object.values(YesNoOption).map((value) => ({
     value,
-    label: value,
+    label: this.tranlocoService.translate(value),
   }));
 
   ngOnInit() {

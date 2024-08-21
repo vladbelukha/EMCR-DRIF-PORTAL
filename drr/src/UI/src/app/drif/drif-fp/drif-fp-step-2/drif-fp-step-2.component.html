@@ -20,47 +20,30 @@
       ></drr-textarea>
     </div>
 
-    <mat-label class="drr-label">{{ t("authorityAndOwnership") }}</mat-label>
-    <mat-label>{{ t("authorityAndOwnershipQuestion") }}*</mat-label>
-    <div class="drr-radio-comment">
-      <drr-radio-button
-        [options]="yesNoBoolOptions"
-        [rxFormControl]="
-          ownershipAndAuthorizationForm.get('authorityAndOwnership')
-        "
-      ></drr-radio-button>
+    <mat-label class="drr-label">{{ t("projectAuthority") }}</mat-label>
+    <drr-radio-button
+      [label]="t('projectAuthorityQuestion')"
+      [options]="yesNoBoolOptions"
+      [rxFormControl]="ownershipAndAuthorizationForm.get('projectAuthority')"
+    ></drr-radio-button>
 
-      <drr-textarea
-        [id]="'authorityAndOwnershipComments'"
-        [label]="t('authorityAndOwnershipComments')"
-        [maxlength]="2000"
-        [rxFormControl]="
-          ownershipAndAuthorizationForm.get('authorityAndOwnershipComments')
-        "
-        [useTopLabel]="false"
-      ></drr-textarea>
-    </div>
+    <drr-radio-button
+      [label]="t('operationAndMaintenanceQuestion')"
+      [options]="allYesNoOptions"
+      [rxFormControl]="
+        ownershipAndAuthorizationForm.get('operationAndMaintenance')
+      "
+    ></drr-radio-button>
 
-    <mat-label class="drr-label">{{ t("operationAndMaintenance") }}</mat-label>
-    <mat-label>{{ t("operationAndMaintenanceQuestion") }}*</mat-label>
-    <div class="drr-radio-comment">
-      <drr-radio-button
-        [options]="allYesNoOptions"
-        [rxFormControl]="
-          ownershipAndAuthorizationForm.get('operationAndMaintenance')
-        "
-      ></drr-radio-button>
-
-      <drr-textarea
-        [id]="'operationAndMaintenanceComments'"
-        [label]="t('operationAndMaintenanceComments')"
-        [maxlength]="2000"
-        [rxFormControl]="
-          ownershipAndAuthorizationForm.get('operationAndMaintenanceComments')
-        "
-        [useTopLabel]="false"
-      ></drr-textarea>
-    </div>
+    <drr-textarea
+      [id]="'operationAndMaintenanceComments'"
+      [label]="t('operationAndMaintenanceComments')"
+      [maxlength]="2000"
+      [rxFormControl]="
+        ownershipAndAuthorizationForm.get('operationAndMaintenanceComments')
+      "
+      [useTopLabel]="false"
+    ></drr-textarea>
 
     <mat-label class="drr-label">{{
       t("authorizationOrEndorsement")
@@ -90,7 +73,7 @@
       [rxFormControl]="
         ownershipAndAuthorizationForm.get('authorizationOrEndorsementComments')
       "
-      [useTopLabel]="true"
+      [useTopLabel]="false"
     ></drr-textarea>
   </form>
 </div>
