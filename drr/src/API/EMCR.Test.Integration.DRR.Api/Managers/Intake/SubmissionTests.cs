@@ -163,8 +163,6 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             var submitters = ctx.contacts.Where(c => c.drr_userid == TestUserId).ToList();
             submitters.Count.ShouldBeGreaterThan(1);
         }
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
-#pragma warning restore CS8619 // Nullability of reference types in value doesn't match target type.
 
         [Test]
         public async Task CanCreateFpFromEoi()
@@ -202,6 +200,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
 
             var fullProposal = (await manager.Handle(new DrrApplicationsQuery { Id = fpId, BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault();
             fullProposal.Id.ShouldBe(fpId);
+            fullProposal.EoiId.ShouldBe(eoiId);
 
             var fpToUpdate = FillInFullProposal(mapper.Map<DraftFpApplication>(fullProposal));
             await manager.Handle(new FpSaveApplicationCommand { application = mapper.Map<FpApplication>(fpToUpdate), UserInfo = GetTestUserInfo() });
@@ -214,6 +213,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
         }
 
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
+#pragma warning restore CS8619 // Nullability of reference types in value doesn't match target type.
         private DraftEoiApplication CreateNewTestEOIApplication()
         {
             var uniqueSignature = TestPrefix + "-" + Guid.NewGuid().ToString().Substring(0, 4);
@@ -317,13 +317,21 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
         {
             application.RegionalProject = true;
             application.RegionalProjectComments = "regional comments";
-            application.AuthorityAndOwnership = true;
-            application.AuthorityAndOwnershipComments = "authority and ownership comments";
+
+            application.ProjectAuthority = true;
+            application.ProjectAuthorityComments = "authority and ownership comments";
             application.OperationAndMaintenance = EMCR.DRR.Controllers.YesNoOption.Yes;
             application.OperationAndMaintenanceComments = "operation and maint. comments";
             application.FirstNationsEndorsement = EMCR.DRR.Controllers.YesNoOption.No;
             application.LocalGovernmentEndorsement = EMCR.DRR.Controllers.YesNoOption.NotApplicable;
             application.AuthorizationOrEndorsementComments = "authority or endorsement comments";
+
+            application.FirstNationsEngagementComments = "first nations comments";
+            application.OtherEngagement = EMCR.DRR.Controllers.YesNoOption.Yes;
+            application.AffectedParties = new[] { "party 1", "party 2" };
+            application.OtherEngagementComments = "other engagement comments";
+            application.CollaborationComments = "collaboration comments";
+
             application.Approvals = false;
             application.ApprovalsComments = "approvals comments";
             application.ProfessionalGuidance = false;
@@ -334,6 +342,10 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             application.StandardsComments = "professional guidance comments";
             application.Regulations = false;
             application.RegulationsComments = "regulations comments";
+
+            application.YearOverYearFunding = new[] { new YearOverYearFunding { Amount = 100, Year = "2024" } };
+            application.TotalDrifFundingRequest = 5000;
+            application.DiscrepancyComment = "discrepancy comment";
 
             return application;
         }

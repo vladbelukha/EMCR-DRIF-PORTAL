@@ -78,17 +78,11 @@ namespace EMCR.DRR.API.Services
             var errorMessage = ex.InnerException?.Message ?? string.Empty;
             var regex = new System.Text.RegularExpressions.Regex("\\{(?<CRMError>.*)\\}");
             var match = regex.Match(errorMessage);
-            if (match.Success)
-            {
-                errorMessage = "{" + match.Groups["CRMError"].Value + "}";
-            }
-            else
-            {
-                return ex.Message;
-            }
+            if (match.Success) errorMessage = "{" + match.Groups["CRMError"].Value + "}";
+            else return ex.Message;
 
             var crmError = JsonSerializer.Deserialize<CRMError>(errorMessage);
-            if (crmError != null && crmError.error != null && crmError.error.message != null) { return crmError.error.message; }
+            if (crmError != null && crmError.error != null && crmError.error.message != null) { return $"CRM Error: {crmError.error.message}"; }
 
             return ex.Message;
         }

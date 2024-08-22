@@ -381,6 +381,7 @@ namespace EMCR.DRR.Resources.Applications
             {
                 loadTasks = loadTasks.Concat(new List<Task>
                 {
+                    ctx.LoadPropertyAsync(application, nameof(drr_application.drr_EOIApplication), ct),
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_Program), ct),
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_Primary_Proponent_Name), ct),
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_SubmitterContact), ct),

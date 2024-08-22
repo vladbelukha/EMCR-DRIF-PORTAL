@@ -203,10 +203,8 @@ namespace EMCR.DRR.Controllers
         public string? RegionalProjectComments { get; set; }
 
         //Ownership & Authorization - 2
-        //public bool? Ownership { get; set; }
-        //public string? OwnershipComments { get; set; }
-        public bool? AuthorityAndOwnership { get; set; }
-        public string? AuthorityAndOwnershipComments { get; set; }
+        public bool? ProjectAuthority { get; set; }
+        public string? ProjectAuthorityComments { get; set; }
         public YesNoOption? OperationAndMaintenance { get; set; }
         public string? OperationAndMaintenanceComments { get; set; }
         public YesNoOption? FirstNationsEndorsement { get; set; }
@@ -216,10 +214,21 @@ namespace EMCR.DRR.Controllers
         //Project Area - 3
 
         //Project Plan - 4
+        public string? ProjectDescription { get; set; }
+        public IEnumerable<ProposedActivity>? ProposedActivities { get; set; }
+        public IEnumerable<string>? VerificationMethods { get; set; }
+        public string? VerificationMethodsComments { get; set; }
+        public string? ProjectAlternateOptions { get; set; }
 
         //Project Engagement - 5
+        public string? FirstNationsEngagementComments { get; set; }
+        public YesNoOption? OtherEngagement { get; set; }
+        public IEnumerable<string>? AffectedParties { get; set; }
+        public string? OtherEngagementComments { get; set; }
+        public string? CollaborationComments { get; set; }
 
         //Climate Adaptation - 6
+        public bool? ClimateAdaptationScreener { get; set; }
 
         //Permits Regulations & Standards - 7
         public bool? Approvals { get; set; }
@@ -227,24 +236,38 @@ namespace EMCR.DRR.Controllers
         public bool? ProfessionalGuidance { get; set; }
         public IEnumerable<string>? Professionals { get; set; }
         public string? ProfessionalGuidanceComments { get; set; }
-        public YesNoOption? StandardsAcceptable {  get; set; }
+        public YesNoOption? StandardsAcceptable { get; set; }
         public IEnumerable<string>? Standards { get; set; }
         public string? StandardsComments { get; set; }
         public bool? Regulations { get; set; }
         public string? RegulationsComments { get; set; }
 
         //Project Outcomes - 8
+        public bool? PublicBenefit { get; set; }
 
         //Project Risks - 9
-        //public bool? ProjectComplexity { get; set; }
-        //public bool? ProjectReadiness { get; set; }
-        //public bool? ProjectSensitivity { get; set; }
-        //public bool? CapacityChallenges { get; set; }
-        //public bool? RiskTransfer { get; set; }
+        public bool? ComplexityRiskMitigated { get; set; }
+        public IEnumerable<string>? ComplexityRisks { get; set; }
+        public string? ComplexityRiskComments { get; set; }
+        public bool? ReadinessRiskMitigated { get; set; }
+        public IEnumerable<string>? ReadinessRisks { get; set; }
+        public string? ReadinessRiskComments { get; set; }
+        public bool? SensitivityRiskMitigated { get; set; }
+        public IEnumerable<string>? SensitivityRisks { get; set; }
+        public string? SensitivityRiskComments { get; set; }
+        public bool? CapacityRiskMitigated { get; set; }
+        public IEnumerable<string>? CapacityRisks { get; set; }
+        public string? CapacityRiskComments { get; set; }
+        public bool? RiskTransferMigigated { get; set; }
+        public IEnumerable<string>? TransferRisks { get; set; }
+        public string? TransferRisksComments { get; set; }
 
         //Budget - 10
-        //[Range(0, ApplicationValidators.FUNDING_MAX_VAL)]
-        //public decimal? TotalProjectCost { get; set; }
+        public IEnumerable<YearOverYearFunding>? YearOverYearFunding { get; set; }
+        [Range(0, ApplicationValidators.FUNDING_MAX_VAL)]
+        public decimal? TotalDrifFundingRequest { get; set; }
+        public string? DiscrepancyComment { get; set; }
+
 
         //Attachments - 11
         public IEnumerable<Attachment>? Attachments { get; set; }
@@ -258,6 +281,21 @@ namespace EMCR.DRR.Controllers
     }
 
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+
+    public class ProposedActivity
+    {
+        public string? Name { get; set; }
+        public string? Start { get; set; }
+        public string? End { get; set; }
+        public string? RelatedMilestone { get; set; }
+    }
+    
+    public class YearOverYearFunding
+    {
+        public string? Year { get; set; }
+        [Range(0, ApplicationValidators.FUNDING_MAX_VAL)]
+        public decimal? Amount { get; set; }
+    }
 
     public class FundingInformation
     {
