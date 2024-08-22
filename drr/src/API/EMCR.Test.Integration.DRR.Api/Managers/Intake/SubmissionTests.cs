@@ -317,13 +317,21 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
         {
             application.RegionalProject = true;
             application.RegionalProjectComments = "regional comments";
-            application.AuthorityAndOwnership = true;
-            application.AuthorityAndOwnershipComments = "authority and ownership comments";
+
+            application.ProjectAuthority = true;
+            application.ProjectAuthorityComments = "authority and ownership comments";
             application.OperationAndMaintenance = EMCR.DRR.Controllers.YesNoOption.Yes;
             application.OperationAndMaintenanceComments = "operation and maint. comments";
             application.FirstNationsEndorsement = EMCR.DRR.Controllers.YesNoOption.No;
             application.LocalGovernmentEndorsement = EMCR.DRR.Controllers.YesNoOption.NotApplicable;
             application.AuthorizationOrEndorsementComments = "authority or endorsement comments";
+
+            application.FirstNationsEngagementComments = "first nations comments";
+            application.OtherEngagement = EMCR.DRR.Controllers.YesNoOption.Yes;
+            application.AffectedParties = new[] { "party 1", "party 2" };
+            application.OtherEngagementComments = "other engagement comments";
+            application.CollaborationComments = "collaboration comments";
+
             application.Approvals = false;
             application.ApprovalsComments = "approvals comments";
             application.ProfessionalGuidance = false;
@@ -334,6 +342,10 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             application.StandardsComments = "professional guidance comments";
             application.Regulations = false;
             application.RegulationsComments = "regulations comments";
+
+            application.YearOverYearFunding = new[] { new YearOverYearFunding { Amount = 100, Year = "2024" } };
+            application.TotalDrifFundingRequest = 5000;
+            application.DiscrepancyComment = "discrepancy comment";
 
             return application;
         }
