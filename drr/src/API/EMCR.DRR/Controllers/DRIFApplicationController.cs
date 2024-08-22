@@ -439,7 +439,7 @@ namespace EMCR.DRR.Controllers
             if (!(value is IList)) return false;
             foreach (string item in (IList)value)
             {
-                if (item.Length > ApplicationValidators.ACCOUNT_MAX_LENGTH) return false;
+                if (item?.Length > ApplicationValidators.ACCOUNT_MAX_LENGTH) return false;
             }
             return true;
         }

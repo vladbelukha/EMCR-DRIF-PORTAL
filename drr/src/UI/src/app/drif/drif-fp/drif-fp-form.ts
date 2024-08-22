@@ -57,6 +57,13 @@ export enum TransferRisks {
   transferred = 'Transferred',
 }
 
+export enum CostConsiderations {
+  IneligibleCosts = 'Ineligible Costs',
+  InKindContributions = 'In-kind Contributions',
+  CostStacking = 'Cost Stacking',
+  PhasedCosts = 'Phased Costs',
+}
+
 // TODO: temp before API provides the correct structure
 export class FileForm {
   @prop()
@@ -128,11 +135,11 @@ export class OwnershipAndAuthorizationForm {
 
   @prop()
   @required()
-  authorityAndOwnership?: boolean;
+  projectAuthority?: boolean;
 
   @prop()
   @required()
-  authorityAndOwnershipComments?: string;
+  projectAuthorityComments?: string;
 
   @prop()
   @required()
@@ -222,7 +229,15 @@ export class BudgetForm {
 
   @prop()
   @required()
+  estimatedTotal?: number;
+
+  @prop()
+  @required()
   fundingRequest?: number;
+
+  @prop()
+  @required()
+  remainingAmount?: number;
 
   @propArray(YearOverYearFundingForm)
   yearOverYearFunding?: YearOverYearFundingForm[] = [{}];
@@ -234,8 +249,49 @@ export class BudgetForm {
   @prop()
   discrepancyComment?: string;
 
+  @prop()
+  @required()
+  haveOtherFunding?: boolean;
+
   @propArray(FundingInformationItemForm)
   otherFunding?: FundingInformationItemForm[] = [{}];
+
+  @prop()
+  intendToSecureFunding?: string;
+
+  @prop()
+  @required()
+  costEffective?: boolean;
+
+  @prop()
+  @required()
+  costEffectiveComments?: string;
+
+  @prop()
+  @required()
+  previosResponse?: YesNoOption;
+
+  @prop()
+  previosResponseCost?: number;
+
+  @prop()
+  previosResponseComments?: string;
+
+  @prop()
+  @required()
+  activityCostEffectiveness?: string;
+
+  @prop()
+  @required()
+  costConsiderationsApplied?: boolean;
+
+  @prop()
+  @required()
+  @minLength({ value: 1 })
+  costConsiderations?: string[];
+
+  @prop()
+  costConsiderationsComments?: string;
 
   constructor(values: BudgetForm) {
     Object.assign(this, values);
@@ -423,6 +479,39 @@ export class ProjectOutcomesForm {
   @prop()
   @required()
   publicBenefit?: boolean;
+
+  @prop()
+  @required()
+  publicBenefitComments?: string;
+
+  @prop()
+  @required()
+  futureCostReduction?: boolean;
+
+  @prop()
+  costReductions?: string[];
+
+  @prop()
+  costReductionComments?: string;
+
+  @prop()
+  @required()
+  produceCoBenefits?: boolean;
+
+  @prop()
+  coBenefits?: string[];
+
+  @prop()
+  coBenefitComments?: string;
+
+  @prop()
+  @required()
+  @minLength({ value: 1 })
+  increasedResiliency?: string[];
+
+  @prop()
+  @required()
+  increasedResiliencyComments?: string;
 
   constructor(values: ProjectOutcomesForm) {
     Object.assign(this, values);

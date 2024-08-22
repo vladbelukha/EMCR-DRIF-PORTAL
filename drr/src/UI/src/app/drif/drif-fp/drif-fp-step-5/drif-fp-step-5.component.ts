@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -11,6 +11,7 @@ import {
   RadioOption,
 } from '../../../shared/controls/drr-radio-button/drr-radio-button.component';
 import { DrrTextareaComponent } from '../../../shared/controls/drr-textarea/drr-textarea.component';
+import { EntitiesStore } from '../../../store/entities.store';
 import { ProjectEngagementForm } from '../drif-fp-form';
 
 @Component({
@@ -30,6 +31,8 @@ import { ProjectEngagementForm } from '../drif-fp-form';
   styleUrl: './drif-fp-step-5.component.scss',
 })
 export class DrifFpStep5Component {
+  entitiesStore = inject(EntitiesStore);
+
   @Input() projectEngagementForm!: IFormGroup<ProjectEngagementForm>;
 
   otherEngagementOptions: RadioOption[] = [
@@ -41,7 +44,7 @@ export class DrifFpStep5Component {
     },
   ];
 
-  affectedParties: string[] = [];
+  affectedParties = this.entitiesStore.getEntities().affectedParties();
 
   ngOnInit() {
     this.projectEngagementForm

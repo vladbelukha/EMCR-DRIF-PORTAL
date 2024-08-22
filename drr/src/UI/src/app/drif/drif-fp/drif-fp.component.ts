@@ -153,7 +153,6 @@ export class DrifFpComponent {
           })
         )
         .subscribe((val) => {
-          console.log('Form changed', val);
           this.formChanged = true;
           this.resetAutoSaveTimer();
         });
@@ -183,9 +182,8 @@ export class DrifFpComponent {
           ownershipAndAuthorization: {
             ownershipDeclaration: response.ownershipDeclaration,
             ownershipDescription: response.ownershipDescription,
-            authorityAndOwnership: response.authorityAndOwnership,
-            authorityAndOwnershipComments:
-              response.authorityAndOwnershipComments,
+            projectAuthority: response.authorityAndOwnership,
+            projectAuthorityComments: response.authorityAndOwnershipComments,
             operationAndMaintenance: response.operationAndMaintenance,
             operationAndMaintenanceComments:
               response.operationAndMaintenanceComments,
@@ -208,7 +206,12 @@ export class DrifFpComponent {
           permitsRegulationsAndStandards: {},
           projectOutcomes: {},
           projectRisks: {},
-          budget: {},
+          budget: {
+            haveOtherFunding: response.haveOtherFunding,
+            estimatedTotal: response.estimatedTotal,
+            fundingRequest: response.fundingRequest,
+            remainingAmount: response.remainingAmount,
+          },
           attachments: {},
           declarations: {},
         };
@@ -275,26 +278,23 @@ export class DrifFpComponent {
     return this.drifFpForm?.get(groupName) as RxFormGroup;
   }
 
-  getFundingStream() {
-    return this.drifFpForm?.get('fundingStream')?.value == 'Stream1'
-      ? 'shortStream1'
-      : 'shortStream2';
-  }
-
-  getPrimaryProponent() {
+  getProjectTitle() {
     return this.drifFpForm
       ?.get('proponentAndProjectInformationForm')
-      ?.get('proponentName')?.value;
+      ?.get('projectTitle')?.value;
   }
 
-  getProjectType() {
-    return this.drifFpForm?.get('projectType')?.value == 'Existing'
-      ? 'shortExisting'
-      : 'new';
+  getRelatedEOILink() {
+    return `/eoi-submission-details/${this.getRelatedEOI()}`;
   }
 
   getRelatedEOI() {
     return this.drifFpForm?.get('eoiId')?.value;
+  }
+
+  onEoiClick(event: Event) {
+    event.preventDefault();
+    this.router.navigate(['/eoi-submission-details', this.getRelatedEOI()]);
   }
 
   goBack() {
@@ -311,6 +311,11 @@ export class DrifFpComponent {
     const fpDraft = {
       ...drifFpForm.proponentAndProjectInformationForm,
       ...drifFpForm.ownershipAndAuthorization,
+      // TODO: temporary fix for missing fields
+      authorityAndOwnership:
+        drifFpForm.ownershipAndAuthorization?.projectAuthority,
+      authorityAndOwnershipComments:
+        drifFpForm.ownershipAndAuthorization?.projectAuthorityComments,
       ...drifFpForm.projectArea,
       ...drifFpForm.projectPlan,
       ...drifFpForm.projectEngagement,

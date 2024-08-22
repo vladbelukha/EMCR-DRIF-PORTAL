@@ -1,6 +1,7 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { AsyncPipe, CommonModule } from '@angular/common';
-import { Component, inject, Input, signal } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MatAutocompleteModule,
@@ -32,6 +33,7 @@ import { map, Observable, startWith } from 'rxjs';
 })
 export class DrrChipAutocompleteComponent {
   formBuilder = inject(RxFormBuilder);
+  breakpointObserver = inject(BreakpointObserver);
 
   @Input()
   label = '';
@@ -52,30 +54,30 @@ export class DrrChipAutocompleteComponent {
   }
 
   separatorKeysCodes: number[] = [ENTER, COMMA];
-  inputControl = new FormControl('');
+  currentInputControl = new FormControl('');
 
-  selectedOptions = signal<string[]>([]);
+  // selectedOptions = signal<string[]>([]);
   filteredOptions?: Observable<string[]>;
 
+  isMobile = false;
+
   ngOnInit() {
+    this.breakpointObserver
+      .observe('(min-width: 768px)')
+      .subscribe(({ matches }) => {
+        this.isMobile = !matches;
+      });
+
     this.rxFormControl.statusChanges.subscribe((status: any) => {
       if (status === 'DISABLED') {
-        this.selectedOptions.update(() => []);
         this.rxFormControl.setValue([], { emitEvent: false });
       }
     });
 
-    if (this.rxFormControl.value?.length) {
-      this.selectedOptions.update((standards) => [
-        ...standards,
-        ...this.rxFormControl.value,
-      ]);
-    }
-
-    this.filteredOptions = this.inputControl.valueChanges.pipe(
+    this.filteredOptions = this.currentInputControl.valueChanges.pipe(
       startWith(null),
-      map((standard: string | null) =>
-        standard ? this._filter(standard) : this.options!.slice()
+      map((option: string | null) =>
+        option ? this._filter(option) : this.options!.slice()
       )
     );
   }
@@ -83,41 +85,52 @@ export class DrrChipAutocompleteComponent {
   addOption(event: MatChipInputEvent) {
     const value = (event.value || '').trim();
 
-    if (!value || this.selectedOptions().includes(value)) {
+    if (!value || this.rxFormControl.value.includes(value)) {
       return;
     }
 
-    this.selectedOptions.update((standards) => [...standards, value]);
-
     event.chipInput!.clear();
-    this.inputControl.setValue(null);
-  }
+    this.currentInputControl.setValue(null);
 
-  removeOption(index: number) {
-    this.selectedOptions.update((standards) => {
-      standards.splice(index, 1);
-      return standards;
+    this.rxFormControl.setValue([...this.rxFormControl.value, value], {
+      emitEvent: false,
     });
   }
 
+  removeOption(index: number) {
+    const options = [...this.rxFormControl.value];
+    options.splice(index, 1);
+    this.rxFormControl.setValue(options, { emitEvent: false });
+  }
+
   optionSelected(event: MatAutocompleteSelectedEvent) {
-    this.selectedOptions.update((standards) => [
-      ...standards,
-      event.option.viewValue,
-    ]);
-    this.inputControl.setValue('');
+    this.currentInputControl.setValue('');
+
+    const value = event.option.viewValue;
+
     event.option.deselect();
+
+    if (!value || this.rxFormControl.value.includes(value)) {
+      return;
+    }
+
+    this.rxFormControl.setValue(
+      [...this.rxFormControl.value, event.option.viewValue],
+      { emitEvent: false }
+    );
   }
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 
-    return this.options!.filter((standard) =>
-      standard.toLowerCase().includes(filterValue)
+    return this.options!.filter((option) =>
+      option.toLowerCase().includes(filterValue)
     );
   }
 
-  getMandatoryMark() {
-    return !!this.rxFormControl?.validator?.({})?.required ? '*' : '';
+  isRequired(): boolean {
+    return this.isMobile
+      ? false
+      : !!this.rxFormControl?.validator?.({})?.required;
   }
 }
