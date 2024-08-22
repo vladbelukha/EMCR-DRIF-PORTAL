@@ -480,6 +480,39 @@ export class ProjectOutcomesForm {
   @required()
   publicBenefit?: boolean;
 
+  @prop()
+  @required()
+  publicBenefitComments?: string;
+
+  @prop()
+  @required()
+  futureCostReduction?: boolean;
+
+  @prop()
+  costReductions?: string[];
+
+  @prop()
+  costReductionComments?: string;
+
+  @prop()
+  @required()
+  produceCoBenefits?: boolean;
+
+  @prop()
+  coBenefits?: string[];
+
+  @prop()
+  coBenefitComments?: string;
+
+  @prop()
+  @required()
+  @minLength({ value: 1 })
+  increasedResiliency?: string[];
+
+  @prop()
+  @required()
+  increasedResiliencyComments?: string;
+
   constructor(values: ProjectOutcomesForm) {
     Object.assign(this, values);
   }

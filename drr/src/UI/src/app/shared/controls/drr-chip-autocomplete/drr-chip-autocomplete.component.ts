@@ -1,4 +1,5 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { Component, inject, Input } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -32,6 +33,7 @@ import { map, Observable, startWith } from 'rxjs';
 })
 export class DrrChipAutocompleteComponent {
   formBuilder = inject(RxFormBuilder);
+  breakpointObserver = inject(BreakpointObserver);
 
   @Input()
   label = '';
@@ -57,7 +59,15 @@ export class DrrChipAutocompleteComponent {
   // selectedOptions = signal<string[]>([]);
   filteredOptions?: Observable<string[]>;
 
+  isMobile = false;
+
   ngOnInit() {
+    this.breakpointObserver
+      .observe('(min-width: 768px)')
+      .subscribe(({ matches }) => {
+        this.isMobile = !matches;
+      });
+
     this.rxFormControl.statusChanges.subscribe((status: any) => {
       if (status === 'DISABLED') {
         this.rxFormControl.setValue([], { emitEvent: false });
@@ -118,7 +128,9 @@ export class DrrChipAutocompleteComponent {
     );
   }
 
-  getMandatoryMark() {
-    return !!this.rxFormControl?.validator?.({})?.required ? '*' : '';
+  isRequired(): boolean {
+    return this.isMobile
+      ? false
+      : !!this.rxFormControl?.validator?.({})?.required;
   }
 }
