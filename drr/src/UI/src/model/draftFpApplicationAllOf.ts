@@ -6,8 +6,12 @@
  */
 import type { Attachment } from './attachment';
 import type { YesNoOption } from './yesNoOption';
+import type { ProposedActivity } from './proposedActivity';
+import type { YearOverYearFunding } from './yearOverYearFunding';
 
 export type DraftFpApplicationAllOf = {
+  /** @nullable */
+  affectedParties?: string[];
   /** @nullable */
   approvals?: boolean;
   /** @nullable */
@@ -15,15 +19,31 @@ export type DraftFpApplicationAllOf = {
   /** @nullable */
   attachments?: Attachment[];
   /** @nullable */
-  authorityAndOwnership?: boolean;
-  /** @nullable */
-  authorityAndOwnershipComments?: string;
-  /** @nullable */
   authorizationOrEndorsementComments?: string;
+  /** @nullable */
+  capacityRiskComments?: string;
+  /** @nullable */
+  capacityRiskMitigated?: boolean;
+  /** @nullable */
+  capacityRisks?: string[];
+  /** @nullable */
+  climateAdaptationScreener?: boolean;
+  /** @nullable */
+  collaborationComments?: string;
+  /** @nullable */
+  complexityRiskComments?: string;
+  /** @nullable */
+  complexityRiskMitigated?: boolean;
+  /** @nullable */
+  complexityRisks?: string[];
+  /** @nullable */
+  discrepancyComment?: string;
   /** @nullable */
   eoiId?: string;
   /** @nullable */
   firstNationsEndorsement?: YesNoOption;
+  /** @nullable */
+  firstNationsEngagementComments?: string;
   /** @nullable */
   localGovernmentEndorsement?: YesNoOption;
   /** @nullable */
@@ -31,11 +51,33 @@ export type DraftFpApplicationAllOf = {
   /** @nullable */
   operationAndMaintenanceComments?: string;
   /** @nullable */
+  otherEngagement?: YesNoOption;
+  /** @nullable */
+  otherEngagementComments?: string;
+  /** @nullable */
   professionalGuidance?: boolean;
   /** @nullable */
   professionalGuidanceComments?: string;
   /** @nullable */
   professionals?: string[];
+  /** @nullable */
+  projectAlternateOptions?: string;
+  /** @nullable */
+  projectAuthority?: boolean;
+  /** @nullable */
+  projectAuthorityComments?: string;
+  /** @nullable */
+  projectDescription?: string;
+  /** @nullable */
+  proposedActivities?: ProposedActivity[];
+  /** @nullable */
+  publicBenefit?: boolean;
+  /** @nullable */
+  readinessRiskComments?: string;
+  /** @nullable */
+  readinessRiskMitigated?: boolean;
+  /** @nullable */
+  readinessRisks?: string[];
   /** @nullable */
   regionalProject?: boolean;
   /** @nullable */
@@ -45,9 +87,33 @@ export type DraftFpApplicationAllOf = {
   /** @nullable */
   regulationsComments?: string;
   /** @nullable */
+  riskTransferMigigated?: boolean;
+  /** @nullable */
+  sensitivityRiskComments?: string;
+  /** @nullable */
+  sensitivityRiskMitigated?: boolean;
+  /** @nullable */
+  sensitivityRisks?: string[];
+  /** @nullable */
   standards?: string[];
   /** @nullable */
   standardsAcceptable?: YesNoOption;
   /** @nullable */
   standardsComments?: string;
+  /**
+   * @minimum 0
+   * @maximum 999999999.99
+   * @nullable
+   */
+  totalDrifFundingRequest?: number;
+  /** @nullable */
+  transferRisks?: string[];
+  /** @nullable */
+  transferRisksComments?: string;
+  /** @nullable */
+  verificationMethods?: string[];
+  /** @nullable */
+  verificationMethodsComments?: string;
+  /** @nullable */
+  yearOverYearFunding?: YearOverYearFunding[];
 };

@@ -6,6 +6,7 @@ export interface EntitiesState {
   costReductions: string[];
   coBenefits: string[];
   resiliency: string[];
+  verificationMethods: string[];
 }
 
 type EntitiesStore = {
@@ -59,6 +60,17 @@ const initialState: EntitiesState = {
     'Planning and Preparedness',
     'Temporary Mitigation Solution',
     'Other',
+  ],
+  verificationMethods: [
+    'Climate change',
+    'Event - natural hazard',
+    'Foundational project completed - infrastructure assessment',
+    'Foundational project completed - mapping',
+    'Foundational project completed - other',
+    'Foundational project completed - planning',
+    'Foundational project completed - risk assessment',
+    'Legislation/policy change',
+    'Traditional Knowledge',
   ],
 };
 

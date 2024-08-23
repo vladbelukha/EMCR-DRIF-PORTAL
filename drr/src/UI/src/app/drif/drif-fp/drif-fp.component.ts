@@ -33,7 +33,11 @@ import {
   StringItem,
 } from '../drif-eoi/drif-eoi-form';
 
-import { DrifFpForm } from './drif-fp-form';
+import {
+  DrifFpForm,
+  ProposedActivityForm,
+  YearOverYearFundingForm,
+} from './drif-fp-form';
 import { DrifFpStep10Component } from './drif-fp-step-10/drif-fp-step-10.component';
 import { DrifFpStep11Component } from './drif-fp-step-11/drif-fp-step-11.component';
 import { DrifFpStep12Component } from './drif-fp-step-12/drif-fp-step-12.component';
@@ -182,8 +186,8 @@ export class DrifFpComponent {
           ownershipAndAuthorization: {
             ownershipDeclaration: response.ownershipDeclaration,
             ownershipDescription: response.ownershipDescription,
-            projectAuthority: response.authorityAndOwnership,
-            projectAuthorityComments: response.authorityAndOwnershipComments,
+            projectAuthority: response.projectAuthority,
+            projectAuthorityComments: response.projectAuthorityComments,
             operationAndMaintenance: response.operationAndMaintenance,
             operationAndMaintenanceComments:
               response.operationAndMaintenanceComments,
@@ -196,23 +200,67 @@ export class DrifFpComponent {
           projectPlan: {
             startDate: response.startDate,
             endDate: response.endDate,
-            // TODO: projectDescription: response.projectDescription,
+            projectAlternateOptions: response.projectAlternateOptions,
+            projectDescription: response.projectDescription,
+            proposedActivities: response.proposedActivities,
+            verificationMethods: response.verificationMethods,
+            verificationMethodsComments: response.verificationMethodsComments,
           },
-          projectEngagement: {},
+          projectEngagement: {
+            affectedParties: response.affectedParties,
+            collaborationComments: response.collaborationComments,
+            firstNationsEngagementComments:
+              response.firstNationsEngagementComments,
+            otherEngagement: response.otherEngagement,
+            otherEngagementComments: response.otherEngagementComments,
+          },
           climateAdaptation: {
-            // TODO: climateAdaptationScreener: response.climateAdaptationScreener,
+            climateAdaptationScreener: response.climateAdaptationScreener,
             climateAdaptation: response.climateAdaptation,
           },
-          permitsRegulationsAndStandards: {},
-          projectOutcomes: {},
-          projectRisks: {},
+          permitsRegulationsAndStandards: {
+            regulations: response.regulations,
+            regulationsComments: response.regulationsComments,
+            standards: response.standards,
+            standardsAcceptable: response.standardsAcceptable,
+            standardsComments: response.standardsComments,
+            professionals: response.professionals,
+            professionalGuidanceComments: response.professionalGuidanceComments,
+            professionalGuidance: response.professionalGuidance,
+            approvalsComments: response.approvalsComments,
+            approvals: response.approvals,
+          },
+          projectOutcomes: {
+            publicBenefit: response.publicBenefit,
+          },
+          projectRisks: {
+            capacityRiskComments: response.capacityRiskComments,
+            capacityRiskMitigated: response.capacityRiskMitigated,
+            capacityRisks: response.capacityRisks,
+            complexityRiskComments: response.complexityRiskComments,
+            complexityRiskMitigated: response.complexityRiskMitigated,
+            complexityRisks: response.complexityRisks,
+            readinessRiskComments: response.readinessRiskComments,
+            readinessRiskMitigated: response.readinessRiskMitigated,
+            readinessRisks: response.readinessRisks,
+            riskTransferMigigated: response.riskTransferMigigated,
+            sensitivityRiskComments: response.sensitivityRiskComments,
+            sensitivityRiskMitigated: response.sensitivityRiskMitigated,
+            sensitivityRisks: response.sensitivityRisks,
+            transferRisks: response.transferRisks,
+            transferRisksComments: response.transferRisksComments,
+          },
           budget: {
             haveOtherFunding: response.haveOtherFunding,
             estimatedTotal: response.estimatedTotal,
             fundingRequest: response.fundingRequest,
             remainingAmount: response.remainingAmount,
+            discrepancyComment: response.discrepancyComment,
+            totalDrifFundingRequest: response.totalDrifFundingRequest,
           },
-          attachments: {},
+          attachments: {
+            // TODO: attachments: response.attachments,
+          },
           declarations: {},
         };
 
@@ -245,14 +293,14 @@ export class DrifFpComponent {
         const proposedActivitiesArray = this.getFormGroup('projectPlan').get(
           'proposedActivities'
         ) as FormArray;
-        // if (response.proposedActivities?.length! > 0) {
-        //   proposedActivitiesArray.clear();
-        // }
-        // response.proposedActivities?.forEach((activity) => {
-        //   proposedActivitiesArray?.push(
-        //     this.formBuilder.formGroup(new StringItem({ value: activity }))
-        //   );
-        // });
+        if (response.proposedActivities?.length! > 0) {
+          proposedActivitiesArray.clear();
+        }
+        response.proposedActivities?.forEach((activity) => {
+          proposedActivitiesArray?.push(
+            this.formBuilder.formGroup(new ProposedActivityForm(activity))
+          );
+        });
 
         const fundingInformationItemFormArray = this.getFormGroup('budget').get(
           'otherFunding'
@@ -263,6 +311,18 @@ export class DrifFpComponent {
         response.otherFunding?.forEach((funding) => {
           fundingInformationItemFormArray?.push(
             this.formBuilder.formGroup(new FundingInformationItemForm(funding))
+          );
+        });
+
+        const yearOverYearFormArray = this.getFormGroup('budget').get(
+          'yearOverYearFunding'
+        ) as FormArray;
+        if (response.yearOverYearFunding?.length! > 0) {
+          yearOverYearFormArray.clear();
+        }
+        response.yearOverYearFunding?.forEach((funding) => {
+          yearOverYearFormArray?.push(
+            this.formBuilder.formGroup(new YearOverYearFundingForm(funding))
           );
         });
 
@@ -311,11 +371,6 @@ export class DrifFpComponent {
     const fpDraft = {
       ...drifFpForm.proponentAndProjectInformationForm,
       ...drifFpForm.ownershipAndAuthorization,
-      // TODO: temporary fix for missing fields
-      authorityAndOwnership:
-        drifFpForm.ownershipAndAuthorization?.projectAuthority,
-      authorityAndOwnershipComments:
-        drifFpForm.ownershipAndAuthorization?.projectAuthorityComments,
       ...drifFpForm.projectArea,
       ...drifFpForm.projectPlan,
       ...drifFpForm.projectEngagement,
