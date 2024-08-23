@@ -7,6 +7,7 @@ namespace EMCR.DRR.Resources.Applications
         Task<ManageApplicationCommandResult> Manage(ManageApplicationCommand cmd);
         Task<ApplicationQueryResult> Query(ApplicationQuery query);
         Task<DeclarationQueryResult> Query(DeclarationQuery query);
+        Task<EntitiesQueryResult> Query(EntitiesQuery query);
         Task<bool> CanAccessApplication(string id, string businessId);
     }
 
@@ -30,6 +31,25 @@ namespace EMCR.DRR.Resources.Applications
     {
         public string? Id { get; set; }
         public string? BusinessId { get; set; }
+    }
+
+    public class EntitiesQuery
+    { }
+
+    public class EntitiesQueryResult
+    {
+        //public IEnumerable<string>? ProposedActivities { get; set; } = Array.Empty<string>();
+        public IEnumerable<string>? VerificationMethods { get; set; } = Array.Empty<string>();
+        public IEnumerable<string>? AffectedParties { get; set; } = Array.Empty<string>();
+        //public IEnumerable<string>? Professionals { get; set; } = Array.Empty<string>();
+        public IEnumerable<string>? Standards { get; set; } = Array.Empty<string>();
+        public IEnumerable<string>? ComplexityRisks { get; set; } = Array.Empty<string>();
+        public IEnumerable<string>? ReadinessRisks { get; set; } = Array.Empty<string>();
+        public IEnumerable<string>? SensitivityRisks { get; set; } = Array.Empty<string>();
+        public IEnumerable<string>? CapacityRisks { get; set; } = Array.Empty<string>();
+        //public IEnumerable<string>? TransferRisks { get; set; } = Array.Empty<string>();
+        public IEnumerable<string>? FiscalYears { get; set; } = Array.Empty<string>();
+
     }
 
     public class DeclarationQuery
