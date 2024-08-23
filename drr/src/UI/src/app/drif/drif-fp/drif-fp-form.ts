@@ -189,7 +189,7 @@ export class PermitsRegulationsAndStandardsForm {
 
   @prop()
   @required()
-  standardsAcceptable?: number; // TODO: change to enum
+  standardsAcceptable?: YesNoOption;
 
   @prop()
   @required()
@@ -215,11 +215,15 @@ export class PermitsRegulationsAndStandardsForm {
 export class YearOverYearFundingForm {
   @prop()
   @required()
-  year?: number;
+  year?: string;
 
   @prop()
   @required()
   amount?: number;
+
+  constructor(values: YearOverYearFundingForm) {
+    Object.assign(this, values);
+  }
 }
 
 export class BudgetForm {
