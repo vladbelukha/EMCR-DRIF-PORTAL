@@ -13,6 +13,8 @@ import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.
 import { DrrSelectComponent } from '../../../shared/controls/drr-select/drr-select.component';
 import { DrrTextareaComponent } from '../../../shared/controls/drr-textarea/drr-textarea.component';
 import { ProjectPlanForm, ProposedActivityForm } from '../drif-fp-form';
+import { EntitiesStore } from '../../../store/entities.store';
+import { DrrChipAutocompleteComponent } from "../../../shared/controls/drr-chip-autocomplete/drr-chip-autocomplete.component";
 
 @Component({
   selector: 'drif-fp-step-4',
@@ -31,19 +33,21 @@ import { ProjectPlanForm, ProposedActivityForm } from '../drif-fp-form';
     DrrSelectComponent,
     DrrDatepickerComponent,
     DrrTextareaComponent,
-  ],
+    DrrChipAutocompleteComponent
+],
   templateUrl: './drif-fp-step-4.component.html',
   styleUrl: './drif-fp-step-4.component.scss',
 })
 export class DrifFpStep4Component {
   formBuilder = inject(RxFormBuilder);
+  entitiesStore = inject(EntitiesStore);
 
   @Input() projectPlanForm!: IFormGroup<ProjectPlanForm>;
 
   minStartDate = new Date();
   minEndDate = new Date();
 
-  verificationMethodOptions = ['Method 1', 'Method 2', 'Method 3'];
+  verificationMethodOptions = this.entitiesStore.getEntities().verificationMethods();
 
   ngOnInit() {
     this.projectPlanForm.get('startDate')?.valueChanges.subscribe((date) => {

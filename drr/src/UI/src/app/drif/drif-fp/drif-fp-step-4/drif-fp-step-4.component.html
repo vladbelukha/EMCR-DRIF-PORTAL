@@ -88,13 +88,11 @@
     <mat-label class="drr-label" style="margin-top: 1rem">{{
       t("verification")
     }}</mat-label>
-    <drr-select
-      class="drr-single-input"
+    <drr-chip-autocomplete
       [label]="t('verificationMethods')"
       [rxFormControl]="projectPlanForm.get('verificationMethods')"
       [options]="verificationMethodOptions"
-      [isMultiple]="true"
-    ></drr-select>
+    ></drr-chip-autocomplete>
     <drr-textarea
       [label]="t('verificationMethodsComments')"
       [maxlength]="2000"
