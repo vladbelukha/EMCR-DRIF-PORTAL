@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using EMCR.DRR.API.Resources.Accounts;
 using EMCR.DRR.API.Resources.Cases;
 using EMCR.DRR.API.Services;
 using EMCR.DRR.Resources.Applications;
@@ -10,14 +9,12 @@ namespace EMCR.DRR.Managers.Intake
     {
         private readonly IMapper mapper;
         private readonly IApplicationRepository applicationRepository;
-        private readonly IAccountRepository accountRepository;
         private readonly ICaseRepository caseRepository;
 
-        public IntakeManager(IMapper mapper, IApplicationRepository applicationRepository, IAccountRepository accountRepository, ICaseRepository caseRepository)
+        public IntakeManager(IMapper mapper, IApplicationRepository applicationRepository, ICaseRepository caseRepository)
         {
             this.mapper = mapper;
             this.applicationRepository = applicationRepository;
-            this.accountRepository = accountRepository;
             this.caseRepository = caseRepository;
         }
 
@@ -78,7 +75,7 @@ namespace EMCR.DRR.Managers.Intake
             var id = (await applicationRepository.Manage(new SubmitApplication { Application = application })).Id;
             return id;
         }
-        
+
         public async Task<string> Handle(CreateFpFromEoiCommand cmd)
         {
             var canAccess = await CanAccessApplication(cmd.EoiId, cmd.UserInfo.BusinessId);
@@ -117,6 +114,12 @@ namespace EMCR.DRR.Managers.Intake
         {
             var res = await applicationRepository.Query(new Resources.Applications.DeclarationQuery());
             return new DeclarationQueryResult { Items = mapper.Map<IEnumerable<DeclarationInfo>>(res.Items) };
+        }
+
+        public async Task<EntitiesQueryResult> Handle(EntitiesQuery _)
+        {
+            var res = await applicationRepository.Query(new Resources.Applications.EntitiesQuery());
+            return mapper.Map<EntitiesQueryResult>(res);
         }
 
         private async Task<bool> CanAccessApplication(string? id, string? businessId)

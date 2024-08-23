@@ -29,10 +29,9 @@ namespace EMCR.DRR.API.Mappers
                 ;
 
             CreateMap<Managers.Intake.DeclarationInfo, DeclarationInfo>()
+                .ForMember(dest => dest.ApplicationType, opt => opt.MapFrom(src => DRRApplicationTypeMapper(src.ApplicationTypeName)))
                 ;
 
-            CreateMap<DeclarationInfo, DeclarationInfo>()
-                ;
 
             CreateMap<AccountDetails, ProfileDetails>()
                 .ReverseMap()
