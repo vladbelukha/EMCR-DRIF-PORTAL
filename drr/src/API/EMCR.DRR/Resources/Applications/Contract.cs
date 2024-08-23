@@ -60,12 +60,6 @@ namespace EMCR.DRR.Resources.Applications
         public IEnumerable<DeclarationInfo> Items { get; set; } = Array.Empty<DeclarationInfo>();
     }
 
-    public class DeclarationInfo
-    {
-        public required DeclarationTypeOptionSet Type { get; set; }
-        public required string Text { get; set; }
-    }
-
     public class SubmitApplication : ManageApplicationCommand
     {
         public required Application Application { get; set; }
