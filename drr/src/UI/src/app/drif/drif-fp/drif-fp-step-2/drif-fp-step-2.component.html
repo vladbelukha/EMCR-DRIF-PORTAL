@@ -2,23 +2,21 @@
   <form [formGroup]="ownershipAndAuthorizationForm">
     <mat-label class="drr-label">{{ t("fpOwnership") }}</mat-label>
     <mat-label>{{ t("fpOwnershipQuestion") }}*</mat-label>
-    <div class="drr-radio-comment">
-      <drr-radio-button
-        [options]="yesNoBoolOptions"
-        [rxFormControl]="
-          ownershipAndAuthorizationForm.get('ownershipDeclaration')
-        "
-      ></drr-radio-button>
+    <drr-radio-button
+      [options]="yesNoBoolOptions"
+      [rxFormControl]="
+        ownershipAndAuthorizationForm.get('ownershipDeclaration')
+      "
+    ></drr-radio-button>
 
-      <drr-textarea
-        [label]="t('fpOwnershipComments')"
-        [maxlength]="2000"
-        [rxFormControl]="
-          ownershipAndAuthorizationForm.get('ownershipDescription')
-        "
-        [useTopLabel]="false"
-      ></drr-textarea>
-    </div>
+    <drr-textarea
+      [label]="t('fpOwnershipComments')"
+      [maxlength]="2000"
+      [rxFormControl]="
+        ownershipAndAuthorizationForm.get('ownershipDescription')
+      "
+      [useFloatingLabel]="false"
+    ></drr-textarea>
 
     <mat-label class="drr-label">{{ t("projectAuthority") }}</mat-label>
     <drr-radio-button
@@ -42,7 +40,7 @@
       [rxFormControl]="
         ownershipAndAuthorizationForm.get('operationAndMaintenanceComments')
       "
-      [useTopLabel]="false"
+      [useFloatingLabel]="false"
     ></drr-textarea>
 
     <mat-label class="drr-label">{{
@@ -73,7 +71,7 @@
       [rxFormControl]="
         ownershipAndAuthorizationForm.get('authorizationOrEndorsementComments')
       "
-      [useTopLabel]="false"
+      [useFloatingLabel]="false"
     ></drr-textarea>
   </form>
 </div>

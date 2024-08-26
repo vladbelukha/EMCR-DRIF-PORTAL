@@ -30,7 +30,6 @@
       [label]="t('projectDescriptionText')"
       [maxlength]="2000"
       [rxFormControl]="projectPlanForm.get('projectDescription')"
-      [useTopLabel]="true"
     ></drr-textarea>
 
     <mat-label class="drr-label">{{ t("proposedActivities") }}</mat-label>
@@ -97,7 +96,6 @@
       [label]="t('verificationMethodsComments')"
       [maxlength]="2000"
       [rxFormControl]="projectPlanForm.get('verificationMethodsComments')"
-      [useTopLabel]="true"
     ></drr-textarea>
 
     <mat-label class="drr-label">{{ t("projectAlternates") }}</mat-label>
@@ -105,7 +103,6 @@
       [label]="t('projectAlternatesText')"
       [maxlength]="2000"
       [rxFormControl]="projectPlanForm.get('projectAlternateOptions')"
-      [useTopLabel]="true"
     ></drr-textarea>
   </form>
 </div>

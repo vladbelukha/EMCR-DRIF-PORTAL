@@ -72,7 +72,7 @@
       [label]="t('discrepancyComment')"
       [maxlength]="2000"
       [rxFormControl]="budgetForm.get('discrepancyComment')"
-      [useTopLabel]="false"
+      [useFloatingLabel]="false"
     ></drr-textarea>
 
     <mat-label class="drr-label">{{ t("otherFunding") }}</mat-label>
@@ -118,7 +118,7 @@
       [label]="t('costEffectiveComments')"
       [rxFormControl]="budgetForm.get('costEffectiveComments')"
       [maxlength]="2000"
-      [useTopLabel]="false"
+      [useFloatingLabel]="false"
     ></drr-textarea>
 
     <mat-label class="drr-label">{{ t("previosResponse") }}</mat-label>
@@ -136,7 +136,7 @@
       [label]="t('previosResponseComments')"
       [rxFormControl]="budgetForm.get('previosResponseComments')"
       [maxlength]="2000"
-      [useTopLabel]="false"
+      [useFloatingLabel]="false"
     ></drr-textarea>
 
     <mat-label class="drr-label">{{
@@ -146,7 +146,7 @@
       [label]="t('activityCostEffectivenessQuestion')"
       [rxFormControl]="budgetForm.get('activityCostEffectiveness')"
       [maxlength]="2000"
-      [useTopLabel]="false"
+      [useFloatingLabel]="false"
     ></drr-textarea>
 
     <mat-label class="drr-label">{{ t("costConsiderations") }}</mat-label>
@@ -163,7 +163,7 @@
       [label]="t('costConsiderationsComments')"
       [rxFormControl]="budgetForm.get('costConsiderationsComments')"
       [maxlength]="2000"
-      [useTopLabel]="false"
+      [useFloatingLabel]="false"
     ></drr-textarea>
   </form>
 </div>

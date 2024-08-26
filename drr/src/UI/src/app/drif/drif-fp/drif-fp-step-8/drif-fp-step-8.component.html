@@ -9,7 +9,7 @@
       [label]="t('publicBenefitComments')"
       [maxlength]="2000"
       [rxFormControl]="projectOutcomesForm.get('publicBenefitComments')"
-      [useTopLabel]="false"
+      [useFloatingLabel]="false"
     ></drr-textarea>
 
     <mat-label class="drr-label">{{ t("futureCostReduction") }}</mat-label>
@@ -27,7 +27,7 @@
       [label]="t('costReductionComments')"
       [maxlength]="2000"
       [rxFormControl]="projectOutcomesForm.get('costReductionComments')"
-      [useTopLabel]="false"
+      [useFloatingLabel]="false"
     ></drr-textarea>
 
     <mat-label class="drr-label">{{ t("coBenefitsTitle") }}</mat-label>
@@ -45,7 +45,7 @@
       [label]="t('coBenefitComments')"
       [maxlength]="2000"
       [rxFormControl]="projectOutcomesForm.get('coBenefitComments')"
-      [useTopLabel]="false"
+      [useFloatingLabel]="false"
     ></drr-textarea>
 
     <mat-label class="drr-label">{{ t("resiliency") }}</mat-label>
@@ -59,7 +59,7 @@
       [label]="t('increasedResiliencyComments')"
       [maxlength]="2000"
       [rxFormControl]="projectOutcomesForm.get('increasedResiliencyComments')"
-      [useTopLabel]="false"
+      [useFloatingLabel]="false"
     ></drr-textarea>
   </form>
 </div>
