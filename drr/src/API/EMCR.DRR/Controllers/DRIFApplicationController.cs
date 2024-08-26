@@ -235,7 +235,7 @@ namespace EMCR.DRR.Controllers
         public bool? Approvals { get; set; }
         public string? ApprovalsComments { get; set; }
         public bool? ProfessionalGuidance { get; set; }
-        public IEnumerable<string>? Professionals { get; set; }
+        public IEnumerable<string>? Professionals { get; set; } //Missing list in CRM
         public string? ProfessionalGuidanceComments { get; set; }
         public YesNoOption? StandardsAcceptable { get; set; }
         public IEnumerable<string>? Standards { get; set; }
@@ -245,6 +245,15 @@ namespace EMCR.DRR.Controllers
 
         //Project Outcomes - 8
         public bool? PublicBenefit { get; set; }
+        public string? PublicBenefitComments { get; set; }
+        public bool? FutureCostReduction { get; set; }
+        public IEnumerable<string>? CostReductions { get; set; }
+        public string? costReductionComments { get; set; }
+        public bool? ProduceCoBenefits { get; set; }
+        public IEnumerable<string>? CoBenefits { get; set; }
+        public string? CoBenefitComments { get; set; }
+        public IEnumerable<string>? IncreasedResiliency { get; set; } //Missing list in CRM
+        public string? IncreasedResiliencyComments { get; set; }
 
         //Project Risks - 9
         public bool? ComplexityRiskMitigated { get; set; }
@@ -260,7 +269,7 @@ namespace EMCR.DRR.Controllers
         public IEnumerable<string>? CapacityRisks { get; set; }
         public string? CapacityRiskComments { get; set; }
         public bool? RiskTransferMigigated { get; set; }
-        public IEnumerable<string>? TransferRisks { get; set; }
+        public IEnumerable<string>? TransferRisks { get; set; } //Missing list in CRM
         public string? TransferRisksComments { get; set; }
 
         //Budget - 10
@@ -268,7 +277,15 @@ namespace EMCR.DRR.Controllers
         [Range(0, ApplicationValidators.FUNDING_MAX_VAL)]
         public decimal? TotalDrifFundingRequest { get; set; }
         public string? DiscrepancyComment { get; set; }
-
+        public bool? CostEffective { get; set; }
+        public string? CostEffectiveComments { get; set; }
+        public YesNoOption? PreviousResponse { get; set; }
+        public decimal? PreviousResponseCost { get; set; }
+        public string? PreviousResponseComments { get; set; }
+        public string? ActivityCostEffectiveness { get; set; }
+        public bool? CostConsiderationsApplied { get; set; }
+        public IEnumerable<string>? CostConsiderations { get; set; }
+        public string? CostConsiderationsComments { get; set; }
 
         //Attachments - 11
         public IEnumerable<Attachment>? Attachments { get; set; }
