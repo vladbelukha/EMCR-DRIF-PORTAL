@@ -2,20 +2,18 @@
   <form [formGroup]="permitsRegulationsAndStandardsForm">
     <mat-label class="drr-label">{{ t("approvals") }}</mat-label>
     <mat-label>{{ t("approvalsQuestion") }}*</mat-label>
-    <div class="drr-radio-comment">
-      <drr-radio-button
-        [rxFormControl]="permitsRegulationsAndStandardsForm.get('approvals')"
-      ></drr-radio-button>
+    <drr-radio-button
+      [rxFormControl]="permitsRegulationsAndStandardsForm.get('approvals')"
+    ></drr-radio-button>
 
-      <drr-textarea
-        [label]="t('approvalsComments')"
-        [maxlength]="2000"
-        [rxFormControl]="
-          permitsRegulationsAndStandardsForm.get('approvalsComments')
-        "
-        [useTopLabel]="false"
-      ></drr-textarea>
-    </div>
+    <drr-textarea
+      [label]="t('approvalsComments')"
+      [maxlength]="2000"
+      [rxFormControl]="
+        permitsRegulationsAndStandardsForm.get('approvalsComments')
+      "
+      [useFloatingLabel]="false"
+    ></drr-textarea>
 
     <mat-label class="drr-label">{{ t("professionalGuidance") }}</mat-label>
     <mat-label>{{ t("professionalGuidanceQuestion") }}*</mat-label>
@@ -38,7 +36,7 @@
       [rxFormControl]="
         permitsRegulationsAndStandardsForm.get('professionalGuidanceComments')
       "
-      [useTopLabel]="false"
+      [useFloatingLabel]="false"
     ></drr-textarea>
 
     <mat-label class="drr-label">{{ t("standardsAcceptable") }}</mat-label>
@@ -63,24 +61,21 @@
       [rxFormControl]="
         permitsRegulationsAndStandardsForm.get('standardsComments')
       "
-      [useTopLabel]="false"
+      [useFloatingLabel]="false"
     ></drr-textarea>
 
     <mat-label class="drr-label">{{ t("regulations") }}</mat-label>
     <mat-label>{{ t("regulationsQuestion") }}*</mat-label>
-    <div class="drr-radio-comment">
-      <drr-radio-button
-        [rxFormControl]="permitsRegulationsAndStandardsForm.get('regulations')"
-      ></drr-radio-button>
-
-      <drr-textarea
-        [label]="t('regulationsComments')"
-        [maxlength]="2000"
-        [rxFormControl]="
-          permitsRegulationsAndStandardsForm.get('regulationsComments')
-        "
-        [useTopLabel]="false"
-      ></drr-textarea>
-    </div>
+    <drr-radio-button
+      [rxFormControl]="permitsRegulationsAndStandardsForm.get('regulations')"
+    ></drr-radio-button>
+    <drr-textarea
+      [label]="t('regulationsComments')"
+      [maxlength]="2000"
+      [rxFormControl]="
+        permitsRegulationsAndStandardsForm.get('regulationsComments')
+      "
+      [useFloatingLabel]="false"
+    ></drr-textarea>
   </form>
 </div>

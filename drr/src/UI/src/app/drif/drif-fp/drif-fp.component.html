@@ -11,9 +11,9 @@
         </h1>
         <span>
           {{ t("relatedEoi") }}
-            <a href="{{ getRelatedEOILink() }}" target="_blank">
+          <a href="{{ getRelatedEOILink() }}" target="_blank">
             {{ getRelatedEOI() }}
-            </a>
+          </a>
         </span>
       </div>
       <div>
@@ -324,7 +324,7 @@
         [errorMessage]="t('stepError')"
       >
         <drif-fp-step-12
-          [declationsForm]="getFormGroup('declaration')"
+          [declarationsForm]="getFormGroup('declarations')"
         ></drif-fp-step-12>
         <div class="drr-stepper-actions">
           <button mat-stroked-button color="primary" matStepperPrevious>

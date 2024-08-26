@@ -197,37 +197,20 @@
     <mat-label style="margin-top: 1rem"
       >{{ t("regionalProjectQuestion") }}*</mat-label
     >
-    <div class="drr-radio-comment">
-      <mat-radio-group
-        id="regionalProject"
-        class="drr-radio-group"
-        aria-label="Select an option"
-        formControlName="regionalProject"
-      >
-        <mat-error
-          *ngIf="
-            proponentAndProjectInformationForm.get('regionalProject')
-              ?.touched &&
-            proponentAndProjectInformationForm
-              .get('regionalProject')
-              ?.hasError('required')
-          "
-          >{{ t("required") }}</mat-error
-        >
-        <mat-radio-button [value]="true">Yes</mat-radio-button>
-        <mat-radio-button [value]="false">No</mat-radio-button>
-      </mat-radio-group>
-
-      <drr-textarea
-        [id]="'regionalProjectComments'"
-        [label]="t('regionalProjectComments')"
-        [maxlength]="2000"
-        [rxFormControl]="
-          proponentAndProjectInformationForm.get('regionalProjectComments')
-        "
-        [useTopLabel]="false"
-      ></drr-textarea>
-    </div>
+    <drr-radio-button
+      [rxFormControl]="
+        proponentAndProjectInformationForm.get('regionalProject')
+      "
+    ></drr-radio-button>
+    <drr-textarea
+      [id]="'regionalProjectComments'"
+      [label]="t('regionalProjectComments')"
+      [maxlength]="2000"
+      [rxFormControl]="
+        proponentAndProjectInformationForm.get('regionalProjectComments')
+      "
+      [useFloatingLabel]="false"
+    ></drr-textarea>
 
     <mat-label class="drr-label">{{ t("projectTitle") }}</mat-label>
     <drr-input
@@ -245,7 +228,7 @@
       [label]="t('projectTypeText')"
       [maxlength]="2000"
       [rxFormControl]="proponentAndProjectInformationForm.get('scopeStatement')"
-      [useTopLabel]="false"
+      [useFloatingLabel]="false"
     ></drr-textarea>
 
     <mat-label class="drr-label">{{ t("relatedHazards") }}</mat-label>

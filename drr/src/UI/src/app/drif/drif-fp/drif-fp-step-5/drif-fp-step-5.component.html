@@ -13,7 +13,7 @@
         projectEngagementForm.get('firstNationsEngagementComments')
       "
       [maxlength]="2000"
-      [useTopLabel]="false"
+      [useFloatingLabel]="false"
     ></drr-textarea>
 
     <mat-label class="drr-label">{{ t("otherEngagement") }}</mat-label>
@@ -32,7 +32,7 @@
       [label]="t('otherEngagementComments')"
       [rxFormControl]="projectEngagementForm.get('otherEngagementComments')"
       [maxlength]="2000"
-      [useTopLabel]="false"
+      [useFloatingLabel]="false"
     ></drr-textarea>
 
     <mat-label class="drr-label">{{ t("collaboration") }}</mat-label>
@@ -40,7 +40,6 @@
       [label]="t('collaborationComments')"
       [rxFormControl]="projectEngagementForm.get('collaborationComments')"
       [maxlength]="2000"
-      [useTopLabel]="true"
     ></drr-textarea>
   </form>
 </div>

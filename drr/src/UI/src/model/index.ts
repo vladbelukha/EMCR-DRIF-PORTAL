@@ -20,6 +20,7 @@ export * from './draftEoiApplication';
 export * from './draftEoiApplicationAllOf';
 export * from './draftFpApplication';
 export * from './draftFpApplicationAllOf';
+export * from './entitiesQueryResult';
 export * from './eoiApplication';
 export * from './eoiApplicationAllOf';
 export * from './estimatedNumberOfPeople';

@@ -61,7 +61,7 @@ export class DrifFpStep10Component {
 
   fiscalYearsOptions: string[] = [];
   fundingTypeOptions = Object.values(FundingType);
-  previosResponseOptions = [
+  previousResponseOptions = [
     { value: YesNoOption.Yes, label: 'Yes' },
     { value: YesNoOption.NotApplicable, label: 'Yes, but costs unknown' },
     { value: YesNoOption.No, label: 'No' },

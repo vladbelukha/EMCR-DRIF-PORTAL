@@ -31,9 +31,9 @@ export class DrifFpStep8Component {
 
   @Input() projectOutcomesForm!: IFormGroup<ProjectOutcomesForm>;
 
-  costReductionOptions = this.entitiesStore.getEntities().costReductions();
-  coBenefitsOptions = this.entitiesStore.getEntities().coBenefits();
-  resiliencyOptions = this.entitiesStore.getEntities().resiliency();
+  costReductionOptions = this.entitiesStore.getEntities()?.costReductions?.();
+  coBenefitsOptions = this.entitiesStore.getEntities()?.coBenefits?.();
+  resiliencyOptions = this.entitiesStore.getEntities()?.resiliency?.();
 
   ngOnInit() {
     this.projectOutcomesForm

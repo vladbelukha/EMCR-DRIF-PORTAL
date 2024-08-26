@@ -26,6 +26,7 @@ import { DrrSelectComponent } from '../../../shared/controls/drr-select/drr-sele
 import { DrrTextareaComponent } from '../../../shared/controls/drr-textarea/drr-textarea.component';
 import { ContactDetailsForm, StringItem } from '../../drif-eoi/drif-eoi-form';
 import { ProponentAndProjectInformationForm } from '../drif-fp-form';
+import { DrrRadioButtonComponent } from '../../../shared/controls/drr-radio-button/drr-radio-button.component';
 
 @Component({
   selector: 'drif-fp-step-1',
@@ -45,6 +46,7 @@ import { ProponentAndProjectInformationForm } from '../drif-fp-form';
     DrrInputComponent,
     DrrTextareaComponent,
     DrrSelectComponent,
+    DrrRadioButtonComponent
   ],
   templateUrl: './drif-fp-step-1.component.html',
   styleUrl: './drif-fp-step-1.component.scss',
