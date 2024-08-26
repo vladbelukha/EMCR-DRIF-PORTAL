@@ -75,6 +75,10 @@ namespace EMCR.DRR.Managers.Intake
                 .ReverseMap()
                 ;
 
+            CreateMap<Controllers.YearOverYearFunding, YearOverYearFunding>()
+                .ReverseMap()
+                ;   
+
             CreateMap<Controllers.ContactDetails, ContactDetails>()
                 .ForMember(dest => dest.BCeId, opt => opt.Ignore())
                 .ReverseMap()
@@ -96,7 +100,39 @@ namespace EMCR.DRR.Managers.Intake
                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src))
                ;
 
-            CreateMap<Resources.Applications.DeclarationInfo, DeclarationInfo>()
+            CreateMap<string, VerificationMethod>()
+               .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src))
+               ;
+
+            CreateMap<string, AffectedParty>()
+               .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src))
+               ;
+
+            CreateMap<string, ComplexityRisk>()
+               .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src))
+               ;
+
+            CreateMap<string, ReadinessRisk>()
+               .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src))
+               ;
+
+            CreateMap<string, SensitivityRisk>()
+               .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src))
+               ;
+
+            CreateMap<string, CapacityRisk>()
+               .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src))
+               ;
+
+            CreateMap<string, TransferRisks>()
+               .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src))
+               ;
+
+            CreateMap<Controllers.ProposedActivity, ProposedActivity>()
+                .ReverseMap()
+                ;
+
+            CreateMap<Resources.Applications.EntitiesQueryResult, EntitiesQueryResult>()
                 .ReverseMap()
                 ;
         }

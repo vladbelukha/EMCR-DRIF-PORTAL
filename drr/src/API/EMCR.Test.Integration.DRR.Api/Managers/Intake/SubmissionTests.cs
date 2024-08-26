@@ -343,7 +343,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             application.Regulations = false;
             application.RegulationsComments = "regulations comments";
 
-            application.YearOverYearFunding = new[] { new YearOverYearFunding { Amount = 100, Year = "2024" } };
+            application.YearOverYearFunding = new[] { new EMCR.DRR.Controllers.YearOverYearFunding { Amount = 100, Year = "2024" } };
             application.TotalDrifFundingRequest = 5000;
             application.DiscrepancyComment = "discrepancy comment";
 

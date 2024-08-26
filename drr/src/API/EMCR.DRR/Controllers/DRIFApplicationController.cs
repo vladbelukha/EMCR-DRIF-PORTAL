@@ -105,6 +105,7 @@ namespace EMCR.DRR.Controllers
     public class DeclarationInfo
     {
         public required DeclarationType Type { get; set; }
+        public required ApplicationType ApplicationType { get; set; }
         public required string Text { get; set; }
     }
 
@@ -285,11 +286,11 @@ namespace EMCR.DRR.Controllers
     public class ProposedActivity
     {
         public string? Name { get; set; }
-        public string? Start { get; set; }
-        public string? End { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public string? RelatedMilestone { get; set; }
     }
-    
+
     public class YearOverYearFunding
     {
         public string? Year { get; set; }

@@ -40,9 +40,41 @@ namespace EMCR.DRR.Resources.Applications
         {
             var readCtx = dRRContextFactory.CreateReadOnly();
 
-            var results = await readCtx.drr_legaldeclarations.Where(d => d.statecode == (int)EntityState.Active).GetAllPagesAsync();
+            var results = await readCtx.drr_legaldeclarations.Expand(d => d.drr_ApplicationType).Where(d => d.statecode == (int)EntityState.Active).GetAllPagesAsync();
             var items = mapper.Map<IEnumerable<DeclarationInfo>>(results);
             return new DeclarationQueryResult { Items = items };
+        }
+
+        public async Task<EntitiesQueryResult> Query(EntitiesQuery query)
+        {
+            var readCtx = dRRContextFactory.CreateReadOnly();
+
+            //var proposedActivities =
+            var verificationMethods = (await readCtx.drr_projectneedidentifications.Where(d => d.statecode == (int)EntityState.Active).GetAllPagesAsync()).Select(d => d.drr_name);
+            var affectedParties = (await readCtx.drr_impactedoraffectedparties.Where(d => d.statecode == (int)EntityState.Active).GetAllPagesAsync()).Select(d => d.drr_name);
+            //var professionals = 
+            var standards = (await readCtx.drr_provincialstandards.Where(d => d.statecode == (int)EntityState.Active).GetAllPagesAsync()).Select(d => d.drr_name);
+            var costReduction = (await readCtx.drr_costreductions.Where(d => d.statecode == (int)EntityState.Active).GetAllPagesAsync()).Select(d => d.drr_name);
+            var coBenefit = (await readCtx.drr_cobenefits.Where(d => d.statecode == (int)EntityState.Active).GetAllPagesAsync()).Select(d => d.drr_name);
+            var complexityRisks = (await readCtx.drr_projectcomplexityrisks.Where(d => d.statecode == (int)EntityState.Active).GetAllPagesAsync()).Select(d => d.drr_name);
+            var readinessRisks = (await readCtx.drr_projectreadinessrisks.Where(d => d.statecode == (int)EntityState.Active).GetAllPagesAsync()).Select(d => d.drr_name);
+            var sensitivityRisks = (await readCtx.drr_projectsensitivityrisks.Where(d => d.statecode == (int)EntityState.Active).GetAllPagesAsync()).Select(d => d.drr_name);
+            var capacityRisks = (await readCtx.drr_projectcapacitychallenges.Where(d => d.statecode == (int)EntityState.Active).GetAllPagesAsync()).Select(d => d.drr_name);
+            var fiscalYears = (await readCtx.drr_fiscalyears.Where(d => d.statecode == (int)EntityState.Active).GetAllPagesAsync()).Select(d => d.drr_name);
+            //var transferRisks = 
+
+
+            return new EntitiesQueryResult
+            {
+                VerificationMethods = verificationMethods,
+                AffectedParties = affectedParties,
+                Standards = standards,
+                ComplexityRisks = complexityRisks,
+                ReadinessRisks = readinessRisks,
+                SensitivityRisks = sensitivityRisks,
+                CapacityRisks = capacityRisks,
+                FiscalYears = fiscalYears,
+            };
         }
 
         public async Task<bool> CanAccessApplication(string id, string businessId)

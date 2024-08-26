@@ -5,6 +5,7 @@ namespace EMCR.DRR.Managers.Intake
     public interface IIntakeManager
     {
         Task<DeclarationQueryResult> Handle(DeclarationQuery query);
+        Task<EntitiesQueryResult> Handle(EntitiesQuery query);
         Task<string> Handle(IntakeCommand cmd);
         Task<IntakeQueryResponse> Handle(IntakeQuery cmd);
     }
@@ -17,9 +18,28 @@ namespace EMCR.DRR.Managers.Intake
         public IEnumerable<DeclarationInfo> Items { get; set; } = Array.Empty<DeclarationInfo>();
     }
 
+    public class EntitiesQuery
+    { }
+
+    public class EntitiesQueryResult
+    {
+        //public IEnumerable<string>? ProposedActivities { get; set; } = Array.Empty<string>();
+        public IEnumerable<string>? VerificationMethods { get; set; } = Array.Empty<string>();
+        public IEnumerable<string>? AffectedParties { get; set; } = Array.Empty<string>();
+        //public IEnumerable<string>? Professionals { get; set; } = Array.Empty<string>();
+        public IEnumerable<string>? Standards { get; set; } = Array.Empty<string>();
+        public IEnumerable<string>? ComplexityRisks { get; set; } = Array.Empty<string>();
+        public IEnumerable<string>? ReadinessRisks { get; set; } = Array.Empty<string>();
+        public IEnumerable<string>? SensitivityRisks { get; set; } = Array.Empty<string>();
+        public IEnumerable<string>? CapacityRisks { get; set; } = Array.Empty<string>();
+        //public IEnumerable<string>? TransferRisks { get; set; } = Array.Empty<string>();
+        public IEnumerable<string>? FiscalYears { get; set; } = Array.Empty<string>();
+    }
+
     public class DeclarationInfo
     {
         public required DeclarationType Type { get; set; }
+        public required string ApplicationTypeName { get; set; }
         public required string Text { get; set; }
     }
 
@@ -149,16 +169,14 @@ namespace EMCR.DRR.Managers.Intake
         public DateTime? ModifiedOn { get; set; } = null;
 
 
-        //Full Proposal
+        //--------------Full Proposal--------------
         //Proponent & Project Information - 1
         public bool? RegionalProject { get; set; }
         public string? RegionalProjectComments { get; set; }
 
         //Ownership & Authorization - 2
-        //public bool? Ownership { get; set; }
-        //public string? OwnershipComments { get; set; }
-        public bool? AuthorityAndOwnership { get; set; }
-        public string? AuthorityAndOwnershipComments { get; set; }
+        public bool? ProjectAuthority { get; set; }
+        public string? ProjectAuthorityComments { get; set; }
         public YesNoOption? OperationAndMaintenance { get; set; }
         public string? OperationAndMaintenanceComments { get; set; }
         public YesNoOption? FirstNationsEndorsement { get; set; }
@@ -168,10 +186,21 @@ namespace EMCR.DRR.Managers.Intake
         //Project Area - 3
 
         //Project Plan - 4
+        public string? ProjectDescription { get; set; }
+        public IEnumerable<ProposedActivity>? ProposedActivities { get; set; }
+        public IEnumerable<VerificationMethod> VerificationMethods { get; set; }
+        public string? VerificationMethodsComments { get; set; }
+        public string? ProjectAlternateOptions { get; set; }
 
         //Project Engagement - 5
+        public string? FirstNationsEngagementComments { get; set; }
+        public YesNoOption? OtherEngagement { get; set; }
+        public IEnumerable<AffectedParty> AffectedParties { get; set; }
+        public string? OtherEngagementComments { get; set; }
+        public string? CollaborationComments { get; set; }
 
         //Climate Adaptation - 6
+        public bool? ClimateAdaptationScreener { get; set; }
 
         //Permits Regulations & Standards - 7
         public bool? Approvals { get; set; }
@@ -186,16 +215,29 @@ namespace EMCR.DRR.Managers.Intake
         public string? RegulationsComments { get; set; }
 
         //Project Outcomes - 8
+        public bool? PublicBenefit { get; set; }
 
         //Project Risks - 9
-        public bool? ProjectComplexity { get; set; }
-        public bool? ProjectReadiness { get; set; }
-        public bool? ProjectSensitivity { get; set; }
-        public bool? CapacityChallenges { get; set; }
-        public bool? RiskTransfer { get; set; }
+        public bool? ComplexityRiskMitigated { get; set; }
+        public IEnumerable<ComplexityRisk> ComplexityRisks { get; set; }
+        public string? ComplexityRiskComments { get; set; }
+        public bool? ReadinessRiskMitigated { get; set; }
+        public IEnumerable<ReadinessRisk> ReadinessRisks { get; set; }
+        public string? ReadinessRiskComments { get; set; }
+        public bool? SensitivityRiskMitigated { get; set; }
+        public IEnumerable<SensitivityRisk> SensitivityRisks { get; set; }
+        public string? SensitivityRiskComments { get; set; }
+        public bool? CapacityRiskMitigated { get; set; }
+        public IEnumerable<CapacityRisk> CapacityRisks { get; set; }
+        public string? CapacityRiskComments { get; set; }
+        public bool? RiskTransferMigigated { get; set; }
+        public IEnumerable<TransferRisks> TransferRisks { get; set; }
+        public string? TransferRisksComments { get; set; }
 
         //Budget - 10
-        public decimal? TotalProjectCost { get; set; }
+        public IEnumerable<YearOverYearFunding> YearOverYearFunding { get; set; }
+        public decimal? TotalDrifFundingRequest { get; set; }
+        public string? DiscrepancyComment { get; set; }
 
         //Attachments - 11
 
@@ -255,6 +297,55 @@ namespace EMCR.DRR.Managers.Intake
     public class ProvincialStandard
     {
         public required string Name { get; set; }
+    }
+
+    public class VerificationMethod
+    {
+        public required string Name { get; set; }
+    }
+
+    public class AffectedParty
+    {
+        public required string Name { get; set; }
+    }
+
+    public class ComplexityRisk
+    {
+        public required string Name { get; set; }
+    }
+
+    public class ReadinessRisk
+    {
+        public required string Name { get; set; }
+    }
+
+    public class SensitivityRisk
+    {
+        public required string Name { get; set; }
+    }
+
+    public class CapacityRisk
+    {
+        public required string Name { get; set; }
+    }
+
+    public class TransferRisks
+    {
+        public required string Name { get; set; }
+    }
+
+    public class YearOverYearFunding
+    {
+        public string? Year { get; set; }
+        public decimal? Amount { get; set; }
+    }
+
+    public class ProposedActivity
+    {
+        public string? Name { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
+        public string? RelatedMilestone { get; set; }
     }
 
     public enum ProponentType
