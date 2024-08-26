@@ -23,17 +23,21 @@ namespace EMCR.DRR.Managers.Intake
 
     public class EntitiesQueryResult
     {
-        //public IEnumerable<string>? ProposedActivities { get; set; } = Array.Empty<string>();
-        public IEnumerable<string>? VerificationMethods { get; set; } = Array.Empty<string>();
+        public IEnumerable<string>? VerificationMethods { get; set; } = Array.Empty<string>(); //In CRM = Project Need Identifications
         public IEnumerable<string>? AffectedParties { get; set; } = Array.Empty<string>();
-        //public IEnumerable<string>? Professionals { get; set; } = Array.Empty<string>();
         public IEnumerable<string>? Standards { get; set; } = Array.Empty<string>();
+        public IEnumerable<string>? CostReductions { get; set; } = Array.Empty<string>();
+        public IEnumerable<string>? CoBenefits { get; set; } = Array.Empty<string>();
         public IEnumerable<string>? ComplexityRisks { get; set; } = Array.Empty<string>();
         public IEnumerable<string>? ReadinessRisks { get; set; } = Array.Empty<string>();
         public IEnumerable<string>? SensitivityRisks { get; set; } = Array.Empty<string>();
+        public IEnumerable<string>? CostConsiderations { get; set; } = Array.Empty<string>();
         public IEnumerable<string>? CapacityRisks { get; set; } = Array.Empty<string>();
-        //public IEnumerable<string>? TransferRisks { get; set; } = Array.Empty<string>();
         public IEnumerable<string>? FiscalYears { get; set; } = Array.Empty<string>();
+        //public IEnumerable<string>? ProposedActivities { get; set; } = Array.Empty<string>(); //No List in CRM
+        //public IEnumerable<string>? Professionals { get; set; } = Array.Empty<string>(); //No List in CRM
+        //public IEnumerable<string>? IncreasedResiliency { get; set; } = Array.Empty<string>(); //No List in CRM
+        //public IEnumerable<string>? TransferRisks { get; set; } = Array.Empty<string>(); //No List in CRM
     }
 
     public class DeclarationInfo
