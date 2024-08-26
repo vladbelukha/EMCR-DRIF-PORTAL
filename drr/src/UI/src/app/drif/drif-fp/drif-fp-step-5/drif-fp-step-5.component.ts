@@ -44,7 +44,7 @@ export class DrifFpStep5Component {
     },
   ];
 
-  affectedParties = this.entitiesStore.getEntities().affectedParties();
+  affectedParties = this.entitiesStore.getEntities()?.affectedParties?.();
 
   ngOnInit() {
     this.projectEngagementForm

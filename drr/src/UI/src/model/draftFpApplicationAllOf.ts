@@ -11,6 +11,8 @@ import type { YearOverYearFunding } from './yearOverYearFunding';
 
 export type DraftFpApplicationAllOf = {
   /** @nullable */
+  activityCostEffectiveness?: string;
+  /** @nullable */
   affectedParties?: string[];
   /** @nullable */
   approvals?: boolean;
@@ -29,6 +31,10 @@ export type DraftFpApplicationAllOf = {
   /** @nullable */
   climateAdaptationScreener?: boolean;
   /** @nullable */
+  coBenefitComments?: string;
+  /** @nullable */
+  coBenefits?: string[];
+  /** @nullable */
   collaborationComments?: string;
   /** @nullable */
   complexityRiskComments?: string;
@@ -37,6 +43,20 @@ export type DraftFpApplicationAllOf = {
   /** @nullable */
   complexityRisks?: string[];
   /** @nullable */
+  costConsiderations?: string[];
+  /** @nullable */
+  costConsiderationsApplied?: boolean;
+  /** @nullable */
+  costConsiderationsComments?: string;
+  /** @nullable */
+  costEffective?: boolean;
+  /** @nullable */
+  costEffectiveComments?: string;
+  /** @nullable */
+  costReductionComments?: string;
+  /** @nullable */
+  costReductions?: string[];
+  /** @nullable */
   discrepancyComment?: string;
   /** @nullable */
   eoiId?: string;
@@ -44,6 +64,12 @@ export type DraftFpApplicationAllOf = {
   firstNationsEndorsement?: YesNoOption;
   /** @nullable */
   firstNationsEngagementComments?: string;
+  /** @nullable */
+  futureCostReduction?: boolean;
+  /** @nullable */
+  increasedResiliency?: string[];
+  /** @nullable */
+  increasedResiliencyComments?: string;
   /** @nullable */
   localGovernmentEndorsement?: YesNoOption;
   /** @nullable */
@@ -54,6 +80,14 @@ export type DraftFpApplicationAllOf = {
   otherEngagement?: YesNoOption;
   /** @nullable */
   otherEngagementComments?: string;
+  /** @nullable */
+  previousResponse?: YesNoOption;
+  /** @nullable */
+  previousResponseComments?: string;
+  /** @nullable */
+  previousResponseCost?: number;
+  /** @nullable */
+  produceCoBenefits?: boolean;
   /** @nullable */
   professionalGuidance?: boolean;
   /** @nullable */
@@ -72,6 +106,8 @@ export type DraftFpApplicationAllOf = {
   proposedActivities?: ProposedActivity[];
   /** @nullable */
   publicBenefit?: boolean;
+  /** @nullable */
+  publicBenefitComments?: string;
   /** @nullable */
   readinessRiskComments?: string;
   /** @nullable */

@@ -11,7 +11,13 @@ export interface EntitiesQueryResult {
   /** @nullable */
   capacityRisks?: string[];
   /** @nullable */
+  coBenefits?: string[];
+  /** @nullable */
   complexityRisks?: string[];
+  /** @nullable */
+  costConsiderations?: string[];
+  /** @nullable */
+  costReductions?: string[];
   /** @nullable */
   fiscalYears?: string[];
   /** @nullable */

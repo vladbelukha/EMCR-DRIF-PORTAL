@@ -8,13 +8,13 @@ import { MatInputModule } from '@angular/material/input';
 import { TranslocoModule } from '@ngneat/transloco';
 import { IFormGroup, RxFormBuilder } from '@rxweb/reactive-form-validators';
 import { DateTime } from 'luxon';
+import { DrrChipAutocompleteComponent } from '../../../shared/controls/drr-chip-autocomplete/drr-chip-autocomplete.component';
 import { DrrDatepickerComponent } from '../../../shared/controls/drr-datepicker/drr-datepicker.component';
 import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
 import { DrrSelectComponent } from '../../../shared/controls/drr-select/drr-select.component';
 import { DrrTextareaComponent } from '../../../shared/controls/drr-textarea/drr-textarea.component';
-import { ProjectPlanForm, ProposedActivityForm } from '../drif-fp-form';
 import { EntitiesStore } from '../../../store/entities.store';
-import { DrrChipAutocompleteComponent } from "../../../shared/controls/drr-chip-autocomplete/drr-chip-autocomplete.component";
+import { ProjectPlanForm, ProposedActivityForm } from '../drif-fp-form';
 
 @Component({
   selector: 'drif-fp-step-4',
@@ -33,8 +33,8 @@ import { DrrChipAutocompleteComponent } from "../../../shared/controls/drr-chip-
     DrrSelectComponent,
     DrrDatepickerComponent,
     DrrTextareaComponent,
-    DrrChipAutocompleteComponent
-],
+    DrrChipAutocompleteComponent,
+  ],
   templateUrl: './drif-fp-step-4.component.html',
   styleUrl: './drif-fp-step-4.component.scss',
 })
@@ -47,7 +47,9 @@ export class DrifFpStep4Component {
   minStartDate = new Date();
   minEndDate = new Date();
 
-  verificationMethodOptions = this.entitiesStore.getEntities().verificationMethods();
+  verificationMethodOptions = this.entitiesStore
+    .getEntities()
+    ?.verificationMethods?.();
 
   ngOnInit() {
     this.projectPlanForm.get('startDate')?.valueChanges.subscribe((date) => {

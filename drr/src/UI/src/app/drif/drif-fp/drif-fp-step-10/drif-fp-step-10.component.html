@@ -121,20 +121,20 @@
       [useFloatingLabel]="false"
     ></drr-textarea>
 
-    <mat-label class="drr-label">{{ t("previosResponse") }}</mat-label>
+    <mat-label class="drr-label">{{ t("previousResponse") }}</mat-label>
     <drr-radio-button
-      [label]="t('previosResponseQuestion')"
-      [rxFormControl]="budgetForm.get('previosResponse')"
-      [options]="previosResponseOptions"
+      [label]="t('previousResponseQuestion')"
+      [rxFormControl]="budgetForm.get('previousResponse')"
+      [options]="previousResponseOptions"
     ></drr-radio-button>
     <drr-currency-input
-      *ngIf="budgetForm.get('previosResponse')?.value === 'Yes'"
-      [label]="t('previosResponseCost')"
-      [rxFormControl]="budgetForm.get('previosResponseCost')"
+      *ngIf="budgetForm.get('previousResponse')?.value === 'Yes'"
+      [label]="t('previousResponseCost')"
+      [rxFormControl]="budgetForm.get('previousResponseCost')"
     ></drr-currency-input>
     <drr-textarea
-      [label]="t('previosResponseComments')"
-      [rxFormControl]="budgetForm.get('previosResponseComments')"
+      [label]="t('previousResponseComments')"
+      [rxFormControl]="budgetForm.get('previousResponseComments')"
       [maxlength]="2000"
       [useFloatingLabel]="false"
     ></drr-textarea>

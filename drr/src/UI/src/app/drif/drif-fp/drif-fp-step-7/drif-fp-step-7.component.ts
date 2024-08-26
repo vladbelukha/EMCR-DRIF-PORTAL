@@ -44,7 +44,7 @@ export class DrifFpStep7Component {
 
   professionalGuidanceOptions = this.entitiesStore
     .getEntities()
-    .professionals();
+    ?.professionals?.();
   standardsAcceptableOptions: RadioOption[] = [
     { value: 1, label: 'Yes' },
     { value: 2, label: 'No' },

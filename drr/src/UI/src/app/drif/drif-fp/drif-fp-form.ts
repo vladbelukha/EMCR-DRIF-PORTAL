@@ -273,13 +273,13 @@ export class BudgetForm {
 
   @prop()
   @required()
-  previosResponse?: YesNoOption;
+  previousResponse?: YesNoOption;
 
   @prop()
-  previosResponseCost?: number;
+  previousResponseCost?: number;
 
   @prop()
-  previosResponseComments?: string;
+  previousResponseComments?: string;
 
   @prop()
   @required()
