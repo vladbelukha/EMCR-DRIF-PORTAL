@@ -49,29 +49,29 @@ namespace EMCR.DRR.Resources.Applications
         {
             var readCtx = dRRContextFactory.CreateReadOnly();
 
-            //var proposedActivities =
-            var verificationMethods = (await readCtx.drr_projectneedidentifications.Where(d => d.statecode == (int)EntityState.Active).GetAllPagesAsync()).Select(d => d.drr_name);
-            var affectedParties = (await readCtx.drr_impactedoraffectedparties.Where(d => d.statecode == (int)EntityState.Active).GetAllPagesAsync()).Select(d => d.drr_name);
-            //var professionals = 
             var standards = (await readCtx.drr_provincialstandards.Where(d => d.statecode == (int)EntityState.Active).GetAllPagesAsync()).Select(d => d.drr_name);
-            var costReduction = (await readCtx.drr_costreductions.Where(d => d.statecode == (int)EntityState.Active).GetAllPagesAsync()).Select(d => d.drr_name);
-            var coBenefit = (await readCtx.drr_cobenefits.Where(d => d.statecode == (int)EntityState.Active).GetAllPagesAsync()).Select(d => d.drr_name);
             var complexityRisks = (await readCtx.drr_projectcomplexityrisks.Where(d => d.statecode == (int)EntityState.Active).GetAllPagesAsync()).Select(d => d.drr_name);
+            var needIdentifications = (await readCtx.drr_projectneedidentifications.Where(d => d.statecode == (int)EntityState.Active).GetAllPagesAsync()).Select(d => d.drr_name);
+            var affectedParties = (await readCtx.drr_impactedoraffectedparties.Where(d => d.statecode == (int)EntityState.Active).GetAllPagesAsync()).Select(d => d.drr_name);
+            var capacityRisks = (await readCtx.drr_projectcapacitychallenges.Where(d => d.statecode == (int)EntityState.Active).GetAllPagesAsync()).Select(d => d.drr_name);
             var readinessRisks = (await readCtx.drr_projectreadinessrisks.Where(d => d.statecode == (int)EntityState.Active).GetAllPagesAsync()).Select(d => d.drr_name);
             var sensitivityRisks = (await readCtx.drr_projectsensitivityrisks.Where(d => d.statecode == (int)EntityState.Active).GetAllPagesAsync()).Select(d => d.drr_name);
-            var capacityRisks = (await readCtx.drr_projectcapacitychallenges.Where(d => d.statecode == (int)EntityState.Active).GetAllPagesAsync()).Select(d => d.drr_name);
+            var costConsiderations = (await readCtx.drr_costconsiderations.Where(d => d.statecode == (int)EntityState.Active).GetAllPagesAsync()).Select(d => d.drr_name);
+            var costReductions = (await readCtx.drr_costreductions.Where(d => d.statecode == (int)EntityState.Active).GetAllPagesAsync()).Select(d => d.drr_name);
+            var coBenefits = (await readCtx.drr_cobenefits.Where(d => d.statecode == (int)EntityState.Active).GetAllPagesAsync()).Select(d => d.drr_name);
             var fiscalYears = (await readCtx.drr_fiscalyears.Where(d => d.statecode == (int)EntityState.Active).GetAllPagesAsync()).Select(d => d.drr_name);
-            //var transferRisks = 
-
 
             return new EntitiesQueryResult
             {
-                VerificationMethods = verificationMethods,
+                VerificationMethods = needIdentifications,
                 AffectedParties = affectedParties,
                 Standards = standards,
+                CostReductions = costReductions,
+                CoBenefits = coBenefits,
                 ComplexityRisks = complexityRisks,
                 ReadinessRisks = readinessRisks,
                 SensitivityRisks = sensitivityRisks,
+                CostConsiderations = costConsiderations,
                 CapacityRisks = capacityRisks,
                 FiscalYears = fiscalYears,
             };
