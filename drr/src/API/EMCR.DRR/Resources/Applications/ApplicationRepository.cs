@@ -49,17 +49,17 @@ namespace EMCR.DRR.Resources.Applications
         {
             var readCtx = dRRContextFactory.CreateReadOnly();
 
-            var standards = (await readCtx.drr_provincialstandards.Where(d => d.statecode == (int)EntityState.Active).GetAllPagesAsync()).Select(d => d.drr_name);
-            var complexityRisks = (await readCtx.drr_projectcomplexityrisks.Where(d => d.statecode == (int)EntityState.Active).GetAllPagesAsync()).Select(d => d.drr_name);
-            var needIdentifications = (await readCtx.drr_projectneedidentifications.Where(d => d.statecode == (int)EntityState.Active).GetAllPagesAsync()).Select(d => d.drr_name);
-            var affectedParties = (await readCtx.drr_impactedoraffectedparties.Where(d => d.statecode == (int)EntityState.Active).GetAllPagesAsync()).Select(d => d.drr_name);
-            var capacityRisks = (await readCtx.drr_projectcapacitychallenges.Where(d => d.statecode == (int)EntityState.Active).GetAllPagesAsync()).Select(d => d.drr_name);
-            var readinessRisks = (await readCtx.drr_projectreadinessrisks.Where(d => d.statecode == (int)EntityState.Active).GetAllPagesAsync()).Select(d => d.drr_name);
-            var sensitivityRisks = (await readCtx.drr_projectsensitivityrisks.Where(d => d.statecode == (int)EntityState.Active).GetAllPagesAsync()).Select(d => d.drr_name);
-            var costConsiderations = (await readCtx.drr_costconsiderations.Where(d => d.statecode == (int)EntityState.Active).GetAllPagesAsync()).Select(d => d.drr_name);
-            var costReductions = (await readCtx.drr_costreductions.Where(d => d.statecode == (int)EntityState.Active).GetAllPagesAsync()).Select(d => d.drr_name);
-            var coBenefits = (await readCtx.drr_cobenefits.Where(d => d.statecode == (int)EntityState.Active).GetAllPagesAsync()).Select(d => d.drr_name);
-            var fiscalYears = (await readCtx.drr_fiscalyears.Where(d => d.statecode == (int)EntityState.Active).GetAllPagesAsync()).Select(d => d.drr_name);
+            var standards = (await readCtx.drr_provincialstandards.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name);
+            var complexityRisks = (await readCtx.drr_projectcomplexityrisks.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name);
+            var needIdentifications = (await readCtx.drr_projectneedidentifications.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name);
+            var affectedParties = (await readCtx.drr_impactedoraffectedparties.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name);
+            var capacityRisks = (await readCtx.drr_projectcapacitychallenges.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name);
+            var readinessRisks = (await readCtx.drr_projectreadinessrisks.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name);
+            var sensitivityRisks = (await readCtx.drr_projectsensitivityrisks.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name);
+            var costConsiderations = (await readCtx.drr_costconsiderations.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name);
+            var costReductions = (await readCtx.drr_costreductions.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name);
+            var coBenefits = (await readCtx.drr_cobenefits.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name);
+            var fiscalYears = (await readCtx.drr_fiscalyears.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name);
 
             return new EntitiesQueryResult
             {
