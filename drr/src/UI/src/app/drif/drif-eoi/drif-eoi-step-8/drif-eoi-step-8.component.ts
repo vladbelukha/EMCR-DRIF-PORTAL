@@ -8,7 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { TranslocoModule } from '@ngneat/transloco';
 import { IFormGroup, RxFormControl } from '@rxweb/reactive-form-validators';
 import { DrifapplicationService } from '../../../../api/drifapplication/drifapplication.service';
-import { DeclarationType } from '../../../../model';
+import { ApplicationType, DeclarationType } from '../../../../model';
 import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
 import { ProfileStore } from '../../../store/profile.store';
 import { DeclarationForm, EOIApplicationForm } from '../drif-eoi-form';
@@ -55,10 +55,14 @@ export class DrifEoiStep8Component {
       .dRIFApplicationGetDeclarations()
       .subscribe((declarations) => {
         this.authorizedRepresentativeText = declarations.items?.find(
-          (d) => d.type === DeclarationType.AuthorizedRepresentative
+          (d) =>
+            d.type === DeclarationType.AuthorizedRepresentative &&
+            d.applicationType === ApplicationType.EOI
         )?.text;
         this.accuracyOfInformationText = declarations.items?.find(
-          (d) => d.type === DeclarationType.AccuracyOfInformation
+          (d) =>
+            d.type === DeclarationType.AccuracyOfInformation &&
+            d.applicationType === ApplicationType.EOI
         )?.text;
       });
 

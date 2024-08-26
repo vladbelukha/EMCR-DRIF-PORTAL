@@ -532,9 +532,17 @@ export class AttachmentsForm {
 }
 
 export class DeclarationsForm {
+  @required()
+  @propObject(ContactDetailsForm)
+  submitter?: ContactDetailsForm = new ContactDetailsForm({});
+
   @prop()
   @required()
   authorizedRepresentativeStatement?: boolean;
+
+  @prop()
+  @required()
+  informationAccuracyStatement?: boolean;
 
   constructor(values: DeclarationsForm) {
     Object.assign(this, values);

@@ -7,11 +7,11 @@
 
 export interface ProposedActivity {
   /** @nullable */
-  end?: string;
+  endDate?: string;
   /** @nullable */
   name?: string;
   /** @nullable */
   relatedMilestone?: string;
   /** @nullable */
-  start?: string;
+  startDate?: string;
 }
