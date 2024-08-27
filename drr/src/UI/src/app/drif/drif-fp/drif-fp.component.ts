@@ -209,8 +209,9 @@ export class DrifFpComponent {
           projectEngagement: {
             affectedParties: response.affectedParties,
             collaborationComments: response.collaborationComments,
-            firstNationsEngagementComments:
-              response.firstNationsEngagementComments,
+            engagedWithFirstNations: response.engagedWithFirstNations,
+            engagedWithFirstNationsComments:
+              response.engagedWithFirstNationsComments,
             otherEngagement: response.otherEngagement,
             otherEngagementComments: response.otherEngagementComments,
           },

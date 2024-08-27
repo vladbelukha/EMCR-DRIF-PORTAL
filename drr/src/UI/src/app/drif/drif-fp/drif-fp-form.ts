@@ -451,11 +451,11 @@ export class ProjectPlanForm {
 export class ProjectEngagementForm {
   @prop()
   @required()
-  firstNationsEngagement?: boolean;
+  engagedWithFirstNations?: boolean;
 
   @prop()
   @required()
-  firstNationsEngagementComments?: string;
+  engagedWithFirstNationsComments?: string;
 
   @prop()
   @required()

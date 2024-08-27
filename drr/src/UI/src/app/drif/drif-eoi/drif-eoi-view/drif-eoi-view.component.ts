@@ -44,6 +44,7 @@ export class DrifEoiViewComponent {
   eoiApplicationForm = this.formBuilder.formGroup(
     EOIApplicationForm
   ) as IFormGroup<EOIApplicationForm>;
+  fpId?: string;
 
   ngOnInit() {
     const id = this.route.snapshot.params['id'];
@@ -52,6 +53,8 @@ export class DrifEoiViewComponent {
     this.applicationService
       .dRIFApplicationGetEOI(id)
       .subscribe((application) => {
+        this.fpId = application.fpId;
+
         // transform application into step forms
         const eoiApplicationForm: EOIApplicationForm = {
           proponentInformation: {
@@ -160,7 +163,8 @@ export class DrifEoiViewComponent {
   createFP() {
     this.router.navigate(['/drif-fp-instructions', this.id], {
       queryParams: {
-        fundingStream: this.eoiApplicationForm?.value?.projectInformation?.fundingStream,
+        fundingStream:
+          this.eoiApplicationForm?.value?.projectInformation?.fundingStream,
       },
     });
   }
