@@ -184,7 +184,7 @@ namespace EMCR.DRR.Controllers
 
     public class DraftEoiApplication : DraftApplication
     {
-
+        public string? FpId { get; set; }
     }
 
     public class EoiApplication : DraftEoiApplication

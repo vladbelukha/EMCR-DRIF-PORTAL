@@ -93,6 +93,9 @@ namespace EMCR.Tests.Integration.DRR.Resources
             var fpId = (await caseRepository.Manage(new GenerateFpFromEoi { EoiId = eoiId })).Id;
             var fpApplication = (await applicationRepository.Query(new ApplicationsQuery { Id = fpId })).Items.ShouldHaveSingleItem();
             fpApplication.ProjectTitle.ShouldNotBeEmpty();
+
+            eoiApplication = (await applicationRepository.Query(new ApplicationsQuery { Id = eoiId })).Items.ShouldHaveSingleItem();
+            eoiApplication.FpId.ShouldNotBeEmpty();
         }
 
         [Test]
