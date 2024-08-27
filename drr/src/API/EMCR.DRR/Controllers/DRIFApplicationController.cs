@@ -222,7 +222,8 @@ namespace EMCR.DRR.Controllers
         public string? ProjectAlternateOptions { get; set; }
 
         //Project Engagement - 5
-        public string? FirstNationsEngagementComments { get; set; }
+        public bool? EngagedWithFirstNations { get; set; }
+        public string? EngagedWithFirstNationsComments { get; set; }
         public YesNoOption? OtherEngagement { get; set; }
         public IEnumerable<string>? AffectedParties { get; set; }
         public string? OtherEngagementComments { get; set; }
@@ -248,7 +249,7 @@ namespace EMCR.DRR.Controllers
         public string? PublicBenefitComments { get; set; }
         public bool? FutureCostReduction { get; set; }
         public IEnumerable<string>? CostReductions { get; set; }
-        public string? costReductionComments { get; set; }
+        public string? CostReductionComments { get; set; }
         public bool? ProduceCoBenefits { get; set; }
         public IEnumerable<string>? CoBenefits { get; set; }
         public string? CoBenefitComments { get; set; }
