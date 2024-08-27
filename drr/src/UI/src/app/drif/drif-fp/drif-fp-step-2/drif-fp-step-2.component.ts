@@ -77,7 +77,6 @@ export class DrifFpStep2Component {
           ownershipDescription?.clearValidators();
         }
 
-        ownershipDescription?.reset();
         ownershipDescription?.updateValueAndValidity();
       });
   }

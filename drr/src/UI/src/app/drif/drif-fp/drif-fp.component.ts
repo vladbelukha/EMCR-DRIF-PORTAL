@@ -427,9 +427,7 @@ export class DrifFpComponent {
   submit() {}
 
   stepperSelectionChange(event: StepperSelectionEvent) {
-    if (this.isEditMode) {
-      // this.save();
-    }
+    this.save();
 
     event.previouslySelectedStep.stepControl.markAllAsTouched();
 
