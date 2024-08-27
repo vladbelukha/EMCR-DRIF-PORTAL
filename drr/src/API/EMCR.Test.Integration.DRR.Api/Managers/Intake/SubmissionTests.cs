@@ -22,6 +22,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
         private readonly IMapper mapper;
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
 #pragma warning disable CS8619 // Nullability of reference types in value doesn't match target type.
+#pragma warning disable CS8604 // Possible null reference argument.
         public SubmissionTests()
         {
             var host = EMBC.Tests.Integration.DRR.Application.Host;
@@ -210,8 +211,31 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             updatedFp.Standards.ShouldContain(s => s.Name == "Standard 1");
             updatedFp.Professionals.ShouldContain(p => p.Name == "professional1");
             updatedFp.LocalGovernmentEndorsement.ShouldBe(EMCR.DRR.Managers.Intake.YesNoOption.NotApplicable);
+
+            fpToUpdate = FillInFullProposal(mapper.Map<DraftFpApplication>(updatedFp));
+
+            await manager.Handle(new FpSaveApplicationCommand { application = mapper.Map<FpApplication>(fpToUpdate), UserInfo = GetTestUserInfo() });
+
+            var twiceUpdatedFp = (await manager.Handle(new DrrApplicationsQuery { Id = fpId, BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault();
+
+            twiceUpdatedFp.Professionals.Count().ShouldBe(fpToUpdate.Professionals.Count());
+            twiceUpdatedFp.Standards.Count().ShouldBe(fpToUpdate.Standards.Count());
+            twiceUpdatedFp.ProposedActivities.Count().ShouldBe(fpToUpdate.ProposedActivities.Count());
+            twiceUpdatedFp.VerificationMethods.Count().ShouldBe(fpToUpdate.VerificationMethods.Count());
+            twiceUpdatedFp.AffectedParties.Count().ShouldBe(fpToUpdate.AffectedParties.Count());
+            twiceUpdatedFp.CostReductions.Count().ShouldBe(fpToUpdate.CostReductions.Count());
+            twiceUpdatedFp.CoBenefits.Count().ShouldBe(fpToUpdate.CoBenefits.Count());
+            //twiceUpdatedFp.IncreasedResiliency.Count().ShouldBe(fpToUpdate.IncreasedResiliency.Count());
+            twiceUpdatedFp.ComplexityRisks.Count().ShouldBe(fpToUpdate.ComplexityRisks.Count());
+            twiceUpdatedFp.ReadinessRisks.Count().ShouldBe(fpToUpdate.ReadinessRisks.Count());
+            twiceUpdatedFp.SensitivityRisks.Count().ShouldBe(fpToUpdate.SensitivityRisks.Count());
+            twiceUpdatedFp.CapacityRisks.Count().ShouldBe(fpToUpdate.CapacityRisks.Count());
+            ////twiceUpdatedFp.TransferRisks.Count().ShouldBe(fpToUpdate.TransferRisks.Count());
+            twiceUpdatedFp.YearOverYearFunding.Count().ShouldBe(fpToUpdate.YearOverYearFunding.Count());
+            //twiceUpdatedFp.CostConsiderations.Count().ShouldBe(fpToUpdate.CostConsiderations.Count());
         }
 
+#pragma warning restore CS8604 // Possible null reference argument.
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
 #pragma warning restore CS8619 // Nullability of reference types in value doesn't match target type.
         private DraftEoiApplication CreateNewTestEOIApplication()
@@ -326,11 +350,22 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             application.LocalGovernmentEndorsement = EMCR.DRR.Controllers.YesNoOption.NotApplicable;
             application.AuthorizationOrEndorsementComments = "authority or endorsement comments";
 
-            application.FirstNationsEngagementComments = "first nations comments";
+            application.ProjectDescription = "Project Description";
+            application.ProposedActivities = new[]
+            {
+                new EMCR.DRR.Controllers.ProposedActivity {StartDate = DateTime.UtcNow, EndDate = DateTime.UtcNow.AddDays(5), Name = "autotest-proposed-activity-name", RelatedMilestone = "some milestone" }
+            };
+            application.VerificationMethods = new[] { "autotest-verification-method" };
+            application.VerificationMethodsComments = "verification method comments";
+            application.ProjectAlternateOptions = "some alternate options";
+
+            application.EngagedWithFirstNationsComments = "first nations comments";
             application.OtherEngagement = EMCR.DRR.Controllers.YesNoOption.Yes;
             application.AffectedParties = new[] { "party 1", "party 2" };
             application.OtherEngagementComments = "other engagement comments";
             application.CollaborationComments = "collaboration comments";
+
+            application.ClimateAdaptationScreener = true;
 
             application.Approvals = false;
             application.ApprovalsComments = "approvals comments";
@@ -339,13 +374,49 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             application.ProfessionalGuidanceComments = "professional guidance comments";
             application.StandardsAcceptable = EMCR.DRR.Controllers.YesNoOption.NotApplicable;
             application.Standards = new[] { "Standard 1", "Standard 2" };
-            application.StandardsComments = "professional guidance comments";
+            application.StandardsComments = "standards comments";
             application.Regulations = false;
             application.RegulationsComments = "regulations comments";
 
-            application.YearOverYearFunding = new[] { new EMCR.DRR.Controllers.YearOverYearFunding { Amount = 100, Year = "2024" } };
+            application.PublicBenefit = false;
+            application.PublicBenefitComments = "public benefit comments";
+            application.FutureCostReduction = true;
+            application.CostReductions = new[] { "cost reduction 1", "cost reduction 2" };
+            application.CostReductionComments = "cost reduction comments";
+            application.ProduceCoBenefits = true;
+            application.CoBenefits = new[] { "benefit 1", "benefit 2" };
+            application.CoBenefitComments = "benefit comments";
+            application.IncreasedResiliency = new[] { "benefit 1", "benefit 2" };
+            application.IncreasedResiliencyComments = "resiliency comments";
+
+            application.ComplexityRiskMitigated = true;
+            application.ComplexityRisks = new[] { "complexity risk 1", "complexity risk 2" };
+            application.ComplexityRiskComments = "risk comments";
+            application.ReadinessRiskMitigated = true;
+            application.ReadinessRisks = new[] { "readiness risk 1", "readiness risk 2" };
+            application.ReadinessRiskComments = "readiness comments";
+            application.SensitivityRiskMitigated = true;
+            application.SensitivityRisks = new[] { "sensitivity risk 1", "sensitivity risk 2" };
+            application.SensitivityRiskComments = "sensitivity comments";
+            application.CapacityRiskMitigated = true;
+            application.CapacityRisks = new[] { "capacity risk 1", "capacity risk 2" };
+            application.CapacityRiskComments = "capacity comments";
+            application.RiskTransferMigigated = true;
+            application.TransferRisks = new[] { "transfer risk 1", "transfer risk 2" };
+            application.TransferRisksComments = "transfer comments";
+
+            application.YearOverYearFunding = new[] { new EMCR.DRR.Controllers.YearOverYearFunding { Amount = 100, Year = "2024/2025" } };
             application.TotalDrifFundingRequest = 5000;
             application.DiscrepancyComment = "discrepancy comment";
+            application.CostEffective = false;
+            application.CostEffectiveComments = "cost effective comments";
+            application.PreviousResponse = EMCR.DRR.Controllers.YesNoOption.No;
+            application.PreviousResponseCost = 1200;
+            application.PreviousResponseComments = "previous response comments";
+            application.ActivityCostEffectiveness = "very effective";
+            application.CostConsiderationsApplied = true;
+            application.CostConsiderations = new[] { "cost consideration 1", "cost consideration 2" };
+            application.CostConsiderationsComments = "cost consideration comments";
 
             return application;
         }
