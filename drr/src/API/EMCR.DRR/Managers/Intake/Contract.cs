@@ -197,7 +197,8 @@ namespace EMCR.DRR.Managers.Intake
         public string? ProjectAlternateOptions { get; set; }
 
         //Project Engagement - 5
-        public string? FirstNationsEngagementComments { get; set; }
+        public bool? EngagedWithFirstNations { get; set; }
+        public string? EngagedWithFirstNationsComments { get; set; }
         public YesNoOption? OtherEngagement { get; set; }
         public IEnumerable<AffectedParty> AffectedParties { get; set; }
         public string? OtherEngagementComments { get; set; }
@@ -220,6 +221,15 @@ namespace EMCR.DRR.Managers.Intake
 
         //Project Outcomes - 8
         public bool? PublicBenefit { get; set; }
+        public string? PublicBenefitComments { get; set; }
+        public bool? FutureCostReduction { get; set; }
+        public IEnumerable<CostReduction> CostReductions { get; set; }
+        public string? CostReductionComments { get; set; }
+        public bool? ProduceCoBenefits { get; set; }
+        public IEnumerable<CoBenefit> CoBenefits { get; set; }
+        public string? CoBenefitComments { get; set; }
+        public IEnumerable<IncreasedResiliency> IncreasedResiliency { get; set; } //Missing list in CRM
+        public string? IncreasedResiliencyComments { get; set; }
 
         //Project Risks - 9
         public bool? ComplexityRiskMitigated { get; set; }
@@ -242,6 +252,15 @@ namespace EMCR.DRR.Managers.Intake
         public IEnumerable<YearOverYearFunding> YearOverYearFunding { get; set; }
         public decimal? TotalDrifFundingRequest { get; set; }
         public string? DiscrepancyComment { get; set; }
+        public bool? CostEffective { get; set; }
+        public string? CostEffectiveComments { get; set; }
+        public YesNoOption? PreviousResponse { get; set; }
+        public decimal? PreviousResponseCost { get; set; }
+        public string? PreviousResponseComments { get; set; }
+        public string? ActivityCostEffectiveness { get; set; }
+        public bool? CostConsiderationsApplied { get; set; }
+        public IEnumerable<string>? CostConsiderations { get; set; }
+        public string? CostConsiderationsComments { get; set; }
 
         //Attachments - 11
 
@@ -299,6 +318,21 @@ namespace EMCR.DRR.Managers.Intake
     }
 
     public class ProvincialStandard
+    {
+        public required string Name { get; set; }
+    }
+
+    public class CostReduction
+    {
+        public required string Name { get; set; }
+    }
+
+    public class CoBenefit
+    {
+        public required string Name { get; set; }
+    }
+
+    public class IncreasedResiliency
     {
         public required string Name { get; set; }
     }

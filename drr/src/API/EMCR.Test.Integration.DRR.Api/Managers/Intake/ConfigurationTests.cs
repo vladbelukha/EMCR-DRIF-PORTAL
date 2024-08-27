@@ -3,7 +3,7 @@ using EMCR.DRR.Managers.Intake;
 using Microsoft.Extensions.DependencyInjection;
 using Shouldly;
 
-namespace EMCR.Tests.Integration.DRR.Api.Managers.Intake
+namespace EMCR.Tests.Integration.DRR.Managers.Intake
 {
 #pragma warning disable CS8604 // Possible null reference argument.
     public class ConfigurationTests
