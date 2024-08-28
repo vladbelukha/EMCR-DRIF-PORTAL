@@ -6,6 +6,7 @@ import {
   required,
 } from '@rxweb/reactive-form-validators';
 import {
+  EstimatedNumberOfPeople,
   FundingStream,
   Hazards,
   ProjectType,
@@ -80,6 +81,16 @@ export class FileForm {
 
   @prop()
   comment?: string;
+}
+
+export class ImpactedInfrastructure {
+  @prop()
+  @required()
+  infrastructure?: string;
+
+  @prop()
+  @required()
+  impact?: string;
 }
 
 export class ProponentAndProjectInformationForm {
@@ -386,6 +397,33 @@ export class ProjectAreaForm {
   @prop()
   @required()
   locationDescription?: string;
+
+  @prop()
+  @required()
+  area?: number;
+
+  @prop()
+  @required()
+  units?: string; // TODO: use enum
+
+  @prop()
+  @required()
+  areaDescription?: string;
+
+  // TODO: move hazards
+
+  @prop()
+  @required()
+  communityImpact?: string;
+
+  @prop()
+  @required()
+  estimatedPeopleImpacted?: EstimatedNumberOfPeople;
+
+  @propArray(ImpactedInfrastructure)
+  @required()
+  @minLength({ value: 1 })
+  infrastructureImpacted?: ImpactedInfrastructure[] = [];
 
   constructor(values: ProjectAreaForm) {
     Object.assign(this, values);

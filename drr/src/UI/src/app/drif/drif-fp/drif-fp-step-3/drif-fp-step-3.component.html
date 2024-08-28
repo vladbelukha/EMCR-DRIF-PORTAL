@@ -1,1 +1,86 @@
-<p>drif-fp-step-3 works!</p>
+<div class="drr-step-container" *transloco="let t">
+  <form [formGroup]="projectAreaForm">
+    <mat-label class="drr-label">{{ t("locationDescription") }}</mat-label>
+    <drr-textarea
+      [label]="t('locationDescription')"
+      [rxFormControl]="projectAreaForm.get('locationDescription')"
+      [maxlength]="2000"
+    ></drr-textarea>
+
+    <div class="display: flex; flex-direction: row; gap: 1rem">
+      <mat-label class="drr-label">{{ t("projectArea") }}</mat-label>
+
+      <drr-input
+        [label]="t('area')"
+        [rxFormControl]="projectAreaForm.get('area')"
+        [maxlength]="40"
+      ></drr-input>
+
+      <drr-select
+        [label]="t('unit')"
+        [rxFormControl]="projectAreaForm.get('unit')"
+        [options]="unitOptions"
+      ></drr-select>
+    </div>
+
+    <mat-label class="drr-label">{{ t("areaDescription") }}</mat-label>
+    <drr-textarea
+      [label]="t('areaDescription')"
+      [rxFormControl]="projectAreaForm.get('areaDescription')"
+      [maxlength]="2000"
+    ></drr-textarea>
+
+    <mat-label class="drr-label">{{ t("communityImpact") }}</mat-label>
+    <drr-textarea
+      [label]="t('communityImpact')"
+      [rxFormControl]="projectAreaForm.get('communityImpact')"
+      [maxlength]="2000"
+    ></drr-textarea>
+
+    <mat-label class="drr-label">{{ t("estimatedPeopleImpacted") }}</mat-label>
+    <drr-select
+      [label]="t('estimatedPeopleImpacted')"
+      [rxFormControl]="projectAreaForm.get('estimatedPeopleImpacted')"
+      [options]="estimatedPeopleImpactedOptions"
+    ></drr-select>
+
+    <mat-label class="drr-label">{{ t("infrastructureImpacted") }}</mat-label>
+    <div>
+      <div
+        *ngFor="
+          let control of getInfrastructureImpacted().controls;
+          let i = index
+        "
+      >
+        <drr-input
+          [label]="t('infrastructure')"
+          [rxFormControl]="control.get('infrastructure')"
+          [maxlength]="40"
+        ></drr-input>
+
+        <drr-input
+          [label]="t('impact')"
+          [rxFormControl]="control.get('impact')"
+          [maxlength]="40"
+        ></drr-input>
+
+        <button
+          mat-mini-fab
+          color="warn"
+          (click)="removeInfrastructureImpacted(i)"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </div>
+    <button
+      mat-stroked-button
+      type="button"
+      color="primary"
+      (click)="addInfrastructureImpacted()"
+    >
+      <mat-icon>add</mat-icon>
+      {{ t("addInfrastructureImpacted") }}
+    </button>
+  </form>
+</div>
