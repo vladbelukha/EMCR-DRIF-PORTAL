@@ -127,14 +127,6 @@ export class ProponentAndProjectInformationForm {
   @prop()
   regionalProjectComments?: string;
 
-  @prop()
-  @required()
-  @minLength({ value: 1 })
-  relatedHazards?: Hazards[];
-
-  @prop()
-  otherHazardsDescription?: string;
-
   constructor(values: ProponentInformationForm) {
     Object.assign(this, values);
   }
@@ -414,7 +406,13 @@ export class ProjectAreaForm {
   @required()
   areaDescription?: string;
 
-  // TODO: move hazards
+  @prop()
+  @required()
+  @minLength({ value: 1 })
+  relatedHazards?: Hazards[];
+
+  @prop()
+  otherHazardsDescription?: string;
 
   @prop()
   @required()

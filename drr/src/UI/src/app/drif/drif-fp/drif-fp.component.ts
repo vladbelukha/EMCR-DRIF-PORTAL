@@ -179,8 +179,6 @@ export class DrifFpComponent {
             projectContact: response.projectContact,
             projectTitle: response.projectTitle,
             scopeStatement: response.scopeStatement,
-            relatedHazards: response.relatedHazards,
-            otherHazardsDescription: response.otherHazardsDescription,
             regionalProject: response.regionalProject,
             regionalProjectComments: response.regionalProjectComments,
           },
@@ -205,6 +203,8 @@ export class DrifFpComponent {
             // infrastructureImpacted: response.infrastructureImpacted,
             locationDescription: response.locationDescription,
             // units: response.units,
+            relatedHazards: response.relatedHazards,
+            otherHazardsDescription: response.otherHazardsDescription,
           },
           projectPlan: {
             startDate: response.startDate,

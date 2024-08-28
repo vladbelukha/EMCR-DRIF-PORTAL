@@ -6,7 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { TranslocoModule } from '@ngneat/transloco';
 import { IFormGroup, RxFormBuilder } from '@rxweb/reactive-form-validators';
-import { EstimatedNumberOfPeople } from '../../../../model';
+import { EstimatedNumberOfPeople, Hazards } from '../../../../model';
 import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
 import { DrrSelectComponent } from '../../../shared/controls/drr-select/drr-select.component';
 import { DrrTextareaComponent } from '../../../shared/controls/drr-textarea/drr-textarea.component';
@@ -37,6 +37,7 @@ export class DrifFpStep3Component {
 
   unitOptions = ['m2', 'ha']; // TODO: use enum
   estimatedPeopleImpactedOptions = Object.values(EstimatedNumberOfPeople);
+  hazardsOptions = Object.values(Hazards);
 
   getInfrastructureImpacted() {
     return this.projectAreaForm.get('infrastructureImpacted') as FormArray;
@@ -50,5 +51,9 @@ export class DrifFpStep3Component {
 
   removeInfrastructureImpacted(index: number) {
     this.getInfrastructureImpacted().removeAt(index);
+  }
+
+  otherHazardSelected() {
+    return this.projectAreaForm.get('relatedHazards')?.value?.includes('Other');
   }
 }

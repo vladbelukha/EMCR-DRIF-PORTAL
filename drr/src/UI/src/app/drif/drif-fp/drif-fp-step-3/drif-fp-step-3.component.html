@@ -28,7 +28,25 @@
       ></drr-select>
     </div>
 
-    <!-- TODO: move here hazards -->
+    <mat-label class="drr-label">{{ t("relatedHazards") }}</mat-label>
+
+    <drr-select
+      class="drr-single-input"
+      [id]="'relatedHazards'"
+      [label]="t('relatedHazards')"
+      [rxFormControl]="projectAreaForm.get('relatedHazards')"
+      [options]="hazardsOptions"
+      [isMultiple]="true"
+    ></drr-select>
+
+    <drr-input
+      *ngIf="otherHazardSelected()"
+      class="drr-single-input"
+      [id]="'otherHazardsDescription'"
+      [label]="t('otherHazardsDescription')"
+      [rxFormControl]="projectAreaForm.get('otherHazardsDescription')"
+      [maxlength]="100"
+    ></drr-input>
 
     <mat-label class="drr-label">{{ t("areaDescription") }}</mat-label>
     <drr-textarea
