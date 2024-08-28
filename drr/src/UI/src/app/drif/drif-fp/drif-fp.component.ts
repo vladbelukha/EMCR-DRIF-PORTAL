@@ -35,6 +35,7 @@ import {
 
 import {
   DrifFpForm,
+  ImpactedInfrastructureForm,
   ProposedActivityForm,
   YearOverYearFundingForm,
 } from './drif-fp-form';
@@ -196,7 +197,15 @@ export class DrifFpComponent {
             authorizationOrEndorsementComments:
               response.authorizationOrEndorsementComments,
           },
-          projectArea: {},
+          projectArea: {
+            // area: response.area,
+            // areaDescription: response.areaDescription,
+            communityImpact: response.communityImpact,
+            estimatedPeopleImpacted: response.estimatedPeopleImpacted,
+            // infrastructureImpacted: response.infrastructureImpacted,
+            locationDescription: response.locationDescription,
+            // units: response.units,
+          },
           projectPlan: {
             startDate: response.startDate,
             endDate: response.endDate,
@@ -307,6 +316,27 @@ export class DrifFpComponent {
         response.additionalContacts?.forEach((contact) => {
           additionalContactsArray?.push(
             this.formBuilder.formGroup(new ContactDetailsForm(contact)),
+            { emitEvent: false }
+          );
+        });
+
+        const infrastructureImpactedArray = this.getFormGroup(
+          'projectArea'
+        ).get('infrastructureImpacted') as FormArray;
+        if (response.infrastructureImpacted?.length! > 0) {
+          infrastructureImpactedArray.clear({ emitEvent: false });
+        }
+        response.infrastructureImpacted?.forEach((infrastructure) => {
+          infrastructureImpactedArray?.push(
+            this.formBuilder.formGroup(
+              new ImpactedInfrastructureForm(
+                // TODO: change to API model when available
+                {
+                  impact: '',
+                  infrastructure: '',
+                }
+              )
+            ),
             { emitEvent: false }
           );
         });

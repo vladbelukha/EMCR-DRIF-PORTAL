@@ -39,8 +39,13 @@
       <i style="margin-left: 1rem">{{ t("proposedActivitiesDisclaimer") }}</i>
     </span>
     <div class="proposed-activity-container">
-      @for (activity of getActivitiesFormArray().controls; track $index) {
-      <div class="proposed-activities-item">
+      <div
+        class="proposed-activities-item"
+        *ngFor="
+          let activity of getActivitiesFormArray().controls;
+          let i = index
+        "
+      >
         <drr-input
           [label]="t('activityName')"
           [rxFormControl]="activity.get('activityName')"
@@ -64,15 +69,16 @@
           [maxlength]="100"
         ></drr-input>
         <button
+          *ngIf="i > 0"
           mat-mini-fab
           color="warn"
-          (click)="removeActivity($index)"
+          (click)="removeActivity(i)"
           type="button"
         >
           <mat-icon>delete</mat-icon>
         </button>
       </div>
-      }
+
       <button
         (click)="addActivity()"
         mat-stroked-button

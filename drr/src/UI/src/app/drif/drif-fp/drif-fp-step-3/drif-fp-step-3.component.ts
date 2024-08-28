@@ -10,7 +10,7 @@ import { EstimatedNumberOfPeople } from '../../../../model';
 import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
 import { DrrSelectComponent } from '../../../shared/controls/drr-select/drr-select.component';
 import { DrrTextareaComponent } from '../../../shared/controls/drr-textarea/drr-textarea.component';
-import { ImpactedInfrastructure, ProjectAreaForm } from '../drif-fp-form';
+import { ImpactedInfrastructureForm, ProjectAreaForm } from '../drif-fp-form';
 
 @Component({
   selector: 'drif-fp-step-3',
@@ -44,7 +44,7 @@ export class DrifFpStep3Component {
 
   addInfrastructureImpacted() {
     this.getInfrastructureImpacted().push(
-      this.formBuilder.formGroup(ImpactedInfrastructure)
+      this.formBuilder.formGroup(ImpactedInfrastructureForm)
     );
   }
 

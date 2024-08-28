@@ -83,7 +83,7 @@ export class FileForm {
   comment?: string;
 }
 
-export class ImpactedInfrastructure {
+export class ImpactedInfrastructureForm {
   @prop()
   @required()
   infrastructure?: string;
@@ -91,6 +91,10 @@ export class ImpactedInfrastructure {
   @prop()
   @required()
   impact?: string;
+
+  constructor(values: ImpactedInfrastructureForm) {
+    Object.assign(this, values);
+  }
 }
 
 export class ProponentAndProjectInformationForm {
@@ -420,10 +424,8 @@ export class ProjectAreaForm {
   @required()
   estimatedPeopleImpacted?: EstimatedNumberOfPeople;
 
-  @propArray(ImpactedInfrastructure)
-  @required()
-  @minLength({ value: 1 })
-  infrastructureImpacted?: ImpactedInfrastructure[] = [];
+  @propArray(ImpactedInfrastructureForm)
+  infrastructureImpacted?: ImpactedInfrastructureForm[] = [{}];
 
   constructor(values: ProjectAreaForm) {
     Object.assign(this, values);

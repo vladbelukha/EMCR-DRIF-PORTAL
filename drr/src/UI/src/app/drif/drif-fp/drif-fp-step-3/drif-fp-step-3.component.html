@@ -2,42 +2,52 @@
   <form [formGroup]="projectAreaForm">
     <mat-label class="drr-label">{{ t("locationDescription") }}</mat-label>
     <drr-textarea
-      [label]="t('locationDescription')"
+      [label]="t('locationDescriptionAddress')"
       [rxFormControl]="projectAreaForm.get('locationDescription')"
       [maxlength]="2000"
+      [useFloatingLabel]="false"
     ></drr-textarea>
 
-    <div class="display: flex; flex-direction: row; gap: 1rem">
-      <mat-label class="drr-label">{{ t("projectArea") }}</mat-label>
-
+    <mat-label class="drr-label">{{ t("estimatedArea") }}</mat-label>
+    <mat-label style="margin-bottom: 1rem">{{
+      t("estimatedAreaText")
+    }}</mat-label>
+    <div style="display: flex; flex-direction: row; gap: 1rem">
       <drr-input
+        style="width: 25vw"
         [label]="t('area')"
         [rxFormControl]="projectAreaForm.get('area')"
         [maxlength]="40"
+        [type]="'number'"
       ></drr-input>
 
       <drr-select
-        [label]="t('unit')"
-        [rxFormControl]="projectAreaForm.get('unit')"
+        [label]="t('units')"
+        [rxFormControl]="projectAreaForm.get('units')"
         [options]="unitOptions"
       ></drr-select>
     </div>
 
+    <!-- TODO: move here hazards -->
+
     <mat-label class="drr-label">{{ t("areaDescription") }}</mat-label>
     <drr-textarea
-      [label]="t('areaDescription')"
+      [label]="t('areaDescriptionText')"
       [rxFormControl]="projectAreaForm.get('areaDescription')"
       [maxlength]="2000"
     ></drr-textarea>
 
     <mat-label class="drr-label">{{ t("communityImpact") }}</mat-label>
     <drr-textarea
-      [label]="t('communityImpact')"
+      [label]="t('communityImpactText')"
       [rxFormControl]="projectAreaForm.get('communityImpact')"
       [maxlength]="2000"
     ></drr-textarea>
 
     <mat-label class="drr-label">{{ t("estimatedPeopleImpacted") }}</mat-label>
+    <mat-label style="margin-bottom: 1rem">{{
+      t("estimatedPeopleImpactedText")
+    }}</mat-label>
     <drr-select
       [label]="t('estimatedPeopleImpacted')"
       [rxFormControl]="projectAreaForm.get('estimatedPeopleImpacted')"
@@ -45,8 +55,9 @@
     ></drr-select>
 
     <mat-label class="drr-label">{{ t("infrastructureImpacted") }}</mat-label>
-    <div>
+    <div class="impacted-infrastructure-container">
       <div
+        class="impacted-infrastructure-item"
         *ngFor="
           let control of getInfrastructureImpacted().controls;
           let i = index
@@ -65,22 +76,25 @@
         ></drr-input>
 
         <button
+          *ngIf="i > 0"
           mat-mini-fab
           color="warn"
           (click)="removeInfrastructureImpacted(i)"
+          type="button"
         >
           <mat-icon>delete</mat-icon>
         </button>
       </div>
+
+      <button
+        mat-stroked-button
+        type="button"
+        color="primary"
+        (click)="addInfrastructureImpacted()"
+      >
+        <mat-icon>add</mat-icon>
+        {{ t("addInfrastructure") }}
+      </button>
     </div>
-    <button
-      mat-stroked-button
-      type="button"
-      color="primary"
-      (click)="addInfrastructureImpacted()"
-    >
-      <mat-icon>add</mat-icon>
-      {{ t("addInfrastructureImpacted") }}
-    </button>
   </form>
 </div>
