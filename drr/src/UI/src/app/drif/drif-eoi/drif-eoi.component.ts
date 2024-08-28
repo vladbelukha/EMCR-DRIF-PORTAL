@@ -287,12 +287,12 @@ export class EOIApplicationComponent {
             fundingInformationItemFormArray.clear({ emitEvent: false });
           }
           application.otherFunding?.forEach((funding) => {
-            fundingInformationItemFormArray?.push(
-              this.formBuilder.formGroup(
-                new FundingInformationItemForm(funding)
-              ),
-              { emitEvent: false }
+            const fundingInformationItemForm = this.formBuilder.formGroup(
+              new FundingInformationItemForm(funding)
             );
+            fundingInformationItemFormArray?.push(fundingInformationItemForm, {
+              emitEvent: false,
+            });
             if (funding.type === FundingType.OtherGrants) {
               fundingInformationItemForm
                 .get('otherDescription')
