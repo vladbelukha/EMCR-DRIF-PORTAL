@@ -433,15 +433,15 @@ export class ProjectAreaForm {
 export class ProposedActivityForm {
   @prop()
   @required()
-  activityName?: string;
+  name?: string;
 
   @prop()
   @required()
-  activityStart?: string;
+  startDate?: string;
 
   @prop()
   @required()
-  activityEnd?: string;
+  endDate?: string;
 
   @prop()
   relatedMilestone?: string;
