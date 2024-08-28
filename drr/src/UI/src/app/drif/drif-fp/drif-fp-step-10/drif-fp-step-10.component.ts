@@ -108,7 +108,7 @@ export class DrifFpStep10Component {
       });
 
     if (this.budgetForm.get('haveOtherFunding')?.value !== true) {
-      this.getFormArray('otherFunding').clear();
+      this.getFormArray('otherFunding').clear({ emitEvent: false });
       this.getFormArray('otherFunding').disable();
     }
     this.budgetForm.get('haveOtherFunding')?.valueChanges.subscribe((value) => {

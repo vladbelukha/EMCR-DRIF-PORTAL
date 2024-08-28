@@ -5,7 +5,12 @@
       <button mat-stroked-button color="primary" (click)="goBack()">
         {{ t("back") }}
       </button>
-      <button mat-raised-button color="primary" (click)="createFP()">
+      <button
+        *ngIf="!fpId"
+        mat-raised-button
+        color="primary"
+        (click)="createFP()"
+      >
         {{ t("createFP") }}
       </button>
     </span>

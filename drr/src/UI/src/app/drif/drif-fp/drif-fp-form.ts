@@ -6,6 +6,7 @@ import {
   required,
 } from '@rxweb/reactive-form-validators';
 import {
+  EstimatedNumberOfPeople,
   FundingStream,
   Hazards,
   ProjectType,
@@ -82,6 +83,20 @@ export class FileForm {
   comment?: string;
 }
 
+export class ImpactedInfrastructureForm {
+  @prop()
+  @required()
+  infrastructure?: string;
+
+  @prop()
+  @required()
+  impact?: string;
+
+  constructor(values: ImpactedInfrastructureForm) {
+    Object.assign(this, values);
+  }
+}
+
 export class ProponentAndProjectInformationForm {
   @prop()
   @required()
@@ -111,14 +126,6 @@ export class ProponentAndProjectInformationForm {
 
   @prop()
   regionalProjectComments?: string;
-
-  @prop()
-  @required()
-  @minLength({ value: 1 })
-  relatedHazards?: Hazards[];
-
-  @prop()
-  otherHazardsDescription?: string;
 
   constructor(values: ProponentInformationForm) {
     Object.assign(this, values);
@@ -387,6 +394,37 @@ export class ProjectAreaForm {
   @required()
   locationDescription?: string;
 
+  @prop()
+  @required()
+  area?: number;
+
+  @prop()
+  @required()
+  units?: string; // TODO: use enum
+
+  @prop()
+  @required()
+  areaDescription?: string;
+
+  @prop()
+  @required()
+  @minLength({ value: 1 })
+  relatedHazards?: Hazards[];
+
+  @prop()
+  otherHazardsDescription?: string;
+
+  @prop()
+  @required()
+  communityImpact?: string;
+
+  @prop()
+  @required()
+  estimatedPeopleImpacted?: EstimatedNumberOfPeople;
+
+  @propArray(ImpactedInfrastructureForm)
+  infrastructureImpacted?: ImpactedInfrastructureForm[] = [{}];
+
   constructor(values: ProjectAreaForm) {
     Object.assign(this, values);
   }
@@ -451,11 +489,11 @@ export class ProjectPlanForm {
 export class ProjectEngagementForm {
   @prop()
   @required()
-  firstNationsEngagement?: boolean;
+  engagedWithFirstNations?: boolean;
 
   @prop()
   @required()
-  firstNationsEngagementComments?: string;
+  engagedWithFirstNationsComments?: string;
 
   @prop()
   @required()

@@ -59,11 +59,13 @@ export type DraftFpApplicationAllOf = {
   /** @nullable */
   discrepancyComment?: string;
   /** @nullable */
+  engagedWithFirstNations?: boolean;
+  /** @nullable */
+  engagedWithFirstNationsComments?: string;
+  /** @nullable */
   eoiId?: string;
   /** @nullable */
   firstNationsEndorsement?: YesNoOption;
-  /** @nullable */
-  firstNationsEngagementComments?: string;
   /** @nullable */
   futureCostReduction?: boolean;
   /** @nullable */

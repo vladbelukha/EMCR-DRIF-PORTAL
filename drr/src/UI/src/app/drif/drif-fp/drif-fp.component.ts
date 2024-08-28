@@ -35,6 +35,7 @@ import {
 
 import {
   DrifFpForm,
+  ImpactedInfrastructureForm,
   ProposedActivityForm,
   YearOverYearFundingForm,
 } from './drif-fp-form';
@@ -178,8 +179,6 @@ export class DrifFpComponent {
             projectContact: response.projectContact,
             projectTitle: response.projectTitle,
             scopeStatement: response.scopeStatement,
-            relatedHazards: response.relatedHazards,
-            otherHazardsDescription: response.otherHazardsDescription,
             regionalProject: response.regionalProject,
             regionalProjectComments: response.regionalProjectComments,
           },
@@ -196,7 +195,17 @@ export class DrifFpComponent {
             authorizationOrEndorsementComments:
               response.authorizationOrEndorsementComments,
           },
-          projectArea: {},
+          projectArea: {
+            // area: response.area,
+            // areaDescription: response.areaDescription,
+            communityImpact: response.communityImpact,
+            estimatedPeopleImpacted: response.estimatedPeopleImpacted,
+            // infrastructureImpacted: response.infrastructureImpacted,
+            locationDescription: response.locationDescription,
+            // units: response.units,
+            relatedHazards: response.relatedHazards,
+            otherHazardsDescription: response.otherHazardsDescription,
+          },
           projectPlan: {
             startDate: response.startDate,
             endDate: response.endDate,
@@ -209,8 +218,9 @@ export class DrifFpComponent {
           projectEngagement: {
             affectedParties: response.affectedParties,
             collaborationComments: response.collaborationComments,
-            firstNationsEngagementComments:
-              response.firstNationsEngagementComments,
+            engagedWithFirstNations: response.engagedWithFirstNations,
+            engagedWithFirstNationsComments:
+              response.engagedWithFirstNationsComments,
             otherEngagement: response.otherEngagement,
             otherEngagementComments: response.otherEngagementComments,
           },
@@ -288,11 +298,12 @@ export class DrifFpComponent {
           'proponentAndProjectInformationForm'
         ).get('partneringProponentsArray') as FormArray;
         if (response.partneringProponents?.length! > 0) {
-          partneringProponentsArray.clear();
+          partneringProponentsArray.clear({ emitEvent: false });
         }
         response.partneringProponents?.forEach((proponent) => {
           partneringProponentsArray?.push(
-            this.formBuilder.formGroup(new StringItem({ value: proponent }))
+            this.formBuilder.formGroup(new StringItem({ value: proponent })),
+            { emitEvent: false }
           );
         });
 
@@ -300,11 +311,33 @@ export class DrifFpComponent {
           'proponentAndProjectInformationForm'
         ).get('additionalContacts') as FormArray;
         if (response.additionalContacts?.length! > 0) {
-          additionalContactsArray.clear();
+          additionalContactsArray.clear({ emitEvent: false });
         }
         response.additionalContacts?.forEach((contact) => {
           additionalContactsArray?.push(
-            this.formBuilder.formGroup(new ContactDetailsForm(contact))
+            this.formBuilder.formGroup(new ContactDetailsForm(contact)),
+            { emitEvent: false }
+          );
+        });
+
+        const infrastructureImpactedArray = this.getFormGroup(
+          'projectArea'
+        ).get('infrastructureImpacted') as FormArray;
+        if (response.infrastructureImpacted?.length! > 0) {
+          infrastructureImpactedArray.clear({ emitEvent: false });
+        }
+        response.infrastructureImpacted?.forEach((infrastructure) => {
+          infrastructureImpactedArray?.push(
+            this.formBuilder.formGroup(
+              new ImpactedInfrastructureForm(
+                // TODO: change to API model when available
+                {
+                  impact: '',
+                  infrastructure: '',
+                }
+              )
+            ),
+            { emitEvent: false }
           );
         });
 
@@ -312,11 +345,12 @@ export class DrifFpComponent {
           'proposedActivities'
         ) as FormArray;
         if (response.proposedActivities?.length! > 0) {
-          proposedActivitiesArray.clear();
+          proposedActivitiesArray.clear({ emitEvent: false });
         }
         response.proposedActivities?.forEach((activity) => {
           proposedActivitiesArray?.push(
-            this.formBuilder.formGroup(new ProposedActivityForm(activity))
+            this.formBuilder.formGroup(new ProposedActivityForm(activity)),
+            { emitEvent: false }
           );
         });
 
@@ -324,11 +358,12 @@ export class DrifFpComponent {
           'otherFunding'
         ) as FormArray;
         if (response.otherFunding?.length! > 0) {
-          fundingInformationItemFormArray.clear();
+          fundingInformationItemFormArray.clear({ emitEvent: false });
         }
         response.otherFunding?.forEach((funding) => {
           fundingInformationItemFormArray?.push(
-            this.formBuilder.formGroup(new FundingInformationItemForm(funding))
+            this.formBuilder.formGroup(new FundingInformationItemForm(funding)),
+            { emitEvent: false }
           );
         });
 
@@ -336,15 +371,17 @@ export class DrifFpComponent {
           'yearOverYearFunding'
         ) as FormArray;
         if (response.yearOverYearFunding?.length! > 0) {
-          yearOverYearFormArray.clear();
+          yearOverYearFormArray.clear({ emitEvent: false });
         }
         response.yearOverYearFunding?.forEach((funding) => {
           yearOverYearFormArray?.push(
-            this.formBuilder.formGroup(new YearOverYearFundingForm(funding))
+            this.formBuilder.formGroup(new YearOverYearFundingForm(funding)),
+            { emitEvent: false }
           );
         });
 
         this.drifFpForm.markAsPristine();
+        this.formChanged = false;
       },
       error: (error) => {
         this.hotToast.error('Failed to load application');
@@ -385,6 +422,9 @@ export class DrifFpComponent {
     }
 
     const drifFpForm = this.drifFpForm.getRawValue() as DrifFpForm;
+
+    // TODO: remove when API is updated
+    drifFpForm!.projectArea!.infrastructureImpacted = [];
 
     const fpDraft = {
       ...drifFpForm.proponentAndProjectInformationForm,

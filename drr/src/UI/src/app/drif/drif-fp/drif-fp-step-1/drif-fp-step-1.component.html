@@ -230,27 +230,5 @@
       [rxFormControl]="proponentAndProjectInformationForm.get('scopeStatement')"
       [useFloatingLabel]="false"
     ></drr-textarea>
-
-    <mat-label class="drr-label">{{ t("relatedHazards") }}</mat-label>
-
-    <drr-select
-      class="drr-single-input"
-      [id]="'relatedHazards'"
-      [label]="t('relatedHazards')"
-      [rxFormControl]="getFormArray('relatedHazards')"
-      [options]="hazardsOptions"
-      [isMultiple]="true"
-    ></drr-select>
-
-    <drr-input
-      *ngIf="otherHazardSelected()"
-      class="drr-single-input"
-      [id]="'otherHazardsDescription'"
-      [label]="t('otherHazardsDescription')"
-      [rxFormControl]="
-        proponentAndProjectInformationForm.get('otherHazardsDescription')
-      "
-      [maxlength]="100"
-    ></drr-input>
   </form>
 </div>
