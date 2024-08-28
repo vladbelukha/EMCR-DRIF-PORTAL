@@ -48,18 +48,18 @@
       >
         <drr-input
           [label]="t('activityName')"
-          [rxFormControl]="activity.get('activityName')"
+          [rxFormControl]="activity.get('name')"
           [maxlength]="100"
         ></drr-input>
         <drr-datepicker
           [label]="t('startDate')"
-          [rxFormControl]="activity.get('activityStart')"
+          [rxFormControl]="activity.get('startDate')"
           [min]="minStartDate"
           [minErrorLabel]="t('minStartDateError')"
         ></drr-datepicker>
         <drr-datepicker
           [label]="t('endDate')"
-          [rxFormControl]="activity.get('activityEnd')"
+          [rxFormControl]="activity.get('endDate')"
           [min]="minEndDate"
           [minErrorLabel]="t('minEndDateError')"
         ></drr-datepicker>
