@@ -423,6 +423,9 @@ export class DrifFpComponent {
 
     const drifFpForm = this.drifFpForm.getRawValue() as DrifFpForm;
 
+    // TODO: remove when API is updated
+    drifFpForm!.projectArea!.infrastructureImpacted = [];
+
     const fpDraft = {
       ...drifFpForm.proponentAndProjectInformationForm,
       ...drifFpForm.ownershipAndAuthorization,

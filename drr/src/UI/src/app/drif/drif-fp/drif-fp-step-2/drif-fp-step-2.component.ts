@@ -50,10 +50,11 @@ export class DrifFpStep2Component {
     { value: false, label: 'No' },
   ];
 
-  allYesNoOptions: RadioOption[] = Object.values(YesNoOption).map((value) => ({
-    value,
-    label: this.tranlocoService.translate(value),
-  }));
+  allYesNoOptions: RadioOption[] = [
+    { value: YesNoOption.Yes, label: 'Yes' },
+    { value: YesNoOption.No, label: 'No' },
+    { value: YesNoOption.NotApplicable, label: 'Not Applicable' },
+  ];
 
   ngOnInit() {
     const ownershipDescription = this.ownershipAndAuthorizationForm.get(
