@@ -5,7 +5,12 @@ import {
 } from '@angular/cdk/stepper';
 import { CommonModule } from '@angular/common';
 import { Component, HostListener, ViewChild, inject } from '@angular/core';
-import { FormArray, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormArray,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -34,6 +39,7 @@ import {
   ApplicationResult,
   DraftEoiApplication,
   EoiApplication,
+  FundingType,
   Hazards,
 } from '../../../model';
 import { ProfileStore } from '../../store/profile.store';
@@ -287,6 +293,12 @@ export class EOIApplicationComponent {
               ),
               { emitEvent: false }
             );
+            if (funding.type === FundingType.OtherGrants) {
+              fundingInformationItemForm
+                .get('otherDescription')
+                ?.setValidators([Validators.required]);
+            }
+            fundingInformationItemFormArray?.push(fundingInformationItemForm);
           });
 
           const infrastructureImpactedArray = this.getFormGroup(

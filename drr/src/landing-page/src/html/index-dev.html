@@ -64,11 +64,19 @@
 
       .section-container {
         padding: 3rem 10rem;
+        max-width: 45%;
       }
 
       .landing-info {
+        display: flex;
+        justify-content: flex-start;
         background-color: #036;
         color: #fff;
+
+        .section-container {
+          max-width: 45%;
+          padding: 3rem 10rem;
+        }
 
         h1 {
           font-size: 2rem;
@@ -85,11 +93,15 @@
 
       .landing-more {
         display: flex;
-        justify-content: center;
-        align-items: center;
+        justify-content: flex-start;
         background-color: #ececec;
         padding: 1rem;
         height: 100%;
+
+        .section-container {
+          max-width: 45%;
+          padding: 3rem 10rem;
+        }
 
         a {
           font-size: 1rem;
@@ -102,8 +114,15 @@
       .landing-login {
         display: flex;
         justify-content: center;
-        align-items: center;
-        background-color: #fff;
+
+        .section-container {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        }
+
+        background-color: #fcba19;
         padding: 1rem;
         height: 100%;
 
@@ -140,10 +159,13 @@
       }
 
       .landing-contact {
+        display: flex;
+        justify-content: flex-start;
+
         .section-container {
           display: flex;
-          justify-content: flex-start;
-          padding: 2rem 3rem;
+          padding: 3rem 9rem;
+          max-width: 55%;
         }
 
         align-items: center;
@@ -217,6 +239,7 @@
 
         .section-container {
           padding: 1rem;
+          max-width: 100%;
         }
 
         .footer-container {
@@ -268,7 +291,7 @@
     <div class="landing-container">
       <div class="landing-info">
         <div class="section-container">
-          <h2>Welcome to the Community Resilience and Adaptation Funding Tool (CRAFT)</h2>
+          <h2>Welcome to CRAFT!</h2>
           <p>
             The Community Resilience and Adaptation Funding Tool (CRAFT) is a funding application platform for disaster risk reduction funding programs with the Ministry of Emergency Management and Climate Readiness. CRAFT is used to submit Expressions of Interest to disaster risk reduction funding
             programs, such as the Disaster Resilience and Innovation Funding (DRIF) Program, to manage all submissions, and for project management functions such as financial and progress reporting.
@@ -276,6 +299,19 @@
           <p>To use the tool, you will need a Business BCeID. If you do not have a Business BCeID, you can arrange an alternate submission method by contacting <a href="mailto:EMCR.DisasterMitigation@gov.bc.ca">EMCR.DisasterMitigation@gov.bc.ca</a>.</p>
         </div>
       </div>
+
+      <div class="landing-login">
+        <div class="section-container">
+          <a class="button" href="https://dev-sup-drr-emcr.silver.devops.bcgov/">Apply for funding</a>
+          <br />
+          <a href="https://www.development.bceid.ca/clp/account_recovery.aspx" target="_blank">Forgot your user ID or password?</a>
+          <p>
+            If you have a Business BCeID account and would like to submit a request, please apply for funding. If you do not have a Business BCeID account, you can contact us at <a href="mailto:EMCR.DisasterMitigation@gov.bc.ca">EMCR.DisasterMitigation@gov.bc.ca</a> to arrange an alternate
+            submission method.
+          </p>
+        </div>
+      </div>
+
       <div class="landing-more">
         <div class="section-container">
           <h2>EMCR Disaster Risk Reduction Funding Programs</h2>
@@ -288,18 +324,7 @@
           </ul>
         </div>
       </div>
-      <div class="landing-login">
-        <div class="section-container">
-          <h2>Log in with Business BCeID Account</h2>
-          <p>
-            If you have a Business BCeID account and would like to submit a request, please log in below. If you do not have a Business BCeID account, you can contact us at <a href="mailto:EMCR.DisasterMitigation@gov.bc.ca">EMCR.DisasterMitigation@gov.bc.ca</a> to arrange an alternate submission
-            method.
-          </p>
-          <a class="button" href="https://dev-sup-drr-emcr.silver.devops.bcgov/">Login</a>
-          <br />
-          <a href="https://www.development.bceid.ca/clp/account_recovery.aspx" target="_blank">Forgot your user ID or password?</a>
-        </div>
-      </div>
+
       <div class="landing-contact">
         <div class="section-container">
           <img src="images/contact.svg" width="128" height="128" />

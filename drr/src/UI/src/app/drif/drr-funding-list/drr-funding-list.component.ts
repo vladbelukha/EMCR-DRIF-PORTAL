@@ -56,7 +56,7 @@ export class DrrFundingListComponent {
   setFundingTypeDesctiption(event: MatSelectChange, index: number) {
     const descriptionControl = this.fundingFormArray
       .at(index)
-      .get('description');
+      .get('otherDescription');
 
     // check if value contains FundingType.OtherGrants
     if (this.hasOtherGrants(event.value)) {
