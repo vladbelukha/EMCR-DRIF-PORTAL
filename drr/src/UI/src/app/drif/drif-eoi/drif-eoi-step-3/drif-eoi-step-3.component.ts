@@ -90,7 +90,7 @@ export class DrifEoiStep3Component {
       });
 
     if (this.fundingInformationForm.get('haveOtherFunding')?.value !== true) {
-      this.getFormArray('otherFunding').clear();
+      this.getFormArray('otherFunding').clear({ emitEvent: false });
       this.getFormArray('otherFunding').disable();
     }
     this.fundingInformationForm

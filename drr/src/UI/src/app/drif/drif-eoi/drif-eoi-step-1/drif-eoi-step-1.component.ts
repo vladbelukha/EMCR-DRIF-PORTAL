@@ -64,9 +64,10 @@ export class DrifEoiStep1Component {
     this.proponentInformationForm
       .get('partneringProponentsArray')
       ?.valueChanges.subscribe((proponents: StringItem[]) => {
-        this.proponentInformationForm
-          .get('partneringProponents')
-          ?.patchValue(proponents.map((proponent) => proponent.value));
+        this.proponentInformationForm.get('partneringProponents')?.patchValue(
+          proponents.map((proponent) => proponent.value),
+          { emitEvent: false }
+        );
       });
 
     this.breakpointObserver

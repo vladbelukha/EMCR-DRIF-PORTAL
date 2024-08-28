@@ -22,11 +22,11 @@ import {
 } from '@rxweb/reactive-form-validators';
 import { Hazards } from '../../../../model';
 import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
+import { DrrRadioButtonComponent } from '../../../shared/controls/drr-radio-button/drr-radio-button.component';
 import { DrrSelectComponent } from '../../../shared/controls/drr-select/drr-select.component';
 import { DrrTextareaComponent } from '../../../shared/controls/drr-textarea/drr-textarea.component';
 import { ContactDetailsForm, StringItem } from '../../drif-eoi/drif-eoi-form';
 import { ProponentAndProjectInformationForm } from '../drif-fp-form';
-import { DrrRadioButtonComponent } from '../../../shared/controls/drr-radio-button/drr-radio-button.component';
 
 @Component({
   selector: 'drif-fp-step-1',
@@ -46,7 +46,7 @@ import { DrrRadioButtonComponent } from '../../../shared/controls/drr-radio-butt
     DrrInputComponent,
     DrrTextareaComponent,
     DrrSelectComponent,
-    DrrRadioButtonComponent
+    DrrRadioButtonComponent,
   ],
   templateUrl: './drif-fp-step-1.component.html',
   styleUrl: './drif-fp-step-1.component.scss',
@@ -73,7 +73,10 @@ export class DrifFpStep1Component {
       ?.valueChanges.subscribe((proponents: StringItem[]) => {
         this.proponentAndProjectInformationForm
           .get('partneringProponents')
-          ?.patchValue(proponents.map((proponent) => proponent.value));
+          ?.patchValue(
+            proponents.map((proponent) => proponent.value),
+            { emitEvent: false }
+          );
       });
 
     const regionalProjectComments = this.proponentAndProjectInformationForm.get(

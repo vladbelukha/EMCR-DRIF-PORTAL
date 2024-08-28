@@ -50,21 +50,19 @@ export class DrifEoiStep5Component {
   projectDetailsForm!: IFormGroup<ProjectDetailsForm>;
 
   ngOnInit() {
-    this.projectDetailsForm
-      .get('infrastructureImpacted')
-      ?.patchValue(
-        this.projectDetailsForm
-          .get('infrastructureImpactedArray')
-          ?.value.map((infrastructure: any) => infrastructure.value)
-      );
+    this.projectDetailsForm.get('infrastructureImpacted')?.patchValue(
+      this.projectDetailsForm
+        .get('infrastructureImpactedArray')
+        ?.value.map((infrastructure: any) => infrastructure.value),
+      { emitEvent: false }
+    );
     this.projectDetailsForm
       .get('infrastructureImpactedArray')
       ?.valueChanges.subscribe((infrastructures: StringItemRequired[]) => {
-        this.projectDetailsForm
-          .get('infrastructureImpacted')
-          ?.patchValue(
-            infrastructures.map((infrastructure) => infrastructure.value)
-          );
+        this.projectDetailsForm.get('infrastructureImpacted')?.patchValue(
+          infrastructures.map((infrastructure) => infrastructure.value),
+          { emitEvent: false }
+        );
       });
   }
 

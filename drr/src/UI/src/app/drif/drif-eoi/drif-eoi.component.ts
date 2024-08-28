@@ -252,11 +252,12 @@ export class EOIApplicationComponent {
             'proponentInformation'
           ).get('partneringProponentsArray') as FormArray;
           if (application.partneringProponents?.length! > 0) {
-            partneringProponentsArray.clear();
+            partneringProponentsArray.clear({ emitEvent: false });
           }
           application.partneringProponents?.forEach((proponent) => {
             partneringProponentsArray?.push(
-              this.formBuilder.formGroup(new StringItem({ value: proponent }))
+              this.formBuilder.formGroup(new StringItem({ value: proponent })),
+              { emitEvent: false }
             );
           });
 
@@ -264,11 +265,12 @@ export class EOIApplicationComponent {
             'proponentInformation'
           ).get('additionalContacts') as FormArray;
           if (application.additionalContacts?.length! > 0) {
-            additionalContactsArray.clear();
+            additionalContactsArray.clear({ emitEvent: false });
           }
           application.additionalContacts?.forEach((contact) => {
             additionalContactsArray?.push(
-              this.formBuilder.formGroup(new ContactDetailsForm(contact))
+              this.formBuilder.formGroup(new ContactDetailsForm(contact)),
+              { emitEvent: false }
             );
           });
 
@@ -276,13 +278,14 @@ export class EOIApplicationComponent {
             'fundingInformation'
           ).get('otherFunding') as FormArray;
           if (application.otherFunding?.length! > 0) {
-            fundingInformationItemFormArray.clear();
+            fundingInformationItemFormArray.clear({ emitEvent: false });
           }
           application.otherFunding?.forEach((funding) => {
             fundingInformationItemFormArray?.push(
               this.formBuilder.formGroup(
                 new FundingInformationItemForm(funding)
-              )
+              ),
+              { emitEvent: false }
             );
           });
 
@@ -290,14 +293,15 @@ export class EOIApplicationComponent {
             'projectDetails'
           ).get('infrastructureImpactedArray') as FormArray;
           if (application.infrastructureImpacted?.some((i) => i)) {
-            infrastructureImpactedArray.clear();
+            infrastructureImpactedArray.clear({ emitEvent: false });
           }
           application.infrastructureImpacted?.forEach((infrastructure) => {
             if (infrastructure) {
               infrastructureImpactedArray?.push(
                 this.formBuilder.formGroup(
                   new StringItem({ value: infrastructure })
-                )
+                ),
+                { emitEvent: false }
               );
             }
           });

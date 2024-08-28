@@ -125,32 +125,35 @@ export class DrifEoiViewComponent {
         const partneringProponentsArray = this.getFormGroup(
           'proponentInformation'
         ).get('partneringProponentsArray') as FormArray;
-        partneringProponentsArray.clear();
+        partneringProponentsArray.clear({ emitEvent: false });
         application.partneringProponents?.forEach((proponent) => {
           partneringProponentsArray?.push(
-            this.formBuilder.formGroup(new StringItem({ value: proponent }))
+            this.formBuilder.formGroup(new StringItem({ value: proponent })),
+            { emitEvent: false }
           );
         });
 
         const fundingInformationItemFormArray = this.getFormGroup(
           'fundingInformation'
         ).get('otherFunding') as FormArray;
-        fundingInformationItemFormArray.clear();
+        fundingInformationItemFormArray.clear({ emitEvent: false });
         application.otherFunding?.forEach((funding) => {
           fundingInformationItemFormArray?.push(
-            this.formBuilder.formGroup(new FundingInformationItemForm(funding))
+            this.formBuilder.formGroup(new FundingInformationItemForm(funding)),
+            { emitEvent: false }
           );
         });
 
         const infrastructureImpactedArray = this.getFormGroup(
           'projectDetails'
         ).get('infrastructureImpactedArray') as FormArray;
-        infrastructureImpactedArray.clear();
+        infrastructureImpactedArray.clear({ emitEvent: false });
         application.infrastructureImpacted?.forEach((infrastructure) => {
           infrastructureImpactedArray?.push(
             this.formBuilder.formGroup(
               new StringItem({ value: infrastructure })
-            )
+            ),
+            { emitEvent: false }
           );
         });
       });

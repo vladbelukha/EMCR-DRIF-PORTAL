@@ -289,11 +289,12 @@ export class DrifFpComponent {
           'proponentAndProjectInformationForm'
         ).get('partneringProponentsArray') as FormArray;
         if (response.partneringProponents?.length! > 0) {
-          partneringProponentsArray.clear();
+          partneringProponentsArray.clear({ emitEvent: false });
         }
         response.partneringProponents?.forEach((proponent) => {
           partneringProponentsArray?.push(
-            this.formBuilder.formGroup(new StringItem({ value: proponent }))
+            this.formBuilder.formGroup(new StringItem({ value: proponent })),
+            { emitEvent: false }
           );
         });
 
@@ -301,11 +302,12 @@ export class DrifFpComponent {
           'proponentAndProjectInformationForm'
         ).get('additionalContacts') as FormArray;
         if (response.additionalContacts?.length! > 0) {
-          additionalContactsArray.clear();
+          additionalContactsArray.clear({ emitEvent: false });
         }
         response.additionalContacts?.forEach((contact) => {
           additionalContactsArray?.push(
-            this.formBuilder.formGroup(new ContactDetailsForm(contact))
+            this.formBuilder.formGroup(new ContactDetailsForm(contact)),
+            { emitEvent: false }
           );
         });
 
@@ -313,11 +315,12 @@ export class DrifFpComponent {
           'proposedActivities'
         ) as FormArray;
         if (response.proposedActivities?.length! > 0) {
-          proposedActivitiesArray.clear();
+          proposedActivitiesArray.clear({ emitEvent: false });
         }
         response.proposedActivities?.forEach((activity) => {
           proposedActivitiesArray?.push(
-            this.formBuilder.formGroup(new ProposedActivityForm(activity))
+            this.formBuilder.formGroup(new ProposedActivityForm(activity)),
+            { emitEvent: false }
           );
         });
 
@@ -325,11 +328,12 @@ export class DrifFpComponent {
           'otherFunding'
         ) as FormArray;
         if (response.otherFunding?.length! > 0) {
-          fundingInformationItemFormArray.clear();
+          fundingInformationItemFormArray.clear({ emitEvent: false });
         }
         response.otherFunding?.forEach((funding) => {
           fundingInformationItemFormArray?.push(
-            this.formBuilder.formGroup(new FundingInformationItemForm(funding))
+            this.formBuilder.formGroup(new FundingInformationItemForm(funding)),
+            { emitEvent: false }
           );
         });
 
@@ -337,15 +341,17 @@ export class DrifFpComponent {
           'yearOverYearFunding'
         ) as FormArray;
         if (response.yearOverYearFunding?.length! > 0) {
-          yearOverYearFormArray.clear();
+          yearOverYearFormArray.clear({ emitEvent: false });
         }
         response.yearOverYearFunding?.forEach((funding) => {
           yearOverYearFormArray?.push(
-            this.formBuilder.formGroup(new YearOverYearFundingForm(funding))
+            this.formBuilder.formGroup(new YearOverYearFundingForm(funding)),
+            { emitEvent: false }
           );
         });
 
         this.drifFpForm.markAsPristine();
+        this.formChanged = false;
       },
       error: (error) => {
         this.hotToast.error('Failed to load application');
