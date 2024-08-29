@@ -186,7 +186,6 @@ export class DrifFpComponent {
             ownershipDeclaration: response.ownershipDeclaration,
             ownershipDescription: response.ownershipDescription,
             projectAuthority: response.projectAuthority,
-            projectAuthorityComments: response.projectAuthorityComments,
             operationAndMaintenance: response.operationAndMaintenance,
             operationAndMaintenanceComments:
               response.operationAndMaintenanceComments,
@@ -289,7 +288,9 @@ export class DrifFpComponent {
           attachments: {
             // TODO: attachments: response.attachments,
           },
-          declarations: {},
+          declarations: {
+            submitter: response.submitter,
+          },
         };
 
         this.drifFpForm.patchValue(formData, { emitEvent: false });

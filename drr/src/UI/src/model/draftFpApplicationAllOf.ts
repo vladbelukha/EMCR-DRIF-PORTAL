@@ -5,9 +5,9 @@
  * OpenAPI spec version: 1.0.0
  */
 import type { Attachment } from './attachment';
-import type { YesNoOption } from './yesNoOption';
 import type { ProposedActivity } from './proposedActivity';
 import type { YearOverYearFunding } from './yearOverYearFunding';
+import type { YesNoOption } from './yesNoOption';
 
 export type DraftFpApplicationAllOf = {
   /** @nullable */
@@ -100,8 +100,6 @@ export type DraftFpApplicationAllOf = {
   projectAlternateOptions?: string;
   /** @nullable */
   projectAuthority?: boolean;
-  /** @nullable */
-  projectAuthorityComments?: string;
   /** @nullable */
   projectDescription?: string;
   /** @nullable */
