@@ -289,7 +289,9 @@ export class DrifFpComponent {
           attachments: {
             // TODO: attachments: response.attachments,
           },
-          declarations: {},
+          declarations: {
+            submitter: response.submitter,
+          },
         };
 
         this.drifFpForm.patchValue(formData, { emitEvent: false });
