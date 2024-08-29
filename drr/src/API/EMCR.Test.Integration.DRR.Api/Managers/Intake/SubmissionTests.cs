@@ -23,6 +23,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
 #pragma warning disable CS8619 // Nullability of reference types in value doesn't match target type.
 #pragma warning disable CS8604 // Possible null reference argument.
+#pragma warning disable CS8629 // Nullable value type may be null.
         public SubmissionTests()
         {
             var host = EMBC.Tests.Integration.DRR.Application.Host;
@@ -211,6 +212,36 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             updatedFp.Standards.ShouldContain(s => s.Name == "Standard 1");
             updatedFp.Professionals.ShouldContain(p => p.Name == "professional1");
             updatedFp.LocalGovernmentEndorsement.ShouldBe(EMCR.DRR.Managers.Intake.YesNoOption.NotApplicable);
+            updatedFp.OperationAndMaintenance.Value.ShouldBeEquivalentTo(fpToUpdate.OperationAndMaintenance.Value);
+        }
+
+        [Test]
+        public async Task UpdateFP_ListsUpdateCorrectly()
+        {
+            var eoi = mapper.Map<EoiApplication>(CreateNewTestEOIApplication());
+            eoi.Status = SubmissionPortalStatus.EligibleInvited;
+            eoi.AuthorizedRepresentativeStatement = true;
+            eoi.FOIPPAConfirmation = true;
+            eoi.InformationAccuracyStatement = true;
+
+            var eoiId = await manager.Handle(new EoiSubmitApplicationCommand { application = eoi, UserInfo = GetTestUserInfo() });
+            eoiId.ShouldNotBeEmpty();
+
+            var fpId = await manager.Handle(new CreateFpFromEoiCommand { EoiId = eoiId, UserInfo = GetTestUserInfo() });
+            fpId.ShouldNotBeEmpty();
+
+            var fullProposal = (await manager.Handle(new DrrApplicationsQuery { Id = fpId, BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault();
+            fullProposal.Id.ShouldBe(fpId);
+            fullProposal.EoiId.ShouldBe(eoiId);
+
+            var fpToUpdate = FillInFullProposal(mapper.Map<DraftFpApplication>(fullProposal));
+            await manager.Handle(new FpSaveApplicationCommand { application = mapper.Map<FpApplication>(fpToUpdate), UserInfo = GetTestUserInfo() });
+
+            var updatedFp = (await manager.Handle(new DrrApplicationsQuery { Id = fpId, BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault();
+            updatedFp.RegionalProject.ShouldBe(true);
+            updatedFp.Standards.ShouldContain(s => s.Name == "Standard 1");
+            updatedFp.Professionals.ShouldContain(p => p.Name == "professional1");
+            updatedFp.LocalGovernmentEndorsement.ShouldBe(EMCR.DRR.Managers.Intake.YesNoOption.NotApplicable);
 
             fpToUpdate = FillInFullProposal(mapper.Map<DraftFpApplication>(updatedFp));
 
@@ -238,6 +269,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
 #pragma warning restore CS8604 // Possible null reference argument.
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
 #pragma warning restore CS8619 // Nullability of reference types in value doesn't match target type.
+#pragma warning restore CS8629 // Nullable value type may be null.
         private DraftEoiApplication CreateNewTestEOIApplication()
         {
             var uniqueSignature = TestPrefix + "-" + Guid.NewGuid().ToString().Substring(0, 4);
