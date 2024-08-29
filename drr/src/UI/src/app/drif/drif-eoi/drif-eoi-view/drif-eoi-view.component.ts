@@ -10,6 +10,7 @@ import {
   RxFormGroup,
 } from '@rxweb/reactive-form-validators';
 import { DrifapplicationService } from '../../../../api/drifapplication/drifapplication.service';
+import { SubmissionPortalStatus } from '../../../../model';
 import { ProfileStore } from '../../../store/profile.store';
 import {
   EOIApplicationForm,
@@ -45,6 +46,7 @@ export class DrifEoiViewComponent {
     EOIApplicationForm
   ) as IFormGroup<EOIApplicationForm>;
   fpId?: string;
+  status?: SubmissionPortalStatus;
 
   ngOnInit() {
     const id = this.route.snapshot.params['id'];
@@ -54,6 +56,7 @@ export class DrifEoiViewComponent {
       .dRIFApplicationGetEOI(id)
       .subscribe((application) => {
         this.fpId = application.fpId;
+        this.status = application.status;
 
         // transform application into step forms
         const eoiApplicationForm: EOIApplicationForm = {
@@ -174,5 +177,9 @@ export class DrifEoiViewComponent {
 
   goBack() {
     this.router.navigate(['/dashboard']);
+  }
+
+  canCreateFP() {
+    return this.status === SubmissionPortalStatus.EligibleInvited && !this.fpId;
   }
 }

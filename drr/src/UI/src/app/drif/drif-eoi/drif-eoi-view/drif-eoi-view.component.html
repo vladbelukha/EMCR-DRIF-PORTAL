@@ -6,7 +6,7 @@
         {{ t("back") }}
       </button>
       <button
-        *ngIf="!fpId"
+        *ngIf="canCreateFP()"
         mat-raised-button
         color="primary"
         (click)="createFP()"
