@@ -59,7 +59,6 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.drr_isthisaregionalprojectcomments, opt => opt.MapFrom(src => src.RegionalProjectComments))
                 //Ownership & Authorization - 2
                 .ForMember(dest => dest.drr_proponenthastheauthorityandownership, opt => opt.MapFrom(src => src.ProjectAuthority.HasValue && src.ProjectAuthority.Value ? DRRTwoOptions.Yes : DRRTwoOptions.No))
-                .ForMember(dest => dest.drr_commentsproponenthastheauthorityandowners, opt => opt.MapFrom(src => src.ProjectAuthorityComments))
                 .ForMember(dest => dest.drr_proponenttomaintaininfrastructurelongterm, opt => opt.MapFrom(src => src.OperationAndMaintenance.HasValue ? (int?)Enum.Parse<DRRYesNoNotApplicable>(src.OperationAndMaintenance.Value.ToString()) : null))
                 .ForMember(dest => dest.drr_proponenttomaintaininfrastructurecomments, opt => opt.MapFrom(src => src.OperationAndMaintenanceComments))
                 .ForMember(dest => dest.drr_authorizedendorsedfirstnationpartners, opt => opt.MapFrom(src => src.FirstNationsEndorsement.HasValue ? (int?)Enum.Parse<DRRYesNoNotApplicable>(src.FirstNationsEndorsement.Value.ToString()) : null))
@@ -201,7 +200,6 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.RegionalProjectComments, opt => opt.MapFrom(src => src.drr_isthisaregionalprojectcomments))
                 //Ownership & Authorization - 2
                 .ForMember(dest => dest.ProjectAuthority, opt => opt.MapFrom(src => src.drr_proponenthastheauthorityandownership == (int)DRRTwoOptions.Yes))
-                .ForMember(dest => dest.ProjectAuthorityComments, opt => opt.MapFrom(src => src.drr_commentsproponenthastheauthorityandowners))
                 .ForMember(dest => dest.OperationAndMaintenance, opt => opt.MapFrom(src => src.drr_proponenttomaintaininfrastructurelongterm.HasValue ? (int?)Enum.Parse<YesNoOption>(((DRRYesNoNotApplicable)src.drr_proponenttomaintaininfrastructurelongterm).ToString()) : null))
                 .ForMember(dest => dest.OperationAndMaintenanceComments, opt => opt.MapFrom(src => src.drr_proponenttomaintaininfrastructurecomments))
                 .ForMember(dest => dest.FirstNationsEndorsement, opt => opt.MapFrom(src => src.drr_authorizedendorsedfirstnationpartners.HasValue ? (int?)Enum.Parse<YesNoOption>(((DRRYesNoNotApplicable)src.drr_authorizedendorsedfirstnationpartners).ToString()) : null))

@@ -212,7 +212,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             updatedFp.Standards.ShouldContain(s => s.Name == "Standard 1");
             updatedFp.Professionals.ShouldContain(p => p.Name == "professional1");
             updatedFp.LocalGovernmentEndorsement.ShouldBe(EMCR.DRR.Managers.Intake.YesNoOption.NotApplicable);
-            updatedFp.OperationAndMaintenance.Value.ShouldBeEquivalentTo(fpToUpdate.OperationAndMaintenance.Value);
+            ((int)updatedFp.OperationAndMaintenance).ShouldBe((int)fpToUpdate.OperationAndMaintenance);
         }
 
         [Test]
@@ -375,7 +375,6 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             application.RegionalProjectComments = "regional comments";
 
             application.ProjectAuthority = true;
-            application.ProjectAuthorityComments = "authority and ownership comments";
             application.OperationAndMaintenance = EMCR.DRR.Controllers.YesNoOption.Yes;
             application.OperationAndMaintenanceComments = "operation and maint. comments";
             application.FirstNationsEndorsement = EMCR.DRR.Controllers.YesNoOption.No;
