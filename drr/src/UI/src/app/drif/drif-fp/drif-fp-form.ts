@@ -146,10 +146,6 @@ export class OwnershipAndAuthorizationForm {
 
   @prop()
   @required()
-  projectAuthorityComments?: string;
-
-  @prop()
-  @required()
   operationAndMaintenance?: YesNoOption;
 
   @prop()

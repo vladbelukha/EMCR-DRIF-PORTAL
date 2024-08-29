@@ -186,7 +186,6 @@ export class DrifFpComponent {
             ownershipDeclaration: response.ownershipDeclaration,
             ownershipDescription: response.ownershipDescription,
             projectAuthority: response.projectAuthority,
-            projectAuthorityComments: response.projectAuthorityComments,
             operationAndMaintenance: response.operationAndMaintenance,
             operationAndMaintenanceComments:
               response.operationAndMaintenanceComments,
