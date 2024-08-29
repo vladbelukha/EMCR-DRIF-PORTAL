@@ -776,6 +776,54 @@ namespace EMCR.DRR.Resources.Applications
                 ctx.AttachTo(nameof(DRRContext.drr_driffundingrequests), f);
                 await ctx.LoadPropertyAsync(f, nameof(drr_driffundingrequest.drr_FiscalYear), ct);
             });
+
+            await application.drr_drr_application_drr_impactedoraffectedpartyitem_Application.ForEachAsync(5, async item =>
+            {
+                ctx.AttachTo(nameof(DRRContext.drr_impactedoraffectedpartyitems), item);
+                await ctx.LoadPropertyAsync(item, nameof(drr_impactedoraffectedpartyitem.drr_ImpactedorAffectedParty), ct);
+            });
+            
+            await application.drr_drr_application_drr_projectneedidentificationitem_Application.ForEachAsync(5, async item =>
+            {
+                ctx.AttachTo(nameof(DRRContext.drr_projectneedidentificationitems), item);
+                await ctx.LoadPropertyAsync(item, nameof(drr_projectneedidentificationitem.drr_projectneedidentification), ct);
+            });
+
+            await application.drr_drr_application_drr_costreductionitem_Application.ForEachAsync(5, async item =>
+            {
+                ctx.AttachTo(nameof(DRRContext.drr_costreductionitems), item);
+                await ctx.LoadPropertyAsync(item, nameof(drr_costreductionitem.drr_CostReduction), ct);
+            });
+
+            await application.drr_drr_application_drr_cobenefititem_Application.ForEachAsync(5, async item =>
+            {
+                ctx.AttachTo(nameof(DRRContext.drr_cobenefititems), item);
+                await ctx.LoadPropertyAsync(item, nameof(drr_cobenefititem.drr_CoBenefit), ct);
+            });
+
+            await application.drr_drr_application_drr_projectcomplexityriskitem_Application.ForEachAsync(5, async item =>
+            {
+                ctx.AttachTo(nameof(DRRContext.drr_projectcomplexityriskitems), item);
+                await ctx.LoadPropertyAsync(item, nameof(drr_projectcomplexityriskitem.drr_ProjectComplexityRisk), ct);
+            });
+
+            await application.drr_drr_application_drr_projectreadinessriskitem_Application.ForEachAsync(5, async item =>
+            {
+                ctx.AttachTo(nameof(DRRContext.drr_projectreadinessriskitems), item);
+                await ctx.LoadPropertyAsync(item, nameof(drr_projectreadinessriskitem.drr_ProjectReadinessRisk), ct);
+            });
+
+            await application.drr_drr_application_drr_projectsensitivityriskitem_Application.ForEachAsync(5, async item =>
+            {
+                ctx.AttachTo(nameof(DRRContext.drr_projectsensitivityriskitems), item);
+                await ctx.LoadPropertyAsync(item, nameof(drr_projectsensitivityriskitem.drr_ProjectSensitivityRisk), ct);
+            });
+
+            await application.drr_drr_application_drr_projectcapacitychallengeitem_Application.ForEachAsync(5, async item =>
+            {
+                ctx.AttachTo(nameof(DRRContext.drr_projectcapacitychallengeitems), item);
+                await ctx.LoadPropertyAsync(item, nameof(drr_projectcapacitychallengeitem.drr_ProjectCapacityChallenge), ct);
+            });
         }
     }
 }
