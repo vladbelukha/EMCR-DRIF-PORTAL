@@ -584,7 +584,7 @@ export class DeclarationsForm {
 
 export class DrifFpForm {
   @propObject(ProponentAndProjectInformationForm)
-  proponentAndProjectInformationForm?: ProponentAndProjectInformationForm =
+  proponentAndProjectInformation?: ProponentAndProjectInformationForm =
     new ProponentAndProjectInformationForm({});
 
   @propObject(OwnershipAndAuthorizationForm)

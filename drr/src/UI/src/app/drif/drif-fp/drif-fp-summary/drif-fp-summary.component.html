@@ -1,144 +1,71 @@
 <div class="summary-container" *transloco="let t">
   <mat-card>
     <mat-card-header>
-      <mat-card-title>{{ t("proponentInformation") }}</mat-card-title>
+      <mat-card-title>{{ t("proponentAndProjectInformation") }}</mat-card-title>
       <mat-card-subtitle>Step 1</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-      <drr-summary-item
-        [label]="t('proponentName')"
-        [value]="
-          getRxFormControl('proponentInformation', 'proponentName').value
-        "
-        [rxFormControl]="
-          getRxFormControl('proponentInformation', 'proponentName')
-        "
-      >
-      </drr-summary-item>
+      <mat-label class="drr-label">{{ t("primaryProjectContact") }}</mat-label>
+      <div class="summary-row">
+        <drr-summary-item
+          [label]="t('firstName')"
+          [rxFormControl]="
+            getRxFormControl(
+              'proponentAndProjectInformation.projectContact.firstName'
+            )
+          "
+        >
+        </drr-summary-item>
 
-      <div
-        [class.required]="
-          objectHasValues(
-            DrifFpForm.get('proponentInformation')?.get('projectContact')
-          )
-        "
-      >
-        <mat-label class="drr-label">{{ t("projectContact") }}</mat-label>
-        <div class="summary-row">
-          <drr-summary-item
-            [label]="t('firstName')"
-            [value]="
-              getRxGroupFormControl(
-                'proponentInformation',
-                'projectContact',
-                'firstName'
-              ).value
-            "
-            [rxFormControl]="
-              getRxGroupFormControl(
-                'proponentInformation',
-                'projectContact',
-                'firstName'
-              )
-            "
-          >
-          </drr-summary-item>
+        <drr-summary-item
+          [label]="t('lastName')"
+          [rxFormControl]="
+            getRxFormControl(
+              'proponentAndProjectInformation.projectContact.lastName'
+            )
+          "
+        >
+        </drr-summary-item>
 
-          <drr-summary-item
-            [label]="t('lastName')"
-            [value]="
-              getRxGroupFormControl(
-                'proponentInformation',
-                'projectContact',
-                'lastName'
-              ).value
-            "
-            [rxFormControl]="
-              getRxGroupFormControl(
-                'proponentInformation',
-                'projectContact',
-                'lastName'
-              )
-            "
-          >
-          </drr-summary-item>
+        <drr-summary-item
+          [label]="t('title')"
+          [rxFormControl]="
+            getRxFormControl(
+              'proponentAndProjectInformation.projectContact.title'
+            )
+          "
+        >
+        </drr-summary-item>
 
-          <drr-summary-item
-            [label]="t('title')"
-            [value]="
-              getRxGroupFormControl(
-                'proponentInformation',
-                'projectContact',
-                'title'
-              ).value
-            "
-            [rxFormControl]="
-              getRxGroupFormControl(
-                'proponentInformation',
-                'projectContact',
-                'title'
-              )
-            "
-          >
-          </drr-summary-item>
+        <drr-summary-item
+          [label]="t('department')"
+          [rxFormControl]="
+            getRxFormControl(
+              'proponentAndProjectInformation.projectContact.department'
+            )
+          "
+        >
+        </drr-summary-item>
 
-          <drr-summary-item
-            [label]="t('department')"
-            [value]="
-              getRxGroupFormControl(
-                'proponentInformation',
-                'projectContact',
-                'department'
-              ).value
-            "
-            [rxFormControl]="
-              getRxGroupFormControl(
-                'proponentInformation',
-                'projectContact',
-                'department'
-              )
-            "
-          >
-          </drr-summary-item>
+        <drr-summary-item
+          [label]="t('phone')"
+          [rxFormControl]="
+            getRxFormControl(
+              'proponentAndProjectInformation.projectContact.phone'
+            )
+          "
+        >
+        </drr-summary-item>
 
-          <drr-summary-item
-            [label]="t('phone')"
-            [value]="
-              getRxGroupFormControl(
-                'proponentInformation',
-                'projectContact',
-                'phone'
-              ).value | mask : '000-000-0000'
-            "
-            [rxFormControl]="
-              getRxGroupFormControl(
-                'proponentInformation',
-                'projectContact',
-                'phone'
-              )
-            "
-          >
-          </drr-summary-item>
-
-          <drr-summary-item
-            [label]="t('email')"
-            [value]="
-              getRxGroupFormControl(
-                'proponentInformation',
-                'projectContact',
-                'email'
-              ).value
-            "
-            [rxFormControl]="
-              getRxGroupFormControl(
-                'proponentInformation',
-                'projectContact',
-                'email'
-              )
-            "
-          >
-          </drr-summary-item>
-        </div>
+        <drr-summary-item
+          [label]="t('email')"
+          [rxFormControl]="
+            getRxFormControl(
+              'proponentAndProjectInformation.projectContact.email'
+            )
+          "
+        >
+        </drr-summary-item>
       </div>
 
       <div>
@@ -147,14 +74,13 @@
           class="summary-row"
           *ngFor="
             let additionalContact of getRxFormArrayControls(
-              'proponentInformation',
+              'proponentAndProjectInformation',
               'additionalContacts'
             )
           "
         >
           <drr-summary-item
             [label]="t('firstName')"
-            [value]="additionalContact.get('firstName')?.value"
             [rxFormControl]="
               convertRxFormControl(additionalContact.get('firstName'))
             "
@@ -163,7 +89,6 @@
 
           <drr-summary-item
             [label]="t('lastName')"
-            [value]="additionalContact.get('lastName')?.value"
             [rxFormControl]="
               convertRxFormControl(additionalContact.get('lastName'))
             "
@@ -172,7 +97,6 @@
 
           <drr-summary-item
             [label]="t('title')"
-            [value]="additionalContact.get('title')?.value"
             [rxFormControl]="
               convertRxFormControl(additionalContact.get('title'))
             "
@@ -181,7 +105,6 @@
 
           <drr-summary-item
             [label]="t('department')"
-            [value]="additionalContact.get('department')?.value"
             [rxFormControl]="
               convertRxFormControl(additionalContact.get('department'))
             "
@@ -190,9 +113,6 @@
 
           <drr-summary-item
             [label]="t('phone')"
-            [value]="
-              additionalContact.get('phone')?.value | mask : '000-000-0000'
-            "
             [rxFormControl]="
               convertRxFormControl(additionalContact.get('phone'))
             "
@@ -201,7 +121,6 @@
 
           <drr-summary-item
             [label]="t('email')"
-            [value]="additionalContact.get('email')?.value"
             [rxFormControl]="
               convertRxFormControl(additionalContact.get('email'))
             "
@@ -218,7 +137,7 @@
           class="summary-row"
           *ngFor="
             let proponent of getFormArray(
-              'proponentInformation',
+              'proponentAndProjectInformation',
               'partneringProponents'
             );
             let i = index
@@ -227,6 +146,41 @@
           <mat-label>{{ proponent }}</mat-label>
         </div>
       </div>
+
+      <drr-summary-item
+        [label]="t('regionalProjectQuestion')"
+        [rxFormControl]="
+          getRxFormControl('proponentAndProjectInformation.regionalProject')
+        "
+        [controlType]="'radio'"
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('regionalProjectComments')"
+        [rxFormControl]="
+          getRxFormControl(
+            'proponentAndProjectInformation.regionalProjectComments'
+          )
+        "
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('projectTitle')"
+        [rxFormControl]="
+          getRxFormControl('proponentAndProjectInformation.projectTitle')
+        "
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('projectType')"
+        [rxFormControl]="
+          getRxFormControl('proponentAndProjectInformation.scopeStatement')
+        "
+      >
+      </drr-summary-item>
     </mat-card-content>
   </mat-card>
 </div>

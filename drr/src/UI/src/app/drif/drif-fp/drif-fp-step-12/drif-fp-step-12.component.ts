@@ -8,8 +8,9 @@ import { IFormGroup } from '@rxweb/reactive-form-validators';
 import { DrifapplicationService } from '../../../../api/drifapplication/drifapplication.service';
 import { ApplicationType, DeclarationType } from '../../../../model';
 import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
-import { DeclarationsForm } from '../drif-fp-form';
 import { ProfileStore } from '../../../store/profile.store';
+import { DeclarationsForm, DrifFpForm } from '../drif-fp-form';
+import { DrifFpSummaryComponent } from '../drif-fp-summary/drif-fp-summary.component';
 
 @Component({
   selector: 'drif-fp-step-12',
@@ -22,6 +23,7 @@ import { ProfileStore } from '../../../store/profile.store';
     MatInputModule,
     MatCheckboxModule,
     DrrInputComponent,
+    DrifFpSummaryComponent,
   ],
   templateUrl: './drif-fp-step-12.component.html',
   styleUrl: './drif-fp-step-12.component.scss',
@@ -30,7 +32,14 @@ export class DrifFpStep12Component {
   drifAppService = inject(DrifapplicationService);
   profileStore = inject(ProfileStore);
 
-  @Input() declarationsForm!: IFormGroup<DeclarationsForm>;
+  @Input()
+  fullProposalForm!: IFormGroup<DrifFpForm>;
+
+  get declarationsForm(): IFormGroup<DeclarationsForm> {
+    return this.fullProposalForm.get(
+      'declarations'
+    ) as IFormGroup<DeclarationsForm>;
+  }
 
   authorizedRepresentativeText?: string;
   accuracyOfInformationText?: string;

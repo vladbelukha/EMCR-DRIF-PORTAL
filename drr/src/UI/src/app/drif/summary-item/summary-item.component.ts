@@ -1,9 +1,16 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { RxFormControl } from '@rxweb/reactive-form-validators';
+
+export type ControlType =
+  | 'input'
+  | 'textarea'
+  | 'select'
+  | 'radio'
+  | 'checkbox';
 
 @Component({
   selector: 'drr-summary-item',
@@ -13,8 +20,38 @@ import { RxFormControl } from '@rxweb/reactive-form-validators';
   styleUrl: './summary-item.component.scss',
 })
 export class SummaryItemComponent {
+  translocoService = inject(TranslocoService);
+
   @Input() label?: string;
-  @Input() value?: string | null | undefined;
+
+  private _value: string | null | undefined;
+  @Input()
+  set value(value: string | null | undefined) {
+    this._value = value;
+  }
+  get value(): string | null | undefined {
+    if (this._value !== undefined) {
+      return this._value;
+    }
+
+    const controlValue = this.rxFormControl?.value;
+
+    switch (this.controlType) {
+      case 'input':
+      case 'textarea':
+        return this.rxFormControl?.value;
+      case 'radio':
+        return typeof controlValue === 'boolean'
+          ? this.translocoService.translate(controlValue ? 'Yes' : 'No')
+          : this.translocoService.translate(controlValue);
+
+      default:
+        return this.rxFormControl?.value;
+    }
+  }
+
+  @Input() controlType: ControlType = 'input';
+
   @Input() rxFormControl?: RxFormControl;
 
   isRequired(): boolean {
