@@ -311,7 +311,6 @@ export class ClimateAdaptationForm {
   climateAdaptationScreener?: boolean;
 
   @prop()
-  @required()
   climateAdaptation?: string;
 
   constructor(values: ClimateAdaptationForm) {

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { TranslocoModule } from '@ngneat/transloco';
 import { IFormGroup } from '@rxweb/reactive-form-validators';
@@ -26,4 +26,23 @@ import { ClimateAdaptationForm } from '../drif-fp-form';
 export class DrifFpStep6Component {
   @Input()
   climateAdaptationForm!: IFormGroup<ClimateAdaptationForm>;
+
+  ngOnInit() {
+    this.climateAdaptationForm
+      .get('climateAdaptationScreener')
+      ?.valueChanges.subscribe((value) => {
+        if (value === 'No') {
+          this.climateAdaptationForm
+            .get('climateAdaptation')
+            ?.clearValidators();
+        } else {
+          this.climateAdaptationForm
+            .get('climateAdaptation')
+            ?.setValidators(Validators.required);
+        }
+        this.climateAdaptationForm
+          .get('climateAdaptation')
+          ?.updateValueAndValidity();
+      });
+  }
 }
