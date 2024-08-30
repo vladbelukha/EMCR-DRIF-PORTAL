@@ -355,6 +355,7 @@
       </div>
     </mat-card-content>
   </mat-card>
+
   <mat-card>
     <mat-card-header>
       <mat-card-title>{{ t("projectPlan") }}</mat-card-title>
@@ -443,6 +444,61 @@
         [label]="t('projectAlternatesText')"
         [rxFormControl]="
           getRxFormControl('projectPlan.projectAlternateOptions')
+        "
+      >
+      </drr-summary-item>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{ t("projectEngagement") }}</mat-card-title>
+      <mat-card-subtitle>Step 5</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <drr-summary-item
+        [label]="t('engagedWithFirstNationsQuestion')"
+        [rxFormControl]="
+          getRxFormControl('projectEngagement.engagedWithFirstNations')
+        "
+        [controlType]="'radio'"
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('engagedWithFirstNationsComments')"
+        [rxFormControl]="
+          getRxFormControl('projectEngagement.engagedWithFirstNationsComments')
+        "
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('otherEngagementText')"
+        [rxFormControl]="getRxFormControl('projectEngagement.otherEngagement')"
+        [controlType]="'radio'"
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('affectedParties')"
+        [rxFormControl]="getRxFormControl('projectEngagement.affectedParties')"
+        [controlType]="'array'"
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('otherEngagementComments')"
+        [rxFormControl]="
+          getRxFormControl('projectEngagement.otherEngagementComments')
+        "
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('collaborationComments')"
+        [rxFormControl]="
+          getRxFormControl('projectEngagement.collaborationComments')
         "
       >
       </drr-summary-item>
