@@ -260,7 +260,6 @@
             'ownershipAndAuthorization.authorizationOrEndorsementComments'
           )
         "
-        [controlType]="'radio'"
       ></drr-summary-item>
     </mat-card-content>
   </mat-card>
@@ -354,6 +353,99 @@
         >
         </drr-summary-item>
       </div>
+    </mat-card-content>
+  </mat-card>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{ t("projectPlan") }}</mat-card-title>
+      <mat-card-subtitle>Step 4</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-label class="drr-label">{{ t("projectDates") }}</mat-label>
+      <div class="summary-row">
+        <drr-summary-item
+          [label]="t('startDate')"
+          [rxFormControl]="getRxFormControl('projectPlan.startDate')"
+          [controlType]="'date'"
+        >
+        </drr-summary-item>
+
+        <drr-summary-item
+          [label]="t('endDate')"
+          [rxFormControl]="getRxFormControl('projectPlan.endDate')"
+          [controlType]="'date'"
+        >
+        </drr-summary-item>
+      </div>
+
+      <drr-summary-item
+        [label]="t('projectDescription')"
+        [rxFormControl]="getRxFormControl('projectPlan.projectDescription')"
+      >
+      </drr-summary-item>
+
+      <mat-label class="drr-label">{{ t("proposedActivities") }}</mat-label>
+      <div
+        class="summary-row"
+        *ngFor="
+          let control of getRxFormArrayControls(
+            'projectPlan',
+            'proposedActivities'
+          )
+        "
+      >
+        <drr-summary-item
+          [label]="t('activityName')"
+          [rxFormControl]="convertRxFormControl(control.get('name'))"
+        >
+        </drr-summary-item>
+
+        <drr-summary-item
+          [label]="t('startDate')"
+          [rxFormControl]="convertRxFormControl(control.get('startDate'))"
+          [controlType]="'date'"
+        >
+        </drr-summary-item>
+
+        <drr-summary-item
+          [label]="t('endDate')"
+          [rxFormControl]="convertRxFormControl(control.get('endDate'))"
+          [controlType]="'date'"
+        >
+        </drr-summary-item>
+
+        <drr-summary-item
+          [label]="t('relatedMilestone')"
+          [rxFormControl]="
+            convertRxFormControl(control.get('relatedMilestone'))
+          "
+        >
+        </drr-summary-item>
+      </div>
+
+      <drr-summary-item
+        [label]="t('verificationMethods')"
+        [rxFormControl]="getRxFormControl('projectPlan.verificationMethods')"
+        [controlType]="'array'"
+        [translate]="false"
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('verificationMethodsComments')"
+        [rxFormControl]="
+          getRxFormControl('projectPlan.verificationMethodsComments')
+        "
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('projectAlternatesText')"
+        [rxFormControl]="
+          getRxFormControl('projectPlan.projectAlternateOptions')
+        "
+      >
+      </drr-summary-item>
     </mat-card-content>
   </mat-card>
 </div>

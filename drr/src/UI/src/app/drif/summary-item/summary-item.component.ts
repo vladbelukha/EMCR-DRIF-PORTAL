@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { Component, inject, Input } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
@@ -11,7 +11,8 @@ export type ControlType =
   | 'select'
   | 'radio'
   | 'checkbox'
-  | 'array';
+  | 'array'
+  | 'date';
 
 @Component({
   selector: 'drr-summary-item',
@@ -19,9 +20,11 @@ export type ControlType =
   imports: [CommonModule, MatInputModule, TranslocoModule],
   templateUrl: './summary-item.component.html',
   styleUrl: './summary-item.component.scss',
+  providers: [DatePipe],
 })
 export class SummaryItemComponent {
   translocoService = inject(TranslocoService);
+  datePipe = inject(DatePipe);
 
   @Input() label?: string;
 
@@ -49,8 +52,14 @@ export class SummaryItemComponent {
           : this.translocoService.translate(controlValue);
       case 'array':
         return (
-          this.translocoService.translate(this.rxFormControl?.value) as string[]
+          this.translate
+            ? (this.translocoService.translate(
+                this.rxFormControl?.value
+              ) as string[])
+            : (this.rxFormControl?.value as string[])
         )?.join(', ');
+      case 'date':
+        return this.datePipe.transform(controlValue, 'yyyy-MM-dd');
 
       default:
         return this.rxFormControl?.value;
@@ -58,6 +67,8 @@ export class SummaryItemComponent {
   }
 
   @Input() controlType: ControlType = 'input';
+
+  @Input() translate = true;
 
   @Input() rxFormControl?: RxFormControl;
 
