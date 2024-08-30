@@ -504,4 +504,29 @@
       </drr-summary-item>
     </mat-card-content>
   </mat-card>
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{ t("climateAdaptation") }}</mat-card-title>
+      <mat-card-subtitle>Step 6</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <drr-summary-item
+        [label]="t('climateAdaptationScreenerQuestion')"
+        [rxFormControl]="
+          getRxFormControl('climateAdaptation.climateAdaptationScreener')
+        "
+        [controlType]="'radio'"
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('climateAdaptationText')"
+        [rxFormControl]="
+          getRxFormControl('climateAdaptation.climateAdaptation')
+        "
+      >
+      </drr-summary-item>
+    </mat-card-content>
+  </mat-card>
 </div>
