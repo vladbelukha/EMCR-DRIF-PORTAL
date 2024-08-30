@@ -183,6 +183,7 @@
       </drr-summary-item>
     </mat-card-content>
   </mat-card>
+
   <mat-card>
     <mat-card-header>
       <mat-card-title>{{ t("ownershipAndAuthorization") }}</mat-card-title>
@@ -261,6 +262,98 @@
         "
         [controlType]="'radio'"
       ></drr-summary-item>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{ t("projectArea") }}</mat-card-title>
+      <mat-card-subtitle>Step 3</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <drr-summary-item
+        [label]="t('locationDescription')"
+        [rxFormControl]="getRxFormControl('projectArea.locationDescription')"
+      >
+      </drr-summary-item>
+
+      <mat-label class="drr-label">{{ t("estimatedArea") }}</mat-label>
+      <div class="summary-row">
+        <drr-summary-item
+          [label]="t('area')"
+          [rxFormControl]="getRxFormControl('projectArea.area')"
+        >
+        </drr-summary-item>
+
+        <drr-summary-item
+          [label]="t('units')"
+          [rxFormControl]="getRxFormControl('projectArea.units')"
+        >
+        </drr-summary-item>
+      </div>
+
+      <drr-summary-item
+        [label]="t('relatedHazardsSummary')"
+        [rxFormControl]="getRxFormControl('projectArea.relatedHazards')"
+        [controlType]="'array'"
+      >
+      </drr-summary-item>
+      <drr-summary-item
+        [label]="t('otherHazardsDescription')"
+        [rxFormControl]="
+          getRxFormControl('projectArea.otherHazardsDescription')
+        "
+        *ngIf="
+          getRxFormControl('projectArea.relatedHazards')?.value?.includes(
+            'Other'
+          )
+        "
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('areaDescriptionText')"
+        [rxFormControl]="getRxFormControl('projectArea.areaDescription')"
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('communityImpactText')"
+        [rxFormControl]="getRxFormControl('projectArea.communityImpact')"
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('estimatedPeopleImpacted')"
+        [rxFormControl]="
+          getRxFormControl('projectArea.estimatedPeopleImpacted')
+        "
+        [controlType]="'select'"
+      >
+      </drr-summary-item>
+
+      <mat-label class="drr-label">{{ t("infrastructureImpacted") }}</mat-label>
+      <div
+        class="summary-row"
+        *ngFor="
+          let control of getRxFormArrayControls(
+            'projectArea',
+            'infrastructureImpacted'
+          )
+        "
+      >
+        <drr-summary-item
+          [label]="t('infrastructure')"
+          [rxFormControl]="convertRxFormControl(control.get('infrastructure'))"
+        >
+        </drr-summary-item>
+
+        <drr-summary-item
+          [label]="t('impact')"
+          [rxFormControl]="convertRxFormControl(control.get('impact'))"
+        >
+        </drr-summary-item>
+      </div>
     </mat-card-content>
   </mat-card>
 </div>

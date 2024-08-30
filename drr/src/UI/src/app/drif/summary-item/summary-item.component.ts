@@ -10,7 +10,8 @@ export type ControlType =
   | 'textarea'
   | 'select'
   | 'radio'
-  | 'checkbox';
+  | 'checkbox'
+  | 'array';
 
 @Component({
   selector: 'drr-summary-item',
@@ -40,10 +41,16 @@ export class SummaryItemComponent {
       case 'input':
       case 'textarea':
         return this.rxFormControl?.value;
+      case 'select':
+        return this.translocoService.translate(controlValue);
       case 'radio':
         return typeof controlValue === 'boolean'
           ? this.translocoService.translate(controlValue ? 'Yes' : 'No')
           : this.translocoService.translate(controlValue);
+      case 'array':
+        return (
+          this.translocoService.translate(this.rxFormControl?.value) as string[]
+        )?.join(', ');
 
       default:
         return this.rxFormControl?.value;

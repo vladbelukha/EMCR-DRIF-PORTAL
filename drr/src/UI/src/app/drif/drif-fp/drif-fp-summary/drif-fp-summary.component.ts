@@ -13,6 +13,7 @@ import {
 import { NgxMaskPipe } from 'ngx-mask';
 import { SummaryItemComponent } from '../../summary-item/summary-item.component';
 import { DrifFpForm } from '../drif-fp-form';
+import { DrifEoiSummaryComponent } from "../../drif-eoi/drif-eoi-summary/drif-eoi-summary.component";
 
 @Component({
   selector: 'drif-fp-summary',
@@ -24,7 +25,8 @@ import { DrifFpForm } from '../drif-fp-form';
     MatInputModule,
     TranslocoModule,
     NgxMaskPipe,
-  ],
+    DrifEoiSummaryComponent
+],
   templateUrl: './drif-fp-summary.component.html',
   styleUrl: './drif-fp-summary.component.scss',
 })
