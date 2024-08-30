@@ -1,8 +1,8 @@
 <div class="drr-step-container" *transloco="let t">
   <form [formGroup]="ownershipAndAuthorizationForm">
     <mat-label class="drr-label">{{ t("fpOwnership") }}</mat-label>
-    <mat-label>{{ t("fpOwnershipQuestion") }}*</mat-label>
     <drr-radio-button
+      [label]="t('fpOwnershipQuestion')"
       [options]="yesNoBoolOptions"
       [rxFormControl]="
         ownershipAndAuthorizationForm.get('ownershipDeclaration')

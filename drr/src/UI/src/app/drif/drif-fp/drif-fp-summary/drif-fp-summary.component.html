@@ -183,4 +183,84 @@
       </drr-summary-item>
     </mat-card-content>
   </mat-card>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{ t("ownershipAndAuthorization") }}</mat-card-title>
+      <mat-card-subtitle>Step 2</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <drr-summary-item
+        [label]="t('fpOwnershipQuestion')"
+        [rxFormControl]="
+          getRxFormControl('ownershipAndAuthorization.ownershipDeclaration')
+        "
+        [controlType]="'radio'"
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('fpOwnershipComments')"
+        [rxFormControl]="
+          getRxFormControl('ownershipAndAuthorization.ownershipDescription')
+        "
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('projectAuthorityQuestion')"
+        [rxFormControl]="
+          getRxFormControl('ownershipAndAuthorization.projectAuthority')
+        "
+        [controlType]="'radio'"
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('operationAndMaintenanceQuestion')"
+        [rxFormControl]="
+          getRxFormControl('ownershipAndAuthorization.operationAndMaintenance')
+        "
+        [controlType]="'radio'"
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('operationAndMaintenanceComments')"
+        [rxFormControl]="
+          getRxFormControl(
+            'ownershipAndAuthorization.operationAndMaintenanceComments'
+          )
+        "
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('firstNationsEndorsementQuestion')"
+        [rxFormControl]="
+          getRxFormControl('ownershipAndAuthorization.firstNationsEndorsement')
+        "
+        [controlType]="'radio'"
+      ></drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('localGovernmentEndorsementQuestion')"
+        [rxFormControl]="
+          getRxFormControl(
+            'ownershipAndAuthorization.localGovernmentEndorsement'
+          )
+        "
+        [controlType]="'radio'"
+      ></drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('authorizationOrEndorsementComments')"
+        [rxFormControl]="
+          getRxFormControl(
+            'ownershipAndAuthorization.authorizationOrEndorsementComments'
+          )
+        "
+        [controlType]="'radio'"
+      ></drr-summary-item>
+    </mat-card-content>
+  </mat-card>
 </div>
