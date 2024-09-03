@@ -627,4 +627,74 @@
       </drr-summary-item>
     </mat-card-content>
   </mat-card>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{ t("projectOutcomes") }}</mat-card-title>
+      <mat-card-subtitle>Step 8</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <drr-summary-item
+        [label]="t('publicBenefit')"
+        [rxFormControl]="getRxFormControl('projectOutcomes.publicBenefit')"
+        [controlType]="'radio'"
+      >
+      </drr-summary-item>
+      <drr-summary-item
+        [label]="t('publicBenefitComments')"
+        [rxFormControl]="
+          getRxFormControl('projectOutcomes.publicBenefitComments')
+        "
+      >
+      </drr-summary-item>
+      <drr-summary-item
+        [label]="t('futureCostReduction')"
+        [rxFormControl]="
+          getRxFormControl('projectOutcomes.futureCostReduction')
+        "
+        [controlType]="'radio'"
+      >
+      </drr-summary-item>
+      <drr-summary-item
+        [label]="t('costReductions')"
+        [rxFormControl]="getRxFormControl('projectOutcomes.costReductions')"
+        [controlType]="'array'"
+      >
+      </drr-summary-item>
+      <drr-summary-item
+        [label]="t('costReductionComments')"
+        [rxFormControl]="
+          getRxFormControl('projectOutcomes.costReductionComments')
+        "
+      >
+      </drr-summary-item>
+      <drr-summary-item
+        [label]="t('produceCoBenefits')"
+        [rxFormControl]="getRxFormControl('projectOutcomes.produceCoBenefits')"
+        [controlType]="'radio'"
+      ></drr-summary-item>
+      <drr-summary-item
+        [label]="t('coBenefits')"
+        [rxFormControl]="getRxFormControl('projectOutcomes.coBenefits')"
+        [controlType]="'array'"
+      >
+      </drr-summary-item>
+      <drr-summary-item
+        [label]="t('coBenefitComments')"
+        [rxFormControl]="getRxFormControl('projectOutcomes.coBenefitComments')"
+      ></drr-summary-item>
+      <drr-summary-item
+        [label]="t('increasedResiliency')"
+        [rxFormControl]="
+          getRxFormControl('projectOutcomes.increasedResiliency')
+        "
+        [controlType]="'array'"
+      ></drr-summary-item>
+      <drr-summary-item
+        [label]="t('increasedResiliencyComments')"
+        [rxFormControl]="
+          getRxFormControl('projectOutcomes.increasedResiliencyComments')
+        "
+      ></drr-summary-item>
+    </mat-card-content>
+  </mat-card>
 </div>
