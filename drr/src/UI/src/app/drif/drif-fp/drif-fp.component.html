@@ -53,12 +53,12 @@
     >
       <mat-step
         [label]="t('proponentAndProjectInformation')"
-        [stepControl]="getFormGroup('proponentAndProjectInformationForm')"
+        [stepControl]="getFormGroup('proponentAndProjectInformation')"
         [errorMessage]="t('stepError')"
       >
         <drif-fp-step-1
           [proponentAndProjectInformationForm]="
-            getFormGroup('proponentAndProjectInformationForm')
+            getFormGroup('proponentAndProjectInformation')
           "
         ></drif-fp-step-1>
         <div class="drr-stepper-action">
@@ -324,7 +324,7 @@
         [errorMessage]="t('stepError')"
       >
         <drif-fp-step-12
-          [declarationsForm]="getFormGroup('declarations')"
+          [fullProposalForm]="fullProposalForm"
         ></drif-fp-step-12>
         <div class="drr-stepper-actions">
           <button mat-stroked-button color="primary" matStepperPrevious>

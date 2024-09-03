@@ -11,8 +11,9 @@ import {
   RxFormGroup,
 } from '@rxweb/reactive-form-validators';
 import { NgxMaskPipe } from 'ngx-mask';
-import { DrifFpForm } from '../drif-fp-form';
+import { DrifEoiSummaryComponent } from '../../drif-eoi/drif-eoi-summary/drif-eoi-summary.component';
 import { SummaryItemComponent } from '../../summary-item/summary-item.component';
+import { DrifFpForm } from '../drif-fp-form';
 
 @Component({
   selector: 'drif-fp-summary',
@@ -24,35 +25,35 @@ import { SummaryItemComponent } from '../../summary-item/summary-item.component'
     MatInputModule,
     TranslocoModule,
     NgxMaskPipe,
+    DrifEoiSummaryComponent,
   ],
   templateUrl: './drif-fp-summary.component.html',
   styleUrl: './drif-fp-summary.component.scss',
 })
 export class DrifFpSummaryComponent {
-  private _drifFpForm?: IFormGroup<DrifFpForm>;
+  private _fullProposalForm?: IFormGroup<DrifFpForm>;
 
   @Input()
   showSubmitterInfo = true;
 
   @Input()
-  set DrifFpForm(DrifFpForm: IFormGroup<DrifFpForm>) {
-    this._drifFpForm = DrifFpForm;
+  set fullProposalForm(DrifFpForm: IFormGroup<DrifFpForm>) {
+    this._fullProposalForm = DrifFpForm;
   }
-
-  get DrifFpForm(): IFormGroup<DrifFpForm> {
-    return this._drifFpForm!;
+  get fullProposalForm(): IFormGroup<DrifFpForm> {
+    return this._fullProposalForm!;
   }
 
   getGroup(groupName: string): RxFormGroup {
-    return this.DrifFpForm?.get(groupName) as RxFormGroup;
+    return this.fullProposalForm?.get(groupName) as RxFormGroup;
   }
 
   getFormArray(groupName: string, controlName: string): any[] {
     return this.getGroup(groupName)?.get(controlName)?.value ?? [];
   }
 
-  getRxFormControl(groupName: string, controlName: string) {
-    return this.getGroup(groupName)?.get(controlName) as RxFormControl;
+  getRxFormControl(controlFullName: string) {
+    return this.fullProposalForm.get(controlFullName) as RxFormControl;
   }
 
   getRxGroupFormControl(
@@ -92,6 +93,12 @@ export class DrifFpSummaryComponent {
       array &&
       array.length > 0 &&
       array.some((value) => this.objectHasValues(value))
+    );
+  }
+
+  getRemainingAmountAbs() {
+    return Math.abs(
+      this.fullProposalForm?.get('budget.remainingAmount')?.value ?? 0
     );
   }
 }

@@ -98,6 +98,7 @@
   "rationaleForFundingText": "Include any recent history (e.g., evacuation orders, flooding events), threat levels, and/or evidence of how the hazard is being assessed.",
   "proposedSolution": "Proposed Solution",
   "proposedSolutionText": "What is included in this project to address the identified risk(s) and/or hazard(s)? Include how this project aligns with DRIFs program goal.",
+  "isInfrastructureImpacted": "Is there critical infrastructure that will or may be impacted by the hazards you have listed?",
   "infrastructureImpacted": "Critical Infrastructure Impacted",
   "infrastructureImpactedText": "Describe the infrastructure and impact.",
   "addInfrastructure": "Add additional infrastructure",

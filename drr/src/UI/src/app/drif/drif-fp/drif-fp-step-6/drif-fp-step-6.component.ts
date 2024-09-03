@@ -31,14 +31,14 @@ export class DrifFpStep6Component {
     this.climateAdaptationForm
       .get('climateAdaptationScreener')
       ?.valueChanges.subscribe((value) => {
-        if (value === 'No') {
+        if (value) {
           this.climateAdaptationForm
             .get('climateAdaptation')
-            ?.clearValidators();
+            ?.addValidators(Validators.required);
         } else {
           this.climateAdaptationForm
             .get('climateAdaptation')
-            ?.setValidators(Validators.required);
+            ?.clearValidators();
         }
         this.climateAdaptationForm
           .get('climateAdaptation')

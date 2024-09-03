@@ -8,6 +8,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { IFormGroup, RxFormBuilder } from '@rxweb/reactive-form-validators';
 import { EstimatedNumberOfPeople, Hazards } from '../../../../model';
 import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
+import { DrrRadioButtonComponent } from '../../../shared/controls/drr-radio-button/drr-radio-button.component';
 import { DrrSelectComponent } from '../../../shared/controls/drr-select/drr-select.component';
 import { DrrTextareaComponent } from '../../../shared/controls/drr-textarea/drr-textarea.component';
 import { ImpactedInfrastructureForm, ProjectAreaForm } from '../drif-fp-form';
@@ -26,6 +27,7 @@ import { ImpactedInfrastructureForm, ProjectAreaForm } from '../drif-fp-form';
     DrrTextareaComponent,
     DrrInputComponent,
     DrrSelectComponent,
+    DrrRadioButtonComponent,
   ],
   templateUrl: './drif-fp-step-3.component.html',
   styleUrl: './drif-fp-step-3.component.scss',
@@ -38,6 +40,27 @@ export class DrifFpStep3Component {
   unitOptions = ['m2', 'ha']; // TODO: use enum
   estimatedPeopleImpactedOptions = Object.values(EstimatedNumberOfPeople);
   hazardsOptions = Object.values(Hazards);
+
+  ngOnInit() {
+    this.projectAreaForm
+      .get('isInfrastructureImpacted')
+      ?.valueChanges.subscribe((value) => {
+        const infrastructureImpactedArray = this.projectAreaForm.get(
+          'infrastructureImpacted'
+        ) as FormArray;
+        if (!value) {
+          infrastructureImpactedArray?.clear();
+        } else {
+          if (infrastructureImpactedArray?.length === 0) {
+            this.addInfrastructureImpacted();
+          }
+        }
+      });
+  }
+
+  hideInfrastructureImpacted() {
+    return this.projectAreaForm.get('isInfrastructureImpacted')?.value === false;
+  }
 
   getInfrastructureImpacted() {
     return this.projectAreaForm.get('infrastructureImpacted') as FormArray;

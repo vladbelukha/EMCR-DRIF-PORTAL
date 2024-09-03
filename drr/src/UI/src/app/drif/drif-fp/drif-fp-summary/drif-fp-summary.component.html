@@ -1,144 +1,71 @@
 <div class="summary-container" *transloco="let t">
   <mat-card>
     <mat-card-header>
-      <mat-card-title>{{ t("proponentInformation") }}</mat-card-title>
+      <mat-card-title>{{ t("proponentAndProjectInformation") }}</mat-card-title>
       <mat-card-subtitle>Step 1</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-      <drr-summary-item
-        [label]="t('proponentName')"
-        [value]="
-          getRxFormControl('proponentInformation', 'proponentName').value
-        "
-        [rxFormControl]="
-          getRxFormControl('proponentInformation', 'proponentName')
-        "
-      >
-      </drr-summary-item>
+      <mat-label class="drr-label">{{ t("primaryProjectContact") }}</mat-label>
+      <div class="summary-row">
+        <drr-summary-item
+          [label]="t('firstName')"
+          [rxFormControl]="
+            getRxFormControl(
+              'proponentAndProjectInformation.projectContact.firstName'
+            )
+          "
+        >
+        </drr-summary-item>
 
-      <div
-        [class.required]="
-          objectHasValues(
-            DrifFpForm.get('proponentInformation')?.get('projectContact')
-          )
-        "
-      >
-        <mat-label class="drr-label">{{ t("projectContact") }}</mat-label>
-        <div class="summary-row">
-          <drr-summary-item
-            [label]="t('firstName')"
-            [value]="
-              getRxGroupFormControl(
-                'proponentInformation',
-                'projectContact',
-                'firstName'
-              ).value
-            "
-            [rxFormControl]="
-              getRxGroupFormControl(
-                'proponentInformation',
-                'projectContact',
-                'firstName'
-              )
-            "
-          >
-          </drr-summary-item>
+        <drr-summary-item
+          [label]="t('lastName')"
+          [rxFormControl]="
+            getRxFormControl(
+              'proponentAndProjectInformation.projectContact.lastName'
+            )
+          "
+        >
+        </drr-summary-item>
 
-          <drr-summary-item
-            [label]="t('lastName')"
-            [value]="
-              getRxGroupFormControl(
-                'proponentInformation',
-                'projectContact',
-                'lastName'
-              ).value
-            "
-            [rxFormControl]="
-              getRxGroupFormControl(
-                'proponentInformation',
-                'projectContact',
-                'lastName'
-              )
-            "
-          >
-          </drr-summary-item>
+        <drr-summary-item
+          [label]="t('title')"
+          [rxFormControl]="
+            getRxFormControl(
+              'proponentAndProjectInformation.projectContact.title'
+            )
+          "
+        >
+        </drr-summary-item>
 
-          <drr-summary-item
-            [label]="t('title')"
-            [value]="
-              getRxGroupFormControl(
-                'proponentInformation',
-                'projectContact',
-                'title'
-              ).value
-            "
-            [rxFormControl]="
-              getRxGroupFormControl(
-                'proponentInformation',
-                'projectContact',
-                'title'
-              )
-            "
-          >
-          </drr-summary-item>
+        <drr-summary-item
+          [label]="t('department')"
+          [rxFormControl]="
+            getRxFormControl(
+              'proponentAndProjectInformation.projectContact.department'
+            )
+          "
+        >
+        </drr-summary-item>
 
-          <drr-summary-item
-            [label]="t('department')"
-            [value]="
-              getRxGroupFormControl(
-                'proponentInformation',
-                'projectContact',
-                'department'
-              ).value
-            "
-            [rxFormControl]="
-              getRxGroupFormControl(
-                'proponentInformation',
-                'projectContact',
-                'department'
-              )
-            "
-          >
-          </drr-summary-item>
+        <drr-summary-item
+          [label]="t('phone')"
+          [rxFormControl]="
+            getRxFormControl(
+              'proponentAndProjectInformation.projectContact.phone'
+            )
+          "
+        >
+        </drr-summary-item>
 
-          <drr-summary-item
-            [label]="t('phone')"
-            [value]="
-              getRxGroupFormControl(
-                'proponentInformation',
-                'projectContact',
-                'phone'
-              ).value | mask : '000-000-0000'
-            "
-            [rxFormControl]="
-              getRxGroupFormControl(
-                'proponentInformation',
-                'projectContact',
-                'phone'
-              )
-            "
-          >
-          </drr-summary-item>
-
-          <drr-summary-item
-            [label]="t('email')"
-            [value]="
-              getRxGroupFormControl(
-                'proponentInformation',
-                'projectContact',
-                'email'
-              ).value
-            "
-            [rxFormControl]="
-              getRxGroupFormControl(
-                'proponentInformation',
-                'projectContact',
-                'email'
-              )
-            "
-          >
-          </drr-summary-item>
-        </div>
+        <drr-summary-item
+          [label]="t('email')"
+          [rxFormControl]="
+            getRxFormControl(
+              'proponentAndProjectInformation.projectContact.email'
+            )
+          "
+        >
+        </drr-summary-item>
       </div>
 
       <div>
@@ -147,14 +74,13 @@
           class="summary-row"
           *ngFor="
             let additionalContact of getRxFormArrayControls(
-              'proponentInformation',
+              'proponentAndProjectInformation',
               'additionalContacts'
             )
           "
         >
           <drr-summary-item
             [label]="t('firstName')"
-            [value]="additionalContact.get('firstName')?.value"
             [rxFormControl]="
               convertRxFormControl(additionalContact.get('firstName'))
             "
@@ -163,7 +89,6 @@
 
           <drr-summary-item
             [label]="t('lastName')"
-            [value]="additionalContact.get('lastName')?.value"
             [rxFormControl]="
               convertRxFormControl(additionalContact.get('lastName'))
             "
@@ -172,7 +97,6 @@
 
           <drr-summary-item
             [label]="t('title')"
-            [value]="additionalContact.get('title')?.value"
             [rxFormControl]="
               convertRxFormControl(additionalContact.get('title'))
             "
@@ -181,7 +105,6 @@
 
           <drr-summary-item
             [label]="t('department')"
-            [value]="additionalContact.get('department')?.value"
             [rxFormControl]="
               convertRxFormControl(additionalContact.get('department'))
             "
@@ -190,9 +113,6 @@
 
           <drr-summary-item
             [label]="t('phone')"
-            [value]="
-              additionalContact.get('phone')?.value | mask : '000-000-0000'
-            "
             [rxFormControl]="
               convertRxFormControl(additionalContact.get('phone'))
             "
@@ -201,7 +121,6 @@
 
           <drr-summary-item
             [label]="t('email')"
-            [value]="additionalContact.get('email')?.value"
             [rxFormControl]="
               convertRxFormControl(additionalContact.get('email'))
             "
@@ -218,7 +137,7 @@
           class="summary-row"
           *ngFor="
             let proponent of getFormArray(
-              'proponentInformation',
+              'proponentAndProjectInformation',
               'partneringProponents'
             );
             let i = index
@@ -227,6 +146,818 @@
           <mat-label>{{ proponent }}</mat-label>
         </div>
       </div>
+
+      <drr-summary-item
+        [label]="t('regionalProjectQuestion')"
+        [rxFormControl]="
+          getRxFormControl('proponentAndProjectInformation.regionalProject')
+        "
+        [controlType]="'radio'"
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('regionalProjectComments')"
+        [rxFormControl]="
+          getRxFormControl(
+            'proponentAndProjectInformation.regionalProjectComments'
+          )
+        "
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('projectTitle')"
+        [rxFormControl]="
+          getRxFormControl('proponentAndProjectInformation.projectTitle')
+        "
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('projectType')"
+        [rxFormControl]="
+          getRxFormControl('proponentAndProjectInformation.scopeStatement')
+        "
+      >
+      </drr-summary-item>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{ t("ownershipAndAuthorization") }}</mat-card-title>
+      <mat-card-subtitle>Step 2</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <drr-summary-item
+        [label]="t('fpOwnershipQuestion')"
+        [rxFormControl]="
+          getRxFormControl('ownershipAndAuthorization.ownershipDeclaration')
+        "
+        [controlType]="'radio'"
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('fpOwnershipComments')"
+        [rxFormControl]="
+          getRxFormControl('ownershipAndAuthorization.ownershipDescription')
+        "
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('projectAuthorityQuestion')"
+        [rxFormControl]="
+          getRxFormControl('ownershipAndAuthorization.projectAuthority')
+        "
+        [controlType]="'radio'"
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('operationAndMaintenanceQuestion')"
+        [rxFormControl]="
+          getRxFormControl('ownershipAndAuthorization.operationAndMaintenance')
+        "
+        [controlType]="'radio'"
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('operationAndMaintenanceComments')"
+        [rxFormControl]="
+          getRxFormControl(
+            'ownershipAndAuthorization.operationAndMaintenanceComments'
+          )
+        "
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('firstNationsEndorsementQuestion')"
+        [rxFormControl]="
+          getRxFormControl('ownershipAndAuthorization.firstNationsEndorsement')
+        "
+        [controlType]="'radio'"
+      ></drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('localGovernmentEndorsementQuestion')"
+        [rxFormControl]="
+          getRxFormControl(
+            'ownershipAndAuthorization.localGovernmentEndorsement'
+          )
+        "
+        [controlType]="'radio'"
+      ></drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('authorizationOrEndorsementComments')"
+        [rxFormControl]="
+          getRxFormControl(
+            'ownershipAndAuthorization.authorizationOrEndorsementComments'
+          )
+        "
+      ></drr-summary-item>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{ t("projectArea") }}</mat-card-title>
+      <mat-card-subtitle>Step 3</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <drr-summary-item
+        [label]="t('locationDescription')"
+        [rxFormControl]="getRxFormControl('projectArea.locationDescription')"
+      >
+      </drr-summary-item>
+
+      <mat-label class="drr-label">{{ t("estimatedArea") }}</mat-label>
+      <div class="summary-row">
+        <drr-summary-item
+          [label]="t('area')"
+          [rxFormControl]="getRxFormControl('projectArea.area')"
+        >
+        </drr-summary-item>
+
+        <drr-summary-item
+          [label]="t('units')"
+          [rxFormControl]="getRxFormControl('projectArea.units')"
+        >
+        </drr-summary-item>
+      </div>
+
+      <drr-summary-item
+        [label]="t('relatedHazardsSummary')"
+        [rxFormControl]="getRxFormControl('projectArea.relatedHazards')"
+        [controlType]="'array'"
+      >
+      </drr-summary-item>
+      <drr-summary-item
+        [label]="t('otherHazardsDescription')"
+        [rxFormControl]="
+          getRxFormControl('projectArea.otherHazardsDescription')
+        "
+        *ngIf="
+          getRxFormControl('projectArea.relatedHazards')?.value?.includes(
+            'Other'
+          )
+        "
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('areaDescriptionText')"
+        [rxFormControl]="getRxFormControl('projectArea.areaDescription')"
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('communityImpactText')"
+        [rxFormControl]="getRxFormControl('projectArea.communityImpact')"
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('estimatedPeopleImpacted')"
+        [rxFormControl]="
+          getRxFormControl('projectArea.estimatedPeopleImpacted')
+        "
+        [controlType]="'select'"
+      >
+      </drr-summary-item>
+
+      <mat-label class="drr-label">{{ t("infrastructureImpacted") }}</mat-label>
+      <drr-summary-item
+        [label]="t('isInfrastructureImpacted')"
+        [rxFormControl]="
+          getRxFormControl('projectArea.isInfrastructureImpacted')
+        "
+        [controlType]="'radio'"
+      >
+      </drr-summary-item>
+      <div
+        class="summary-row"
+        *ngFor="
+          let control of getRxFormArrayControls(
+            'projectArea',
+            'infrastructureImpacted'
+          )
+        "
+      >
+        <drr-summary-item
+          [label]="t('infrastructure')"
+          [rxFormControl]="convertRxFormControl(control.get('infrastructure'))"
+        >
+        </drr-summary-item>
+
+        <drr-summary-item
+          [label]="t('impact')"
+          [rxFormControl]="convertRxFormControl(control.get('impact'))"
+        >
+        </drr-summary-item>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{ t("projectPlan") }}</mat-card-title>
+      <mat-card-subtitle>Step 4</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-label class="drr-label">{{ t("projectDates") }}</mat-label>
+      <div class="summary-row">
+        <drr-summary-item
+          [label]="t('startDate')"
+          [rxFormControl]="getRxFormControl('projectPlan.startDate')"
+          [controlType]="'date'"
+        >
+        </drr-summary-item>
+
+        <drr-summary-item
+          [label]="t('endDate')"
+          [rxFormControl]="getRxFormControl('projectPlan.endDate')"
+          [controlType]="'date'"
+        >
+        </drr-summary-item>
+      </div>
+
+      <drr-summary-item
+        [label]="t('projectDescription')"
+        [rxFormControl]="getRxFormControl('projectPlan.projectDescription')"
+      >
+      </drr-summary-item>
+
+      <mat-label class="drr-label">{{ t("proposedActivities") }}</mat-label>
+      <div
+        class="summary-row"
+        *ngFor="
+          let control of getRxFormArrayControls(
+            'projectPlan',
+            'proposedActivities'
+          )
+        "
+      >
+        <drr-summary-item
+          [label]="t('activityName')"
+          [rxFormControl]="convertRxFormControl(control.get('name'))"
+        >
+        </drr-summary-item>
+
+        <drr-summary-item
+          [label]="t('startDate')"
+          [rxFormControl]="convertRxFormControl(control.get('startDate'))"
+          [controlType]="'date'"
+        >
+        </drr-summary-item>
+
+        <drr-summary-item
+          [label]="t('endDate')"
+          [rxFormControl]="convertRxFormControl(control.get('endDate'))"
+          [controlType]="'date'"
+        >
+        </drr-summary-item>
+
+        <drr-summary-item
+          [label]="t('relatedMilestone')"
+          [rxFormControl]="
+            convertRxFormControl(control.get('relatedMilestone'))
+          "
+        >
+        </drr-summary-item>
+      </div>
+
+      <drr-summary-item
+        [label]="t('verificationMethods')"
+        [rxFormControl]="getRxFormControl('projectPlan.verificationMethods')"
+        [controlType]="'array'"
+        [translate]="false"
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('verificationMethodsComments')"
+        [rxFormControl]="
+          getRxFormControl('projectPlan.verificationMethodsComments')
+        "
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('projectAlternatesText')"
+        [rxFormControl]="
+          getRxFormControl('projectPlan.projectAlternateOptions')
+        "
+      >
+      </drr-summary-item>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{ t("projectEngagement") }}</mat-card-title>
+      <mat-card-subtitle>Step 5</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <drr-summary-item
+        [label]="t('engagedWithFirstNationsQuestion')"
+        [rxFormControl]="
+          getRxFormControl('projectEngagement.engagedWithFirstNations')
+        "
+        [controlType]="'radio'"
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('engagedWithFirstNationsComments')"
+        [rxFormControl]="
+          getRxFormControl('projectEngagement.engagedWithFirstNationsComments')
+        "
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('otherEngagementText')"
+        [rxFormControl]="getRxFormControl('projectEngagement.otherEngagement')"
+        [controlType]="'radio'"
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('affectedParties')"
+        [rxFormControl]="getRxFormControl('projectEngagement.affectedParties')"
+        [controlType]="'array'"
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('otherEngagementComments')"
+        [rxFormControl]="
+          getRxFormControl('projectEngagement.otherEngagementComments')
+        "
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('collaborationComments')"
+        [rxFormControl]="
+          getRxFormControl('projectEngagement.collaborationComments')
+        "
+      >
+      </drr-summary-item>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{ t("climateAdaptation") }}</mat-card-title>
+      <mat-card-subtitle>Step 6</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <drr-summary-item
+        [label]="t('climateAdaptationScreenerQuestion')"
+        [rxFormControl]="
+          getRxFormControl('climateAdaptation.climateAdaptationScreener')
+        "
+        [controlType]="'radio'"
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('climateAdaptationText')"
+        [rxFormControl]="
+          getRxFormControl('climateAdaptation.climateAdaptation')
+        "
+      >
+      </drr-summary-item>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{ t("permitsRegulationsAndStandards") }}</mat-card-title>
+      <mat-card-subtitle>Step 7</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <drr-summary-item
+        [label]="t('approvals')"
+        [rxFormControl]="
+          getRxFormControl('permitsRegulationsAndStandards.approvals')
+        "
+        [controlType]="'radio'"
+      >
+      </drr-summary-item>
+      <drr-summary-item
+        [label]="t('approvalsComments')"
+        [rxFormControl]="
+          getRxFormControl('permitsRegulationsAndStandards.approvalsComments')
+        "
+      >
+      </drr-summary-item>
+      <drr-summary-item
+        [label]="t('professionalGuidance')"
+        [rxFormControl]="
+          getRxFormControl(
+            'permitsRegulationsAndStandards.professionalGuidance'
+          )
+        "
+        [controlType]="'radio'"
+      >
+      </drr-summary-item>
+      <drr-summary-item
+        [label]="t('professionals')"
+        [rxFormControl]="
+          getRxFormControl('permitsRegulationsAndStandards.professionals')
+        "
+        [controlType]="'array'"
+      >
+      </drr-summary-item>
+      <drr-summary-item
+        [label]="t('professionalGuidanceComments')"
+        [rxFormControl]="
+          getRxFormControl(
+            'permitsRegulationsAndStandards.professionalGuidanceComments'
+          )
+        "
+      >
+      </drr-summary-item>
+      <drr-summary-item
+        [label]="t('standardsAcceptable')"
+        [rxFormControl]="
+          getRxFormControl('permitsRegulationsAndStandards.standardsAcceptable')
+        "
+        [controlType]="'radio'"
+        [translate]="false"
+      >
+      </drr-summary-item>
+      <drr-summary-item
+        [label]="t('standards')"
+        [rxFormControl]="
+          getRxFormControl('permitsRegulationsAndStandards.standards')
+        "
+        [controlType]="'array'"
+      >
+      </drr-summary-item>
+      <drr-summary-item
+        [label]="t('standardsComments')"
+        [rxFormControl]="
+          getRxFormControl('permitsRegulationsAndStandards.standardsComments')
+        "
+      >
+      </drr-summary-item>
+      <drr-summary-item
+        [label]="t('regulationsQuestion')"
+        [rxFormControl]="
+          getRxFormControl('permitsRegulationsAndStandards.regulations')
+        "
+        [controlType]="'radio'"
+      >
+      </drr-summary-item>
+      <drr-summary-item
+        [label]="t('regulationsComments')"
+        [rxFormControl]="
+          getRxFormControl('permitsRegulationsAndStandards.regulationsComments')
+        "
+      >
+      </drr-summary-item>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{ t("projectOutcomes") }}</mat-card-title>
+      <mat-card-subtitle>Step 8</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <drr-summary-item
+        [label]="t('publicBenefit')"
+        [rxFormControl]="getRxFormControl('projectOutcomes.publicBenefit')"
+        [controlType]="'radio'"
+      >
+      </drr-summary-item>
+      <drr-summary-item
+        [label]="t('publicBenefitComments')"
+        [rxFormControl]="
+          getRxFormControl('projectOutcomes.publicBenefitComments')
+        "
+      >
+      </drr-summary-item>
+      <drr-summary-item
+        [label]="t('futureCostReduction')"
+        [rxFormControl]="
+          getRxFormControl('projectOutcomes.futureCostReduction')
+        "
+        [controlType]="'radio'"
+      >
+      </drr-summary-item>
+      <drr-summary-item
+        [label]="t('costReductions')"
+        [rxFormControl]="getRxFormControl('projectOutcomes.costReductions')"
+        [controlType]="'array'"
+      >
+      </drr-summary-item>
+      <drr-summary-item
+        [label]="t('costReductionComments')"
+        [rxFormControl]="
+          getRxFormControl('projectOutcomes.costReductionComments')
+        "
+      >
+      </drr-summary-item>
+      <drr-summary-item
+        [label]="t('produceCoBenefits')"
+        [rxFormControl]="getRxFormControl('projectOutcomes.produceCoBenefits')"
+        [controlType]="'radio'"
+      ></drr-summary-item>
+      <drr-summary-item
+        [label]="t('coBenefits')"
+        [rxFormControl]="getRxFormControl('projectOutcomes.coBenefits')"
+        [controlType]="'array'"
+      >
+      </drr-summary-item>
+      <drr-summary-item
+        [label]="t('coBenefitComments')"
+        [rxFormControl]="getRxFormControl('projectOutcomes.coBenefitComments')"
+      ></drr-summary-item>
+      <drr-summary-item
+        [label]="t('increasedResiliency')"
+        [rxFormControl]="
+          getRxFormControl('projectOutcomes.increasedResiliency')
+        "
+        [controlType]="'array'"
+      ></drr-summary-item>
+      <drr-summary-item
+        [label]="t('increasedResiliencyComments')"
+        [rxFormControl]="
+          getRxFormControl('projectOutcomes.increasedResiliencyComments')
+        "
+      ></drr-summary-item>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{ t("projectRisks") }}</mat-card-title>
+      <mat-card-subtitle>Step 9</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <drr-summary-item
+        [label]="t('complexityRiskMitigated')"
+        [rxFormControl]="
+          getRxFormControl('projectRisks.complexityRiskMitigated')
+        "
+        [controlType]="'radio'"
+      ></drr-summary-item>
+      <drr-summary-item
+        [label]="t('complexityRisks')"
+        [rxFormControl]="getRxFormControl('projectRisks.complexityRisks')"
+        [controlType]="'array'"
+      ></drr-summary-item>
+      <drr-summary-item
+        [label]="t('complexityRiskComments')"
+        [rxFormControl]="
+          getRxFormControl('projectRisks.complexityRiskComments')
+        "
+      ></drr-summary-item>
+      <drr-summary-item
+        [label]="t('projectReadiness')"
+        [rxFormControl]="
+          getRxFormControl('projectRisks.readinessRiskMitigated')
+        "
+        [controlType]="'radio'"
+      ></drr-summary-item>
+      <drr-summary-item
+        [label]="t('readinessRisks')"
+        [rxFormControl]="getRxFormControl('projectRisks.readinessRisks')"
+        [controlType]="'array'"
+      ></drr-summary-item>
+      <drr-summary-item
+        [label]="t('readinessRiskComments')"
+        [rxFormControl]="getRxFormControl('projectRisks.readinessRiskComments')"
+      ></drr-summary-item>
+      <drr-summary-item
+        [label]="t('projectSensitivity')"
+        [rxFormControl]="
+          getRxFormControl('projectRisks.sensitivityRiskMitigated')
+        "
+        [controlType]="'radio'"
+      ></drr-summary-item>
+      <drr-summary-item
+        [label]="t('sensitivityRisks')"
+        [rxFormControl]="getRxFormControl('projectRisks.sensitivityRisks')"
+        [controlType]="'array'"
+      ></drr-summary-item>
+      <drr-summary-item
+        [label]="t('sensitivityRiskComments')"
+        [rxFormControl]="
+          getRxFormControl('projectRisks.sensitivityRiskComments')
+        "
+      ></drr-summary-item>
+      <drr-summary-item
+        [label]="t('capacityRiskMitigated')"
+        [rxFormControl]="getRxFormControl('projectRisks.capacityRiskMitigated')"
+        [controlType]="'radio'"
+      ></drr-summary-item>
+      <drr-summary-item
+        [label]="t('capacityRisks')"
+        [rxFormControl]="getRxFormControl('projectRisks.capacityRisks')"
+        [controlType]="'array'"
+      ></drr-summary-item>
+      <drr-summary-item
+        [label]="t('capacityRiskComments')"
+        [rxFormControl]="getRxFormControl('projectRisks.capacityRiskComments')"
+      ></drr-summary-item>
+      <drr-summary-item
+        [label]="t('riskTransferMigigated')"
+        [rxFormControl]="getRxFormControl('projectRisks.riskTransferMigigated')"
+        [controlType]="'radio'"
+      ></drr-summary-item>
+      <drr-summary-item
+        [label]="t('transferRisks')"
+        [rxFormControl]="getRxFormControl('projectRisks.transferRisks')"
+        [controlType]="'array'"
+      ></drr-summary-item>
+      <drr-summary-item
+        [label]="t('transferRisksComments')"
+        [rxFormControl]="getRxFormControl('projectRisks.transferRisksComments')"
+      ></drr-summary-item>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{ t("budget") }}</mat-card-title>
+      <mat-card-subtitle>Step 10</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <drr-summary-item
+        [label]="t('totalProjectCost')"
+        [rxFormControl]="getRxFormControl('budget.fundingRequest')"
+        [controlType]="'currency'"
+      >
+      </drr-summary-item>
+      <drr-summary-item
+        [label]="t('fundingRequest')"
+        [rxFormControl]="getRxFormControl('budget.estimatedTotal')"
+        [controlType]="'currency'"
+      >
+      </drr-summary-item>
+      <mat-label class="drr-label">{{
+        t("yearOverYearFundingRequest")
+      }}</mat-label>
+      <div
+        class="summary-row"
+        *ngFor="
+          let control of getRxFormArrayControls('budget', 'yearOverYearFunding')
+        "
+      >
+        <drr-summary-item
+          [label]="t('fiscalYear')"
+          [rxFormControl]="convertRxFormControl(control.get('year'))"
+        >
+        </drr-summary-item>
+        <drr-summary-item
+          [label]="t('amount')"
+          [rxFormControl]="convertRxFormControl(control.get('amount'))"
+          [controlType]="'currency'"
+        >
+        </drr-summary-item>
+      </div>
+      <drr-summary-item
+        [label]="t('totalDrifFundingRequest')"
+        [rxFormControl]="getRxFormControl('budget.totalDrifFundingRequest')"
+        [controlType]="'currency'"
+      >
+      </drr-summary-item>
+      <drr-summary-item
+        [label]="t('discrepancyComment')"
+        [rxFormControl]="getRxFormControl('budget.discrepancyComment')"
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('haveOtherFunding')"
+        [rxFormControl]="getRxFormControl('budget.haveOtherFunding')"
+        [controlType]="'radio'"
+      >
+      </drr-summary-item>
+
+      <mat-label class="drr-label">{{ t("otherFunding") }}</mat-label>
+      <div
+        class="summary-row"
+        *ngFor="
+          let otherFunding of getRxFormArrayControls('budget', 'otherFunding')
+        "
+      >
+        <drr-summary-item
+          [label]="t('amount')"
+          [value]="otherFunding.get('amount')?.value | currency"
+          [rxFormControl]="convertRxFormControl(otherFunding.get('amount'))"
+        >
+        </drr-summary-item>
+
+        <drr-summary-item
+          [label]="t('name')"
+          [value]="otherFunding.get('name')?.value"
+          [rxFormControl]="convertRxFormControl(otherFunding.get('name'))"
+        >
+        </drr-summary-item>
+
+        <drr-summary-item
+          [label]="t('type')"
+          [value]="t(otherFunding.get('type')?.value)"
+          [rxFormControl]="convertRxFormControl(otherFunding.get('type'))"
+        >
+        </drr-summary-item>
+
+        <drr-summary-item
+          [label]="t('otherDescription')"
+          [value]="otherFunding.get('otherDescription')?.value"
+          [rxFormControl]="
+            convertRxFormControl(otherFunding.get('otherDescription'))
+          "
+          *ngIf="otherFunding.get('type')?.value === 'OtherGrants'"
+        >
+        </drr-summary-item>
+      </div>
+
+      <drr-summary-item
+        [label]="
+          getRxFormControl('budget.remainingAmount').value > 0
+            ? t('missingFundsLabel')
+            : t('excessFundingLabel')
+        "
+        [rxFormControl]="getRxFormControl('budget.remainingAmount')"
+        [style.color]="
+          getRxFormControl('budget.remainingAmount').value < 0
+            ? 'red'
+            : 'initial'
+        "
+        [controlType]="'currency'"
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        *ngIf="getRxFormControl('budget.remainingAmount').value > 0"
+        [label]="t('intendToSecureFunding')"
+        [rxFormControl]="getRxFormControl('budget.intendToSecureFunding')"
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('costEffectiveQuestion')"
+        [rxFormControl]="getRxFormControl('budget.costEffective')"
+        [controlType]="'radio'"
+      ></drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('costEffectiveComments')"
+        [rxFormControl]="getRxFormControl('budget.costEffectiveComments')"
+      ></drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('previousResponse')"
+        [rxFormControl]="getRxFormControl('budget.previousResponse')"
+        [controlType]="'radio'"
+        [translate]="false"
+      ></drr-summary-item>
+
+      <drr-summary-item
+        *ngIf="getRxFormControl('budget.previousResponse').value === 'Yes'"
+        [label]="t('previousResponseCost')"
+        [rxFormControl]="getRxFormControl('budget.previousResponseCost')"
+      ></drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('previousResponseComments')"
+        [rxFormControl]="getRxFormControl('budget.previousResponseComments')"
+      ></drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('activityCostEffectiveness')"
+        [rxFormControl]="getRxFormControl('budget.activityCostEffectiveness')"
+      ></drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('costConsiderationsApplied')"
+        [rxFormControl]="getRxFormControl('budget.costConsiderationsApplied')"
+        [controlType]="'radio'"
+      ></drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('costConsiderationsQuestions')"
+        [rxFormControl]="getRxFormControl('budget.costConsiderations')"
+        [controlType]="'array'"
+      ></drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('costConsiderationsComments')"
+        [rxFormControl]="getRxFormControl('budget.costConsiderationsComments')"
+      ></drr-summary-item>
     </mat-card-content>
   </mat-card>
 </div>

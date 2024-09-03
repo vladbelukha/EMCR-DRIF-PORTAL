@@ -73,7 +73,14 @@
     ></drr-select>
 
     <mat-label class="drr-label">{{ t("infrastructureImpacted") }}</mat-label>
-    <div class="impacted-infrastructure-container">
+    <drr-radio-button
+      [label]="t('isInfrastructureImpacted')"
+      [rxFormControl]="projectAreaForm.get('isInfrastructureImpacted')"
+    ></drr-radio-button>
+    <div
+      *ngIf="!hideInfrastructureImpacted()"
+      class="impacted-infrastructure-container"
+    >
       <div
         class="impacted-infrastructure-item"
         *ngFor="

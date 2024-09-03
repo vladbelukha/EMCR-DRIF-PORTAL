@@ -134,7 +134,9 @@ export class DrifFpComponent {
     return !!this.id;
   }
 
-  drifFpForm = this.formBuilder.formGroup(DrifFpForm) as IFormGroup<DrifFpForm>;
+  fullProposalForm = this.formBuilder.formGroup(
+    DrifFpForm
+  ) as IFormGroup<DrifFpForm>;
 
   ngOnInit() {
     this.breakpointObserver
@@ -151,7 +153,7 @@ export class DrifFpComponent {
     }
 
     setTimeout(() => {
-      this.drifFpForm.valueChanges
+      this.fullProposalForm.valueChanges
         .pipe(
           distinctUntilChanged((a, b) => {
             return JSON.stringify(a) == JSON.stringify(b);
@@ -175,7 +177,7 @@ export class DrifFpComponent {
           eoiId: response.eoiId,
           fundingStream: response.fundingStream,
           projectType: response.projectType,
-          proponentAndProjectInformationForm: {
+          proponentAndProjectInformation: {
             projectContact: response.projectContact,
             projectTitle: response.projectTitle,
             scopeStatement: response.scopeStatement,
@@ -199,6 +201,7 @@ export class DrifFpComponent {
             // areaDescription: response.areaDescription,
             communityImpact: response.communityImpact,
             estimatedPeopleImpacted: response.estimatedPeopleImpacted,
+            // TODO: isInfrastuctureImpacted: response.isInfrastuctureImpacted,
             // infrastructureImpacted: response.infrastructureImpacted,
             locationDescription: response.locationDescription,
             // units: response.units,
@@ -293,10 +296,10 @@ export class DrifFpComponent {
           },
         };
 
-        this.drifFpForm.patchValue(formData, { emitEvent: false });
+        this.fullProposalForm.patchValue(formData, { emitEvent: false });
 
         const partneringProponentsArray = this.getFormGroup(
-          'proponentAndProjectInformationForm'
+          'proponentAndProjectInformation'
         ).get('partneringProponentsArray') as FormArray;
         if (response.partneringProponents?.length! > 0) {
           partneringProponentsArray.clear({ emitEvent: false });
@@ -309,7 +312,7 @@ export class DrifFpComponent {
         });
 
         const additionalContactsArray = this.getFormGroup(
-          'proponentAndProjectInformationForm'
+          'proponentAndProjectInformation'
         ).get('additionalContacts') as FormArray;
         if (response.additionalContacts?.length! > 0) {
           additionalContactsArray.clear({ emitEvent: false });
@@ -381,7 +384,7 @@ export class DrifFpComponent {
           );
         });
 
-        this.drifFpForm.markAsPristine();
+        this.fullProposalForm.markAsPristine();
         this.formChanged = false;
       },
       error: (error) => {
@@ -391,12 +394,12 @@ export class DrifFpComponent {
   }
 
   getFormGroup(groupName: string) {
-    return this.drifFpForm?.get(groupName) as RxFormGroup;
+    return this.fullProposalForm?.get(groupName) as RxFormGroup;
   }
 
   getProjectTitle() {
-    return this.drifFpForm
-      ?.get('proponentAndProjectInformationForm')
+    return this.fullProposalForm
+      ?.get('proponentAndProjectInformation')
       ?.get('projectTitle')?.value;
   }
 
@@ -405,7 +408,7 @@ export class DrifFpComponent {
   }
 
   getRelatedEOI() {
-    return this.drifFpForm?.get('eoiId')?.value;
+    return this.fullProposalForm?.get('eoiId')?.value;
   }
 
   onEoiClick(event: Event) {
@@ -422,13 +425,13 @@ export class DrifFpComponent {
       return;
     }
 
-    const drifFpForm = this.drifFpForm.getRawValue() as DrifFpForm;
+    const drifFpForm = this.fullProposalForm.getRawValue() as DrifFpForm;
 
     // TODO: remove when API is updated
     drifFpForm!.projectArea!.infrastructureImpacted = [];
 
     const fpDraft = {
-      ...drifFpForm.proponentAndProjectInformationForm,
+      ...drifFpForm.proponentAndProjectInformation,
       ...drifFpForm.ownershipAndAuthorization,
       ...drifFpForm.projectArea,
       ...drifFpForm.projectPlan,
