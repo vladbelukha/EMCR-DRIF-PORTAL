@@ -180,7 +180,6 @@ namespace EMCR.DRR.Managers.Intake
 
         //Ownership & Authorization - 2
         public bool? ProjectAuthority { get; set; }
-        public string? ProjectAuthorityComments { get; set; }
         public YesNoOption? OperationAndMaintenance { get; set; }
         public string? OperationAndMaintenanceComments { get; set; }
         public YesNoOption? FirstNationsEndorsement { get; set; }
