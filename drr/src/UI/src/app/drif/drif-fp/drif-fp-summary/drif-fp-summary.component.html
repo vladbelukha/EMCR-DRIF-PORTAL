@@ -332,6 +332,14 @@
       </drr-summary-item>
 
       <mat-label class="drr-label">{{ t("infrastructureImpacted") }}</mat-label>
+      <drr-summary-item
+        [label]="t('isInfrastructureImpacted')"
+        [rxFormControl]="
+          getRxFormControl('projectArea.isInfrastructureImpacted')
+        "
+        [controlType]="'radio'"
+      >
+      </drr-summary-item>
       <div
         class="summary-row"
         *ngFor="
