@@ -627,6 +627,7 @@
       </drr-summary-item>
     </mat-card-content>
   </mat-card>
+
   <mat-card>
     <mat-card-header>
       <mat-card-title>{{ t("projectOutcomes") }}</mat-card-title>
@@ -697,6 +698,7 @@
       ></drr-summary-item>
     </mat-card-content>
   </mat-card>
+
   <mat-card>
     <mat-card-header>
       <mat-card-title>{{ t("projectRisks") }}</mat-card-title>
@@ -705,73 +707,256 @@
     <mat-card-content>
       <drr-summary-item
         [label]="t('complexityRiskMitigated')"
-        [rxFormControl]="getRxFormControl('complexityRiskMitigated')"
+        [rxFormControl]="
+          getRxFormControl('projectRisks.complexityRiskMitigated')
+        "
         [controlType]="'radio'"
       ></drr-summary-item>
       <drr-summary-item
         [label]="t('complexityRisks')"
-        [rxFormControl]="getRxFormControl('complexityRisks')"
+        [rxFormControl]="getRxFormControl('projectRisks.complexityRisks')"
         [controlType]="'array'"
       ></drr-summary-item>
       <drr-summary-item
         [label]="t('complexityRiskComments')"
-        [rxFormControl]="getRxFormControl('complexityRiskComments')"
+        [rxFormControl]="
+          getRxFormControl('projectRisks.complexityRiskComments')
+        "
       ></drr-summary-item>
       <drr-summary-item
         [label]="t('projectReadiness')"
-        [rxFormControl]="getRxFormControl('readinessRiskMitigated')"
+        [rxFormControl]="
+          getRxFormControl('projectRisks.readinessRiskMitigated')
+        "
         [controlType]="'radio'"
       ></drr-summary-item>
       <drr-summary-item
         [label]="t('readinessRisks')"
-        [rxFormControl]="getRxFormControl('readinessRisks')"
+        [rxFormControl]="getRxFormControl('projectRisks.readinessRisks')"
         [controlType]="'array'"
       ></drr-summary-item>
       <drr-summary-item
         [label]="t('readinessRiskComments')"
-        [rxFormControl]="getRxFormControl('readinessRiskComments')"
+        [rxFormControl]="getRxFormControl('projectRisks.readinessRiskComments')"
       ></drr-summary-item>
       <drr-summary-item
         [label]="t('projectSensitivity')"
-        [rxFormControl]="getRxFormControl('sensitivityRiskMitigated')"
+        [rxFormControl]="
+          getRxFormControl('projectRisks.sensitivityRiskMitigated')
+        "
         [controlType]="'radio'"
       ></drr-summary-item>
       <drr-summary-item
         [label]="t('sensitivityRisks')"
-        [rxFormControl]="getRxFormControl('sensitivityRisks')"
+        [rxFormControl]="getRxFormControl('projectRisks.sensitivityRisks')"
         [controlType]="'array'"
       ></drr-summary-item>
       <drr-summary-item
         [label]="t('sensitivityRiskComments')"
-        [rxFormControl]="getRxFormControl('sensitivityRiskComments')"
+        [rxFormControl]="
+          getRxFormControl('projectRisks.sensitivityRiskComments')
+        "
       ></drr-summary-item>
       <drr-summary-item
         [label]="t('capacityRiskMitigated')"
-        [rxFormControl]="getRxFormControl('capacityRiskMitigated')"
+        [rxFormControl]="getRxFormControl('projectRisks.capacityRiskMitigated')"
         [controlType]="'radio'"
       ></drr-summary-item>
       <drr-summary-item
         [label]="t('capacityRisks')"
-        [rxFormControl]="getRxFormControl('capacityRisks')"
+        [rxFormControl]="getRxFormControl('projectRisks.capacityRisks')"
         [controlType]="'array'"
       ></drr-summary-item>
       <drr-summary-item
         [label]="t('capacityRiskComments')"
-        [rxFormControl]="getRxFormControl('capacityRiskComments')"
+        [rxFormControl]="getRxFormControl('projectRisks.capacityRiskComments')"
       ></drr-summary-item>
       <drr-summary-item
         [label]="t('riskTransferMigigated')"
-        [rxFormControl]="getRxFormControl('riskTransferMigigated')"
+        [rxFormControl]="getRxFormControl('projectRisks.riskTransferMigigated')"
         [controlType]="'radio'"
       ></drr-summary-item>
       <drr-summary-item
         [label]="t('transferRisks')"
-        [rxFormControl]="getRxFormControl('transferRisks')"
+        [rxFormControl]="getRxFormControl('projectRisks.transferRisks')"
         [controlType]="'array'"
       ></drr-summary-item>
       <drr-summary-item
         [label]="t('transferRisksComments')"
-        [rxFormControl]="getRxFormControl('transferRisksComments')"
+        [rxFormControl]="getRxFormControl('projectRisks.transferRisksComments')"
+      ></drr-summary-item>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{ t("budget") }}</mat-card-title>
+      <mat-card-subtitle>Step 10</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <drr-summary-item
+        [label]="t('totalProjectCost')"
+        [rxFormControl]="getRxFormControl('budget.fundingRequest')"
+        [controlType]="'currency'"
+      >
+      </drr-summary-item>
+      <drr-summary-item
+        [label]="t('fundingRequest')"
+        [rxFormControl]="getRxFormControl('budget.estimatedTotal')"
+        [controlType]="'currency'"
+      >
+      </drr-summary-item>
+      <mat-label class="drr-label">{{
+        t("yearOverYearFundingRequest")
+      }}</mat-label>
+      <div
+        class="summary-row"
+        *ngFor="
+          let control of getRxFormArrayControls('budget', 'yearOverYearFunding')
+        "
+      >
+        <drr-summary-item
+          [label]="t('fiscalYear')"
+          [rxFormControl]="convertRxFormControl(control.get('year'))"
+        >
+        </drr-summary-item>
+        <drr-summary-item
+          [label]="t('amount')"
+          [rxFormControl]="convertRxFormControl(control.get('amount'))"
+          [controlType]="'currency'"
+        >
+        </drr-summary-item>
+      </div>
+      <drr-summary-item
+        [label]="t('totalDrifFundingRequest')"
+        [rxFormControl]="getRxFormControl('budget.totalDrifFundingRequest')"
+        [controlType]="'currency'"
+      >
+      </drr-summary-item>
+      <drr-summary-item
+        [label]="t('discrepancyComment')"
+        [rxFormControl]="getRxFormControl('budget.discrepancyComment')"
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('haveOtherFunding')"
+        [rxFormControl]="getRxFormControl('budget.haveOtherFunding')"
+        [controlType]="'radio'"
+      >
+      </drr-summary-item>
+
+      <mat-label class="drr-label">{{ t("otherFunding") }}</mat-label>
+      <div
+        class="summary-row"
+        *ngFor="
+          let otherFunding of getRxFormArrayControls('budget', 'otherFunding')
+        "
+      >
+        <drr-summary-item
+          [label]="t('amount')"
+          [value]="otherFunding.get('amount')?.value | currency"
+          [rxFormControl]="convertRxFormControl(otherFunding.get('amount'))"
+        >
+        </drr-summary-item>
+
+        <drr-summary-item
+          [label]="t('name')"
+          [value]="otherFunding.get('name')?.value"
+          [rxFormControl]="convertRxFormControl(otherFunding.get('name'))"
+        >
+        </drr-summary-item>
+
+        <drr-summary-item
+          [label]="t('type')"
+          [value]="t(otherFunding.get('type')?.value)"
+          [rxFormControl]="convertRxFormControl(otherFunding.get('type'))"
+        >
+        </drr-summary-item>
+
+        <drr-summary-item
+          [label]="t('otherDescription')"
+          [value]="otherFunding.get('otherDescription')?.value"
+          [rxFormControl]="
+            convertRxFormControl(otherFunding.get('otherDescription'))
+          "
+          *ngIf="otherFunding.get('type')?.value === 'OtherGrants'"
+        >
+        </drr-summary-item>
+      </div>
+
+      <drr-summary-item
+        [label]="
+          getRxFormControl('budget.remainingAmount').value > 0
+            ? t('missingFundsLabel')
+            : t('excessFundingLabel')
+        "
+        [rxFormControl]="getRxFormControl('budget.remainingAmount')"
+        [style.color]="
+          getRxFormControl('budget.remainingAmount').value < 0
+            ? 'red'
+            : 'initial'
+        "
+        [controlType]="'currency'"
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        *ngIf="getRxFormControl('budget.remainingAmount').value > 0"
+        [label]="t('intendToSecureFunding')"
+        [rxFormControl]="getRxFormControl('budget.intendToSecureFunding')"
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('costEffectiveQuestion')"
+        [rxFormControl]="getRxFormControl('budget.costEffective')"
+        [controlType]="'radio'"
+      ></drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('costEffectiveComments')"
+        [rxFormControl]="getRxFormControl('budget.costEffectiveComments')"
+      ></drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('previousResponse')"
+        [rxFormControl]="getRxFormControl('budget.previousResponse')"
+        [controlType]="'radio'"
+        [translate]="false"
+      ></drr-summary-item>
+
+      <drr-summary-item
+        *ngIf="getRxFormControl('budget.previousResponse').value === 'Yes'"
+        [label]="t('previousResponseCost')"
+        [rxFormControl]="getRxFormControl('budget.previousResponseCost')"
+      ></drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('previousResponseComments')"
+        [rxFormControl]="getRxFormControl('budget.previousResponseComments')"
+      ></drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('activityCostEffectiveness')"
+        [rxFormControl]="getRxFormControl('budget.activityCostEffectiveness')"
+      ></drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('costConsiderationsApplied')"
+        [rxFormControl]="getRxFormControl('budget.costConsiderationsApplied')"
+        [controlType]="'radio'"
+      ></drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('costConsiderationsQuestions')"
+        [rxFormControl]="getRxFormControl('budget.costConsiderations')"
+        [controlType]="'array'"
+      ></drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('costConsiderationsComments')"
+        [rxFormControl]="getRxFormControl('budget.costConsiderationsComments')"
       ></drr-summary-item>
     </mat-card-content>
   </mat-card>

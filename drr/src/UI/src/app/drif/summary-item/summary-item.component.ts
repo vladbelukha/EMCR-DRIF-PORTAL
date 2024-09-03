@@ -1,4 +1,4 @@
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
 import { Component, inject, Input } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
@@ -12,7 +12,8 @@ export type ControlType =
   | 'radio'
   | 'checkbox'
   | 'array'
-  | 'date';
+  | 'date'
+  | 'currency';
 
 @Component({
   selector: 'drr-summary-item',
@@ -20,20 +21,21 @@ export type ControlType =
   imports: [CommonModule, MatInputModule, TranslocoModule],
   templateUrl: './summary-item.component.html',
   styleUrl: './summary-item.component.scss',
-  providers: [DatePipe],
+  providers: [DatePipe, CurrencyPipe],
 })
 export class SummaryItemComponent {
   translocoService = inject(TranslocoService);
   datePipe = inject(DatePipe);
+  currencyPipe = inject(CurrencyPipe);
 
   @Input() label?: string;
 
-  private _value: string | null | undefined;
+  private _value: string | number | null | undefined;
   @Input()
-  set value(value: string | null | undefined) {
+  set value(value: string | number | null | undefined) {
     this._value = value;
   }
-  get value(): string | null | undefined {
+  get value(): string | number | null | undefined {
     if (this._value !== undefined) {
       return this._value;
     }
@@ -60,6 +62,8 @@ export class SummaryItemComponent {
         )?.join(', ');
       case 'date':
         return this.datePipe.transform(controlValue, 'yyyy-MM-dd');
+      case 'currency':
+        return this.currencyPipe.transform(Math.abs(controlValue));
 
       default:
         return this.rxFormControl?.value;

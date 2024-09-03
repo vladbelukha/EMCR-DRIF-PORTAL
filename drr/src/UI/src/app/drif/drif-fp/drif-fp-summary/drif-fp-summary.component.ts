@@ -11,9 +11,9 @@ import {
   RxFormGroup,
 } from '@rxweb/reactive-form-validators';
 import { NgxMaskPipe } from 'ngx-mask';
+import { DrifEoiSummaryComponent } from '../../drif-eoi/drif-eoi-summary/drif-eoi-summary.component';
 import { SummaryItemComponent } from '../../summary-item/summary-item.component';
 import { DrifFpForm } from '../drif-fp-form';
-import { DrifEoiSummaryComponent } from "../../drif-eoi/drif-eoi-summary/drif-eoi-summary.component";
 
 @Component({
   selector: 'drif-fp-summary',
@@ -25,8 +25,8 @@ import { DrifEoiSummaryComponent } from "../../drif-eoi/drif-eoi-summary/drif-eo
     MatInputModule,
     TranslocoModule,
     NgxMaskPipe,
-    DrifEoiSummaryComponent
-],
+    DrifEoiSummaryComponent,
+  ],
   templateUrl: './drif-fp-summary.component.html',
   styleUrl: './drif-fp-summary.component.scss',
 })
@@ -93,6 +93,12 @@ export class DrifFpSummaryComponent {
       array &&
       array.length > 0 &&
       array.some((value) => this.objectHasValues(value))
+    );
+  }
+
+  getRemainingAmountAbs() {
+    return Math.abs(
+      this.fullProposalForm?.get('budget.remainingAmount')?.value ?? 0
     );
   }
 }
