@@ -201,6 +201,7 @@ export class DrifFpComponent {
             // areaDescription: response.areaDescription,
             communityImpact: response.communityImpact,
             estimatedPeopleImpacted: response.estimatedPeopleImpacted,
+            // TODO: isInfrastuctureImpacted: response.isInfrastuctureImpacted,
             // infrastructureImpacted: response.infrastructureImpacted,
             locationDescription: response.locationDescription,
             // units: response.units,

@@ -417,6 +417,10 @@ export class ProjectAreaForm {
   @required()
   estimatedPeopleImpacted?: EstimatedNumberOfPeople;
 
+  @prop()
+  @required()
+  isInfrastructureImpacted?: boolean;
+
   @propArray(ImpactedInfrastructureForm)
   infrastructureImpacted?: ImpactedInfrastructureForm[] = [{}];
 
