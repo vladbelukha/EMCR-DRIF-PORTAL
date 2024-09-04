@@ -87,6 +87,7 @@ namespace EMCR.DRR.Managers.Intake
     {
         public required string EoiId { get; set; }
         public UserInfo UserInfo { get; set; }
+        public ScreenerQuestions ScreenerQuestions { get; set; }
     }
 
     public class FpSaveApplicationCommand : IntakeCommand
