@@ -127,7 +127,7 @@ namespace EMCR.DRR.Controllers
         public string? Id { get; set; }
         public SubmissionPortalStatus? Status { get; set; }
 
-        //Proponent Information
+        //Proponent Information - 1
         public ProponentType? ProponentType { get; set; }
         public ContactDetails? Submitter { get; set; }
         public ContactDetails? ProjectContact { get; set; }
@@ -135,7 +135,7 @@ namespace EMCR.DRR.Controllers
         [CollectionStringLengthValid(ErrorMessage = "PartneringProponents have a limit of 40 characters per name")]
         public IEnumerable<string> PartneringProponents { get; set; }
 
-        //Project Information
+        //Project Information - 2
         public FundingStream? FundingStream { get; set; }
         public string? ProjectTitle { get; set; }
         public ProjectType? ProjectType { get; set; }
@@ -145,7 +145,7 @@ namespace EMCR.DRR.Controllers
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
 
-        //Funding Information
+        //Funding Information - 3
         [Range(0, ApplicationValidators.FUNDING_MAX_VAL)]
         public decimal? EstimatedTotal { get; set; }
         [Range(0, ApplicationValidators.FUNDING_MAX_VAL)]
@@ -155,12 +155,12 @@ namespace EMCR.DRR.Controllers
         public decimal? RemainingAmount { get; set; }
         public string? IntendToSecureFunding { get; set; }
 
-        //Location Information
+        //Location Information - 4
         public bool? OwnershipDeclaration { get; set; }
         public string? OwnershipDescription { get; set; }
         public string? LocationDescription { get; set; }
 
-        //Project Detail
+        //Project Detail - 5
         public string? RationaleForFunding { get; set; }
         public EstimatedNumberOfPeople? EstimatedPeopleImpacted { get; set; }
         public string? CommunityImpact { get; set; }
@@ -172,12 +172,12 @@ namespace EMCR.DRR.Controllers
         public string? AdditionalSolutionInformation { get; set; }
         public string? RationaleForSolution { get; set; }
 
-        //Engagement Plan
+        //Engagement Plan - 6
         public string? FirstNationsEngagement { get; set; }
         public string? NeighbourEngagement { get; set; }
         public string? AdditionalEngagementInformation { get; set; }
 
-        //Other Supporting Information
+        //Other Supporting Information - 7
         public string? ClimateAdaptation { get; set; }
         public string? OtherInformation { get; set; }
     }
@@ -202,6 +202,7 @@ namespace EMCR.DRR.Controllers
         //Proponent & Project Information - 1
         public bool? RegionalProject { get; set; }
         public string? RegionalProjectComments { get; set; }
+        public string? MainDeliverable { get; set; }
 
         //Ownership & Authorization - 2
         public bool? ProjectAuthority { get; set; }

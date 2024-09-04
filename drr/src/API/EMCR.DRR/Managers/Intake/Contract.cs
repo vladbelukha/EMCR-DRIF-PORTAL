@@ -109,7 +109,7 @@ namespace EMCR.DRR.Managers.Intake
         public required string ApplicationTypeName { get; set; }
         public required string ProgramName { get; set; }
         public string? BCeIDBusinessId { get; set; }
-        //Proponent Information
+        //Proponent Information - 1
         public ProponentType? ProponentType { get; set; }
         public string? ProponentName { get; set; }
         public ContactDetails? Submitter { get; set; }
@@ -118,7 +118,7 @@ namespace EMCR.DRR.Managers.Intake
         public ContactDetails? AdditionalContact2 { get; set; }
         public IEnumerable<PartneringProponent> PartneringProponents { get; set; }
 
-        //Project Information
+        //Project Information - 2
         public FundingStream? FundingStream { get; set; }
         public string? ProjectTitle { get; set; }
         public ProjectType? ProjectType { get; set; }
@@ -128,7 +128,7 @@ namespace EMCR.DRR.Managers.Intake
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
 
-        //Funding Information
+        //Funding Information - 3
         public decimal? EstimatedTotal { get; set; }
         public decimal? FundingRequest { get; set; }
         public bool? HaveOtherFunding { get; set; }
@@ -136,12 +136,12 @@ namespace EMCR.DRR.Managers.Intake
         public decimal? RemainingAmount { get; set; }
         public string? IntendToSecureFunding { get; set; }
 
-        //Location Information
+        //Location Information - 4
         public bool? OwnershipDeclaration { get; set; }
         public string? OwnershipDescription { get; set; }
         public string? LocationDescription { get; set; }
 
-        //Project Detail
+        //Project Detail - 5
         public string? RationaleForFunding { get; set; }
         public EstimatedNumberOfPeople? EstimatedPeopleImpacted { get; set; }
         public string? CommunityImpact { get; set; }
@@ -153,17 +153,17 @@ namespace EMCR.DRR.Managers.Intake
         public string? AdditionalSolutionInformation { get; set; }
         public string? RationaleForSolution { get; set; }
 
-        //Engagement Plan
+        //Engagement Plan - 6
         public string? FirstNationsEngagement { get; set; }
         public string? NeighbourEngagement { get; set; }
         public string? AdditionalEngagementInformation { get; set; }
 
-        //Other Supporting Information
+        //Other Supporting Information - 7
         public string? ClimateAdaptation { get; set; }
         public string? OtherInformation { get; set; }
 
 
-        //Declaration
+        //Declaration - 8
         public bool? AuthorizedRepresentativeStatement { get; set; }
         public bool? FOIPPAConfirmation { get; set; }
         public bool? InformationAccuracyStatement { get; set; }
@@ -177,6 +177,7 @@ namespace EMCR.DRR.Managers.Intake
         //Proponent & Project Information - 1
         public bool? RegionalProject { get; set; }
         public string? RegionalProjectComments { get; set; }
+        public string? MainDeliverable { get; set; }
 
         //Ownership & Authorization - 2
         public bool? ProjectAuthority { get; set; }
