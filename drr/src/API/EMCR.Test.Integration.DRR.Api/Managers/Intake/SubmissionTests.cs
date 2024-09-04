@@ -183,6 +183,8 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
 
             var fullProposal = (await manager.Handle(new DrrApplicationsQuery { Id = fpId, BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault();
             fullProposal.Id.ShouldBe(fpId);
+            fullProposal.RegionalProject.ShouldBeNull();
+            fullProposal.MainDeliverable.ShouldBe(eoi.ScopeStatement);
         }
 
         [Test]
