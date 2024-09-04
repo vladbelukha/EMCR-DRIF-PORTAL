@@ -57,10 +57,11 @@ namespace EMCR.DRR.Resources.Applications
                 //Proponent & Project Information - 1
                 .ForMember(dest => dest.drr_isthisaregionalproject, opt => opt.MapFrom(src => src.RegionalProject.HasValue && src.RegionalProject.Value ? DRRTwoOptions.Yes : DRRTwoOptions.No))
                 .ForMember(dest => dest.drr_isthisaregionalprojectcomments, opt => opt.MapFrom(src => src.RegionalProjectComments))
+                .ForMember(dest => dest.drr_projecttypefullproposal, opt => opt.MapFrom(src => src.MainDeliverable))
                 //Ownership & Authorization - 2
                 .ForMember(dest => dest.drr_proponenthastheauthorityandownership, opt => opt.MapFrom(src => src.ProjectAuthority.HasValue && src.ProjectAuthority.Value ? DRRTwoOptions.Yes : DRRTwoOptions.No))
                 .ForMember(dest => dest.drr_proponenttomaintaininfrastructurelongterm, opt => opt.MapFrom(src => src.OperationAndMaintenance.HasValue ? (int?)Enum.Parse<DRRYesNoNotApplicable>(src.OperationAndMaintenance.Value.ToString()) : null))
-                .ForMember(dest => dest.drr_proponenttomaintaininfrastructurecomments, opt => opt.MapFrom(src => src.OperationAndMaintenanceComments))
+                .ForMember(dest => dest.drr_commentsprojectauthority, opt => opt.MapFrom(src => src.OperationAndMaintenanceComments))
                 .ForMember(dest => dest.drr_authorizedendorsedfirstnationpartners, opt => opt.MapFrom(src => src.FirstNationsEndorsement.HasValue ? (int?)Enum.Parse<DRRYesNoNotApplicable>(src.FirstNationsEndorsement.Value.ToString()) : null))
                 .ForMember(dest => dest.drr_authorizedendorsedlocalgovpartners, opt => opt.MapFrom(src => src.LocalGovernmentEndorsement.HasValue ? (int?)Enum.Parse<DRRYesNoNotApplicable>(src.LocalGovernmentEndorsement.Value.ToString()) : null))
                 .ForMember(dest => dest.drr_authorizationorendorsementcomments, opt => opt.MapFrom(src => src.AuthorizationOrEndorsementComments))
@@ -198,10 +199,11 @@ namespace EMCR.DRR.Resources.Applications
                 //Proponent & Project Information - 1
                 .ForMember(dest => dest.RegionalProject, opt => opt.MapFrom(src => src.drr_isthisaregionalproject.HasValue ? src.drr_isthisaregionalproject.Value == (int)DRRTwoOptions.Yes : (bool?)null))
                 .ForMember(dest => dest.RegionalProjectComments, opt => opt.MapFrom(src => src.drr_isthisaregionalprojectcomments))
+                .ForMember(dest => dest.MainDeliverable, opt => opt.MapFrom(src => src.drr_projecttypefullproposal))
                 //Ownership & Authorization - 2
                 .ForMember(dest => dest.ProjectAuthority, opt => opt.MapFrom(src => src.drr_proponenthastheauthorityandownership.HasValue ? src.drr_proponenthastheauthorityandownership.Value == (int)DRRTwoOptions.Yes : (bool?)null))
                 .ForMember(dest => dest.OperationAndMaintenance, opt => opt.MapFrom(src => src.drr_proponenttomaintaininfrastructurelongterm.HasValue ? (int?)Enum.Parse<YesNoOption>(((DRRYesNoNotApplicable)src.drr_proponenttomaintaininfrastructurelongterm).ToString()) : null))
-                .ForMember(dest => dest.OperationAndMaintenanceComments, opt => opt.MapFrom(src => src.drr_proponenttomaintaininfrastructurecomments))
+                .ForMember(dest => dest.OperationAndMaintenanceComments, opt => opt.MapFrom(src => src.drr_commentsprojectauthority))
                 .ForMember(dest => dest.FirstNationsEndorsement, opt => opt.MapFrom(src => src.drr_authorizedendorsedfirstnationpartners.HasValue ? (int?)Enum.Parse<YesNoOption>(((DRRYesNoNotApplicable)src.drr_authorizedendorsedfirstnationpartners).ToString()) : null))
                 .ForMember(dest => dest.LocalGovernmentEndorsement, opt => opt.MapFrom(src => src.drr_authorizedendorsedlocalgovpartners.HasValue ? (int?)Enum.Parse<YesNoOption>(((DRRYesNoNotApplicable)src.drr_authorizedendorsedlocalgovpartners).ToString()) : null))
                 .ForMember(dest => dest.AuthorizationOrEndorsementComments, opt => opt.MapFrom(src => src.drr_authorizationorendorsementcomments))
