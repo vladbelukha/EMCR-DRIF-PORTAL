@@ -5,9 +5,9 @@
  * OpenAPI spec version: 1.0.0
  */
 import type { Attachment } from './attachment';
+import type { YesNoOption } from './yesNoOption';
 import type { ProposedActivity } from './proposedActivity';
 import type { YearOverYearFunding } from './yearOverYearFunding';
-import type { YesNoOption } from './yesNoOption';
 
 export type DraftFpApplicationAllOf = {
   /** @nullable */
@@ -74,6 +74,8 @@ export type DraftFpApplicationAllOf = {
   increasedResiliencyComments?: string;
   /** @nullable */
   localGovernmentEndorsement?: YesNoOption;
+  /** @nullable */
+  mainDeliverable?: string;
   /** @nullable */
   operationAndMaintenance?: YesNoOption;
   /** @nullable */
