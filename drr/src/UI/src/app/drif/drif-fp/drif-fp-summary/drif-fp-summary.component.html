@@ -5,67 +5,71 @@
       <mat-card-subtitle>Step 1</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-      <mat-label class="drr-label">{{ t("primaryProjectContact") }}</mat-label>
-      <div class="summary-row">
-        <drr-summary-item
-          [label]="t('firstName')"
-          [rxFormControl]="
-            getRxFormControl(
-              'proponentAndProjectInformation.projectContact.firstName'
-            )
-          "
-        >
-        </drr-summary-item>
+      <div>
+        <mat-label class="drr-label">{{
+          t("primaryProjectContact")
+        }}</mat-label>
+        <div class="summary-row">
+          <drr-summary-item
+            [label]="t('firstName')"
+            [rxFormControl]="
+              getRxFormControl(
+                'proponentAndProjectInformation.projectContact.firstName'
+              )
+            "
+          >
+          </drr-summary-item>
 
-        <drr-summary-item
-          [label]="t('lastName')"
-          [rxFormControl]="
-            getRxFormControl(
-              'proponentAndProjectInformation.projectContact.lastName'
-            )
-          "
-        >
-        </drr-summary-item>
+          <drr-summary-item
+            [label]="t('lastName')"
+            [rxFormControl]="
+              getRxFormControl(
+                'proponentAndProjectInformation.projectContact.lastName'
+              )
+            "
+          >
+          </drr-summary-item>
 
-        <drr-summary-item
-          [label]="t('title')"
-          [rxFormControl]="
-            getRxFormControl(
-              'proponentAndProjectInformation.projectContact.title'
-            )
-          "
-        >
-        </drr-summary-item>
+          <drr-summary-item
+            [label]="t('title')"
+            [rxFormControl]="
+              getRxFormControl(
+                'proponentAndProjectInformation.projectContact.title'
+              )
+            "
+          >
+          </drr-summary-item>
 
-        <drr-summary-item
-          [label]="t('department')"
-          [rxFormControl]="
-            getRxFormControl(
-              'proponentAndProjectInformation.projectContact.department'
-            )
-          "
-        >
-        </drr-summary-item>
+          <drr-summary-item
+            [label]="t('department')"
+            [rxFormControl]="
+              getRxFormControl(
+                'proponentAndProjectInformation.projectContact.department'
+              )
+            "
+          >
+          </drr-summary-item>
 
-        <drr-summary-item
-          [label]="t('phone')"
-          [rxFormControl]="
-            getRxFormControl(
-              'proponentAndProjectInformation.projectContact.phone'
-            )
-          "
-        >
-        </drr-summary-item>
+          <drr-summary-item
+            [label]="t('phone')"
+            [rxFormControl]="
+              getRxFormControl(
+                'proponentAndProjectInformation.projectContact.phone'
+              )
+            "
+          >
+          </drr-summary-item>
 
-        <drr-summary-item
-          [label]="t('email')"
-          [rxFormControl]="
-            getRxFormControl(
-              'proponentAndProjectInformation.projectContact.email'
-            )
-          "
-        >
-        </drr-summary-item>
+          <drr-summary-item
+            [label]="t('email')"
+            [rxFormControl]="
+              getRxFormControl(
+                'proponentAndProjectInformation.projectContact.email'
+              )
+            "
+          >
+          </drr-summary-item>
+        </div>
       </div>
 
       <div>
@@ -177,7 +181,7 @@
       <drr-summary-item
         [label]="t('projectType')"
         [rxFormControl]="
-          getRxFormControl('proponentAndProjectInformation.scopeStatement')
+          getRxFormControl('proponentAndProjectInformation.mainDeliverable')
         "
       >
       </drr-summary-item>
@@ -370,21 +374,23 @@
       <mat-card-subtitle>Step 4</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-      <mat-label class="drr-label">{{ t("projectDates") }}</mat-label>
-      <div class="summary-row">
-        <drr-summary-item
-          [label]="t('startDate')"
-          [rxFormControl]="getRxFormControl('projectPlan.startDate')"
-          [controlType]="'date'"
-        >
-        </drr-summary-item>
+      <div>
+        <mat-label class="drr-label">{{ t("projectDates") }}</mat-label>
+        <div class="summary-row">
+          <drr-summary-item
+            [label]="t('startDate')"
+            [rxFormControl]="getRxFormControl('projectPlan.startDate')"
+            [controlType]="'date'"
+          >
+          </drr-summary-item>
 
-        <drr-summary-item
-          [label]="t('endDate')"
-          [rxFormControl]="getRxFormControl('projectPlan.endDate')"
-          [controlType]="'date'"
-        >
-        </drr-summary-item>
+          <drr-summary-item
+            [label]="t('endDate')"
+            [rxFormControl]="getRxFormControl('projectPlan.endDate')"
+            [controlType]="'date'"
+          >
+          </drr-summary-item>
+        </div>
       </div>
 
       <drr-summary-item
@@ -392,44 +398,45 @@
         [rxFormControl]="getRxFormControl('projectPlan.projectDescription')"
       >
       </drr-summary-item>
-
-      <mat-label class="drr-label">{{ t("proposedActivities") }}</mat-label>
-      <div
-        class="summary-row"
-        *ngFor="
-          let control of getRxFormArrayControls(
-            'projectPlan',
-            'proposedActivities'
-          )
-        "
-      >
-        <drr-summary-item
-          [label]="t('activityName')"
-          [rxFormControl]="convertRxFormControl(control.get('name'))"
-        >
-        </drr-summary-item>
-
-        <drr-summary-item
-          [label]="t('startDate')"
-          [rxFormControl]="convertRxFormControl(control.get('startDate'))"
-          [controlType]="'date'"
-        >
-        </drr-summary-item>
-
-        <drr-summary-item
-          [label]="t('endDate')"
-          [rxFormControl]="convertRxFormControl(control.get('endDate'))"
-          [controlType]="'date'"
-        >
-        </drr-summary-item>
-
-        <drr-summary-item
-          [label]="t('relatedMilestone')"
-          [rxFormControl]="
-            convertRxFormControl(control.get('relatedMilestone'))
+      <div>
+        <mat-label class="drr-label">{{ t("proposedActivities") }}</mat-label>
+        <div
+          class="summary-row"
+          *ngFor="
+            let control of getRxFormArrayControls(
+              'projectPlan',
+              'proposedActivities'
+            )
           "
         >
-        </drr-summary-item>
+          <drr-summary-item
+            [label]="t('activityName')"
+            [rxFormControl]="convertRxFormControl(control.get('name'))"
+          >
+          </drr-summary-item>
+
+          <drr-summary-item
+            [label]="t('startDate')"
+            [rxFormControl]="convertRxFormControl(control.get('startDate'))"
+            [controlType]="'date'"
+          >
+          </drr-summary-item>
+
+          <drr-summary-item
+            [label]="t('endDate')"
+            [rxFormControl]="convertRxFormControl(control.get('endDate'))"
+            [controlType]="'date'"
+          >
+          </drr-summary-item>
+
+          <drr-summary-item
+            [label]="t('relatedMilestone')"
+            [rxFormControl]="
+              convertRxFormControl(control.get('relatedMilestone'))
+            "
+          >
+          </drr-summary-item>
+        </div>
       </div>
 
       <drr-summary-item
@@ -545,7 +552,7 @@
     </mat-card-header>
     <mat-card-content>
       <drr-summary-item
-        [label]="t('approvals')"
+        [label]="t('approvalsQuestion')"
         [rxFormControl]="
           getRxFormControl('permitsRegulationsAndStandards.approvals')
         "
@@ -560,7 +567,7 @@
       >
       </drr-summary-item>
       <drr-summary-item
-        [label]="t('professionalGuidance')"
+        [label]="t('professionalGuidanceQuestion')"
         [rxFormControl]="
           getRxFormControl(
             'permitsRegulationsAndStandards.professionalGuidance'
@@ -587,7 +594,7 @@
       >
       </drr-summary-item>
       <drr-summary-item
-        [label]="t('standardsAcceptable')"
+        [label]="t('standardsAcceptableQuestion')"
         [rxFormControl]="
           getRxFormControl('permitsRegulationsAndStandards.standardsAcceptable')
         "

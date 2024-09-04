@@ -224,10 +224,12 @@
 
     <mat-label class="drr-label">{{ t("projectType") }}</mat-label>
     <drr-textarea
-      [id]="'scopeStatement'"
+      [id]="'mainDeliverable'"
       [label]="t('projectTypeText')"
       [maxlength]="2000"
-      [rxFormControl]="proponentAndProjectInformationForm.get('scopeStatement')"
+      [rxFormControl]="
+        proponentAndProjectInformationForm.get('mainDeliverable')
+      "
       [useFloatingLabel]="false"
     ></drr-textarea>
   </form>

@@ -104,7 +104,7 @@ export class ProponentAndProjectInformationForm {
 
   @prop()
   @required()
-  scopeStatement?: string;
+  mainDeliverable?: string;
 
   @required()
   @propObject(ContactDetailsForm)

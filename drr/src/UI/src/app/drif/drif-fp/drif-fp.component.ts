@@ -180,7 +180,7 @@ export class DrifFpComponent {
           proponentAndProjectInformation: {
             projectContact: response.projectContact,
             projectTitle: response.projectTitle,
-            scopeStatement: response.scopeStatement,
+            mainDeliverable: response.mainDeliverable,
             regionalProject: response.regionalProject,
             regionalProjectComments: response.regionalProjectComments,
           },
