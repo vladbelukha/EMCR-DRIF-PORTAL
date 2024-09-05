@@ -4,6 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
 import { DrifapplicationService } from '../../../../api/drifapplication/drifapplication.service';
+import { ScreenerQuestions } from '../../../../model';
 
 @Component({
   selector: 'drr-drif-fp-instructions',
@@ -19,11 +20,12 @@ export class DrifFpInstructionsComponent {
 
   eoiId?: string;
   fundingStream?: string;
+  screenerQuestions?: ScreenerQuestions;
 
   ngOnInit() {
-    // get ID from route and funding stream from query params
     this.eoiId = this.route.snapshot.params['eoiId'];
-    this.fundingStream = this.route.snapshot.queryParams['fundingStream'];
+    this.fundingStream = this.route.snapshot.params['fundingStream'];
+    this.screenerQuestions = this.route.snapshot.queryParams;
   }
 
   goBack() {
@@ -34,7 +36,7 @@ export class DrifFpInstructionsComponent {
     this.appService
       .dRIFApplicationCreateFPFromEOI(
         {
-          // TODO: pass questions
+          ...this.screenerQuestions,
         },
         {
           eoiId: this.eoiId,

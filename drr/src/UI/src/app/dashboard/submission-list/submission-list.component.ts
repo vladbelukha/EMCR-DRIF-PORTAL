@@ -103,10 +103,10 @@ export class SubmissionListComponent {
   createFullProposal(submission: Submission, event: Event) {
     event.preventDefault();
 
-    this.router.navigate(['/drif-fp-screener', submission.id], {
-      queryParams: {
-        fundingStream: submission.fundingStream,
-      },
-    });
+    this.router.navigate([
+      '/drif-fp-screener',
+      submission.id,
+      submission.fundingStream,
+    ]);
   }
 }

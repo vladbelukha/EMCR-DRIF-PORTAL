@@ -331,7 +331,7 @@
   "impact": "Impact",
   "screener": {
     "header": "Are you ready to submit your Full Proposal?",
-    "skip": "Skip to Full Proposal",
+    "skip": "Skip",
     "cancel": "Cancel",
     "continue": "Continue",
     "instructions": "Answer the following questions to help to determine if you are ready to submit your Full Proposal.",

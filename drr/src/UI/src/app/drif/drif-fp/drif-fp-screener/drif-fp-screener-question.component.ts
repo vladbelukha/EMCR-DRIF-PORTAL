@@ -38,10 +38,10 @@ import {
       ></drr-radio-button>
       <div
         *ngIf="isNegativeAnswer()"
-        style="display: flex; flex-direction: row; alighn-items: center; margin-bottom: 1rem"
+        style="display: flex; flex-direction: row; align-items: center; margin-bottom: 1rem"
       >
-        <mat-icon style="color: #96c0e6" [inline]="true">info</mat-icon>
-        <i style="flex: 1" style="margin-left: 1rem">{{
+        <mat-icon style="color: #96c0e6;" [inline]="true">info</mat-icon>
+        <i style="margin-left: 1rem; flex: 1">{{
           t('negativeAnswers.' + labelKey)
         }}</i>
       </div>

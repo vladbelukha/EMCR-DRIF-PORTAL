@@ -6,6 +6,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
 import {
   RxFormBuilder,
@@ -41,6 +42,11 @@ import { DrifFpScreenerQuestionComponent } from './drif-fp-screener-question.com
 })
 export class DrifFpScreenerComponent {
   formBuilder = inject(RxFormBuilder);
+  router = inject(Router);
+  route = inject(ActivatedRoute);
+
+  eoiId?: string;
+  fundingStream?: string;
 
   screenerForm = this.formBuilder.formGroup(ScreenerQuestionsForm);
 
@@ -65,6 +71,11 @@ export class DrifFpScreenerComponent {
     { value: YesNoOption.NotApplicable, label: 'Not Applicable' },
   ];
 
+  ngOnInit() {
+    this.eoiId = this.route.snapshot.params['eoiId'];
+    this.fundingStream = this.route.snapshot.params['fundingStream'];
+  }
+
   hasNegativeAnswers() {
     return Object.values(this.screenerForm.value).some(
       (value) => value === false || value === YesNoOption.No
@@ -77,9 +88,27 @@ export class DrifFpScreenerComponent {
     );
   }
 
-  skip() {}
+  skip() {
+    this.router.navigate([
+      '/drif-fp-instructions',
+      this.eoiId,
+      this.fundingStream,
+    ]);
+  }
 
-  cancel() {}
+  cancel() {
+    this.router.navigate(['/dashboard']);
+  }
 
-  continue() {}
+  continue() {
+    const screenerAnswers = this.screenerForm.value;
+    this.router.navigate(
+      ['/drif-fp-instructions', this.eoiId, this.fundingStream],
+      {
+        queryParams: {
+          ...screenerAnswers,
+        },
+      }
+    );
+  }
 }
