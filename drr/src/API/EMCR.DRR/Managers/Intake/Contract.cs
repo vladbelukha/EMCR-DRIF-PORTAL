@@ -87,7 +87,7 @@ namespace EMCR.DRR.Managers.Intake
     {
         public required string EoiId { get; set; }
         public UserInfo UserInfo { get; set; }
-        public ScreenerQuestions ScreenerQuestions { get; set; }
+        public required ScreenerQuestions ScreenerQuestions { get; set; }
     }
 
     public class FpSaveApplicationCommand : IntakeCommand
@@ -181,14 +181,18 @@ namespace EMCR.DRR.Managers.Intake
         public string? MainDeliverable { get; set; }
 
         //Ownership & Authorization - 2
-        public bool? ProjectAuthority { get; set; }
+        public bool? HaveAuthorityToDevelop { get; set; }
         public YesNoOption? OperationAndMaintenance { get; set; }
         public string? OperationAndMaintenanceComments { get; set; }
-        public YesNoOption? FirstNationsEndorsement { get; set; }
-        public YesNoOption? LocalGovernmentEndorsement { get; set; }
+        public YesNoOption? FirstNationsAuthorizedByPartners { get; set; }
+        public YesNoOption? LocalGovernmentAuthorizedByPartners { get; set; }
         public string? AuthorizationOrEndorsementComments { get; set; }
 
         //Project Area - 3
+        public int? Area { get; set; }
+        public AreaUnits? Units { get; set; }
+        public string? AreaDescription { get; set; }
+        public bool? IsInfrastructureImpacted { get; set; }
 
         //Project Plan - 4
         public string? ProjectDescription { get; set; }
@@ -198,7 +202,7 @@ namespace EMCR.DRR.Managers.Intake
         public string? ProjectAlternateOptions { get; set; }
 
         //Project Engagement - 5
-        public bool? EngagedWithFirstNations { get; set; }
+        public bool? EngagedWithFirstNationsOccurred { get; set; }
         public string? EngagedWithFirstNationsComments { get; set; }
         public YesNoOption? OtherEngagement { get; set; }
         public IEnumerable<AffectedParty> AffectedParties { get; set; }
@@ -206,19 +210,21 @@ namespace EMCR.DRR.Managers.Intake
         public string? CollaborationComments { get; set; }
 
         //Climate Adaptation - 6
-        public bool? ClimateAdaptationScreener { get; set; }
+        public bool? IncorporateFutureClimateConditions { get; set; }
 
         //Permits Regulations & Standards - 7
         public bool? Approvals { get; set; }
         public string? ApprovalsComments { get; set; }
         public bool? ProfessionalGuidance { get; set; }
-        public IEnumerable<ProfessionalInfo> Professionals { get; set; }
+        public IEnumerable<ProfessionalInfo> Professionals { get; set; } //Missing list in CRM
         public string? ProfessionalGuidanceComments { get; set; }
         public YesNoOption? StandardsAcceptable { get; set; }
         public IEnumerable<ProvincialStandard> Standards { get; set; }
         public string? StandardsComments { get; set; }
-        public bool? Regulations { get; set; }
-        public string? RegulationsComments { get; set; }
+        public bool? MeetsRegulatoryRequirements { get; set; }
+        public string? MeetsRegulatoryComments { get; set; }
+        public bool? MeetsEligibilityRequirements { get; set; }
+        public string? MeetsEligibilityComments { get; set; }
 
         //Project Outcomes - 8
         public bool? PublicBenefit { get; set; }
@@ -387,6 +393,22 @@ namespace EMCR.DRR.Managers.Intake
         public string? RelatedMilestone { get; set; }
     }
 
+    public class ScreenerQuestions
+    {
+        public bool? ProjectWorkplan { get; set; }
+        public bool? ProjectSchedule { get; set; }
+        public bool? CostEstimate { get; set; }
+        public YesNoOption? SitePlan { get; set; }
+        public bool? HaveAuthorityToDevelop { get; set; }
+        public YesNoOption? FirstNationsAuthorizedByPartners { get; set; }
+        public YesNoOption? LocalGovernmentAuthorizedByPartners { get; set; }
+        public YesNoOption? FoundationWorkCompleted { get; set; }
+        public bool? EngagedWithFirstNationsOccurred { get; set; }
+        public bool? IncorporateFutureClimateConditions { get; set; }
+        public bool? MeetsRegulatoryRequirements { get; set; }
+        public bool? MeetsEligibilityRequirements { get; set; }
+    }
+
     public enum ProponentType
     {
         FirstNation,
@@ -454,5 +476,11 @@ namespace EMCR.DRR.Managers.Intake
         No,
         Yes,
         NotApplicable
+    }
+
+    public enum AreaUnits
+    {
+        m2,
+        ha
     }
 }

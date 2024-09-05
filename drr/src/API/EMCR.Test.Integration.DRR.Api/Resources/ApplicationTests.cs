@@ -90,7 +90,7 @@ namespace EMCR.Tests.Integration.DRR.Resources
             var eoiApplication = (await applicationRepository.Query(new ApplicationsQuery { Id = eoiId })).Items.ShouldHaveSingleItem();
             eoiApplication.ProjectTitle.ShouldNotBeEmpty();
 
-            var fpId = (await caseRepository.Manage(new GenerateFpFromEoi { EoiId = eoiId })).Id;
+            var fpId = (await caseRepository.Manage(new GenerateFpFromEoi { EoiId = eoiId, ScreenerQuestions = CreateScreenerQuestions() })).Id;
             var fpApplication = (await applicationRepository.Query(new ApplicationsQuery { Id = fpId })).Items.ShouldHaveSingleItem();
             fpApplication.ProjectTitle.ShouldNotBeEmpty();
 
@@ -110,7 +110,7 @@ namespace EMCR.Tests.Integration.DRR.Resources
             var eoiApplication = (await applicationRepository.Query(new ApplicationsQuery { Id = eoiId })).Items.ShouldHaveSingleItem();
             eoiApplication.ProjectTitle.ShouldNotBeEmpty();
 
-            var fpId = (await caseRepository.Manage(new GenerateFpFromEoi { EoiId = eoiId })).Id;
+            var fpId = (await caseRepository.Manage(new GenerateFpFromEoi { EoiId = eoiId, ScreenerQuestions = CreateScreenerQuestions() })).Id;
             var fpApplication = (await applicationRepository.Query(new ApplicationsQuery { Id = fpId })).Items.ShouldHaveSingleItem();
             fpApplication.ProjectTitle.ShouldNotBeEmpty();
 
@@ -140,6 +140,25 @@ namespace EMCR.Tests.Integration.DRR.Resources
         {
             var applications = (await applicationRepository.Query(new ApplicationsQuery { BusinessId = TestBusinessId })).Items;
             applications.ShouldNotBeEmpty();
+        }
+
+        private ScreenerQuestions CreateScreenerQuestions()
+        {
+            return new ScreenerQuestions
+            {
+                ProjectWorkplan = true,
+                ProjectSchedule = true,
+                CostEstimate = true,
+                SitePlan = EMCR.DRR.Managers.Intake.YesNoOption.Yes,
+                HaveAuthorityToDevelop = true,
+                FirstNationsAuthorizedByPartners = EMCR.DRR.Managers.Intake.YesNoOption.Yes,
+                LocalGovernmentAuthorizedByPartners = EMCR.DRR.Managers.Intake.YesNoOption.Yes,
+                FoundationWorkCompleted = EMCR.DRR.Managers.Intake.YesNoOption.Yes,
+                EngagedWithFirstNationsOccurred = true,
+                IncorporateFutureClimateConditions = true,
+                MeetsRegulatoryRequirements = true,
+                MeetsEligibilityRequirements = true,
+            };
         }
 
         private Application CreateTestEOIApplication()

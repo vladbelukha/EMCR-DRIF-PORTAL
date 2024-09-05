@@ -81,7 +81,7 @@ namespace EMCR.DRR.Managers.Intake
             var canAccess = await CanAccessApplication(cmd.EoiId, cmd.UserInfo.BusinessId);
             if (!canAccess) throw new ForbiddenException("Not allowed to access this application.");
 
-            var res = (await caseRepository.Manage(new GenerateFpFromEoi { EoiId = cmd.EoiId })).Id;
+            var res = (await caseRepository.Manage(new GenerateFpFromEoi { EoiId = cmd.EoiId, ScreenerQuestions = cmd.ScreenerQuestions })).Id;
             return res;
         }
 
