@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -15,6 +17,7 @@ import {
   RadioOption,
 } from '../../../shared/controls/drr-radio-button/drr-radio-button.component';
 import { ScreenerQuestionsForm } from './drif-fp-screener-form';
+import { DrifFpScreenerQuestionComponent } from './drif-fp-screener-question.component';
 
 @Component({
   selector: 'drr-drif-fp-screener',
@@ -27,8 +30,11 @@ import { ScreenerQuestionsForm } from './drif-fp-screener-form';
     TranslocoModule,
     MatInputModule,
     MatButtonModule,
+    MatIconModule,
     MatListModule,
+    MatCardModule,
     DrrRadioButtonComponent,
+    DrifFpScreenerQuestionComponent,
   ],
   templateUrl: './drif-fp-screener.component.html',
   styleUrl: './drif-fp-screener.component.scss',
@@ -59,5 +65,21 @@ export class DrifFpScreenerComponent {
     { value: YesNoOption.NotApplicable, label: 'Not Applicable' },
   ];
 
+  hasNegativeAnswers() {
+    return Object.values(this.screenerForm.value).some(
+      (value) => value === false || value === YesNoOption.No
+    );
+  }
+
+  allQuestionsAnswered() {
+    return Object.values(this.screenerForm.value).every(
+      (value) => value !== null
+    );
+  }
+
   skip() {}
+
+  cancel() {}
+
+  continue() {}
 }

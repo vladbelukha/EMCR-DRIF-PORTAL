@@ -332,6 +332,8 @@
   "screener": {
     "header": "Are you ready to submit your Full Proposal?",
     "skip": "Skip to Full Proposal",
+    "cancel": "Cancel",
+    "continue": "Continue",
     "instructions": "Answer the following questions to help to determine if you are ready to submit your Full Proposal.",
     "question1": "Have you prepared the following documents?",
     "projectWorkplan": "Detailed project workplan",
@@ -345,6 +347,21 @@
     "foundationWorkCompleted": "Has all necessary foundational work been completed?",
     "engagedWithFirstNationsOccurred": "Has meaningful engagement with local First Nations regarding this project proposal occurred?",
     "incorporateFutureClimateConditions": "Does the project incorporate future climate conditions and consider climate change in the project methodology?",
-    "meetsEligibilityRequirements": "Will the project meet eligibility requirements for all required permits, licences and authorizations?"
+    "meetsEligibilityRequirements": "Will the project meet eligibility requirements for all required permits, licences and authorizations?",
+    "allAnswersPositive": "Your responses have met all the necessary requirements for submitting the Full Proposal. You can now proceed to complete the Full Proposal form.",
+    "hasNegativeAnswers": "You may proceed to the Full Proposal; however, due to missing information on this page, there may be necessary components that you still need to collect in order to complete the Full Proposal. Please connect with {{supportEmail}} for support if needed.",
+    "negativeAnswers": {
+      "projectWorkplan": "A detailed workplan is required. Please prepare one prior to submission.",
+      "projectSchedule": "A project schedule is required, but may be included in your workplan. Please prepare one prior to submission.",
+      "costEstimate": "Detailed cost estimates are required. Please prepare them prior to submission.",
+      "sitePlan": "A site plan is required for projects that involve changes to a site. If relevant, please prepare one prior to submission.",
+      "haveAuthorityToDevelop": "Your First Nation, local government, or regional district must have the authority and ownership to develop, implement, maintain and operate the proposed project.",
+      "firstNationsAuthorizedByPartners": "If your proposal has partnering proponents, all of the partners must authorize or endorse the project. For First Nation proponents, you can submit authorization after you submit your Full Proposal, but the proposal will not be approved until the authorization is submitted.",
+      "localGovernmentAuthorizedByPartners": "If your proposal has partnering proponents, all of the partners must authorize or endorse the project.",
+      "foundationWorkCompleted": "Foundational work must be completed prior to submission.",
+      "engagedWithFirstNationsOccurred": "You must hold meaningful engagement with local First Nations prior to submission.",
+      "incorporateFutureClimateConditions": "The project must incorporate future climate conditions and consider climate change.",
+      "meetsEligibilityRequirements": "The project must be eligible for all required permits, authorizations, and regulatory approvals."
+    }
   }
 }
