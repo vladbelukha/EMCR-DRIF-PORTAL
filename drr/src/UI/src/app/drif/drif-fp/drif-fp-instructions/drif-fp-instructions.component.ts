@@ -32,7 +32,14 @@ export class DrifFpInstructionsComponent {
 
   continue() {
     this.appService
-      .dRIFApplicationCreateFPFromEOI({ eoiId: this.eoiId! })
+      .dRIFApplicationCreateFPFromEOI(
+        {
+          // TODO: pass questions
+        },
+        {
+          eoiId: this.eoiId,
+        }
+      )
       .subscribe((res) => {
         this.router.navigate(['/drif-fp', res.id]);
       });

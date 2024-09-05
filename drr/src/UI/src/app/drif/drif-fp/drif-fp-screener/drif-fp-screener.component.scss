@@ -1,0 +1,18 @@
+.screener-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  align-items: stretch;
+  margin: 1rem 3rem;
+}
+
+.screener-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nested-items {
+  margin-top: 1rem;
+  margin-left: 1rem;
+}

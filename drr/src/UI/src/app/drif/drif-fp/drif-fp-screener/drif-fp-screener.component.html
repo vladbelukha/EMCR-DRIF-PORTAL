@@ -1,0 +1,86 @@
+<div *transloco="let t; read: 'screener'" class="screener-container">
+  <div class="screener-header">
+    <h2>{{ t("header") }}</h2>
+    <button mat-raised-button color="primary" (click)="skip()">
+      {{ t("skip") }}
+    </button>
+  </div>
+  <h3>{{ t("instructions") }}</h3>
+  <ol>
+    <li>
+      <div>
+        {{ t("question1") }}
+      </div>
+      <div class="nested-items">
+        <drr-radio-button
+          [label]="t('projectWorkplan')"
+          [rxFormControl]="screenerForm.get('projectWorkplan')"
+        ></drr-radio-button>
+        <drr-radio-button
+          [label]="t('projectSchedule')"
+          [rxFormControl]="screenerForm.get('projectSchedule')"
+        ></drr-radio-button>
+        <drr-radio-button
+          [label]="t('costEstimate')"
+          [rxFormControl]="screenerForm.get('costEstimate')"
+        ></drr-radio-button>
+        <drr-radio-button
+          [label]="t('sitePlan')"
+          [rxFormControl]="screenerForm.get('sitePlan')"
+          [options]="yesNoNotRequiredOptions"
+        ></drr-radio-button>
+      </div>
+    </li>
+    <li>
+      <drr-radio-button
+        [label]="t('haveAuthorityToDevelop')"
+        [rxFormControl]="screenerForm.get('haveAuthorityToDevelop')"
+      ></drr-radio-button>
+    </li>
+    <li>
+      <div>
+        {{ t("question3") }}
+      </div>
+      <div class="nested-items">
+        <drr-radio-button
+          [label]="t('firstNationsAuthorizedByPartners')"
+          [rxFormControl]="screenerForm.get('firstNationsAuthorizedByPartners')"
+          [options]="yesNoNotApplicableOptions"
+        ></drr-radio-button>
+        <drr-radio-button
+          [label]="t('localGovernmentAuthorizedByPartners')"
+          [rxFormControl]="
+            screenerForm.get('localGovernmentAuthorizedByPartners')
+          "
+          [options]="yesNoNotApplicableOptions"
+        >
+        </drr-radio-button>
+      </div>
+    </li>
+    <li>
+      <drr-radio-button
+        [label]="t('foundationWorkCompleted')"
+        [rxFormControl]="screenerForm.get('foundationWorkCompleted')"
+        [options]="foundationWorkCompletedOptions"
+      ></drr-radio-button>
+    </li>
+    <li>
+      <drr-radio-button
+        [label]="t('engagedWithFirstNationsOccurred')"
+        [rxFormControl]="screenerForm.get('engagedWithFirstNationsOccurred')"
+      ></drr-radio-button>
+    </li>
+    <li>
+      <drr-radio-button
+        [label]="t('incorporateFutureClimateConditions')"
+        [rxFormControl]="screenerForm.get('incorporateFutureClimateConditions')"
+      ></drr-radio-button>
+    </li>
+    <li>
+      <drr-radio-button
+        [label]="t('meetsEligibilityRequirements')"
+        [rxFormControl]="screenerForm.get('meetsEligibilityRequirements')"
+      ></drr-radio-button>
+    </li>
+  </ol>
+</div>

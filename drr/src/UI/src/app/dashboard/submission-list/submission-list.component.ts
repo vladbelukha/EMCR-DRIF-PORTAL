@@ -8,7 +8,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Router, RouterModule } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
 import { DrifapplicationService } from '../../../api/drifapplication/drifapplication.service';
-import { FundingStream, Submission } from '../../../model';
+import { Submission } from '../../../model';
 
 @Component({
   selector: 'drr-submission-list',
@@ -103,7 +103,7 @@ export class SubmissionListComponent {
   createFullProposal(submission: Submission, event: Event) {
     event.preventDefault();
 
-    this.router.navigate(['/drif-fp-instructions', submission.id], {
+    this.router.navigate(['/drif-fp-screener', submission.id], {
       queryParams: {
         fundingStream: submission.fundingStream,
       },

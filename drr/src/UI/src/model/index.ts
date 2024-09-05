@@ -35,6 +35,7 @@ export * from './profileDetails';
 export * from './projectType';
 export * from './proponentType';
 export * from './proposedActivity';
+export * from './screenerQuestions';
 export * from './submission';
 export * from './submissionPortalStatus';
 export * from './versionInformation';
