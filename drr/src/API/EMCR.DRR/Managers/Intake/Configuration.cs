@@ -1,6 +1,6 @@
 ﻿using EMCR.DRR.Managers.Intake;
 
-namespace EMBC.DRR.Managers.Intake
+namespace EMCR.DRR.Managers.Intake
 {
     public static class Configuration
     {

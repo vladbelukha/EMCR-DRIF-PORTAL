@@ -93,7 +93,11 @@ namespace EMCR.DRR.Managers.Intake
 
             CreateMap<Controllers.YearOverYearFunding, YearOverYearFunding>()
                 .ReverseMap()
-                ;   
+                ;
+
+            CreateMap<Controllers.ScreenerQuestions, ScreenerQuestions>()
+                .ReverseMap()
+                ;
 
             CreateMap<Controllers.ContactDetails, ContactDetails>()
                 .ForMember(dest => dest.BCeId, opt => opt.Ignore())

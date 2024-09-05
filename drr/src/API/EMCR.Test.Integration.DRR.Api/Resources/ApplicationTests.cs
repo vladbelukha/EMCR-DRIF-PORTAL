@@ -1,7 +1,6 @@
 ﻿using EMCR.DRR.API.Resources.Cases;
 using EMCR.DRR.Managers.Intake;
 using EMCR.DRR.Resources.Applications;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Shouldly;
 
@@ -17,7 +16,7 @@ namespace EMCR.Tests.Integration.DRR.Resources
 
         public ApplicationTests()
         {
-            var host = EMBC.Tests.Integration.DRR.Application.Host;
+            var host = Application.Host;
             applicationRepository = host.Services.GetRequiredService<IApplicationRepository>();
             caseRepository = host.Services.GetRequiredService<ICaseRepository>();
         }
@@ -161,10 +160,10 @@ namespace EMCR.Tests.Integration.DRR.Resources
             };
         }
 
-        private Application CreateTestEOIApplication()
+        private EMCR.DRR.Managers.Intake.Application CreateTestEOIApplication()
         {
             var uniqueSignature = TestPrefix + "-" + Guid.NewGuid().ToString().Substring(0, 4);
-            return new Application
+            return new EMCR.DRR.Managers.Intake.Application
             {
                 ApplicationTypeName = "EOI",
                 ProgramName = "DRIF",

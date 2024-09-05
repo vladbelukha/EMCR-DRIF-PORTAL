@@ -1,7 +1,7 @@
 ﻿using Alba;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace EMBC.Tests.Integration.DRR
+namespace EMCR.Tests.Integration.DRR
 {
     [SetUpFixture]
     public class Application
