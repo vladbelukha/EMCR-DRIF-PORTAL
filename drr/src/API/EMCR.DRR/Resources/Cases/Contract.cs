@@ -1,4 +1,6 @@
-﻿namespace EMCR.DRR.API.Resources.Cases
+﻿using EMCR.DRR.Managers.Intake;
+
+namespace EMCR.DRR.API.Resources.Cases
 {
     public interface ICaseRepository
     {
@@ -30,6 +32,7 @@
     public class GenerateFpFromEoi : ManageCaseCommand
     {
         public required string EoiId { get; set; }
+        public required ScreenerQuestions ScreenerQuestions { get; set; }
     }
 
     public class Case

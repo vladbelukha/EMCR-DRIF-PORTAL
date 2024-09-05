@@ -72,19 +72,4 @@ namespace EMCR.DRR.Controllers
             }
         }
     }
-
-    public class ScreenerQuestions
-    {
-        public bool? ProjectWorkplan { get; set; }
-        public bool? ProjectSchedule { get; set; }
-        public bool? CostEstimate { get; set; }
-        public YesNoOption? SitePlan { get; set; }
-        public bool? HaveAuthorityToDevelop { get; set; }
-        public YesNoOption? FirstNationsAuthorizedByPartners { get; set; }
-        public YesNoOption? LocalGovernmentAuthorizedByPartners { get; set; }
-        public YesNoOption? FoundationWorkCompleted { get; set; }
-        public bool? EngagedWithFirstNationsOccurred { get; set; }
-        public bool? IncorporateFutureClimateConditions { get; set; }
-        public bool? MeetsEligibilityRequirements { get; set; }
-    }
 }
