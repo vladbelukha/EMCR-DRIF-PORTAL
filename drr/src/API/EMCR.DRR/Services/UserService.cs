@@ -5,7 +5,7 @@ using EMCR.DRR.API.Resources.Accounts;
 using EMCR.Utilities;
 using Microsoft.Extensions.Caching.Distributed;
 
-namespace EMBC.DRR.API.Services;
+namespace EMCR.DRR.API.Services;
 
 #pragma warning disable CS8604 // Possible null reference argument.
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.

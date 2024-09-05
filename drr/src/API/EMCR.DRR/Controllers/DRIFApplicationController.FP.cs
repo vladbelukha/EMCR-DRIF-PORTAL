@@ -27,7 +27,7 @@ namespace EMCR.DRR.Controllers
             try
             {
                 if (string.IsNullOrEmpty(eoiId)) throw new ArgumentNullException(nameof(eoiId));
-                var id = await intakeManager.Handle(new CreateFpFromEoiCommand { EoiId = eoiId, ScreenerQuestions = screenerQuestions, UserInfo = GetCurrentUser() });
+                var id = await intakeManager.Handle(new CreateFpFromEoiCommand { EoiId = eoiId, ScreenerQuestions = mapper.Map<Managers.Intake.ScreenerQuestions>(screenerQuestions), UserInfo = GetCurrentUser() });
                 return Ok(new ApplicationResult { Id = id });
             }
             catch (Exception e)
@@ -71,5 +71,21 @@ namespace EMCR.DRR.Controllers
                 return errorParser.Parse(e, logger);
             }
         }
+    }
+
+    public class ScreenerQuestions
+    {
+        public bool? ProjectWorkplan { get; set; }
+        public bool? ProjectSchedule { get; set; }
+        public bool? CostEstimate { get; set; }
+        public YesNoOption? SitePlan { get; set; }
+        public bool? HaveAuthorityToDevelop { get; set; }
+        public YesNoOption? FirstNationsAuthorizedByPartners { get; set; }
+        public YesNoOption? LocalGovernmentAuthorizedByPartners { get; set; }
+        public YesNoOption? FoundationWorkCompleted { get; set; }
+        public bool? EngagedWithFirstNationsOccurred { get; set; }
+        public bool? IncorporateFutureClimateConditions { get; set; }
+        public bool? MeetsRegulatoryRequirements { get; set; }
+        public bool? MeetsEligibilityRequirements { get; set; }
     }
 }

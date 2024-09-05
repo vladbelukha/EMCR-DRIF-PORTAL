@@ -13,7 +13,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
 
         public ConfigurationTests()
         {
-            var host = EMBC.Tests.Integration.DRR.Application.Host;
+            var host = Application.Host;
             manager = host.Services.GetRequiredService<IIntakeManager>();
             mapper = host.Services.GetRequiredService<IMapper>();
         }
