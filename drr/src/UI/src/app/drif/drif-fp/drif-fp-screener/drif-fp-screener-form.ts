@@ -35,6 +35,9 @@ export class ScreenerQuestionsForm implements ScreenerQuestions {
   @prop()
   sitePlan?: YesNoOption | undefined;
 
+  @prop()
+  meetsRegulatoryRequirements?: boolean | undefined;
+
   constructor(values: ScreenerQuestionsForm) {
     Object.assign(this, values);
   }

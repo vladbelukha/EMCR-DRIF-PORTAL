@@ -347,6 +347,7 @@
     "foundationWorkCompleted": "Has all necessary foundational work been completed?",
     "engagedWithFirstNationsOccurred": "Has meaningful engagement with local First Nations regarding this project proposal occurred?",
     "incorporateFutureClimateConditions": "Does the project incorporate future climate conditions and consider climate change in the project methodology?",
+    "meetsRegulatoryRequirements": "Will the project meet the necessary regulatory requirements?",
     "meetsEligibilityRequirements": "Will the project meet eligibility requirements for all required permits, licences and authorizations?",
     "allAnswersPositive": "Your responses have met all the necessary requirements for submitting the Full Proposal. You can now proceed to complete the Full Proposal form.",
     "hasNegativeAnswers": "You may proceed to the Full Proposal; however, due to missing information on this page, there may be necessary components that you still need to collect in order to complete the Full Proposal. Please connect with {{supportEmail}} for support if needed.",
@@ -361,6 +362,7 @@
       "foundationWorkCompleted": "Foundational work must be completed prior to submission.",
       "engagedWithFirstNationsOccurred": "You must hold meaningful engagement with local First Nations prior to submission.",
       "incorporateFutureClimateConditions": "The project must incorporate future climate conditions and consider climate change.",
+      "meetsRegulatoryRequirements": "The project must meet the necessary regulatory requirements.",
       "meetsEligibilityRequirements": "The project must be eligible for all required permits, authorizations, and regulatory approvals."
     }
   }

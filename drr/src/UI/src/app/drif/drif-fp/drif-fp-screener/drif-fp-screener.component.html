@@ -87,6 +87,12 @@
     </li>
     <li>
       <drif-fp-screener-question
+        [labelKey]="'meetsRegulatoryRequirements'"
+        [rxFormControl]="screenerForm.get('meetsRegulatoryRequirements')"
+      ></drif-fp-screener-question>
+    </li>
+    <li>
+      <drif-fp-screener-question
         [labelKey]="'meetsEligibilityRequirements'"
         [rxFormControl]="screenerForm.get('meetsEligibilityRequirements')"
       ></drif-fp-screener-question>
