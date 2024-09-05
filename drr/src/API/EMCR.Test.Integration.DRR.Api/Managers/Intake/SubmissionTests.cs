@@ -26,7 +26,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
 #pragma warning disable CS8629 // Nullable value type may be null.
         public SubmissionTests()
         {
-            var host = EMBC.Tests.Integration.DRR.Application.Host;
+            var host = Application.Host;
             manager = host.Services.GetRequiredService<IIntakeManager>();
             mapper = host.Services.GetRequiredService<IMapper>();
         }
@@ -158,7 +158,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             var secondId = await manager.Handle(new EoiSubmitApplicationCommand { application = mapper.Map<EoiApplication>(secondApplication), UserInfo = GetTestUserInfo() });
             secondId.ShouldNotBeEmpty();
 
-            var host = EMBC.Tests.Integration.DRR.Application.Host;
+            var host = Application.Host;
             var drrCtxFactory = host.Services.GetRequiredService<IDRRContextFactory>();
             var ctx = drrCtxFactory.CreateReadOnly();
 
@@ -283,9 +283,9 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
 #pragma warning restore CS8619 // Nullability of reference types in value doesn't match target type.
 #pragma warning restore CS8629 // Nullable value type may be null.
-        private ScreenerQuestions CreateScreenerQuestions()
+        private EMCR.DRR.Managers.Intake.ScreenerQuestions CreateScreenerQuestions()
         {
-            return new ScreenerQuestions
+            return new EMCR.DRR.Managers.Intake.ScreenerQuestions
             {
                 ProjectWorkplan = true,
                 ProjectSchedule = true,

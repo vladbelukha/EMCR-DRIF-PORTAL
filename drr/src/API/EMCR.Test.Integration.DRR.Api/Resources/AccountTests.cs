@@ -11,7 +11,7 @@ namespace EMCR.Tests.Integration.DRR.Resources
         [Test]
         public async Task CanCreateAccountIfNotExists()
         {
-            var host = EMBC.Tests.Integration.DRR.Application.Host;
+            var host = Application.Host;
             var accountRepository = host.Services.GetRequiredService<IAccountRepository>();
             var account = CreateTestAccount();
             var id = await accountRepository.Manage(new SaveAccountIfNotExists { Account = account });
@@ -21,7 +21,7 @@ namespace EMCR.Tests.Integration.DRR.Resources
         [Test]
         public async Task SaveAccountIfNotExists_AccountExists_NoDuplicateAccountCreated()
         {
-            var host = EMBC.Tests.Integration.DRR.Application.Host;
+            var host = Application.Host;
             var accountRepository = host.Services.GetRequiredService<IAccountRepository>();
             var account = CreateTestAccount();
             var id = (await accountRepository.Manage(new SaveAccountIfNotExists { Account = account })).Id;
