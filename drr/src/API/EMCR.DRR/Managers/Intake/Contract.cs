@@ -25,7 +25,8 @@ namespace EMCR.DRR.Managers.Intake
     {
         public IEnumerable<string>? VerificationMethods { get; set; } = Array.Empty<string>(); //In CRM = Project Need Identifications
         public IEnumerable<string>? AffectedParties { get; set; } = Array.Empty<string>();
-        public IEnumerable<string>? Standards { get; set; } = Array.Empty<string>();
+        public IEnumerable<Standards>? Standards { get; set; } = Array.Empty<Standards>();
+        public IEnumerable<string>? StandardCategories { get; set; } = Array.Empty<string>();
         public IEnumerable<string>? CostReductions { get; set; } = Array.Empty<string>();
         public IEnumerable<string>? CoBenefits { get; set; } = Array.Empty<string>();
         public IEnumerable<string>? ComplexityRisks { get; set; } = Array.Empty<string>();
@@ -45,6 +46,12 @@ namespace EMCR.DRR.Managers.Intake
         public required DeclarationType Type { get; set; }
         public required string ApplicationTypeName { get; set; }
         public required string Text { get; set; }
+    }
+
+    public class Standards
+    {
+        public required string Name { get; set; }
+        public required string Category { get; set; }
     }
 
     public enum DeclarationType
@@ -317,6 +324,7 @@ namespace EMCR.DRR.Managers.Intake
     public class CriticalInfrastructure
     {
         public required string Name { get; set; }
+        public required string Impact { get; set; }
     }
 
     public class ProfessionalInfo

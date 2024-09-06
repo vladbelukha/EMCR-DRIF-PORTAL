@@ -58,8 +58,8 @@ namespace EMCR.Tests.Integration.DRR.Resources
 
             applicationToUpdate.InfrastructureImpacted = new[]
                 {
-                    new CriticalInfrastructure {Name= $"{currPrefix}_updated_infrastructure1" },
-                    new CriticalInfrastructure {Name= $"{currPrefix}_updated_infrastructure2" },
+                    new CriticalInfrastructure {Name= $"{currPrefix}_updated_infrastructure1", Impact = "updated impact" },
+                    new CriticalInfrastructure {Name= $"{currPrefix}_updated_infrastructure2", Impact = "updated impact" },
                 };
 
             await applicationRepository.Manage(new SubmitApplication { Application = applicationToUpdate });
@@ -237,8 +237,8 @@ namespace EMCR.Tests.Integration.DRR.Resources
                 CommunityImpact = "community impact",
                 InfrastructureImpacted = new[]
                 {
-                    new CriticalInfrastructure {Name= $"{uniqueSignature}_infrastructure1" },
-                    new CriticalInfrastructure {Name= $"{uniqueSignature}_infrastructure2" },
+                    new CriticalInfrastructure {Name= $"{uniqueSignature}_infrastructure1", Impact = "impact" },
+                    new CriticalInfrastructure {Name= $"{uniqueSignature}_infrastructure2", Impact = "impact" },
                 },
                 DisasterRiskUnderstanding = "helps many people",
                 AdditionalBackgroundInformation = "additional background info",

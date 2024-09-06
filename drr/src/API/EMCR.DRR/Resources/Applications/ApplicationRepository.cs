@@ -49,7 +49,8 @@ namespace EMCR.DRR.Resources.Applications
         {
             var readCtx = dRRContextFactory.CreateReadOnly();
 
-            var standards = (await readCtx.drr_provincialstandards.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name);
+            var standards = (await readCtx.drr_provincialstandards.Expand(d => d.drr_Category).Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => new Standards { Name = d.drr_name, Category = d.drr_Category.drr_name });
+            var standardCategories = (await readCtx.drr_provincialstandardcategories.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name);
             var complexityRisks = (await readCtx.drr_projectcomplexityrisks.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name);
             var needIdentifications = (await readCtx.drr_projectneedidentifications.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name);
             var affectedParties = (await readCtx.drr_impactedoraffectedparties.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name);
@@ -66,6 +67,7 @@ namespace EMCR.DRR.Resources.Applications
                 VerificationMethods = needIdentifications,
                 AffectedParties = affectedParties,
                 Standards = standards,
+                StandardCategories = standardCategories,
                 CostReductions = costReductions,
                 CoBenefits = coBenefits,
                 ComplexityRisks = complexityRisks,
@@ -286,7 +288,7 @@ namespace EMCR.DRR.Resources.Applications
             AddInfrastructureImpacted(ctx, drrApplication);
 
             var standardsMasterList = drrApplication.drr_drr_application_drr_provincialstandarditem_Application.Count > 0 ?
-                (await ctx.drr_provincialstandards.GetAllPagesAsync()).ToList() :
+                (await ctx.drr_provincialstandards.Expand(s => s.drr_Category).GetAllPagesAsync()).ToList() :
                 new List<drr_provincialstandard>();
 
             var affectedPartiesMasterList = drrApplication.drr_drr_application_drr_impactedoraffectedpartyitem_Application.Count > 0 ?
@@ -509,6 +511,7 @@ namespace EMCR.DRR.Resources.Applications
                     drrContext.AddLink(application, nameof(application.drr_drr_application_drr_provincialstandarditem_Application), standard);
                     drrContext.SetLink(standard, nameof(standard.drr_Application), application);
                     drrContext.SetLink(standard, nameof(standard.drr_ProvincialStandard), masterVal);
+                    if (masterVal != null) drrContext.SetLink(standard, nameof(standard.drr_ProvincialStandardCategory), masterVal.drr_Category);
                 }
             }
         }
@@ -769,6 +772,7 @@ namespace EMCR.DRR.Resources.Applications
             {
                 ctx.AttachTo(nameof(DRRContext.drr_provincialstandarditems), s);
                 await ctx.LoadPropertyAsync(s, nameof(drr_provincialstandarditem.drr_ProvincialStandard), ct);
+                await ctx.LoadPropertyAsync(s, nameof(drr_provincialstandarditem.drr_ProvincialStandardCategory), ct);
             });
 
             await application.drr_drr_application_drr_driffundingrequest_Application.ForEachAsync(5, async f =>
@@ -782,7 +786,7 @@ namespace EMCR.DRR.Resources.Applications
                 ctx.AttachTo(nameof(DRRContext.drr_impactedoraffectedpartyitems), item);
                 await ctx.LoadPropertyAsync(item, nameof(drr_impactedoraffectedpartyitem.drr_ImpactedorAffectedParty), ct);
             });
-            
+
             await application.drr_drr_application_drr_projectneedidentificationitem_Application.ForEachAsync(5, async item =>
             {
                 ctx.AttachTo(nameof(DRRContext.drr_projectneedidentificationitems), item);

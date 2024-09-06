@@ -59,6 +59,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             savedApplication.Status.ShouldBe(ApplicationStatus.Submitted);
             savedApplication.AdditionalContact1.ShouldNotBeNull();
             savedApplication.SubmittedDate.ShouldNotBeNull();
+            savedApplication.InfrastructureImpacted.ShouldHaveSingleItem().Impact.ShouldNotBeNullOrEmpty();
         }
 
         [Test]
@@ -130,9 +131,13 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
 
             application.InfrastructureImpacted = new[]
             {
-                    string.Empty,
+                new InfrastructureImpacted
+                {
+                    Infrastructure = string.Empty,
+                    Impact = string.Empty,
+                },
                     null
-                };
+            };
 
             var id = await manager.Handle(new EoiSaveApplicationCommand { application = mapper.Map<EoiApplication>(application), UserInfo = GetTestUserInfo() });
             id.ShouldNotBeEmpty();
@@ -377,7 +382,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
                 RationaleForFunding = "rationale for funding",
                 EstimatedPeopleImpacted = EMCR.DRR.Controllers.EstimatedNumberOfPeople.OneToTenK,
                 CommunityImpact = "community impact",
-                InfrastructureImpacted = new[] { $"{uniqueSignature}_infrastructure1" },
+                InfrastructureImpacted = new[] { new InfrastructureImpacted { Infrastructure = $"{uniqueSignature}_infrastructure1", Impact = "impact" } },
                 DisasterRiskUnderstanding = "helps many people",
                 AdditionalBackgroundInformation = "additional background info",
                 AddressRisksAndHazards = "fix risks",
@@ -436,7 +441,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             application.Professionals = new[] { "professional1", "professional2" };
             application.ProfessionalGuidanceComments = "professional guidance comments";
             application.StandardsAcceptable = EMCR.DRR.Controllers.YesNoOption.NotApplicable;
-            application.Standards = new[] { "Standard 1", "Standard 2" };
+            application.Standards = new[] { "Standard 1", "Standard 2", "Water Survey Canada" };
             application.StandardsComments = "standards comments";
             application.MeetsRegulatoryRequirements = false;
             application.MeetsRegulatoryComments = "regulations comments";

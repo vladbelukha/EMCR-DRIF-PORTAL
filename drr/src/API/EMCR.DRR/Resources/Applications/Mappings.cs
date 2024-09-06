@@ -36,7 +36,7 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.drr_rationaleforfundingrequest, opt => opt.MapFrom(src => src.RationaleForFunding))
                 .ForMember(dest => dest.drr_estimatednumberpeopleimpacted, opt => opt.MapFrom(src => src.EstimatedPeopleImpacted.HasValue ? (int?)Enum.Parse<EstimatedNumberOfPeopleOptionSet>(src.EstimatedPeopleImpacted.Value.ToString()) : null))
                 .ForMember(dest => dest.drr_impacttocommunity, opt => opt.MapFrom(src => src.CommunityImpact))
-                .ForMember(dest => dest.drr_criticalinfrastructurewillormaybeimpacted, opt => opt.MapFrom(src => DRRTwoOptions.Yes))
+                .ForMember(dest => dest.drr_criticalinfrastructurewillormaybeimpacted, opt => opt.MapFrom(src => src.IsInfrastructureImpacted.HasValue ? src.IsInfrastructureImpacted.Value ? (int?)DRRTwoOptions.Yes : (int?)DRRTwoOptions.No : null))
                 .ForMember(dest => dest.drr_drr_application_drr_criticalinfrastructureimpacted_Application, opt => opt.MapFrom(src => src.InfrastructureImpacted))
                 .ForMember(dest => dest.drr_improveunderstandingriskinvestreduction, opt => opt.MapFrom(src => src.DisasterRiskUnderstanding))
                 .ForMember(dest => dest.drr_includedtoaddressidentifiedriskhazards, opt => opt.MapFrom(src => src.AddressRisksAndHazards))
@@ -332,9 +332,11 @@ namespace EMCR.DRR.Resources.Applications
 
             CreateMap<CriticalInfrastructure, drr_criticalinfrastructureimpacted>(MemberList.None)
                 .ForMember(dest => dest.drr_name, opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest => dest.drr_impacttothatinfrastructure, opt => opt.MapFrom(src => src.Impact))
                 .ReverseMap()
                 .ValidateMemberList(MemberList.Destination)
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.drr_name))
+                .ForMember(dest => dest.Impact, opt => opt.MapFrom(src => src.drr_impacttothatinfrastructure))
                 ;
 
             CreateMap<drr_legaldeclaration, DeclarationInfo>()

@@ -31,7 +31,7 @@ namespace EMCR.Tests.Unit.DRR
             .RuleFor(a => a.EstimatedTotal, f => f.Random.Number(10, 1000) * 1000)
             .RuleFor(a => a.FundingRequest, (f, a) => f.Random.Number(10, (int)a.EstimatedTotal.Value / 1000) * 1000)
             .RuleFor(a => a.HaveOtherFunding, f => f.Random.Bool())
-            .RuleFor(a => a.OtherFunding, (f,a ) => new Faker<FundingInformation>("en_CA").WithFundingInformationRules((int)a.FundingRequest / 1000).GenerateBetween(0, 6))
+            .RuleFor(a => a.OtherFunding, (f, a) => new Faker<FundingInformation>("en_CA").WithFundingInformationRules((int)a.FundingRequest / 1000).GenerateBetween(0, 6))
             .RuleFor(a => a.IntendToSecureFunding, f => f.Lorem.Sentence())
             .RuleFor(a => a.OwnershipDeclaration, f => f.Random.Bool())
             .RuleFor(a => a.OwnershipDescription, f => f.Lorem.Sentence())
@@ -39,7 +39,7 @@ namespace EMCR.Tests.Unit.DRR
             .RuleFor(a => a.RationaleForFunding, f => f.Lorem.Sentence())
             .RuleFor(a => a.EstimatedPeopleImpacted, f => f.Random.Enum<EstimatedNumberOfPeople>())
             .RuleFor(a => a.CommunityImpact, f => f.Lorem.Sentence())
-            .RuleFor(a => a.InfrastructureImpacted, f => Enumerable.Range(0, f.Random.Int(0, 4)).Select(x => f.Company.CompanyName()).ToList())
+            .RuleFor(a => a.InfrastructureImpacted, f => new Faker<InfrastructureImpacted>("en_CA").WithInfrastructureImpactedRules().GenerateBetween(0, 5))
             .RuleFor(a => a.DisasterRiskUnderstanding, f => f.Lorem.Sentence())
             .RuleFor(a => a.AdditionalBackgroundInformation, f => f.Lorem.Sentence())
             .RuleFor(a => a.AddressRisksAndHazards, f => f.Lorem.Sentence())
@@ -73,6 +73,14 @@ namespace EMCR.Tests.Unit.DRR
                 .RuleFor(f => f.Type, f => f.Random.Enum<FundingType>())
                 .RuleFor(f => f.Amount, f => f.Random.Number(10, max) * 100)
                 .RuleFor(f => f.OtherDescription, f => f.Lorem.Sentence())
+                ;
+        }
+
+        public static Faker<InfrastructureImpacted> WithInfrastructureImpactedRules(this Faker<InfrastructureImpacted> faker)
+        {
+            return faker
+                .RuleFor(f => f.Infrastructure, f => "autotest-" + f.Company.CompanyName())
+                .RuleFor(f => f.Impact, f => f.Lorem.Sentence())
                 ;
         }
 #pragma warning restore CS8629 // Nullable value type may be null.
