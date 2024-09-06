@@ -5,8 +5,8 @@ export interface EntitiesState {
   professionals?: string[];
   costReductions?: string[];
   coBenefits?: string[];
-  resiliency?: string[];
   verificationMethods?: string[];
+  increasedResiliency?: string[];
 }
 
 type EntitiesStore = {
@@ -18,8 +18,8 @@ const initialState: EntitiesState = {
   professionals: [],
   costReductions: [],
   coBenefits: [],
-  resiliency: [],
   verificationMethods: [],
+  increasedResiliency: [],
 };
 
 export const EntitiesStore = signalStore(

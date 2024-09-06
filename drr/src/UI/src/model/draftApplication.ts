@@ -7,6 +7,7 @@
 import type { ContactDetails } from './contactDetails';
 import type { EstimatedNumberOfPeople } from './estimatedNumberOfPeople';
 import type { FundingStream } from './fundingStream';
+import type { InfrastructureImpacted } from './infrastructureImpacted';
 import type { FundingInformation } from './fundingInformation';
 import type { ProjectType } from './projectType';
 import type { ProponentType } from './proponentType';
@@ -56,7 +57,7 @@ export interface DraftApplication {
   /** @nullable */
   id?: string;
   /** @nullable */
-  infrastructureImpacted?: string[];
+  infrastructureImpacted?: InfrastructureImpacted[];
   /** @nullable */
   intendToSecureFunding?: string;
   /** @nullable */

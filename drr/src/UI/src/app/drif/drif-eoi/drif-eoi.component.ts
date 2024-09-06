@@ -48,6 +48,7 @@ import {
   ContactDetailsForm,
   EOIApplicationForm,
   FundingInformationItemForm,
+  InfrastructureImpactedForm,
   StringItem,
 } from './drif-eoi-form';
 import { DrifEoiStep1Component } from './drif-eoi-step-1/drif-eoi-step-1.component';
@@ -301,17 +302,17 @@ export class EOIApplicationComponent {
             fundingInformationItemFormArray?.push(fundingInformationItemForm);
           });
 
-          const infrastructureImpactedArray = this.getFormGroup(
+          const infrastructureImpacted = this.getFormGroup(
             'projectDetails'
-          ).get('infrastructureImpactedArray') as FormArray;
+          ).get('infrastructureImpacted') as FormArray;
           if (application.infrastructureImpacted?.some((i) => i)) {
-            infrastructureImpactedArray.clear({ emitEvent: false });
+            infrastructureImpacted.clear({ emitEvent: false });
           }
           application.infrastructureImpacted?.forEach((infrastructure) => {
             if (infrastructure) {
-              infrastructureImpactedArray?.push(
+              infrastructureImpacted?.push(
                 this.formBuilder.formGroup(
-                  new StringItem({ value: infrastructure })
+                  new InfrastructureImpactedForm(infrastructure)
                 ),
                 { emitEvent: false }
               );

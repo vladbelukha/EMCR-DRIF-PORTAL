@@ -45,13 +45,13 @@ export class DrifFpStep3Component {
     this.projectAreaForm
       .get('isInfrastructureImpacted')
       ?.valueChanges.subscribe((value) => {
-        const infrastructureImpactedArray = this.projectAreaForm.get(
+        const infrastructureImpacted = this.projectAreaForm.get(
           'infrastructureImpacted'
         ) as FormArray;
         if (!value) {
-          infrastructureImpactedArray?.clear();
+          infrastructureImpacted?.clear();
         } else {
-          if (infrastructureImpactedArray?.length === 0) {
+          if (infrastructureImpacted?.length === 0) {
             this.addInfrastructureImpacted();
           }
         }
@@ -59,7 +59,9 @@ export class DrifFpStep3Component {
   }
 
   hideInfrastructureImpacted() {
-    return this.projectAreaForm.get('isInfrastructureImpacted')?.value === false;
+    return (
+      this.projectAreaForm.get('isInfrastructureImpacted')?.value === false
+    );
   }
 
   getInfrastructureImpacted() {

@@ -33,24 +33,24 @@
         >{{ t("infrastructureImpacted") }}
       </mat-label>
 
-      <div formArrayName="infrastructureImpactedArray">
+      <div>
         <div
           class="infrastructure-container"
           *ngFor="
-            let proponent of getFormArray('infrastructureImpactedArray')
-              .controls;
+            let control of getFormArray('infrastructureImpacted').controls;
             let i = index
           "
-          [formGroupName]="i"
         >
           <drr-input
-            class="drr-single-input"
-            [id]="'infrastructure_' + i"
-            [label]="t('infrastructureImpactedText')"
-            [rxFormControl]="
-              getArrayFormControl('value', 'infrastructureImpactedArray', i)
-            "
-            [maxlength]="100"
+            [label]="t('infrastructure')"
+            [rxFormControl]="control.get('infrastructure')"
+            [maxlength]="40"
+          ></drr-input>
+
+          <drr-input
+            [label]="t('impact')"
+            [rxFormControl]="control.get('impact')"
+            [maxlength]="40"
           ></drr-input>
           <button
             *ngIf="i > 0"

@@ -137,6 +137,7 @@
   "New": "New Project",
   "Existing": "New Phase of Existing Project",
   "shortExisting": "New Phase",
+  "scopeStatement": "Summarized Scope Statement",
   "mainDeliverable": "Summarized Scope Statement",
   "maxValueError": "Cost must be less than {{max}}",
   "minValueError": "Cost must be greater than {{min}}",

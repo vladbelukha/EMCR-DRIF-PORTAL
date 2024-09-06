@@ -8,6 +8,10 @@
   flex-direction: row;
   align-items: baseline;
   gap: 10px;
+
+  drr-input {
+    width: 25vw;
+  }
 }
 
 @media (max-width: 768px) {

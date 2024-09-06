@@ -33,7 +33,7 @@ export class DrifFpStep8Component {
 
   costReductionOptions = this.entitiesStore.getEntities()?.costReductions?.();
   coBenefitsOptions = this.entitiesStore.getEntities()?.coBenefits?.();
-  resiliencyOptions = this.entitiesStore.getEntities()?.resiliency?.();
+  resiliencyOptions = this.entitiesStore.getEntities()?.increasedResiliency?.();
 
   ngOnInit() {
     this.projectOutcomesForm

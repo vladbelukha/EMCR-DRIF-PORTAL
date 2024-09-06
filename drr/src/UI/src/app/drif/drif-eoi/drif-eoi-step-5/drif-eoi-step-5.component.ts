@@ -20,7 +20,10 @@ import { EstimatedNumberOfPeople } from '../../../../model';
 import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
 import { DrrSelectComponent } from '../../../shared/controls/drr-select/drr-select.component';
 import { DrrTextareaComponent } from '../../../shared/controls/drr-textarea/drr-textarea.component';
-import { ProjectDetailsForm, StringItemRequired } from '../drif-eoi-form';
+import {
+  InfrastructureImpactedForm,
+  ProjectDetailsForm,
+} from '../drif-eoi-form';
 
 @Component({
   selector: 'drif-eoi-step-5',
@@ -49,23 +52,6 @@ export class DrifEoiStep5Component {
   @Input()
   projectDetailsForm!: IFormGroup<ProjectDetailsForm>;
 
-  ngOnInit() {
-    this.projectDetailsForm.get('infrastructureImpacted')?.patchValue(
-      this.projectDetailsForm
-        .get('infrastructureImpactedArray')
-        ?.value.map((infrastructure: any) => infrastructure.value),
-      { emitEvent: false }
-    );
-    this.projectDetailsForm
-      .get('infrastructureImpactedArray')
-      ?.valueChanges.subscribe((infrastructures: StringItemRequired[]) => {
-        this.projectDetailsForm.get('infrastructureImpacted')?.patchValue(
-          infrastructures.map((infrastructure) => infrastructure.value),
-          { emitEvent: false }
-        );
-      });
-  }
-
   getFormArray(formArrayName: string) {
     return this.projectDetailsForm.get(formArrayName) as FormArray;
   }
@@ -85,12 +71,12 @@ export class DrifEoiStep5Component {
   }
 
   addInfrastructure() {
-    this.getFormArray('infrastructureImpactedArray').push(
-      this.formBuilder.formGroup(StringItemRequired)
+    this.getFormArray('infrastructureImpacted').push(
+      this.formBuilder.formGroup(InfrastructureImpactedForm)
     );
   }
 
   removeInfrastructure(index: number) {
-    this.getFormArray('infrastructureImpactedArray').removeAt(index);
+    this.getFormArray('infrastructureImpacted').removeAt(index);
   }
 }

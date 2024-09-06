@@ -16,6 +16,7 @@ import {
   FundingStream,
   FundingType,
   Hazards,
+  InfrastructureImpacted,
   ProjectType,
   ProponentType,
 } from '../../../model';
@@ -209,6 +210,20 @@ export class LocationInformationForm {
   }
 }
 
+export class InfrastructureImpactedForm implements InfrastructureImpacted {
+  @prop()
+  @required()
+  impact?: string | undefined;
+
+  @prop()
+  @required()
+  infrastructure?: string | undefined;
+
+  constructor(values: InfrastructureImpactedForm) {
+    Object.assign(this, values);
+  }
+}
+
 export class ProjectDetailsForm {
   @prop()
   @required()
@@ -222,13 +237,8 @@ export class ProjectDetailsForm {
   @required()
   communityImpact?: string;
 
-  @prop()
-  @required()
-  @minLength({ value: 1 })
-  infrastructureImpacted?: string[] = [];
-
-  @propArray(StringItemRequired)
-  infrastructureImpactedArray?: StringItemRequired[] = [{ value: '' }];
+  @propArray(InfrastructureImpactedForm)
+  infrastructureImpacted?: InfrastructureImpacted[] = [{}];
 
   @prop()
   @required()

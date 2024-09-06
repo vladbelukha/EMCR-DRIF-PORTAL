@@ -4,6 +4,7 @@
  * DRR API
  * OpenAPI spec version: 1.0.0
  */
+import type { Standards } from './standards';
 
 export interface EntitiesQueryResult {
   /** @nullable */
@@ -21,11 +22,17 @@ export interface EntitiesQueryResult {
   /** @nullable */
   fiscalYears?: string[];
   /** @nullable */
+  increasedResiliency?: string[];
+  /** @nullable */
+  professionals?: string[];
+  /** @nullable */
   readinessRisks?: string[];
   /** @nullable */
   sensitivityRisks?: string[];
   /** @nullable */
-  standards?: string[];
+  standardCategories?: string[];
+  /** @nullable */
+  standards?: Standards[];
   /** @nullable */
   verificationMethods?: string[];
 }

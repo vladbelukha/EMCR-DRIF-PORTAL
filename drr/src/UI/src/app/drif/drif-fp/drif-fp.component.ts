@@ -328,22 +328,16 @@ export class DrifFpComponent {
           );
         });
 
-        const infrastructureImpactedArray = this.getFormGroup(
-          'projectArea'
-        ).get('infrastructureImpacted') as FormArray;
+        const infrastructureImpacted = this.getFormGroup('projectArea').get(
+          'infrastructureImpacted'
+        ) as FormArray;
         if (response.infrastructureImpacted?.length! > 0) {
-          infrastructureImpactedArray.clear({ emitEvent: false });
+          infrastructureImpacted.clear({ emitEvent: false });
         }
         response.infrastructureImpacted?.forEach((infrastructure) => {
-          infrastructureImpactedArray?.push(
+          infrastructureImpacted?.push(
             this.formBuilder.formGroup(
-              new ImpactedInfrastructureForm(
-                // TODO: change to API model when available
-                {
-                  impact: '',
-                  infrastructure: '',
-                }
-              )
+              new ImpactedInfrastructureForm(infrastructure)
             ),
             { emitEvent: false }
           );
