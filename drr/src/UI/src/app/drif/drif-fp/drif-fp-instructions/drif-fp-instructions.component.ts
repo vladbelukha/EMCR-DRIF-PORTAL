@@ -28,31 +28,35 @@ export class DrifFpInstructionsComponent {
     this.fundingStream = this.route.snapshot.params['fundingStream'];
     const queryParams = this.route.snapshot.queryParams;
     this.screenerQuestions = {
-      costEstimate: Boolean(JSON.parse(queryParams['costEstimate'])),
-      engagedWithFirstNationsOccurred: Boolean(
-        JSON.parse(queryParams['engagedWithFirstNationsOccurred'])
+      costEstimate: this.convertToBoolean(queryParams['costEstimate']),
+      engagedWithFirstNationsOccurred: this.convertToBoolean(
+        queryParams['engagedWithFirstNationsOccurred']
       ),
       firstNationsAuthorizedByPartners:
         queryParams['firstNationsAuthorizedByPartners'],
       foundationWorkCompleted: queryParams['foundationWorkCompleted'],
-      haveAuthorityToDevelop: Boolean(
-        JSON.parse(queryParams['haveAuthorityToDevelop'])
+      haveAuthorityToDevelop: this.convertToBoolean(
+        queryParams['haveAuthorityToDevelop']
       ),
-      incorporateFutureClimateConditions: Boolean(
-        JSON.parse(queryParams['incorporateFutureClimateConditions'])
+      incorporateFutureClimateConditions: this.convertToBoolean(
+        queryParams['incorporateFutureClimateConditions']
       ),
       localGovernmentAuthorizedByPartners:
         queryParams['localGovernmentAuthorizedByPartners'],
-      meetsEligibilityRequirements: Boolean(
-        JSON.parse(queryParams['meetsEligibilityRequirements'])
+      meetsEligibilityRequirements: this.convertToBoolean(
+        queryParams['meetsEligibilityRequirements']
       ),
-      meetsRegulatoryRequirements: Boolean(
-        JSON.parse(queryParams['meetsRegulatoryRequirements'])
+      meetsRegulatoryRequirements: this.convertToBoolean(
+        queryParams['meetsRegulatoryRequirements']
       ),
-      projectSchedule: Boolean(JSON.parse(queryParams['projectSchedule'])),
-      projectWorkplan: Boolean(JSON.parse(queryParams['projectWorkplan'])),
+      projectSchedule: this.convertToBoolean(queryParams['projectSchedule']),
+      projectWorkplan: this.convertToBoolean(queryParams['projectWorkplan']),
       sitePlan: queryParams['sitePlan'],
     };
+  }
+
+  private convertToBoolean(queryParam: any): boolean | undefined {
+    return queryParam ? Boolean(JSON.parse(queryParam)) : undefined;
   }
 
   goBack() {
