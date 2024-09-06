@@ -277,7 +277,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             twiceUpdatedFp.AffectedParties.Count().ShouldBe(fpToUpdate.AffectedParties.Count());
             twiceUpdatedFp.CostReductions.Count().ShouldBe(fpToUpdate.CostReductions.Count());
             twiceUpdatedFp.CoBenefits.Count().ShouldBe(fpToUpdate.CoBenefits.Count());
-            //twiceUpdatedFp.IncreasedResiliency.Count().ShouldBe(fpToUpdate.IncreasedResiliency.Count());
+            twiceUpdatedFp.IncreasedResiliency.Count().ShouldBe(fpToUpdate.IncreasedResiliency.Count());
             twiceUpdatedFp.ComplexityRisks.Count().ShouldBe(fpToUpdate.ComplexityRisks.Count());
             twiceUpdatedFp.ReadinessRisks.Count().ShouldBe(fpToUpdate.ReadinessRisks.Count());
             twiceUpdatedFp.SensitivityRisks.Count().ShouldBe(fpToUpdate.SensitivityRisks.Count());
@@ -457,7 +457,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             application.ProduceCoBenefits = true;
             application.CoBenefits = new[] { "benefit 1", "benefit 2" };
             application.CoBenefitComments = "benefit comments";
-            application.IncreasedResiliency = new[] { "benefit 1", "benefit 2" };
+            application.IncreasedResiliency = new[] { "resiliency 1", "resiliency 2" };
             application.IncreasedResiliencyComments = "resiliency comments";
 
             application.ComplexityRiskMitigated = true;

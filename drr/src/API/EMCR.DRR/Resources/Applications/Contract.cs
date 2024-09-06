@@ -50,6 +50,8 @@ namespace EMCR.DRR.Resources.Applications
         public IEnumerable<string>? CostConsiderations { get; set; } = Array.Empty<string>();
         public IEnumerable<string>? CapacityRisks { get; set; } = Array.Empty<string>();
         public IEnumerable<string>? FiscalYears { get; set; } = Array.Empty<string>();
+        public IEnumerable<string>? Professionals { get; set; } = Array.Empty<string>();
+        public IEnumerable<string>? IncreasedResiliency { get; set; } = Array.Empty<string>();
     }
 
     public class DeclarationQuery

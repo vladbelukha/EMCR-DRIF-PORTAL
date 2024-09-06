@@ -35,10 +35,8 @@ namespace EMCR.DRR.Managers.Intake
         public IEnumerable<string>? CostConsiderations { get; set; } = Array.Empty<string>();
         public IEnumerable<string>? CapacityRisks { get; set; } = Array.Empty<string>();
         public IEnumerable<string>? FiscalYears { get; set; } = Array.Empty<string>();
-        //public IEnumerable<string>? ProposedActivities { get; set; } = Array.Empty<string>(); //No List in CRM
-        //public IEnumerable<string>? Professionals { get; set; } = Array.Empty<string>(); //No List in CRM
-        //public IEnumerable<string>? IncreasedResiliency { get; set; } = Array.Empty<string>(); //No List in CRM
-        //public IEnumerable<string>? TransferRisks { get; set; } = Array.Empty<string>(); //No List in CRM
+        public IEnumerable<string>? Professionals { get; set; } = Array.Empty<string>();
+        public IEnumerable<string>? IncreasedResiliency { get; set; } = Array.Empty<string>();
     }
 
     public class DeclarationInfo

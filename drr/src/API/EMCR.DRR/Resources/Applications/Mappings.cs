@@ -90,7 +90,7 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.drr_projecteligibleforrequiredpermitsapproval, opt => opt.MapFrom(src => src.Approvals.HasValue && src.Approvals.Value ? DRRTwoOptions.Yes : DRRTwoOptions.No))
                 .ForMember(dest => dest.drr_projecteligibleforpermitsapprovalcomments, opt => opt.MapFrom(src => src.ApprovalsComments))
                 .ForMember(dest => dest.drr_guidanceofqualifiedprofessional, opt => opt.MapFrom(src => src.ProfessionalGuidance.HasValue && src.ProfessionalGuidance.Value ? DRRTwoOptions.Yes : DRRTwoOptions.No))
-                .ForMember(dest => dest.drr_drr_application_drr_qualifiedprofessional_Application, opt => opt.MapFrom(src => src.Professionals))
+                .ForMember(dest => dest.drr_drr_application_drr_qualifiedprofessionalitem_Application, opt => opt.MapFrom(src => src.Professionals))
                 .ForMember(dest => dest.drr_qualifiedprofessionalcomments, opt => opt.MapFrom(src => src.ProfessionalGuidanceComments))
                 .ForMember(dest => dest.drr_acceptableprovincialstandards, opt => opt.MapFrom(src => src.StandardsAcceptable.HasValue ? (int?)Enum.Parse<DRRYesNoNotApplicable>(src.StandardsAcceptable.Value.ToString()) : null))
                 .ForMember(dest => dest.drr_drr_application_drr_provincialstandarditem_Application, opt => opt.MapFrom(src => src.Standards))
@@ -110,7 +110,7 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.drr_willthisprojectproducecobenefits, opt => opt.MapFrom(src => src.ProduceCoBenefits.HasValue && src.ProduceCoBenefits.Value ? DRRTwoOptions.Yes : DRRTwoOptions.No))
                 .ForMember(dest => dest.drr_drr_application_drr_cobenefititem_Application, opt => opt.MapFrom(src => src.CoBenefits))
                 .ForMember(dest => dest.drr_howwilltheprojectproducecobenefits, opt => opt.MapFrom(src => src.CoBenefitComments))
-                //.ForMember(dest => dest., opt => opt.MapFrom(src => src.))
+                .ForMember(dest => dest.drr_drr_application_drr_resiliencyitem_Application, opt => opt.MapFrom(src => src.IncreasedResiliency))
                 .ForMember(dest => dest.drr_resiliencycomments, opt => opt.MapFrom(src => src.IncreasedResiliencyComments))
 
                 //Project Risks - 9
@@ -234,7 +234,7 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.Approvals, opt => opt.MapFrom(src => src.drr_projecteligibleforrequiredpermitsapproval.HasValue ? src.drr_projecteligibleforrequiredpermitsapproval.Value == (int)DRRTwoOptions.Yes : (bool?)null))
                 .ForMember(dest => dest.ApprovalsComments, opt => opt.MapFrom(src => src.drr_projecteligibleforpermitsapprovalcomments))
                 .ForMember(dest => dest.ProfessionalGuidance, opt => opt.MapFrom(src => src.drr_guidanceofqualifiedprofessional.HasValue ? src.drr_guidanceofqualifiedprofessional.Value == (int)DRRTwoOptions.Yes : (bool?)null))
-                .ForMember(dest => dest.Professionals, opt => opt.MapFrom(src => src.drr_drr_application_drr_qualifiedprofessional_Application))
+                .ForMember(dest => dest.Professionals, opt => opt.MapFrom(src => src.drr_drr_application_drr_qualifiedprofessionalitem_Application))
                 .ForMember(dest => dest.ProfessionalGuidanceComments, opt => opt.MapFrom(src => src.drr_qualifiedprofessionalcomments))
                 .ForMember(dest => dest.StandardsAcceptable, opt => opt.MapFrom(src => src.drr_acceptableprovincialstandards.HasValue ? (int?)Enum.Parse<YesNoOption>(((DRRYesNoNotApplicable)src.drr_acceptableprovincialstandards).ToString()) : null))
                 .ForMember(dest => dest.Standards, opt => opt.MapFrom(src => src.drr_drr_application_drr_provincialstandarditem_Application))
@@ -253,7 +253,7 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.ProduceCoBenefits, opt => opt.MapFrom(src => src.drr_willthisprojectproducecobenefits.HasValue ? src.drr_willthisprojectproducecobenefits.Value == (int)DRRTwoOptions.Yes : (bool?)null))
                 .ForMember(dest => dest.CoBenefits, opt => opt.MapFrom(src => src.drr_drr_application_drr_cobenefititem_Application))
                 .ForMember(dest => dest.CoBenefitComments, opt => opt.MapFrom(src => src.drr_howwilltheprojectproducecobenefits))
-                .ForMember(dest => dest.IncreasedResiliency, opt => opt.Ignore())
+                .ForMember(dest => dest.IncreasedResiliency, opt => opt.MapFrom(src => src.drr_drr_application_drr_resiliencyitem_Application))
                 .ForMember(dest => dest.IncreasedResiliencyComments, opt => opt.MapFrom(src => src.drr_resiliencycomments))
                 //Project Risks - 9
                 .ForMember(dest => dest.ComplexityRiskMitigated, opt => opt.MapFrom(src => src.drr_projectcomplexityrisksmitigated.HasValue ? src.drr_projectcomplexityrisksmitigated.Value == (int)DRRTwoOptions.Yes : (bool?)null))
@@ -344,11 +344,11 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.ApplicationTypeName, opt => opt.MapFrom(src => src.drr_ApplicationType.drr_name))
                 .ForMember(dest => dest.Text, opt => opt.MapFrom(src => src.drr_declarationtext));
 
-            CreateMap<ProfessionalInfo, drr_qualifiedprofessional>(MemberList.None)
-                .ForMember(dest => dest.drr_name, opt => opt.MapFrom(src => src.Name))
+            CreateMap<ProfessionalInfo, drr_qualifiedprofessionalitem>(MemberList.None)
+                .ForMember(dest => dest.drr_QualifiedProfessional, opt => opt.MapFrom(src => new drr_qualifiedprofessional { drr_name = src.Name }))
                 .ReverseMap()
                 .ValidateMemberList(MemberList.Destination)
-                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.drr_name))
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => string.IsNullOrEmpty(src.drr_qualifiedprofessionalcomments) ? src.drr_QualifiedProfessional.drr_name : src.drr_qualifiedprofessionalcomments))
             ;
 
             CreateMap<ProposedActivity, drr_proposedactivity>(MemberList.None)
@@ -425,6 +425,13 @@ namespace EMCR.DRR.Resources.Applications
               .ReverseMap()
               .ValidateMemberList(MemberList.Destination)
               .ForMember(dest => dest.Name, opt => opt.MapFrom(src => string.IsNullOrEmpty(src.drr_projectcapacitychallengecomments) ? src.drr_ProjectCapacityChallenge.drr_name : src.drr_projectcapacitychallengecomments))
+            ;
+
+            CreateMap<IncreasedResiliency, drr_resiliencyitem>(MemberList.None)
+              .ForMember(dest => dest.drr_Resiliency, opt => opt.MapFrom(src => new drr_resiliency { drr_name = src.Name }))
+              .ReverseMap()
+              .ValidateMemberList(MemberList.Destination)
+              .ForMember(dest => dest.Name, opt => opt.MapFrom(src => string.IsNullOrEmpty(src.drr_resiliencycomments) ? src.drr_Resiliency.drr_name : src.drr_resiliencycomments))
             ;
 
             CreateMap<YearOverYearFunding, drr_driffundingrequest>(MemberList.None)
