@@ -42,7 +42,7 @@ export class DrifFpStep7Component {
   @Input()
   permitsRegulationsAndStandardsForm!: IFormGroup<PermitsRegulationsAndStandardsForm>;
 
-  professionalGuidanceOptions = this.entitiesStore
+  professionalOptions = this.entitiesStore
     .getEntities()
     ?.professionals?.();
   standardsAcceptableOptions: RadioOption[] = [

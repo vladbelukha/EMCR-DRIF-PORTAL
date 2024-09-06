@@ -43,17 +43,6 @@ export class DrifEoiSummaryComponent {
     return this._eoiApplicationForm!;
   }
 
-  objectKeys(obj: any) {
-    const excludeKeys = [
-      'partneringProponentsArray',
-      'infrastructureImpactedArray',
-      'declaration',
-    ];
-    return Object.keys(obj?.controls).filter(
-      (key) => !excludeKeys.includes(key)
-    );
-  }
-
   objectValues(obj: any) {
     return Object.values(obj?.controls);
   }
