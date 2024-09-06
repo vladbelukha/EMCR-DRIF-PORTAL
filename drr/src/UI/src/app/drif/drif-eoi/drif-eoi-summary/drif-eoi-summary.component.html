@@ -530,19 +530,28 @@
       >
       </drr-summary-item>
 
-      <drr-summary-item
-        [label]="t('infrastructureImpacted')"
-        [value]="
-          getRxFormControl(
+      <mat-label class="drr-label">{{ t("infrastructureImpacted") }}</mat-label>
+      <div
+        class="summary-row"
+        *ngFor="
+          let control of getRxFormArrayControls(
             'projectDetails',
             'infrastructureImpacted'
-          ).value?.join(', ')
-        "
-        [rxFormControl]="
-          getRxFormControl('projectDetails', 'infrastructureImpacted')
+          )
         "
       >
-      </drr-summary-item>
+        <drr-summary-item
+          [label]="t('infrastructure')"
+          [rxFormControl]="convertRxFormControl(control.get('infrastructure'))"
+        >
+        </drr-summary-item>
+
+        <drr-summary-item
+          [label]="t('impact')"
+          [rxFormControl]="convertRxFormControl(control.get('impact'))"
+        >
+        </drr-summary-item>
+      </div>
 
       <drr-summary-item
         [label]="t('disasterRiskUnderstanding')"
