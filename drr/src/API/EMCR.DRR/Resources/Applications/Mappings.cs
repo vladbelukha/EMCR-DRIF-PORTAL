@@ -37,7 +37,7 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.drr_rationaleforfundingrequest, opt => opt.MapFrom(src => src.RationaleForFunding))
                 .ForMember(dest => dest.drr_estimatednumberpeopleimpacted, opt => opt.MapFrom(src => src.EstimatedPeopleImpacted.HasValue ? (int?)Enum.Parse<EstimatedNumberOfPeopleOptionSet>(src.EstimatedPeopleImpacted.Value.ToString()) : null))
                 .ForMember(dest => dest.drr_impacttocommunity, opt => opt.MapFrom(src => src.CommunityImpact))
-                .ForMember(dest => dest.drr_criticalinfrastructurewillormaybeimpacted, opt => opt.MapFrom(src => true))
+                .ForMember(dest => dest.drr_criticalinfrastructurewillormaybeimpacted, opt => opt.MapFrom(src => DRRTwoOptions.Yes))
                 .ForMember(dest => dest.drr_drr_application_drr_criticalinfrastructureimpacted_Application, opt => opt.MapFrom(src => src.InfrastructureImpacted))
                 .ForMember(dest => dest.drr_improveunderstandingriskinvestreduction, opt => opt.MapFrom(src => src.DisasterRiskUnderstanding))
                 .ForMember(dest => dest.drr_includedtoaddressidentifiedriskhazards, opt => opt.MapFrom(src => src.AddressRisksAndHazards))
