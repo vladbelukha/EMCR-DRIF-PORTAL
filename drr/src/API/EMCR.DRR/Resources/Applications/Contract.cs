@@ -40,7 +40,8 @@ namespace EMCR.DRR.Resources.Applications
     {
         public IEnumerable<string>? VerificationMethods { get; set; } = Array.Empty<string>();
         public IEnumerable<string>? AffectedParties { get; set; } = Array.Empty<string>();
-        public IEnumerable<string>? Standards { get; set; } = Array.Empty<string>();
+        public IEnumerable<Standards>? Standards { get; set; } = Array.Empty<Standards>();
+        public IEnumerable<string>? StandardCategories { get; set; } = Array.Empty<string>();
         public IEnumerable<string>? CostReductions { get; set; } = Array.Empty<string>();
         public IEnumerable<string>? CoBenefits { get; set; } = Array.Empty<string>();
         public IEnumerable<string>? ComplexityRisks { get; set; } = Array.Empty<string>();
@@ -49,6 +50,8 @@ namespace EMCR.DRR.Resources.Applications
         public IEnumerable<string>? CostConsiderations { get; set; } = Array.Empty<string>();
         public IEnumerable<string>? CapacityRisks { get; set; } = Array.Empty<string>();
         public IEnumerable<string>? FiscalYears { get; set; } = Array.Empty<string>();
+        public IEnumerable<string>? Professionals { get; set; } = Array.Empty<string>();
+        public IEnumerable<string>? IncreasedResiliency { get; set; } = Array.Empty<string>();
     }
 
     public class DeclarationQuery
@@ -62,6 +65,12 @@ namespace EMCR.DRR.Resources.Applications
     public class SubmitApplication : ManageApplicationCommand
     {
         public required Application Application { get; set; }
+    }
+
+    public class Standards
+    {
+        public required string Name { get; set; }
+        public required string Category { get; set; }
     }
 
     public enum DeclarationTypeOptionSet

@@ -49,7 +49,8 @@ namespace EMCR.DRR.Resources.Applications
         {
             var readCtx = dRRContextFactory.CreateReadOnly();
 
-            var standards = (await readCtx.drr_provincialstandards.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name);
+            var standards = (await readCtx.drr_provincialstandards.Expand(d => d.drr_Category).Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => new Standards { Name = d.drr_name, Category = d.drr_Category.drr_name });
+            var standardCategories = (await readCtx.drr_provincialstandardcategories.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name);
             var complexityRisks = (await readCtx.drr_projectcomplexityrisks.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name);
             var needIdentifications = (await readCtx.drr_projectneedidentifications.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name);
             var affectedParties = (await readCtx.drr_impactedoraffectedparties.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name);
@@ -60,12 +61,15 @@ namespace EMCR.DRR.Resources.Applications
             var costReductions = (await readCtx.drr_costreductions.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name);
             var coBenefits = (await readCtx.drr_cobenefits.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name);
             var fiscalYears = (await readCtx.drr_fiscalyears.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name);
+            var qualifiedProfessionals = (await readCtx.drr_qualifiedprofessionals.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name);
+            var resiliencies = (await readCtx.drr_resiliencies.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name);
 
             return new EntitiesQueryResult
             {
                 VerificationMethods = needIdentifications,
                 AffectedParties = affectedParties,
                 Standards = standards,
+                StandardCategories = standardCategories,
                 CostReductions = costReductions,
                 CoBenefits = coBenefits,
                 ComplexityRisks = complexityRisks,
@@ -74,6 +78,8 @@ namespace EMCR.DRR.Resources.Applications
                 CostConsiderations = costConsiderations,
                 CapacityRisks = capacityRisks,
                 FiscalYears = fiscalYears,
+                Professionals = qualifiedProfessionals,
+                IncreasedResiliency = resiliencies
             };
         }
 
@@ -142,7 +148,7 @@ namespace EMCR.DRR.Resources.Applications
                 ctx.LoadPropertyAsync(currentApplication, nameof(drr_application.drr_application_contact_Application)),
                 ctx.LoadPropertyAsync(currentApplication, nameof(drr_application.drr_application_fundingsource_Application)),
                 ctx.LoadPropertyAsync(currentApplication, nameof(drr_application.drr_drr_application_drr_criticalinfrastructureimpacted_Application)),
-                ctx.LoadPropertyAsync(currentApplication, nameof(drr_application.drr_drr_application_drr_qualifiedprofessional_Application)),
+                ctx.LoadPropertyAsync(currentApplication, nameof(drr_application.drr_drr_application_drr_qualifiedprofessionalitem_Application)),
                 ctx.LoadPropertyAsync(currentApplication, nameof(drr_application.drr_drr_application_drr_proposedactivity_Application)),
                 ctx.LoadPropertyAsync(currentApplication, nameof(drr_application.drr_drr_application_drr_provincialstandarditem_Application)),
                 ctx.LoadPropertyAsync(currentApplication, nameof(drr_application.drr_drr_application_drr_impactedoraffectedpartyitem_Application)),
@@ -154,6 +160,7 @@ namespace EMCR.DRR.Resources.Applications
                 ctx.LoadPropertyAsync(currentApplication, nameof(drr_application.drr_drr_application_drr_projectsensitivityriskitem_Application)),
                 ctx.LoadPropertyAsync(currentApplication, nameof(drr_application.drr_drr_application_drr_projectcapacitychallengeitem_Application)),
                 ctx.LoadPropertyAsync(currentApplication, nameof(drr_application.drr_drr_application_drr_driffundingrequest_Application)),
+                ctx.LoadPropertyAsync(currentApplication, nameof(drr_application.drr_drr_application_drr_resiliencyitem_Application)),
             };
 
             await Task.WhenAll(loadTasks);
@@ -205,9 +212,9 @@ namespace EMCR.DRR.Resources.Applications
                 ctx.AttachTo(nameof(ctx.drr_criticalinfrastructureimpacteds), infrastructure);
                 ctx.DeleteObject(infrastructure);
             }
-            foreach (var professional in drrApplication.drr_drr_application_drr_qualifiedprofessional_Application)
+            foreach (var professional in drrApplication.drr_drr_application_drr_qualifiedprofessionalitem_Application)
             {
-                ctx.AttachTo(nameof(ctx.drr_qualifiedprofessionals), professional);
+                ctx.AttachTo(nameof(ctx.drr_qualifiedprofessionalitems), professional);
                 ctx.DeleteObject(professional);
             }
             foreach (var standard in drrApplication.drr_drr_application_drr_provincialstandarditem_Application)
@@ -250,6 +257,11 @@ namespace EMCR.DRR.Resources.Applications
                 ctx.AttachTo(nameof(ctx.drr_projectreadinessriskitems), risk);
                 ctx.DeleteObject(risk);
             }
+            foreach (var resiliency in drrApplication.drr_drr_application_drr_resiliencyitem_Application)
+            {
+                ctx.AttachTo(nameof(ctx.drr_resiliencyitems), resiliency);
+                ctx.DeleteObject(resiliency);
+            }
             foreach (var risk in drrApplication.drr_drr_application_drr_projectsensitivityriskitem_Application)
             {
                 ctx.AttachTo(nameof(ctx.drr_projectsensitivityriskitems), risk);
@@ -286,7 +298,7 @@ namespace EMCR.DRR.Resources.Applications
             AddInfrastructureImpacted(ctx, drrApplication);
 
             var standardsMasterList = drrApplication.drr_drr_application_drr_provincialstandarditem_Application.Count > 0 ?
-                (await ctx.drr_provincialstandards.GetAllPagesAsync()).ToList() :
+                (await ctx.drr_provincialstandards.Expand(s => s.drr_Category).GetAllPagesAsync()).ToList() :
                 new List<drr_provincialstandard>();
 
             var affectedPartiesMasterList = drrApplication.drr_drr_application_drr_impactedoraffectedpartyitem_Application.Count > 0 ?
@@ -325,8 +337,16 @@ namespace EMCR.DRR.Resources.Applications
                 (await ctx.drr_fiscalyears.GetAllPagesAsync()).ToList() :
                 new List<drr_fiscalyear>();
 
+            var professionalsMasterList = drrApplication.drr_drr_application_drr_qualifiedprofessionalitem_Application.Count > 0 ?
+                (await ctx.drr_qualifiedprofessionals.GetAllPagesAsync()).ToList() :
+                new List<drr_qualifiedprofessional>();
+
+            var resiliencyMasterList = drrApplication.drr_drr_application_drr_resiliencyitem_Application.Count > 0 ?
+                (await ctx.drr_resiliencies.GetAllPagesAsync()).ToList() :
+                new List<drr_resiliency>();
+
             AddProvincialStandards(ctx, drrApplication, standardsMasterList);
-            AddQualifiedProfessionals(ctx, drrApplication);
+            AddQualifiedProfessionals(ctx, drrApplication, professionalsMasterList);
             AddProposedActivities(ctx, drrApplication);
             AddProjectNeedIdentifications(ctx, drrApplication, projectNeedsMasterList);
             AddAffectedParties(ctx, drrApplication, affectedPartiesMasterList);
@@ -336,6 +356,7 @@ namespace EMCR.DRR.Resources.Applications
             AddReadinessRisks(ctx, drrApplication, readinessRisksMasterList);
             AddSensitivityRisks(ctx, drrApplication, sensitivityRisksMasterList);
             AddCapacityRisks(ctx, drrApplication, capacityRisksMasterList);
+            AddResiliencies(ctx, drrApplication, resiliencyMasterList);
             AddYearOverYearFunding(ctx, drrApplication, fiscalYearsMasterList);
 
             SetApplicationType(ctx, drrApplication, application.ApplicationTypeName);
@@ -465,15 +486,24 @@ namespace EMCR.DRR.Resources.Applications
             }
         }
 
-        private static void AddQualifiedProfessionals(DRRContext drrContext, drr_application application)
+        private static void AddQualifiedProfessionals(DRRContext drrContext, drr_application application, List<drr_qualifiedprofessional> professionalsMasterList)
         {
-            foreach (var professional in application.drr_drr_application_drr_qualifiedprofessional_Application)
+            foreach (var professional in application.drr_drr_application_drr_qualifiedprofessionalitem_Application)
             {
-                if (professional != null && !string.IsNullOrEmpty(professional.drr_name))
+                if (professional != null)
                 {
-                    drrContext.AddTodrr_qualifiedprofessionals(professional);
-                    drrContext.AddLink(application, nameof(application.drr_drr_application_drr_qualifiedprofessional_Application), professional);
+                    var masterVal = professionalsMasterList.FirstOrDefault(s => s.drr_name == professional.drr_QualifiedProfessional?.drr_name);
+                    if (masterVal == null)
+                    {
+                        masterVal = professionalsMasterList.FirstOrDefault(s => s.drr_name == "Other");
+                        professional.drr_qualifiedprofessionalcomments = professional.drr_QualifiedProfessional?.drr_name;
+                    }
+                    professional.drr_QualifiedProfessional = masterVal;
+
+                    drrContext.AddTodrr_qualifiedprofessionalitems(professional);
+                    drrContext.AddLink(application, nameof(application.drr_drr_application_drr_qualifiedprofessionalitem_Application), professional);
                     drrContext.SetLink(professional, nameof(professional.drr_Application), application);
+                    drrContext.SetLink(professional, nameof(professional.drr_QualifiedProfessional), masterVal);
                 }
             }
         }
@@ -509,6 +539,7 @@ namespace EMCR.DRR.Resources.Applications
                     drrContext.AddLink(application, nameof(application.drr_drr_application_drr_provincialstandarditem_Application), standard);
                     drrContext.SetLink(standard, nameof(standard.drr_Application), application);
                     drrContext.SetLink(standard, nameof(standard.drr_ProvincialStandard), masterVal);
+                    if (masterVal != null) drrContext.SetLink(standard, nameof(standard.drr_ProvincialStandardCategory), masterVal.drr_Category);
                 }
             }
         }
@@ -689,6 +720,28 @@ namespace EMCR.DRR.Resources.Applications
             }
         }
 
+        private static void AddResiliencies(DRRContext drrContext, drr_application application, List<drr_resiliency> resiliencyRisksMasterList)
+        {
+            foreach (var resiliency in application.drr_drr_application_drr_resiliencyitem_Application)
+            {
+                if (resiliency != null)
+                {
+                    var masterVal = resiliencyRisksMasterList.FirstOrDefault(s => s.drr_name == resiliency.drr_Resiliency?.drr_name);
+                    if (masterVal == null)
+                    {
+                        masterVal = resiliencyRisksMasterList.FirstOrDefault(s => s.drr_name == "Other");
+                        resiliency.drr_resiliencycomments = resiliency.drr_Resiliency?.drr_name;
+                    }
+                    resiliency.drr_Resiliency = masterVal;
+
+                    drrContext.AddTodrr_resiliencyitems(resiliency);
+                    drrContext.AddLink(application, nameof(application.drr_drr_application_drr_resiliencyitem_Application), resiliency);
+                    drrContext.SetLink(resiliency, nameof(resiliency.drr_Application), application);
+                    drrContext.SetLink(resiliency, nameof(resiliency.drr_Resiliency), masterVal);
+                }
+            }
+        }
+
         private static void AddYearOverYearFunding(DRRContext drrContext, drr_application application, List<drr_fiscalyear> fiscalYearsMasterList)
         {
             foreach (var request in application.drr_drr_application_drr_driffundingrequest_Application)
@@ -705,9 +758,6 @@ namespace EMCR.DRR.Resources.Applications
                 }
             }
         }
-
-        //AddTransferRisks - no crm field
-        //AddCostConsiderations - no crm field
 
         private static void SetApplicationType(DRRContext drrContext, drr_application application, string ApplicationTypeName)
         {
@@ -748,7 +798,7 @@ namespace EMCR.DRR.Resources.Applications
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_application_contact_Application), ct),
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_application_fundingsource_Application), ct),
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_drr_application_drr_criticalinfrastructureimpacted_Application), ct),
-                    ctx.LoadPropertyAsync(application, nameof(drr_application.drr_drr_application_drr_qualifiedprofessional_Application), ct),
+                    ctx.LoadPropertyAsync(application, nameof(drr_application.drr_drr_application_drr_qualifiedprofessionalitem_Application), ct),
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_drr_application_drr_proposedactivity_Application), ct),
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_drr_application_drr_provincialstandarditem_Application), ct),
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_drr_application_drr_impactedoraffectedpartyitem_Application), ct),
@@ -759,6 +809,7 @@ namespace EMCR.DRR.Resources.Applications
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_drr_application_drr_projectreadinessriskitem_Application), ct),
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_drr_application_drr_projectsensitivityriskitem_Application), ct),
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_drr_application_drr_projectcapacitychallengeitem_Application), ct),
+                    ctx.LoadPropertyAsync(application, nameof(drr_application.drr_drr_application_drr_resiliencyitem_Application), ct),
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_drr_application_drr_driffundingrequest_Application), ct),
                 }).ToList();
             }
@@ -769,6 +820,7 @@ namespace EMCR.DRR.Resources.Applications
             {
                 ctx.AttachTo(nameof(DRRContext.drr_provincialstandarditems), s);
                 await ctx.LoadPropertyAsync(s, nameof(drr_provincialstandarditem.drr_ProvincialStandard), ct);
+                await ctx.LoadPropertyAsync(s, nameof(drr_provincialstandarditem.drr_ProvincialStandardCategory), ct);
             });
 
             await application.drr_drr_application_drr_driffundingrequest_Application.ForEachAsync(5, async f =>
@@ -777,12 +829,18 @@ namespace EMCR.DRR.Resources.Applications
                 await ctx.LoadPropertyAsync(f, nameof(drr_driffundingrequest.drr_FiscalYear), ct);
             });
 
+            await application.drr_drr_application_drr_qualifiedprofessionalitem_Application.ForEachAsync(5, async f =>
+            {
+                ctx.AttachTo(nameof(DRRContext.drr_qualifiedprofessionalitems), f);
+                await ctx.LoadPropertyAsync(f, nameof(drr_qualifiedprofessionalitem.drr_QualifiedProfessional), ct);
+            });
+
             await application.drr_drr_application_drr_impactedoraffectedpartyitem_Application.ForEachAsync(5, async item =>
             {
                 ctx.AttachTo(nameof(DRRContext.drr_impactedoraffectedpartyitems), item);
                 await ctx.LoadPropertyAsync(item, nameof(drr_impactedoraffectedpartyitem.drr_ImpactedorAffectedParty), ct);
             });
-            
+
             await application.drr_drr_application_drr_projectneedidentificationitem_Application.ForEachAsync(5, async item =>
             {
                 ctx.AttachTo(nameof(DRRContext.drr_projectneedidentificationitems), item);
@@ -823,6 +881,12 @@ namespace EMCR.DRR.Resources.Applications
             {
                 ctx.AttachTo(nameof(DRRContext.drr_projectcapacitychallengeitems), item);
                 await ctx.LoadPropertyAsync(item, nameof(drr_projectcapacitychallengeitem.drr_ProjectCapacityChallenge), ct);
+            });
+            
+            await application.drr_drr_application_drr_resiliencyitem_Application.ForEachAsync(5, async item =>
+            {
+                ctx.AttachTo(nameof(DRRContext.drr_resiliencyitems), item);
+                await ctx.LoadPropertyAsync(item, nameof(drr_resiliencyitem.drr_Resiliency), ct);
             });
         }
     }

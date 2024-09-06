@@ -59,6 +59,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             savedApplication.Status.ShouldBe(ApplicationStatus.Submitted);
             savedApplication.AdditionalContact1.ShouldNotBeNull();
             savedApplication.SubmittedDate.ShouldNotBeNull();
+            savedApplication.InfrastructureImpacted.ShouldHaveSingleItem().Impact.ShouldNotBeNullOrEmpty();
         }
 
         [Test]
@@ -130,9 +131,13 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
 
             application.InfrastructureImpacted = new[]
             {
-                    string.Empty,
+                new InfrastructureImpacted
+                {
+                    Infrastructure = string.Empty,
+                    Impact = string.Empty,
+                },
                     null
-                };
+            };
 
             var id = await manager.Handle(new EoiSaveApplicationCommand { application = mapper.Map<EoiApplication>(application), UserInfo = GetTestUserInfo() });
             id.ShouldNotBeEmpty();
@@ -179,6 +184,9 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             eoiId.ShouldNotBeEmpty();
 
             var screenerQuestions = CreateScreenerQuestions();
+            screenerQuestions.FirstNationsAuthorizedByPartners = EMCR.DRR.Managers.Intake.YesNoOption.NotApplicable;
+            screenerQuestions.LocalGovernmentAuthorizedByPartners = EMCR.DRR.Managers.Intake.YesNoOption.NotApplicable;
+            screenerQuestions.EngagedWithFirstNationsOccurred = false;
 
             var fpId = await manager.Handle(new CreateFpFromEoiCommand { EoiId = eoiId, UserInfo = GetTestUserInfo(), ScreenerQuestions = screenerQuestions });
             fpId.ShouldNotBeEmpty();
@@ -191,7 +199,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             fullProposal.FirstNationsAuthorizedByPartners.ShouldBe(screenerQuestions.FirstNationsAuthorizedByPartners);
             fullProposal.LocalGovernmentAuthorizedByPartners.ShouldBe(screenerQuestions.LocalGovernmentAuthorizedByPartners);
             //fullProposal.FoundationWorkCompleted.ShouldBe(screenerQuestions.FoundationWorkCompleted);
-            fullProposal.EngagedWithFirstNationsOccurred.ShouldBe(screenerQuestions.EngagedWithFirstNationsOccurred);
+            fullProposal.EngagedWithFirstNationsOccurred.ShouldBeNull();
             fullProposal.IncorporateFutureClimateConditions.ShouldBe(screenerQuestions.IncorporateFutureClimateConditions);
             fullProposal.MeetsRegulatoryRequirements.ShouldBe(screenerQuestions.MeetsRegulatoryRequirements);
             //fullProposal.MeetsEligibilityRequirements.ShouldBe(screenerQuestions.MeetsEligibilityRequirements);
@@ -269,7 +277,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             twiceUpdatedFp.AffectedParties.Count().ShouldBe(fpToUpdate.AffectedParties.Count());
             twiceUpdatedFp.CostReductions.Count().ShouldBe(fpToUpdate.CostReductions.Count());
             twiceUpdatedFp.CoBenefits.Count().ShouldBe(fpToUpdate.CoBenefits.Count());
-            //twiceUpdatedFp.IncreasedResiliency.Count().ShouldBe(fpToUpdate.IncreasedResiliency.Count());
+            twiceUpdatedFp.IncreasedResiliency.Count().ShouldBe(fpToUpdate.IncreasedResiliency.Count());
             twiceUpdatedFp.ComplexityRisks.Count().ShouldBe(fpToUpdate.ComplexityRisks.Count());
             twiceUpdatedFp.ReadinessRisks.Count().ShouldBe(fpToUpdate.ReadinessRisks.Count());
             twiceUpdatedFp.SensitivityRisks.Count().ShouldBe(fpToUpdate.SensitivityRisks.Count());
@@ -377,7 +385,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
                 RationaleForFunding = "rationale for funding",
                 EstimatedPeopleImpacted = EMCR.DRR.Controllers.EstimatedNumberOfPeople.OneToTenK,
                 CommunityImpact = "community impact",
-                InfrastructureImpacted = new[] { $"{uniqueSignature}_infrastructure1" },
+                InfrastructureImpacted = new[] { new InfrastructureImpacted { Infrastructure = $"{uniqueSignature}_infrastructure1", Impact = "impact" } },
                 DisasterRiskUnderstanding = "helps many people",
                 AdditionalBackgroundInformation = "additional background info",
                 AddressRisksAndHazards = "fix risks",
@@ -436,7 +444,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             application.Professionals = new[] { "professional1", "professional2" };
             application.ProfessionalGuidanceComments = "professional guidance comments";
             application.StandardsAcceptable = EMCR.DRR.Controllers.YesNoOption.NotApplicable;
-            application.Standards = new[] { "Standard 1", "Standard 2" };
+            application.Standards = new[] { "Standard 1", "Standard 2", "Water Survey Canada" };
             application.StandardsComments = "standards comments";
             application.MeetsRegulatoryRequirements = false;
             application.MeetsRegulatoryComments = "regulations comments";
@@ -449,7 +457,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             application.ProduceCoBenefits = true;
             application.CoBenefits = new[] { "benefit 1", "benefit 2" };
             application.CoBenefitComments = "benefit comments";
-            application.IncreasedResiliency = new[] { "benefit 1", "benefit 2" };
+            application.IncreasedResiliency = new[] { "resiliency 1", "resiliency 2" };
             application.IncreasedResiliencyComments = "resiliency comments";
 
             application.ComplexityRiskMitigated = true;

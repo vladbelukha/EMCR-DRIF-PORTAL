@@ -164,7 +164,7 @@ namespace EMCR.DRR.Controllers
         public string? RationaleForFunding { get; set; }
         public EstimatedNumberOfPeople? EstimatedPeopleImpacted { get; set; }
         public string? CommunityImpact { get; set; }
-        public IEnumerable<string>? InfrastructureImpacted { get; set; }
+        public IEnumerable<InfrastructureImpacted>? InfrastructureImpacted { get; set; }
         public string? DisasterRiskUnderstanding { get; set; }
         public string? AdditionalBackgroundInformation { get; set; }
         public string? AddressRisksAndHazards { get; set; }
@@ -240,7 +240,7 @@ namespace EMCR.DRR.Controllers
         public bool? Approvals { get; set; }
         public string? ApprovalsComments { get; set; }
         public bool? ProfessionalGuidance { get; set; }
-        public IEnumerable<string>? Professionals { get; set; } //Missing list in CRM
+        public IEnumerable<string>? Professionals { get; set; }
         public string? ProfessionalGuidanceComments { get; set; }
         public YesNoOption? StandardsAcceptable { get; set; }
         public IEnumerable<string>? Standards { get; set; }
@@ -259,7 +259,7 @@ namespace EMCR.DRR.Controllers
         public bool? ProduceCoBenefits { get; set; }
         public IEnumerable<string>? CoBenefits { get; set; }
         public string? CoBenefitComments { get; set; }
-        public IEnumerable<string>? IncreasedResiliency { get; set; } //Missing list in CRM
+        public IEnumerable<string>? IncreasedResiliency { get; set; }
         public string? IncreasedResiliencyComments { get; set; }
 
         //Project Risks - 9
@@ -329,7 +329,12 @@ namespace EMCR.DRR.Controllers
         [Range(0, ApplicationValidators.FUNDING_MAX_VAL)]
         public decimal? Amount { get; set; }
         public string? OtherDescription { get; set; }
+    }
 
+    public class InfrastructureImpacted
+    {
+        public string? Infrastructure { get; set; }
+        public string? Impact { get; set; }
     }
 
     public class ContactDetails
