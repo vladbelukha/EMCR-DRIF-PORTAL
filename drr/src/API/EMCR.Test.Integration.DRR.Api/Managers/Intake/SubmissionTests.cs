@@ -184,6 +184,9 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             eoiId.ShouldNotBeEmpty();
 
             var screenerQuestions = CreateScreenerQuestions();
+            screenerQuestions.FirstNationsAuthorizedByPartners = EMCR.DRR.Managers.Intake.YesNoOption.NotApplicable;
+            screenerQuestions.LocalGovernmentAuthorizedByPartners = EMCR.DRR.Managers.Intake.YesNoOption.NotApplicable;
+            screenerQuestions.EngagedWithFirstNationsOccurred = false;
 
             var fpId = await manager.Handle(new CreateFpFromEoiCommand { EoiId = eoiId, UserInfo = GetTestUserInfo(), ScreenerQuestions = screenerQuestions });
             fpId.ShouldNotBeEmpty();
@@ -196,7 +199,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             fullProposal.FirstNationsAuthorizedByPartners.ShouldBe(screenerQuestions.FirstNationsAuthorizedByPartners);
             fullProposal.LocalGovernmentAuthorizedByPartners.ShouldBe(screenerQuestions.LocalGovernmentAuthorizedByPartners);
             //fullProposal.FoundationWorkCompleted.ShouldBe(screenerQuestions.FoundationWorkCompleted);
-            fullProposal.EngagedWithFirstNationsOccurred.ShouldBe(screenerQuestions.EngagedWithFirstNationsOccurred);
+            fullProposal.EngagedWithFirstNationsOccurred.ShouldBeNull();
             fullProposal.IncorporateFutureClimateConditions.ShouldBe(screenerQuestions.IncorporateFutureClimateConditions);
             fullProposal.MeetsRegulatoryRequirements.ShouldBe(screenerQuestions.MeetsRegulatoryRequirements);
             //fullProposal.MeetsEligibilityRequirements.ShouldBe(screenerQuestions.MeetsEligibilityRequirements);
