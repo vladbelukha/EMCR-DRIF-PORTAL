@@ -65,11 +65,11 @@ namespace EMCR.DRR.API.Resources.Cases
                 if (cmd.ScreenerQuestions.ProjectWorkplan == true) fp.drr_detailedprojectworkplan = (int)DRRTwoOptions.Yes;
                 if (cmd.ScreenerQuestions.ProjectSchedule == true) fp.drr_projectschedule = (int)DRRTwoOptions.Yes;
                 if (cmd.ScreenerQuestions.CostEstimate == true) fp.drr_detailedcostestimate = (int)DRRTwoOptions.Yes;
-                if (cmd.ScreenerQuestions.SitePlan == YesNoOption.Yes) fp.drr_siteplan = (int)DRRYesNoNotApplicable.Yes;
+                if (cmd.ScreenerQuestions.SitePlan.HasValue && cmd.ScreenerQuestions.SitePlan != YesNoOption.No) fp.drr_siteplan = (int?)Enum.Parse<DRRYesNoNotApplicable>(cmd.ScreenerQuestions.SitePlan.Value.ToString());
                 if (cmd.ScreenerQuestions.HaveAuthorityToDevelop == true) fp.drr_proponenthastheauthorityandownership = (int)DRRTwoOptions.Yes;
-                if (cmd.ScreenerQuestions.FirstNationsAuthorizedByPartners == YesNoOption.Yes) fp.drr_authorizedendorsedfirstnationpartners = (int)DRRYesNoNotApplicable.Yes;
-                if (cmd.ScreenerQuestions.LocalGovernmentAuthorizedByPartners == YesNoOption.Yes) fp.drr_authorizedendorsedlocalgovpartners = (int)DRRYesNoNotApplicable.Yes;
-                if (cmd.ScreenerQuestions.FoundationWorkCompleted == YesNoOption.Yes) fp.drr_foundationalorpreviouswork = (int)DRRYesNoNotApplicable.Yes;
+                if (cmd.ScreenerQuestions.FirstNationsAuthorizedByPartners.HasValue && cmd.ScreenerQuestions.FirstNationsAuthorizedByPartners != YesNoOption.No) fp.drr_authorizedendorsedfirstnationpartners = (int?)Enum.Parse<DRRYesNoNotApplicable>(cmd.ScreenerQuestions.FirstNationsAuthorizedByPartners.Value.ToString());
+                if (cmd.ScreenerQuestions.LocalGovernmentAuthorizedByPartners.HasValue && cmd.ScreenerQuestions.LocalGovernmentAuthorizedByPartners != YesNoOption.No) fp.drr_authorizedendorsedlocalgovpartners = (int?)Enum.Parse<DRRYesNoNotApplicable>(cmd.ScreenerQuestions.LocalGovernmentAuthorizedByPartners.Value.ToString());
+                if (cmd.ScreenerQuestions.FoundationWorkCompleted.HasValue && cmd.ScreenerQuestions.FoundationWorkCompleted != YesNoOption.No) fp.drr_foundationalorpreviouswork = (int?)Enum.Parse<DRRYesNoNotApplicable>(cmd.ScreenerQuestions.FoundationWorkCompleted.Value.ToString());
                 if (cmd.ScreenerQuestions.EngagedWithFirstNationsOccurred == true) fp.drr_meaningfullyengagedwithlocalfirstnations = (int)DRRTwoOptions.Yes;
                 if (cmd.ScreenerQuestions.IncorporateFutureClimateConditions == true) fp.drr_doesprojectconsiderclimatechange = (int)DRRTwoOptions.Yes;
                 if (cmd.ScreenerQuestions.MeetsRegulatoryRequirements == true) fp.drr_requiredagencydiscussionsandapprovals = (int)DRRTwoOptions.Yes;
