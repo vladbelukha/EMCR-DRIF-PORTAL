@@ -24,6 +24,8 @@ export interface ScreenerQuestions {
   /** @nullable */
   meetsEligibilityRequirements?: boolean;
   /** @nullable */
+  meetsRegulatoryRequirements?: boolean;
+  /** @nullable */
   projectSchedule?: boolean;
   /** @nullable */
   projectWorkplan?: boolean;

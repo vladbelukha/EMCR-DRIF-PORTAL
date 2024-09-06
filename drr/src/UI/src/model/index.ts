@@ -7,6 +7,7 @@
 
 export * from './applicationResult';
 export * from './applicationType';
+export * from './areaUnits';
 export * from './attachment';
 export * from './configuration';
 export * from './contactDetails';

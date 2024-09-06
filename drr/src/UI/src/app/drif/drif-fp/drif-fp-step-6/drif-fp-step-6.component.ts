@@ -29,7 +29,7 @@ export class DrifFpStep6Component {
 
   ngOnInit() {
     this.climateAdaptationForm
-      .get('climateAdaptationScreener')
+      .get('incorporateFutureClimateConditions')
       ?.valueChanges.subscribe((value) => {
         if (value) {
           this.climateAdaptationForm
