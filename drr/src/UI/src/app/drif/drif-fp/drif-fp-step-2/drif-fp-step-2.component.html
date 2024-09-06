@@ -20,9 +20,11 @@
 
     <mat-label class="drr-label">{{ t("projectAuthority") }}</mat-label>
     <drr-radio-button
-      [label]="t('projectAuthorityQuestion')"
+      [label]="t('haveAuthorityToDevelop')"
       [options]="yesNoBoolOptions"
-      [rxFormControl]="ownershipAndAuthorizationForm.get('projectAuthority')"
+      [rxFormControl]="
+        ownershipAndAuthorizationForm.get('haveAuthorityToDevelop')
+      "
     ></drr-radio-button>
 
     <drr-radio-button
@@ -49,18 +51,20 @@
     <mat-label>{{ t("authorizationOrEndorsementQuestion") }}</mat-label>
     <div style="padding: 1rem 0 0 1rem">
       <drr-radio-button
-        [label]="t('firstNationsEndorsementQuestion')"
+        [label]="t('firstNationsAuthorizedByPartners')"
         [options]="allYesNoOptions"
         [rxFormControl]="
-          ownershipAndAuthorizationForm.get('firstNationsEndorsement')
+          ownershipAndAuthorizationForm.get('firstNationsAuthorizedByPartners')
         "
       ></drr-radio-button>
 
       <drr-radio-button
-        [label]="t('localGovernmentEndorsementQuestion')"
+        [label]="t('localGovernmentAuthorizedByPartners')"
         [options]="allYesNoOptions"
         [rxFormControl]="
-          ownershipAndAuthorizationForm.get('localGovernmentEndorsement')
+          ownershipAndAuthorizationForm.get(
+            'localGovernmentAuthorizedByPartners'
+          )
         "
       ></drr-radio-button>
     </div>

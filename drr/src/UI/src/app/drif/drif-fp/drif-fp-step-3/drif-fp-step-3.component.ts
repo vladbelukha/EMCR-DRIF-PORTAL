@@ -6,7 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { TranslocoModule } from '@ngneat/transloco';
 import { IFormGroup, RxFormBuilder } from '@rxweb/reactive-form-validators';
-import { EstimatedNumberOfPeople, Hazards } from '../../../../model';
+import { AreaUnits, EstimatedNumberOfPeople, Hazards } from '../../../../model';
 import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
 import { DrrRadioButtonComponent } from '../../../shared/controls/drr-radio-button/drr-radio-button.component';
 import { DrrSelectComponent } from '../../../shared/controls/drr-select/drr-select.component';
@@ -37,7 +37,7 @@ export class DrifFpStep3Component {
 
   @Input() projectAreaForm!: IFormGroup<ProjectAreaForm>;
 
-  unitOptions = ['m2', 'ha']; // TODO: use enum
+  unitOptions = Object.values(AreaUnits);
   estimatedPeopleImpactedOptions = Object.values(EstimatedNumberOfPeople);
   hazardsOptions = Object.values(Hazards);
 

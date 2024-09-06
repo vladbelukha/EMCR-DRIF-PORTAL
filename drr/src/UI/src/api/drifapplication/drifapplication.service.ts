@@ -26,6 +26,7 @@ import type {
   DraftFpApplication,
   EoiApplication,
   FpApplication,
+  ScreenerQuestions,
   Submission
 } from '../../model'
 
@@ -122,10 +123,12 @@ export class DrifapplicationService {
     );
   }
  dRIFApplicationCreateFPFromEOI<TData = ApplicationResult>(
+    screenerQuestions: ScreenerQuestions,
     params?: DRIFApplicationCreateFPFromEOIParams, options?: HttpClientOptions
   ): Observable<TData>  {
     return this.http.post<TData>(
-      `/api/drifapplication/fp`,undefined,{
+      `/api/drifapplication/fp`,
+      screenerQuestions,{
     ...options,
         params: {...params, ...options?.params},}
     );

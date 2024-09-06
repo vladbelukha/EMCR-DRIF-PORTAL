@@ -22,7 +22,7 @@ namespace EMCR.DRR.Controllers
         }
 
         [HttpPost("fp")]
-        public async Task<ActionResult<ApplicationResult>> CreateFPFromEOI(string eoiId, ScreenerQuestions screenerQuestions)
+        public async Task<ActionResult<ApplicationResult>> CreateFPFromEOI([FromQuery] string eoiId, [FromBody] ScreenerQuestions screenerQuestions)
         {
             try
             {
@@ -72,6 +72,7 @@ namespace EMCR.DRR.Controllers
             }
         }
     }
+
 
     public class ScreenerQuestions
     {

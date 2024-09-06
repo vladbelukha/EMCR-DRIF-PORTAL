@@ -65,15 +65,17 @@
     ></drr-textarea>
 
     <mat-label class="drr-label">{{ t("regulations") }}</mat-label>
-    <mat-label>{{ t("regulationsQuestion") }}*</mat-label>
+    <mat-label>{{ t("meetsRegulatoryRequirements") }}*</mat-label>
     <drr-radio-button
-      [rxFormControl]="permitsRegulationsAndStandardsForm.get('regulations')"
+      [rxFormControl]="
+        permitsRegulationsAndStandardsForm.get('meetsRegulatoryRequirements')
+      "
     ></drr-radio-button>
     <drr-textarea
-      [label]="t('regulationsComments')"
+      [label]="t('meetsRegulatoryComments')"
       [maxlength]="2000"
       [rxFormControl]="
-        permitsRegulationsAndStandardsForm.get('regulationsComments')
+        permitsRegulationsAndStandardsForm.get('meetsRegulatoryComments')
       "
       [useFloatingLabel]="false"
     ></drr-textarea>
