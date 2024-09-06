@@ -7,6 +7,7 @@
 
 export * from './applicationResult';
 export * from './applicationType';
+export * from './areaUnits';
 export * from './attachment';
 export * from './configuration';
 export * from './contactDetails';
@@ -35,6 +36,7 @@ export * from './profileDetails';
 export * from './projectType';
 export * from './proponentType';
 export * from './proposedActivity';
+export * from './screenerQuestions';
 export * from './submission';
 export * from './submissionPortalStatus';
 export * from './versionInformation';

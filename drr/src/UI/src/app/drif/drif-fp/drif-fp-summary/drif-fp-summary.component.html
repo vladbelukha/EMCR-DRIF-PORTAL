@@ -212,9 +212,9 @@
       </drr-summary-item>
 
       <drr-summary-item
-        [label]="t('projectAuthorityQuestion')"
+        [label]="t('haveAuthorityToDevelop')"
         [rxFormControl]="
-          getRxFormControl('ownershipAndAuthorization.projectAuthority')
+          getRxFormControl('ownershipAndAuthorization.haveAuthorityToDevelop')
         "
         [controlType]="'radio'"
       >
@@ -240,18 +240,20 @@
       </drr-summary-item>
 
       <drr-summary-item
-        [label]="t('firstNationsEndorsementQuestion')"
+        [label]="t('firstNationsAuthorizedByPartners')"
         [rxFormControl]="
-          getRxFormControl('ownershipAndAuthorization.firstNationsEndorsement')
+          getRxFormControl(
+            'ownershipAndAuthorization.firstNationsAuthorizedByPartners'
+          )
         "
         [controlType]="'radio'"
       ></drr-summary-item>
 
       <drr-summary-item
-        [label]="t('localGovernmentEndorsementQuestion')"
+        [label]="t('localGovernmentAuthorizedByPartners')"
         [rxFormControl]="
           getRxFormControl(
-            'ownershipAndAuthorization.localGovernmentEndorsement'
+            'ownershipAndAuthorization.localGovernmentAuthorizedByPartners'
           )
         "
         [controlType]="'radio'"
@@ -472,9 +474,9 @@
     </mat-card-header>
     <mat-card-content>
       <drr-summary-item
-        [label]="t('engagedWithFirstNationsQuestion')"
+        [label]="t('engagedWithFirstNationsOccurred')"
         [rxFormControl]="
-          getRxFormControl('projectEngagement.engagedWithFirstNations')
+          getRxFormControl('projectEngagement.engagedWithFirstNationsOccurred')
         "
         [controlType]="'radio'"
       >
@@ -527,9 +529,11 @@
     </mat-card-header>
     <mat-card-content>
       <drr-summary-item
-        [label]="t('climateAdaptationScreenerQuestion')"
+        [label]="t('incorporateFutureClimateConditions')"
         [rxFormControl]="
-          getRxFormControl('climateAdaptation.climateAdaptationScreener')
+          getRxFormControl(
+            'climateAdaptation.incorporateFutureClimateConditions'
+          )
         "
         [controlType]="'radio'"
       >
@@ -618,17 +622,21 @@
       >
       </drr-summary-item>
       <drr-summary-item
-        [label]="t('regulationsQuestion')"
+        [label]="t('meetsRegulatoryRequirements')"
         [rxFormControl]="
-          getRxFormControl('permitsRegulationsAndStandards.regulations')
+          getRxFormControl(
+            'permitsRegulationsAndStandards.meetsRegulatoryRequirements'
+          )
         "
         [controlType]="'radio'"
       >
       </drr-summary-item>
       <drr-summary-item
-        [label]="t('regulationsComments')"
+        [label]="t('meetsRegulatoryComments')"
         [rxFormControl]="
-          getRxFormControl('permitsRegulationsAndStandards.regulationsComments')
+          getRxFormControl(
+            'permitsRegulationsAndStandards.meetsRegulatoryComments'
+          )
         "
       >
       </drr-summary-item>

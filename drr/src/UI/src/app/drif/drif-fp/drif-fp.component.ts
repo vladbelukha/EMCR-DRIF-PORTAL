@@ -187,24 +187,26 @@ export class DrifFpComponent {
           ownershipAndAuthorization: {
             ownershipDeclaration: response.ownershipDeclaration,
             ownershipDescription: response.ownershipDescription,
-            projectAuthority: response.projectAuthority,
+            haveAuthorityToDevelop: response.haveAuthorityToDevelop,
             operationAndMaintenance: response.operationAndMaintenance,
             operationAndMaintenanceComments:
               response.operationAndMaintenanceComments,
-            firstNationsEndorsement: response.firstNationsEndorsement,
-            localGovernmentEndorsement: response.localGovernmentEndorsement,
+            firstNationsAuthorizedByPartners:
+              response.firstNationsAuthorizedByPartners,
+            localGovernmentAuthorizedByPartners:
+              response.localGovernmentAuthorizedByPartners,
             authorizationOrEndorsementComments:
               response.authorizationOrEndorsementComments,
           },
           projectArea: {
-            // area: response.area,
-            // areaDescription: response.areaDescription,
+            area: response.area,
+            areaDescription: response.areaDescription,
             communityImpact: response.communityImpact,
             estimatedPeopleImpacted: response.estimatedPeopleImpacted,
-            // TODO: isInfrastuctureImpacted: response.isInfrastuctureImpacted,
+            isInfrastructureImpacted: response.isInfrastructureImpacted,
             // infrastructureImpacted: response.infrastructureImpacted,
             locationDescription: response.locationDescription,
-            // units: response.units,
+            units: response.units,
             relatedHazards: response.relatedHazards,
             otherHazardsDescription: response.otherHazardsDescription,
           },
@@ -220,19 +222,21 @@ export class DrifFpComponent {
           projectEngagement: {
             affectedParties: response.affectedParties,
             collaborationComments: response.collaborationComments,
-            engagedWithFirstNations: response.engagedWithFirstNations,
+            engagedWithFirstNationsOccurred:
+              response.engagedWithFirstNationsOccurred,
             engagedWithFirstNationsComments:
               response.engagedWithFirstNationsComments,
             otherEngagement: response.otherEngagement,
             otherEngagementComments: response.otherEngagementComments,
           },
           climateAdaptation: {
-            climateAdaptationScreener: response.climateAdaptationScreener,
+            incorporateFutureClimateConditions:
+              response.incorporateFutureClimateConditions,
             climateAdaptation: response.climateAdaptation,
           },
           permitsRegulationsAndStandards: {
-            regulations: response.regulations,
-            regulationsComments: response.regulationsComments,
+            meetsRegulatoryRequirements: response.meetsRegulatoryRequirements,
+            meetsRegulatoryComments: response.meetsRegulatoryComments,
             standards: response.standards,
             standardsAcceptable: response.standardsAcceptable,
             standardsComments: response.standardsComments,

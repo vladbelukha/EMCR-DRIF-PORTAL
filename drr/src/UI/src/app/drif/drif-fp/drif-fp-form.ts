@@ -142,7 +142,7 @@ export class OwnershipAndAuthorizationForm {
 
   @prop()
   @required()
-  projectAuthority?: boolean;
+  haveAuthorityToDevelop?: boolean;
 
   @prop()
   @required()
@@ -154,11 +154,11 @@ export class OwnershipAndAuthorizationForm {
 
   @prop()
   @required()
-  firstNationsEndorsement?: YesNoOption;
+  firstNationsAuthorizedByPartners?: YesNoOption;
 
   @prop()
   @required()
-  localGovernmentEndorsement?: YesNoOption;
+  localGovernmentAuthorizedByPartners?: YesNoOption;
 
   @prop()
   @required()
@@ -204,11 +204,11 @@ export class PermitsRegulationsAndStandardsForm {
 
   @prop()
   @required()
-  regulations?: boolean;
+  meetsRegulatoryRequirements?: boolean;
 
   @prop()
   @required()
-  regulationsComments?: string;
+  meetsRegulatoryComments?: string;
 
   constructor(values: PermitsRegulationsAndStandardsForm) {
     Object.assign(this, values);
@@ -308,7 +308,7 @@ export class BudgetForm {
 export class ClimateAdaptationForm {
   @prop()
   @required()
-  climateAdaptationScreener?: boolean;
+  incorporateFutureClimateConditions?: boolean;
 
   @prop()
   climateAdaptation?: string;
@@ -488,7 +488,7 @@ export class ProjectPlanForm {
 export class ProjectEngagementForm {
   @prop()
   @required()
-  engagedWithFirstNations?: boolean;
+  engagedWithFirstNationsOccurred?: boolean;
 
   @prop()
   @required()

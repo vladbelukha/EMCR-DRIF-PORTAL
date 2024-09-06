@@ -1,0 +1,41 @@
+.screener-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  align-items: stretch;
+  margin: 1rem 3rem;
+}
+
+.screener-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nested-items {
+  margin-top: 1rem;
+  margin-left: 1rem;
+}
+
+.radio-comment {
+  display: flex;
+  align-items: center;
+}
+
+.screener-results {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  margin: 2rem;
+  align-items: center;
+
+  i {
+    flex: 1;
+  }
+}
+
+.screener-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 3rem;
+}

@@ -1,0 +1,126 @@
+<div *transloco="let t; read: 'screener'" class="screener-container">
+  <div class="screener-header">
+    <h2>{{ t("header") }}</h2>
+    <button mat-raised-button color="primary" (click)="skip()">
+      {{ t("skip") }}
+    </button>
+  </div>
+  <h3>{{ t("instructions") }}</h3>
+  <ol>
+    <li>
+      <div>
+        {{ t("question1") }}
+      </div>
+      <div class="nested-items">
+        <drif-fp-screener-question
+          [labelKey]="'projectWorkplan'"
+          [rxFormControl]="screenerForm.get('projectWorkplan')"
+        >
+        </drif-fp-screener-question>
+
+        <drif-fp-screener-question
+          [labelKey]="'projectSchedule'"
+          [rxFormControl]="screenerForm.get('projectSchedule')"
+        >
+        </drif-fp-screener-question>
+
+        <drif-fp-screener-question
+          [labelKey]="'costEstimate'"
+          [rxFormControl]="screenerForm.get('costEstimate')"
+        >
+        </drif-fp-screener-question>
+
+        <drif-fp-screener-question
+          [labelKey]="'sitePlan'"
+          [rxFormControl]="screenerForm.get('sitePlan')"
+          [options]="yesNoNotRequiredOptions"
+        >
+        </drif-fp-screener-question>
+      </div>
+    </li>
+    <li>
+      <drif-fp-screener-question
+        [labelKey]="'haveAuthorityToDevelop'"
+        [rxFormControl]="screenerForm.get('haveAuthorityToDevelop')"
+      ></drif-fp-screener-question>
+    </li>
+    <li>
+      <div>
+        {{ t("question3") }}
+      </div>
+      <div class="nested-items">
+        <drif-fp-screener-question
+          [labelKey]="'firstNationsAuthorizedByPartners'"
+          [rxFormControl]="screenerForm.get('firstNationsAuthorizedByPartners')"
+          [options]="yesNoNotApplicableOptions"
+        >
+        </drif-fp-screener-question>
+
+        <drif-fp-screener-question
+          [labelKey]="'localGovernmentAuthorizedByPartners'"
+          [rxFormControl]="
+            screenerForm.get('localGovernmentAuthorizedByPartners')
+          "
+          [options]="yesNoNotApplicableOptions"
+        >
+        </drif-fp-screener-question>
+      </div>
+    </li>
+    <li>
+      <drif-fp-screener-question
+        [labelKey]="'foundationWorkCompleted'"
+        [rxFormControl]="screenerForm.get('foundationWorkCompleted')"
+        [options]="foundationWorkCompletedOptions"
+      ></drif-fp-screener-question>
+    </li>
+    <li>
+      <drif-fp-screener-question
+        [labelKey]="'engagedWithFirstNationsOccurred'"
+        [rxFormControl]="screenerForm.get('engagedWithFirstNationsOccurred')"
+      ></drif-fp-screener-question>
+    </li>
+    <li>
+      <drif-fp-screener-question
+        [labelKey]="'incorporateFutureClimateConditions'"
+        [rxFormControl]="screenerForm.get('incorporateFutureClimateConditions')"
+      ></drif-fp-screener-question>
+    </li>
+    <li>
+      <drif-fp-screener-question
+        [labelKey]="'meetsRegulatoryRequirements'"
+        [rxFormControl]="screenerForm.get('meetsRegulatoryRequirements')"
+      ></drif-fp-screener-question>
+    </li>
+    <li>
+      <drif-fp-screener-question
+        [labelKey]="'meetsEligibilityRequirements'"
+        [rxFormControl]="screenerForm.get('meetsEligibilityRequirements')"
+      ></drif-fp-screener-question>
+    </li>
+  </ol>
+  <div *ngIf="allQuestionsAnswered()" class="screener-results">
+    @if (hasNegativeAnswers()) {
+    <mat-card>
+      <div class="screener-results">
+        <mat-icon style="color: #f9ca54">warning</mat-icon>
+        <i>{{ t("hasNegativeAnswers") }}</i>
+      </div>
+    </mat-card>
+    } @else {
+    <mat-card>
+      <div class="screener-results">
+        <mat-icon style="color: #43893e">check_circle</mat-icon>
+        <i>{{ t("allAnswersPositive") }}</i>
+      </div>
+    </mat-card>
+    }
+  </div>
+  <div class="screener-footer">
+    <button mat-stroked-button color="accent" (click)="cancel()">
+      {{ t("cancel") }}
+    </button>
+    <button mat-raised-button color="primary" (click)="continue()">
+      {{ t("continue") }}
+    </button>
+  </div>
+</div>

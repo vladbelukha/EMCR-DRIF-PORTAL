@@ -7,6 +7,7 @@
 import type { Attachment } from './attachment';
 import type { YesNoOption } from './yesNoOption';
 import type { ProposedActivity } from './proposedActivity';
+import type { AreaUnits } from './areaUnits';
 import type { YearOverYearFunding } from './yearOverYearFunding';
 
 export type DraftFpApplicationAllOf = {
@@ -19,6 +20,10 @@ export type DraftFpApplicationAllOf = {
   /** @nullable */
   approvalsComments?: string;
   /** @nullable */
+  area?: number;
+  /** @nullable */
+  areaDescription?: string;
+  /** @nullable */
   attachments?: Attachment[];
   /** @nullable */
   authorizationOrEndorsementComments?: string;
@@ -28,8 +33,6 @@ export type DraftFpApplicationAllOf = {
   capacityRiskMitigated?: boolean;
   /** @nullable */
   capacityRisks?: string[];
-  /** @nullable */
-  climateAdaptationScreener?: boolean;
   /** @nullable */
   coBenefitComments?: string;
   /** @nullable */
@@ -59,23 +62,37 @@ export type DraftFpApplicationAllOf = {
   /** @nullable */
   discrepancyComment?: string;
   /** @nullable */
-  engagedWithFirstNations?: boolean;
-  /** @nullable */
   engagedWithFirstNationsComments?: string;
+  /** @nullable */
+  engagedWithFirstNationsOccurred?: boolean;
   /** @nullable */
   eoiId?: string;
   /** @nullable */
-  firstNationsEndorsement?: YesNoOption;
+  firstNationsAuthorizedByPartners?: YesNoOption;
   /** @nullable */
   futureCostReduction?: boolean;
+  /** @nullable */
+  haveAuthorityToDevelop?: boolean;
+  /** @nullable */
+  incorporateFutureClimateConditions?: boolean;
   /** @nullable */
   increasedResiliency?: string[];
   /** @nullable */
   increasedResiliencyComments?: string;
   /** @nullable */
-  localGovernmentEndorsement?: YesNoOption;
+  isInfrastructureImpacted?: boolean;
+  /** @nullable */
+  localGovernmentAuthorizedByPartners?: YesNoOption;
   /** @nullable */
   mainDeliverable?: string;
+  /** @nullable */
+  meetsEligibilityComments?: string;
+  /** @nullable */
+  meetsEligibilityRequirements?: boolean;
+  /** @nullable */
+  meetsRegulatoryComments?: string;
+  /** @nullable */
+  meetsRegulatoryRequirements?: boolean;
   /** @nullable */
   operationAndMaintenance?: YesNoOption;
   /** @nullable */
@@ -101,8 +118,6 @@ export type DraftFpApplicationAllOf = {
   /** @nullable */
   projectAlternateOptions?: string;
   /** @nullable */
-  projectAuthority?: boolean;
-  /** @nullable */
   projectDescription?: string;
   /** @nullable */
   proposedActivities?: ProposedActivity[];
@@ -120,10 +135,6 @@ export type DraftFpApplicationAllOf = {
   regionalProject?: boolean;
   /** @nullable */
   regionalProjectComments?: string;
-  /** @nullable */
-  regulations?: boolean;
-  /** @nullable */
-  regulationsComments?: string;
   /** @nullable */
   riskTransferMigigated?: boolean;
   /** @nullable */
@@ -148,6 +159,8 @@ export type DraftFpApplicationAllOf = {
   transferRisks?: string[];
   /** @nullable */
   transferRisksComments?: string;
+  /** @nullable */
+  units?: AreaUnits;
   /** @nullable */
   verificationMethods?: string[];
   /** @nullable */

@@ -31,11 +31,19 @@ export class DrrRadioButtonComponent {
   @Input()
   label = '';
 
-  @Input()
-  options?: RadioOption[] = [
+  private _options: RadioOption[] = [
     { value: true, label: 'Yes' },
     { value: false, label: 'No' },
   ];
+  @Input()
+  set options(options: RadioOption[]) {
+    if (options) {
+      this._options = options;
+    }
+  }
+  get options() {
+    return this._options;
+  }
 
   private _formControl = this.formBuilder.control('', []) as RxFormControl;
   @Input()
