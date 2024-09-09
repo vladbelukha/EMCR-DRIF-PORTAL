@@ -64,14 +64,14 @@ namespace EMCR.DRR.Resources.Applications
             var qualifiedProfessionals = (await readCtx.drr_qualifiedprofessionals.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name).ToList();
             var resiliencies = (await readCtx.drr_resiliencies.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name).ToList();
 
-            var standards = new List<Standards>();
+            var standards = new List<Controllers.StandardInfo>();
             foreach (var category in standardCategories)
             {
                 var currStandards = standardsInfo.Where(s => s.Category == category).Select(s => s.Name);
-                standards.Add(new Standards
+                standards.Add(new Controllers.StandardInfo
                 {
                     Category = category,
-                    Names = currStandards
+                    Standards = currStandards
                 });
             }
 
