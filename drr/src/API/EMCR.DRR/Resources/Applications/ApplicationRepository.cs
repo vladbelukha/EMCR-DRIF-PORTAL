@@ -49,27 +49,37 @@ namespace EMCR.DRR.Resources.Applications
         {
             var readCtx = dRRContextFactory.CreateReadOnly();
 
-            var standards = (await readCtx.drr_provincialstandards.Expand(d => d.drr_Category).Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => new Standards { Name = d.drr_name, Category = d.drr_Category.drr_name });
-            var standardCategories = (await readCtx.drr_provincialstandardcategories.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name);
-            var complexityRisks = (await readCtx.drr_projectcomplexityrisks.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name);
-            var needIdentifications = (await readCtx.drr_projectneedidentifications.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name);
-            var affectedParties = (await readCtx.drr_impactedoraffectedparties.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name);
-            var capacityRisks = (await readCtx.drr_projectcapacitychallenges.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name);
-            var readinessRisks = (await readCtx.drr_projectreadinessrisks.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name);
-            var sensitivityRisks = (await readCtx.drr_projectsensitivityrisks.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name);
-            var costConsiderations = (await readCtx.drr_costconsiderations.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name);
-            var costReductions = (await readCtx.drr_costreductions.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name);
-            var coBenefits = (await readCtx.drr_cobenefits.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name);
-            var fiscalYears = (await readCtx.drr_fiscalyears.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name);
-            var qualifiedProfessionals = (await readCtx.drr_qualifiedprofessionals.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name);
-            var resiliencies = (await readCtx.drr_resiliencies.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name);
+            var standardsInfo = (await readCtx.drr_provincialstandards.Expand(d => d.drr_Category).Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => new StandardSingle { Name = d.drr_name, Category = d.drr_Category.drr_name }).ToList();
+            var standardCategories = (await readCtx.drr_provincialstandardcategories.Where(d => d.statecode == (int)EntityState.Active).GetAllPagesAsync()).Select(d => d.drr_name).ToList();
+            var complexityRisks = (await readCtx.drr_projectcomplexityrisks.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name).ToList();
+            var needIdentifications = (await readCtx.drr_projectneedidentifications.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name).ToList();
+            var affectedParties = (await readCtx.drr_impactedoraffectedparties.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name).ToList();
+            var capacityRisks = (await readCtx.drr_projectcapacitychallenges.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name).ToList();
+            var readinessRisks = (await readCtx.drr_projectreadinessrisks.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name).ToList();
+            var sensitivityRisks = (await readCtx.drr_projectsensitivityrisks.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name).ToList();
+            var costConsiderations = (await readCtx.drr_costconsiderations.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name).ToList();
+            var costReductions = (await readCtx.drr_costreductions.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name).ToList();
+            var coBenefits = (await readCtx.drr_cobenefits.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name).ToList();
+            var fiscalYears = (await readCtx.drr_fiscalyears.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name).ToList();
+            var qualifiedProfessionals = (await readCtx.drr_qualifiedprofessionals.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name).ToList();
+            var resiliencies = (await readCtx.drr_resiliencies.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name).ToList();
+
+            var standards = new List<Standards>();
+            foreach (var category in standardCategories)
+            {
+                var currStandards = standardsInfo.Where(s => s.Category == category).Select(s => s.Name);
+                standards.Add(new Standards
+                {
+                    Category = category,
+                    Names = currStandards
+                });
+            }
 
             return new EntitiesQueryResult
             {
                 VerificationMethods = needIdentifications,
                 AffectedParties = affectedParties,
                 Standards = standards,
-                StandardCategories = standardCategories,
                 CostReductions = costReductions,
                 CoBenefits = coBenefits,
                 ComplexityRisks = complexityRisks,
@@ -301,6 +311,10 @@ namespace EMCR.DRR.Resources.Applications
                 (await ctx.drr_provincialstandards.Expand(s => s.drr_Category).GetAllPagesAsync()).ToList() :
                 new List<drr_provincialstandard>();
 
+            var categoryMasterList = drrApplication.drr_drr_application_drr_provincialstandarditem_Application.Count > 0 ?
+                (await ctx.drr_provincialstandardcategories.GetAllPagesAsync()).ToList() :
+                new List<drr_provincialstandardcategory>();
+
             var affectedPartiesMasterList = drrApplication.drr_drr_application_drr_impactedoraffectedpartyitem_Application.Count > 0 ?
                 (await ctx.drr_impactedoraffectedparties.GetAllPagesAsync()).ToList() :
                 new List<drr_impactedoraffectedparty>();
@@ -345,7 +359,7 @@ namespace EMCR.DRR.Resources.Applications
                 (await ctx.drr_resiliencies.GetAllPagesAsync()).ToList() :
                 new List<drr_resiliency>();
 
-            AddProvincialStandards(ctx, drrApplication, standardsMasterList);
+            AddProvincialStandards(ctx, drrApplication, standardsMasterList, categoryMasterList);
             AddQualifiedProfessionals(ctx, drrApplication, professionalsMasterList);
             AddProposedActivities(ctx, drrApplication);
             AddProjectNeedIdentifications(ctx, drrApplication, projectNeedsMasterList);
@@ -521,7 +535,7 @@ namespace EMCR.DRR.Resources.Applications
             }
         }
 
-        private static void AddProvincialStandards(DRRContext drrContext, drr_application application, List<drr_provincialstandard> standardsMasterList)
+        private static void AddProvincialStandards(DRRContext drrContext, drr_application application, List<drr_provincialstandard> standardsMasterList, List<drr_provincialstandardcategory> categoryMasterList)
         {
             foreach (var standard in application.drr_drr_application_drr_provincialstandarditem_Application)
             {
@@ -535,11 +549,17 @@ namespace EMCR.DRR.Resources.Applications
                     }
                     standard.drr_ProvincialStandard = masterVal;
 
+                    var categoryMasterVal = categoryMasterList.FirstOrDefault(s => s.drr_name == standard.drr_ProvincialStandardCategory?.drr_name);
+                    if (categoryMasterVal == null)
+                    {
+                        categoryMasterVal = categoryMasterList.FirstOrDefault(s => s.drr_name == "Other");
+                    }
+
                     drrContext.AddTodrr_provincialstandarditems(standard);
                     drrContext.AddLink(application, nameof(application.drr_drr_application_drr_provincialstandarditem_Application), standard);
                     drrContext.SetLink(standard, nameof(standard.drr_Application), application);
                     drrContext.SetLink(standard, nameof(standard.drr_ProvincialStandard), masterVal);
-                    if (masterVal != null) drrContext.SetLink(standard, nameof(standard.drr_ProvincialStandardCategory), masterVal.drr_Category);
+                    drrContext.SetLink(standard, nameof(standard.drr_ProvincialStandardCategory), categoryMasterVal);
                 }
             }
         }
@@ -882,7 +902,7 @@ namespace EMCR.DRR.Resources.Applications
                 ctx.AttachTo(nameof(DRRContext.drr_projectcapacitychallengeitems), item);
                 await ctx.LoadPropertyAsync(item, nameof(drr_projectcapacitychallengeitem.drr_ProjectCapacityChallenge), ct);
             });
-            
+
             await application.drr_drr_application_drr_resiliencyitem_Application.ForEachAsync(5, async item =>
             {
                 ctx.AttachTo(nameof(DRRContext.drr_resiliencyitems), item);

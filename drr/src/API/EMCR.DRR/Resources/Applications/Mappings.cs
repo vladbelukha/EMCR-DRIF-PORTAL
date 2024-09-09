@@ -93,7 +93,7 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.drr_drr_application_drr_qualifiedprofessionalitem_Application, opt => opt.MapFrom(src => src.Professionals))
                 .ForMember(dest => dest.drr_qualifiedprofessionalcomments, opt => opt.MapFrom(src => src.ProfessionalGuidanceComments))
                 .ForMember(dest => dest.drr_acceptableprovincialstandards, opt => opt.MapFrom(src => src.StandardsAcceptable.HasValue ? (int?)Enum.Parse<DRRYesNoNotApplicable>(src.StandardsAcceptable.Value.ToString()) : null))
-                .ForMember(dest => dest.drr_drr_application_drr_provincialstandarditem_Application, opt => opt.MapFrom(src => src.Standards))
+                .ForMember(dest => dest.drr_drr_application_drr_provincialstandarditem_Application, opt => opt.MapFrom(src => DRRProvincialStandardItemMapper(src.Standards)))
                 //.ForMember(dest => dest.drr_explainhowprojectwillmeetprovincialstanda, opt => opt.MapFrom(src => src.StandardsComments))
                 .ForMember(dest => dest.drr_commentsacceptableprovincialstandards, opt => opt.MapFrom(src => src.StandardsComments))
                 .ForMember(dest => dest.drr_requiredagencydiscussionsandapprovals, opt => opt.MapFrom(src => src.MeetsRegulatoryRequirements.HasValue && src.MeetsRegulatoryRequirements.Value ? DRRTwoOptions.Yes : DRRTwoOptions.No))
@@ -237,7 +237,7 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.Professionals, opt => opt.MapFrom(src => src.drr_drr_application_drr_qualifiedprofessionalitem_Application))
                 .ForMember(dest => dest.ProfessionalGuidanceComments, opt => opt.MapFrom(src => src.drr_qualifiedprofessionalcomments))
                 .ForMember(dest => dest.StandardsAcceptable, opt => opt.MapFrom(src => src.drr_acceptableprovincialstandards.HasValue ? (int?)Enum.Parse<YesNoOption>(((DRRYesNoNotApplicable)src.drr_acceptableprovincialstandards).ToString()) : null))
-                .ForMember(dest => dest.Standards, opt => opt.MapFrom(src => src.drr_drr_application_drr_provincialstandarditem_Application))
+                .ForMember(dest => dest.Standards, opt => opt.MapFrom(src => DRRStandardInfoMapper(src.drr_drr_application_drr_provincialstandarditem_Application)))
                 .ForMember(dest => dest.StandardsComments, opt => opt.MapFrom(src => src.drr_explainhowprojectwillmeetprovincialstanda))
                 .ForMember(dest => dest.StandardsComments, opt => opt.MapFrom(src => src.drr_commentsacceptableprovincialstandards))
                 .ForMember(dest => dest.MeetsRegulatoryRequirements, opt => opt.MapFrom(src => src.drr_requiredagencydiscussionsandapprovals.HasValue ? src.drr_requiredagencydiscussionsandapprovals.Value == (int)DRRTwoOptions.Yes : (bool?)null))
@@ -442,6 +442,41 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.Year, opt => opt.MapFrom(src => src.drr_FiscalYear.drr_name))
                 .ForMember(dest => dest.Amount, opt => opt.MapFrom(src => src.drr_drifprogramfundingrequest))
                 ;
+        }
+
+        private IEnumerable<drr_provincialstandarditem> DRRProvincialStandardItemMapper(IEnumerable<StandardInfo> standardInfo)
+        {
+            var ret = new List<drr_provincialstandarditem>();
+            if (standardInfo == null) return ret;
+            foreach (var info in standardInfo)
+            {
+                foreach (var standard in info.Standards)
+                {
+                    ret.Add(new drr_provincialstandarditem
+                    {
+                        drr_ProvincialStandard = new drr_provincialstandard { drr_name = standard.Name },
+                        drr_ProvincialStandardCategory = new drr_provincialstandardcategory { drr_name = info.Category }
+                    });
+                }
+            }
+            return ret;
+        }
+
+        private IEnumerable<StandardInfo> DRRStandardInfoMapper(IEnumerable<drr_provincialstandarditem> standardItems)
+        {
+            var ret = new List<StandardInfo>();
+            var categories = standardItems.Select(s => s.drr_ProvincialStandardCategory.drr_name).ToList().Distinct();
+
+            foreach (var category in categories)
+            {
+                var standards = standardItems.Where(i => i.drr_ProvincialStandardCategory.drr_name == category).Select(i => new ProvincialStandard { Name = string.IsNullOrEmpty(i.drr_provincialstandarditemcomments) ? i.drr_ProvincialStandard.drr_name : i.drr_provincialstandarditemcomments }).ToList();
+                ret.Add(new StandardInfo
+                {
+                    Category = category,
+                    Standards = standards
+                });
+            }
+            return ret;
         }
     }
 }
