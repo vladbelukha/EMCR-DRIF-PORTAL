@@ -57,7 +57,7 @@ export class DrifFpStep10Component {
 
   isMobile = false;
 
-  fiscalYearsOptions = this.optionsStore.fiscalYears?.();
+  fiscalYearsOptions = this.optionsStore.fiscalYears?.()!;
   fundingTypeOptions = Object.values(FundingType);
   previousResponseOptions = [
     { value: YesNoOption.Yes, label: 'Yes' },
