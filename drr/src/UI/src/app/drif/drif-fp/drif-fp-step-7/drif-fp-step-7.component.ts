@@ -53,5 +53,11 @@ export class DrifFpStep7Component {
     { value: 3, label: 'Not Applicable' },
   ];
 
-  ngOnInit() {}
+  getStandardsOptions(category: string) {
+    return this.optionsStore
+      .getOptions()
+      ?.standards?.()
+      ?.filter((s) => s.category === category)
+      .map((s) => s.name!);
+  }
 }

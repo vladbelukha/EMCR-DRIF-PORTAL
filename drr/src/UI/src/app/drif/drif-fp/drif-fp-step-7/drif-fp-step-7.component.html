@@ -52,6 +52,13 @@
       <mat-checkbox>
         {{ category }}
       </mat-checkbox>
+
+      <drr-chip-autocomplete
+      [label]="category"
+      [placeholder]="t('standardsPlaceholder')"
+      [options]="getStandardsOptions(category)"
+      [rxFormControl]="permitsRegulationsAndStandardsForm.get('standards')"
+    ></drr-chip-autocomplete>
     </div>
 
     <!-- <drr-chip-autocomplete
