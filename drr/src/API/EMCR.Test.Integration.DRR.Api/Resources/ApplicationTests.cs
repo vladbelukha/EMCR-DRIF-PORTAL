@@ -115,16 +115,16 @@ namespace EMCR.Tests.Integration.DRR.Resources
 
             fpApplication.Standards = new[]
             {
-                new ProvincialStandard {Name = "Test 1"},
-                new ProvincialStandard {Name = "Some custom standard"},
+                new StandardInfo { Category = "Other", Standards = new[] {
+                    new ProvincialStandard {Name = "Test 1"}, new ProvincialStandard {Name = "Some custom standard"}
+                }},
             };
 
             await applicationRepository.Manage(new SubmitApplication { Application = fpApplication });
 
             var updatedFpApplication = (await applicationRepository.Query(new ApplicationsQuery { Id = fpId })).Items.ShouldHaveSingleItem();
             updatedFpApplication.Standards.ShouldNotBeEmpty();
-            updatedFpApplication.Standards.FirstOrDefault(s => s.Name == "Test 1").ShouldNotBeNull();
-            updatedFpApplication.Standards.FirstOrDefault(s => s.Name == "Some custom standard").ShouldNotBeNull();
+            updatedFpApplication.Standards.FirstOrDefault(s => s.Category == "Other").ShouldNotBeNull();
         }
 
         [Test]

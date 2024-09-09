@@ -49,7 +49,6 @@ namespace EMCR.DRR.Managers.Intake
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => DRRApplicationStatusMapper(src.Status)))
                 .ForMember(dest => dest.PartneringProponents, opt => opt.MapFrom(src => src.PartneringProponents.Select(p => p.Name)))
                 .ForMember(dest => dest.Professionals, opt => opt.MapFrom(src => src.Professionals.Select(p => p.Name)))
-                .ForMember(dest => dest.Standards, opt => opt.MapFrom(src => src.Standards.Select(p => p.Name)))
                 .ForMember(dest => dest.VerificationMethods, opt => opt.MapFrom(src => src.VerificationMethods.Select(p => p.Name)))
                 .ForMember(dest => dest.AffectedParties, opt => opt.MapFrom(src => src.AffectedParties.Select(p => p.Name)))
                 .ForMember(dest => dest.CostReductions, opt => opt.MapFrom(src => src.CostReductions.Select(p => p.Name)))
@@ -71,7 +70,6 @@ namespace EMCR.DRR.Managers.Intake
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => DRRApplicationStatusMapper(src.Status)))
                 .ForMember(dest => dest.PartneringProponents, opt => opt.MapFrom(src => src.PartneringProponents.Select(p => p.Name)))
                 .ForMember(dest => dest.Professionals, opt => opt.MapFrom(src => src.Professionals.Select(p => p.Name)))
-                .ForMember(dest => dest.Standards, opt => opt.MapFrom(src => src.Standards.Select(p => p.Name)))
                 .ForMember(dest => dest.VerificationMethods, opt => opt.MapFrom(src => src.VerificationMethods.Select(p => p.Name)))
                 .ForMember(dest => dest.AffectedParties, opt => opt.MapFrom(src => src.AffectedParties.Select(p => p.Name)))
                 .ForMember(dest => dest.CostReductions, opt => opt.MapFrom(src => src.CostReductions.Select(p => p.Name)))
@@ -97,6 +95,11 @@ namespace EMCR.DRR.Managers.Intake
             CreateMap<Controllers.ContactDetails, ContactDetails>()
                 .ForMember(dest => dest.BCeId, opt => opt.Ignore())
                 .ReverseMap()
+                ;
+
+            CreateMap<Controllers.StandardInfo, StandardInfo>()
+                .ReverseMap()
+                .ForMember(dest => dest.Standards, opt => opt.MapFrom(src => src.Standards.Select(p => p.Name)))
                 ;
 
             CreateMap<string, PartneringProponent>()
