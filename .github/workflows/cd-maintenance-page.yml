@@ -1,4 +1,4 @@
-name: cd-landing-page
+name: cd-maintenance-page
 
 on:
   workflow_dispatch:
