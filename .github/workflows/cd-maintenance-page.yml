@@ -12,6 +12,7 @@ env:
   IMAGE_TAG: latest
   WORKING_DIRECTORY: ./drr/src/maintenance-page/src
   INDEX_FILE: index.html
+  INDEX_PROD_FILE: index-prod.html
 
 jobs:
   build:
@@ -36,7 +37,7 @@ jobs:
         run: |
           cd html
           ls -ltr
-          mv ${{steps.LandingDir.outputs.Maintenance_INDEX_FILE}} ${{env.INDEX_FILE}}
+          mv ${{env.INDEX_PROD_FILE}} ${{env.INDEX_FILE}}
           ls -ltr
       - name: Build Image
         working-directory: ${{env.WORKING_DIRECTORY}}
