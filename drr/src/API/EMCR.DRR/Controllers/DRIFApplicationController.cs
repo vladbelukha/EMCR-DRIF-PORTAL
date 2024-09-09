@@ -243,7 +243,7 @@ namespace EMCR.DRR.Controllers
         public IEnumerable<string>? Professionals { get; set; }
         public string? ProfessionalGuidanceComments { get; set; }
         public YesNoOption? StandardsAcceptable { get; set; }
-        public IEnumerable<string>? Standards { get; set; }
+        public IEnumerable<StandardInfo>? Standards { get; set; }
         public string? StandardsComments { get; set; }
         public bool? MeetsRegulatoryRequirements { get; set; }
         public string? MeetsRegulatoryComments { get; set; }
@@ -335,6 +335,12 @@ namespace EMCR.DRR.Controllers
     {
         public string? Infrastructure { get; set; }
         public string? Impact { get; set; }
+    }
+
+    public class StandardInfo
+    {
+        public string? Category { get; set; }
+        public IEnumerable<string>? Standards { get; set; }
     }
 
     public class ContactDetails
