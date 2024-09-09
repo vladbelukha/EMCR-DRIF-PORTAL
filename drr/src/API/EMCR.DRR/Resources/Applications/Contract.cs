@@ -40,7 +40,7 @@ namespace EMCR.DRR.Resources.Applications
     {
         public IEnumerable<string>? VerificationMethods { get; set; } = Array.Empty<string>();
         public IEnumerable<string>? AffectedParties { get; set; } = Array.Empty<string>();
-        public IEnumerable<Standards>? Standards { get; set; } = Array.Empty<Standards>();
+        public IEnumerable<Controllers.StandardInfo>? Standards { get; set; } = Array.Empty<Controllers.StandardInfo>();
         public IEnumerable<string>? CostReductions { get; set; } = Array.Empty<string>();
         public IEnumerable<string>? CoBenefits { get; set; } = Array.Empty<string>();
         public IEnumerable<string>? ComplexityRisks { get; set; } = Array.Empty<string>();
@@ -69,12 +69,6 @@ namespace EMCR.DRR.Resources.Applications
     public class StandardSingle
     {
         public required string Name { get; set; }
-        public required string Category { get; set; }
-    }
-
-    public class Standards
-    {
-        public IEnumerable<string>? Names { get; set; }
         public required string Category { get; set; }
     }
 
