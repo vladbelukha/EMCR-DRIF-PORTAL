@@ -48,12 +48,18 @@
       "
     ></drr-radio-button>
 
-    <drr-chip-autocomplete
+    <div *ngFor="let category of standardCategories; let i = index">
+      <mat-checkbox>
+        {{ category }}
+      </mat-checkbox>
+    </div>
+
+    <!-- <drr-chip-autocomplete
       [label]="t('standards')"
       [placeholder]="t('standardsPlaceholder')"
       [options]="provincialStandardsOptions"
       [rxFormControl]="permitsRegulationsAndStandardsForm.get('standards')"
-    ></drr-chip-autocomplete>
+    ></drr-chip-autocomplete> -->
 
     <drr-textarea
       [label]="t('standardsComments')"

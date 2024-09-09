@@ -2,6 +2,7 @@ import { AsyncPipe, CommonModule } from '@angular/common';
 import { Component, inject, Input } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -13,8 +14,8 @@ import {
   RadioOption,
 } from '../../../shared/controls/drr-radio-button/drr-radio-button.component';
 import { DrrTextareaComponent } from '../../../shared/controls/drr-textarea/drr-textarea.component';
-import { EntitiesStore } from '../../../store/entities.store';
-import { PermitsRegulationsAndStandardsForm, Standards } from '../drif-fp-form';
+import { OptionsStore } from '../../../store/entities.store';
+import { PermitsRegulationsAndStandardsForm } from '../drif-fp-form';
 
 @Component({
   selector: 'drif-fp-step-7',
@@ -25,6 +26,7 @@ import { PermitsRegulationsAndStandardsForm, Standards } from '../drif-fp-form';
     MatIconModule,
     TranslocoModule,
     MatFormFieldModule,
+    MatCheckboxModule,
     FormsModule,
     ReactiveFormsModule,
     MatAutocompleteModule,
@@ -37,20 +39,19 @@ import { PermitsRegulationsAndStandardsForm, Standards } from '../drif-fp-form';
   styleUrl: './drif-fp-step-7.component.scss',
 })
 export class DrifFpStep7Component {
-  entitiesStore = inject(EntitiesStore);
+  optionsStore = inject(OptionsStore);
+
+  standardCategories = this.optionsStore.getOptions()?.standardCategories?.();
 
   @Input()
   permitsRegulationsAndStandardsForm!: IFormGroup<PermitsRegulationsAndStandardsForm>;
 
-  professionalOptions = this.entitiesStore
-    .getEntities()
-    ?.professionals?.();
+  professionalOptions = this.optionsStore.getOptions()?.professionals?.();
   standardsAcceptableOptions: RadioOption[] = [
     { value: 1, label: 'Yes' },
     { value: 2, label: 'No' },
     { value: 3, label: 'Not Applicable' },
   ];
-  provincialStandardsOptions = Object.values(Standards);
 
   ngOnInit() {}
 }
