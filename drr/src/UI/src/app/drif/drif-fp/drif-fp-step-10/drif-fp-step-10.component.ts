@@ -57,7 +57,7 @@ export class DrifFpStep10Component {
 
   isMobile = false;
 
-  fiscalYearsOptions: string[] = [];
+  fiscalYearsOptions = this.optionsStore.fiscalYears?.();
   fundingTypeOptions = Object.values(FundingType);
   previousResponseOptions = [
     { value: YesNoOption.Yes, label: 'Yes' },
@@ -71,11 +71,11 @@ export class DrifFpStep10Component {
     const currentMonth = new Date().getMonth();
     const startFiscalYear = currentMonth >= 6 ? currentYear : currentYear - 1; // Assuming fiscal year starts in July
 
-    this.fiscalYearsOptions = Array.from({ length: 10 }, (_, i) => {
-      const startYear = startFiscalYear + i;
-      const endYear = startYear + 1;
-      return `${startYear}/${endYear}`;
-    });
+    // this.fiscalYearsOptions = Array.from({ length: 10 }, (_, i) => {
+    //   const startYear = startFiscalYear + i;
+    //   const endYear = startYear + 1;
+    //   return `${startYear}/${endYear}`;
+    // });
 
     this.budgetForm
       .get('yearOverYearFunding')!
