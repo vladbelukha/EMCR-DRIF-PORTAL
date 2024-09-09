@@ -2,6 +2,9 @@ name: cd-landing-page
 
 on:
   workflow_dispatch:
+    branches:
+      - main
+      - release/1.1.0
 
 env:
   IMAGE_NAME: drr-maintenance-page
