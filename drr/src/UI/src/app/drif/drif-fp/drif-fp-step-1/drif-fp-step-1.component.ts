@@ -94,6 +94,11 @@ export class DrifFpStep1Component {
       });
   }
 
+  showRegionalProjectComments() {
+    return this.proponentAndProjectInformationForm.get('regionalProject')
+      ?.value;
+  }
+
   getFormArray(name: string) {
     return this.proponentAndProjectInformationForm.get(name) as FormArray;
   }
