@@ -168,9 +168,6 @@ namespace EMCR.DRR.Managers.Intake
                 .ReverseMap()
                 ;
 
-            CreateMap<Resources.Applications.Standards, Standards>()
-                .ReverseMap()
-                ;
         }
 
         private IEnumerable<ContactDetails> DRRAdditionalContactMapper(ContactDetails? contact1, ContactDetails? contact2)
