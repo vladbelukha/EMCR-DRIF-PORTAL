@@ -30,8 +30,6 @@ export interface EntitiesQueryResult {
   /** @nullable */
   sensitivityRisks?: string[];
   /** @nullable */
-  standardCategories?: string[];
-  /** @nullable */
   standards?: Standards[];
   /** @nullable */
   verificationMethods?: string[];

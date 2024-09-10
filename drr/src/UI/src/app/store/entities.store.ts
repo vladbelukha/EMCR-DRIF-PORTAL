@@ -19,7 +19,6 @@ const initialState: OptionsState = {
   professionals: [],
   readinessRisks: [],
   sensitivityRisks: [],
-  standardCategories: [],
   standards: [],
   verificationMethods: [],
 };

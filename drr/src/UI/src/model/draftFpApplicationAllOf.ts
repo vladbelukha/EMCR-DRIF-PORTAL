@@ -7,6 +7,7 @@
 import type { Attachment } from './attachment';
 import type { YesNoOption } from './yesNoOption';
 import type { ProposedActivity } from './proposedActivity';
+import type { StandardInfo } from './standardInfo';
 import type { AreaUnits } from './areaUnits';
 import type { YearOverYearFunding } from './yearOverYearFunding';
 
@@ -144,7 +145,7 @@ export type DraftFpApplicationAllOf = {
   /** @nullable */
   sensitivityRisks?: string[];
   /** @nullable */
-  standards?: string[];
+  standards?: StandardInfo[];
   /** @nullable */
   standardsAcceptable?: YesNoOption;
   /** @nullable */

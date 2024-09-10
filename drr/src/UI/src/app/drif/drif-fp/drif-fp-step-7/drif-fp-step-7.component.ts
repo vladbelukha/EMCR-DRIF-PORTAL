@@ -1,6 +1,6 @@
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { Component, inject, Input } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormArray, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
@@ -8,6 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslocoModule } from '@ngneat/transloco';
 import { IFormGroup } from '@rxweb/reactive-form-validators';
+import { YesNoOption } from '../../../../model';
 import { DrrChipAutocompleteComponent } from '../../../shared/controls/drr-chip-autocomplete/drr-chip-autocomplete.component';
 import {
   DrrRadioButtonComponent,
@@ -41,23 +42,47 @@ import { PermitsRegulationsAndStandardsForm } from '../drif-fp-form';
 export class DrifFpStep7Component {
   optionsStore = inject(OptionsStore);
 
-  standardCategories = this.optionsStore.getOptions()?.standardCategories?.();
+  categories = this.optionsStore
+    .getOptions()
+    ?.standards?.()
+    ?.map((s) => s.category);
 
   @Input()
   permitsRegulationsAndStandardsForm!: IFormGroup<PermitsRegulationsAndStandardsForm>;
 
+  ngOnInit() {
+    console.log(this.categories);
+  }
+
   professionalOptions = this.optionsStore.getOptions()?.professionals?.();
   standardsAcceptableOptions: RadioOption[] = [
-    { value: 1, label: 'Yes' },
-    { value: 2, label: 'No' },
-    { value: 3, label: 'Not Applicable' },
+    { value: YesNoOption.Yes, label: 'Yes' },
+    { value: YesNoOption.No, label: 'No' },
+    { value: YesNoOption.NotApplicable, label: 'Not Applicable' },
   ];
+
+  getStandardsInfoArrayControls() {
+    return (
+      this.permitsRegulationsAndStandardsForm.get('standards') as FormArray
+    ).controls;
+  }
+
+  getCategoryControl(category: string) {
+    const standardInfoArray = this.permitsRegulationsAndStandardsForm.get(
+      'standards'
+    ) as FormArray;
+
+    const categoryControl = standardInfoArray.controls.filter(
+      (c) => c?.get('category')?.value === category
+    );
+
+    return categoryControl;
+  }
 
   getStandardsOptions(category: string) {
     return this.optionsStore
       .getOptions()
       ?.standards?.()
-      ?.filter((s) => s.category === category)
-      .map((s) => s.name!);
+      ?.find((s) => s.category === category)?.names;
   }
 }

@@ -10,6 +10,7 @@ import {
   FundingStream,
   Hazards,
   ProjectType,
+  StandardInfo,
   YesNoOption,
 } from '../../../model';
 import {
@@ -52,6 +53,18 @@ export class ImpactedInfrastructureForm {
   impact?: string;
 
   constructor(values: ImpactedInfrastructureForm) {
+    Object.assign(this, values);
+  }
+}
+
+export class StandardInfoForm implements StandardInfo {
+  @prop()
+  category?: string | undefined;
+
+  @prop()
+  standards?: string[] | undefined;
+
+  constructor(values: StandardInfoForm) {
     Object.assign(this, values);
   }
 }
@@ -153,10 +166,8 @@ export class PermitsRegulationsAndStandardsForm {
   @required()
   standardsAcceptable?: YesNoOption;
 
-  @prop()
-  @required()
-  @minLength({ value: 1 })
-  standards?: string[] = [];
+  @propArray(StandardInfoForm)
+  standards?: StandardInfoForm[] = [];
 
   @prop()
   standardsComments?: string;

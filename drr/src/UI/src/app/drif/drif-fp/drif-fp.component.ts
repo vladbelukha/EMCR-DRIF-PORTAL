@@ -33,10 +33,12 @@ import {
   StringItem,
 } from '../drif-eoi/drif-eoi-form';
 
+import { OptionsStore } from '../../store/entities.store';
 import {
   DrifFpForm,
   ImpactedInfrastructureForm,
   ProposedActivityForm,
+  StandardInfoForm,
   YearOverYearFundingForm,
 } from './drif-fp-form';
 import { DrifFpStep10Component } from './drif-fp-step-10/drif-fp-step-10.component';
@@ -95,6 +97,7 @@ export class DrifFpComponent {
   route = inject(ActivatedRoute);
   appService = inject(DrifapplicationService);
   hotToast = inject(HotToastService);
+  optionsStore = inject(OptionsStore);
 
   stepperOrientation: StepperOrientation = 'vertical';
 
@@ -378,6 +381,24 @@ export class DrifFpComponent {
         response.yearOverYearFunding?.forEach((funding) => {
           yearOverYearFormArray?.push(
             this.formBuilder.formGroup(new YearOverYearFundingForm(funding)),
+            { emitEvent: false }
+          );
+        });
+
+        const standardsFormArray = this.getFormGroup(
+          'permitsRegulationsAndStandards'
+        ).get('standards') as FormArray;
+        this.optionsStore.standards?.()?.forEach((standard) => {
+          const standards = response.standards?.find(
+            (s) => s.category === standard.category
+          )?.standards;
+          standardsFormArray?.push(
+            this.formBuilder.formGroup(
+              new StandardInfoForm({
+                category: standard.category,
+                standards: standards ?? [],
+              })
+            ),
             { emitEvent: false }
           );
         });
