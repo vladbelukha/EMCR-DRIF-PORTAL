@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { ConfigurationService } from '../../../api/configuration/configuration.service';
 import { ConfigurationStore } from '../../store/configuration.store';
-import { EntitiesStore } from '../../store/entities.store';
+import { OptionsStore } from '../../store/entities.store';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +9,7 @@ import { EntitiesStore } from '../../store/entities.store';
 export class AppConfigurationService {
   configurationService = inject(ConfigurationService);
   configurationStore = inject(ConfigurationStore);
-  entitiesStore = inject(EntitiesStore);
+  optionsStore = inject(OptionsStore);
 
   async loadConfiguration() {
     return new Promise((resolve) =>
@@ -26,11 +26,11 @@ export class AppConfigurationService {
     );
   }
 
-  async loadEntites() {
+  async loadOptions() {
     return this.configurationService
       .configurationGetEntities()
       .subscribe((entities) => {
-        this.entitiesStore.setEntities({
+        this.optionsStore.setOptions({
           ...entities,
         });
       });

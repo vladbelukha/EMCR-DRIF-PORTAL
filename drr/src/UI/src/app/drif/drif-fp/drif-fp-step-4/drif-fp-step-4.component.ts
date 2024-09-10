@@ -13,7 +13,7 @@ import { DrrDatepickerComponent } from '../../../shared/controls/drr-datepicker/
 import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
 import { DrrSelectComponent } from '../../../shared/controls/drr-select/drr-select.component';
 import { DrrTextareaComponent } from '../../../shared/controls/drr-textarea/drr-textarea.component';
-import { EntitiesStore } from '../../../store/entities.store';
+import { OptionsStore } from '../../../store/entities.store';
 import { ProjectPlanForm, ProposedActivityForm } from '../drif-fp-form';
 
 @Component({
@@ -40,15 +40,15 @@ import { ProjectPlanForm, ProposedActivityForm } from '../drif-fp-form';
 })
 export class DrifFpStep4Component {
   formBuilder = inject(RxFormBuilder);
-  entitiesStore = inject(EntitiesStore);
+  optionsStore = inject(OptionsStore);
 
   @Input() projectPlanForm!: IFormGroup<ProjectPlanForm>;
 
   minStartDate = new Date();
   minEndDate = new Date();
 
-  verificationMethodOptions = this.entitiesStore
-    .getEntities()
+  verificationMethodOptions = this.optionsStore
+    .getOptions()
     ?.verificationMethods?.();
 
   ngOnInit() {

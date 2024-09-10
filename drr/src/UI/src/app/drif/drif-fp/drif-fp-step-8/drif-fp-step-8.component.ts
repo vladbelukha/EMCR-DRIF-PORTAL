@@ -7,7 +7,7 @@ import { IFormGroup } from '@rxweb/reactive-form-validators';
 import { DrrChipAutocompleteComponent } from '../../../shared/controls/drr-chip-autocomplete/drr-chip-autocomplete.component';
 import { DrrRadioButtonComponent } from '../../../shared/controls/drr-radio-button/drr-radio-button.component';
 import { DrrTextareaComponent } from '../../../shared/controls/drr-textarea/drr-textarea.component';
-import { EntitiesStore } from '../../../store/entities.store';
+import { OptionsStore } from '../../../store/entities.store';
 import { ProjectOutcomesForm } from '../drif-fp-form';
 
 @Component({
@@ -27,13 +27,13 @@ import { ProjectOutcomesForm } from '../drif-fp-form';
   styleUrl: './drif-fp-step-8.component.scss',
 })
 export class DrifFpStep8Component {
-  entitiesStore = inject(EntitiesStore);
+  optionsStore = inject(OptionsStore);
 
   @Input() projectOutcomesForm!: IFormGroup<ProjectOutcomesForm>;
 
-  costReductionOptions = this.entitiesStore.getEntities()?.costReductions?.();
-  coBenefitsOptions = this.entitiesStore.getEntities()?.coBenefits?.();
-  resiliencyOptions = this.entitiesStore.getEntities()?.increasedResiliency?.();
+  costReductionOptions = this.optionsStore.getOptions()?.costReductions?.();
+  coBenefitsOptions = this.optionsStore.getOptions()?.coBenefits?.();
+  resiliencyOptions = this.optionsStore.getOptions()?.increasedResiliency?.();
 
   ngOnInit() {
     this.projectOutcomesForm

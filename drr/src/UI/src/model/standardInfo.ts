@@ -5,7 +5,9 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export interface Standards {
+export interface StandardInfo {
+  /** @nullable */
   category?: string;
-  name?: string;
+  /** @nullable */
+  standards?: string[];
 }

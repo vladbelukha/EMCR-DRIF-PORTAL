@@ -10,6 +10,7 @@ import {
   FundingStream,
   Hazards,
   ProjectType,
+  StandardInfo,
   YesNoOption,
 } from '../../../model';
 import {
@@ -19,50 +20,9 @@ import {
   StringItem,
 } from '../drif-eoi/drif-eoi-form';
 
-// TODO: use enum from model
-export enum Standards {
-  ProvincialStandard134b = 'Provincial Standard 134/b',
-  ProvincialStandard144c = 'Provincial Standard 14.4/c',
-  BuildingCodex099GNAP = 'Building Codex 0.99 GNAP',
-}
-
-export enum ComplexityRisks {
-  RemoteGeographicLocation = 'Remote Geographic Location',
-  UnpredictableWeather = 'Unpredictable Weather',
-  UntestedOrUnprovenTechnologies = 'Untested or Unproven Technologies',
-  HighlyTechnicalOrComplexProject = 'Highly Technical or Complex Project',
-  InterdependenciesBetweenPhases = 'Interdependencies Between Phases',
-}
-
-export enum ReadinessRisks {
-  Projectsitehasntbeenfinalized = 'Project site hasn’t been finalized',
-  Landhasntbeenacquired = 'Land hasn’t been acquired',
-  Potentialissueswithpermitsorauthorizations = 'Potential issues with permits or authorizations',
-  Industrysupplymaynotbeabletomeetdemand = 'Industry supply may not be able to meet demand',
-  NonDRIFfundingsourcesarenotsecuredfortheentireprojectcost = 'Non-DRIF funding sources are not secured for the entire project cost',
-}
-
-export enum SensitivityRisks {
-  Projecthasreceivednegativemediaattention = 'Project has received negative media attention',
-  Certainstakeholdershavebeenvocalabouttheproject = 'Certain stakeholders have been vocal about the project',
-}
-
-export enum CapacityRisks {
-  Limitedhumanresourcestocompletetheproject = 'Limited human resources to complete the project',
-  Limitedtechnicalexpertisetocompletetheproject = 'Limited technical expertise to complete the project',
-  Previouschallengeshaveoccurredwithsimilarprojects = 'Previous challenges have occurred with similar projects',
-}
-
 export enum TransferRisks {
   increased = 'Increased',
   transferred = 'Transferred',
-}
-
-export enum CostConsiderations {
-  IneligibleCosts = 'Ineligible Costs',
-  InKindContributions = 'In-kind Contributions',
-  CostStacking = 'Cost Stacking',
-  PhasedCosts = 'Phased Costs',
 }
 
 // TODO: temp before API provides the correct structure
@@ -93,6 +53,18 @@ export class ImpactedInfrastructureForm {
   impact?: string;
 
   constructor(values: ImpactedInfrastructureForm) {
+    Object.assign(this, values);
+  }
+}
+
+export class StandardInfoForm implements StandardInfo {
+  @prop()
+  category?: string | undefined;
+
+  @prop()
+  standards?: string[] | undefined;
+
+  constructor(values: StandardInfoForm) {
     Object.assign(this, values);
   }
 }
@@ -194,10 +166,8 @@ export class PermitsRegulationsAndStandardsForm {
   @required()
   standardsAcceptable?: YesNoOption;
 
-  @prop()
-  @required()
-  @minLength({ value: 1 })
-  standards?: string[] = [];
+  @propArray(StandardInfoForm)
+  standards?: StandardInfoForm[] = [];
 
   @prop()
   standardsComments?: string;

@@ -48,12 +48,21 @@
       "
     ></drr-radio-button>
 
-    <drr-chip-autocomplete
+    <div *ngFor="let control of getStandardsInfoArrayControls(); let i = index">
+      <drr-chip-autocomplete
+        [label]="control.value.category"
+        [placeholder]="t('standardsPlaceholder')"
+        [options]="getStandardsOptions(control.value.category)"
+        [rxFormControl]="control.get('standards')"
+      ></drr-chip-autocomplete>
+    </div>
+
+    <!-- <drr-chip-autocomplete
       [label]="t('standards')"
       [placeholder]="t('standardsPlaceholder')"
       [options]="provincialStandardsOptions"
       [rxFormControl]="permitsRegulationsAndStandardsForm.get('standards')"
-    ></drr-chip-autocomplete>
+    ></drr-chip-autocomplete> -->
 
     <drr-textarea
       [label]="t('standardsComments')"

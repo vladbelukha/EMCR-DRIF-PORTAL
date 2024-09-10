@@ -11,7 +11,7 @@ import {
   RadioOption,
 } from '../../../shared/controls/drr-radio-button/drr-radio-button.component';
 import { DrrTextareaComponent } from '../../../shared/controls/drr-textarea/drr-textarea.component';
-import { EntitiesStore } from '../../../store/entities.store';
+import { OptionsStore } from '../../../store/entities.store';
 import { ProjectEngagementForm } from '../drif-fp-form';
 
 @Component({
@@ -31,7 +31,7 @@ import { ProjectEngagementForm } from '../drif-fp-form';
   styleUrl: './drif-fp-step-5.component.scss',
 })
 export class DrifFpStep5Component {
-  entitiesStore = inject(EntitiesStore);
+  optionsStore = inject(OptionsStore);
 
   @Input() projectEngagementForm!: IFormGroup<ProjectEngagementForm>;
 
@@ -44,7 +44,7 @@ export class DrifFpStep5Component {
     },
   ];
 
-  affectedParties = this.entitiesStore.getEntities()?.affectedParties?.();
+  affectedParties = this.optionsStore.getOptions()?.affectedParties?.();
 
   ngOnInit() {
     this.projectEngagementForm

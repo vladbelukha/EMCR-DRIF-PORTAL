@@ -1,35 +1,36 @@
 import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
+import { EntitiesQueryResult } from '../../model';
 
-export interface EntitiesState {
-  affectedParties?: string[];
-  professionals?: string[];
-  costReductions?: string[];
-  coBenefits?: string[];
-  verificationMethods?: string[];
-  increasedResiliency?: string[];
-}
+export type OptionsState = EntitiesQueryResult;
 
-type EntitiesStore = {
-  entities: EntitiesState;
+type OptionsStore = {
+  entities: OptionsState;
 };
 
-const initialState: EntitiesState = {
+const initialState: OptionsState = {
   affectedParties: [],
-  professionals: [],
-  costReductions: [],
+  capacityRisks: [],
   coBenefits: [],
-  verificationMethods: [],
+  complexityRisks: [],
+  costConsiderations: [],
+  costReductions: [],
+  fiscalYears: [],
   increasedResiliency: [],
+  professionals: [],
+  readinessRisks: [],
+  sensitivityRisks: [],
+  standards: [],
+  verificationMethods: [],
 };
 
-export const EntitiesStore = signalStore(
+export const OptionsStore = signalStore(
   { providedIn: 'root' },
   withState(initialState),
   withMethods((store) => ({
-    setEntities(entities: EntitiesState) {
+    setOptions(entities: OptionsState) {
       patchState(store, entities);
     },
-    getEntities() {
+    getOptions() {
       return store;
     },
   }))

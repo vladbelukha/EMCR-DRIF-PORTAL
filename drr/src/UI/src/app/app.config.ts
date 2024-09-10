@@ -83,7 +83,7 @@ export const appConfig: ApplicationConfig = {
         async () => {
           await appConfigurationService.loadConfiguration();
           await authService.init();
-          await appConfigurationService.loadEntites();
+          await appConfigurationService.loadOptions();
         },
       multi: true,
     },

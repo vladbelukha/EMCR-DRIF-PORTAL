@@ -20,13 +20,10 @@ import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.
 import { DrrRadioButtonComponent } from '../../../shared/controls/drr-radio-button/drr-radio-button.component';
 import { DrrSelectComponent } from '../../../shared/controls/drr-select/drr-select.component';
 import { DrrTextareaComponent } from '../../../shared/controls/drr-textarea/drr-textarea.component';
+import { OptionsStore } from '../../../store/entities.store';
 import { FundingInformationItemForm } from '../../drif-eoi/drif-eoi-form';
 import { DrrFundingListComponent } from '../../drr-funding-list/drr-funding-list.component';
-import {
-  BudgetForm,
-  CostConsiderations,
-  YearOverYearFundingForm,
-} from '../drif-fp-form';
+import { BudgetForm, YearOverYearFundingForm } from '../drif-fp-form';
 
 @Component({
   selector: 'drif-fp-step-10',
@@ -52,6 +49,7 @@ import {
   styleUrl: './drif-fp-step-10.component.scss',
 })
 export class DrifFpStep10Component {
+  optionsStore = inject(OptionsStore);
   formBuilder = inject(RxFormBuilder);
 
   @Input()
@@ -59,25 +57,25 @@ export class DrifFpStep10Component {
 
   isMobile = false;
 
-  fiscalYearsOptions: string[] = [];
+  fiscalYearsOptions = this.optionsStore.fiscalYears?.()!;
   fundingTypeOptions = Object.values(FundingType);
   previousResponseOptions = [
     { value: YesNoOption.Yes, label: 'Yes' },
     { value: YesNoOption.NotApplicable, label: 'Yes, but costs unknown' },
     { value: YesNoOption.No, label: 'No' },
   ];
-  costConsiderationsOptions = Object.values(CostConsiderations);
+  costConsiderationsOptions = this.optionsStore.costConsiderations?.();
 
   ngOnInit() {
     const currentYear = new Date().getFullYear();
     const currentMonth = new Date().getMonth();
     const startFiscalYear = currentMonth >= 6 ? currentYear : currentYear - 1; // Assuming fiscal year starts in July
 
-    this.fiscalYearsOptions = Array.from({ length: 10 }, (_, i) => {
-      const startYear = startFiscalYear + i;
-      const endYear = startYear + 1;
-      return `${startYear}/${endYear}`;
-    });
+    // this.fiscalYearsOptions = Array.from({ length: 10 }, (_, i) => {
+    //   const startYear = startFiscalYear + i;
+    //   const endYear = startYear + 1;
+    //   return `${startYear}/${endYear}`;
+    // });
 
     this.budgetForm
       .get('yearOverYearFunding')!
