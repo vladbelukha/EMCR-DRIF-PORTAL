@@ -23,12 +23,18 @@
       placeholder="{{ placeholder }}"
       #currentInput
       [formControl]="currentInputControl"
+      [maxlength]="maxlength"
+      (focus)="onFocus()"
+      (blur)="onBlur()"
       [matChipInputFor]="chipGrid"
       [matAutocomplete]="auto"
       [ariaMultiLine]="true"
       [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
       (matChipInputTokenEnd)="addOption($event)"
     />
+    <mat-hint *ngIf="maxlength && isFocused" align="end"
+      >{{ getCount() }} / {{ maxlength }}</mat-hint
+    >
     <mat-autocomplete
       #auto="matAutocomplete"
       (optionSelected)="optionSelected($event)"
