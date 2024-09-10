@@ -83,6 +83,6 @@ export class DrifFpStep7Component {
     return this.optionsStore
       .getOptions()
       ?.standards?.()
-      ?.find((s) => s.category === category)?.names;
+      ?.find((s) => s.category === category)?.standards;
   }
 }
