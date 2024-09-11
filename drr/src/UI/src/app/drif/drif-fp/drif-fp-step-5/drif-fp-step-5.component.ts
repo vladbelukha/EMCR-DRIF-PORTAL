@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, Input } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { TranslocoModule } from '@ngneat/transloco';
 import { IFormGroup } from '@rxweb/reactive-form-validators';
@@ -50,9 +50,18 @@ export class DrifFpStep5Component {
     this.projectEngagementForm
       .get('otherEngagement')
       ?.valueChanges.subscribe((value) => {
-        value === YesNoOption.NotApplicable
-          ? this.projectEngagementForm.get('affectedParties')?.disable()
-          : this.projectEngagementForm.get('affectedParties')?.enable();
+        const affectedParties =
+          this.projectEngagementForm.get('affectedParties');
+        if (value === YesNoOption.NotApplicable || value === YesNoOption.No) {
+          affectedParties?.reset();
+          affectedParties?.clearValidators();
+          affectedParties?.disable();
+        } else {
+          affectedParties?.addValidators(Validators.required);
+          affectedParties?.enable();
+        }
+
+        affectedParties?.updateValueAndValidity();
       });
   }
 }

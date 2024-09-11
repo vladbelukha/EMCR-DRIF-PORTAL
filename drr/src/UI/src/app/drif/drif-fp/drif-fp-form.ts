@@ -469,8 +469,6 @@ export class ProjectEngagementForm {
   otherEngagement?: YesNoOption;
 
   @prop()
-  @required()
-  @minLength({ value: 1 })
   affectedParties?: string[] = [];
 
   @prop()
