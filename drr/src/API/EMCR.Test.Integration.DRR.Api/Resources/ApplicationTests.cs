@@ -243,7 +243,7 @@ namespace EMCR.Tests.Integration.DRR.Resources
                 DisasterRiskUnderstanding = "helps many people",
                 AdditionalBackgroundInformation = "additional background info",
                 AddressRisksAndHazards = "fix risks",
-                DRIFProgramGoalAlignment = "aligns with goals",
+                ProjectDescription = "project description",
                 AdditionalSolutionInformation = "additional solution info",
                 RationaleForSolution = "rational for solution",
 
