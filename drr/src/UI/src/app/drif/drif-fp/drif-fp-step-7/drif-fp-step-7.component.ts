@@ -50,10 +50,6 @@ export class DrifFpStep7Component {
   @Input()
   permitsRegulationsAndStandardsForm!: IFormGroup<PermitsRegulationsAndStandardsForm>;
 
-  ngOnInit() {
-    console.log(this.categories);
-  }
-
   professionalOptions = this.optionsStore.getOptions()?.professionals?.();
   standardsAcceptableOptions: RadioOption[] = [
     { value: YesNoOption.Yes, label: 'Yes' },
