@@ -253,7 +253,7 @@ export class ProjectDetailsForm {
 
   @prop()
   @required()
-  drifProgramGoalAlignment?: string;
+  projectDescription?: string;
 
   @prop()
   additionalSolutionInformation?: string;

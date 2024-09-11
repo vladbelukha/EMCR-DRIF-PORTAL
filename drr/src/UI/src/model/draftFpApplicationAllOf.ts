@@ -81,7 +81,19 @@ export type DraftFpApplicationAllOf = {
   /** @nullable */
   increasedResiliencyComments?: string;
   /** @nullable */
+  isArchaeology?: boolean;
+  /** @nullable */
+  isEnvironmentMapping?: boolean;
+  /** @nullable */
+  isEnvironmentSeismic?: boolean;
+  /** @nullable */
+  isEnvironmentWater?: boolean;
+  /** @nullable */
+  isFinancial?: boolean;
+  /** @nullable */
   isInfrastructureImpacted?: boolean;
+  /** @nullable */
+  isOtherCategory?: boolean;
   /** @nullable */
   localGovernmentAuthorizedByPartners?: YesNoOption;
   /** @nullable */
@@ -118,8 +130,6 @@ export type DraftFpApplicationAllOf = {
   professionals?: string[];
   /** @nullable */
   projectAlternateOptions?: string;
-  /** @nullable */
-  projectDescription?: string;
   /** @nullable */
   proposedActivities?: ProposedActivity[];
   /** @nullable */

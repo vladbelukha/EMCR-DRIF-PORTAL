@@ -31,8 +31,6 @@ export interface DraftApplication {
   /** @nullable */
   disasterRiskUnderstanding?: string;
   /** @nullable */
-  drifProgramGoalAlignment?: string;
-  /** @nullable */
   endDate?: string;
   /** @nullable */
   estimatedPeopleImpacted?: EstimatedNumberOfPeople;
@@ -76,6 +74,8 @@ export interface DraftApplication {
   partneringProponents?: string[];
   /** @nullable */
   projectContact?: ContactDetails;
+  /** @nullable */
+  projectDescription?: string;
   /** @nullable */
   projectTitle?: string;
   /** @nullable */

@@ -220,7 +220,7 @@ export class EOIApplicationComponent {
                 application.additionalSolutionInformation,
               addressRisksAndHazards: application.addressRisksAndHazards,
               disasterRiskUnderstanding: application.disasterRiskUnderstanding,
-              drifProgramGoalAlignment: application.drifProgramGoalAlignment,
+              projectDescription: application.projectDescription,
               estimatedPeopleImpacted: application.estimatedPeopleImpacted,
               communityImpact: application.communityImpact,
               infrastructureImpacted: application.infrastructureImpacted,
