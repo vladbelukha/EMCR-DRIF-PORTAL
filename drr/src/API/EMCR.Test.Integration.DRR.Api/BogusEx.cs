@@ -43,7 +43,7 @@ namespace EMCR.Tests.Unit.DRR
             .RuleFor(a => a.DisasterRiskUnderstanding, f => f.Lorem.Sentence())
             .RuleFor(a => a.AdditionalBackgroundInformation, f => f.Lorem.Sentence())
             .RuleFor(a => a.AddressRisksAndHazards, f => f.Lorem.Sentence())
-            .RuleFor(a => a.DRIFProgramGoalAlignment, f => f.Lorem.Sentence())
+            .RuleFor(a => a.ProjectDescription, f => f.Lorem.Sentence())
             .RuleFor(a => a.AdditionalSolutionInformation, f => f.Lorem.Sentence())
             .RuleFor(a => a.RationaleForSolution, f => f.Lorem.Sentence())
             .RuleFor(a => a.FirstNationsEngagement, f => f.Lorem.Sentence())
