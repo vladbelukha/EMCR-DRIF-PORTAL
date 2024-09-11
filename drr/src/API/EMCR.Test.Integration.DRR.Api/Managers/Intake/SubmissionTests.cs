@@ -233,6 +233,8 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             updatedFp.Standards.ShouldContain(s => s.Category == "Other");
             updatedFp.Professionals.ShouldContain(p => p.Name == "professional1");
             updatedFp.LocalGovernmentAuthorizedByPartners.ShouldBe(EMCR.DRR.Managers.Intake.YesNoOption.NotApplicable);
+            updatedFp.IsEnvironmentWater.ShouldBe(true);
+            updatedFp.IsOtherCategory.ShouldBe(true);
             ((int)updatedFp.OperationAndMaintenance).ShouldBe((int)fpToUpdate.OperationAndMaintenance);
         }
 
@@ -389,7 +391,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
                 DisasterRiskUnderstanding = "helps many people",
                 AdditionalBackgroundInformation = "additional background info",
                 AddressRisksAndHazards = "fix risks",
-                DRIFProgramGoalAlignment = "aligns with goals",
+                ProjectDescription = "project description",
                 AdditionalSolutionInformation = "additional solution info",
                 RationaleForSolution = "rational for solution",
 
@@ -444,6 +446,8 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             application.Professionals = new[] { "professional1", "professional2" };
             application.ProfessionalGuidanceComments = "professional guidance comments";
             application.StandardsAcceptable = EMCR.DRR.Controllers.YesNoOption.NotApplicable;
+            application.IsEnvironmentWater = true;
+            application.IsOtherCategory = true;
             application.Standards = new[] {
                 new EMCR.DRR.Controllers.StandardInfo { Category = "Environment - Water (includes Rivers, Flooding, etc.)", Standards = new [] { "BC Water Sustainability Act", "Water Survey Canada", "other water env standard" } },
                 new EMCR.DRR.Controllers.StandardInfo { Category = "Other", Standards = new [] { "other_standard1"} },

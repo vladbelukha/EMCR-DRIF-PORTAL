@@ -168,7 +168,7 @@ namespace EMCR.DRR.Controllers
         public string? DisasterRiskUnderstanding { get; set; }
         public string? AdditionalBackgroundInformation { get; set; }
         public string? AddressRisksAndHazards { get; set; }
-        public string? DRIFProgramGoalAlignment { get; set; }
+        public string? ProjectDescription { get; set; }
         public string? AdditionalSolutionInformation { get; set; }
         public string? RationaleForSolution { get; set; }
 
@@ -219,7 +219,6 @@ namespace EMCR.DRR.Controllers
         public bool? IsInfrastructureImpacted { get; set; }
 
         //Project Plan - 4
-        public string? ProjectDescription { get; set; }
         public IEnumerable<ProposedActivity>? ProposedActivities { get; set; }
         public IEnumerable<string>? VerificationMethods { get; set; }
         public string? VerificationMethodsComments { get; set; }
@@ -243,6 +242,12 @@ namespace EMCR.DRR.Controllers
         public IEnumerable<string>? Professionals { get; set; }
         public string? ProfessionalGuidanceComments { get; set; }
         public YesNoOption? StandardsAcceptable { get; set; }
+        public bool? IsArchaeology { get; set; }
+        public bool? IsEnvironmentMapping { get; set; }
+        public bool? IsEnvironmentSeismic { get; set; }
+        public bool? IsEnvironmentWater { get; set; }
+        public bool? IsFinancial { get; set; }
+        public bool? IsOtherCategory { get; set; }
         public IEnumerable<StandardInfo>? Standards { get; set; }
         public string? StandardsComments { get; set; }
         public bool? MeetsRegulatoryRequirements { get; set; }
