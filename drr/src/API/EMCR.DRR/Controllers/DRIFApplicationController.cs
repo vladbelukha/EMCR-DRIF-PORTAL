@@ -217,6 +217,7 @@ namespace EMCR.DRR.Controllers
         public AreaUnits? Units { get; set; }
         public string? AreaDescription { get; set; }
         public bool? IsInfrastructureImpacted { get; set; }
+        public EstimatedNumberOfPeopleFP? EstimatedPeopleImpactedFP { get; set; }
 
         //Project Plan - 4
         public IEnumerable<ProposedActivity>? ProposedActivities { get; set; }
@@ -399,6 +400,32 @@ namespace EMCR.DRR.Controllers
 
         [Description("Unsure")]
         Unsure,
+    }
+
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public enum EstimatedNumberOfPeopleFP
+    {
+        [Description("0 - 500")]
+        ZeroToFiveHundred,
+
+        [Description("501 - 1,000")]
+        FiveHundredToOneK,
+
+        [Description("1,001 - 5,000")]
+        OneKToFiveK,
+
+        [Description("5,001 - 10,000")]
+        FiveKToTenK,
+
+        [Description("10,001 - 50,000")]
+        TenKToFiftyK,
+
+        [Description("50,001 - 100k")]
+        FiftyKToHundredK,
+
+        [Description("100,001 +")]
+        HundredKPlus,
+        Unsure
     }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
