@@ -203,6 +203,7 @@
       "
     ></drr-radio-button>
     <drr-textarea
+      *ngIf="showRegionalProjectComments()"
       [id]="'regionalProjectComments'"
       [label]="t('regionalProjectComments')"
       [maxlength]="2000"

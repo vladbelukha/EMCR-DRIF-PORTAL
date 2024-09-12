@@ -81,4 +81,11 @@ export class DrifFpStep2Component {
         ownershipDescription?.updateValueAndValidity();
       });
   }
+
+  showOwnershipDescription() {
+    return (
+      this.ownershipAndAuthorizationForm.get('ownershipDeclaration')!.value ===
+      false
+    );
+  }
 }

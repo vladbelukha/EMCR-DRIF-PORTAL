@@ -95,7 +95,7 @@ export class DrifEoiViewComponent {
               application.additionalSolutionInformation,
             addressRisksAndHazards: application.addressRisksAndHazards,
             disasterRiskUnderstanding: application.disasterRiskUnderstanding,
-            drifProgramGoalAlignment: application.drifProgramGoalAlignment,
+            projectDescription: application.projectDescription,
             estimatedPeopleImpacted: application.estimatedPeopleImpacted,
             communityImpact: application.communityImpact,
             infrastructureImpacted: application.infrastructureImpacted,
@@ -168,12 +168,11 @@ export class DrifEoiViewComponent {
   }
 
   createFP() {
-    this.router.navigate(['/drif-fp-instructions', this.id], {
-      queryParams: {
-        fundingStream:
-          this.eoiApplicationForm?.value?.projectInformation?.fundingStream,
-      },
-    });
+    this.router.navigate([
+      '/drif-fp-screener',
+      this.id,
+      this.eoiApplicationForm?.value?.projectInformation?.fundingStream,
+    ]);
   }
 
   goBack() {

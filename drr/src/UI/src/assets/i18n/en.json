@@ -315,7 +315,7 @@
   "produceCoBenefits": "Will this project produce co-benefits?",
   "coBenefits": "If yes, what co-benefits will this project produce? (select all that apply)",
   "coBenefitsPlaceholder": "Type or select co-benefit",
-  "coBenefitComments": "Explain how these co-benefits will be produced by the project, if applicable?",
+  "coBenefitComments": "How will the project produce these co-benefits, if applicable?",
   "resiliency": "Resiliency",
   "increasedResiliency": "In what way will the proposed project increase resiliency during and after a natural disaster/event?",
   "increasedResiliencyPlaceholder": "Type or select resiliency",

@@ -45,20 +45,27 @@ export class DrifFpStep4Component {
   @Input() projectPlanForm!: IFormGroup<ProjectPlanForm>;
 
   minStartDate = new Date();
-  minEndDate = new Date();
 
   verificationMethodOptions = this.optionsStore
     .getOptions()
     ?.verificationMethods?.();
 
   ngOnInit() {
-    this.projectPlanForm.get('startDate')?.valueChanges.subscribe((date) => {
-      if (!DateTime.isDateTime(date)) {
-        date = DateTime.fromISO(date.toString());
-      }
+    // this.projectPlanForm.get('startDate')?.valueChanges.subscribe((date) => {
+    //   this.setEndDate(date);
+    // });
 
-      this.minEndDate = date.toJSDate();
-    });
+    
+  }
+
+  setEndDate(startDate: any) {
+    if (!startDate) {
+      return;
+    }
+
+    if (!DateTime.isDateTime(startDate)) {
+      startDate = DateTime.fromISO(startDate.toString());
+    }
   }
 
   getActivitiesFormArray() {

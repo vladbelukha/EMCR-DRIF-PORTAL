@@ -77,7 +77,7 @@
       <drr-datepicker
         [id]="'startDate'"
         [label]="t('startDate')"
-        [rxFormControl]="getFormControl('startDate')"
+        [rxFormControl]="projectInformationForm.get('startDate')"
         [min]="minStartDate"
         [minErrorLabel]="t('minStartDateError')"
       ></drr-datepicker>
@@ -86,7 +86,7 @@
         [id]="'endDate'"
         [label]="t('endDate')"
         [rxFormControl]="getFormControl('endDate')"
-        [min]="minEndDate"
+        [min]="projectInformationForm.get('startDate')?.value"
         [minErrorLabel]="t('minEndDateError')"
       ></drr-datepicker>
     </div>

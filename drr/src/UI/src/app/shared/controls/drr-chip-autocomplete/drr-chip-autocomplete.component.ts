@@ -35,6 +35,8 @@ export class DrrChipAutocompleteComponent {
   formBuilder = inject(RxFormBuilder);
   breakpointObserver = inject(BreakpointObserver);
 
+  isFocused = false;
+
   @Input()
   label = '';
 
@@ -43,6 +45,21 @@ export class DrrChipAutocompleteComponent {
 
   @Input()
   options?: string[];
+
+  @Input()
+  maxlength = 200;
+
+  onFocus() {
+    this.isFocused = true;
+  }
+
+  onBlur() {
+    this.isFocused = false;
+  }
+
+  getCount() {
+    return this.currentInputControl.value?.length ?? 0;
+  }
 
   private _formControl = this.formBuilder.control('', []) as RxFormControl;
   @Input()

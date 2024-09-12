@@ -589,11 +589,9 @@
 
       <drr-summary-item
         [label]="t('drifProgramGoalAlignment')"
-        [value]="
-          getRxFormControl('projectDetails', 'drifProgramGoalAlignment').value
-        "
+        [value]="getRxFormControl('projectDetails', 'projectDescription').value"
         [rxFormControl]="
-          getRxFormControl('projectDetails', 'drifProgramGoalAlignment')
+          getRxFormControl('projectDetails', 'projectDescription')
         "
       >
       </drr-summary-item>

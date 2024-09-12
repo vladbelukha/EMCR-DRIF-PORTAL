@@ -10,6 +10,7 @@
     ></drr-radio-button>
 
     <drr-textarea
+      *ngIf="showOwnershipDescription()"
       [label]="t('fpOwnershipComments')"
       [maxlength]="2000"
       [rxFormControl]="

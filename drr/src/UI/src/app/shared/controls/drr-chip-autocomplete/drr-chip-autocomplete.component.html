@@ -1,10 +1,6 @@
 <ng-container *transloco="let t">
   <mat-form-field style="width: 100%">
     <mat-label>{{ label }}</mat-label>
-    <mat-hint *ngIf="rxFormControl.disabled">
-      {{ t("autocompleteInfoDisclaimer") }}
-      <span *ngFor="let option of options?.join(' ,')">{{ option }}</span>
-    </mat-hint>
     <mat-chip-grid
       #chipGrid
       [formControl]="rxFormControl"
@@ -23,12 +19,18 @@
       placeholder="{{ placeholder }}"
       #currentInput
       [formControl]="currentInputControl"
+      [maxlength]="maxlength"
+      (focus)="onFocus()"
+      (blur)="onBlur()"
       [matChipInputFor]="chipGrid"
       [matAutocomplete]="auto"
       [ariaMultiLine]="true"
       [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
       (matChipInputTokenEnd)="addOption($event)"
     />
+    <mat-hint *ngIf="maxlength && isFocused" align="end"
+      >{{ getCount() }} / {{ maxlength }}</mat-hint
+    >
     <mat-autocomplete
       #auto="matAutocomplete"
       (optionSelected)="optionSelected($event)"
