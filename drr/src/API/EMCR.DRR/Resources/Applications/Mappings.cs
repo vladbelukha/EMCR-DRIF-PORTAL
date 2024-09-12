@@ -92,12 +92,12 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.drr_drr_application_drr_qualifiedprofessionalitem_Application, opt => opt.MapFrom(src => src.Professionals))
                 .ForMember(dest => dest.drr_qualifiedprofessionalcomments, opt => opt.MapFrom(src => src.ProfessionalGuidanceComments))
                 .ForMember(dest => dest.drr_acceptableprovincialstandards, opt => opt.MapFrom(src => src.StandardsAcceptable.HasValue ? (int?)Enum.Parse<DRRYesNoNotApplicable>(src.StandardsAcceptable.Value.ToString()) : null))
-                .ForMember(dest => dest.drr_archaeology, opt => opt.MapFrom(src => src.IsArchaeology.HasValue && src.IsArchaeology.Value ? DRRTwoOptions.Yes : DRRTwoOptions.No))
-                .ForMember(dest => dest.drr_environmentmappingandlandscape, opt => opt.MapFrom(src => src.IsEnvironmentMapping.HasValue && src.IsEnvironmentMapping.Value ? DRRTwoOptions.Yes : DRRTwoOptions.No))
-                .ForMember(dest => dest.drr_environmentseismic, opt => opt.MapFrom(src => src.IsEnvironmentSeismic.HasValue && src.IsEnvironmentSeismic.Value ? DRRTwoOptions.Yes : DRRTwoOptions.No))
-                .ForMember(dest => dest.drr_environmentwater, opt => opt.MapFrom(src => src.IsEnvironmentWater.HasValue && src.IsEnvironmentWater.Value ? DRRTwoOptions.Yes : DRRTwoOptions.No))
-                .ForMember(dest => dest.drr_financial, opt => opt.MapFrom(src => src.IsFinancial.HasValue && src.IsFinancial.Value ? DRRTwoOptions.Yes : DRRTwoOptions.No))
-                .ForMember(dest => dest.drr_othercategory, opt => opt.MapFrom(src => src.IsOtherCategory.HasValue && src.IsOtherCategory.Value ? DRRTwoOptions.Yes : DRRTwoOptions.No))
+                .ForMember(dest => dest.drr_archaeology, opt => opt.MapFrom(src => DRRCategorySelectedMapper(src.Standards.SingleOrDefault(s => s.Category == "Archaeology"))))
+                .ForMember(dest => dest.drr_environmentmappingandlandscape, opt => opt.MapFrom(src => DRRCategorySelectedMapper(src.Standards.SingleOrDefault(s => s.Category == "Environment - Mapping and Landscape"))))
+                .ForMember(dest => dest.drr_environmentseismic, opt => opt.MapFrom(src => DRRCategorySelectedMapper(src.Standards.SingleOrDefault(s => s.Category == "Environment - Seismic"))))
+                .ForMember(dest => dest.drr_environmentwater, opt => opt.MapFrom(src => DRRCategorySelectedMapper(src.Standards.SingleOrDefault(s => s.Category == "Environment - Water (includes Rivers, Flooding, etc.)"))))
+                .ForMember(dest => dest.drr_financial, opt => opt.MapFrom(src => DRRCategorySelectedMapper(src.Standards.SingleOrDefault(s => s.Category == "Financial"))))
+                .ForMember(dest => dest.drr_othercategory, opt => opt.MapFrom(src => DRRCategorySelectedMapper(src.Standards.SingleOrDefault(s => s.Category == "Other"))))
                 .ForMember(dest => dest.drr_drr_application_drr_provincialstandarditem_Application, opt => opt.MapFrom(src => DRRProvincialStandardItemMapper(src.Standards)))
                 //.ForMember(dest => dest.drr_explainhowprojectwillmeetprovincialstanda, opt => opt.MapFrom(src => src.StandardsComments))
                 .ForMember(dest => dest.drr_commentsacceptableprovincialstandards, opt => opt.MapFrom(src => src.StandardsComments))
@@ -241,13 +241,7 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.Professionals, opt => opt.MapFrom(src => src.drr_drr_application_drr_qualifiedprofessionalitem_Application))
                 .ForMember(dest => dest.ProfessionalGuidanceComments, opt => opt.MapFrom(src => src.drr_qualifiedprofessionalcomments))
                 .ForMember(dest => dest.StandardsAcceptable, opt => opt.MapFrom(src => src.drr_acceptableprovincialstandards.HasValue ? (int?)Enum.Parse<YesNoOption>(((DRRYesNoNotApplicable)src.drr_acceptableprovincialstandards).ToString()) : null))
-                .ForMember(dest => dest.IsArchaeology, opt => opt.MapFrom(src => src.drr_archaeology.HasValue ? src.drr_archaeology.Value == (int)DRRTwoOptions.Yes : (bool?)null))
-                .ForMember(dest => dest.IsEnvironmentMapping, opt => opt.MapFrom(src => src.drr_environmentmappingandlandscape.HasValue ? src.drr_environmentmappingandlandscape.Value == (int)DRRTwoOptions.Yes : (bool?)null))
-                .ForMember(dest => dest.IsEnvironmentSeismic, opt => opt.MapFrom(src => src.drr_environmentseismic.HasValue ? src.drr_environmentseismic.Value == (int)DRRTwoOptions.Yes : (bool?)null))
-                .ForMember(dest => dest.IsEnvironmentWater, opt => opt.MapFrom(src => src.drr_environmentwater.HasValue ? src.drr_environmentwater.Value == (int)DRRTwoOptions.Yes : (bool?)null))
-                .ForMember(dest => dest.IsFinancial, opt => opt.MapFrom(src => src.drr_financial.HasValue ? src.drr_financial.Value == (int)DRRTwoOptions.Yes : (bool?)null))
-                .ForMember(dest => dest.IsOtherCategory, opt => opt.MapFrom(src => src.drr_othercategory.HasValue ? src.drr_othercategory.Value == (int)DRRTwoOptions.Yes : (bool?)null))
-                .ForMember(dest => dest.Standards, opt => opt.MapFrom(src => DRRStandardInfoMapper(src.drr_drr_application_drr_provincialstandarditem_Application)))
+                .ForMember(dest => dest.Standards, opt => opt.MapFrom(src => DRRStandardInfoMapper(src, src.drr_drr_application_drr_provincialstandarditem_Application)))
                 .ForMember(dest => dest.StandardsComments, opt => opt.MapFrom(src => src.drr_explainhowprojectwillmeetprovincialstanda))
                 .ForMember(dest => dest.StandardsComments, opt => opt.MapFrom(src => src.drr_commentsacceptableprovincialstandards))
                 .ForMember(dest => dest.MeetsRegulatoryRequirements, opt => opt.MapFrom(src => src.drr_requiredagencydiscussionsandapprovals.HasValue ? src.drr_requiredagencydiscussionsandapprovals.Value == (int)DRRTwoOptions.Yes : (bool?)null))
@@ -454,6 +448,12 @@ namespace EMCR.DRR.Resources.Applications
                 ;
         }
 
+        private int? DRRCategorySelectedMapper(StandardInfo? standardInfo)
+        {
+            if (standardInfo == null) return (int?)DRRTwoOptions.No;
+            return standardInfo.IsCategorySelected.HasValue && standardInfo.IsCategorySelected.Value ? (int?)DRRTwoOptions.Yes : (int?)DRRTwoOptions.No;
+        }
+
         private IEnumerable<drr_provincialstandarditem> DRRProvincialStandardItemMapper(IEnumerable<StandardInfo> standardInfo)
         {
             var ret = new List<drr_provincialstandarditem>();
@@ -472,7 +472,7 @@ namespace EMCR.DRR.Resources.Applications
             return ret;
         }
 
-        private IEnumerable<StandardInfo> DRRStandardInfoMapper(IEnumerable<drr_provincialstandarditem> standardItems)
+        private IEnumerable<StandardInfo> DRRStandardInfoMapper(drr_application application, IEnumerable<drr_provincialstandarditem> standardItems)
         {
             var ret = new List<StandardInfo>();
             var categories = standardItems.Select(s => s.drr_ProvincialStandardCategory.drr_name).ToList().Distinct();
@@ -482,11 +482,50 @@ namespace EMCR.DRR.Resources.Applications
                 var standards = standardItems.Where(i => i.drr_ProvincialStandardCategory.drr_name == category).Select(i => new ProvincialStandard { Name = string.IsNullOrEmpty(i.drr_provincialstandarditemcomments) ? i.drr_ProvincialStandard.drr_name : i.drr_provincialstandarditemcomments }).ToList();
                 ret.Add(new StandardInfo
                 {
+                    IsCategorySelected = GetBoolFromCategory(application, category),
                     Category = category,
                     Standards = standards
                 });
             }
+
+            foreach (var categoryName in CategoryNames)
+            {
+                var curr = ret.SingleOrDefault(r => r.Category == categoryName);
+                if (curr == null)
+                {
+                    ret.Add(new StandardInfo { Category = categoryName, IsCategorySelected = false, Standards = Array.Empty<ProvincialStandard>() });
+                }
+            }
             return ret;
+        }
+
+        private IEnumerable<string> CategoryNames = new[]
+        {
+            "Archaeology",
+            "Environment - Mapping and Landscape",
+            "Environment - Seismic",
+            "Environment - Water (includes Rivers, Flooding, etc.)",
+            "Financial",
+            "Other"
+        };
+
+        private bool? GetBoolFromCategory(drr_application application, string categoryName)
+        {
+            switch (categoryName)
+            {
+                case "Archaeology": return DRRTwoOptionMapper(application.drr_archaeology);
+                case "Environment - Mapping and Landscape": return DRRTwoOptionMapper(application.drr_environmentmappingandlandscape);
+                case "Environment - Seismic": return DRRTwoOptionMapper(application.drr_environmentseismic);
+                case "Environment - Water (includes Rivers, Flooding, etc.)": return DRRTwoOptionMapper(application.drr_environmentwater);
+                case "Financial": return DRRTwoOptionMapper(application.drr_financial);
+                case "Other": return DRRTwoOptionMapper(application.drr_othercategory);
+            }
+            return false;
+        }
+
+        private bool? DRRTwoOptionMapper(int? val)
+        {
+            return val.HasValue ? val.Value == (int)DRRTwoOptions.Yes : (bool?)null;
         }
     }
 }
