@@ -55,7 +55,7 @@ namespace EMCR.DRR.API.Controllers
             return Ok(await Task.FromResult(config));
         }
 
-        [HttpGet("entities")]
+        [HttpGet("options")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<EntitiesQueryResult>> GetEntities()

@@ -231,10 +231,9 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             var updatedFp = (await manager.Handle(new DrrApplicationsQuery { Id = fpId, BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault();
             updatedFp.RegionalProject.ShouldBe(true);
             updatedFp.Standards.ShouldContain(s => s.Category == "Other");
+            updatedFp.Standards.Single(s => s.Category == "Other").IsCategorySelected.ShouldBe(true);
             updatedFp.Professionals.ShouldContain(p => p.Name == "professional1");
             updatedFp.LocalGovernmentAuthorizedByPartners.ShouldBe(EMCR.DRR.Managers.Intake.YesNoOption.NotApplicable);
-            updatedFp.IsEnvironmentWater.ShouldBe(true);
-            updatedFp.IsOtherCategory.ShouldBe(true);
             ((int)updatedFp.OperationAndMaintenance).ShouldBe((int)fpToUpdate.OperationAndMaintenance);
         }
 
@@ -273,7 +272,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             var twiceUpdatedFp = (await manager.Handle(new DrrApplicationsQuery { Id = fpId, BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault();
 
             twiceUpdatedFp.Professionals.Count().ShouldBe(fpToUpdate.Professionals.Count());
-            twiceUpdatedFp.Standards.Count().ShouldBe(fpToUpdate.Standards.Count());
+            twiceUpdatedFp.Standards.Count().ShouldBe(6);
             twiceUpdatedFp.ProposedActivities.Count().ShouldBe(fpToUpdate.ProposedActivities.Count());
             twiceUpdatedFp.VerificationMethods.Count().ShouldBe(fpToUpdate.VerificationMethods.Count());
             twiceUpdatedFp.AffectedParties.Count().ShouldBe(fpToUpdate.AffectedParties.Count());
@@ -446,11 +445,9 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             application.Professionals = new[] { "professional1", "professional2" };
             application.ProfessionalGuidanceComments = "professional guidance comments";
             application.StandardsAcceptable = EMCR.DRR.Controllers.YesNoOption.NotApplicable;
-            application.IsEnvironmentWater = true;
-            application.IsOtherCategory = true;
             application.Standards = new[] {
-                new EMCR.DRR.Controllers.StandardInfo { Category = "Environment - Water (includes Rivers, Flooding, etc.)", Standards = new [] { "BC Water Sustainability Act", "Water Survey Canada", "other water env standard" } },
-                new EMCR.DRR.Controllers.StandardInfo { Category = "Other", Standards = new [] { "other_standard1"} },
+                new EMCR.DRR.Controllers.StandardInfo { IsCategorySelected = true, Category = "Environment - Water (includes Rivers, Flooding, etc.)", Standards = new [] { "BC Water Sustainability Act", "Water Survey Canada", "other water env standard" } },
+                new EMCR.DRR.Controllers.StandardInfo { IsCategorySelected = true, Category = "Other", Standards = new [] { "other_standard1"} },
             };
             application.StandardsComments = "standards comments";
             application.MeetsRegulatoryRequirements = false;

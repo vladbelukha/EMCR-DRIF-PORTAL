@@ -242,12 +242,6 @@ namespace EMCR.DRR.Controllers
         public IEnumerable<string>? Professionals { get; set; }
         public string? ProfessionalGuidanceComments { get; set; }
         public YesNoOption? StandardsAcceptable { get; set; }
-        public bool? IsArchaeology { get; set; }
-        public bool? IsEnvironmentMapping { get; set; }
-        public bool? IsEnvironmentSeismic { get; set; }
-        public bool? IsEnvironmentWater { get; set; }
-        public bool? IsFinancial { get; set; }
-        public bool? IsOtherCategory { get; set; }
         public IEnumerable<StandardInfo>? Standards { get; set; }
         public string? StandardsComments { get; set; }
         public bool? MeetsRegulatoryRequirements { get; set; }
@@ -344,6 +338,7 @@ namespace EMCR.DRR.Controllers
 
     public class StandardInfo
     {
+        public bool? IsCategorySelected { get; set; }
         public string? Category { get; set; }
         public IEnumerable<string>? Standards { get; set; }
     }
