@@ -49,20 +49,19 @@
     ></drr-radio-button>
 
     <div *ngFor="let control of getStandardsInfoArrayControls(); let i = index">
+      <!-- <mat-checkbox
+        style="margin-bottom: 1rem"
+        formControlName=""
+        >{{ control.value.category }}</mat-checkbox
+      > -->
+
       <drr-chip-autocomplete
-        [label]="control.value.category"
+        [label]="control.value.category + ' standards'"
         [placeholder]="t('standardsPlaceholder')"
         [options]="getStandardsOptions(control.value.category)"
         [rxFormControl]="control.get('standards')"
       ></drr-chip-autocomplete>
     </div>
-
-    <!-- <drr-chip-autocomplete
-      [label]="t('standards')"
-      [placeholder]="t('standardsPlaceholder')"
-      [options]="provincialStandardsOptions"
-      [rxFormControl]="permitsRegulationsAndStandardsForm.get('standards')"
-    ></drr-chip-autocomplete> -->
 
     <drr-textarea
       [label]="t('standardsComments')"

@@ -202,10 +202,6 @@ export class YearOverYearFundingForm {
 export class BudgetForm {
   @prop()
   @required()
-  totalProjectCost?: number;
-
-  @prop()
-  @required()
   estimatedTotal?: number;
 
   @prop()
