@@ -5,7 +5,12 @@ import {
 } from '@angular/cdk/stepper';
 import { CommonModule } from '@angular/common';
 import { Component, HostListener, inject, ViewChild } from '@angular/core';
-import { FormArray, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormArray,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -222,7 +227,6 @@ export class DrifFpComponent {
             communityImpact: response.communityImpact,
             estimatedPeopleImpacted: response.estimatedPeopleImpacted,
             isInfrastructureImpacted: response.isInfrastructureImpacted,
-            // infrastructureImpacted: response.infrastructureImpacted,
             locationDescription: response.locationDescription,
             units: response.units,
             relatedHazards: response.relatedHazards,
@@ -345,6 +349,21 @@ export class DrifFpComponent {
             { emitEvent: false }
           );
         });
+
+        if (
+          this.fullProposalForm
+            .get('ownershipAndAuthorization')
+            ?.get('ownershipDeclaration')?.value === false
+        ) {
+          this.fullProposalForm
+            .get('ownershipAndAuthorization')
+            ?.get('ownershipDescription')
+            ?.addValidators(Validators.required);
+          this.fullProposalForm
+            .get('ownershipAndAuthorization')
+            ?.get('ownershipDescription')
+            ?.updateValueAndValidity();
+        }
 
         const infrastructureImpacted = this.getFormGroup('projectArea').get(
           'infrastructureImpacted'

@@ -61,18 +61,10 @@ export class DrifFpStep2Component {
       'ownershipDescription'
     );
 
-    // check if comments should be mandatory
-    if (
-      !this.ownershipAndAuthorizationForm.get('ownershipDeclaration')!.value
-    ) {
-      ownershipDescription?.addValidators(Validators.required);
-      ownershipDescription?.updateValueAndValidity();
-    }
-
     this.ownershipAndAuthorizationForm
       .get('ownershipDeclaration')!
       .valueChanges.subscribe((value) => {
-        if (!value) {
+        if (value === false) {
           ownershipDescription?.addValidators(Validators.required);
         } else {
           ownershipDescription?.clearValidators();
