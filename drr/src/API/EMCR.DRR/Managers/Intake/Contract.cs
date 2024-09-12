@@ -216,12 +216,6 @@ namespace EMCR.DRR.Managers.Intake
         public IEnumerable<ProfessionalInfo> Professionals { get; set; } //Missing list in CRM
         public string? ProfessionalGuidanceComments { get; set; }
         public YesNoOption? StandardsAcceptable { get; set; }
-        public bool? IsArchaeology { get; set; }
-        public bool? IsEnvironmentMapping { get; set; }
-        public bool? IsEnvironmentSeismic { get; set; }
-        public bool? IsEnvironmentWater { get; set; }
-        public bool? IsFinancial { get; set; }
-        public bool? IsOtherCategory { get; set; }
         public IEnumerable<StandardInfo> Standards { get; set; }
         public string? StandardsComments { get; set; }
         public bool? MeetsRegulatoryRequirements { get; set; }
@@ -330,6 +324,7 @@ namespace EMCR.DRR.Managers.Intake
 
     public class StandardInfo
     {
+        public bool? IsCategorySelected { get; set; }
         public required string Category { get; set; }
         public required IEnumerable<ProvincialStandard> Standards { get; set; }
     }
