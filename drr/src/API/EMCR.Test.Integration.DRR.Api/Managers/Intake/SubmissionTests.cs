@@ -230,6 +230,8 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
 
             var updatedFp = (await manager.Handle(new DrrApplicationsQuery { Id = fpId, BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault();
             updatedFp.RegionalProject.ShouldBe(true);
+            updatedFp.IsInfrastructureImpacted.ShouldBe(true);
+            updatedFp.EstimatedPeopleImpactedFP.ShouldBe(EMCR.DRR.Managers.Intake.EstimatedNumberOfPeopleFP.FiveHundredToOneK);
             updatedFp.Standards.ShouldContain(s => s.Category == "Other");
             updatedFp.Standards.Single(s => s.Category == "Other").IsCategorySelected.ShouldBe(true);
             updatedFp.Professionals.ShouldContain(p => p.Name == "professional1");
@@ -421,6 +423,9 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             application.FirstNationsAuthorizedByPartners = EMCR.DRR.Controllers.YesNoOption.No;
             application.LocalGovernmentAuthorizedByPartners = EMCR.DRR.Controllers.YesNoOption.NotApplicable;
             application.AuthorizationOrEndorsementComments = "authority or endorsement comments";
+
+            application.IsInfrastructureImpacted = true;
+            application.EstimatedPeopleImpactedFP = EMCR.DRR.Controllers.EstimatedNumberOfPeopleFP.FiveHundredToOneK;
 
             application.ProjectDescription = "Project Description";
             application.ProposedActivities = new[]

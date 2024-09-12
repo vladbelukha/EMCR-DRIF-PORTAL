@@ -67,6 +67,7 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.drr_authorizedendorsedlocalgovpartners, opt => opt.MapFrom(src => src.LocalGovernmentAuthorizedByPartners.HasValue ? (int?)Enum.Parse<DRRYesNoNotApplicable>(src.LocalGovernmentAuthorizedByPartners.Value.ToString()) : null))
                 .ForMember(dest => dest.drr_authorizationorendorsementcomments, opt => opt.MapFrom(src => src.AuthorizationOrEndorsementComments))
                 //Project Area - 3 - intentionally blank
+                .ForMember(dest => dest.drr_estimatednumberofpeopleimpactedfp, opt => opt.MapFrom(src => src.EstimatedPeopleImpactedFP.HasValue ? (int?)Enum.Parse<EstimatedNumberOfPeopleFPOptionSet>(src.EstimatedPeopleImpactedFP.Value.ToString()) : null))
 
                 //Project Plan - 4
                 .ForMember(dest => dest.drr_drr_application_drr_proposedactivity_Application, opt => opt.MapFrom(src => src.ProposedActivities))
@@ -219,7 +220,8 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.Area, opt => opt.Ignore())
                 .ForMember(dest => dest.Units, opt => opt.Ignore())
                 .ForMember(dest => dest.AreaDescription, opt => opt.Ignore())
-                .ForMember(dest => dest.IsInfrastructureImpacted, opt => opt.Ignore())
+                .ForMember(dest => dest.IsInfrastructureImpacted, opt => opt.MapFrom(src => src.drr_criticalinfrastructurewillormaybeimpacted.HasValue ? src.drr_criticalinfrastructurewillormaybeimpacted.Value == (int)DRRTwoOptions.Yes : (bool?)null))
+                .ForMember(dest => dest.EstimatedPeopleImpactedFP, opt => opt.MapFrom(src => src.drr_estimatednumberofpeopleimpactedfp.HasValue ? (int?)Enum.Parse<EstimatedNumberOfPeopleFP>(((EstimatedNumberOfPeopleFPOptionSet)src.drr_estimatednumberofpeopleimpactedfp).ToString()) : null))
                 //Project Plan - 4
                 .ForMember(dest => dest.ProposedActivities, opt => opt.MapFrom(src => src.drr_drr_application_drr_proposedactivity_Application))
                 .ForMember(dest => dest.VerificationMethods, opt => opt.MapFrom(src => src.drr_drr_application_drr_projectneedidentificationitem_Application))
