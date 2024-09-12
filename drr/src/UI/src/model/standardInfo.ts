@@ -9,5 +9,7 @@ export interface StandardInfo {
   /** @nullable */
   category?: string;
   /** @nullable */
+  isCategorySelected?: boolean;
+  /** @nullable */
   standards?: string[];
 }

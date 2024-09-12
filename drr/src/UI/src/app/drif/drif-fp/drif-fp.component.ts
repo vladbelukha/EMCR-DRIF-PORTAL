@@ -404,14 +404,15 @@ export class DrifFpComponent {
           'permitsRegulationsAndStandards'
         ).get('standards') as FormArray;
         this.optionsStore.standards?.()?.forEach((standard) => {
-          const standards = response.standards?.find(
+          const standardsInfo = response.standards?.find(
             (s) => s.category === standard.category
-          )?.standards;
+          );
           standardsFormArray?.push(
             this.formBuilder.formGroup(
               new StandardInfoForm({
+                isCategorySelected: standardsInfo?.isCategorySelected,
                 category: standard.category,
-                standards: standards ?? [],
+                standards: standardsInfo?.standards ?? [],
               })
             ),
             { emitEvent: false }

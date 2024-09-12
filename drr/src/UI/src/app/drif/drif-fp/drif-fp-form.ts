@@ -62,6 +62,9 @@ export class StandardInfoForm implements StandardInfo {
   category?: string | undefined;
 
   @prop()
+  isCategorySelected?: boolean | undefined;
+
+  @prop()
   standards?: string[] | undefined;
 
   constructor(values: StandardInfoForm) {
