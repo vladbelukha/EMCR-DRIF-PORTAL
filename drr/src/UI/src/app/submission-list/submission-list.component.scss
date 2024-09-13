@@ -1,7 +1,10 @@
+.submissions-container {
+  margin: 1rem;
+}
+
 .submissions-header {
   display: flex;
   flex-direction: column;
-  padding: 1rem;
 
   button {
     margin-left: auto;
@@ -17,6 +20,7 @@
 .submissions-table {
   width: 100%;
   border-collapse: collapse;
+  padding-top: 1rem;
 }
 
 .no-data {

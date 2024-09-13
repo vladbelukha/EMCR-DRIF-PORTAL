@@ -1,7 +1,6 @@
-<div *transloco="let t">
+<div *transloco="let t; read: 'submission-list'" class="submissions-container">
   <div class="submissions-header">
     <button mat-raised-button color="primary" (click)="onCreateFormClick()">
-      <mat-icon>add</mat-icon>
       <span>{{ t("startNewEOI") }}</span>
     </button>
   </div>
@@ -15,7 +14,9 @@
       class="mat-elevation-z8"
     >
       <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ t("applicationId") }}
+        </th>
         <td mat-cell *matCellDef="let element" style="white-space: nowrap">
           <a (click)="onViewFormClick(element, $event)" href="">
             {{ element.id }}
@@ -24,20 +25,24 @@
       </ng-container>
 
       <ng-container matColumnDef="projectTitle">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Project Title</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ t("projectTitle") }}
+        </th>
         <td mat-cell *matCellDef="let element" style="overflow-wrap: anywhere">
           {{ element.projectTitle }}
         </td>
       </ng-container>
 
       <ng-container matColumnDef="status">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ t("status") }}
+        </th>
         <td mat-cell *matCellDef="let element">{{ t(element.status) }}</td>
       </ng-container>
 
       <ng-container matColumnDef="fundingRequest">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>
-          Funding Request
+          {{ t("fundingRequest") }}
         </th>
         <td mat-cell *matCellDef="let element">
           {{ element.fundingRequest | currency }}
@@ -45,7 +50,9 @@
       </ng-container>
 
       <ng-container matColumnDef="modifiedDate">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Modified Date</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ t("modifiedDate") }}
+        </th>
         <td mat-cell *matCellDef="let element">
           {{ element.modifiedDate | date : "yyyy-MM-dd" }}
         </td>
@@ -53,7 +60,7 @@
 
       <ng-container matColumnDef="submittedDate">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>
-          Submitted Date
+          {{ t("submittedDate") }}
         </th>
         <td mat-cell *matCellDef="let element">
           {{ element.submittedDate | date : "yyyy-MM-dd" }}
@@ -62,7 +69,7 @@
 
       <ng-container matColumnDef="partneringProponents">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>
-          Partnering Proponents
+          {{ t("partneringProponents") }}
         </th>
         <td mat-cell *matCellDef="let element" style="overflow-wrap: anywhere">
           <p *ngFor="let proponent of element.partneringProponents">
@@ -72,7 +79,9 @@
       </ng-container>
 
       <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <th mat-header-cell *matHeaderCellDef>
+          {{ t("actions") }}
+        </th>
         <td mat-cell *matCellDef="let element" class="submission-actions">
           <button
             *ngIf="element.status === 'Draft'"
