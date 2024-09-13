@@ -60,10 +60,11 @@ export class DrifFpStep10Component {
 
   isMobile = false;
 
-  fiscalYearsOptions = this.optionsStore.fiscalYears?.()?.map((value) => ({
-    value,
-    label: value,
-  }));
+  fiscalYearsOptions =
+    this.optionsStore.fiscalYears?.()?.map((value) => ({
+      value,
+      label: value,
+    })) ?? [];
   fundingTypeOptions = Object.values(FundingType).map((value) => ({
     value,
     label: this.translocoService.translate(value),
@@ -73,12 +74,7 @@ export class DrifFpStep10Component {
     { value: YesNoOption.NotApplicable, label: 'Yes, but costs unknown' },
     { value: YesNoOption.No, label: 'No' },
   ];
-  costConsiderationsOptions = this.optionsStore
-    .costConsiderations?.()
-    ?.map((value) => ({
-      value,
-      label: value,
-    }));
+  costConsiderationsOptions = this.optionsStore.costConsiderations?.() ?? [];
 
   ngOnInit() {
     const currentYear = new Date().getFullYear();

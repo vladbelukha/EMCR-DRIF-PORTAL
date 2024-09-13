@@ -4,7 +4,7 @@ import { AbstractControl } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy } from '@ngneat/until-destroy';
-import { RxFormControl } from '@rxweb/reactive-form-validators';
+import { NgxMaskPipe } from 'ngx-mask';
 
 export type ControlType =
   | 'input'
@@ -14,7 +14,8 @@ export type ControlType =
   | 'checkbox'
   | 'array'
   | 'date'
-  | 'currency';
+  | 'currency'
+  | 'phone';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -23,12 +24,13 @@ export type ControlType =
   imports: [CommonModule, MatInputModule, TranslocoModule],
   templateUrl: './summary-item.component.html',
   styleUrl: './summary-item.component.scss',
-  providers: [DatePipe, CurrencyPipe],
+  providers: [DatePipe, CurrencyPipe, NgxMaskPipe],
 })
 export class SummaryItemComponent {
   translocoService = inject(TranslocoService);
   datePipe = inject(DatePipe);
   currencyPipe = inject(CurrencyPipe);
+  maskPipe = inject(NgxMaskPipe);
 
   @Input() label?: string;
 
@@ -66,6 +68,8 @@ export class SummaryItemComponent {
         return this.datePipe.transform(controlValue, 'yyyy-MM-dd');
       case 'currency':
         return this.currencyPipe.transform(Math.abs(controlValue));
+      case 'phone':
+        return this.maskPipe.transform(controlValue, '000-000-0000');
 
       default:
         return this.rxFormControl?.value;
@@ -76,7 +80,7 @@ export class SummaryItemComponent {
 
   @Input() translate = true;
 
-  @Input() rxFormControl?: RxFormControl;
+  @Input() rxFormControl?: AbstractControl | null;
 
   isRequired(): boolean {
     if (this.rxFormControl && this.rxFormControl.validator) {
