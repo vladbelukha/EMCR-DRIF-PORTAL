@@ -115,6 +115,18 @@ namespace EMCR.DRR.Resources.Applications
         HundredKPlus = 172580003,
         Unsure = 172580004
     }
+    
+    public enum EstimatedNumberOfPeopleFPOptionSet
+    {
+        ZeroToFiveHundred = 172580000,
+        FiveHundredToOneK = 172580001,
+        OneKToFiveK = 172580002,
+        FiveKToTenK = 172580003,
+        TenKToFiftyK = 172580004,
+        FiftyKToHundredK = 172580005,
+        HundredKPlus = 172580006,
+        Unsure = 172580007,
+    }
 
     public enum HazardsOptionSet
     {
@@ -128,6 +140,13 @@ namespace EMCR.DRR.Resources.Applications
         Storm = 172580007,
         Tsunami = 172580008,
         Other = 172580999,
+    }
+
+    public enum AreaUnitsOptionSet
+    {
+        Hectares = 172580000,
+        Acres = 172580001,
+        SqKm = 172580002,
     }
 
     public enum DRRTwoOptions

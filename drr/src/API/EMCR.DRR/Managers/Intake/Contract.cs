@@ -191,6 +191,7 @@ namespace EMCR.DRR.Managers.Intake
         public AreaUnits? Units { get; set; }
         public string? AreaDescription { get; set; }
         public bool? IsInfrastructureImpacted { get; set; }
+        public EstimatedNumberOfPeopleFP? EstimatedPeopleImpactedFP { get; set; }
 
         //Project Plan - 4
         public IEnumerable<ProposedActivity>? ProposedActivities { get; set; }
@@ -436,6 +437,18 @@ namespace EMCR.DRR.Managers.Intake
         Unsure
     }
 
+    public enum EstimatedNumberOfPeopleFP
+    {
+        ZeroToFiveHundred,
+        FiveHundredToOneK,
+        OneKToFiveK,
+        FiveKToTenK,
+        TenKToFiftyK,
+        FiftyKToHundredK,
+        HundredKPlus,
+        Unsure
+    }
+
     public enum ProjectType
     {
         New,
@@ -485,7 +498,8 @@ namespace EMCR.DRR.Managers.Intake
 
     public enum AreaUnits
     {
-        m2,
-        ha
+        Hectares,
+        Acres,
+        SqKm,
     }
 }

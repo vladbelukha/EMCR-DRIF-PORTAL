@@ -230,6 +230,8 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
 
             var updatedFp = (await manager.Handle(new DrrApplicationsQuery { Id = fpId, BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault();
             updatedFp.RegionalProject.ShouldBe(true);
+            updatedFp.IsInfrastructureImpacted.ShouldBe(true);
+            updatedFp.EstimatedPeopleImpactedFP.ShouldBe(EMCR.DRR.Managers.Intake.EstimatedNumberOfPeopleFP.FiveHundredToOneK);
             updatedFp.Standards.ShouldContain(s => s.Category == "Other");
             updatedFp.Standards.Single(s => s.Category == "Other").IsCategorySelected.ShouldBe(true);
             updatedFp.Professionals.ShouldContain(p => p.Name == "professional1");
@@ -412,9 +414,12 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
 
         private DraftFpApplication FillInFullProposal(DraftFpApplication application)
         {
+            //Proponent & Project Information - 1
             application.RegionalProject = true;
             application.RegionalProjectComments = "regional comments";
+            application.MainDeliverable = "main deliverable";
 
+            //Ownership & Authorization - 2
             application.HaveAuthorityToDevelop = true;
             application.OperationAndMaintenance = EMCR.DRR.Controllers.YesNoOption.Yes;
             application.OperationAndMaintenanceComments = "operation and maint. comments";
@@ -422,7 +427,14 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             application.LocalGovernmentAuthorizedByPartners = EMCR.DRR.Controllers.YesNoOption.NotApplicable;
             application.AuthorizationOrEndorsementComments = "authority or endorsement comments";
 
-            application.ProjectDescription = "Project Description";
+            //Project Area - 3
+            application.Area = 123;
+            application.Units = EMCR.DRR.Controllers.AreaUnits.Acres;
+            application.AreaDescription = "area description";
+            application.IsInfrastructureImpacted = true;
+            application.EstimatedPeopleImpactedFP = EMCR.DRR.Controllers.EstimatedNumberOfPeopleFP.FiveHundredToOneK;
+
+            //Project Plan - 4
             application.ProposedActivities = new[]
             {
                 new EMCR.DRR.Controllers.ProposedActivity {StartDate = DateTime.UtcNow, EndDate = DateTime.UtcNow.AddDays(5), Name = "autotest-proposed-activity-name", RelatedMilestone = "some milestone" }
@@ -431,14 +443,17 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             application.VerificationMethodsComments = "verification method comments";
             application.ProjectAlternateOptions = "some alternate options";
 
+            //Project Engagement - 5
             application.EngagedWithFirstNationsComments = "first nations comments";
             application.OtherEngagement = EMCR.DRR.Controllers.YesNoOption.Yes;
             application.AffectedParties = new[] { "party 1", "party 2" };
             application.OtherEngagementComments = "other engagement comments";
             application.CollaborationComments = "collaboration comments";
 
+            //Climate Adaptation - 6
             application.IncorporateFutureClimateConditions = true;
 
+            //Permits Regulations & Standards - 7
             application.Approvals = false;
             application.ApprovalsComments = "approvals comments";
             application.ProfessionalGuidance = false;
@@ -453,6 +468,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             application.MeetsRegulatoryRequirements = false;
             application.MeetsRegulatoryComments = "regulations comments";
 
+            //Project Outcomes - 8
             application.PublicBenefit = false;
             application.PublicBenefitComments = "public benefit comments";
             application.FutureCostReduction = true;
@@ -464,6 +480,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             application.IncreasedResiliency = new[] { "resiliency 1", "resiliency 2" };
             application.IncreasedResiliencyComments = "resiliency comments";
 
+            //Project Risks - 9
             application.ComplexityRiskMitigated = true;
             application.ComplexityRisks = new[] { "complexity risk 1", "complexity risk 2" };
             application.ComplexityRiskComments = "risk comments";
@@ -480,6 +497,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             application.TransferRisks = new[] { "transfer risk 1", "transfer risk 2" };
             application.TransferRisksComments = "transfer comments";
 
+            //Budget - 10
             application.YearOverYearFunding = new[] { new EMCR.DRR.Controllers.YearOverYearFunding { Amount = 100, Year = "2024/2025" } };
             application.TotalDrifFundingRequest = 5000;
             application.DiscrepancyComment = "discrepancy comment";

@@ -67,6 +67,11 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.drr_authorizedendorsedlocalgovpartners, opt => opt.MapFrom(src => src.LocalGovernmentAuthorizedByPartners.HasValue ? (int?)Enum.Parse<DRRYesNoNotApplicable>(src.LocalGovernmentAuthorizedByPartners.Value.ToString()) : null))
                 .ForMember(dest => dest.drr_authorizationorendorsementcomments, opt => opt.MapFrom(src => src.AuthorizationOrEndorsementComments))
                 //Project Area - 3 - intentionally blank
+                .ForMember(dest => dest.drr_estimatedsizeofprojectarea, opt => opt.MapFrom(src => src.Area))
+                .ForMember(dest => dest.drr_unitofmeasure, opt => opt.MapFrom(src => src.Units.HasValue ? (int?)Enum.Parse<AreaUnitsOptionSet>(src.Units.Value.ToString()) : null))
+                .ForMember(dest => dest.drr_projectarea, opt => opt.MapFrom(src => src.AreaDescription))
+                .ForMember(dest => dest.drr_criticalinfrastructurewillormaybeimpacted, opt => opt.MapFrom(src => src.IsInfrastructureImpacted.HasValue && src.IsInfrastructureImpacted.Value ? DRRTwoOptions.Yes : DRRTwoOptions.No))
+                .ForMember(dest => dest.drr_estimatednumberofpeopleimpactedfp, opt => opt.MapFrom(src => src.EstimatedPeopleImpactedFP.HasValue ? (int?)Enum.Parse<EstimatedNumberOfPeopleFPOptionSet>(src.EstimatedPeopleImpactedFP.Value.ToString()) : null))
 
                 //Project Plan - 4
                 .ForMember(dest => dest.drr_drr_application_drr_proposedactivity_Application, opt => opt.MapFrom(src => src.ProposedActivities))
@@ -139,10 +144,14 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.drr_drr_application_drr_driffundingrequest_Application, opt => opt.MapFrom(src => src.YearOverYearFunding))
                 .ForMember(dest => dest.drr_totaldrifprogramfundingrequest, opt => opt.MapFrom(src => src.TotalDrifFundingRequest))
                 .ForMember(dest => dest.drr_explaindiscrepancy, opt => opt.MapFrom(src => src.DiscrepancyComment))
+                //CostEffective
+                .ForMember(dest => dest.drr_costeffectiveness, opt => opt.MapFrom(src => src.CostEffectiveComments))
                 .ForMember(dest => dest.drr_pastresponsecostprojectdesignedtomitigate, opt => opt.MapFrom(src => src.PreviousResponse.HasValue ? (int?)Enum.Parse<DRRYesNoNotApplicable>(src.PreviousResponse.Value.ToString()) : null))
                 .ForMember(dest => dest.drr_cost, opt => opt.MapFrom(src => src.PreviousResponseCost))
+                //PreviousResponseComments
                 .ForMember(dest => dest.drr_stepstakentobecosteffective, opt => opt.MapFrom(src => src.ActivityCostEffectiveness))
                 .ForMember(dest => dest.drr_costconsiderationsapply, opt => opt.MapFrom(src => src.CostConsiderationsApplied.HasValue && src.CostConsiderationsApplied.Value ? DRRTwoOptions.Yes : DRRTwoOptions.No))
+                //CostConsiderations
                 .ForMember(dest => dest.drr_explaincostconsiderations, opt => opt.MapFrom(src => src.CostConsiderationsComments))
 
                 //Attachments - 11
@@ -216,10 +225,11 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.LocalGovernmentAuthorizedByPartners, opt => opt.MapFrom(src => src.drr_authorizedendorsedlocalgovpartners.HasValue ? (int?)Enum.Parse<YesNoOption>(((DRRYesNoNotApplicable)src.drr_authorizedendorsedlocalgovpartners).ToString()) : null))
                 .ForMember(dest => dest.AuthorizationOrEndorsementComments, opt => opt.MapFrom(src => src.drr_authorizationorendorsementcomments))
                 //Project Area - 3
-                .ForMember(dest => dest.Area, opt => opt.Ignore())
-                .ForMember(dest => dest.Units, opt => opt.Ignore())
-                .ForMember(dest => dest.AreaDescription, opt => opt.Ignore())
-                .ForMember(dest => dest.IsInfrastructureImpacted, opt => opt.Ignore())
+                .ForMember(dest => dest.Area, opt => opt.MapFrom(src => src.drr_estimatedsizeofprojectarea))
+                .ForMember(dest => dest.Units, opt => opt.MapFrom(src => src.drr_unitofmeasure.HasValue ? (int?)Enum.Parse<AreaUnits>(((AreaUnitsOptionSet)src.drr_unitofmeasure).ToString()) : null))
+                .ForMember(dest => dest.AreaDescription, opt => opt.MapFrom(src => src.drr_projectarea))
+                .ForMember(dest => dest.IsInfrastructureImpacted, opt => opt.MapFrom(src => src.drr_criticalinfrastructurewillormaybeimpacted.HasValue ? src.drr_criticalinfrastructurewillormaybeimpacted.Value == (int)DRRTwoOptions.Yes : (bool?)null))
+                .ForMember(dest => dest.EstimatedPeopleImpactedFP, opt => opt.MapFrom(src => src.drr_estimatednumberofpeopleimpactedfp.HasValue ? (int?)Enum.Parse<EstimatedNumberOfPeopleFP>(((EstimatedNumberOfPeopleFPOptionSet)src.drr_estimatednumberofpeopleimpactedfp).ToString()) : null))
                 //Project Plan - 4
                 .ForMember(dest => dest.ProposedActivities, opt => opt.MapFrom(src => src.drr_drr_application_drr_proposedactivity_Application))
                 .ForMember(dest => dest.VerificationMethods, opt => opt.MapFrom(src => src.drr_drr_application_drr_projectneedidentificationitem_Application))
@@ -280,7 +290,7 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.TotalDrifFundingRequest, opt => opt.MapFrom(src => src.drr_totaldrifprogramfundingrequest))
                 .ForMember(dest => dest.DiscrepancyComment, opt => opt.MapFrom(src => src.drr_explaindiscrepancy))
                 .ForMember(dest => dest.CostEffective, opt => opt.Ignore())
-                .ForMember(dest => dest.CostEffectiveComments, opt => opt.Ignore())
+                .ForMember(dest => dest.CostEffectiveComments, opt => opt.MapFrom(src => src.drr_costeffectiveness))
                 .ForMember(dest => dest.PreviousResponse, opt => opt.MapFrom(src => src.drr_pastresponsecostprojectdesignedtomitigate.HasValue ? (int?)Enum.Parse<YesNoOption>(((DRRYesNoNotApplicable)src.drr_pastresponsecostprojectdesignedtomitigate).ToString()) : null))
                 .ForMember(dest => dest.PreviousResponseCost, opt => opt.MapFrom(src => src.drr_cost))
                 .ForMember(dest => dest.PreviousResponseComments, opt => opt.Ignore())
