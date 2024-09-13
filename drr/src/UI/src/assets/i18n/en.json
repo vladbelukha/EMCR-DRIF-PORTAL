@@ -330,6 +330,10 @@
   "estimatedPeopleImpactedText": "Please review the estimated number of people impacted by the project provided in the EOI and update as necessary.",
   "infrastructure": "Infrastructure",
   "impact": "Impact",
+  "Increased": "Increased",
+  "Transferred": "Transferred",
+  "m2": "m²",
+  "ha": "ha",
   "screener": {
     "header": "Are you ready to submit your Full Proposal?",
     "skip": "Skip",
