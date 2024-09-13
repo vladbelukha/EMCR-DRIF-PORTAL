@@ -4,9 +4,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
 
+import { UntilDestroy } from '@ngneat/until-destroy';
 import { DrifapplicationService } from '../../../../api/drifapplication/drifapplication.service';
 import { ScreenerQuestions } from '../../../../model';
 
+@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'drr-drif-fp-instructions',
   standalone: true,

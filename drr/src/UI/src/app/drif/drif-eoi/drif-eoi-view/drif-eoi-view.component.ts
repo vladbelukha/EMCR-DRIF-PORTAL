@@ -4,6 +4,7 @@ import { FormArray, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
+import { UntilDestroy } from '@ngneat/until-destroy';
 import {
   IFormGroup,
   RxFormBuilder,
@@ -20,6 +21,7 @@ import {
 } from '../drif-eoi-form';
 import { DrifEoiSummaryComponent } from '../drif-eoi-summary/drif-eoi-summary.component';
 
+@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'drif-eoi-summary',
   standalone: true,

@@ -6,6 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { TranslocoModule } from '@ngneat/transloco';
+import { UntilDestroy } from '@ngneat/until-destroy';
 import { IFormGroup, RxFormBuilder } from '@rxweb/reactive-form-validators';
 import { DateTime } from 'luxon';
 import { DrrChipAutocompleteComponent } from '../../../shared/controls/drr-chip-autocomplete/drr-chip-autocomplete.component';
@@ -16,6 +17,7 @@ import { DrrTextareaComponent } from '../../../shared/controls/drr-textarea/drr-
 import { OptionsStore } from '../../../store/entities.store';
 import { ProjectPlanForm, ProposedActivityForm } from '../drif-fp-form';
 
+@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'drif-fp-step-4',
   standalone: true,
@@ -49,14 +51,6 @@ export class DrifFpStep4Component {
   verificationMethodOptions = this.optionsStore
     .getOptions()
     ?.verificationMethods?.();
-
-  ngOnInit() {
-    // this.projectPlanForm.get('startDate')?.valueChanges.subscribe((date) => {
-    //   this.setEndDate(date);
-    // });
-
-    
-  }
 
   setEndDate(startDate: any) {
     if (!startDate) {

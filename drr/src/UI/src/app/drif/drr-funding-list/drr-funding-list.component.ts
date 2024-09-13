@@ -10,7 +10,8 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectChange } from '@angular/material/select';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { UntilDestroy } from '@ngneat/until-destroy';
 import { RxFormBuilder } from '@rxweb/reactive-form-validators';
 import { FundingType } from '../../../model';
 import { DrrCurrencyInputComponent } from '../../shared/controls/drr-currency-input/drr-currency-input.component';
@@ -18,6 +19,7 @@ import { DrrInputComponent } from '../../shared/controls/drr-input/drr-input.com
 import { DrrSelectComponent } from '../../shared/controls/drr-select/drr-select.component';
 import { FundingInformationItemForm } from '../drif-eoi/drif-eoi-form';
 
+@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'drr-funding-list',
   standalone: true,
@@ -38,9 +40,13 @@ import { FundingInformationItemForm } from '../drif-eoi/drif-eoi-form';
 export class DrrFundingListComponent {
   breakpointObserver = inject(BreakpointObserver);
   formBuilder = inject(RxFormBuilder);
+  translocoService = inject(TranslocoService);
 
   isMobile = false;
-  fundingTypeOptions: string[] = Object.values(FundingType);
+  fundingTypeOptions = Object.values(FundingType).map((value) => ({
+    value,
+    label: this.translocoService.translate(value),
+  }));
 
   @Input()
   fundingFormArray!: FormArray;

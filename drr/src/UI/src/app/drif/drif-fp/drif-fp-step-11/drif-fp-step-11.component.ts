@@ -5,11 +5,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { TranslocoModule } from '@ngneat/transloco';
+import { UntilDestroy } from '@ngneat/until-destroy';
 import { IFormGroup } from '@rxweb/reactive-form-validators';
 import { DrrFileUploadComponent } from '../../../shared/controls/drr-file-upload/drr-file-upload.component';
 import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
 import { AttachmentsForm, FileForm } from '../drif-fp-form';
 
+@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'drif-fp-step-11',
   standalone: true,

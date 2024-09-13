@@ -7,6 +7,7 @@ import {
 } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslocoModule } from '@ngneat/transloco';
+import { UntilDestroy } from '@ngneat/until-destroy';
 import {
   RxFormControl,
   RxReactiveFormsModule,
@@ -17,6 +18,7 @@ import {
   RadioOption,
 } from '../../../shared/controls/drr-radio-button/drr-radio-button.component';
 
+@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'drif-fp-screener-question',
   standalone: true,

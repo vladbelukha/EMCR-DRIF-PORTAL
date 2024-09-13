@@ -4,8 +4,10 @@ import { ChangeDetectorRef, Component, Input, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { UntilDestroy } from '@ngneat/until-destroy';
 import { RxFormBuilder, RxFormControl } from '@rxweb/reactive-form-validators';
 
+@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'drr-textarea',
   templateUrl: './drr-textarea.component.html',

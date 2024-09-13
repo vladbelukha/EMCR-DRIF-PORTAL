@@ -6,6 +6,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { TranslocoModule } from '@ngneat/transloco';
+import { UntilDestroy } from '@ngneat/until-destroy';
 import { IFormGroup, RxFormControl } from '@rxweb/reactive-form-validators';
 import { DrifapplicationService } from '../../../../api/drifapplication/drifapplication.service';
 import { ApplicationType, DeclarationType } from '../../../../model';
@@ -14,6 +15,7 @@ import { ProfileStore } from '../../../store/profile.store';
 import { DeclarationForm, EOIApplicationForm } from '../drif-eoi-form';
 import { DrifEoiSummaryComponent } from '../drif-eoi-summary/drif-eoi-summary.component';
 
+@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'drif-eoi-step-8',
   standalone: true,

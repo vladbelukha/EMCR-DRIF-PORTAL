@@ -11,11 +11,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { TranslocoModule } from '@ngneat/transloco';
+import { UntilDestroy } from '@ngneat/until-destroy';
 import { RxFormBuilder, RxFormControl } from '@rxweb/reactive-form-validators';
 import { NgxMaskDirective } from 'ngx-mask';
 
 export type InputType = 'text' | 'tel' | 'number' | 'email';
 
+@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'drr-input',
   templateUrl: './drr-input.component.html',

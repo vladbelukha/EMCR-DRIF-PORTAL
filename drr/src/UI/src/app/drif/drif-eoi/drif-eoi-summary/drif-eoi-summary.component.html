@@ -7,22 +7,17 @@
     <mat-card-content>
       <drr-summary-item
         [label]="t('proponentType')"
-        [value]="
-          t(getRxFormControl('proponentInformation', 'proponentType').value)
-        "
         [rxFormControl]="
-          getRxFormControl('proponentInformation', 'proponentType')
+          eoiApplicationForm.get('proponentInformation.proponentType')
         "
+        controlType="radio"
       >
       </drr-summary-item>
 
       <drr-summary-item
         [label]="t('proponentName')"
-        [value]="
-          getRxFormControl('proponentInformation', 'proponentName').value
-        "
         [rxFormControl]="
-          getRxFormControl('proponentInformation', 'proponentName')
+          eoiApplicationForm.get('proponentInformation.proponentName')
         "
       >
       </drr-summary-item>
@@ -40,18 +35,9 @@
         <div class="summary-row">
           <drr-summary-item
             [label]="t('firstName')"
-            [value]="
-              getRxGroupFormControl(
-                'proponentInformation',
-                'projectContact',
-                'firstName'
-              ).value
-            "
             [rxFormControl]="
-              getRxGroupFormControl(
-                'proponentInformation',
-                'projectContact',
-                'firstName'
+              eoiApplicationForm.get(
+                'proponentInformation.projectContact.firstName'
               )
             "
           >
@@ -59,18 +45,9 @@
 
           <drr-summary-item
             [label]="t('lastName')"
-            [value]="
-              getRxGroupFormControl(
-                'proponentInformation',
-                'projectContact',
-                'lastName'
-              ).value
-            "
             [rxFormControl]="
-              getRxGroupFormControl(
-                'proponentInformation',
-                'projectContact',
-                'lastName'
+              eoiApplicationForm.get(
+                'proponentInformation.projectContact.lastName'
               )
             "
           >
@@ -78,18 +55,9 @@
 
           <drr-summary-item
             [label]="t('title')"
-            [value]="
-              getRxGroupFormControl(
-                'proponentInformation',
-                'projectContact',
-                'title'
-              ).value
-            "
             [rxFormControl]="
-              getRxGroupFormControl(
-                'proponentInformation',
-                'projectContact',
-                'title'
+              eoiApplicationForm.get(
+                'proponentInformation.projectContact.title'
               )
             "
           >
@@ -97,18 +65,9 @@
 
           <drr-summary-item
             [label]="t('department')"
-            [value]="
-              getRxGroupFormControl(
-                'proponentInformation',
-                'projectContact',
-                'department'
-              ).value
-            "
             [rxFormControl]="
-              getRxGroupFormControl(
-                'proponentInformation',
-                'projectContact',
-                'department'
+              eoiApplicationForm.get(
+                'proponentInformation.projectContact.department'
               )
             "
           >
@@ -116,37 +75,20 @@
 
           <drr-summary-item
             [label]="t('phone')"
-            [value]="
-              getRxGroupFormControl(
-                'proponentInformation',
-                'projectContact',
-                'phone'
-              ).value | mask : '000-000-0000'
-            "
             [rxFormControl]="
-              getRxGroupFormControl(
-                'proponentInformation',
-                'projectContact',
-                'phone'
+              eoiApplicationForm.get(
+                'proponentInformation.projectContact.phone'
               )
             "
+            controlType="phone"
           >
           </drr-summary-item>
 
           <drr-summary-item
             [label]="t('email')"
-            [value]="
-              getRxGroupFormControl(
-                'proponentInformation',
-                'projectContact',
-                'email'
-              ).value
-            "
             [rxFormControl]="
-              getRxGroupFormControl(
-                'proponentInformation',
-                'projectContact',
-                'email'
+              eoiApplicationForm.get(
+                'proponentInformation.projectContact.email'
               )
             "
           >
@@ -167,57 +109,38 @@
         >
           <drr-summary-item
             [label]="t('firstName')"
-            [value]="additionalContact.get('firstName')?.value"
-            [rxFormControl]="
-              convertRxFormControl(additionalContact.get('firstName'))
-            "
+            [rxFormControl]="additionalContact.get('firstName')"
           >
           </drr-summary-item>
 
           <drr-summary-item
             [label]="t('lastName')"
-            [value]="additionalContact.get('lastName')?.value"
-            [rxFormControl]="
-              convertRxFormControl(additionalContact.get('lastName'))
-            "
+            [rxFormControl]="additionalContact.get('lastName')"
           >
           </drr-summary-item>
 
           <drr-summary-item
             [label]="t('title')"
-            [value]="additionalContact.get('title')?.value"
-            [rxFormControl]="
-              convertRxFormControl(additionalContact.get('title'))
-            "
+            [rxFormControl]="additionalContact.get('title')"
           >
           </drr-summary-item>
 
           <drr-summary-item
             [label]="t('department')"
-            [value]="additionalContact.get('department')?.value"
-            [rxFormControl]="
-              convertRxFormControl(additionalContact.get('department'))
-            "
+            [rxFormControl]="additionalContact.get('department')"
           >
           </drr-summary-item>
 
           <drr-summary-item
             [label]="t('phone')"
-            [value]="
-              additionalContact.get('phone')?.value | mask : '000-000-0000'
-            "
-            [rxFormControl]="
-              convertRxFormControl(additionalContact.get('phone'))
-            "
+            [rxFormControl]="additionalContact.get('phone')"
+            controlType="phone"
           >
           </drr-summary-item>
 
           <drr-summary-item
             [label]="t('email')"
-            [value]="additionalContact.get('email')?.value"
-            [rxFormControl]="
-              convertRxFormControl(additionalContact.get('email'))
-            "
+            [rxFormControl]="additionalContact.get('email')"
           >
           </drr-summary-item>
         </div>
@@ -251,86 +174,71 @@
     <mat-card-content>
       <drr-summary-item
         [label]="t('fundingStream')"
-        [value]="
-          t(getRxFormControl('projectInformation', 'fundingStream').value)
-        "
         [rxFormControl]="
-          getRxFormControl('projectInformation', 'fundingStream')
+          eoiApplicationForm.get('projectInformation.fundingStream')
         "
+        controlType="radio"
       >
       </drr-summary-item>
 
       <drr-summary-item
         [label]="t('projectTitle')"
-        [value]="getRxFormControl('projectInformation', 'projectTitle').value"
-        [rxFormControl]="getRxFormControl('projectInformation', 'projectTitle')"
+        [rxFormControl]="
+          eoiApplicationForm.get('projectInformation.projectTitle')
+        "
       >
       </drr-summary-item>
 
       <drr-summary-item
         [label]="t('scopeStatement')"
-        [value]="getRxFormControl('projectInformation', 'scopeStatement').value"
         [rxFormControl]="
-          getRxFormControl('projectInformation', 'scopeStatement')
+          eoiApplicationForm.get('projectInformation.scopeStatement')
         "
       >
       </drr-summary-item>
 
       <drr-summary-item
         [label]="t('projectType')"
-        [value]="t(getRxFormControl('projectInformation', 'projectType').value)"
-        [rxFormControl]="getRxFormControl('projectInformation', 'projectType')"
+        [rxFormControl]="
+          eoiApplicationForm.get('projectInformation.projectType')
+        "
+        controlType="radio"
       >
       </drr-summary-item>
 
       <drr-summary-item
         [label]="t('relatedHazardsSummary')"
-        [value]="
-          t(
-            getRxFormControl('projectInformation', 'relatedHazards').value
-          )?.join(', ')
-        "
         [rxFormControl]="
-          getRxFormControl('projectInformation', 'relatedHazards')
+          eoiApplicationForm.get('projectInformation.relatedHazards')
         "
+        controlType="array"
       >
       </drr-summary-item>
 
       <drr-summary-item
-        [label]="t('otherHazardsDescription')"
-        [value]="
-          getRxFormControl('projectInformation', 'otherHazardsDescription')
-            .value
-        "
-        [rxFormControl]="
-          getRxFormControl('projectInformation', 'otherHazardsDescription')
-        "
         *ngIf="
-          getRxFormControl(
-            'projectInformation',
-            'relatedHazards'
-          )?.value?.includes('Other')
+          eoiApplicationForm
+            .get('projectInformation.relatedHazards')
+            ?.value?.includes('Other')
+        "
+        [label]="t('otherHazardsDescription')"
+        [rxFormControl]="
+          eoiApplicationForm.get('projectInformation.otherHazardsDescription')
         "
       >
       </drr-summary-item>
 
       <drr-summary-item
         [label]="t('startDate')"
-        [value]="
-          getRxFormControl('projectInformation', 'startDate').value
-            | date : 'yyyy-MM-dd'
-        "
-        [rxFormControl]="getRxFormControl('projectInformation', 'startDate')"
+        [rxFormControl]="eoiApplicationForm.get('projectInformation.startDate')"
+        controlType="date"
       >
       </drr-summary-item>
 
       <drr-summary-item
         [label]="t('endDate')"
-        [value]="
-          getRxFormControl('projectInformation', 'endDate').value
-            | date : 'yyyy-MM-dd'
-        "
-        [rxFormControl]="getRxFormControl('projectInformation', 'endDate')"
+        [rxFormControl]="eoiApplicationForm.get('projectInformation.endDate')"
+        controlType="date"
       >
       </drr-summary-item>
     </mat-card-content>
@@ -344,25 +252,19 @@
     <mat-card-content>
       <drr-summary-item
         [label]="t('estimatedTotal')"
-        [value]="
-          getRxFormControl('fundingInformation', 'estimatedTotal').value
-            | currency
-        "
         [rxFormControl]="
-          getRxFormControl('fundingInformation', 'estimatedTotal')
+          eoiApplicationForm.get('fundingInformation.estimatedTotal')
         "
+        controlType="currency"
       >
       </drr-summary-item>
 
       <drr-summary-item
         [label]="t('fundingRequest')"
-        [value]="
-          getRxFormControl('fundingInformation', 'fundingRequest').value
-            | currency
-        "
         [rxFormControl]="
-          getRxFormControl('fundingInformation', 'fundingRequest')
+          eoiApplicationForm.get('fundingInformation.fundingRequest')
         "
+        controlType="currency"
       >
       </drr-summary-item>
 
@@ -379,32 +281,28 @@
         >
           <drr-summary-item
             [label]="t('amount')"
-            [value]="otherFunding.get('amount')?.value | currency"
-            [rxFormControl]="convertRxFormControl(otherFunding.get('amount'))"
+            [rxFormControl]="otherFunding.get('amount')"
+            controlType="currency"
           >
           </drr-summary-item>
 
           <drr-summary-item
             [label]="t('name')"
-            [value]="otherFunding.get('name')?.value"
-            [rxFormControl]="convertRxFormControl(otherFunding.get('name'))"
+            [rxFormControl]="otherFunding.get('name')"
           >
           </drr-summary-item>
 
           <drr-summary-item
             [label]="t('type')"
-            [value]="t(otherFunding.get('type')?.value)"
-            [rxFormControl]="convertRxFormControl(otherFunding.get('type'))"
+            [rxFormControl]="otherFunding.get('type')"
+            controlType="radio"
           >
           </drr-summary-item>
 
           <drr-summary-item
-            [label]="t('otherDescription')"
-            [value]="otherFunding.get('otherDescription')?.value"
-            [rxFormControl]="
-              convertRxFormControl(otherFunding.get('otherDescription'))
-            "
             *ngIf="otherFunding.get('type')?.value === 'OtherGrants'"
+            [label]="t('otherDescription')"
+            [rxFormControl]="otherFunding.get('otherDescription')"
           >
           </drr-summary-item>
         </div>
@@ -412,14 +310,15 @@
 
       <drr-summary-item
         [label]="
-          getRxFormControl('fundingInformation', 'remainingAmount').value > 0
+          eoiApplicationForm.get('fundingInformation.remainingAmount')?.value >
+          0
             ? t('missingFundsLabel')
             : t('excessFundingLabel')
         "
-        [value]="getRemainingAmountAbs() | currency"
         [rxFormControl]="
-          getRxFormControl('fundingInformation', 'remainingAmount')
+          eoiApplicationForm.get('fundingInformation.remainingAmount')
         "
+        controlType="currency"
         [style.color]="
           getRxFormControl('fundingInformation', 'remainingAmount').value < 0
             ? 'red'
@@ -429,15 +328,13 @@
       </drr-summary-item>
 
       <drr-summary-item
-        [label]="t('intendToSecureFunding')"
-        [value]="
-          getRxFormControl('fundingInformation', 'intendToSecureFunding').value
-        "
-        [rxFormControl]="
-          getRxFormControl('fundingInformation', 'intendToSecureFunding')
-        "
         *ngIf="
-          getRxFormControl('fundingInformation', 'remainingAmount').value > 0
+          eoiApplicationForm.get('fundingInformation.remainingAmount')?.value >
+          0
+        "
+        [label]="t('intendToSecureFunding')"
+        [rxFormControl]="
+          eoiApplicationForm.get('fundingInformation.intendToSecureFunding')
         "
       >
       </drr-summary-item>
@@ -452,43 +349,29 @@
     <mat-card-content>
       <drr-summary-item
         [label]="t('ownershipDeclaration')"
-        [value]="
-          getRxFormControl('locationInformation', 'ownershipDeclaration')
-            .value === null
-            ? null
-            : getRxFormControl('locationInformation', 'ownershipDeclaration')
-                .value
-            ? 'Yes'
-            : 'No'
-        "
         [rxFormControl]="
-          getRxFormControl('locationInformation', 'ownershipDeclaration')
+          eoiApplicationForm.get('locationInformation.ownershipDeclaration')
         "
+        controlType="radio"
       >
       </drr-summary-item>
 
       <drr-summary-item
-        [label]="t('ownershipDescription')"
-        [value]="
-          getRxFormControl('locationInformation', 'ownershipDescription').value
-        "
-        [rxFormControl]="
-          getRxFormControl('locationInformation', 'ownershipDescription')
-        "
         *ngIf="
-          getRxFormControl('locationInformation', 'ownershipDeclaration')
-            .value === false
+          eoiApplicationForm.get('locationInformation.ownershipDeclaration')
+            ?.value === false
+        "
+        [label]="t('ownershipDescription')"
+        [rxFormControl]="
+          eoiApplicationForm.get('locationInformation.ownershipDescription')
         "
       >
       </drr-summary-item>
 
       <drr-summary-item
         [label]="t('locationDescription')"
-        [value]="
-          getRxFormControl('locationInformation', 'locationDescription').value
-        "
         [rxFormControl]="
-          getRxFormControl('locationInformation', 'locationDescription')
+          eoiApplicationForm.get('locationInformation.locationDescription')
         "
       >
       </drr-summary-item>
@@ -503,30 +386,26 @@
     <mat-card-content>
       <drr-summary-item
         [label]="t('rationaleForFunding')"
-        [value]="
-          getRxFormControl('projectDetails', 'rationaleForFunding').value
-        "
         [rxFormControl]="
-          getRxFormControl('projectDetails', 'rationaleForFunding')
+          eoiApplicationForm.get('projectDetails.rationaleForFunding')
         "
       >
       </drr-summary-item>
 
       <drr-summary-item
         [label]="t('estimatedPeopleImpacted')"
-        [value]="
-          t(getRxFormControl('projectDetails', 'estimatedPeopleImpacted').value)
-        "
         [rxFormControl]="
-          getRxFormControl('projectDetails', 'estimatedPeopleImpacted')
+          eoiApplicationForm.get('projectDetails.estimatedPeopleImpacted')
         "
+        controlType="select"
       >
       </drr-summary-item>
 
       <drr-summary-item
         [label]="t('communityImpact')"
-        [value]="getRxFormControl('projectDetails', 'communityImpact').value"
-        [rxFormControl]="getRxFormControl('projectDetails', 'communityImpact')"
+        [rxFormControl]="
+          eoiApplicationForm.get('projectDetails.communityImpact')
+        "
       >
       </drr-summary-item>
 
@@ -542,79 +421,63 @@
       >
         <drr-summary-item
           [label]="t('infrastructure')"
-          [rxFormControl]="convertRxFormControl(control.get('infrastructure'))"
+          [rxFormControl]="control.get('infrastructure')"
         >
         </drr-summary-item>
 
         <drr-summary-item
           [label]="t('impact')"
-          [rxFormControl]="convertRxFormControl(control.get('impact'))"
+          [rxFormControl]="control.get('impact')"
         >
         </drr-summary-item>
       </div>
 
       <drr-summary-item
         [label]="t('disasterRiskUnderstanding')"
-        [value]="
-          getRxFormControl('projectDetails', 'disasterRiskUnderstanding').value
-        "
         [rxFormControl]="
-          getRxFormControl('projectDetails', 'disasterRiskUnderstanding')
+          eoiApplicationForm.get('projectDetails.disasterRiskUnderstanding')
         "
       >
       </drr-summary-item>
 
       <drr-summary-item
         [label]="t('additionalBackgroundInformation')"
-        [value]="
-          getRxFormControl('projectDetails', 'additionalBackgroundInformation')
-            .value
-        "
         [rxFormControl]="
-          getRxFormControl('projectDetails', 'additionalBackgroundInformation')
+          eoiApplicationForm.get(
+            'projectDetails.additionalBackgroundInformation'
+          )
         "
       >
       </drr-summary-item>
 
       <drr-summary-item
         [label]="t('addressRisksAndHazards')"
-        [value]="
-          getRxFormControl('projectDetails', 'addressRisksAndHazards').value
-        "
         [rxFormControl]="
-          getRxFormControl('projectDetails', 'addressRisksAndHazards')
+          eoiApplicationForm.get('projectDetails.addressRisksAndHazards')
         "
       >
       </drr-summary-item>
 
       <drr-summary-item
         [label]="t('drifProgramGoalAlignment')"
-        [value]="getRxFormControl('projectDetails', 'projectDescription').value"
         [rxFormControl]="
-          getRxFormControl('projectDetails', 'projectDescription')
+          eoiApplicationForm.get('projectDetails.projectDescription')
         "
       >
       </drr-summary-item>
 
       <drr-summary-item
         [label]="t('additionalSolutionInformation')"
-        [value]="
-          getRxFormControl('projectDetails', 'additionalSolutionInformation')
-            .value
-        "
         [rxFormControl]="
-          getRxFormControl('projectDetails', 'additionalSolutionInformation')
+          eoiApplicationForm.get('projectDetails.additionalSolutionInformation')
         "
       >
       </drr-summary-item>
 
       <drr-summary-item
         [label]="t('rationaleForSolutionText')"
-        [value]="
-          getRxFormControl('projectDetails', 'rationaleForSolution').value
-        "
         [rxFormControl]="
-          getRxFormControl('projectDetails', 'rationaleForSolution')
+          eoiApplicationForm.get('projectDetails.rationaleForSolution')
         "
       >
       </drr-summary-item>
@@ -629,34 +492,26 @@
     <mat-card-content>
       <drr-summary-item
         [label]="t('firstNationsEngagement')"
-        [value]="
-          getRxFormControl('engagementPlan', 'firstNationsEngagement').value
-        "
         [rxFormControl]="
-          getRxFormControl('engagementPlan', 'firstNationsEngagement')
+          eoiApplicationForm.get('engagementPlan.firstNationsEngagement')
         "
       >
       </drr-summary-item>
 
       <drr-summary-item
         [label]="t('neighbourEngagement')"
-        [value]="
-          getRxFormControl('engagementPlan', 'neighbourEngagement').value
-        "
         [rxFormControl]="
-          getRxFormControl('engagementPlan', 'neighbourEngagement')
+          eoiApplicationForm.get('engagementPlan.neighbourEngagement')
         "
       >
       </drr-summary-item>
 
       <drr-summary-item
         [label]="t('additionalEngagementInformation')"
-        [value]="
-          getRxFormControl('engagementPlan', 'additionalEngagementInformation')
-            .value
-        "
         [rxFormControl]="
-          getRxFormControl('engagementPlan', 'additionalEngagementInformation')
+          eoiApplicationForm.get(
+            'engagementPlan.additionalEngagementInformation'
+          )
         "
       >
       </drr-summary-item>
@@ -671,24 +526,16 @@
     <mat-card-content>
       <drr-summary-item
         [label]="t('climateAdaptationText')"
-        [value]="
-          getRxFormControl('otherSupportingInformation', 'climateAdaptation')
-            .value
-        "
         [rxFormControl]="
-          getRxFormControl('otherSupportingInformation', 'climateAdaptation')
+          eoiApplicationForm.get('otherSupportingInformation.climateAdaptation')
         "
       >
       </drr-summary-item>
 
       <drr-summary-item
         [label]="t('otherInformationText')"
-        [value]="
-          getRxFormControl('otherSupportingInformation', 'otherInformation')
-            .value
-        "
         [rxFormControl]="
-          getRxFormControl('otherSupportingInformation', 'otherInformation')
+          eoiApplicationForm.get('otherSupportingInformation.otherInformation')
         "
       >
       </drr-summary-item>
@@ -704,7 +551,7 @@
       <div
         [class.required]="
           !objectHasValues(
-            eoiApplicationForm.get('declaration')?.get('submitter')?.value
+            eoiApplicationForm.get('declaration.submitter')?.value
           )
         "
       >
@@ -712,70 +559,49 @@
         <div class="summary-row">
           <drr-summary-item
             [label]="t('firstName')"
-            [value]="
-              getRxGroupFormControl('declaration', 'submitter', 'firstName')
-                .value
-            "
             [rxFormControl]="
-              getRxGroupFormControl('declaration', 'submitter', 'firstName')
+              eoiApplicationForm.get('declaration.submitter.firstName')
             "
           >
           </drr-summary-item>
 
           <drr-summary-item
             [label]="t('lastName')"
-            [value]="
-              getRxGroupFormControl('declaration', 'submitter', 'lastName')
-                .value
-            "
             [rxFormControl]="
-              getRxGroupFormControl('declaration', 'submitter', 'lastName')
+              eoiApplicationForm.get('declaration.submitter.lastName')
             "
           >
           </drr-summary-item>
 
           <drr-summary-item
             [label]="t('title')"
-            [value]="
-              getRxGroupFormControl('declaration', 'submitter', 'title').value
-            "
             [rxFormControl]="
-              getRxGroupFormControl('declaration', 'submitter', 'title')
+              eoiApplicationForm.get('declaration.submitter.title')
             "
           >
           </drr-summary-item>
 
           <drr-summary-item
             [label]="t('department')"
-            [value]="
-              getRxGroupFormControl('declaration', 'submitter', 'department')
-                .value
-            "
             [rxFormControl]="
-              getRxGroupFormControl('declaration', 'submitter', 'department')
+              eoiApplicationForm.get('declaration.submitter.department')
             "
           >
           </drr-summary-item>
 
           <drr-summary-item
             [label]="t('phone')"
-            [value]="
-              getRxGroupFormControl('declaration', 'submitter', 'phone').value
-                | mask : '000-000-0000'
-            "
             [rxFormControl]="
-              getRxGroupFormControl('declaration', 'submitter', 'phone')
+              eoiApplicationForm.get('declaration.submitter.phone')
             "
+            controlType="phone"
           >
           </drr-summary-item>
 
           <drr-summary-item
             [label]="t('email')"
-            [value]="
-              getRxGroupFormControl('declaration', 'submitter', 'email').value
-            "
             [rxFormControl]="
-              getRxGroupFormControl('declaration', 'submitter', 'email')
+              eoiApplicationForm.get('declaration.submitter.email')
             "
           >
           </drr-summary-item>

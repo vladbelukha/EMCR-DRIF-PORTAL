@@ -3,7 +3,9 @@ import { Component, inject, Input } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { TranslocoModule } from '@ngneat/transloco';
+import { UntilDestroy } from '@ngneat/until-destroy';
 import { IFormGroup } from '@rxweb/reactive-form-validators';
+import { distinctUntilChanged } from 'rxjs';
 import { YesNoOption } from '../../../../model';
 import { DrrChipAutocompleteComponent } from '../../../shared/controls/drr-chip-autocomplete/drr-chip-autocomplete.component';
 import {
@@ -14,6 +16,7 @@ import { DrrTextareaComponent } from '../../../shared/controls/drr-textarea/drr-
 import { OptionsStore } from '../../../store/entities.store';
 import { ProjectEngagementForm } from '../drif-fp-form';
 
+@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'drif-fp-step-5',
   standalone: true,
@@ -49,7 +52,8 @@ export class DrifFpStep5Component {
   ngOnInit() {
     this.projectEngagementForm
       .get('otherEngagement')
-      ?.valueChanges.subscribe((value) => {
+      ?.valueChanges.pipe(distinctUntilChanged())
+      .subscribe((value) => {
         const affectedParties =
           this.projectEngagementForm.get('affectedParties');
         if (value === YesNoOption.NotApplicable || value === YesNoOption.No) {

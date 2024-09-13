@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import {
   FormArray,
   FormsModule,
@@ -12,14 +12,17 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { UntilDestroy } from '@ngneat/until-destroy';
 import { IFormGroup, RxFormControl } from '@rxweb/reactive-form-validators';
+import { distinctUntilChanged } from 'rxjs';
 import { Hazards } from '../../../../model';
 import { DrrDatepickerComponent } from '../../../shared/controls/drr-datepicker/drr-datepicker.component';
 import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
 import { DrrSelectComponent } from '../../../shared/controls/drr-select/drr-select.component';
 import { ProjectInformationForm } from '../drif-eoi-form';
 
+@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'drif-eoi-step-2',
   standalone: true,
@@ -42,17 +45,23 @@ import { ProjectInformationForm } from '../drif-eoi-form';
   styleUrl: './drif-eoi-step-2.component.scss',
 })
 export class DrifEoiStep2Component {
+  translocoService = inject(TranslocoService);
+
   @Input()
   projectInformationForm!: IFormGroup<ProjectInformationForm>;
 
   minStartDate = new Date();
 
-  hazardsOptions = Object.values(Hazards);
+  hazardsOptions = Object.values(Hazards).map((value) => ({
+    value,
+    label: this.translocoService.translate(value),
+  }));
 
   ngOnInit() {
     this.projectInformationForm
       .get('relatedHazards')
-      ?.valueChanges.subscribe((hazards) => {
+      ?.valueChanges.pipe(distinctUntilChanged())
+      .subscribe((hazards) => {
         const otherHazardsDescriptionControl = this.projectInformationForm.get(
           'otherHazardsDescription'
         );
