@@ -5,6 +5,7 @@
  * OpenAPI spec version: 1.0.0
  */
 import type { Attachment } from './attachment';
+import type { EstimatedNumberOfPeopleFP } from './estimatedNumberOfPeopleFP';
 import type { YesNoOption } from './yesNoOption';
 import type { ProposedActivity } from './proposedActivity';
 import type { StandardInfo } from './standardInfo';
@@ -68,6 +69,8 @@ export type DraftFpApplicationAllOf = {
   engagedWithFirstNationsOccurred?: boolean;
   /** @nullable */
   eoiId?: string;
+  /** @nullable */
+  estimatedPeopleImpactedFP?: EstimatedNumberOfPeopleFP;
   /** @nullable */
   firstNationsAuthorizedByPartners?: YesNoOption;
   /** @nullable */

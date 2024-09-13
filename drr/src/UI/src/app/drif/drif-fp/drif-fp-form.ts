@@ -6,7 +6,7 @@ import {
   required,
 } from '@rxweb/reactive-form-validators';
 import {
-  EstimatedNumberOfPeople,
+  EstimatedNumberOfPeopleFP,
   FundingStream,
   Hazards,
   ProjectType,
@@ -384,7 +384,7 @@ export class ProjectAreaForm {
 
   @prop()
   @required()
-  estimatedPeopleImpacted?: EstimatedNumberOfPeople;
+  estimatedPeopleImpactedFP?: EstimatedNumberOfPeopleFP;
 
   @prop()
   @required()

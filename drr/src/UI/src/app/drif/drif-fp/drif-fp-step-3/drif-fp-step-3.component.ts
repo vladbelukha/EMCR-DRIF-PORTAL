@@ -8,7 +8,11 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { IFormGroup, RxFormBuilder } from '@rxweb/reactive-form-validators';
 import { distinctUntilChanged } from 'rxjs';
-import { AreaUnits, EstimatedNumberOfPeople, Hazards } from '../../../../model';
+import {
+  AreaUnits,
+  EstimatedNumberOfPeopleFP,
+  Hazards,
+} from '../../../../model';
 import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
 import { DrrRadioButtonComponent } from '../../../shared/controls/drr-radio-button/drr-radio-button.component';
 import { DrrSelectComponent } from '../../../shared/controls/drr-select/drr-select.component';
@@ -45,7 +49,7 @@ export class DrifFpStep3Component {
     value,
     label: this.translocoService.translate(value),
   }));
-  estimatedPeopleImpactedOptions = Object.values(EstimatedNumberOfPeople).map(
+  estimatedPeopleImpactedOptions = Object.values(EstimatedNumberOfPeopleFP).map(
     (value) => ({
       value,
       label: this.translocoService.translate(value),
