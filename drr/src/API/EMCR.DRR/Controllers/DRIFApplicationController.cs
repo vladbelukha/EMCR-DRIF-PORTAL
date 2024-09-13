@@ -425,6 +425,8 @@ namespace EMCR.DRR.Controllers
 
         [Description("100,001 +")]
         HundredKPlus,
+
+        [Description("Unsure")]
         Unsure
     }
 
@@ -497,8 +499,14 @@ namespace EMCR.DRR.Controllers
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum AreaUnits
     {
-        m2,
-        ha
+        [Description("Hectares")]
+        Hectares,
+
+        [Description("Acres")]
+        Acres,
+
+        [Description("Square Kms")]
+        SqKm
     }
 
 #pragma warning disable CS8765 // nullability

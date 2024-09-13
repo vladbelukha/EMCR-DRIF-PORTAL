@@ -142,6 +142,13 @@ namespace EMCR.DRR.Resources.Applications
         Other = 172580999,
     }
 
+    public enum AreaUnitsOptionSet
+    {
+        Hectares = 172580000,
+        Acres = 172580001,
+        SqKm = 172580002,
+    }
+
     public enum DRRTwoOptions
     {
         Yes = 172580000,
