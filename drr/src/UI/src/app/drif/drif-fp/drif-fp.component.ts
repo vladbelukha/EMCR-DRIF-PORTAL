@@ -5,7 +5,12 @@ import {
 } from '@angular/cdk/stepper';
 import { CommonModule } from '@angular/common';
 import { Component, HostListener, inject, ViewChild } from '@angular/core';
-import { FormArray, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormArray,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -132,6 +137,21 @@ export class DrifFpComponent {
 
   @ViewChild(MatStepper) stepper!: MatStepper;
 
+  private formToStepMap: Record<string, string> = {
+    proponentAndProjectInformation: 'Step 1',
+    ownershipAndAuthorization: 'Step 2',
+    projectArea: 'Step 3',
+    projectPlan: 'Step 4',
+    projectEngagement: 'Step 5',
+    climateAdaptation: 'Step 6',
+    permitsRegulationsAndStandards: 'Step 7',
+    projectOutcomes: 'Step 8',
+    projectRisks: 'Step 9',
+    budget: 'Step 10',
+    attachments: 'Step 11',
+    declarations: 'Step 12',
+  };
+
   id?: string;
   get isEditMode() {
     return !!this.id;
@@ -207,7 +227,6 @@ export class DrifFpComponent {
             communityImpact: response.communityImpact,
             estimatedPeopleImpacted: response.estimatedPeopleImpacted,
             isInfrastructureImpacted: response.isInfrastructureImpacted,
-            // infrastructureImpacted: response.infrastructureImpacted,
             locationDescription: response.locationDescription,
             units: response.units,
             relatedHazards: response.relatedHazards,
@@ -331,6 +350,21 @@ export class DrifFpComponent {
           );
         });
 
+        if (
+          this.fullProposalForm
+            .get('ownershipAndAuthorization')
+            ?.get('ownershipDeclaration')?.value === false
+        ) {
+          this.fullProposalForm
+            .get('ownershipAndAuthorization')
+            ?.get('ownershipDescription')
+            ?.addValidators(Validators.required);
+          this.fullProposalForm
+            .get('ownershipAndAuthorization')
+            ?.get('ownershipDescription')
+            ?.updateValueAndValidity();
+        }
+
         const infrastructureImpacted = this.getFormGroup('projectArea').get(
           'infrastructureImpacted'
         ) as FormArray;
@@ -389,14 +423,15 @@ export class DrifFpComponent {
           'permitsRegulationsAndStandards'
         ).get('standards') as FormArray;
         this.optionsStore.standards?.()?.forEach((standard) => {
-          const standards = response.standards?.find(
+          const standardsInfo = response.standards?.find(
             (s) => s.category === standard.category
-          )?.standards;
+          );
           standardsFormArray?.push(
             this.formBuilder.formGroup(
               new StandardInfoForm({
+                isCategorySelected: standardsInfo?.isCategorySelected,
                 category: standard.category,
-                standards: standards ?? [],
+                standards: standardsInfo?.standards ?? [],
               })
             ),
             { emitEvent: false }
@@ -439,34 +474,37 @@ export class DrifFpComponent {
     this.router.navigate(['/dashboard']);
   }
 
+  getFormValue() {
+    const fpForm = this.fullProposalForm.getRawValue() as DrifFpForm;
+
+    const fpApp = {
+      ...fpForm.proponentAndProjectInformation,
+      ...fpForm.ownershipAndAuthorization,
+      ...fpForm.projectArea,
+      ...fpForm.projectPlan,
+      ...fpForm.projectEngagement,
+      ...fpForm.climateAdaptation,
+      ...fpForm.permitsRegulationsAndStandards,
+      ...fpForm.projectOutcomes,
+      ...fpForm.projectRisks,
+      ...fpForm.budget,
+      ...fpForm.attachments,
+      ...fpForm.declarations,
+    } as DraftFpApplication;
+
+    return fpApp;
+  }
+
   save() {
     if (!this.formChanged) {
       return;
     }
 
-    const drifFpForm = this.fullProposalForm.getRawValue() as DrifFpForm;
-
-    // TODO: remove when API is updated
-    drifFpForm!.projectArea!.infrastructureImpacted = [];
-
-    const fpDraft = {
-      ...drifFpForm.proponentAndProjectInformation,
-      ...drifFpForm.ownershipAndAuthorization,
-      ...drifFpForm.projectArea,
-      ...drifFpForm.projectPlan,
-      ...drifFpForm.projectEngagement,
-      ...drifFpForm.climateAdaptation,
-      ...drifFpForm.permitsRegulationsAndStandards,
-      ...drifFpForm.projectOutcomes,
-      ...drifFpForm.projectRisks,
-      ...drifFpForm.budget,
-      ...drifFpForm.attachments,
-      ...drifFpForm.declarations,
-    } as DraftFpApplication;
+    const fpApp = this.getFormValue();
 
     this.lastSavedAt = undefined;
     this.appService
-      .dRIFApplicationUpdateFPApplication(this.id!, fpDraft)
+      .dRIFApplicationUpdateFPApplication(this.id!, fpApp)
       .subscribe({
         next: (response) => {
           this.lastSavedAt = new Date();
@@ -487,7 +525,51 @@ export class DrifFpComponent {
       });
   }
 
-  submit() {}
+  submit() {
+    this.fullProposalForm.markAllAsTouched();
+    this.stepper.steps.forEach((step) => step._markAsInteracted());
+    this.stepper._stateChanged();
+
+    if (this.fullProposalForm.invalid) {
+      const invalidSteps = Object.keys(this.fullProposalForm.controls)
+        .filter((key) => this.fullProposalForm.get(key)?.invalid)
+        .map((key) => this.formToStepMap[key]);
+
+      const lastStep = invalidSteps.pop();
+
+      const stepsErrorMessage =
+        invalidSteps.length > 0
+          ? `${invalidSteps.join(', ')} and ${lastStep}`
+          : lastStep;
+
+      this.hotToast.close();
+      this.hotToast.error(
+        `Please fill all the required fields in ${stepsErrorMessage}.`
+      );
+
+      return;
+    }
+
+    const fpApp = this.getFormValue();
+
+    this.appService
+      .dRIFApplicationSubmitFPApplication(this.id!, fpApp)
+      .subscribe({
+        next: (response) => {
+          this.hotToast.close();
+          this.hotToast.success('Application submitted successfully', {
+            duration: 5000,
+            autoClose: true,
+          });
+
+          this.router.navigate(['/dashboard']);
+        },
+        error: (error) => {
+          this.hotToast.close();
+          this.hotToast.error('Failed to submit application');
+        },
+      });
+  }
 
   stepperSelectionChange(event: StepperSelectionEvent) {
     this.save();

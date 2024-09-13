@@ -42,13 +42,13 @@ import { PermitsRegulationsAndStandardsForm } from '../drif-fp-form';
 export class DrifFpStep7Component {
   optionsStore = inject(OptionsStore);
 
+  @Input()
+  permitsRegulationsAndStandardsForm!: IFormGroup<PermitsRegulationsAndStandardsForm>;
+
   categories = this.optionsStore
     .getOptions()
     ?.standards?.()
     ?.map((s) => s.category);
-
-  @Input()
-  permitsRegulationsAndStandardsForm!: IFormGroup<PermitsRegulationsAndStandardsForm>;
 
   professionalOptions = this.optionsStore.getOptions()?.professionals?.();
   standardsAcceptableOptions: RadioOption[] = [

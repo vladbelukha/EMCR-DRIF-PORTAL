@@ -62,6 +62,9 @@ export class StandardInfoForm implements StandardInfo {
   category?: string | undefined;
 
   @prop()
+  isCategorySelected?: boolean | undefined;
+
+  @prop()
   standards?: string[] | undefined;
 
   constructor(values: StandardInfoForm) {
@@ -200,10 +203,6 @@ export class YearOverYearFundingForm {
 }
 
 export class BudgetForm {
-  @prop()
-  @required()
-  totalProjectCost?: number;
-
   @prop()
   @required()
   estimatedTotal?: number;

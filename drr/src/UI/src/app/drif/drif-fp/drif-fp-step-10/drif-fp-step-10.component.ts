@@ -82,6 +82,16 @@ export class DrifFpStep10Component {
       .valueChanges.subscribe((years: YearOverYearFundingForm[]) => {
         const total = years.reduce((acc, year) => acc + Number(year.amount), 0);
         this.budgetForm.get('totalDrifFundingRequest')?.setValue(total);
+
+        if (total !== this.budgetForm.get('estimatedTotal')?.value) {
+          this.budgetForm
+            .get('discrepancyComment')
+            ?.setValidators(Validators.required);
+        } else {
+          this.budgetForm.get('discrepancyComment')?.clearValidators();
+        }
+
+        this.budgetForm.get('discrepancyComment')?.updateValueAndValidity();
       });
 
     this.budgetForm
@@ -140,6 +150,13 @@ export class DrifFpStep10Component {
           .get('costConsiderationsComments')
           ?.updateValueAndValidity();
       });
+  }
+
+  showDiscrepancyComment() {
+    return (
+      this.budgetForm.get('totalDrifFundingRequest')?.value !==
+      this.budgetForm.get('estimatedTotal')?.value
+    );
   }
 
   calculateRemainingAmount() {

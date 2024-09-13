@@ -55,7 +55,7 @@ export class ConfigurationService {
      options?: HttpClientOptions
   ): Observable<TData>  {
     return this.http.get<TData>(
-      `/api/configuration/entities`,options
+      `/api/configuration/options`,options
     );
   }
 };

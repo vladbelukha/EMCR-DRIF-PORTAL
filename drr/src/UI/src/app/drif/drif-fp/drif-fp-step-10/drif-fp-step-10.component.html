@@ -9,13 +9,11 @@
     ></drr-currency-input>
 
     <mat-label class="drr-label">{{ t("estimatedDrifFunding") }}</mat-label>
-    <drr-currency-input
-      class="drr-single-input"
-      [label]="t('fundingRequest')"
-      [rxFormControl]="budgetForm.get('estimatedTotal')"
-    ></drr-currency-input>
+    <mat-label>{{
+      budgetForm.get("estimatedTotal")?.value | currency
+    }}</mat-label>
 
-    <mat-label class="drr-label">{{
+    <mat-label class="drr-label" style="margin-top: 1rem">{{
       t("yearOverYearFundingRequest")
     }}</mat-label>
     <mat-label>{{ t("yearOverYearFundingRequestText") }}</mat-label>
@@ -61,21 +59,25 @@
     <mat-label class="drr-label" style="margin-top: 10px">{{
       t("totalDrifFundingRequest")
     }}</mat-label>
-    <drr-currency-input
-      class="drr-single-input"
-      [label]="t('totalDrifFundingRequest')"
-      [rxFormControl]="budgetForm.get('totalDrifFundingRequest')"
-    ></drr-currency-input>
+    <mat-label>{{
+      budgetForm.get("totalDrifFundingRequest")?.value | currency
+    }}</mat-label>
 
-    <mat-label class="drr-label">{{ t("discrepancyComment") }}</mat-label>
-    <drr-textarea
-      [label]="t('discrepancyComment')"
-      [maxlength]="2000"
-      [rxFormControl]="budgetForm.get('discrepancyComment')"
-      [useFloatingLabel]="false"
-    ></drr-textarea>
+    <div *ngIf="showDiscrepancyComment()">
+      <mat-label class="drr-label" style="margin-top: 1rem">{{
+        t("discrepancyComment")
+      }}</mat-label>
+      <drr-textarea
+        [label]="t('discrepancyComment')"
+        [maxlength]="2000"
+        [rxFormControl]="budgetForm.get('discrepancyComment')"
+        [useFloatingLabel]="false"
+      ></drr-textarea>
+    </div>
 
-    <mat-label class="drr-label">{{ t("otherFunding") }}</mat-label>
+    <mat-label class="drr-label" style="margin-top: 1rem">{{
+      t("otherFunding")
+    }}</mat-label>
     <drr-radio-button
       [label]="t('haveOtherFunding')"
       [rxFormControl]="budgetForm.get('haveOtherFunding')"
