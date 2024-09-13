@@ -10,7 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectChange } from '@angular/material/select';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { IFormGroup, RxFormBuilder } from '@rxweb/reactive-form-validators';
 import { distinctUntilChanged } from 'rxjs';
@@ -53,20 +53,32 @@ import { BudgetForm, YearOverYearFundingForm } from '../drif-fp-form';
 export class DrifFpStep10Component {
   optionsStore = inject(OptionsStore);
   formBuilder = inject(RxFormBuilder);
+  translocoService = inject(TranslocoService);
 
   @Input()
   budgetForm!: IFormGroup<BudgetForm>;
 
   isMobile = false;
 
-  fiscalYearsOptions = this.optionsStore.fiscalYears?.()!;
-  fundingTypeOptions = Object.values(FundingType);
+  fiscalYearsOptions = this.optionsStore.fiscalYears?.()?.map((value) => ({
+    value,
+    label: value,
+  }));
+  fundingTypeOptions = Object.values(FundingType).map((value) => ({
+    value,
+    label: this.translocoService.translate(value),
+  }));
   previousResponseOptions = [
     { value: YesNoOption.Yes, label: 'Yes' },
     { value: YesNoOption.NotApplicable, label: 'Yes, but costs unknown' },
     { value: YesNoOption.No, label: 'No' },
   ];
-  costConsiderationsOptions = this.optionsStore.costConsiderations?.();
+  costConsiderationsOptions = this.optionsStore
+    .costConsiderations?.()
+    ?.map((value) => ({
+      value,
+      label: value,
+    }));
 
   ngOnInit() {
     const currentYear = new Date().getFullYear();

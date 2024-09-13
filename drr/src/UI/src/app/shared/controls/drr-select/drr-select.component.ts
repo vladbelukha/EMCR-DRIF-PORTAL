@@ -8,6 +8,11 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { RxFormBuilder, RxFormControl } from '@rxweb/reactive-form-validators';
 
+export interface DrrSelectOption {
+  value: string;
+  label: string;
+}
+
 @UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'drr-select',
@@ -41,7 +46,7 @@ export class DrrSelectComponent {
   @Input() isMultiple = false;
   @Input() label = '';
   @Input() id = '';
-  @Input() options: string[] = [];
+  @Input() options: DrrSelectOption[] = [];
 
   @Output()
   selectionChange = new EventEmitter<MatSelectChange>();

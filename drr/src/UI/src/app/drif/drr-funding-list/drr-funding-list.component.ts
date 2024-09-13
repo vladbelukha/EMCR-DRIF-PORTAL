@@ -10,7 +10,7 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectChange } from '@angular/material/select';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { RxFormBuilder } from '@rxweb/reactive-form-validators';
 import { FundingType } from '../../../model';
@@ -40,9 +40,13 @@ import { FundingInformationItemForm } from '../drif-eoi/drif-eoi-form';
 export class DrrFundingListComponent {
   breakpointObserver = inject(BreakpointObserver);
   formBuilder = inject(RxFormBuilder);
+  translocoService = inject(TranslocoService);
 
   isMobile = false;
-  fundingTypeOptions: string[] = Object.values(FundingType);
+  fundingTypeOptions = Object.values(FundingType).map((value) => ({
+    value,
+    label: this.translocoService.translate(value),
+  }));
 
   @Input()
   fundingFormArray!: FormArray;

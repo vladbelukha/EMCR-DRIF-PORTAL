@@ -4,7 +4,7 @@ import { FormArray, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { IFormGroup, RxFormBuilder } from '@rxweb/reactive-form-validators';
 import { distinctUntilChanged } from 'rxjs';
@@ -37,12 +37,24 @@ import { ImpactedInfrastructureForm, ProjectAreaForm } from '../drif-fp-form';
 })
 export class DrifFpStep3Component {
   formBuilder = inject(RxFormBuilder);
+  translocoService = inject(TranslocoService);
 
   @Input() projectAreaForm!: IFormGroup<ProjectAreaForm>;
 
-  unitOptions = Object.values(AreaUnits);
-  estimatedPeopleImpactedOptions = Object.values(EstimatedNumberOfPeople);
-  hazardsOptions = Object.values(Hazards);
+  unitOptions = Object.values(AreaUnits).map((value) => ({
+    value,
+    label: this.translocoService.translate(value),
+  }));
+  estimatedPeopleImpactedOptions = Object.values(EstimatedNumberOfPeople).map(
+    (value) => ({
+      value,
+      label: this.translocoService.translate(value),
+    })
+  );
+  hazardsOptions = Object.values(Hazards).map((value) => ({
+    value,
+    label: this.translocoService.translate(value),
+  }));
 
   ngOnInit() {
     this.projectAreaForm
