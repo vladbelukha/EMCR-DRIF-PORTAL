@@ -67,8 +67,9 @@
       t("estimatedPeopleImpactedText")
     }}</mat-label>
     <drr-select
+      class="drr-single-input"
       [label]="t('estimatedPeopleImpacted')"
-      [rxFormControl]="projectAreaForm.get('estimatedPeopleImpacted')"
+      [rxFormControl]="projectAreaForm.get('estimatedPeopleImpactedFP')"
       [options]="estimatedPeopleImpactedOptions"
     ></drr-select>
 

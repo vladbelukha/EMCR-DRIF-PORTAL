@@ -25,6 +25,7 @@ export * from './entitiesQueryResult';
 export * from './eoiApplication';
 export * from './eoiApplicationAllOf';
 export * from './estimatedNumberOfPeople';
+export * from './estimatedNumberOfPeopleFP';
 export * from './fpApplication';
 export * from './fpApplicationAllOf';
 export * from './fundingInformation';

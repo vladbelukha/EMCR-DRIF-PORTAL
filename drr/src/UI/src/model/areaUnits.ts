@@ -10,6 +10,7 @@ export type AreaUnits = typeof AreaUnits[keyof typeof AreaUnits];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AreaUnits = {
-  m2: 'm2',
-  ha: 'ha',
+  Hectares: 'Hectares',
+  Acres: 'Acres',
+  SqKm: 'SqKm',
 } as const;

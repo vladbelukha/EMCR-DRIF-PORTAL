@@ -227,7 +227,7 @@ export class DrifFpComponent {
             area: response.area,
             areaDescription: response.areaDescription,
             communityImpact: response.communityImpact,
-            estimatedPeopleImpacted: response.estimatedPeopleImpacted,
+            estimatedPeopleImpactedFP: response.estimatedPeopleImpactedFP,
             isInfrastructureImpacted: response.isInfrastructureImpacted,
             locationDescription: response.locationDescription,
             units: response.units,
