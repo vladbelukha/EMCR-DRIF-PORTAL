@@ -2,9 +2,11 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { TranslocoModule } from '@ngneat/transloco';
+import { UntilDestroy } from '@ngneat/until-destroy';
 import { NgxFileDropEntry, NgxFileDropModule } from 'ngx-file-drop';
 import { FileForm } from '../../../drif/drif-fp/drif-fp-form';
 
+@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'drr-file-upload',
   standalone: true,

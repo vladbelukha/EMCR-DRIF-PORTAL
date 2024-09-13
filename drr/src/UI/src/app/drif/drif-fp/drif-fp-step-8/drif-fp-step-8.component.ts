@@ -3,13 +3,16 @@ import { Component, inject, Input } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { TranslocoModule } from '@ngneat/transloco';
+import { UntilDestroy } from '@ngneat/until-destroy';
 import { IFormGroup } from '@rxweb/reactive-form-validators';
+import { distinctUntilChanged } from 'rxjs';
 import { DrrChipAutocompleteComponent } from '../../../shared/controls/drr-chip-autocomplete/drr-chip-autocomplete.component';
 import { DrrRadioButtonComponent } from '../../../shared/controls/drr-radio-button/drr-radio-button.component';
 import { DrrTextareaComponent } from '../../../shared/controls/drr-textarea/drr-textarea.component';
 import { OptionsStore } from '../../../store/entities.store';
 import { ProjectOutcomesForm } from '../drif-fp-form';
 
+@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'drif-fp-step-8',
   standalone: true,
@@ -38,7 +41,8 @@ export class DrifFpStep8Component {
   ngOnInit() {
     this.projectOutcomesForm
       .get('futureCostReduction')
-      ?.valueChanges.subscribe((value) => {
+      ?.valueChanges.pipe(distinctUntilChanged())
+      .subscribe((value) => {
         if (value) {
           this.projectOutcomesForm
             .get('costReductions')
@@ -64,7 +68,8 @@ export class DrifFpStep8Component {
 
     this.projectOutcomesForm
       .get('produceCoBenefits')
-      ?.valueChanges.subscribe((value) => {
+      ?.valueChanges.pipe(distinctUntilChanged())
+      .subscribe((value) => {
         if (value) {
           this.projectOutcomesForm
             .get('coBenefits')

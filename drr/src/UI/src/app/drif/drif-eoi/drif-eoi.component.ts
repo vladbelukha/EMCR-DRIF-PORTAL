@@ -44,6 +44,7 @@ import {
 } from '../../../model';
 import { ProfileStore } from '../../store/profile.store';
 
+import { UntilDestroy } from '@ngneat/until-destroy';
 import {
   ContactDetailsForm,
   EOIApplicationForm,
@@ -60,6 +61,7 @@ import { DrifEoiStep6Component } from './drif-eoi-step-6/drif-eoi-step-6.compone
 import { DrifEoiStep7Component } from './drif-eoi-step-7/drif-eoi-step-7.component';
 import { DrifEoiStep8Component } from './drif-eoi-step-8/drif-eoi-step-8.component';
 
+@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'drr-drif-eoi',
   standalone: true,

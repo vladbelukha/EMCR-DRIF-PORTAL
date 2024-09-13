@@ -3,6 +3,7 @@ import { Component, inject, Input } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { UntilDestroy } from '@ngneat/until-destroy';
 import { RxFormControl } from '@rxweb/reactive-form-validators';
 
 export type ControlType =
@@ -15,6 +16,7 @@ export type ControlType =
   | 'date'
   | 'currency';
 
+@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'drr-summary-item',
   standalone: true,

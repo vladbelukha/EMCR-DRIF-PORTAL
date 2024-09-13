@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
+import { UntilDestroy } from '@ngneat/until-destroy';
 import {
   RxFormBuilder,
   RxReactiveFormsModule,
@@ -20,6 +21,7 @@ import {
 import { ScreenerQuestionsForm } from './drif-fp-screener-form';
 import { DrifFpScreenerQuestionComponent } from './drif-fp-screener-question.component';
 
+@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'drr-drif-fp-screener',
   standalone: true,

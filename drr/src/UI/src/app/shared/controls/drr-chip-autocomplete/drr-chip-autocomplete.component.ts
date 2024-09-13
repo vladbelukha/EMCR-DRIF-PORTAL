@@ -11,9 +11,11 @@ import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslocoModule } from '@ngneat/transloco';
+import { UntilDestroy } from '@ngneat/until-destroy';
 import { RxFormBuilder, RxFormControl } from '@rxweb/reactive-form-validators';
 import { map, Observable, startWith } from 'rxjs';
 
+@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'drr-chip-autocomplete',
   standalone: true,

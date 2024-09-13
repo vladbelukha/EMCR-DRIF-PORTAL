@@ -12,10 +12,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { TranslocoModule } from '@ngneat/transloco';
+import { UntilDestroy } from '@ngneat/until-destroy';
 import { IFormGroup } from '@rxweb/reactive-form-validators';
+import { distinctUntilChanged } from 'rxjs';
 import { DrrTextareaComponent } from '../../../shared/controls/drr-textarea/drr-textarea.component';
 import { LocationInformationForm } from '../drif-eoi-form';
 
+@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'drif-eoi-step-4',
   standalone: true,
@@ -44,7 +47,8 @@ export class DrifEoiStep4Component {
     );
     this.locationInformationForm
       .get('ownershipDeclaration')!
-      .valueChanges.subscribe((value) => {
+      .valueChanges.pipe(distinctUntilChanged())
+      .subscribe((value) => {
         if (!value) {
           ownershipDescription?.addValidators(Validators.required);
         } else {

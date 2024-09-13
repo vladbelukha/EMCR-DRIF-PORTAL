@@ -15,11 +15,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { TranslocoModule } from '@ngneat/transloco';
+import { UntilDestroy } from '@ngneat/until-destroy';
 import {
   IFormGroup,
   RxFormBuilder,
   RxFormControl,
 } from '@rxweb/reactive-form-validators';
+import { distinctUntilChanged } from 'rxjs';
 import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
 import { DrrRadioButtonComponent } from '../../../shared/controls/drr-radio-button/drr-radio-button.component';
 import { DrrSelectComponent } from '../../../shared/controls/drr-select/drr-select.component';
@@ -27,6 +29,7 @@ import { DrrTextareaComponent } from '../../../shared/controls/drr-textarea/drr-
 import { ContactDetailsForm, StringItem } from '../../drif-eoi/drif-eoi-form';
 import { ProponentAndProjectInformationForm } from '../drif-fp-form';
 
+@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'drif-fp-step-1',
   standalone: true,
@@ -68,7 +71,8 @@ export class DrifFpStep1Component {
 
     this.proponentAndProjectInformationForm
       .get('partneringProponentsArray')
-      ?.valueChanges.subscribe((proponents: StringItem[]) => {
+      ?.valueChanges.pipe(distinctUntilChanged())
+      .subscribe((proponents: StringItem[]) => {
         this.proponentAndProjectInformationForm
           .get('partneringProponents')
           ?.patchValue(
@@ -82,7 +86,8 @@ export class DrifFpStep1Component {
     );
     this.proponentAndProjectInformationForm
       .get('regionalProject')!
-      .valueChanges.subscribe((value) => {
+      .valueChanges.pipe(distinctUntilChanged())
+      .subscribe((value) => {
         if (value) {
           regionalProjectComments?.addValidators(Validators.required);
         } else {

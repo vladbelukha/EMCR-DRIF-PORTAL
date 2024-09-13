@@ -5,7 +5,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { TranslocoModule } from '@ngneat/transloco';
+import { UntilDestroy } from '@ngneat/until-destroy';
 import { IFormGroup, RxFormBuilder } from '@rxweb/reactive-form-validators';
+import { distinctUntilChanged } from 'rxjs';
 import { AreaUnits, EstimatedNumberOfPeople, Hazards } from '../../../../model';
 import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
 import { DrrRadioButtonComponent } from '../../../shared/controls/drr-radio-button/drr-radio-button.component';
@@ -13,6 +15,7 @@ import { DrrSelectComponent } from '../../../shared/controls/drr-select/drr-sele
 import { DrrTextareaComponent } from '../../../shared/controls/drr-textarea/drr-textarea.component';
 import { ImpactedInfrastructureForm, ProjectAreaForm } from '../drif-fp-form';
 
+@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'drif-fp-step-3',
   standalone: true,
@@ -44,7 +47,8 @@ export class DrifFpStep3Component {
   ngOnInit() {
     this.projectAreaForm
       .get('isInfrastructureImpacted')
-      ?.valueChanges.subscribe((value) => {
+      ?.valueChanges.pipe(distinctUntilChanged())
+      .subscribe((value) => {
         const infrastructureImpacted = this.projectAreaForm.get(
           'infrastructureImpacted'
         ) as FormArray;

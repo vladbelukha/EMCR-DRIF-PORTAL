@@ -23,6 +23,7 @@ import { distinctUntilChanged } from 'rxjs';
 import { FundingType } from '../../../../model';
 
 import { MatRadioModule } from '@angular/material/radio';
+import { UntilDestroy } from '@ngneat/until-destroy';
 import { DrrCurrencyInputComponent } from '../../../shared/controls/drr-currency-input/drr-currency-input.component';
 import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
 import { DrrSelectComponent } from '../../../shared/controls/drr-select/drr-select.component';
@@ -33,6 +34,7 @@ import {
   FundingInformationItemForm,
 } from '../drif-eoi-form';
 
+@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'drif-eoi-step-3',
   standalone: true,
@@ -95,7 +97,8 @@ export class DrifEoiStep3Component {
     }
     this.fundingInformationForm
       .get('haveOtherFunding')
-      ?.valueChanges.subscribe((value) => {
+      ?.valueChanges.pipe(distinctUntilChanged())
+      .subscribe((value) => {
         if (value) {
           this.getFormArray('otherFunding').enable();
           if (this.getFormArray('otherFunding').length === 0) {

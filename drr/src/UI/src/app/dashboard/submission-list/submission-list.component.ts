@@ -7,9 +7,11 @@ import { MatSortModule, Sort } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Router, RouterModule } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
+import { UntilDestroy } from '@ngneat/until-destroy';
 import { DrifapplicationService } from '../../../api/drifapplication/drifapplication.service';
 import { Submission } from '../../../model';
 
+@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'drr-submission-list',
   standalone: true,

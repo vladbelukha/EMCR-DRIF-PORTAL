@@ -38,6 +38,7 @@ import {
   StringItem,
 } from '../drif-eoi/drif-eoi-form';
 
+import { UntilDestroy } from '@ngneat/until-destroy';
 import { OptionsStore } from '../../store/entities.store';
 import {
   DrifFpForm,
@@ -58,6 +59,7 @@ import { DrifFpStep7Component } from './drif-fp-step-7/drif-fp-step-7.component'
 import { DrifFpStep8Component } from './drif-fp-step-8/drif-fp-step-8.component';
 import { DrifFpStep9Component } from './drif-fp-step-9/drif-fp-step-9.component';
 
+@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'drr-drif-fp',
   standalone: true,
@@ -426,16 +428,34 @@ export class DrifFpComponent {
           const standardsInfo = response.standards?.find(
             (s) => s.category === standard.category
           );
-          standardsFormArray?.push(
-            this.formBuilder.formGroup(
-              new StandardInfoForm({
-                isCategorySelected: standardsInfo?.isCategorySelected,
-                category: standard.category,
-                standards: standardsInfo?.standards ?? [],
-              })
-            ),
-            { emitEvent: false }
-          );
+          const standardInfo = new StandardInfoForm({
+            isCategorySelected: standardsInfo?.isCategorySelected,
+            category: standard.category,
+            standards: standardsInfo?.isCategorySelected
+              ? standardsInfo?.standards ?? []
+              : [],
+          });
+          const standardInfoForm = this.formBuilder.formGroup(standardInfo);
+
+          if (standardsInfo?.isCategorySelected === false) {
+            standardInfoForm.get('standards')?.disable();
+          }
+
+          standardInfoForm
+            .get('isCategorySelected')
+            ?.valueChanges.pipe(distinctUntilChanged())
+            .subscribe((value) => {
+              if (value === false) {
+                standardInfoForm.get('standards')?.setValue([], {
+                  emitEvent: false,
+                });
+                standardInfoForm.get('standards')?.disable();
+              } else {
+                standardInfoForm.get('standards')?.enable();
+              }
+            });
+
+          standardsFormArray?.push(standardInfoForm, { emitEvent: false });
         });
 
         this.fullProposalForm.markAsPristine();

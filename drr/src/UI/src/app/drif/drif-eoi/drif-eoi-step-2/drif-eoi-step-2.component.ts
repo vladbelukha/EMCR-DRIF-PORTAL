@@ -13,13 +13,16 @@ import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { TranslocoModule } from '@ngneat/transloco';
+import { UntilDestroy } from '@ngneat/until-destroy';
 import { IFormGroup, RxFormControl } from '@rxweb/reactive-form-validators';
+import { distinctUntilChanged } from 'rxjs';
 import { Hazards } from '../../../../model';
 import { DrrDatepickerComponent } from '../../../shared/controls/drr-datepicker/drr-datepicker.component';
 import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
 import { DrrSelectComponent } from '../../../shared/controls/drr-select/drr-select.component';
 import { ProjectInformationForm } from '../drif-eoi-form';
 
+@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'drif-eoi-step-2',
   standalone: true,
@@ -52,7 +55,8 @@ export class DrifEoiStep2Component {
   ngOnInit() {
     this.projectInformationForm
       .get('relatedHazards')
-      ?.valueChanges.subscribe((hazards) => {
+      ?.valueChanges.pipe(distinctUntilChanged())
+      .subscribe((hazards) => {
         const otherHazardsDescriptionControl = this.projectInformationForm.get(
           'otherHazardsDescription'
         );

@@ -11,6 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectChange } from '@angular/material/select';
 import { TranslocoModule } from '@ngneat/transloco';
+import { UntilDestroy } from '@ngneat/until-destroy';
 import { IFormGroup, RxFormBuilder } from '@rxweb/reactive-form-validators';
 import { distinctUntilChanged } from 'rxjs';
 import { FundingType, YesNoOption } from '../../../../model';
@@ -25,6 +26,7 @@ import { FundingInformationItemForm } from '../../drif-eoi/drif-eoi-form';
 import { DrrFundingListComponent } from '../../drr-funding-list/drr-funding-list.component';
 import { BudgetForm, YearOverYearFundingForm } from '../drif-fp-form';
 
+@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'drif-fp-step-10',
   standalone: true,
@@ -79,7 +81,8 @@ export class DrifFpStep10Component {
 
     this.budgetForm
       .get('yearOverYearFunding')!
-      .valueChanges.subscribe((years: YearOverYearFundingForm[]) => {
+      .valueChanges.pipe(distinctUntilChanged())
+      .subscribe((years: YearOverYearFundingForm[]) => {
         const total = years.reduce((acc, year) => acc + Number(year.amount), 0);
         this.budgetForm.get('totalDrifFundingRequest')?.setValue(total);
 
@@ -119,23 +122,27 @@ export class DrifFpStep10Component {
       this.getFormArray('otherFunding').clear({ emitEvent: false });
       this.getFormArray('otherFunding').disable();
     }
-    this.budgetForm.get('haveOtherFunding')?.valueChanges.subscribe((value) => {
-      if (value) {
-        this.getFormArray('otherFunding').enable();
-        if (this.getFormArray('otherFunding').length === 0) {
-          this.getFormArray('otherFunding').push(
-            this.formBuilder.formGroup(FundingInformationItemForm)
-          );
+    this.budgetForm
+      .get('haveOtherFunding')
+      ?.valueChanges.pipe(distinctUntilChanged())
+      .subscribe((value) => {
+        if (value) {
+          this.getFormArray('otherFunding').enable();
+          if (this.getFormArray('otherFunding').length === 0) {
+            this.getFormArray('otherFunding').push(
+              this.formBuilder.formGroup(FundingInformationItemForm)
+            );
+          }
+        } else {
+          this.getFormArray('otherFunding').clear();
+          this.getFormArray('otherFunding').disable();
         }
-      } else {
-        this.getFormArray('otherFunding').clear();
-        this.getFormArray('otherFunding').disable();
-      }
-    });
+      });
 
     this.budgetForm
       .get('costConsiderationsApplied')
-      ?.valueChanges.subscribe((value) => {
+      ?.valueChanges.pipe(distinctUntilChanged())
+      .subscribe((value) => {
         if (value) {
           this.budgetForm.get('costConsiderations')?.enable();
           this.budgetForm

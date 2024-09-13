@@ -2,10 +2,12 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, isDevMode } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { TranslocoModule } from '@ngneat/transloco';
+import { UntilDestroy } from '@ngneat/until-destroy';
 import { VersionService } from '../../../api/version/version.service';
 import { VersionInformation } from '../../../model';
 import { ConfigurationStore } from '../../store/configuration.store';
 
+@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'drr-footer',
   standalone: true,

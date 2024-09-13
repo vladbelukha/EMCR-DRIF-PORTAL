@@ -4,6 +4,7 @@ import { AbstractControl } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { TranslocoModule } from '@ngneat/transloco';
+import { UntilDestroy } from '@ngneat/until-destroy';
 import {
   IFormGroup,
   RxFormArray,
@@ -15,6 +16,7 @@ import { DrifEoiSummaryComponent } from '../../drif-eoi/drif-eoi-summary/drif-eo
 import { SummaryItemComponent } from '../../summary-item/summary-item.component';
 import { DrifFpForm } from '../drif-fp-form';
 
+@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'drif-fp-summary',
   standalone: true,

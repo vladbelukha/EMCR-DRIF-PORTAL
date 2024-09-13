@@ -4,6 +4,7 @@ import { AbstractControl } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { TranslocoModule } from '@ngneat/transloco';
+import { UntilDestroy } from '@ngneat/until-destroy';
 import {
   IFormGroup,
   RxFormArray,
@@ -14,6 +15,7 @@ import { NgxMaskPipe } from 'ngx-mask';
 import { SummaryItemComponent } from '../../summary-item/summary-item.component';
 import { EOIApplicationForm } from '../drif-eoi-form';
 
+@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'drr-summary',
   standalone: true,

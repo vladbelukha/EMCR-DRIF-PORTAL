@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatInputModule } from '@angular/material/input';
 import { TranslocoModule } from '@ngneat/transloco';
+import { UntilDestroy } from '@ngneat/until-destroy';
 import { IFormGroup } from '@rxweb/reactive-form-validators';
 import { DrifapplicationService } from '../../../../api/drifapplication/drifapplication.service';
 import { ApplicationType, DeclarationType } from '../../../../model';
@@ -12,6 +13,7 @@ import { ProfileStore } from '../../../store/profile.store';
 import { DeclarationsForm, DrifFpForm } from '../drif-fp-form';
 import { DrifFpSummaryComponent } from '../drif-fp-summary/drif-fp-summary.component';
 
+@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'drif-fp-step-12',
   standalone: true,

@@ -3,11 +3,14 @@ import { Component, Input } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { TranslocoModule } from '@ngneat/transloco';
+import { UntilDestroy } from '@ngneat/until-destroy';
 import { IFormGroup } from '@rxweb/reactive-form-validators';
+import { distinctUntilChanged } from 'rxjs';
 import { DrrRadioButtonComponent } from '../../../shared/controls/drr-radio-button/drr-radio-button.component';
 import { DrrTextareaComponent } from '../../../shared/controls/drr-textarea/drr-textarea.component';
 import { ClimateAdaptationForm } from '../drif-fp-form';
 
+@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'drif-fp-step-6',
   standalone: true,
@@ -30,7 +33,8 @@ export class DrifFpStep6Component {
   ngOnInit() {
     this.climateAdaptationForm
       .get('incorporateFutureClimateConditions')
-      ?.valueChanges.subscribe((value) => {
+      ?.valueChanges.pipe(distinctUntilChanged())
+      .subscribe((value) => {
         if (value) {
           this.climateAdaptationForm
             .get('climateAdaptation')

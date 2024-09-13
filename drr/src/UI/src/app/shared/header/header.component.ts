@@ -7,9 +7,11 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { Router } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
+import { UntilDestroy } from '@ngneat/until-destroy';
 import { AuthService } from '../../core/auth/auth.service';
 import { ProfileStore } from '../../store/profile.store';
 
+@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'drr-header',
   standalone: true,

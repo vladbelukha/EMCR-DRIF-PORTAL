@@ -1,6 +1,6 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { CommonModule } from '@angular/common';
-import { Component, Input, inject } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { FormArray, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -10,12 +10,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { TranslocoModule } from '@ngneat/transloco';
+import { UntilDestroy } from '@ngneat/until-destroy';
 import {
   IFormGroup,
   RxFormBuilder,
   RxFormControl,
 } from '@rxweb/reactive-form-validators';
-import { Subscription } from 'rxjs';
+import { distinctUntilChanged, Subscription } from 'rxjs';
 import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
 import { ProfileStore } from '../../../store/profile.store';
 import {
@@ -24,6 +25,7 @@ import {
   StringItem,
 } from '../drif-eoi-form';
 
+@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'drif-eoi-step-1',
   standalone: true,
@@ -63,7 +65,8 @@ export class DrifEoiStep1Component {
 
     this.proponentInformationForm
       .get('partneringProponentsArray')
-      ?.valueChanges.subscribe((proponents: StringItem[]) => {
+      ?.valueChanges.pipe(distinctUntilChanged())
+      .subscribe((proponents: StringItem[]) => {
         this.proponentInformationForm.get('partneringProponents')?.patchValue(
           proponents.map((proponent) => proponent.value),
           { emitEvent: false }

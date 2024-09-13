@@ -8,7 +8,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatRadioModule } from '@angular/material/radio';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { UntilDestroy } from '@ngneat/until-destroy';
 import { IFormGroup } from '@rxweb/reactive-form-validators';
+import { distinctUntilChanged } from 'rxjs';
 import { YesNoOption } from '../../../../model';
 import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
 import {
@@ -18,6 +20,7 @@ import {
 import { DrrTextareaComponent } from '../../../shared/controls/drr-textarea/drr-textarea.component';
 import { OwnershipAndAuthorizationForm } from '../drif-fp-form';
 
+@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'drif-fp-step-2',
   standalone: true,
@@ -63,7 +66,8 @@ export class DrifFpStep2Component {
 
     this.ownershipAndAuthorizationForm
       .get('ownershipDeclaration')!
-      .valueChanges.subscribe((value) => {
+      .valueChanges.pipe(distinctUntilChanged())
+      .subscribe((value) => {
         if (value === false) {
           ownershipDescription?.addValidators(Validators.required);
         } else {
