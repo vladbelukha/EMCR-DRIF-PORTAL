@@ -498,7 +498,8 @@ namespace EMCR.DRR.Managers.Intake
 
     public enum AreaUnits
     {
-        m2,
-        ha
+        Hectares,
+        Acres,
+        SqKm,
     }
 }
