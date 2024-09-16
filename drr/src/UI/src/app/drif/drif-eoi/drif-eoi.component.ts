@@ -503,7 +503,7 @@ export class EOIApplicationComponent {
       autoClose: true,
       duration: 5000,
     });
-    this.router.navigate(['/dashboard']);
+    this.router.navigate(['/submissions']);
   };
 
   onSubmitFailure = () => {
@@ -512,6 +512,6 @@ export class EOIApplicationComponent {
   };
 
   goBack() {
-    this.router.navigate(['/dashboard']);
+    this.router.navigate(['/submissions']);
   }
 }

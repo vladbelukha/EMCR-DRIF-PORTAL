@@ -178,7 +178,7 @@ export class DrifEoiViewComponent {
   }
 
   goBack() {
-    this.router.navigate(['/dashboard']);
+    this.router.navigate(['/submissions']);
   }
 
   canCreateFP() {

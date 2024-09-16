@@ -491,7 +491,7 @@ export class DrifFpComponent {
   }
 
   goBack() {
-    this.router.navigate(['/dashboard']);
+    this.router.navigate(['/submissions']);
   }
 
   getFormValue() {
@@ -582,7 +582,7 @@ export class DrifFpComponent {
             autoClose: true,
           });
 
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['/submissions']);
         },
         error: (error) => {
           this.hotToast.close();
