@@ -8,6 +8,7 @@ namespace EMCR.DRR.API.Model
     {
         public required string Id { get; set; }
         public required ApplicationType ApplicationType { get; set; }
+        public required ProgramType ProgramType { get; set; }
         public string? ExistingFpId { get; set; }
         public required string ProjectTitle { get; set; }
         public required SubmissionPortalStatus Status { get; set; }
@@ -26,5 +27,12 @@ namespace EMCR.DRR.API.Model
 
         [Description("Full Proposal")]
         FP,
+    }
+
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public enum ProgramType
+    {
+        [Description("DRIF")]
+        DRIF,
     }
 }

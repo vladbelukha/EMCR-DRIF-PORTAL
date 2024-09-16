@@ -31,6 +31,8 @@ namespace EMCR.DRR.Resources.Applications
     {
         public string? Id { get; set; }
         public string? BusinessId { get; set; }
+        public int? Skip { get; set; }
+        public int? Take { get; set; }
     }
 
     public class EntitiesQuery

@@ -60,6 +60,7 @@ namespace EMCR.DRR.Managers.Intake
     {
         public string? Id { get; set; }
         public string? BusinessId { get; set; }
+        public QueryOptions? QueryOptions { get; set; }
     }
 
     public abstract class IntakeQuery
