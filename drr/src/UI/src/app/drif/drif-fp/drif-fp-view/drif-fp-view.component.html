@@ -1,0 +1,10 @@
+<div class="submission-details-container" *transloco="let t">
+  <div class="submission-details-header">
+    <h1>{{ t("submissionDetails", { id: id }) }}</h1>
+
+    <button mat-stroked-button color="primary" (click)="goBack()">
+      {{ t("back") }}
+    </button>
+  </div>
+  <drif-fp-summary [fullProposalForm]="fullProposalForm"></drif-fp-summary>
+</div>
