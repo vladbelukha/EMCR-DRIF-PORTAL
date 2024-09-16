@@ -24,6 +24,24 @@
         </td>
       </ng-container>
 
+      <ng-container matColumnDef="programType">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ t("programType") }}
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ t(element.programType) }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="applicationType">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ t("applicationType") }}
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ t(element.applicationType) }}
+        </td>
+      </ng-container>
+
       <ng-container matColumnDef="projectTitle">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>
           {{ t("projectTitle") }}

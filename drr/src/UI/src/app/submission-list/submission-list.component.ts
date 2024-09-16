@@ -34,6 +34,8 @@ export class SubmissionListComponent {
 
   submissionListColumns = [
     'id',
+    'programType',
+    'applicationType',
     'projectTitle',
     'status',
     'fundingRequest',
@@ -56,11 +58,20 @@ export class SubmissionListComponent {
   };
 
   ngOnInit() {
-    this.applicationService.dRIFApplicationGet().subscribe((submissions) => {
-      this.submissions = submissions;
-      this.submissionListDataSource = new MatTableDataSource(this.submissions);
-      this.paginator.length = submissions.length;
-    });
+    this.applicationService
+      .dRIFApplicationGet({
+        filter: '',
+        orderBy: '',
+        page: 1,
+        pageSize: 10,
+      })
+      .subscribe((submissions) => {
+        this.submissions = submissions;
+        this.submissionListDataSource = new MatTableDataSource(
+          this.submissions
+        );
+        this.paginator.length = submissions.length;
+      });
   }
 
   onPageChange(event: PageEvent) {

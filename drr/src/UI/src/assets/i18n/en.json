@@ -184,6 +184,8 @@
   "noSubmissions": "You don't have any submissions yet.",
   "submission-list": {
     "applicationId": "ID #",
+    "programType": "Program Type",
+    "applicationType": "Form Type",
     "projectTitle": "Project Title",
     "status": "Status",
     "fundingRequest": "Funding Request",
@@ -200,7 +202,10 @@
     "edit": "Edit",
     "delete": "Delete",
     "withdraw": "Withdraw",
-    "startNewEOI": "Start New EOI"
+    "startNewEOI": "Start New EOI",
+    "DRIF": "DRIF",
+    "EOI": "EOI",
+    "FP": "Full Proposal"
   },
   "proponentInstructions": "Proponent Instructions",
   "continue": "Continue",

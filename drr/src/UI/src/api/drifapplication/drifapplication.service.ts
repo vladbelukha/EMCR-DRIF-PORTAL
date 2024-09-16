@@ -26,6 +26,7 @@ import type {
   DraftFpApplication,
   EoiApplication,
   FpApplication,
+  QueryOptions,
   ScreenerQuestions,
   Submission
 } from '../../model'
@@ -52,7 +53,7 @@ export class DrifapplicationService {
   constructor(
     private http: HttpClient,
   ) {} dRIFApplicationGet<TData = Submission[]>(
-     options?: HttpClientOptions
+    queryOptions: QueryOptions, options?: HttpClientOptions
   ): Observable<TData>  {
     return this.http.get<TData>(
       `/api/drifapplication`,options
