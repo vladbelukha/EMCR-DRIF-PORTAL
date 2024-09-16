@@ -26,6 +26,7 @@ namespace EMCR.DRR.API.Mappers
                 .ForMember(dest => dest.ModifiedDate, opt => opt.MapFrom(src => src.ModifiedOn))
                 .ForMember(dest => dest.ExistingFpId, opt => opt.MapFrom(src => src.FpId))
                 .ForMember(dest => dest.PartneringProponents, opt => opt.MapFrom(src => src.PartneringProponents.Select(p => p.Name)))
+                .ForMember(dest => dest.ProgramType, opt => opt.MapFrom(src => Enum.Parse<ProgramType>(src.ProgramName)))
                 ;
 
             CreateMap<Managers.Intake.DeclarationInfo, DeclarationInfo>()

@@ -44,11 +44,11 @@ namespace EMCR.DRR.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Submission>>> Get()
+        public async Task<ActionResult<IEnumerable<Submission>>> Get(QueryOptions? options)
         {
             try
             {
-                var applications = (await intakeManager.Handle(new DrrApplicationsQuery { BusinessId = GetCurrentBusinessId() })).Items;
+                var applications = (await intakeManager.Handle(new DrrApplicationsQuery { BusinessId = GetCurrentBusinessId(), QueryOptions = options })).Items;
                 return Ok(mapper.Map<IEnumerable<Submission>>(applications));
             }
             catch (Exception e)
@@ -119,6 +119,14 @@ namespace EMCR.DRR.Controllers
     public class ApplicationResult
     {
         public required string Id { get; set; }
+    }
+
+    public class QueryOptions
+    {
+        public int? Page { get; set; } = 1;
+        public int? PageSize { get; set; } = 20;
+        public string? OrderBy { get; set; } = "Id asc";
+        public string? Filter { get; set; } = string.Empty;
     }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
