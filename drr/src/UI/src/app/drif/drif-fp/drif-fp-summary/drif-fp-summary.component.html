@@ -1042,4 +1042,72 @@
       ></drr-summary-item>
     </mat-card-content>
   </mat-card>
+
+  <mat-card *ngIf="showSubmitterInfo">
+    <mat-card-header>
+      <mat-card-title>{{ t("declaration") }}</mat-card-title>
+      <mat-card-subtitle>Step 8</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div
+        [class.required]="
+          !objectHasValues(
+            fullProposalForm.get('declarations.submitter')?.value
+          )
+        "
+      >
+        <mat-label class="drr-label">{{ t("submitter") }}</mat-label>
+        <div class="summary-row">
+          <drr-summary-item
+            [label]="t('firstName')"
+            [rxFormControl]="
+              fullProposalForm.get('declarations.submitter.firstName')
+            "
+          >
+          </drr-summary-item>
+
+          <drr-summary-item
+            [label]="t('lastName')"
+            [rxFormControl]="
+              fullProposalForm.get('declarations.submitter.lastName')
+            "
+          >
+          </drr-summary-item>
+
+          <drr-summary-item
+            [label]="t('title')"
+            [rxFormControl]="
+              fullProposalForm.get('declarations.submitter.title')
+            "
+          >
+          </drr-summary-item>
+
+          <drr-summary-item
+            [label]="t('department')"
+            [rxFormControl]="
+              fullProposalForm.get('declarations.submitter.department')
+            "
+          >
+          </drr-summary-item>
+
+          <drr-summary-item
+            [label]="t('phone')"
+            [rxFormControl]="
+              fullProposalForm.get('declaration.submitter.phone')
+            "
+            controlType="phone"
+          >
+          </drr-summary-item>
+
+          <drr-summary-item
+            [label]="t('email')"
+            [rxFormControl]="
+              fullProposalForm.get('declaration.submitter.email')
+            "
+          >
+          </drr-summary-item>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
 </div>

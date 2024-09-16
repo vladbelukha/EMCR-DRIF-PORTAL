@@ -86,7 +86,7 @@
           <button
             *ngIf="element.status === 'Draft'"
             mat-stroked-button
-            color="accent"
+            color="primary"
             (click)="onViewFormClick(element, $event)"
           >
             {{ t("edit") }}
@@ -94,7 +94,7 @@
           <button
             *ngIf="canCreateFullProposal(element)"
             mat-raised-button
-            color="accent"
+            color="primary"
             (click)="createFullProposal(element, $event)"
           >
             {{ t("createFP") }}

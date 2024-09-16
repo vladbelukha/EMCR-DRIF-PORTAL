@@ -34,7 +34,7 @@ export class HeaderComponent {
   authService = inject(AuthService);
 
   homeClick() {
-    this.router.navigate(['/dashboard']);
+    this.router.navigate(['/submissions']);
   }
 
   signOut() {
