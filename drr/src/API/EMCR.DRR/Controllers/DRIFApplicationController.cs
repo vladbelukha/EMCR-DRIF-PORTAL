@@ -44,7 +44,7 @@ namespace EMCR.DRR.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Submission>>> Get(QueryOptions? options)
+        public async Task<ActionResult<IEnumerable<Submission>>> Get([FromQuery] QueryOptions? options)
         {
             try
             {

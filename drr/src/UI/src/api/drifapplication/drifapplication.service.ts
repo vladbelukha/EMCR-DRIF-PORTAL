@@ -21,12 +21,12 @@ import {
 import type {
   ApplicationResult,
   DRIFApplicationCreateFPFromEOIParams,
+  DRIFApplicationGetParams,
   DeclarationResult,
   DraftEoiApplication,
   DraftFpApplication,
   EoiApplication,
   FpApplication,
-  QueryOptions,
   ScreenerQuestions,
   Submission
 } from '../../model'
@@ -53,10 +53,12 @@ export class DrifapplicationService {
   constructor(
     private http: HttpClient,
   ) {} dRIFApplicationGet<TData = Submission[]>(
-    queryOptions: QueryOptions, options?: HttpClientOptions
+    params?: DRIFApplicationGetParams, options?: HttpClientOptions
   ): Observable<TData>  {
     return this.http.get<TData>(
-      `/api/drifapplication`,options
+      `/api/drifapplication`,{
+    ...options,
+        params: {...params, ...options?.params},}
     );
   }
  dRIFApplicationGetDeclarations<TData = DeclarationResult>(

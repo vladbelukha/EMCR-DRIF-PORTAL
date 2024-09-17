@@ -27,6 +27,7 @@ export interface DrrSelectOption {
   ],
   templateUrl: './drr-select.component.html',
   styleUrl: './drr-select.component.scss',
+  providers: [RxFormBuilder],
 })
 export class DrrSelectComponent {
   formBuilder = inject(RxFormBuilder);

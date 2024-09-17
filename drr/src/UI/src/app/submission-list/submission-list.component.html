@@ -4,6 +4,56 @@
       <span>{{ t("startNewEOI") }}</span>
     </button>
   </div>
+  <!-- <mat-card> -->
+  <div
+    *ngIf="submissionListDataSource.data.length > 0"
+    class="submission-filter"
+  >
+    <div *ngIf="showFilters" class="submission-filter__controls">
+      <drr-select
+        [label]="t('programType')"
+        [rxFormControl]="filterForm.get('programType')"
+        [options]="programTypeOptions"
+      ></drr-select>
+      <drr-select
+        [label]="t('applicationType')"
+        [rxFormControl]="filterForm.get('applicationType')"
+        [options]="applicationTypeOptions"
+      ></drr-select>
+      <drr-select
+        [label]="t('status')"
+        [rxFormControl]="filterForm.get('status')"
+        [options]="statusOptions"
+        [isMultiple]="true"
+      ></drr-select>
+    </div>
+    <div>
+      <button
+        *ngIf="showFilters && filterApplied"
+        mat-mini-fab
+        color="primary"
+        (click)="clearFilters()"
+      >
+        <mat-icon>clear</mat-icon>
+      </button>
+      <button
+        *ngIf="showFilters && !filterApplied"
+        mat-mini-fab
+        color="primary"
+        (click)="applyFilters()"
+      >
+        <mat-icon>check</mat-icon>
+      </button>
+      <button
+        *ngIf="!showFilters"
+        mat-mini-fab
+        color="primary"
+        (click)="toggleFilters()"
+      >
+        <mat-icon>filter_list</mat-icon>
+      </button>
+    </div>
+  </div>
   <div class="submissions-table">
     <table
       *ngIf="submissionListDataSource.data.length > 0; else noDataTemplate"
@@ -86,7 +136,7 @@
       </ng-container>
 
       <ng-container matColumnDef="partneringProponents">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        <th mat-header-cell *matHeaderCellDef>
           {{ t("partneringProponents") }}
         </th>
         <td mat-cell *matCellDef="let element" style="overflow-wrap: anywhere">
@@ -141,4 +191,5 @@
       </div>
     </ng-template>
   </div>
+  <!-- </mat-card> -->
 </div>
