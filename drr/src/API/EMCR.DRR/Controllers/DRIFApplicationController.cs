@@ -44,12 +44,12 @@ namespace EMCR.DRR.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Submission>>> Get([FromQuery] QueryOptions? options)
+        public async Task<ActionResult<SubmissionResponse>> Get([FromQuery] QueryOptions? options)
         {
             try
             {
-                var applications = (await intakeManager.Handle(new DrrApplicationsQuery { BusinessId = GetCurrentBusinessId(), QueryOptions = options })).Items;
-                return Ok(mapper.Map<IEnumerable<Submission>>(applications));
+                var res = await intakeManager.Handle(new DrrApplicationsQuery { BusinessId = GetCurrentBusinessId(), QueryOptions = options });
+                return Ok(new SubmissionResponse { Submissions = mapper.Map<IEnumerable<Submission>>(res.Items), Length = res.Length });
             }
             catch (Exception e)
             {
@@ -123,9 +123,9 @@ namespace EMCR.DRR.Controllers
 
     public class QueryOptions
     {
-        public int? Page { get; set; } = 1;
-        public int? PageSize { get; set; } = 20;
-        public string? OrderBy { get; set; } = "Id asc";
+        public int Page { get; set; } = 1;
+        public int PageSize { get; set; } = 20;
+        public string? OrderBy { get; set; } = "Id";
         public string? Filter { get; set; } = string.Empty;
     }
 

@@ -31,8 +31,10 @@ namespace EMCR.DRR.Resources.Applications
     {
         public string? Id { get; set; }
         public string? BusinessId { get; set; }
-        public int? Skip { get; set; }
-        public int? Take { get; set; }
+        public int Skip { get; set; } = 0;
+        public int Take { get; set; } = 0;
+        public string? OrderBy { get; set; }
+        //public string? Filter { get; set; }
     }
 
     public class EntitiesQuery
@@ -117,7 +119,7 @@ namespace EMCR.DRR.Resources.Applications
         HundredKPlus = 172580003,
         Unsure = 172580004
     }
-    
+
     public enum EstimatedNumberOfPeopleFPOptionSet
     {
         ZeroToFiveHundred = 172580000,
