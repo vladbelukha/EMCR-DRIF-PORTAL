@@ -63,6 +63,33 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
         }
 
         [Test]
+        public async Task CanSubmitFPApplication()
+        {
+            var eoi = mapper.Map<EoiApplication>(CreateNewTestEOIApplication());
+            eoi.Status = SubmissionPortalStatus.EligibleInvited;
+            eoi.AuthorizedRepresentativeStatement = true;
+            eoi.FOIPPAConfirmation = true;
+            eoi.InformationAccuracyStatement = true;
+
+            var eoiId = await manager.Handle(new EoiSubmitApplicationCommand { application = eoi, UserInfo = GetTestUserInfo() });
+            eoiId.ShouldNotBeEmpty();
+
+            var fpId = await manager.Handle(new CreateFpFromEoiCommand { EoiId = eoiId, UserInfo = GetTestUserInfo(), ScreenerQuestions = CreateScreenerQuestions() });
+            fpId.ShouldNotBeEmpty();
+
+            var fullProposal = (await manager.Handle(new DrrApplicationsQuery { Id = fpId, BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault();
+            fullProposal.Id.ShouldBe(fpId);
+            fullProposal.EoiId.ShouldBe(eoiId);
+
+            var fpToUpdate = FillInFullProposal(mapper.Map<DraftFpApplication>(fullProposal));
+            fpToUpdate.Status = SubmissionPortalStatus.UnderReview;
+            await manager.Handle(new FpSaveApplicationCommand { application = mapper.Map<FpApplication>(fpToUpdate), UserInfo = GetTestUserInfo() });
+
+            var updatedFp = (await manager.Handle(new DrrApplicationsQuery { Id = fpId, BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault();
+            updatedFp.Status.ShouldBe(ApplicationStatus.Submitted);
+        }
+
+        [Test]
         public async Task QueryApplications_CanGetSpecificPage()
         {
             var queryOptions = new QueryOptions { Page = 2, PageSize = 15 };
@@ -75,11 +102,14 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
         [Test]
         public async Task QueryApplications_CanFilterByField()
         {
-            var queryOptions = new QueryOptions { Filter = "" };
+            var queryOptions = new QueryOptions { Filter = "programType=DRIF,applicationType=FP,status=*UnderReview|EligiblePending" };
             var queryRes = await manager.Handle(new DrrApplicationsQuery { BusinessId = GetTestUserInfo().BusinessId, QueryOptions = queryOptions });
             var applications = queryRes.Items;
             var submissions = mapper.Map<IEnumerable<Submission>>(applications);
-            submissions.Count().ShouldBe(20);
+            //submissions.Count().ShouldBe(20);
+            submissions.ShouldAllBe(s => s.ProgramType == ProgramType.DRIF);
+            submissions.ShouldAllBe(s => s.ApplicationType == ApplicationType.FP);
+            submissions.ShouldAllBe(s => s.Status == SubmissionPortalStatus.UnderReview || s.Status == SubmissionPortalStatus.EligiblePending);
         }
 
         [Test]

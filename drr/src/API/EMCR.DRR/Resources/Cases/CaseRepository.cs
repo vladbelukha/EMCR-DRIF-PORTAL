@@ -75,6 +75,8 @@ namespace EMCR.DRR.API.Resources.Cases
                 if (cmd.ScreenerQuestions.MeetsRegulatoryRequirements == true) fp.drr_requiredagencydiscussionsandapprovals = (int)DRRTwoOptions.Yes;
                 if (cmd.ScreenerQuestions.MeetsEligibilityRequirements == true) fp.drr_willprojectmeetreqsforallpermitsetc = (int)DRRTwoOptions.Yes;
 
+                fp.statuscode = (int)ApplicationStatusOptionSet.DraftProponent;
+
                 ctx.UpdateObject(fp);
                 await ctx.SaveChangesAsync();
             }

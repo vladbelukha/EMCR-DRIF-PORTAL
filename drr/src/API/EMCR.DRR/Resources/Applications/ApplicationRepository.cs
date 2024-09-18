@@ -112,6 +112,14 @@ namespace EMCR.DRR.Resources.Applications
                 .Where(a => a.statecode == (int)EntityState.Active);
             if (!string.IsNullOrEmpty(query.Id)) applicationsQuery = applicationsQuery.Where(a => a.drr_name == query.Id);
             if (!string.IsNullOrEmpty(query.BusinessId)) applicationsQuery = applicationsQuery.Where(a => a.drr_Primary_Proponent_Name.drr_bceidguid == query.BusinessId);
+            if (query.FilterOptions != null)
+            {
+                if (!string.IsNullOrEmpty(query.FilterOptions.ApplicationType)) applicationsQuery = applicationsQuery.Where(a => a.drr_ApplicationType.drr_name == query.FilterOptions.ApplicationType);
+                if (!string.IsNullOrEmpty(query.FilterOptions.ProgramType)) applicationsQuery = applicationsQuery.Where(a => a.drr_Program.drr_name == query.FilterOptions.ProgramType);
+#pragma warning disable CS8629 // Nullable value type may be null.
+                if (query.FilterOptions.Statuses != null) applicationsQuery = applicationsQuery.WhereIn(a => a.statuscode.Value, query.FilterOptions.Statuses);
+#pragma warning restore CS8629 // Nullable value type may be null.
+            }
 
             //This has some performance benefits from skip/take
             //But will not support sort/filter by partner proponents
@@ -152,7 +160,7 @@ namespace EMCR.DRR.Resources.Applications
             if (string.IsNullOrEmpty(query.Id)) partnerProponentsOnly = true;
 
             await Parallel.ForEachAsync(results, ct, async (a, ct) => await ParallelLoadApplicationAsync(readCtx, partnerProponentsOnly, a, ct));
-            return new ApplicationQueryResult { Items = mapper.Map<IEnumerable<Application>>(results) };
+            return new ApplicationQueryResult { Items = mapper.Map<IEnumerable<Application>>(results), Length = length };
         }
 
         public async Task<ManageApplicationCommandResult> HandleSubmitApplication(SubmitApplication cmd)
