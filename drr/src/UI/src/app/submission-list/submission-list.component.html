@@ -1,5 +1,6 @@
 <div *transloco="let t; read: 'submission-list'" class="submissions-container">
   <div class="submissions-header">
+    <h1>{{ t("title") }}</h1>
     <button mat-raised-button color="primary" (click)="onCreateFormClick()">
       <span>{{ t("startNewEOI") }}</span>
     </button>
@@ -10,6 +11,7 @@
     class="submission-filter"
   >
     <div *ngIf="showFilters" class="submission-filter__controls">
+      <h2>{{ t("filters") }}:</h2>
       <drr-select
         [label]="t('programType')"
         [rxFormControl]="filterForm.get('programType')"
