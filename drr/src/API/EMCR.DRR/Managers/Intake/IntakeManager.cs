@@ -53,7 +53,7 @@ namespace EMCR.DRR.Managers.Intake
             var take = 0;
             if (q.QueryOptions != null)
             {
-                skip = q.QueryOptions.PageSize * (q.QueryOptions.Page - 1);
+                skip = q.QueryOptions.PageSize * q.QueryOptions.Page;
                 take = q.QueryOptions.PageSize;
             }
 
