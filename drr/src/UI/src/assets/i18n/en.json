@@ -1,5 +1,5 @@
 {
-  "header": "Community Resilience and Adaptation Funding Tool",
+  "header": "Community Resilience and Adaptation Funding Tool (CRAFT)",
   "eoiFormHeader": "DRIF EOI",
   "eoiFormHeaderFor": "DRIF EOI for {{projectTitle}}",
   "fpFormHeader": "DRIF Full Proposal",
@@ -183,7 +183,11 @@
   "submissionDetails": "Submission Details for {{id}}",
   "noSubmissions": "You don't have any submissions yet.",
   "submission-list": {
+    "title": "Manage Submissions",
+    "filters": "Filters",
     "applicationId": "ID #",
+    "programType": "Program Type",
+    "applicationType": "Form Type",
     "projectTitle": "Project Title",
     "status": "Status",
     "fundingRequest": "Funding Request",
@@ -200,7 +204,10 @@
     "edit": "Edit",
     "delete": "Delete",
     "withdraw": "Withdraw",
-    "startNewEOI": "Start New EOI"
+    "startNewEOI": "Start New EOI",
+    "DRIF": "DRIF",
+    "EOI": "EOI",
+    "FP": "Full Proposal"
   },
   "proponentInstructions": "Proponent Instructions",
   "continue": "Continue",

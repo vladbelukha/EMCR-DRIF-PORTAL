@@ -6,6 +6,7 @@
  */
 import type { ApplicationType } from './applicationType';
 import type { FundingStream } from './fundingStream';
+import type { ProgramType } from './programType';
 import type { SubmissionPortalStatus } from './submissionPortalStatus';
 
 export interface Submission {
@@ -18,6 +19,7 @@ export interface Submission {
   id?: string;
   modifiedDate?: string;
   partneringProponents?: string[];
+  programType?: ProgramType;
   projectTitle?: string;
   status?: SubmissionPortalStatus;
   /** @nullable */

@@ -1,10 +1,11 @@
 .submissions-container {
+  display: flex;
+  flex-direction: column;
   margin: 1rem;
 }
 
 .submissions-header {
   display: flex;
-  flex-direction: column;
 
   button {
     margin-left: auto;
@@ -17,10 +18,29 @@
   }
 }
 
+.submission-filter {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 1rem;
+  min-height: 4rem;
+  align-items: center;
+
+  &__controls {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: center;
+
+    & h2 {
+      margin: 0;
+    }
+  }
+}
+
 .submissions-table {
-  width: 100%;
   border-collapse: collapse;
-  padding-top: 1rem;
+  padding: 1rem 0;
 }
 
 .no-data {
@@ -36,5 +56,9 @@
   ::ng-deep .mat-mdc-table .mat-mdc-header-cell {
     background: #e8f3ff;
     font-weight: bold;
+  }
+
+  ::ng-deep .mat-mdc-form-field-subscript-wrapper {
+    display: none;
   }
 }

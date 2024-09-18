@@ -1,8 +1,60 @@
 <div *transloco="let t; read: 'submission-list'" class="submissions-container">
   <div class="submissions-header">
+    <h1>{{ t("title") }}</h1>
     <button mat-raised-button color="primary" (click)="onCreateFormClick()">
       <span>{{ t("startNewEOI") }}</span>
     </button>
+  </div>
+  <!-- <mat-card> -->
+  <div
+    *ngIf="submissionListDataSource.data.length > 0"
+    class="submission-filter"
+  >
+    <div *ngIf="showFilters" class="submission-filter__controls">
+      <h2>{{ t("filters") }}:</h2>
+      <drr-select
+        [label]="t('programType')"
+        [rxFormControl]="filterForm.get('programType')"
+        [options]="programTypeOptions"
+      ></drr-select>
+      <drr-select
+        [label]="t('applicationType')"
+        [rxFormControl]="filterForm.get('applicationType')"
+        [options]="applicationTypeOptions"
+      ></drr-select>
+      <drr-select
+        [label]="t('status')"
+        [rxFormControl]="filterForm.get('status')"
+        [options]="statusOptions"
+        [isMultiple]="true"
+      ></drr-select>
+    </div>
+    <div>
+      <button
+        *ngIf="showFilters && filterApplied"
+        mat-mini-fab
+        color="primary"
+        (click)="clearFilters()"
+      >
+        <mat-icon>clear</mat-icon>
+      </button>
+      <button
+        *ngIf="showFilters && !filterApplied"
+        mat-mini-fab
+        color="primary"
+        (click)="applyFilters()"
+      >
+        <mat-icon>check</mat-icon>
+      </button>
+      <button
+        *ngIf="!showFilters"
+        mat-mini-fab
+        color="primary"
+        (click)="toggleFilters()"
+      >
+        <mat-icon>filter_list</mat-icon>
+      </button>
+    </div>
   </div>
   <div class="submissions-table">
     <table
@@ -21,6 +73,24 @@
           <a (click)="onViewFormClick(element, $event)" href="">
             {{ element.id }}
           </a>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="programType">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ t("programType") }}
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ t(element.programType) }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="applicationType">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ t("applicationType") }}
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ t(element.applicationType) }}
         </td>
       </ng-container>
 
@@ -68,7 +138,7 @@
       </ng-container>
 
       <ng-container matColumnDef="partneringProponents">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        <th mat-header-cell *matHeaderCellDef>
           {{ t("partneringProponents") }}
         </th>
         <td mat-cell *matCellDef="let element" style="overflow-wrap: anywhere">
@@ -109,6 +179,7 @@
     </table>
     <mat-paginator
       *ngIf="paginator.showPaginator"
+      [pageIndex]="paginator.pageIndex"
       [length]="paginator.length"
       [pageSize]="paginator.pageSize"
       [pageSizeOptions]="paginator.pageSizeOptions"
@@ -123,4 +194,5 @@
       </div>
     </ng-template>
   </div>
+  <!-- </mat-card> -->
 </div>
