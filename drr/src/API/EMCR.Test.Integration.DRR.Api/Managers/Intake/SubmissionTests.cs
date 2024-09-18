@@ -63,6 +63,37 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
         }
 
         [Test]
+        public async Task QueryApplications_CanGetSpecificPage()
+        {
+            var queryOptions = new QueryOptions { Page = 2, PageSize = 15 };
+            var queryRes = await manager.Handle(new DrrApplicationsQuery { BusinessId = GetTestUserInfo().BusinessId, QueryOptions = queryOptions });
+            var applications = queryRes.Items;
+            var submissions = mapper.Map<IEnumerable<Submission>>(applications);
+            submissions.Count().ShouldBe(15);
+        }
+
+        [Test]
+        public async Task QueryApplications_CanFilterByField()
+        {
+            var queryOptions = new QueryOptions { Filter = "" };
+            var queryRes = await manager.Handle(new DrrApplicationsQuery { BusinessId = GetTestUserInfo().BusinessId, QueryOptions = queryOptions });
+            var applications = queryRes.Items;
+            var submissions = mapper.Map<IEnumerable<Submission>>(applications);
+            submissions.Count().ShouldBe(20);
+        }
+
+        [Test]
+        public async Task QueryApplications_CanSortResults()
+        {
+            var queryOptions = new QueryOptions { OrderBy = "status desc" };
+            var queryRes = await manager.Handle(new DrrApplicationsQuery { BusinessId = GetTestUserInfo().BusinessId, QueryOptions = queryOptions });
+            var applications = queryRes.Items;
+            var submissions = mapper.Map<IEnumerable<Submission>>(applications);
+            submissions.Count().ShouldBe(20);
+        }
+
+
+        [Test]
         public async Task CanQueryApplications()
         {
             var application = CreateNewTestEOIApplication();
@@ -90,7 +121,8 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             var fpId = await manager.Handle(new CreateFpFromEoiCommand { EoiId = thirdId, UserInfo = GetTestUserInfo(), ScreenerQuestions = CreateScreenerQuestions() });
             fpId.ShouldNotBeEmpty();
 
-            var applications = (await manager.Handle(new DrrApplicationsQuery { BusinessId = GetTestUserInfo().BusinessId })).Items;
+            var queryRes = await manager.Handle(new DrrApplicationsQuery { BusinessId = GetTestUserInfo().BusinessId });
+            var applications = queryRes.Items;
             var submissions = mapper.Map<IEnumerable<Submission>>(applications);
             submissions.ShouldContain(s => s.Id == id);
             submissions.ShouldContain(s => s.Id == secondId);

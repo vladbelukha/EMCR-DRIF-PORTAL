@@ -4,6 +4,12 @@ using EMCR.DRR.Controllers;
 
 namespace EMCR.DRR.API.Model
 {
+    public class SubmissionResponse
+    {
+        public IEnumerable<Submission> Submissions { get; set; } = Array.Empty<Submission>();
+        public int Length { get; set; } = 0;
+    }
+
     public class Submission
     {
         public required string Id { get; set; }

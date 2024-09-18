@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Text.RegularExpressions;
+using AutoMapper;
 using EMCR.DRR.API.Resources.Cases;
 using EMCR.DRR.API.Services;
 using EMCR.DRR.Resources.Applications;
@@ -47,8 +48,40 @@ namespace EMCR.DRR.Managers.Intake
                 var canAccess = await CanAccessApplication(q.Id, q.BusinessId);
                 if (!canAccess) throw new ForbiddenException("Not allowed to access this application.");
             }
-            var res = await applicationRepository.Query(new ApplicationsQuery { Id = q.Id, BusinessId = q.BusinessId });
-            return new IntakeQueryResponse { Items = mapper.Map<IEnumerable<Application>>(res.Items) };
+            var skip = 0;
+            var take = 0;
+            if (q.QueryOptions != null)
+            {
+                skip = q.QueryOptions.PageSize * (q.QueryOptions.Page - 1);
+                take = q.QueryOptions.PageSize;
+            }
+
+            var orderBy = GetOrderBy(q.QueryOptions?.OrderBy);
+
+            var res = await applicationRepository.Query(new ApplicationsQuery { Id = q.Id, BusinessId = q.BusinessId, Skip = skip, Take = take, OrderBy = orderBy });
+
+            //This will support sort/filter for partner proponents
+            //But loses any performance benefits of skip/take
+            //var orderBy = q.QueryOptions?.OrderBy;
+            //if (!string.IsNullOrEmpty(orderBy))
+            //{
+            //    var descending = false;
+            //    if (orderBy.Contains(" desc"))
+            //    {
+            //        descending = true;
+            //        orderBy = Regex.Replace(orderBy, @" desc", "");
+            //        orderBy = Regex.Replace(orderBy, @" asc", "");
+            //    }
+
+            //    if (descending) res.Items = res.Items.OrderByDescending(i => i[orderBy]);
+            //    else res.Items = res.Items.OrderBy(i => i[orderBy]);
+            //}
+
+            //if (skip > 0) res.Items = res.Items.Skip(skip);
+            //if (take > 0) res.Items = res.Items.Take(take);
+
+
+            return new IntakeQueryResponse { Items = mapper.Map<IEnumerable<Application>>(res.Items), Length = res.Items.Count() };
         }
 
         public async Task<string> Handle(EoiSaveApplicationCommand cmd)
@@ -127,6 +160,35 @@ namespace EMCR.DRR.Managers.Intake
             if (string.IsNullOrEmpty(businessId)) throw new ArgumentNullException("Missing user's BusinessId");
             if (string.IsNullOrEmpty(id)) return true;
             return await applicationRepository.CanAccessApplication(id, businessId);
+        }
+
+        private string GetOrderBy(string? orderBy)
+        {
+            if (string.IsNullOrEmpty(orderBy)) return "drr_name";
+            orderBy = orderBy.ToLower();
+            var descending = false;
+            if (orderBy.Contains(" desc"))
+            {
+                descending = true;
+                orderBy = Regex.Replace(orderBy, @" desc", "");
+                orderBy = Regex.Replace(orderBy, @" asc", "");
+            }
+
+            var dir = descending ? " desc" : "";
+
+            switch (orderBy)
+            {
+                case "id": return "drr_name" + dir;
+                case "projecttitle": return "drr_projecttitle" + dir;
+                case "applicationtype": return "drr_ApplicationType.drr_name" + dir;
+                case "programtype": return "drr_Program.drr_name" + dir;
+                case "status": return "statuscode" + dir;
+                case "fundingrequest": return "drr_estimateddriffundingprogramrequest" + dir;
+                case "modifieddate": return "modifiedon" + dir;
+                case "submitteddate": return "drr_submitteddate" + dir;
+                //case "partneringproponents": return "drr_projecttitle" + dir;
+                default: return "drr_name";
+            }
         }
     }
 }
