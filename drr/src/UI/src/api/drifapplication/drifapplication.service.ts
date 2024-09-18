@@ -28,7 +28,7 @@ import type {
   EoiApplication,
   FpApplication,
   ScreenerQuestions,
-  Submission
+  SubmissionResponse
 } from '../../model'
 
 
@@ -52,7 +52,7 @@ type HttpClientOptions = {
 export class DrifapplicationService {
   constructor(
     private http: HttpClient,
-  ) {} dRIFApplicationGet<TData = Submission[]>(
+  ) {} dRIFApplicationGet<TData = SubmissionResponse>(
     params?: DRIFApplicationGetParams, options?: HttpClientOptions
   ): Observable<TData>  {
     return this.http.get<TData>(
@@ -147,7 +147,7 @@ export class DrifapplicationService {
   }
 };
 
-export type DRIFApplicationGetClientResult = NonNullable<Submission[]>
+export type DRIFApplicationGetClientResult = NonNullable<SubmissionResponse>
 export type DRIFApplicationGetDeclarationsClientResult = NonNullable<DeclarationResult>
 export type DRIFApplicationGetEOIClientResult = NonNullable<DraftEoiApplication>
 export type DRIFApplicationUpdateApplicationClientResult = NonNullable<ApplicationResult>

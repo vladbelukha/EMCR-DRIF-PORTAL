@@ -177,6 +177,7 @@
     </table>
     <mat-paginator
       *ngIf="paginator.showPaginator"
+      [pageIndex]="paginator.pageIndex"
       [length]="paginator.length"
       [pageSize]="paginator.pageSize"
       [pageSizeOptions]="paginator.pageSizeOptions"

@@ -7,10 +7,14 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatSortModule, Sort } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Router, RouterModule } from '@angular/router';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { prop, RxFormBuilder } from '@rxweb/reactive-form-validators';
-import { ConditionalOperator, GridifyQueryBuilder } from 'gridify-client';
+import {
+  ConditionalOperator,
+  GridifyQueryBuilder,
+  IGridifyQuery,
+} from 'gridify-client';
 import { distinctUntilChanged } from 'rxjs';
 import { DrifapplicationService } from '../../api/drifapplication/drifapplication.service';
 import {
@@ -56,18 +60,19 @@ export class SubmissionListComponent {
   router = inject(Router);
   applicationService = inject(DrifapplicationService);
   formbuilder = inject(RxFormBuilder);
+  translocoService = inject(TranslocoService);
 
   programTypeOptions = Object.values(ProgramType).map((value) => ({
     value,
-    label: value,
+    label: this.translocoService.translate(value),
   }));
   applicationTypeOptions = Object.values(ApplicationType).map((value) => ({
     value,
-    label: value,
+    label: this.translocoService.translate(value),
   }));
   statusOptions = Object.values(SubmissionPortalStatus).map((value) => ({
     value,
-    label: value,
+    label: this.translocoService.translate(value),
   }));
 
   showFilters = false;
@@ -120,14 +125,14 @@ export class SubmissionListComponent {
         Page: query.page,
         PageSize: query.pageSize,
       })
-      .subscribe((submissions) => {
-        this.submissions = submissions;
+      .subscribe((response) => {
+        this.submissions = response.submissions;
         this.submissionListDataSource = new MatTableDataSource(
           this.submissions
         );
-        this.paginator.length = submissions.length;
+        this.paginator.length = response.length!;
         this.paginator.showPaginator =
-          submissions.length > this.paginator.pageSize;
+          response.length! > this.paginator.pageSize;
       });
   }
 
@@ -190,33 +195,51 @@ export class SubmissionListComponent {
     this.load();
   }
 
-  getQuery() {
+  getQuery(): IGridifyQuery {
     const filters = this.filterForm.value as SubmissionFilter;
 
     const query = new GridifyQueryBuilder()
       .setPage(this.paginator.pageIndex)
       .setPageSize(this.paginator.pageSize)
-      .addOrderBy(this.sort.active, this.sort.direction === 'desc')
-      .addCondition(
+      .addOrderBy(this.sort.active, this.sort.direction === 'desc');
+
+    if (filters.programType) {
+      query.addCondition(
         'programType',
         ConditionalOperator.Equal,
         filters.programType ?? ''
-      )
-      .and()
-      .addCondition(
+      );
+    }
+
+    if (filters.programType && filters.applicationType) {
+      query.and();
+    }
+
+    if (filters.applicationType) {
+      query.addCondition(
         'applicationType',
         ConditionalOperator.Equal,
         filters.applicationType ?? ''
-      )
-      .and()
-      .addCondition(
-        'status',
-        ConditionalOperator.Contains,
-        filters.status ? filters.status.join('|') : ''
-      )
-      .build();
+      );
+    }
 
-    return query;
+    if (
+      (filters.applicationType || filters.programType) &&
+      filters.status &&
+      filters.status.length > 0
+    ) {
+      query.and();
+    }
+
+    if (filters.status && filters.status.length > 0) {
+      query.addCondition(
+        'status',
+        ConditionalOperator.Equal,
+        filters.status.join('|')
+      );
+    }
+
+    return query.build();
   }
 
   clearFilters() {

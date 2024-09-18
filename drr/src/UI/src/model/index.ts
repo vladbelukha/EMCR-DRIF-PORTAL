@@ -44,6 +44,7 @@ export * from './screenerQuestions';
 export * from './standardInfo';
 export * from './submission';
 export * from './submissionPortalStatus';
+export * from './submissionResponse';
 export * from './versionInformation';
 export * from './yearOverYearFunding';
 export * from './yesNoOption';
