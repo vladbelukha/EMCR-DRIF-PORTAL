@@ -123,7 +123,7 @@ namespace EMCR.DRR.Controllers
 
     public class QueryOptions
     {
-        public int Page { get; set; } = 1;
+        public int Page { get; set; } = 0;
         public int PageSize { get; set; } = 20;
         public string? OrderBy { get; set; } = "Id";
         public string? Filter { get; set; } = string.Empty;
