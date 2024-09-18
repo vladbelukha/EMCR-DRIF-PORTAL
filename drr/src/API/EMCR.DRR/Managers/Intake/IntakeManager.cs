@@ -1,5 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 using AutoMapper;
+using EMCR.DRR.API.Model;
 using EMCR.DRR.API.Resources.Cases;
 using EMCR.DRR.API.Services;
 using EMCR.DRR.Resources.Applications;
@@ -58,7 +59,10 @@ namespace EMCR.DRR.Managers.Intake
 
             var orderBy = GetOrderBy(q.QueryOptions?.OrderBy);
 
-            var res = await applicationRepository.Query(new ApplicationsQuery { Id = q.Id, BusinessId = q.BusinessId, Skip = skip, Take = take, OrderBy = orderBy });
+            var filterOptions = ParseFilter(q.QueryOptions?.Filter);
+
+
+            var res = await applicationRepository.Query(new ApplicationsQuery { Id = q.Id, BusinessId = q.BusinessId, Skip = skip, Take = take, OrderBy = orderBy, FilterOptions = filterOptions });
 
             //This will support sort/filter for partner proponents
             //But loses any performance benefits of skip/take
@@ -81,7 +85,7 @@ namespace EMCR.DRR.Managers.Intake
             //if (take > 0) res.Items = res.Items.Take(take);
 
 
-            return new IntakeQueryResponse { Items = mapper.Map<IEnumerable<Application>>(res.Items), Length = res.Items.Count() };
+            return new IntakeQueryResponse { Items = mapper.Map<IEnumerable<Application>>(res.Items), Length = res.Length };
         }
 
         public async Task<string> Handle(EoiSaveApplicationCommand cmd)
@@ -162,6 +166,56 @@ namespace EMCR.DRR.Managers.Intake
             return await applicationRepository.CanAccessApplication(id, businessId);
         }
 
+        private FilterOptions ParseFilter(string? filter)
+        {
+            if (string.IsNullOrEmpty(filter)) return new FilterOptions();
+
+            var ret = new FilterOptions();
+
+            var parts = filter.Split(',');
+            foreach (var part in parts)
+            {
+                var name = part.Split('=')[0]?.ToLower();
+                var value = part.Split("=")[1];
+
+                switch (name)
+                {
+                    case "programtype":
+                        {
+                            ret.ProgramType = value.ToUpper();
+                            break;
+                        }
+                    case "applicationtype":
+                        {
+                            if (value.ToLower() == "fp") value = "Full Proposal";
+                            if (value.ToLower() == "eoi") value = "EOI";
+                            ret.ApplicationType = value;
+                            break;
+                        }
+                    case "status":
+                        {
+                            value = Regex.Replace(value, @"\*", "");
+                            var selectedStatuses = value.Split("|");
+                            var statuses = new List<int>();
+                            foreach (var currStatus in selectedStatuses)
+                            {
+                                var submissionStatus = Enum.Parse<SubmissionPortalStatus>(currStatus);
+                                var applicationStatuses = IntakeStatusMapper(submissionStatus);
+                                statuses = statuses.Concat(applicationStatuses).ToList();
+                            }
+                            ret.Statuses = statuses;
+                            break;
+                        }
+                    default:
+                        {
+                            break;
+                        }
+                }
+            }
+
+            return ret;
+        }
+
         private string GetOrderBy(string? orderBy)
         {
             if (string.IsNullOrEmpty(orderBy)) return "drr_name";
@@ -189,6 +243,48 @@ namespace EMCR.DRR.Managers.Intake
                 //case "partneringproponents": return "drr_projecttitle" + dir;
                 default: return "drr_name";
             }
+        }
+
+        private List<int> IntakeStatusMapper(SubmissionPortalStatus? status)
+        {
+            var ret = new List<int>();
+            switch (status)
+            {
+                case SubmissionPortalStatus.Draft:
+                    {
+                        ret.Add((int)(int)ApplicationStatusOptionSet.DraftStaff);
+                        ret.Add((int)ApplicationStatusOptionSet.DraftProponent);
+                        break;
+                    }
+                case SubmissionPortalStatus.UnderReview:
+                    {
+                        ret.Add((int)ApplicationStatusOptionSet.Submitted);
+                        ret.Add((int)ApplicationStatusOptionSet.InReview);
+                        break;
+                    }
+                case SubmissionPortalStatus.EligibleInvited:
+                    {
+                        ret.Add((int)ApplicationStatusOptionSet.Invited);
+                        break;
+                    }
+                case SubmissionPortalStatus.EligiblePending:
+                    {
+                        ret.Add((int)ApplicationStatusOptionSet.InPool);
+                        break;
+                    }
+                case SubmissionPortalStatus.Ineligible:
+                    {
+                        ret.Add((int)ApplicationStatusOptionSet.Ineligible);
+                        break;
+                    }
+                case SubmissionPortalStatus.Withdrawn:
+                    {
+                        ret.Add((int)ApplicationStatusOptionSet.Withdrawn);
+                        break;
+                    }
+                default: break;
+            }
+            return ret;
         }
     }
 }

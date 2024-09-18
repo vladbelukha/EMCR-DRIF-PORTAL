@@ -25,6 +25,7 @@ namespace EMCR.DRR.Resources.Applications
     public class ApplicationQueryResult
     {
         public IEnumerable<Application> Items { get; set; } = Array.Empty<Application>();
+        public int Length { get; set; }
     }
 
     public class ApplicationsQuery : ApplicationQuery
@@ -34,7 +35,14 @@ namespace EMCR.DRR.Resources.Applications
         public int Skip { get; set; } = 0;
         public int Take { get; set; } = 0;
         public string? OrderBy { get; set; }
-        //public string? Filter { get; set; }
+        public FilterOptions? FilterOptions { get; set; }
+    }
+
+    public class FilterOptions
+    {
+        public string? ApplicationType { get; set; }
+        public string? ProgramType { get; set; }
+        public List<int>? Statuses { get; set; }
     }
 
     public class EntitiesQuery
