@@ -54,6 +54,7 @@ namespace EMCR.DRR.Managers.Intake
     public class IntakeQueryResponse
     {
         public required IEnumerable<Application> Items { get; set; }
+        public int Length { get; set; }
     }
 
     public class DrrApplicationsQuery : IntakeQuery

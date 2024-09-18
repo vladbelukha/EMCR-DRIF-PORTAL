@@ -1,8 +1,9 @@
-﻿using AutoMapper;
-using EMCR.Utilities.Extensions;
+﻿using System.Text.RegularExpressions;
+using AutoMapper;
 using EMCR.DRR.API.Services;
 using EMCR.DRR.Dynamics;
 using EMCR.DRR.Managers.Intake;
+using EMCR.Utilities.Extensions;
 using Microsoft.Dynamics.CRM;
 
 namespace EMCR.DRR.Resources.Applications
@@ -106,18 +107,52 @@ namespace EMCR.DRR.Resources.Applications
             var ct = new CancellationTokenSource().Token;
             var readCtx = dRRContextFactory.CreateReadOnly();
 
-            var applicationsQuery = readCtx.drr_applications.Where(a => a.statecode == (int)EntityState.Active);
+            var applicationsQuery = readCtx.drr_applications
+                .Expand(a => a.drr_ApplicationType).Expand(a => a.drr_Program) //Added for sorting purposes
+                .Where(a => a.statecode == (int)EntityState.Active);
             if (!string.IsNullOrEmpty(query.Id)) applicationsQuery = applicationsQuery.Where(a => a.drr_name == query.Id);
             if (!string.IsNullOrEmpty(query.BusinessId)) applicationsQuery = applicationsQuery.Where(a => a.drr_Primary_Proponent_Name.drr_bceidguid == query.BusinessId);
 
+            //This has some performance benefits from skip/take
+            //But will not support sort/filter by partner proponents
+            //also sort by status will be janky, but should be do-able
             var results = (await applicationsQuery.GetAllPagesAsync(ct)).ToArray();
+            var length = results.Length;
+
+            if (!string.IsNullOrEmpty(query.OrderBy))
+            {
+                var descending = false;
+                if (query.OrderBy.Contains(" desc"))
+                {
+                    descending = true;
+                    query.OrderBy = Regex.Replace(query.OrderBy, @" desc", "");
+                }
+                if (descending) results = results.OrderByDescending(a => GetPropertyValueForSort(a, query.OrderBy)).ToArray();
+                else results = results.OrderBy(a => GetPropertyValueForSort(a, query.OrderBy)).ToArray();
+            }
+            else
+            {
+                results = results.OrderBy(a => a.drr_name).ToArray();
+            }
+
+            if (query.Skip > 0)
+            {
+                results = results.Skip(query.Skip).ToArray();
+            }
+
+            if (query.Take > 0)
+            {
+                results = results.Take(query.Take).ToArray();
+            }
+            ///END
+
+            //var results = (await applicationsQuery.GetAllPagesAsync(ct)).ToArray();
 
             var partnerProponentsOnly = false;
             if (string.IsNullOrEmpty(query.Id)) partnerProponentsOnly = true;
 
             await Parallel.ForEachAsync(results, ct, async (a, ct) => await ParallelLoadApplicationAsync(readCtx, partnerProponentsOnly, a, ct));
-            var items = mapper.Map<IEnumerable<Application>>(results.OrderBy(a => a.drr_name));
-            return new ApplicationQueryResult { Items = items };
+            return new ApplicationQueryResult { Items = mapper.Map<IEnumerable<Application>>(results) };
         }
 
         public async Task<ManageApplicationCommandResult> HandleSubmitApplication(SubmitApplication cmd)
@@ -800,7 +835,7 @@ namespace EMCR.DRR.Resources.Applications
             var loadTasks = new List<Task>
             {
                 ctx.LoadPropertyAsync(application, nameof(drr_application.drr_application_connections1), ct),
-                ctx.LoadPropertyAsync(application, nameof(drr_application.drr_ApplicationType), ct),
+                //ctx.LoadPropertyAsync(application, nameof(drr_application.drr_ApplicationType), ct),
                 ctx.LoadPropertyAsync(application, nameof(drr_application.drr_FullProposalApplication), ct),
             };
 
@@ -809,7 +844,7 @@ namespace EMCR.DRR.Resources.Applications
                 loadTasks = loadTasks.Concat(new List<Task>
                 {
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_EOIApplication), ct),
-                    ctx.LoadPropertyAsync(application, nameof(drr_application.drr_Program), ct),
+                    //ctx.LoadPropertyAsync(application, nameof(drr_application.drr_Program), ct),
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_Primary_Proponent_Name), ct),
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_SubmitterContact), ct),
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_PrimaryProjectContact), ct),
@@ -908,6 +943,62 @@ namespace EMCR.DRR.Resources.Applications
                 ctx.AttachTo(nameof(DRRContext.drr_resiliencyitems), item);
                 await ctx.LoadPropertyAsync(item, nameof(drr_resiliencyitem.drr_Resiliency), ct);
             });
+        }
+
+        private static object GetPropertyValueForSort(object src, string propName)
+        {
+
+
+            if (src == null) throw new ArgumentException("Value cannot be null.", "src");
+            if (propName == null) throw new ArgumentException("Value cannot be null.", "propName");
+
+            if (propName.Contains("."))//complex type nested
+            {
+                var temp = propName.Split(new char[] { '.' }, 2);
+                return GetPropertyValueForSort(GetPropertyValueForSort(src, temp[0]), temp[1]);
+            }
+            else
+            {
+                var prop = src.GetType().GetProperty(propName);
+#pragma warning disable CS8603 // Possible null reference return.
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+#pragma warning disable CS8604 // Possible null reference argument.
+                if (propName == "statuscode") return GetSortedStatuses(prop.GetValue(src, null).ToString());
+#pragma warning restore CS8604 // Possible null reference argument.
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
+                return prop != null ? prop.GetValue(src, null) : null;
+#pragma warning restore CS8603 // Possible null reference return.
+            }
+        }
+
+        //return value is ordered alphabetically for what SubmissionPortalStatus will be 
+        private static int GetSortedStatuses(string status)
+        {
+            var statusOption = Enum.Parse<ApplicationStatusOptionSet>(status);
+            switch (statusOption)
+            {
+                case ApplicationStatusOptionSet.DraftStaff:
+                case ApplicationStatusOptionSet.DraftProponent:
+                    return 0; //Draft
+
+                case ApplicationStatusOptionSet.Invited:
+                    return 1; //EligibleInvited
+
+                case ApplicationStatusOptionSet.InPool:
+                    return 2; //EligiblePending
+
+                case ApplicationStatusOptionSet.Ineligible:
+                    return 3; //Ineligible
+
+                case ApplicationStatusOptionSet.Submitted:
+                case ApplicationStatusOptionSet.InReview:
+                    return 4;//Submitted
+
+                case ApplicationStatusOptionSet.Withdrawn:
+                    return 5; //Withdrawn
+
+                default: return 0;
+            }
         }
     }
 }
