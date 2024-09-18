@@ -102,7 +102,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
         [Test]
         public async Task QueryApplications_CanFilterByField()
         {
-            var queryOptions = new QueryOptions { Filter = "programType=DRIF,applicationType=FP,status=*UnderReview|EligiblePending" };
+            var queryOptions = new QueryOptions { Filter = "programType=DRIF,applicationType=FP,status=*UnderReview\\|EligiblePending" };
             var queryRes = await manager.Handle(new DrrApplicationsQuery { BusinessId = GetTestUserInfo().BusinessId, QueryOptions = queryOptions });
             var applications = queryRes.Items;
             var submissions = mapper.Map<IEnumerable<Submission>>(applications);

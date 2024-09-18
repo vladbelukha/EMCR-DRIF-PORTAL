@@ -195,7 +195,7 @@ namespace EMCR.DRR.Managers.Intake
                     case "status":
                         {
                             value = Regex.Replace(value, @"\*", "");
-                            var selectedStatuses = value.Split("|");
+                            var selectedStatuses = value.Split("\\|");
                             var statuses = new List<int>();
                             foreach (var currStatus in selectedStatuses)
                             {
