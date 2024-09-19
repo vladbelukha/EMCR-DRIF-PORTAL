@@ -1,17 +1,17 @@
 <div *transloco="let t; read: 'submission-list'" class="submissions-container">
   <div class="submissions-header">
-    <h1>{{ t("title") }}</h1>
+    <p style="font-size: 1.2rem; padding-left: 1rem">{{ t("title") }}</p>
     <button mat-raised-button color="primary" (click)="onCreateFormClick()">
       <span>{{ t("startNewEOI") }}</span>
     </button>
   </div>
-  <!-- <mat-card> -->
+
   <div
     *ngIf="submissionListDataSource.data.length > 0"
     class="submission-filter"
   >
     <div *ngIf="showFilters" class="submission-filter__controls">
-      <h2>{{ t("filters") }}:</h2>
+      <p>{{ t("filters") }}:</p>
       <drr-select
         [label]="t('programType')"
         [rxFormControl]="filterForm.get('programType')"
@@ -194,5 +194,4 @@
       </div>
     </ng-template>
   </div>
-  <!-- </mat-card> -->
 </div>

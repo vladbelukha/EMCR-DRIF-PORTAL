@@ -1,11 +1,11 @@
 <div *transloco="let t; read: 'screener'" class="screener-container">
   <div class="screener-header">
-    <h2>{{ t("header") }}</h2>
+    <h5>{{ t("header") }}</h5>
     <button mat-raised-button color="primary" (click)="skip()">
       {{ t("skip") }}
     </button>
   </div>
-  <h3>{{ t("instructions") }}</h3>
+  <p style="font-size: 1.2rem">{{ t("instructions") }}</p>
   <ol>
     <li>
       <div>

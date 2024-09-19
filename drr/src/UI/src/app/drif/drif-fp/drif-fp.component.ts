@@ -164,11 +164,11 @@ export class DrifFpComponent {
   ) as IFormGroup<DrifFpForm>;
 
   ngOnInit() {
-    this.breakpointObserver
-      .observe('(min-width: 768px)')
-      .subscribe(({ matches }) => {
-        this.stepperOrientation = matches ? 'horizontal' : 'vertical';
-      });
+    // this.breakpointObserver
+    //   .observe('(min-width: 768px)')
+    //   .subscribe(({ matches }) => {
+    //     this.stepperOrientation = matches ? 'horizontal' : 'vertical';
+    //   });
 
     this.id = this.route.snapshot.params['id'];
 
