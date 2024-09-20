@@ -207,7 +207,9 @@
     "startNewEOI": "Start New EOI",
     "DRIF": "DRIF",
     "EOI": "EOI",
-    "FP": "Full Proposal"
+    "FP": "Full Proposal",
+    "clear": "Clear",
+    "apply": "Apply"
   },
   "proponentInstructions": "Proponent Instructions",
   "continue": "Continue",

@@ -75,8 +75,7 @@ export class SubmissionListComponent {
     label: this.translocoService.translate(value),
   }));
 
-  showFilters = false;
-  filterApplied = true;
+  filterApplied = false;
   filterForm = this.formbuilder.formGroup(SubmissionFilter);
 
   submissions?: Submission[];
@@ -100,7 +99,6 @@ export class SubmissionListComponent {
     pageSize: 10,
     pageSizeOptions: [5, 10, 25, 100],
     pageIndex: 0,
-    showPaginator: false,
   };
   sort: Sort = {
     active: 'id',
@@ -131,8 +129,6 @@ export class SubmissionListComponent {
           this.submissions
         );
         this.paginator.length = response.length!;
-        this.paginator.showPaginator =
-          response.length! > this.paginator.pageSize;
       });
   }
 
@@ -185,16 +181,6 @@ export class SubmissionListComponent {
     ]);
   }
 
-  toggleFilters() {
-    this.showFilters = !this.showFilters;
-  }
-
-  applyFilters() {
-    this.filterApplied = true;
-    this.paginator.pageIndex = 0;
-    this.load();
-  }
-
   getQuery(): IGridifyQuery {
     const filters = this.filterForm.value as SubmissionFilter;
 
@@ -242,16 +228,24 @@ export class SubmissionListComponent {
     return query.build();
   }
 
+  applyFilters() {
+    if (this.filterForm.untouched) {
+      return;
+    }
+
+    this.filterApplied = true;
+    this.paginator.pageIndex = 0;
+    this.load();
+  }
+
   clearFilters() {
     if (this.filterForm.untouched) {
-      this.toggleFilters();
       return;
     }
 
     this.paginator.pageIndex = 0;
     this.filterForm.reset({ emitEvent: false });
-    this.filterApplied = true;
+    this.filterApplied = false;
     this.load();
-    this.toggleFilters();
   }
 }

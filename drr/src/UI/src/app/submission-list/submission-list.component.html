@@ -10,7 +10,7 @@
     *ngIf="submissionListDataSource.data.length > 0"
     class="submission-filter"
   >
-    <div *ngIf="showFilters" class="submission-filter__controls">
+    <div class="submission-filter__controls">
       <p>{{ t("filters") }}:</p>
       <drr-select
         [label]="t('programType')"
@@ -31,28 +31,20 @@
     </div>
     <div>
       <button
-        *ngIf="showFilters && filterApplied"
-        mat-mini-fab
+        *ngIf="filterApplied"
+        mat-stroked-button
         color="primary"
         (click)="clearFilters()"
       >
-        <mat-icon>clear</mat-icon>
+        {{ t("clear") }}
       </button>
       <button
-        *ngIf="showFilters && !filterApplied"
-        mat-mini-fab
+        *ngIf="!filterApplied"
+        mat-stroked-button
         color="primary"
         (click)="applyFilters()"
       >
-        <mat-icon>check</mat-icon>
-      </button>
-      <button
-        *ngIf="!showFilters"
-        mat-mini-fab
-        color="primary"
-        (click)="toggleFilters()"
-      >
-        <mat-icon>filter_list</mat-icon>
+        {{ t("apply") }}
       </button>
     </div>
   </div>
@@ -178,7 +170,6 @@
       <tr mat-row *matRowDef="let row; columns: submissionListColumns"></tr>
     </table>
     <mat-paginator
-      *ngIf="paginator.showPaginator"
       [pageIndex]="paginator.pageIndex"
       [length]="paginator.length"
       [pageSize]="paginator.pageSize"
