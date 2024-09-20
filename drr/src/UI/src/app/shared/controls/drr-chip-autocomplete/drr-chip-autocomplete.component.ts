@@ -47,6 +47,7 @@ export class DrrChipAutocompleteComponent {
 
   @Input()
   options?: string[];
+  // unselectedOptions?: string[] = this.options;
 
   @Input()
   maxlength = 200;
@@ -125,26 +126,37 @@ export class DrrChipAutocompleteComponent {
   optionSelected(event: MatAutocompleteSelectedEvent) {
     this.currentInputControl.setValue('');
 
-    const value = event.option.viewValue;
+    let value = event.option.viewValue;
+    if (value.includes('Press Enter to add')) {
+      value = value.replace('Press Enter to add "', '').replace('"', '');
+    }
 
+    // TODO: do not hide options so user can select multiple
     event.option.deselect();
+
+    // TODO: hide selected options from the list to avoid duplicates
 
     if (!value || this.rxFormControl.value.includes(value)) {
       return;
     }
 
-    this.rxFormControl.setValue(
-      [...this.rxFormControl.value, event.option.viewValue],
-      { emitEvent: false }
-    );
+    this.rxFormControl.setValue([...this.rxFormControl.value, value], {
+      emitEvent: false,
+    });
   }
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 
-    return this.options!.filter((option) =>
+    const results = this.options!.filter((option) =>
       option.toLowerCase().includes(filterValue)
     );
+
+    if (results.length === 0) {
+      results.push(`Press Enter to add "${value}"`);
+    }
+
+    return results;
   }
 
   isRequired(): boolean {

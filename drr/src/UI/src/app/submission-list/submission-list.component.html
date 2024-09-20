@@ -48,9 +48,11 @@
       </button>
     </div>
   </div>
-  <div class="submissions-table">
+  <div
+    class="submissions-table"
+    *ngIf="submissionListDataSource.data.length > 0; else noDataTemplate"
+  >
     <table
-      *ngIf="submissionListDataSource.data.length > 0; else noDataTemplate"
       mat-table
       [dataSource]="submissionListDataSource"
       matSort
@@ -178,11 +180,10 @@
       (page)="onPageChange($event)"
     >
     </mat-paginator>
-
-    <ng-template #noDataTemplate>
-      <div *ngIf="submissions" class="no-data">
-        <p>{{ t("noSubmissions") }}</p>
-      </div>
-    </ng-template>
   </div>
+  <ng-template #noDataTemplate>
+    <div *ngIf="submissions" class="no-data">
+      <p>{{ t("noSubmissions") }}</p>
+    </div>
+  </ng-template>
 </div>
