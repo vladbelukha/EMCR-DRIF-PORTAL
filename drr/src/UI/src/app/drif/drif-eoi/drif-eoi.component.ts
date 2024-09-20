@@ -165,11 +165,11 @@ export class EOIApplicationComponent {
   }
 
   ngOnInit() {
-    // this.breakpointObserver
-    //   .observe('(min-width: 768px)')
-    //   .subscribe(({ matches }) => {
-    //     this.stepperOrientation = matches ? 'horizontal' : 'vertical';
-    //   });
+    this.breakpointObserver
+      .observe('(min-width: 768px)')
+      .subscribe(({ matches }) => {
+        this.stepperOrientation = matches ? 'horizontal' : 'vertical';
+      });
 
     // fetch router params to determine if we are editing an existing application
     const id = this.route.snapshot.children[0]?.params['id'];

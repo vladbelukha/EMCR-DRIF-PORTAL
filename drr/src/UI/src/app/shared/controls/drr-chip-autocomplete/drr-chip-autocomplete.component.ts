@@ -47,7 +47,6 @@ export class DrrChipAutocompleteComponent {
 
   @Input()
   options?: string[];
-  // unselectedOptions?: string[] = this.options;
 
   @Input()
   maxlength = 200;
@@ -124,6 +123,7 @@ export class DrrChipAutocompleteComponent {
   }
 
   optionSelected(event: MatAutocompleteSelectedEvent) {
+    console.log('optionSelected');
     this.currentInputControl.setValue('');
 
     let value = event.option.viewValue;
@@ -131,10 +131,7 @@ export class DrrChipAutocompleteComponent {
       value = value.replace('Press Enter to add "', '').replace('"', '');
     }
 
-    // TODO: do not hide options so user can select multiple
     event.option.deselect();
-
-    // TODO: hide selected options from the list to avoid duplicates
 
     if (!value || this.rxFormControl.value.includes(value)) {
       return;

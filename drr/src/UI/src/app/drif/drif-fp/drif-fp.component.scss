@@ -6,6 +6,14 @@
   background: transparent;
   display: flex;
   flex-direction: column;
+
+  ::ng-deep .mat-stepper-horizontal-line {
+    display: none;
+  }
+
+  ::ng-deep .mat-horizontal-stepper-header {
+    flex: 1;
+  }
 }
 
 .app-stepper-header {
