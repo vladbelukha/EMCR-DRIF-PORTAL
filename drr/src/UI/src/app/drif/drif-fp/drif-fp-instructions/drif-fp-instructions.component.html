@@ -1,6 +1,15 @@
 <div class="instructions-container" *transloco="let t">
-  <h5>{{ t("fpFormHeader") }} - {{ t(fundingStream ?? "") }}</h5>
-  <!-- TODO: change header to have EOI link -->
+  <div style="flex: 1">
+    <h5 style="font-size: 1.2rem; margin-bottom: 0.5rem">
+      {{ t("fpFormHeaderFor", { projectTitle: projectTitle }) }}
+    </h5>
+    <span>
+      {{ t("relatedEoi") }}
+      <a href="{{ getRelatedEOILink() }}" target="_blank">
+        {{ eoiId }}
+      </a>
+    </span>
+  </div>
   <p style="font-size: 1.2rem">{{ t("proponentInstructions") }}</p>
   <p>
     Complete all mandatory sections of the full proposal form with details of

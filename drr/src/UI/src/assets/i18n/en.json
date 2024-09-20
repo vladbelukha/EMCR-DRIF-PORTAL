@@ -223,7 +223,6 @@
   "createFP": "Create Full Proposal",
   "proponentInstructions": "Proponent Instructions",
   "continue": "Continue",
-  "relatedEOI": "Related EOI",
   "regionalProject": "Regional Project",
   "regionalProjectText": "Eligible Proponents may partner together to develop a regional proposal. Regional proposals may be eligible for additional funding based on the number of Proponents.",
   "regionalProjectQuestion": "Is this a regional project?",
@@ -368,6 +367,8 @@
   "category": "Standards Category",
   "screener": {
     "header": "Are you ready to submit your Full Proposal?",
+    "fpFormHeaderFor": "DRIF Full Proposal for {{projectTitle}}",
+    "relatedEoi": "Related EOI #:",
     "skip": "Skip",
     "cancel": "Cancel",
     "continue": "Continue",

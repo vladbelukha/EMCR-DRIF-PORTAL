@@ -1,7 +1,16 @@
 <div *transloco="let t; read: 'screener'" class="screener-container">
   <div class="screener-header">
-    <h5>{{ t("header") }}</h5>
-    <!-- TODO: change header to have EOI link -->
+    <div style="flex: 1">
+      <h5 style="font-size: 1.2rem; margin-bottom: 0.5rem">
+        {{ t("fpFormHeaderFor", { projectTitle: projectTitle }) }}
+      </h5>
+      <span>
+        {{ t("relatedEoi") }}
+        <a href="{{ getRelatedEOILink() }}" target="_blank">
+          {{ eoiId }}
+        </a>
+      </span>
+    </div>
     <button mat-raised-button color="primary" (click)="skip()">
       {{ t("skip") }}
     </button>

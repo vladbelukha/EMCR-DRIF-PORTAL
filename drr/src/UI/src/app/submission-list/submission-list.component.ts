@@ -178,6 +178,7 @@ export class SubmissionListComponent {
       '/drif-fp-screener',
       submission.id,
       submission.fundingStream,
+      submission.projectTitle,
     ]);
   }
 
