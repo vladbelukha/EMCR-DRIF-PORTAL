@@ -33,6 +33,10 @@
         >{{ t("infrastructureImpacted") }}
       </mat-label>
 
+      <drr-radio-button
+        [label]="t('isInfrastructureImpacted')"
+        [rxFormControl]="projectDetailsForm.get('isInfrastructureImpacted')"
+      ></drr-radio-button>
       <div>
         <div
           class="infrastructure-container"
