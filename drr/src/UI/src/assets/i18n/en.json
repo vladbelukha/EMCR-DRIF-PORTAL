@@ -217,11 +217,12 @@
     "EOI": "EOI",
     "FP": "Full Proposal",
     "clear": "Clear",
-    "apply": "Apply"
+    "apply": "Apply",
+    "createFP": "Create Full Proposal"
   },
+  "createFP": "Create Full Proposal",
   "proponentInstructions": "Proponent Instructions",
   "continue": "Continue",
-  "createFP": "Create Full Proposal",
   "relatedEOI": "Related EOI",
   "regionalProject": "Regional Project",
   "regionalProjectText": "Eligible Proponents may partner together to develop a regional proposal. Regional proposals may be eligible for additional funding based on the number of Proponents.",

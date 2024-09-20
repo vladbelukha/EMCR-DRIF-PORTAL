@@ -17,6 +17,7 @@ import {
   DrrRadioButtonComponent,
   RadioOption,
 } from '../../../shared/controls/drr-radio-button/drr-radio-button.component';
+import { DrrAlertComponent } from '../../../shared/drr-alert/drr-alert.component';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -29,6 +30,7 @@ import {
     RxReactiveFormsModule,
     MatIconModule,
     DrrRadioButtonComponent,
+    DrrAlertComponent,
     TranslocoModule,
   ],
   template: `
@@ -38,18 +40,23 @@ import {
         [rxFormControl]="rxFormControl"
         [options]="options!"
       ></drr-radio-button>
-      <div
+      <drr-alert
+        class="screener-alert"
         *ngIf="isNegativeAnswer()"
-        style="display: flex; flex-direction: row; align-items: center; margin-bottom: 1rem"
-      >
-        <mat-icon style="color: #96c0e6;" [inline]="true">info</mat-icon>
-        <i style="margin-left: 1rem; flex: 1">{{
-          t('negativeAnswers.' + labelKey)
-        }}</i>
-      </div>
+        [type]="'info'"
+        [message]="t('negativeAnswers.' + labelKey)"
+      ></drr-alert>
     </div>
   `,
-  styles: [``],
+  styles: [
+    `
+      .screener-alert {
+        display: flex;
+        justify-content: flex-start;
+        margin-bottom: 0.5rem;
+      }
+    `,
+  ],
 })
 export class DrifFpScreenerQuestionComponent {
   private _rxFormControl?: RxFormControl;
