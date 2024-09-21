@@ -123,9 +123,13 @@ export class DrrChipAutocompleteComponent {
   }
 
   optionSelected(event: MatAutocompleteSelectedEvent) {
+    console.log('optionSelected');
     this.currentInputControl.setValue('');
 
-    const value = event.option.viewValue;
+    let value = event.option.viewValue;
+    if (value.includes('Press Enter to add')) {
+      value = value.replace('Press Enter to add "', '').replace('"', '');
+    }
 
     event.option.deselect();
 
@@ -133,18 +137,23 @@ export class DrrChipAutocompleteComponent {
       return;
     }
 
-    this.rxFormControl.setValue(
-      [...this.rxFormControl.value, event.option.viewValue],
-      { emitEvent: false }
-    );
+    this.rxFormControl.setValue([...this.rxFormControl.value, value], {
+      emitEvent: false,
+    });
   }
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 
-    return this.options!.filter((option) =>
+    const results = this.options!.filter((option) =>
       option.toLowerCase().includes(filterValue)
     );
+
+    if (results.length === 0) {
+      results.push(`Press Enter to add "${value}"`);
+    }
+
+    return results;
   }
 
   isRequired(): boolean {

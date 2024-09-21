@@ -49,6 +49,7 @@ export class DrifFpScreenerComponent {
 
   eoiId?: string;
   fundingStream?: string;
+  projectTitle?: string;
 
   screenerForm = this.formBuilder.formGroup(ScreenerQuestionsForm);
 
@@ -76,6 +77,7 @@ export class DrifFpScreenerComponent {
   ngOnInit() {
     this.eoiId = this.route.snapshot.params['eoiId'];
     this.fundingStream = this.route.snapshot.params['fundingStream'];
+    this.projectTitle = this.route.snapshot.params['projectTitle'];
   }
 
   hasNegativeAnswers() {
@@ -95,6 +97,7 @@ export class DrifFpScreenerComponent {
       '/drif-fp-instructions',
       this.eoiId,
       this.fundingStream,
+      this.projectTitle,
     ]);
   }
 
@@ -105,12 +108,21 @@ export class DrifFpScreenerComponent {
   continue() {
     const screenerAnswers = this.screenerForm.value;
     this.router.navigate(
-      ['/drif-fp-instructions', this.eoiId, this.fundingStream],
+      [
+        '/drif-fp-instructions',
+        this.eoiId,
+        this.fundingStream,
+        this.projectTitle,
+      ],
       {
         queryParams: {
           ...screenerAnswers,
         },
       }
     );
+  }
+
+  getRelatedEOILink() {
+    return `/eoi-submission-details/${this.eoiId}`;
   }
 }

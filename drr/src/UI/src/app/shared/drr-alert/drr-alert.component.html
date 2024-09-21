@@ -1,0 +1,20 @@
+<div
+  class="alert"
+  [ngClass]="{
+    'alert-danger': type === 'danger',
+    'alert-success': type === 'success',
+    'alert-info': type === 'info',
+    'alert-warning': type === 'warning'
+  }"
+>
+  <div class="alert-icon">
+    <mat-icon *ngIf="type === 'danger'">error</mat-icon>
+    <mat-icon *ngIf="type === 'success'">check_circle</mat-icon>
+    <mat-icon *ngIf="type === 'info'">info</mat-icon>
+    <mat-icon *ngIf="type === 'warning'">warning</mat-icon>
+  </div>
+  <div class="alert-content">
+    <h5 *ngIf="title">{{ title }}</h5>
+    <span *ngIf="message">{{ message }}</span>
+  </div>
+</div>

@@ -23,11 +23,13 @@ export class DrifFpInstructionsComponent {
 
   eoiId?: string;
   fundingStream?: string;
+  projectTitle?: string;
   screenerQuestions?: ScreenerQuestions;
 
   ngOnInit() {
     this.eoiId = this.route.snapshot.params['eoiId'];
     this.fundingStream = this.route.snapshot.params['fundingStream'];
+    this.projectTitle = this.route.snapshot.params['projectTitle'];
     const queryParams = this.route.snapshot.queryParams;
     this.screenerQuestions = {
       costEstimate: this.convertToBoolean(queryParams['costEstimate']),
@@ -73,5 +75,9 @@ export class DrifFpInstructionsComponent {
       .subscribe((res) => {
         this.router.navigate(['/drif-fp', res.id]);
       });
+  }
+
+  getRelatedEOILink() {
+    return `/eoi-submission-details/${this.eoiId}`;
   }
 }

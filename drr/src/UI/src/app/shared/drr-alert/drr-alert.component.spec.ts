@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SuccessPageComponent } from './success-page.component';
+import { DrrAlertComponent } from './drr-alert.component';
 
-describe('SuccessPageComponent', () => {
-  let component: SuccessPageComponent;
-  let fixture: ComponentFixture<SuccessPageComponent>;
+describe('DrrAlertComponent', () => {
+  let component: DrrAlertComponent;
+  let fixture: ComponentFixture<DrrAlertComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SuccessPageComponent]
+      imports: [DrrAlertComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(SuccessPageComponent);
+    fixture = TestBed.createComponent(DrrAlertComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

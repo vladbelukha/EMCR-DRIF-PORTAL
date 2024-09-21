@@ -7,7 +7,6 @@ import { DrifFpScreenerComponent } from './drif/drif-fp/drif-fp-screener/drif-fp
 import { DrifFpViewComponent } from './drif/drif-fp/drif-fp-view/drif-fp-view.component';
 import { DrifFpComponent } from './drif/drif-fp/drif-fp.component';
 import { SubmissionListComponent } from './submission-list/submission-list.component';
-import { SuccessPageComponent } from './success-page/success-page.component';
 
 export const routes: Routes = [
   { path: '', component: SubmissionListComponent },
@@ -29,12 +28,12 @@ export const routes: Routes = [
     ],
   },
   {
-    path: 'drif-fp-screener/:eoiId/:fundingStream',
+    path: 'drif-fp-screener/:eoiId/:fundingStream/:projectTitle',
     component: DrifFpScreenerComponent,
     canActivate: [AuthenticationGuard],
   },
   {
-    path: 'drif-fp-instructions/:eoiId/:fundingStream',
+    path: 'drif-fp-instructions/:eoiId/:fundingStream/:projectTitle',
     component: DrifFpInstructionsComponent,
     canActivate: [AuthenticationGuard],
   },
@@ -51,11 +50,6 @@ export const routes: Routes = [
   {
     path: 'fp-submission-details/:id',
     component: DrifFpViewComponent,
-    canActivate: [AuthenticationGuard],
-  },
-  {
-    path: 'success',
-    component: SuccessPageComponent,
     canActivate: [AuthenticationGuard],
   },
 ];

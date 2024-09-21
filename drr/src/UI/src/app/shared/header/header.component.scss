@@ -1,4 +1,4 @@
-header mat-toolbar {
+header {
   border-bottom: 2px solid #fcba19;
   background: #036 !important;
 }
@@ -6,7 +6,7 @@ header mat-toolbar {
 .header-container {
   display: flex;
   align-items: center;
-  width: 100%;
+  padding: 0 1rem;
 }
 
 .header-action {
@@ -14,15 +14,6 @@ header mat-toolbar {
   flex: 1;
   align-items: center;
   justify-content: flex-end;
-}
-
-.heading-text1 {
-  color: #ffffff;
-}
-
-.heading-text2 {
-  color: #fcba19;
-  padding-left: 2px;
 }
 
 .mat-menu-item {
@@ -33,10 +24,6 @@ header mat-toolbar {
   color: white;
   margin: 0px;
   line-height: 16px;
-}
-
-.img-align {
-  margin-right: 5px;
 }
 
 .app-heading {
@@ -55,24 +42,4 @@ header mat-toolbar {
 .mat-toolbar-row,
 .mat-toolbar-single-row {
   height: auto !important;
-}
-
-.header-toolbar {
-  padding: 0.5rem 1rem;
-}
-
-.button-align {
-  float: right;
-}
-
-::ng-deep .mat-menu-content {
-  border-bottom: 2px solid #fcba19;
-}
-
-.signOut-button {
-  color: rgb(252, 186, 25) !important;
-}
-
-.signOut-button:hover {
-  text-decoration: underline;
 }

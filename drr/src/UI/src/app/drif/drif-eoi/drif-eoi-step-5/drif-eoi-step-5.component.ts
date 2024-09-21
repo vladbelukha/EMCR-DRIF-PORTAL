@@ -17,8 +17,10 @@ import {
   RxFormBuilder,
   RxFormControl,
 } from '@rxweb/reactive-form-validators';
+import { distinctUntilChanged } from 'rxjs';
 import { EstimatedNumberOfPeople } from '../../../../model';
 import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
+import { DrrRadioButtonComponent } from '../../../shared/controls/drr-radio-button/drr-radio-button.component';
 import { DrrSelectComponent } from '../../../shared/controls/drr-select/drr-select.component';
 import { DrrTextareaComponent } from '../../../shared/controls/drr-textarea/drr-textarea.component';
 import {
@@ -42,6 +44,7 @@ import {
     DrrTextareaComponent,
     DrrInputComponent,
     DrrSelectComponent,
+    DrrRadioButtonComponent,
   ],
   templateUrl: './drif-eoi-step-5.component.html',
   styleUrl: './drif-eoi-step-5.component.scss',
@@ -59,6 +62,24 @@ export class DrifEoiStep5Component {
 
   @Input()
   projectDetailsForm!: IFormGroup<ProjectDetailsForm>;
+
+  ngOnInit() {
+    this.projectDetailsForm
+      .get('isInfrastructureImpacted')
+      ?.valueChanges.pipe(distinctUntilChanged())
+      .subscribe((value) => {
+        const infrastructureImpacted = this.projectDetailsForm.get(
+          'infrastructureImpacted'
+        ) as FormArray;
+        if (!value) {
+          infrastructureImpacted?.clear();
+        } else {
+          if (infrastructureImpacted?.length === 0) {
+            this.addInfrastructure();
+          }
+        }
+      });
+  }
 
   getFormArray(formArrayName: string) {
     return this.projectDetailsForm.get(formArrayName) as FormArray;

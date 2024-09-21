@@ -1,17 +1,17 @@
 <div *transloco="let t; read: 'submission-list'" class="submissions-container">
   <div class="submissions-header">
-    <h1>{{ t("title") }}</h1>
+    <p style="font-size: 1.2rem; padding-left: 1rem">{{ t("title") }}</p>
     <button mat-raised-button color="primary" (click)="onCreateFormClick()">
       <span>{{ t("startNewEOI") }}</span>
     </button>
   </div>
-  <!-- <mat-card> -->
+
   <div
     *ngIf="submissionListDataSource.data.length > 0"
     class="submission-filter"
   >
-    <div *ngIf="showFilters" class="submission-filter__controls">
-      <h2>{{ t("filters") }}:</h2>
+    <div class="submission-filter__controls">
+      <p>{{ t("filters") }}:</p>
       <drr-select
         [label]="t('programType')"
         [rxFormControl]="filterForm.get('programType')"
@@ -31,34 +31,28 @@
     </div>
     <div>
       <button
-        *ngIf="showFilters && filterApplied"
-        mat-mini-fab
+        *ngIf="filterApplied"
+        mat-stroked-button
         color="primary"
         (click)="clearFilters()"
       >
-        <mat-icon>clear</mat-icon>
+        {{ t("clear") }}
       </button>
       <button
-        *ngIf="showFilters && !filterApplied"
-        mat-mini-fab
+        *ngIf="!filterApplied"
+        mat-stroked-button
         color="primary"
         (click)="applyFilters()"
       >
-        <mat-icon>check</mat-icon>
-      </button>
-      <button
-        *ngIf="!showFilters"
-        mat-mini-fab
-        color="primary"
-        (click)="toggleFilters()"
-      >
-        <mat-icon>filter_list</mat-icon>
+        {{ t("apply") }}
       </button>
     </div>
   </div>
-  <div class="submissions-table">
+  <div
+    class="submissions-table"
+    *ngIf="submissionListDataSource.data.length > 0; else noDataTemplate"
+  >
     <table
-      *ngIf="submissionListDataSource.data.length > 0; else noDataTemplate"
       mat-table
       [dataSource]="submissionListDataSource"
       matSort
@@ -162,6 +156,7 @@
             {{ t("edit") }}
           </button>
           <button
+            style="white-space: nowrap"
             *ngIf="canCreateFullProposal(element)"
             mat-raised-button
             color="primary"
@@ -178,7 +173,6 @@
       <tr mat-row *matRowDef="let row; columns: submissionListColumns"></tr>
     </table>
     <mat-paginator
-      *ngIf="paginator.showPaginator"
       [pageIndex]="paginator.pageIndex"
       [length]="paginator.length"
       [pageSize]="paginator.pageSize"
@@ -187,12 +181,10 @@
       (page)="onPageChange($event)"
     >
     </mat-paginator>
-
-    <ng-template #noDataTemplate>
-      <div *ngIf="submissions" class="no-data">
-        <p>{{ t("noSubmissions") }}</p>
-      </div>
-    </ng-template>
   </div>
-  <!-- </mat-card> -->
+  <ng-template #noDataTemplate>
+    <div *ngIf="submissions" class="no-data">
+      <p>{{ t("noSubmissions") }}</p>
+    </div>
+  </ng-template>
 </div>

@@ -1,11 +1,21 @@
 <div *transloco="let t; read: 'screener'" class="screener-container">
   <div class="screener-header">
-    <h2>{{ t("header") }}</h2>
+    <div style="flex: 1">
+      <h5 style="font-size: 1.2rem; margin-bottom: 0.5rem">
+        {{ t("fpFormHeaderFor", { projectTitle: projectTitle }) }}
+      </h5>
+      <span>
+        {{ t("relatedEoi") }}
+        <a href="{{ getRelatedEOILink() }}" target="_blank">
+          {{ eoiId }}
+        </a>
+      </span>
+    </div>
     <button mat-raised-button color="primary" (click)="skip()">
       {{ t("skip") }}
     </button>
   </div>
-  <h3>{{ t("instructions") }}</h3>
+  <p style="font-size: 1.2rem">{{ t("instructions") }}</p>
   <ol>
     <li>
       <div>
