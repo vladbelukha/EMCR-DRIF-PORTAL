@@ -225,7 +225,7 @@ export class EOIApplicationComponent {
               projectDescription: application.projectDescription,
               estimatedPeopleImpacted: application.estimatedPeopleImpacted,
               communityImpact: application.communityImpact,
-              // isInfrastructureImpacted: application.isInfrastructureImpacted,
+              isInfrastructureImpacted: application.isInfrastructureImpacted,
               infrastructureImpacted: application.infrastructureImpacted,
               rationaleForFunding: application.rationaleForFunding,
               rationaleForSolution: application.rationaleForSolution,

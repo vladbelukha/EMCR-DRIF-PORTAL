@@ -84,8 +84,6 @@ export type DraftFpApplicationAllOf = {
   /** @nullable */
   increasedResiliencyComments?: string;
   /** @nullable */
-  isInfrastructureImpacted?: boolean;
-  /** @nullable */
   localGovernmentAuthorizedByPartners?: YesNoOption;
   /** @nullable */
   mainDeliverable?: string;

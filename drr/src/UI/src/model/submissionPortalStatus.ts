@@ -16,4 +16,8 @@ export const SubmissionPortalStatus = {
   EligiblePending: 'EligiblePending',
   EligibleInvited: 'EligibleInvited',
   Withdrawn: 'Withdrawn',
+  Closed: 'Closed',
+  FullProposalSubmitted: 'FullProposalSubmitted',
+  Approved: 'Approved',
+  ApprovedInPrinciple: 'ApprovedInPrinciple',
 } as const;
