@@ -14,6 +14,8 @@ using Microsoft.IdentityModel.Tokens;
 using NSwag;
 using NSwag.AspNetCore;
 using NSwag.Generation.Processors.Security;
+using Xrm.Tools.WebAPI;
+using Xrm.Tools.WebAPI.Requests;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
@@ -31,6 +33,16 @@ services.AddTransient<IUserService, UserService>();
 services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 services.AddAutoMapper(typeof(ApplicationMapperProfile));
 services.AddAutoMapper(typeof(IntakeMapperProfile));
+services.AddScoped(sp =>
+{
+    var dynamicsApiEndpoint = configuration.GetValue<string>("Dynamics:DynamicsApiEndpoint");
+    var tokenProvider = sp.GetRequiredService<ISecurityTokenProvider>();
+    return new CRMWebAPI(new CRMWebAPIConfig
+    {
+        APIUrl = dynamicsApiEndpoint + "/api/data/v9.0/",
+        GetAccessToken = async (s) => await tokenProvider.AcquireToken()
+    });
+});
 services.AddCors(opts => opts.AddDefaultPolicy(policy =>
 {
     policy.AllowAnyHeader();

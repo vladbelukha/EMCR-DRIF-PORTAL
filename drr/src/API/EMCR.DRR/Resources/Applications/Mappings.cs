@@ -210,7 +210,7 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.InformationAccuracyStatement, opt => opt.MapFrom(src => src.drr_accuracyofinformation == (int)DRRTwoOptions.Yes))
                 .ForMember(dest => dest.SubmittedDate, opt => opt.MapFrom(src => src.drr_submitteddate.HasValue ? src.drr_submitteddate.Value.UtcDateTime : (DateTime?)null))
                 .ForMember(dest => dest.ModifiedOn, opt => opt.MapFrom(src => src.modifiedon.HasValue ? src.modifiedon.Value.UtcDateTime : (DateTime?)null))
-                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => (int?)Enum.Parse<ApplicationStatus>(((ApplicationStatusOptionSet)src.statuscode).ToString())))
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => Enum.Parse<ApplicationStatus>(((ApplicationStatusOptionSet)src.statuscode).ToString())))
 
                 //FP
                 //Proponent & Project Information - 1

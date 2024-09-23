@@ -10,6 +10,10 @@ namespace EMCR.DRR.API.Model
         Ineligible,
         EligiblePending,
         EligibleInvited,
-        Withdrawn
+        Withdrawn,
+        Closed,
+        FullProposalSubmitted,
+        Approved,
+        ApprovedInPrinciple
     }
 }

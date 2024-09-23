@@ -9,6 +9,7 @@ namespace EMCR.DRR.Resources.Applications
         Task<DeclarationQueryResult> Query(DeclarationQuery query);
         Task<EntitiesQueryResult> Query(EntitiesQuery query);
         Task<bool> CanAccessApplication(string id, string businessId);
+        Task<ApplicationQueryResult> QueryList(ApplicationQuery query);
     }
 
     public abstract class ManageApplicationCommand
@@ -32,8 +33,8 @@ namespace EMCR.DRR.Resources.Applications
     {
         public string? Id { get; set; }
         public string? BusinessId { get; set; }
-        public int Skip { get; set; } = 0;
-        public int Take { get; set; } = 0;
+        public int Page { get; set; } = 0;
+        public int Count { get; set; } = 0;
         public string? OrderBy { get; set; }
         public FilterOptions? FilterOptions { get; set; }
     }
@@ -184,5 +185,9 @@ namespace EMCR.DRR.Resources.Applications
         Invited = 172580003,
         Ineligible = 172580004,
         Withdrawn = 172580005,
+        FPSubmitted = 172580007,
+        Approved = 172580008,
+        ApprovedInPrinciple = 172580009,
+        Closed = 2
     }
 }

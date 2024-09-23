@@ -5,6 +5,8 @@ using EMCR.DRR.Dynamics;
 using EMCR.DRR.Managers.Intake;
 using EMCR.Utilities.Extensions;
 using Microsoft.Dynamics.CRM;
+using Xrm.Tools.WebAPI;
+using Xrm.Tools.WebAPI.Requests;
 
 namespace EMCR.DRR.Resources.Applications
 {
@@ -12,11 +14,16 @@ namespace EMCR.DRR.Resources.Applications
     {
         private readonly IDRRContextFactory dRRContextFactory;
         private readonly IMapper mapper;
+        private readonly CRMWebAPI api;
 
-        public ApplicationRepository(IDRRContextFactory dRRContextFactory, IMapper mapper)
+        public ApplicationRepository(IDRRContextFactory dRRContextFactory, IMapper mapper, IServiceProvider services)
         {
             this.mapper = mapper;
             this.dRRContextFactory = dRRContextFactory;
+            using (var scope = services.CreateScope())
+            {
+                api = scope.ServiceProvider.GetRequiredService<CRMWebAPI>();
+            }
         }
 
         public async Task<ManageApplicationCommandResult> Manage(ManageApplicationCommand cmd)
@@ -25,6 +32,15 @@ namespace EMCR.DRR.Resources.Applications
             {
                 SubmitApplication c => await HandleSubmitApplication(c),
                 _ => throw new NotSupportedException($"{cmd.GetType().Name} is not supported")
+            };
+        }
+
+        public async Task<ApplicationQueryResult> QueryList(ApplicationQuery query)
+        {
+            return query switch
+            {
+                ApplicationsQuery q => await HandleQueryApplicationList(q),
+                _ => throw new NotSupportedException($"{query.GetType().Name} is not supported")
             };
         }
 
@@ -102,6 +118,56 @@ namespace EMCR.DRR.Resources.Applications
             return (!string.IsNullOrEmpty(existingApplication.drr_Primary_Proponent_Name.drr_bceidguid)) && existingApplication.drr_Primary_Proponent_Name.drr_bceidguid.Equals(businessId);
         }
 
+        private async Task<ApplicationQueryResult> HandleQueryApplicationList(ApplicationsQuery query)
+        {
+            var filterString = GetFilterXML(query);
+            var orderString = GetOrderXML(query);
+            var orderByStatus = !string.IsNullOrEmpty(query.OrderBy) && query.OrderBy.Equals("statuscode");
+
+            //If not order by status then perform paging in the query
+            var fetchString = orderByStatus ? "<fetch>" : $"<fetch count='{query.Count}' page='{query.Page}'>";
+            var fetchXML = @$"{fetchString}
+                      <entity name='drr_application'>
+                        <attribute name='drr_applicationid' />
+                        <attribute name='drr_name' />
+                        <attribute name='drr_applicationtypename' />
+                        <attribute name='drr_programname' />
+                        <attribute name='drr_fullproposalapplication' />
+                        <attribute name='drr_projecttitle' />
+                        <attribute name='statuscode' />
+                        <attribute name='drr_estimateddriffundingprogramrequest' />
+                        <attribute name='modifiedon' />
+                        <attribute name='drr_submitteddate' />
+                        <attribute name='drr_fundingstream' />
+                        {filterString}
+                        {orderString}
+                      </entity>
+                    </fetch>";
+
+            var fetchResults = (await api.GetList<drr_application>("drr_applications", new CRMGetListOptions
+            {
+                FetchXml = fetchXML,
+                IncludeCount = true,
+            }));
+
+            var length = fetchResults.Count;
+            var results = fetchResults.List;
+
+            //CRM statuses have different names than portal ones
+            //So sorting by CRM status gives the wrong order in portal
+            //So in that case, we query the full results to a small performance penalty, then do a custom sort and skip/take ourselves
+            //Hack workaround to save as much performance as we can when we can
+            if (!string.IsNullOrEmpty(query.OrderBy) && orderByStatus)
+            {
+                results = SortAndPageResults(results, query);
+            }
+
+            var ct = new CancellationTokenSource().Token;
+            var readCtx = dRRContextFactory.CreateReadOnly();
+            await Parallel.ForEachAsync(results, ct, async (a, ct) => await ParallelLoadApplicationAsync(readCtx, true, a, ct));
+            return new ApplicationQueryResult { Items = mapper.Map<IEnumerable<Application>>(results), Length = length };
+        }
+
         private async Task<ApplicationQueryResult> HandleQueryApplication(ApplicationsQuery query)
         {
             var ct = new CancellationTokenSource().Token;
@@ -121,9 +187,6 @@ namespace EMCR.DRR.Resources.Applications
 #pragma warning restore CS8629 // Nullable value type may be null.
             }
 
-            //This has some performance benefits from skip/take
-            //But will not support sort/filter by partner proponents
-            //also sort by status will be janky, but should be do-able
             var results = (await applicationsQuery.GetAllPagesAsync(ct)).ToArray();
             var length = results.Length;
 
@@ -143,18 +206,15 @@ namespace EMCR.DRR.Resources.Applications
                 results = results.OrderBy(a => a.drr_name).ToArray();
             }
 
-            if (query.Skip > 0)
+            if (query.Page > 0)
             {
-                results = results.Skip(query.Skip).ToArray();
+                results = results.Skip(query.Page).ToArray();
             }
 
-            if (query.Take > 0)
+            if (query.Count > 0)
             {
-                results = results.Take(query.Take).ToArray();
+                results = results.Take(query.Count).ToArray();
             }
-            ///END
-
-            //var results = (await applicationsQuery.GetAllPagesAsync(ct)).ToArray();
 
             var partnerProponentsOnly = false;
             if (string.IsNullOrEmpty(query.Id)) partnerProponentsOnly = true;
@@ -843,7 +903,7 @@ namespace EMCR.DRR.Resources.Applications
             var loadTasks = new List<Task>
             {
                 ctx.LoadPropertyAsync(application, nameof(drr_application.drr_application_connections1), ct),
-                //ctx.LoadPropertyAsync(application, nameof(drr_application.drr_ApplicationType), ct),
+                ctx.LoadPropertyAsync(application, nameof(drr_application.drr_ApplicationType), ct),
                 ctx.LoadPropertyAsync(application, nameof(drr_application.drr_FullProposalApplication), ct),
             };
 
@@ -852,7 +912,7 @@ namespace EMCR.DRR.Resources.Applications
                 loadTasks = loadTasks.Concat(new List<Task>
                 {
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_EOIApplication), ct),
-                    //ctx.LoadPropertyAsync(application, nameof(drr_application.drr_Program), ct),
+                    ctx.LoadPropertyAsync(application, nameof(drr_application.drr_Program), ct),
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_Primary_Proponent_Name), ct),
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_SubmitterContact), ct),
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_PrimaryProjectContact), ct),
@@ -953,6 +1013,85 @@ namespace EMCR.DRR.Resources.Applications
             });
         }
 
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+        private List<drr_application> SortAndPageResults(List<drr_application> applications, ApplicationsQuery query)
+        {
+            var descending = false;
+            if (query.OrderBy.Contains(" desc"))
+            {
+                descending = true;
+                query.OrderBy = Regex.Replace(query.OrderBy, @" desc", "");
+            }
+            if (descending) applications = applications.OrderByDescending(a => GetPropertyValueForSort(a, query.OrderBy)).ToList();
+            else applications = applications.OrderBy(a => GetPropertyValueForSort(a, query.OrderBy)).ToList();
+
+            if (query.Page > 0)
+            {
+                var skip = query.Count * (query.Page - 1);
+                applications = applications.Skip(skip).ToList();
+            }
+
+            if (query.Count > 0)
+            {
+                applications = applications.Take(query.Count).ToList();
+            }
+
+            return applications;
+        }
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
+
+        private string GetFilterXML(ApplicationsQuery query)
+        {
+            var filterString = $@"<link-entity name='account' to='drr_primary_proponent_name' from='accountid' alias='acc' link-type='inner'>
+                                    <filter><condition attribute='drr_bceidguid' operator='eq' value='{query.BusinessId}' /></filter>
+                                  </link-entity>";
+
+            if (query.FilterOptions != null)
+            {
+                filterString += "<filter>";
+                if (!string.IsNullOrEmpty(query.FilterOptions.ApplicationType))
+                {
+                    filterString += $@"<condition attribute='drr_applicationtypename' operator='eq' value='{query.FilterOptions.ApplicationType}' />";
+                }
+                if (!string.IsNullOrEmpty(query.FilterOptions.ProgramType))
+                {
+                    filterString += $@"<condition attribute='drr_programname' operator='eq' value='{query.FilterOptions.ProgramType}' />";
+                }
+                if (query.FilterOptions.Statuses != null && query.FilterOptions.Statuses.Any())
+                {
+                    filterString += @"<condition attribute='statuscode' operator='in'>";
+                    foreach (var status in query.FilterOptions.Statuses)
+                    {
+                        filterString += $"<value>{status}</value>";
+                    }
+                    filterString += @"</condition>";
+                }
+                filterString += "</filter>";
+            }
+
+            return filterString;
+        }
+
+        private string GetOrderXML(ApplicationsQuery query)
+        {
+            var orderString = "<order attribute='drr_name' />";
+            var orderBy = query.OrderBy;
+
+            if (!string.IsNullOrEmpty(orderBy))
+            {
+                var descending = false;
+                if (orderBy.Contains(" desc"))
+                {
+                    descending = true;
+                    orderBy = Regex.Replace(orderBy, @" desc", "");
+                }
+                if (descending) orderString = $"<order attribute='{orderBy}' descending='true' />";
+                else orderString = $"<order attribute='{orderBy}' />";
+            }
+
+            return orderString;
+        }
+
         private static object GetPropertyValueForSort(object src, string propName)
         {
 
@@ -985,25 +1124,37 @@ namespace EMCR.DRR.Resources.Applications
             var statusOption = Enum.Parse<ApplicationStatusOptionSet>(status);
             switch (statusOption)
             {
+                case ApplicationStatusOptionSet.Approved:
+                    return 0; //Approved
+
+                case ApplicationStatusOptionSet.ApprovedInPrinciple:
+                    return 1; //ApprovedInPrinciple
+
+                case ApplicationStatusOptionSet.Closed:
+                    return 2; //Closed
+
                 case ApplicationStatusOptionSet.DraftStaff:
                 case ApplicationStatusOptionSet.DraftProponent:
-                    return 0; //Draft
+                    return 3; //Draft
 
                 case ApplicationStatusOptionSet.Invited:
-                    return 1; //EligibleInvited
+                    return 4; //EligibleInvited
 
                 case ApplicationStatusOptionSet.InPool:
-                    return 2; //EligiblePending
+                    return 5; //EligiblePending
+
+                case ApplicationStatusOptionSet.FPSubmitted:
+                    return 6; //FullProposalSubmitted
 
                 case ApplicationStatusOptionSet.Ineligible:
-                    return 3; //Ineligible
+                    return 7; //Ineligible
 
                 case ApplicationStatusOptionSet.Submitted:
                 case ApplicationStatusOptionSet.InReview:
-                    return 4;//Submitted
+                    return 8;//UnderReview
 
                 case ApplicationStatusOptionSet.Withdrawn:
-                    return 5; //Withdrawn
+                    return 9; //Withdrawn
 
                 default: return 0;
             }
