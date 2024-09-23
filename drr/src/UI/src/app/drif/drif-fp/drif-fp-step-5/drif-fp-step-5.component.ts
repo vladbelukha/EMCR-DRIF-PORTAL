@@ -13,7 +13,7 @@ import {
   RadioOption,
 } from '../../../shared/controls/drr-radio-button/drr-radio-button.component';
 import { DrrTextareaComponent } from '../../../shared/controls/drr-textarea/drr-textarea.component';
-import { OptionsStore } from '../../../store/entities.store';
+import { OptionsStore } from '../../../store/options.store';
 import { ProjectEngagementForm } from '../drif-fp-form';
 
 @UntilDestroy({ checkProperties: true })

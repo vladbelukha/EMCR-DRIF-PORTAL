@@ -14,7 +14,7 @@ import { DrrDatepickerComponent } from '../../../shared/controls/drr-datepicker/
 import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
 import { DrrSelectComponent } from '../../../shared/controls/drr-select/drr-select.component';
 import { DrrTextareaComponent } from '../../../shared/controls/drr-textarea/drr-textarea.component';
-import { OptionsStore } from '../../../store/entities.store';
+import { OptionsStore } from '../../../store/options.store';
 import { ProjectPlanForm, ProposedActivityForm } from '../drif-fp-form';
 
 @UntilDestroy({ checkProperties: true })

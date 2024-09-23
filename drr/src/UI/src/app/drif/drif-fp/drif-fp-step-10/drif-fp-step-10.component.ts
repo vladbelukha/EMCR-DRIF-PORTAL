@@ -21,7 +21,7 @@ import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.
 import { DrrRadioButtonComponent } from '../../../shared/controls/drr-radio-button/drr-radio-button.component';
 import { DrrSelectComponent } from '../../../shared/controls/drr-select/drr-select.component';
 import { DrrTextareaComponent } from '../../../shared/controls/drr-textarea/drr-textarea.component';
-import { OptionsStore } from '../../../store/entities.store';
+import { OptionsStore } from '../../../store/options.store';
 import { FundingInformationItemForm } from '../../drif-eoi/drif-eoi-form';
 import { DrrFundingListComponent } from '../../drr-funding-list/drr-funding-list.component';
 import { BudgetForm, YearOverYearFundingForm } from '../drif-fp-form';

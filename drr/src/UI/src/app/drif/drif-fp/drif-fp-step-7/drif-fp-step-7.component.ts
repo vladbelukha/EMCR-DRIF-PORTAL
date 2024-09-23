@@ -1,6 +1,11 @@
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { Component, inject, Input } from '@angular/core';
-import { FormArray, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormArray,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
@@ -9,6 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { TranslocoModule } from '@ngneat/transloco';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { IFormGroup } from '@rxweb/reactive-form-validators';
+import { distinctUntilChanged } from 'rxjs';
 import { YesNoOption } from '../../../../model';
 import { DrrChipAutocompleteComponent } from '../../../shared/controls/drr-chip-autocomplete/drr-chip-autocomplete.component';
 import {
@@ -16,7 +22,7 @@ import {
   RadioOption,
 } from '../../../shared/controls/drr-radio-button/drr-radio-button.component';
 import { DrrTextareaComponent } from '../../../shared/controls/drr-textarea/drr-textarea.component';
-import { OptionsStore } from '../../../store/entities.store';
+import { OptionsStore } from '../../../store/options.store';
 import { PermitsRegulationsAndStandardsForm } from '../drif-fp-form';
 
 @UntilDestroy({ checkProperties: true })
@@ -58,6 +64,23 @@ export class DrifFpStep7Component {
     { value: YesNoOption.No, label: 'No' },
     { value: YesNoOption.NotApplicable, label: 'Not Applicable' },
   ];
+
+  ngOnInit() {
+    this.permitsRegulationsAndStandardsForm
+      .get('professionalGuidance')
+      ?.valueChanges.pipe(distinctUntilChanged())
+      .subscribe((value) => {
+        const professionalsControl =
+          this.permitsRegulationsAndStandardsForm.get('professionals');
+        if (value === false) {
+          professionalsControl?.setValue('');
+          professionalsControl?.clearValidators();
+        } else {
+          professionalsControl?.addValidators(Validators.required);
+        }
+        professionalsControl?.updateValueAndValidity();
+      });
+  }
 
   getStandardsInfoArrayControls() {
     return (
