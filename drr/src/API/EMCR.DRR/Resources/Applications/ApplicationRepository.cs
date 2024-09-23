@@ -66,20 +66,20 @@ namespace EMCR.DRR.Resources.Applications
         {
             var readCtx = dRRContextFactory.CreateReadOnly();
 
-            var standardsInfo = (await readCtx.drr_provincialstandards.Expand(d => d.drr_Category).Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => new StandardSingle { Name = d.drr_name, Category = d.drr_Category.drr_name }).ToList();
-            var standardCategories = (await readCtx.drr_provincialstandardcategories.Where(d => d.statecode == (int)EntityState.Active).GetAllPagesAsync()).Select(d => d.drr_name).ToList();
-            var complexityRisks = (await readCtx.drr_projectcomplexityrisks.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name).ToList();
-            var needIdentifications = (await readCtx.drr_projectneedidentifications.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name).ToList();
-            var affectedParties = (await readCtx.drr_impactedoraffectedparties.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name).ToList();
-            var capacityRisks = (await readCtx.drr_projectcapacitychallenges.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name).ToList();
-            var readinessRisks = (await readCtx.drr_projectreadinessrisks.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name).ToList();
-            var sensitivityRisks = (await readCtx.drr_projectsensitivityrisks.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name).ToList();
-            var costConsiderations = (await readCtx.drr_costconsiderations.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name).ToList();
-            var costReductions = (await readCtx.drr_costreductions.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name).ToList();
-            var coBenefits = (await readCtx.drr_cobenefits.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name).ToList();
-            var fiscalYears = (await readCtx.drr_fiscalyears.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name).ToList();
-            var qualifiedProfessionals = (await readCtx.drr_qualifiedprofessionals.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name).ToList();
-            var resiliencies = (await readCtx.drr_resiliencies.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").GetAllPagesAsync()).Select(d => d.drr_name).ToList();
+            var standardsInfo = (await readCtx.drr_provincialstandards.Expand(d => d.drr_Category).Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").OrderBy(d => d.drr_name).GetAllPagesAsync()).Select(d => new StandardSingle { Name = d.drr_name, Category = d.drr_Category.drr_name }).ToList();
+            var standardCategories = (await readCtx.drr_provincialstandardcategories.Where(d => d.statecode == (int)EntityState.Active).OrderBy(d => d.drr_name).GetAllPagesAsync()).Select(d => d.drr_name).ToList();
+            var complexityRisks = (await readCtx.drr_projectcomplexityrisks.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").OrderBy(d => d.drr_name).GetAllPagesAsync()).Select(d => d.drr_name).ToList();
+            var needIdentifications = (await readCtx.drr_projectneedidentifications.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").OrderBy(d => d.drr_name).GetAllPagesAsync()).Select(d => d.drr_name).ToList();
+            var affectedParties = (await readCtx.drr_impactedoraffectedparties.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").OrderBy(d => d.drr_name).GetAllPagesAsync()).Select(d => d.drr_name).ToList();
+            var capacityRisks = (await readCtx.drr_projectcapacitychallenges.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").OrderBy(d => d.drr_name).GetAllPagesAsync()).Select(d => d.drr_name).ToList();
+            var readinessRisks = (await readCtx.drr_projectreadinessrisks.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").OrderBy(d => d.drr_name).GetAllPagesAsync()).Select(d => d.drr_name).ToList();
+            var sensitivityRisks = (await readCtx.drr_projectsensitivityrisks.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").OrderBy(d => d.drr_name).GetAllPagesAsync()).Select(d => d.drr_name).ToList();
+            var costConsiderations = (await readCtx.drr_costconsiderations.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").OrderBy(d => d.drr_name).GetAllPagesAsync()).Select(d => d.drr_name).ToList();
+            var costReductions = (await readCtx.drr_costreductions.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").OrderBy(d => d.drr_name).GetAllPagesAsync()).Select(d => d.drr_name).ToList();
+            var coBenefits = (await readCtx.drr_cobenefits.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").OrderBy(d => d.drr_name).GetAllPagesAsync()).Select(d => d.drr_name).ToList();
+            var fiscalYears = (await readCtx.drr_fiscalyears.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").OrderBy(d => d.drr_name).GetAllPagesAsync()).Select(d => d.drr_name).ToList();
+            var qualifiedProfessionals = (await readCtx.drr_qualifiedprofessionals.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").OrderBy(d => d.drr_name).GetAllPagesAsync()).Select(d => d.drr_name).ToList();
+            var resiliencies = (await readCtx.drr_resiliencies.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").OrderBy(d => d.drr_name).GetAllPagesAsync()).Select(d => d.drr_name).ToList();
 
             var standards = new List<Controllers.StandardInfo>();
             foreach (var category in standardCategories)
@@ -187,34 +187,10 @@ namespace EMCR.DRR.Resources.Applications
 #pragma warning restore CS8629 // Nullable value type may be null.
             }
 
-            var results = (await applicationsQuery.GetAllPagesAsync(ct)).ToArray();
-            var length = results.Length;
+            var results = (await applicationsQuery.GetAllPagesAsync(ct)).ToList();
+            var length = results.Count;
 
-            if (!string.IsNullOrEmpty(query.OrderBy))
-            {
-                var descending = false;
-                if (query.OrderBy.Contains(" desc"))
-                {
-                    descending = true;
-                    query.OrderBy = Regex.Replace(query.OrderBy, @" desc", "");
-                }
-                if (descending) results = results.OrderByDescending(a => GetPropertyValueForSort(a, query.OrderBy)).ToArray();
-                else results = results.OrderBy(a => GetPropertyValueForSort(a, query.OrderBy)).ToArray();
-            }
-            else
-            {
-                results = results.OrderBy(a => a.drr_name).ToArray();
-            }
-
-            if (query.Page > 0)
-            {
-                results = results.Skip(query.Page).ToArray();
-            }
-
-            if (query.Count > 0)
-            {
-                results = results.Take(query.Count).ToArray();
-            }
+            results = SortAndPageResults(results, query);
 
             var partnerProponentsOnly = false;
             if (string.IsNullOrEmpty(query.Id)) partnerProponentsOnly = true;
