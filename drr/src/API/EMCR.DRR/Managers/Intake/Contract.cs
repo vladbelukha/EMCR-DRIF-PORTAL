@@ -146,6 +146,7 @@ namespace EMCR.DRR.Managers.Intake
         public string? RationaleForFunding { get; set; }
         public EstimatedNumberOfPeople? EstimatedPeopleImpacted { get; set; }
         public string? CommunityImpact { get; set; }
+        public bool? IsInfrastructureImpacted { get; set; }
         public IEnumerable<CriticalInfrastructure> InfrastructureImpacted { get; set; }
         public string? DisasterRiskUnderstanding { get; set; }
         public string? AdditionalBackgroundInformation { get; set; }
@@ -192,7 +193,6 @@ namespace EMCR.DRR.Managers.Intake
         public int? Area { get; set; }
         public AreaUnits? Units { get; set; }
         public string? AreaDescription { get; set; }
-        public bool? IsInfrastructureImpacted { get; set; }
         public EstimatedNumberOfPeopleFP? EstimatedPeopleImpactedFP { get; set; }
 
         //Project Plan - 4
@@ -488,7 +488,11 @@ namespace EMCR.DRR.Managers.Intake
         InPool,
         Invited,
         Ineligible,
-        Withdrawn
+        Withdrawn,
+        FPSubmitted,
+        Approved,
+        ApprovedInPrinciple,
+        Closed
     }
 
     public enum YesNoOption

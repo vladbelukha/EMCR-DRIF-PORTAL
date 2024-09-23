@@ -49,41 +49,19 @@ namespace EMCR.DRR.Managers.Intake
                 var canAccess = await CanAccessApplication(q.Id, q.BusinessId);
                 if (!canAccess) throw new ForbiddenException("Not allowed to access this application.");
             }
-            var skip = 0;
-            var take = 0;
+            var page = 0;
+            var count = 0;
             if (q.QueryOptions != null)
             {
-                skip = q.QueryOptions.PageSize * q.QueryOptions.Page;
-                take = q.QueryOptions.PageSize;
+                page = q.QueryOptions.Page + 1;
+                count = q.QueryOptions.PageSize;
             }
 
             var orderBy = GetOrderBy(q.QueryOptions?.OrderBy);
-
             var filterOptions = ParseFilter(q.QueryOptions?.Filter);
 
-
-            var res = await applicationRepository.Query(new ApplicationsQuery { Id = q.Id, BusinessId = q.BusinessId, Skip = skip, Take = take, OrderBy = orderBy, FilterOptions = filterOptions });
-
-            //This will support sort/filter for partner proponents
-            //But loses any performance benefits of skip/take
-            //var orderBy = q.QueryOptions?.OrderBy;
-            //if (!string.IsNullOrEmpty(orderBy))
-            //{
-            //    var descending = false;
-            //    if (orderBy.Contains(" desc"))
-            //    {
-            //        descending = true;
-            //        orderBy = Regex.Replace(orderBy, @" desc", "");
-            //        orderBy = Regex.Replace(orderBy, @" asc", "");
-            //    }
-
-            //    if (descending) res.Items = res.Items.OrderByDescending(i => i[orderBy]);
-            //    else res.Items = res.Items.OrderBy(i => i[orderBy]);
-            //}
-
-            //if (skip > 0) res.Items = res.Items.Skip(skip);
-            //if (take > 0) res.Items = res.Items.Take(take);
-
+            var res = string.IsNullOrEmpty(q.Id) ? await applicationRepository.QueryList(new ApplicationsQuery { Id = q.Id, BusinessId = q.BusinessId, Page = page, Count = count, OrderBy = orderBy, FilterOptions = filterOptions }) :
+            await applicationRepository.Query(new ApplicationsQuery { Id = q.Id, BusinessId = q.BusinessId, Page = page, Count = count, OrderBy = orderBy, FilterOptions = filterOptions });
 
             return new IntakeQueryResponse { Items = mapper.Map<IEnumerable<Application>>(res.Items), Length = res.Length };
         }
@@ -234,13 +212,12 @@ namespace EMCR.DRR.Managers.Intake
             {
                 case "id": return "drr_name" + dir;
                 case "projecttitle": return "drr_projecttitle" + dir;
-                case "applicationtype": return "drr_ApplicationType.drr_name" + dir;
-                case "programtype": return "drr_Program.drr_name" + dir;
+                case "applicationtype": return "drr_applicationtypename" + dir;
+                case "programtype": return "drr_programname" + dir;
                 case "status": return "statuscode" + dir;
                 case "fundingrequest": return "drr_estimateddriffundingprogramrequest" + dir;
                 case "modifieddate": return "modifiedon" + dir;
                 case "submitteddate": return "drr_submitteddate" + dir;
-                //case "partneringproponents": return "drr_projecttitle" + dir;
                 default: return "drr_name";
             }
         }

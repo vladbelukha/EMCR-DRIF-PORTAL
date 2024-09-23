@@ -93,6 +93,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
         public async Task QueryApplications_CanGetSpecificPage()
         {
             var queryOptions = new QueryOptions { Page = 2, PageSize = 15 };
+            //var queryOptions = new QueryOptions { Page = 1, PageSize = 100 };
             var queryRes = await manager.Handle(new DrrApplicationsQuery { BusinessId = GetTestUserInfo().BusinessId, QueryOptions = queryOptions });
             var applications = queryRes.Items;
             var submissions = mapper.Map<IEnumerable<Submission>>(applications);
@@ -121,7 +122,6 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             var submissions = mapper.Map<IEnumerable<Submission>>(applications);
             submissions.Count().ShouldBe(20);
         }
-
 
         [Test]
         public async Task CanQueryApplications()
@@ -383,7 +383,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             {
                 Status = SubmissionPortalStatus.Draft,
 
-                //Proponent Information
+                //Proponent Information - 1
                 ProponentType = EMCR.DRR.Controllers.ProponentType.LocalGovernment,
                 Submitter = CreateNewTestContact(uniqueSignature, "submitter"),
                 ProjectContact = CreateNewTestContact(uniqueSignature, "proj"),
@@ -398,7 +398,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
                     $"{uniqueSignature}_partner2"
                 },
 
-                //Project Information
+                //Project Information - 2
                 FundingStream = EMCR.DRR.Controllers.FundingStream.Stream1,
                 ProjectTitle = "Project Title",
                 ProjectType = EMCR.DRR.Controllers.ProjectType.New,
@@ -413,7 +413,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
                 StartDate = DateTime.Now,
                 EndDate = DateTime.Now.AddDays(14),
 
-                //Funding Information
+                //Funding Information - 3
                 EstimatedTotal = 1000,
                 FundingRequest = 100,
                 HaveOtherFunding = true,
@@ -442,15 +442,16 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
                 RemainingAmount = 600,
                 IntendToSecureFunding = "Funding Reasons",
 
-                //Location Information
+                //Location Information - 4
                 OwnershipDeclaration = true,
                 OwnershipDescription = "owned",
                 LocationDescription = "location description",
 
-                //Project Detail
+                //Project Detail - 5
                 RationaleForFunding = "rationale for funding",
                 EstimatedPeopleImpacted = EMCR.DRR.Controllers.EstimatedNumberOfPeople.OneToTenK,
                 CommunityImpact = "community impact",
+                IsInfrastructureImpacted = true,
                 InfrastructureImpacted = new[] { new InfrastructureImpacted { Infrastructure = $"{uniqueSignature}_infrastructure1", Impact = "impact" } },
                 DisasterRiskUnderstanding = "helps many people",
                 AdditionalBackgroundInformation = "additional background info",
@@ -459,16 +460,16 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
                 AdditionalSolutionInformation = "additional solution info",
                 RationaleForSolution = "rational for solution",
 
-                //Engagement Plan
+                //Engagement Plan - 6
                 FirstNationsEngagement = "Engagement Proposal",
                 NeighbourEngagement = "engage with neighbours",
                 AdditionalEngagementInformation = "additional engagement info",
 
-                //Other Supporting Information
+                //Other Supporting Information - 7
                 ClimateAdaptation = "Climate Adaptation",
                 OtherInformation = "Other Info",
 
-                //Declaration
+                //Declaration - 8
                 //InformationAccuracyStatement = true,
                 //FOIPPAConfirmation = true,
                 //AuthorizedRepresentativeStatement = true

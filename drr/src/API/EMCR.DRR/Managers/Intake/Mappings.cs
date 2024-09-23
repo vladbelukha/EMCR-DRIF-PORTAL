@@ -182,18 +182,26 @@ namespace EMCR.DRR.Managers.Intake
         {
             switch (status)
             {
-                case ApplicationStatus.DraftStaff:
+                case ApplicationStatus.Approved:
+                    return SubmissionPortalStatus.Approved;
+                case ApplicationStatus.ApprovedInPrinciple:
+                    return SubmissionPortalStatus.ApprovedInPrinciple;
+                case ApplicationStatus.Closed:
+                    return SubmissionPortalStatus.Closed;
                 case ApplicationStatus.DraftProponent:
+                case ApplicationStatus.DraftStaff:
                     return SubmissionPortalStatus.Draft;
-                case ApplicationStatus.Submitted:
-                case ApplicationStatus.InReview:
-                    return SubmissionPortalStatus.UnderReview;
                 case ApplicationStatus.Invited:
                     return SubmissionPortalStatus.EligibleInvited;
                 case ApplicationStatus.InPool:
                     return SubmissionPortalStatus.EligiblePending;
+                case ApplicationStatus.FPSubmitted:
+                    return SubmissionPortalStatus.FullProposalSubmitted;
                 case ApplicationStatus.Ineligible:
                     return SubmissionPortalStatus.Ineligible;
+                case ApplicationStatus.Submitted:
+                case ApplicationStatus.InReview:
+                    return SubmissionPortalStatus.UnderReview;
                 case ApplicationStatus.Withdrawn:
                     return SubmissionPortalStatus.Withdrawn;
                 default:
