@@ -71,6 +71,7 @@ export class DrifFpStep2Component {
         if (value === false) {
           ownershipDescription?.addValidators(Validators.required);
         } else {
+          ownershipDescription?.setValue('');
           ownershipDescription?.clearValidators();
         }
 
