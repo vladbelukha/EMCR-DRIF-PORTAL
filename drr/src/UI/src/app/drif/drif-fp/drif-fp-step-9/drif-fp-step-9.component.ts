@@ -10,7 +10,7 @@ import { distinctUntilChanged } from 'rxjs';
 import { DrrChipAutocompleteComponent } from '../../../shared/controls/drr-chip-autocomplete/drr-chip-autocomplete.component';
 import { DrrRadioButtonComponent } from '../../../shared/controls/drr-radio-button/drr-radio-button.component';
 import { DrrTextareaComponent } from '../../../shared/controls/drr-textarea/drr-textarea.component';
-import { OptionsStore } from '../../../store/entities.store';
+import { OptionsStore } from '../../../store/options.store';
 import { ProjectRisksForm, TransferRisks } from '../drif-fp-form';
 
 @UntilDestroy({ checkProperties: true })

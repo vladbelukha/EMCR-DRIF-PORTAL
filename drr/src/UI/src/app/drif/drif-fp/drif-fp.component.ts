@@ -39,7 +39,7 @@ import {
 } from '../drif-eoi/drif-eoi-form';
 
 import { UntilDestroy } from '@ngneat/until-destroy';
-import { OptionsStore } from '../../store/entities.store';
+import { OptionsStore } from '../../store/options.store';
 import {
   DrifFpForm,
   ImpactedInfrastructureForm,
@@ -420,6 +420,13 @@ export class DrifFpComponent {
             { emitEvent: false }
           );
         });
+
+        if (response.professionalGuidance === true) {
+          this.fullProposalForm
+            .get('permitsRegulationsAndStandards')
+            ?.get('professionals')
+            ?.addValidators(Validators.required);
+        }
 
         const standardsFormArray = this.getFormGroup(
           'permitsRegulationsAndStandards'

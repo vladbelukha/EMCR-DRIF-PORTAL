@@ -158,8 +158,6 @@ export class PermitsRegulationsAndStandardsForm {
   professionalGuidance?: boolean;
 
   @prop()
-  @required()
-  @minLength({ value: 1 })
   professionals?: string[] = [];
 
   @prop()

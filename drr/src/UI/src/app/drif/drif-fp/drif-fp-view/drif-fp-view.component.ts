@@ -12,7 +12,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IFormGroup, RxFormBuilder } from '@rxweb/reactive-form-validators';
 import { DrifapplicationService } from '../../../../api/drifapplication/drifapplication.service';
-import { OptionsStore } from '../../../store/entities.store';
+import { OptionsStore } from '../../../store/options.store';
 import {
   ContactDetailsForm,
   FundingInformationItemForm,

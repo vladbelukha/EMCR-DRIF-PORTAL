@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { ConfigurationService } from '../../../api/configuration/configuration.service';
 import { ConfigurationStore } from '../../store/configuration.store';
-import { OptionsStore } from '../../store/entities.store';
+import { OptionsStore } from '../../store/options.store';
 
 @Injectable({
   providedIn: 'root',
