@@ -59,6 +59,8 @@ export interface DraftApplication {
   /** @nullable */
   intendToSecureFunding?: string;
   /** @nullable */
+  isInfrastructureImpacted?: boolean;
+  /** @nullable */
   locationDescription?: string;
   /** @nullable */
   neighbourEngagement?: string;
