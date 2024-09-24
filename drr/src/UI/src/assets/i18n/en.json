@@ -190,8 +190,9 @@
   "delete": "Delete",
   "withdraw": "Withdraw",
   "submissionDetails": "Submission Details for {{id}}",
-  "noSubmissions": "You don't have any submissions yet.",
   "submission-list": {
+    "noSubmissionsYet": "You don't have any submissions yet.",
+    "noSubmissionsFound": "No submissions found for the selected filters.",
     "title": "Manage Submissions",
     "filters": "Filters",
     "applicationId": "ID #",

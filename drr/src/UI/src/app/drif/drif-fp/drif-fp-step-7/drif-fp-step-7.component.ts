@@ -73,7 +73,7 @@ export class DrifFpStep7Component {
         const professionalsControl =
           this.permitsRegulationsAndStandardsForm.get('professionals');
         if (value === false) {
-          professionalsControl?.setValue('');
+          professionalsControl?.reset();
           professionalsControl?.clearValidators();
         } else {
           professionalsControl?.addValidators(Validators.required);

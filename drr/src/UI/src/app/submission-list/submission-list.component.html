@@ -6,10 +6,7 @@
     </button>
   </div>
 
-  <div
-    *ngIf="submissionListDataSource.data.length > 0"
-    class="submission-filter"
-  >
+  <div *ngIf="submissions" class="submission-filter">
     <div class="submission-filter__controls">
       <p>{{ t("filters") }}:</p>
       <drr-select
@@ -48,11 +45,9 @@
       </button>
     </div>
   </div>
-  <div
-    class="submissions-table"
-    *ngIf="submissionListDataSource.data.length > 0; else noDataTemplate"
-  >
+  <div class="submissions-table">
     <table
+      *ngIf="submissionListDataSource.data.length > 0; else noDataTemplate"
       mat-table
       [dataSource]="submissionListDataSource"
       matSort
@@ -173,6 +168,7 @@
       <tr mat-row *matRowDef="let row; columns: submissionListColumns"></tr>
     </table>
     <mat-paginator
+      *ngIf="submissions"
       [pageIndex]="paginator.pageIndex"
       [length]="paginator.length"
       [pageSize]="paginator.pageSize"
@@ -183,8 +179,11 @@
     </mat-paginator>
   </div>
   <ng-template #noDataTemplate>
-    <div *ngIf="submissions" class="no-data">
-      <p>{{ t("noSubmissions") }}</p>
+    <div *ngIf="submissions && !filterApplied" class="no-data">
+      <p>{{ t("noSubmissionsYet") }}</p>
+    </div>
+    <div *ngIf="submissions && filterApplied" class="no-data">
+      <p>{{ t("noSubmissionsFound") }}</p>
     </div>
   </ng-template>
 </div>
