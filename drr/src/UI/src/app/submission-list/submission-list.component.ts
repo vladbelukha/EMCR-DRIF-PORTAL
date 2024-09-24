@@ -140,7 +140,12 @@ export class SubmissionListComponent {
   }
 
   onSortSubmissionTable(sort: Sort) {
-    this.sort = sort;
+    if (sort.direction === '') {
+      this.sort.active = 'id';
+      this.sort.direction = 'desc';
+    } else {
+      this.sort = sort;
+    }
 
     this.paginator.pageIndex = 0;
 
