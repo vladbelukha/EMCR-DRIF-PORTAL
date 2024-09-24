@@ -67,6 +67,9 @@
         </div>
 
         <button
+          *ngIf="
+            projectDetailsForm.get('isInfrastructureImpacted')?.value === true
+          "
           id="addInfrastructure"
           mat-stroked-button
           type="button"
