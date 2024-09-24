@@ -259,6 +259,26 @@ namespace EMCR.DRR.Managers.Intake
                         ret.Add((int)ApplicationStatusOptionSet.Withdrawn);
                         break;
                     }
+                case SubmissionPortalStatus.Closed:
+                    {
+                        ret.Add((int)ApplicationStatusOptionSet.Closed);
+                        break;
+                    }
+                case SubmissionPortalStatus.FullProposalSubmitted:
+                    {
+                        ret.Add((int)ApplicationStatusOptionSet.FPSubmitted);
+                        break;
+                    }
+                case SubmissionPortalStatus.Approved:
+                    {
+                        ret.Add((int)ApplicationStatusOptionSet.Approved);
+                        break;
+                    }
+                case SubmissionPortalStatus.ApprovedInPrinciple:
+                    {
+                        ret.Add((int)ApplicationStatusOptionSet.ApprovedInPrinciple);
+                        break;
+                    }
                 default: break;
             }
             return ret;
