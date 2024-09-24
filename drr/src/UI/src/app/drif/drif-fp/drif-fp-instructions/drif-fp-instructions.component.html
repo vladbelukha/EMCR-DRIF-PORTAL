@@ -1,5 +1,5 @@
 <div class="instructions-container" *transloco="let t">
-  <div style="flex: 1">
+  <div style="flex: 1; margin-bottom: 1rem">
     <h5 style="font-size: 1.2rem; margin-bottom: 0.5rem">
       {{ t("fpFormHeaderFor", { projectTitle: projectTitle }) }}
     </h5>
@@ -10,15 +10,16 @@
       </a>
     </span>
   </div>
-  <p style="font-size: 1.2rem">{{ t("proponentInstructions") }}</p>
+  <mat-divider></mat-divider>
+  <h5 style="margin-top: 4rem">Proponent Instructions</h5>
+  <h6>Mandatory Fields</h6>
   <p>
-    Complete all mandatory sections of the full proposal form with details of
-    your proposed project before submitting to the Disaster Mitigation and
-    Adaptation Programs (DMAP) team at the Ministry of Emergency Management and
-    Climate Readiness (EMCR).
+    Fields marked with an asterisk (*) are mandatory. Ensure that you complete
+    all of the mandatory sections before submitting your full proposal.
   </p>
 
-  <p>Fields marked with an asterisk (*) are mandatory.</p>
+  <h6>Required Documents</h6>
+
   <p>
     The following documents must be submitted as part of this full proposal:
   </p>
@@ -30,18 +31,17 @@
       Site plan (not required for Stream 1: Foundational and Non-Structural
       Projects)
     </li>
+    <li>A preliminary design, if applicable.</li>
+    <li>
+      A Council Resolution and/or a Band Council Resolution from all proponents,
+      or the appropriate authorization/endorsement as determined by the eligible
+      First Nations proponent’s governance structure must be submitted as part
+      of this full proposal if available or later via email to abc&#64;xyz.com
+      when available.
+    </li>
   </ol>
 
-  <p>A preliminary design must be submitted if applicable.</p>
-
-  <p>
-    A Council Resolution and/or a Band Council Resolution from all proponents,
-    or the appropriate authorization/endorsement as determined by the eligible
-    First Nations proponent’s governance structure must be submitted as part of
-    this full proposal if available or later via email to abc&#64;xyz.com when
-    available.
-  </p>
-
+  <h6>Additional Information</h6>
   <p>
     The EMCR DMAP team may request additional information, including engagement
     with local First Nations before the project begins (see Section 5.5 of DRIF
