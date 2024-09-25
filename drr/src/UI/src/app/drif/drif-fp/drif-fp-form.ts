@@ -441,7 +441,19 @@ export class ProjectPlanForm {
 
   @prop()
   @required()
-  verificationMethodsComments?: string;
+  rationaleForSolution?: string;
+
+  @prop()
+  @required()
+  addressRisksAndHazards?: string;
+
+  @prop()
+  @required()
+  disasterRiskUnderstanding?: string;
+
+  @prop()
+  @required()
+  rationaleForFunding?: string;
 
   @prop()
   @required()
