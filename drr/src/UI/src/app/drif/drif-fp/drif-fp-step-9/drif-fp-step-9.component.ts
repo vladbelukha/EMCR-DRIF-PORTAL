@@ -1,6 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, Input } from '@angular/core';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormControl,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -48,56 +53,108 @@ export class DrifFpStep9Component {
       .get('complexityRiskMitigated')
       ?.valueChanges.pipe(distinctUntilChanged())
       .subscribe((value) => {
+        const complexityRisksControl =
+          this.projectRisksForm.get('complexityRisks');
+        const complexityRiskCommentsControl = this.projectRisksForm.get(
+          'complexityRiskComments'
+        );
         if (value === false) {
-          this.projectRisksForm.get('complexityRisks')?.disable();
+          complexityRisksControl?.reset();
+          complexityRisksControl?.clearValidators();
+          complexityRiskCommentsControl?.reset();
+          complexityRiskCommentsControl?.clearValidators();
         } else {
-          this.projectRisksForm.get('complexityRisks')?.enable();
+          complexityRisksControl?.addValidators(Validators.required);
+          complexityRiskCommentsControl?.addValidators(Validators.required);
         }
+        complexityRisksControl?.updateValueAndValidity();
+        complexityRiskCommentsControl?.updateValueAndValidity();
       });
 
     this.projectRisksForm
       .get('readinessRiskMitigated')
       ?.valueChanges.pipe(distinctUntilChanged())
       .subscribe((value) => {
+        const readinessRisksControl =
+          this.projectRisksForm.get('readinessRisks');
+        const readinessRiskCommentsControl = this.projectRisksForm.get(
+          'readinessRiskComments'
+        );
         if (value === false) {
-          this.projectRisksForm.get('readinessRisks')?.disable();
+          readinessRisksControl?.reset();
+          readinessRisksControl?.clearValidators();
+          readinessRiskCommentsControl?.reset();
+          readinessRiskCommentsControl?.clearValidators();
         } else {
-          this.projectRisksForm.get('readinessRisks')?.enable();
+          readinessRisksControl?.addValidators(Validators.required);
+          readinessRiskCommentsControl?.addValidators(Validators.required);
         }
+        readinessRisksControl?.updateValueAndValidity();
+        readinessRiskCommentsControl?.updateValueAndValidity();
       });
 
     this.projectRisksForm
       .get('sensitivityRiskMitigated')
       ?.valueChanges.pipe(distinctUntilChanged())
       .subscribe((value) => {
+        const sensitivityRisksControl =
+          this.projectRisksForm.get('sensitivityRisks');
+        const sensitivityRiskCommentsControl = this.projectRisksForm.get(
+          'sensitivityRiskComments'
+        );
         if (value === false) {
-          this.projectRisksForm.get('sensitivityRisks')?.disable();
+          sensitivityRisksControl?.reset();
+          sensitivityRisksControl?.clearValidators();
+          sensitivityRiskCommentsControl?.reset();
+          sensitivityRiskCommentsControl?.clearValidators();
         } else {
-          this.projectRisksForm.get('sensitivityRisks')?.enable();
+          sensitivityRisksControl?.addValidators(Validators.required);
+          sensitivityRiskCommentsControl?.addValidators(Validators.required);
         }
+        sensitivityRisksControl?.updateValueAndValidity();
+        sensitivityRiskCommentsControl?.updateValueAndValidity();
       });
 
     this.projectRisksForm
       .get('capacityRiskMitigated')
       ?.valueChanges.pipe(distinctUntilChanged())
       .subscribe((value) => {
+        const capacityRisksControl = this.projectRisksForm.get('capacityRisks');
+        const capacityRiskCommentsControl = this.projectRisksForm.get(
+          'capacityRiskComments'
+        );
         if (value === false) {
-          this.projectRisksForm.get('capacityRisks')?.disable();
+          capacityRisksControl?.reset();
+          capacityRisksControl?.clearValidators();
+          capacityRiskCommentsControl?.reset();
+          capacityRiskCommentsControl?.clearValidators();
         } else {
-          this.projectRisksForm.get('capacityRisks')?.enable();
+          capacityRisksControl?.addValidators(Validators.required);
+          capacityRiskCommentsControl?.addValidators(Validators.required);
         }
+        capacityRisksControl?.updateValueAndValidity();
+        capacityRiskCommentsControl?.updateValueAndValidity();
       });
 
     this.projectRisksForm
       .get('riskTransferMigigated')
       ?.valueChanges.pipe(distinctUntilChanged())
       .subscribe((value) => {
+        const transferRisksControl = this.projectRisksForm.get('transferRisks');
+        const transferRiskCommentsControl = this.projectRisksForm.get(
+          'transferRiskComments'
+        );
         if (value === false) {
-          this.projectRisksForm.get('transferRisks')?.setValue([]);
-          this.projectRisksForm.get('transferRisks')?.disable();
+          transferRisksControl?.reset();
+          transferRisksControl?.clearValidators();
+          transferRiskCommentsControl?.reset();
+          transferRiskCommentsControl?.clearValidators();
         } else {
-          this.projectRisksForm.get('transferRisks')?.enable();
+          transferRisksControl?.addValidators(Validators.required);
+          transferRiskCommentsControl?.addValidators(Validators.required);
         }
+        transferRisksControl?.updateValueAndValidity();
+        transferRiskCommentsControl?.updateValueAndValidity();
       });
   }
 

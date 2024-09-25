@@ -468,6 +468,51 @@ export class DrifFpComponent {
           standardsFormArray?.push(standardInfoForm, { emitEvent: false });
         });
 
+        if (response.complexityRiskMitigated === true) {
+          this.getFormGroup('projectRisks')
+            .get('complexityRisks')
+            ?.addValidators(Validators.required);
+          this.getFormGroup('projectRisks')
+            .get('complexityRiskComments')
+            ?.addValidators(Validators.required);
+        }
+
+        if (response.readinessRiskMitigated === true) {
+          this.getFormGroup('projectRisks')
+            .get('readinessRisks')
+            ?.addValidators(Validators.required);
+          this.getFormGroup('projectRisks')
+            .get('readinessRiskComments')
+            ?.addValidators(Validators.required);
+        }
+
+        if (response.sensitivityRiskMitigated === true) {
+          this.getFormGroup('projectRisks')
+            .get('sensitivityRisks')
+            ?.addValidators(Validators.required);
+          this.getFormGroup('projectRisks')
+            .get('sensitivityRiskComments')
+            ?.addValidators(Validators.required);
+        }
+
+        if (response.capacityRiskMitigated === true) {
+          this.getFormGroup('projectRisks')
+            .get('capacityRisks')
+            ?.addValidators(Validators.required);
+          this.getFormGroup('projectRisks')
+            .get('capacityRiskComments')
+            ?.addValidators(Validators.required);
+        }
+
+        if (response.riskTransferMigigated === true) {
+          this.getFormGroup('projectRisks')
+            .get('transferRisks')
+            ?.addValidators(Validators.required);
+          this.getFormGroup('projectRisks')
+            .get('transferRisksComments')
+            ?.addValidators(Validators.required);
+        }
+
         this.fullProposalForm.markAsPristine();
         this.formChanged = false;
       },
