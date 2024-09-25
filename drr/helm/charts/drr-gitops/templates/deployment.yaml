@@ -4,9 +4,12 @@ metadata:
   name: {{ .Values.env }}-drr-landing
   labels:
     app: {{ .Values.env }}-{{ .Values.app }}
-    role: {{ .Values.role }}
+    role: {{ .Values.landingRole }}
     env: {{ .Values.env }}
     app.kubernetes.io/part-of: {{ .Values.env }}
+  annotations:
+    image.openshift.io/triggers: >-
+      [{"from":{"kind":"ImageStreamTag","name":"drr-landing-page:{{ .Values.env }}","namespace":"f0d514-tools"},"fieldPath":"spec.template.spec.containers[?(@.name==\"{{ .Values.env }}-drr-landing\")].image","pause":"false"}]
 spec:
   replicas: {{ .Values.replicas }}
   selector:
@@ -17,7 +20,7 @@ spec:
     metadata:      
       labels:
         app: {{ .Values.env }}-{{ .Values.app }}
-        role: {{ .Values.role }}
+        role: {{ .Values.landingRole }}
         name: {{ .Values.env }}-drr-landing
     spec:
       containers:        
@@ -64,9 +67,86 @@ spec:
             successThreshold: 1
             failureThreshold: 3
           terminationMessagePolicy: File
-          image: {{ .Values.imageRepository }}:{{ .Values.env }}
+          image: {{ .Values.landingImageRepository }}:{{ .Values.env }}
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+      schedulerName: default-scheduler
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: {{ .Values.env }}-drr-maintenance
+  labels:
+    app: {{ .Values.env }}-{{ .Values.app }}
+    role: {{ .Values.maintenanceRole }}
+    env: {{ .Values.env }}
+    app.kubernetes.io/part-of: {{ .Values.env }}
+  annotations:
+    image.openshift.io/triggers: >-
+      [{"from":{"kind":"ImageStreamTag","name":"drr-maintenance-page:latest","namespace":"f0d514-tools"},"fieldPath":"spec.template.spec.containers[?(@.name==\"{{ .Values.env }}-drr-maintenance\")].image","pause":"false"}]
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.env }}-{{ .Values.app }}
+      name: {{ .Values.env }}-drr-maintenance
+  template:
+    metadata:      
+      labels:
+        app: {{ .Values.env }}-{{ .Values.app }}
+        role: {{ .Values.maintenanceRole }}
+        name: {{ .Values.env }}-drr-maintenance
+    spec:
+      containers:        
+        - resources:
+            limits:
+              cpu: '{{ .Values.cpuLimit }}'
+              memory: '{{ .Values.memoryLimit }}'
+            requests:
+              cpu: '{{ .Values.cpuRequest }}'
+              memory: '{{ .Values.memoryRequest }}'
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 2016
+              scheme: HTTP
+            timeoutSeconds: 1
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          terminationMessagePath: /dev/termination-log
+          name: {{ .Values.env }}-drr-maintenance
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 2016
+              scheme: HTTP
+            timeoutSeconds: 1
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          securityContext:
+            allowPrivilegeEscalation: true
+          ports:
+            - containerPort: 2015
+              protocol: TCP
+          imagePullPolicy: Always
+          startupProbe:
+            httpGet:
+              path: /
+              port: 2016
+              scheme: HTTP
+            timeoutSeconds: 1
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          terminationMessagePolicy: File
+          image: {{ .Values.maintenanceImageRepository }}:{{ .Values.env }}
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
       dnsPolicy: ClusterFirst
       securityContext: {}
       schedulerName: default-scheduler                    
+

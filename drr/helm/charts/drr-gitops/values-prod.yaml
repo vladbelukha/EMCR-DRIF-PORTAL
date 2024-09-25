@@ -3,7 +3,7 @@
 # Declare variables to be passed into your templates.
 
 app: drr
-env: dev
+env: prod
 landingRole: landing
 maintenanceRole: maintenance
 service:
