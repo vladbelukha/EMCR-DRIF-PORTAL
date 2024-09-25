@@ -101,7 +101,10 @@ export class DrifFpViewComponent {
           projectDescription: response.projectDescription,
           proposedActivities: response.proposedActivities,
           verificationMethods: response.verificationMethods,
-          verificationMethodsComments: response.verificationMethodsComments,
+          addressRisksAndHazards: response.addressRisksAndHazards,
+          disasterRiskUnderstanding: response.disasterRiskUnderstanding,
+          rationaleForFunding: response.rationaleForFunding,
+          rationaleForSolution: response.rationaleForSolution,
         },
         projectEngagement: {
           affectedParties: response.affectedParties,

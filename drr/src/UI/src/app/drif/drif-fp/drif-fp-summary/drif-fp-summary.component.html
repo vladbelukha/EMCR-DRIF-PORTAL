@@ -436,7 +436,7 @@
       </div>
 
       <drr-summary-item
-        [label]="t('verificationMethods')"
+        [label]="t('rationaleForSolutionText')"
         [rxFormControl]="
           fullProposalForm.get('projectPlan.verificationMethods')
         "
@@ -448,7 +448,31 @@
       <drr-summary-item
         [label]="t('verificationMethodsComments')"
         [rxFormControl]="
-          fullProposalForm.get('projectPlan.verificationMethodsComments')
+          fullProposalForm.get('projectPlan.rationaleForSolution')
+        "
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('addressRisksAndHazards')"
+        [rxFormControl]="
+          fullProposalForm.get('projectPlan.addressRisksAndHazards')
+        "
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('disasterRiskUnderstanding')"
+        [rxFormControl]="
+          fullProposalForm.get('projectPlan.disasterRiskUnderstanding')
+        "
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('rationaleForFundingText')"
+        [rxFormControl]="
+          fullProposalForm.get('projectPlan.rationaleForFunding')
         "
       >
       </drr-summary-item>
