@@ -48,7 +48,7 @@
       getRemainingAmountAbs() | currency
     }}</mat-label>
     <mat-hint *ngIf="getRemainingAmount() < 0" style="color: red">{{
-      t("excessFundingText")
+      t("excessFundingTextEoi")
     }}</mat-hint>
     <mat-hint *ngIf="getRemainingAmount() == 0">{{
       t("noExcessFundingText")

@@ -307,16 +307,15 @@ export class DrifFpComponent {
           },
           budget: {
             haveOtherFunding: response.haveOtherFunding,
-            estimatedTotal: response.estimatedTotal,
+            // estimatedTotal: response.estimatedTotal,
+            // eligibleAmount: response.eligibleAmount,
             fundingRequest: response.fundingRequest,
             remainingAmount: response.remainingAmount,
             discrepancyComment: response.discrepancyComment,
             totalDrifFundingRequest: response.totalDrifFundingRequest,
-            activityCostEffectiveness: response.activityCostEffectiveness,
             costConsiderations: response.costConsiderations,
             costConsiderationsApplied: response.costConsiderationsApplied,
             costConsiderationsComments: response.costConsiderationsComments,
-            costEffective: response.costEffective,
             costEffectiveComments: response.costEffectiveComments,
             previousResponse: response.previousResponse,
             previousResponseComments: response.previousResponseComments,
@@ -401,18 +400,25 @@ export class DrifFpComponent {
           );
         });
 
-        const fundingInformationItemFormArray = this.getFormGroup('budget').get(
+        const otherFundingArray = this.getFormGroup('budget').get(
           'otherFunding'
         ) as FormArray;
-        if (response.otherFunding?.length! > 0) {
-          fundingInformationItemFormArray.clear({ emitEvent: false });
+        if (response.haveOtherFunding) {
+          if (response.otherFunding?.length! > 0) {
+            otherFundingArray.clear({ emitEvent: false });
+          }
+          response.otherFunding?.forEach((funding) => {
+            otherFundingArray?.push(
+              this.formBuilder.formGroup(
+                new FundingInformationItemForm(funding)
+              ),
+              { emitEvent: false }
+            );
+          });
+        } else {
+          otherFundingArray?.clear();
+          otherFundingArray?.disable();
         }
-        response.otherFunding?.forEach((funding) => {
-          fundingInformationItemFormArray?.push(
-            this.formBuilder.formGroup(new FundingInformationItemForm(funding)),
-            { emitEvent: false }
-          );
-        });
 
         const yearOverYearFormArray = this.getFormGroup('budget').get(
           'yearOverYearFunding'

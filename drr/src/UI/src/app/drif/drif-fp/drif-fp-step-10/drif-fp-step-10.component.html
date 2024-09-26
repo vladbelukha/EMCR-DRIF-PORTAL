@@ -8,9 +8,10 @@
       [rxFormControl]="budgetForm.get('fundingRequest')"
     ></drr-currency-input>
 
-    <mat-label class="drr-label">{{ t("estimatedDrifFunding") }}</mat-label>
+    <mat-label class="drr-label">{{ t("eligibleamount") }}</mat-label>
+    <mat-label>{{ t("eligibleamountText") }}</mat-label>
     <mat-label>{{
-      budgetForm.get("estimatedTotal")?.value | currency
+      budgetForm.get("eligibleamount")?.value | currency
     }}</mat-label>
 
     <mat-label class="drr-label" style="margin-top: 1rem">{{
@@ -63,10 +64,8 @@
       budgetForm.get("totalDrifFundingRequest")?.value | currency
     }}</mat-label>
 
-    <div *ngIf="showDiscrepancyComment()">
-      <mat-label class="drr-label" style="margin-top: 1rem">{{
-        t("discrepancyComment")
-      }}</mat-label>
+    <div *ngIf="showDiscrepancyComment()" style="margin-top: 1rem">
+      <mat-label class="drr-label">{{ t("discrepancyComment") }}</mat-label>
       <drr-textarea
         [label]="t('discrepancyComment')"
         [maxlength]="2000"
@@ -96,7 +95,7 @@
       getRemainingAmountAbs() | currency
     }}</mat-label>
     <mat-hint *ngIf="getRemainingAmount() < 0" style="color: red">{{
-      t("excessFundingText")
+      t("excessFundingTextFp")
     }}</mat-hint>
     <mat-hint *ngIf="getRemainingAmount() == 0">{{
       t("noExcessFundingText")
@@ -111,16 +110,14 @@
       [rxFormControl]="budgetForm.get('intendToSecureFunding')"
     ></drr-textarea>
 
-    <mat-label class="drr-label">{{ t("costEffective") }}</mat-label>
-    <drr-radio-button
-      [label]="t('costEffectiveQuestion')"
-      [rxFormControl]="budgetForm.get('costEffective')"
-    ></drr-radio-button>
+    <mat-label class="drr-label" style="margin-top: 1rem">{{
+      t("costEffective")
+    }}</mat-label>
     <drr-textarea
       [label]="t('costEffectiveComments')"
       [rxFormControl]="budgetForm.get('costEffectiveComments')"
       [maxlength]="2000"
-      [useFloatingLabel]="false"
+      [useFloatingLabel]="true"
     ></drr-textarea>
 
     <mat-label class="drr-label">{{ t("previousResponse") }}</mat-label>
@@ -141,22 +138,13 @@
       [useFloatingLabel]="false"
     ></drr-textarea>
 
-    <mat-label class="drr-label">{{
-      t("activityCostEffectiveness")
-    }}</mat-label>
-    <drr-textarea
-      [label]="t('activityCostEffectivenessQuestion')"
-      [rxFormControl]="budgetForm.get('activityCostEffectiveness')"
-      [maxlength]="2000"
-      [useFloatingLabel]="false"
-    ></drr-textarea>
-
     <mat-label class="drr-label">{{ t("costConsiderations") }}</mat-label>
     <drr-radio-button
       [label]="t('costConsiderationsApplied')"
       [rxFormControl]="budgetForm.get('costConsiderationsApplied')"
     ></drr-radio-button>
     <drr-chip-autocomplete
+      *ngIf="budgetForm.get('costConsiderationsApplied')?.value === true"
       [label]="t('costConsiderationsQuestions')"
       [rxFormControl]="budgetForm.get('costConsiderations')"
       [options]="costConsiderationsOptions"

@@ -201,9 +201,12 @@ export class YearOverYearFundingForm {
 }
 
 export class BudgetForm {
+  // @prop()
+  // @required()
+  // estimatedTotal?: number;
+
   @prop()
-  @required()
-  estimatedTotal?: number;
+  eligibleAmount?: number;
 
   @prop()
   @required()
@@ -235,10 +238,6 @@ export class BudgetForm {
 
   @prop()
   @required()
-  costEffective?: boolean;
-
-  @prop()
-  @required()
   costEffectiveComments?: string;
 
   @prop()
@@ -249,11 +248,8 @@ export class BudgetForm {
   previousResponseCost?: number;
 
   @prop()
-  previousResponseComments?: string;
-
-  @prop()
   @required()
-  activityCostEffectiveness?: string;
+  previousResponseComments?: string;
 
   @prop()
   @required()

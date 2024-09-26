@@ -120,17 +120,6 @@ export class DrifFpStep10Component {
       });
 
     this.budgetForm
-      .get('estimatedTotal')!
-      .valueChanges.pipe(distinctUntilChanged())
-      .subscribe(() => {
-        this.calculateRemainingAmount();
-      });
-
-    if (this.budgetForm.get('haveOtherFunding')?.value !== true) {
-      this.getFormArray('otherFunding').clear({ emitEvent: false });
-      this.getFormArray('otherFunding').disable();
-    }
-    this.budgetForm
       .get('haveOtherFunding')
       ?.valueChanges.pipe(distinctUntilChanged())
       .subscribe((value) => {
@@ -152,12 +141,14 @@ export class DrifFpStep10Component {
       ?.valueChanges.pipe(distinctUntilChanged())
       .subscribe((value) => {
         if (value) {
-          this.budgetForm.get('costConsiderations')?.enable();
+          this.budgetForm
+            .get('costConsiderations')
+            ?.setValidators(Validators.required);
           this.budgetForm
             .get('costConsiderationsComments')
             ?.setValidators(Validators.required);
         } else {
-          this.budgetForm.get('costConsiderations')?.disable();
+          this.budgetForm.get('costConsiderations')?.clearValidators();
           this.budgetForm.get('costConsiderationsComments')?.clearValidators();
         }
 
