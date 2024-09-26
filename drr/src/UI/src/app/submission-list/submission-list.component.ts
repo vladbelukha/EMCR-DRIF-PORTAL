@@ -105,7 +105,7 @@ export class SubmissionListComponent {
   };
   sort: Sort = {
     active: 'id',
-    direction: 'desc',
+    direction: 'asc',
   };
 
   ngOnInit() {
@@ -145,7 +145,7 @@ export class SubmissionListComponent {
   onSortSubmissionTable(sort: Sort) {
     if (sort.direction === '') {
       this.sort.active = 'id';
-      this.sort.direction = 'desc';
+      this.sort.direction = 'asc';
     } else {
       this.sort = sort;
     }
