@@ -307,8 +307,7 @@ export class DrifFpComponent {
           },
           budget: {
             haveOtherFunding: response.haveOtherFunding,
-            // estimatedTotal: response.estimatedTotal,
-            // eligibleAmount: response.eligibleAmount,
+            eligibleFundingRequest: response.eligibleFundingRequest,
             fundingRequest: response.fundingRequest,
             remainingAmount: response.remainingAmount,
             discrepancyComment: response.discrepancyComment,

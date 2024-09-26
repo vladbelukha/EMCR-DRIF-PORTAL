@@ -8,10 +8,10 @@
       [rxFormControl]="budgetForm.get('fundingRequest')"
     ></drr-currency-input>
 
-    <mat-label class="drr-label">{{ t("eligibleamount") }}</mat-label>
-    <mat-label>{{ t("eligibleamountText") }}</mat-label>
+    <mat-label class="drr-label">{{ t("eligibleFundingRequest") }}</mat-label>
+    <mat-label>{{ t("eligibleFundingRequestText") }}</mat-label>
     <mat-label>{{
-      budgetForm.get("eligibleamount")?.value | currency
+      budgetForm.get("eligibleFundingRequest")?.value | currency
     }}</mat-label>
 
     <mat-label class="drr-label" style="margin-top: 1rem">{{

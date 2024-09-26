@@ -14,8 +14,6 @@ import type { YearOverYearFunding } from './yearOverYearFunding';
 
 export type DraftFpApplicationAllOf = {
   /** @nullable */
-  activityCostEffectiveness?: string;
-  /** @nullable */
   affectedParties?: string[];
   /** @nullable */
   approvals?: boolean;
@@ -69,6 +67,12 @@ export type DraftFpApplicationAllOf = {
   costReductions?: string[];
   /** @nullable */
   discrepancyComment?: string;
+  /**
+   * @minimum 0
+   * @maximum 999999999.99
+   * @nullable
+   */
+  eligibleFundingRequest?: number;
   /** @nullable */
   engagedWithFirstNationsComments?: string;
   /** @nullable */
