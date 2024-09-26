@@ -12,6 +12,8 @@ export interface EntitiesQueryResult {
   /** @nullable */
   capacityRisks?: string[];
   /** @nullable */
+  climateAssessmentToolOptions?: string[];
+  /** @nullable */
   coBenefits?: string[];
   /** @nullable */
   complexityRisks?: string[];

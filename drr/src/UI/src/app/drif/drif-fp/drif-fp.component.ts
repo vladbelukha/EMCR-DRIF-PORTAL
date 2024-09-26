@@ -260,6 +260,9 @@ export class DrifFpComponent {
             incorporateFutureClimateConditions:
               response.incorporateFutureClimateConditions,
             climateAdaptation: response.climateAdaptation,
+            climateAssessment: response.climateAssessment,
+            climateAssessmentComments: response.climateAssessmentComments,
+            climateAssessmentTools: response.climateAssessmentTools,
           },
           permitsRegulationsAndStandards: {
             meetsRegulatoryRequirements: response.meetsRegulatoryRequirements,
@@ -428,6 +431,13 @@ export class DrifFpComponent {
           this.fullProposalForm
             .get('permitsRegulationsAndStandards')
             ?.get('professionals')
+            ?.addValidators(Validators.required);
+        }
+
+        if (response.climateAssessment === true) {
+          this.fullProposalForm
+            .get('climateAdaptation')
+            ?.get('climateAssessmentTools')
             ?.addValidators(Validators.required);
         }
 

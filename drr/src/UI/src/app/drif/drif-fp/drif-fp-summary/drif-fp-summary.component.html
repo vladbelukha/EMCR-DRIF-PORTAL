@@ -573,6 +573,39 @@
         "
       >
       </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('climateAssessment')"
+        [rxFormControl]="
+          fullProposalForm.get('climateAdaptation.climateAssessment')
+        "
+        controlType="radio"
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        *ngIf="
+          fullProposalForm.get('climateAdaptation.climateAssessment')?.value
+        "
+        [label]="t('climateAssessmentToolsText')"
+        [rxFormControl]="
+          fullProposalForm.get('climateAdaptation.climateAssessmentTools')
+        "
+        controlType="array"
+        [translate]="false"
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        *ngIf="
+          fullProposalForm.get('climateAdaptation.climateAssessment')?.value
+        "
+        [label]="t('climateAssessmentComments')"
+        [rxFormControl]="
+          fullProposalForm.get('climateAdaptation.climateAssessmentComments')
+        "
+      >
+      </drr-summary-item>
     </mat-card-content>
   </mat-card>
 

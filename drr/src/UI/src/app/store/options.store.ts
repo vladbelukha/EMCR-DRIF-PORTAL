@@ -21,6 +21,7 @@ const initialState: OptionsState = {
   sensitivityRisks: [],
   standards: [],
   verificationMethods: [],
+  climateAssessmentToolOptions: [],
 };
 
 export const OptionsStore = signalStore(

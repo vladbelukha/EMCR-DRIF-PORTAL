@@ -13,5 +13,23 @@
       [rxFormControl]="climateAdaptationForm.get('climateAdaptation')"
       [maxlength]="2000"
     ></drr-textarea>
+
+    <mat-label class="drr-label">{{ t("climateAssessmentTools") }}</mat-label>
+    <drr-radio-button
+      [label]="t('climateAssessment')"
+      [rxFormControl]="climateAdaptationForm.get('climateAssessment')"
+    ></drr-radio-button>
+    <drr-chip-autocomplete
+      *ngIf="climateAdaptationForm.get('climateAssessment')?.value === true"
+      [label]="t('climateAssessmentToolsText')"
+      [rxFormControl]="climateAdaptationForm.get('climateAssessmentTools')"
+      [options]="climateAssessmentToolOptions"
+    ></drr-chip-autocomplete>
+    <drr-textarea
+      *ngIf="climateAdaptationForm.get('climateAssessment')?.value === true"
+      [label]="t('climateAssessmentComments')"
+      [rxFormControl]="climateAdaptationForm.get('climateAssessmentComments')"
+      [maxlength]="2000"
+    ></drr-textarea>
   </form>
 </div>

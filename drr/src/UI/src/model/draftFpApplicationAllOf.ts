@@ -36,6 +36,12 @@ export type DraftFpApplicationAllOf = {
   /** @nullable */
   capacityRisks?: string[];
   /** @nullable */
+  climateAssessment?: boolean;
+  /** @nullable */
+  climateAssessmentComments?: string;
+  /** @nullable */
+  climateAssessmentTools?: string[];
+  /** @nullable */
   coBenefitComments?: string;
   /** @nullable */
   coBenefits?: string[];

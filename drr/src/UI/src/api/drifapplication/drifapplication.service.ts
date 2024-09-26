@@ -109,6 +109,15 @@ export class DrifapplicationService {
       eoiApplication,options
     );
   }
+ dRIFApplicationWithdrawApplication<TData = ApplicationResult>(
+    id: string,
+    eoiApplication: EoiApplication, options?: HttpClientOptions
+  ): Observable<TData>  {
+    return this.http.post<TData>(
+      `/api/drifapplication/eoi/${id}/withdraw`,
+      eoiApplication,options
+    );
+  }
  dRIFApplicationGetFP<TData = DraftFpApplication>(
     id: string, options?: HttpClientOptions
   ): Observable<TData>  {
@@ -145,6 +154,15 @@ export class DrifapplicationService {
       fpApplication,options
     );
   }
+ dRIFApplicationWithdrawFPApplication<TData = ApplicationResult>(
+    id: string,
+    eoiApplication: EoiApplication, options?: HttpClientOptions
+  ): Observable<TData>  {
+    return this.http.post<TData>(
+      `/api/drifapplication/fp/${id}/withdraw`,
+      eoiApplication,options
+    );
+  }
 };
 
 export type DRIFApplicationGetClientResult = NonNullable<SubmissionResponse>
@@ -154,7 +172,9 @@ export type DRIFApplicationUpdateApplicationClientResult = NonNullable<Applicati
 export type DRIFApplicationCreateEOIApplicationClientResult = NonNullable<ApplicationResult>
 export type DRIFApplicationSubmitApplicationClientResult = NonNullable<ApplicationResult>
 export type DRIFApplicationSubmitApplication2ClientResult = NonNullable<ApplicationResult>
+export type DRIFApplicationWithdrawApplicationClientResult = NonNullable<ApplicationResult>
 export type DRIFApplicationGetFPClientResult = NonNullable<DraftFpApplication>
 export type DRIFApplicationUpdateFPApplicationClientResult = NonNullable<ApplicationResult>
 export type DRIFApplicationCreateFPFromEOIClientResult = NonNullable<ApplicationResult>
 export type DRIFApplicationSubmitFPApplicationClientResult = NonNullable<ApplicationResult>
+export type DRIFApplicationWithdrawFPApplicationClientResult = NonNullable<ApplicationResult>

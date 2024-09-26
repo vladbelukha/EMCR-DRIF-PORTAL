@@ -280,6 +280,16 @@ export class ClimateAdaptationForm {
   @prop()
   climateAdaptation?: string;
 
+  @prop()
+  @required()
+  climateAssessment?: boolean;
+
+  @prop()
+  climateAssessmentTools?: string[] = [];
+
+  @prop()
+  climateAssessmentComments?: string;
+
   constructor(values: ClimateAdaptationForm) {
     Object.assign(this, values);
   }
