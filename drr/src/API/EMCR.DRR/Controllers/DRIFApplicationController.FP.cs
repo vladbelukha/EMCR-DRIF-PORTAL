@@ -71,6 +71,23 @@ namespace EMCR.DRR.Controllers
                 return errorParser.Parse(e, logger);
             }
         }
+
+        [HttpPost("fp/{id}/withdraw")]
+        public async Task<ActionResult<ApplicationResult>> WithdrawFPApplication([FromBody] EoiApplication application, string id)
+        {
+            try
+            {
+                application.Id = id;
+                application.Status = SubmissionPortalStatus.Withdrawn;
+                await Task.CompletedTask;
+
+                return Ok(new ApplicationResult { Id = id });
+            }
+            catch (Exception e)
+            {
+                return errorParser.Parse(e, logger);
+            }
+        }
     }
 
 
