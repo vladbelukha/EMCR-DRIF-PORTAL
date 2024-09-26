@@ -67,6 +67,7 @@
   "projectTitle": "Project Title",
   "projectTitleText": "What is the title of the Project?",
   "projectType": "Project Type",
+  "stream": "Stream",
   "projectTypeText": "What is the main deliverable of this project? Please see section 3.1 of the Program Guide for guidance on this question.",
   "relatedHazards": "Related Hazard(s) (select all that apply):",
   "relatedHazardsSummary": "Related Hazard(s)",
