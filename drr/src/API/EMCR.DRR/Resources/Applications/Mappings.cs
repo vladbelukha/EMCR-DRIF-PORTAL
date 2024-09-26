@@ -141,6 +141,7 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.drr_describeriskincreasedortransferred, opt => opt.MapFrom(src => src.TransferRisksComments))
 
                 //Budget - 10
+                .ForMember(dest => dest.drr_eligibleamount, opt => opt.MapFrom(src => src.EligibleFundingRequest))
                 .ForMember(dest => dest.drr_drr_application_drr_driffundingrequest_Application, opt => opt.MapFrom(src => src.YearOverYearFunding))
                 .ForMember(dest => dest.drr_totaldrifprogramfundingrequest, opt => opt.MapFrom(src => src.TotalDrifFundingRequest))
                 .ForMember(dest => dest.drr_explaindiscrepancy, opt => opt.MapFrom(src => src.DiscrepancyComment))
@@ -286,6 +287,7 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.TransferRisks, opt => opt.Ignore())
                 .ForMember(dest => dest.TransferRisksComments, opt => opt.MapFrom(src => src.drr_describeriskincreasedortransferred))
                 //Budget - 10
+                .ForMember(dest => dest.EligibleFundingRequest, opt => opt.MapFrom(src => src.drr_eligibleamount))
                 .ForMember(dest => dest.YearOverYearFunding, opt => opt.MapFrom(src => src.drr_drr_application_drr_driffundingrequest_Application))
                 .ForMember(dest => dest.TotalDrifFundingRequest, opt => opt.MapFrom(src => src.drr_totaldrifprogramfundingrequest))
                 .ForMember(dest => dest.DiscrepancyComment, opt => opt.MapFrom(src => src.drr_explaindiscrepancy))

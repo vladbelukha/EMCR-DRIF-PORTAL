@@ -291,6 +291,8 @@ namespace EMCR.DRR.Controllers
         public string? TransferRisksComments { get; set; }
 
         //Budget - 10
+        [Range(0, ApplicationValidators.FUNDING_MAX_VAL)]
+        public decimal? EligibleFundingRequest { get; set; }
         public IEnumerable<YearOverYearFunding>? YearOverYearFunding { get; set; }
         [Range(0, ApplicationValidators.FUNDING_MAX_VAL)]
         public decimal? TotalDrifFundingRequest { get; set; }
@@ -300,7 +302,6 @@ namespace EMCR.DRR.Controllers
         public YesNoOption? PreviousResponse { get; set; }
         public decimal? PreviousResponseCost { get; set; }
         public string? PreviousResponseComments { get; set; }
-        public string? ActivityCostEffectiveness { get; set; }
         public bool? CostConsiderationsApplied { get; set; }
         public IEnumerable<string>? CostConsiderations { get; set; }
         public string? CostConsiderationsComments { get; set; }
