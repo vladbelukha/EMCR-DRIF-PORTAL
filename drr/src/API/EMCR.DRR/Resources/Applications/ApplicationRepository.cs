@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EMCR.DRR.API.Services;
 using EMCR.DRR.Dynamics;
 using EMCR.DRR.Managers.Intake;
 using Microsoft.Dynamics.CRM;
@@ -105,6 +106,8 @@ namespace EMCR.DRR.Resources.Applications
                 .Expand(a => a.drr_drr_application_drr_criticalinfrastructureimpacted_Application)
                 .Where(a => a.drr_name == application.Id)
                 .SingleOrDefaultAsync();
+
+            if (currentApplication == null) throw new NotFoundException("Application not found");
 
             var partnerAccounts = (await ctx.connections.Expand(c => c.record2id_account).Where(c => c.record1id_drr_application.drr_applicationid == currentApplication.drr_applicationid).GetAllPagesAsync()).Select(p => p.record2id_account).ToList();
             ctx.DetachAll();
@@ -288,7 +291,7 @@ namespace EMCR.DRR.Resources.Applications
         {
             foreach (var infrastructure in application.drr_drr_application_drr_criticalinfrastructureimpacted_Application)
             {
-                if (infrastructure != null)
+                if (infrastructure != null && !string.IsNullOrEmpty(infrastructure.drr_name))
                 {
                     drrContext.AddTodrr_criticalinfrastructureimpacteds(infrastructure);
                     drrContext.AddLink(application, nameof(application.drr_drr_application_drr_criticalinfrastructureimpacted_Application), infrastructure);

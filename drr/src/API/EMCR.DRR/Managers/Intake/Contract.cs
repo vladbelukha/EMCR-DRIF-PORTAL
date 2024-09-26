@@ -85,6 +85,7 @@ namespace EMCR.DRR.Managers.Intake
         //Funding Information
         public decimal? EstimatedTotal { get; set; }
         public decimal? FundingRequest { get; set; }
+        public bool? HaveOtherFunding { get; set; }
         public IEnumerable<FundingInformation> OtherFunding { get; set; }
         public decimal? RemainingAmount { get; set; }
         public string? IntendToSecureFunding { get; set; }

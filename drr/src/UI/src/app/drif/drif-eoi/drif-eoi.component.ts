@@ -5,7 +5,12 @@ import {
 } from '@angular/cdk/stepper';
 import { CommonModule } from '@angular/common';
 import { Component, HostListener, ViewChild, inject } from '@angular/core';
-import { FormArray, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormArray,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -34,6 +39,7 @@ import {
   ApplicationResult,
   DraftEoiApplication,
   EoiApplication,
+  FundingType,
   Hazards,
 } from '../../../model';
 import { ProfileStore } from '../../store/profile.store';
@@ -203,6 +209,7 @@ export class EOIApplicationComponent {
               remainingAmount: application.remainingAmount,
               intendToSecureFunding: application.intendToSecureFunding,
               estimatedTotal: application.estimatedTotal,
+              haveOtherFunding: application.haveOtherFunding,
             },
             locationInformation: {
               ownershipDeclaration: application.ownershipDeclaration,
@@ -282,25 +289,31 @@ export class EOIApplicationComponent {
             fundingInformationItemFormArray.clear();
           }
           application.otherFunding?.forEach((funding) => {
-            fundingInformationItemFormArray?.push(
-              this.formBuilder.formGroup(
-                new FundingInformationItemForm(funding)
-              )
+            const fundingInformationItemForm = this.formBuilder.formGroup(
+              new FundingInformationItemForm(funding)
             );
+            if (funding.type === FundingType.OtherGrants) {
+              fundingInformationItemForm
+                .get('otherDescription')
+                ?.setValidators([Validators.required]);
+            }
+            fundingInformationItemFormArray?.push(fundingInformationItemForm);
           });
 
           const infrastructureImpactedArray = this.getFormGroup(
             'projectDetails'
           ).get('infrastructureImpactedArray') as FormArray;
-          if (application.infrastructureImpacted?.length! > 0) {
+          if (application.infrastructureImpacted?.some((i) => i)) {
             infrastructureImpactedArray.clear();
           }
           application.infrastructureImpacted?.forEach((infrastructure) => {
-            infrastructureImpactedArray?.push(
-              this.formBuilder.formGroup(
-                new StringItem({ value: infrastructure })
-              )
-            );
+            if (infrastructure) {
+              infrastructureImpactedArray?.push(
+                this.formBuilder.formGroup(
+                  new StringItem({ value: infrastructure })
+                )
+              );
+            }
           });
 
           this.eoiApplicationForm.markAsPristine();
@@ -460,31 +473,33 @@ export class EOIApplicationComponent {
     if (this.isEditMode) {
       this.applicationService
         .dRIFApplicationSubmitApplication2(this.id!, drifEoiApplication)
-        .subscribe(
-          (response) => {
-            this.hotToast.close();
-            this.router.navigate(['/dashboard']);
-          },
-          (error) => {
-            this.hotToast.close();
-            this.hotToast.error('Failed to submit application');
-          }
-        );
+        .subscribe({
+          next: this.onSubmitSuccess,
+          error: this.onSubmitFailure,
+        });
     } else {
       this.applicationService
         .dRIFApplicationSubmitApplication(drifEoiApplication)
-        .subscribe(
-          (response) => {
-            this.hotToast.close();
-            this.router.navigate(['/success']);
-          },
-          (error) => {
-            this.hotToast.close();
-            this.hotToast.error('Failed to submit application');
-          }
-        );
+        .subscribe({
+          next: this.onSubmitSuccess,
+          error: this.onSubmitFailure,
+        });
     }
   }
+
+  onSubmitSuccess = (response: ApplicationResult) => {
+    this.hotToast.close();
+    this.hotToast.success('Application submitted successfully', {
+      autoClose: true,
+      duration: 5000,
+    });
+    this.router.navigate(['/dashboard']);
+  };
+
+  onSubmitFailure = () => {
+    this.hotToast.close();
+    this.hotToast.error('Failed to submit application');
+  };
 
   goBack() {
     this.router.navigate(['/dashboard']);

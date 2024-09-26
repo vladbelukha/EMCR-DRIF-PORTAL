@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Net.Mime;
 using System.Security.Claims;
 using System.Text.Json.Serialization;
@@ -54,8 +53,16 @@ namespace EMCR.DRR.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<DraftEoiApplication>> Get(string id)
         {
-            var application = (await intakeManager.Handle(new DrrApplicationsQuery { Id = id, BusinessId = GetCurrentBusinessId() })).Items.FirstOrDefault();
-            return Ok(mapper.Map<DraftEoiApplication>(application));
+            try
+            {
+                var application = (await intakeManager.Handle(new DrrApplicationsQuery { Id = id, BusinessId = GetCurrentBusinessId() })).Items.FirstOrDefault();
+                if (application == null) return NotFound();
+                return Ok(mapper.Map<DraftEoiApplication>(application));
+            }
+            catch (Exception e)
+            {
+                return errorParser.Parse(e);
+            }
         }
 
         [HttpGet("Declarations")]
@@ -88,7 +95,7 @@ namespace EMCR.DRR.Controllers
                 var drr_id = await intakeManager.Handle(new DrifEoiSaveApplicationCommand { application = mapper.Map<EoiApplication>(application), UserInfo = GetCurrentUser() });
                 return Ok(new ApplicationResult { Id = drr_id });
             }
-            catch (DrrApplicationException e)
+            catch (Exception e)
             {
                 return errorParser.Parse(e);
             }
@@ -105,7 +112,7 @@ namespace EMCR.DRR.Controllers
                 var drr_id = await intakeManager.Handle(new DrifEoiSubmitApplicationCommand { application = application, UserInfo = GetCurrentUser() });
                 return Ok(new ApplicationResult { Id = drr_id });
             }
-            catch (DrrApplicationException e)
+            catch (Exception e)
             {
                 return errorParser.Parse(e);
             }
@@ -123,7 +130,7 @@ namespace EMCR.DRR.Controllers
                 var drr_id = await intakeManager.Handle(new DrifEoiSubmitApplicationCommand { application = application, UserInfo = GetCurrentUser() });
                 return Ok(new ApplicationResult { Id = drr_id });
             }
-            catch (DrrApplicationException e)
+            catch (Exception e)
             {
                 return errorParser.Parse(e);
             }
@@ -207,6 +214,7 @@ namespace EMCR.DRR.Controllers
         public decimal? EstimatedTotal { get; set; }
         [Range(0, ApplicationValidators.FUNDING_MAX_VAL)]
         public decimal? FundingRequest { get; set; }
+        public bool? HaveOtherFunding { get; set; }
         public IEnumerable<FundingInformation> OtherFunding { get; set; }
         public decimal? RemainingAmount { get; set; }
         public string? IntendToSecureFunding { get; set; }

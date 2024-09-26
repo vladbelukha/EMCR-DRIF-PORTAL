@@ -22,6 +22,7 @@ import {
 import { distinctUntilChanged } from 'rxjs';
 import { FundingType } from '../../../model';
 
+import { MatRadioModule } from '@angular/material/radio';
 import { DrrCurrencyInputComponent } from '../../shared/controls/drr-currency-input/drr-currency-input.component';
 import { DrrInputComponent } from '../../shared/controls/drr-input/drr-input.component';
 import { DrrSelectComponent } from '../../shared/controls/drr-select/drr-select.component';
@@ -30,6 +31,7 @@ import {
   FundingInformationForm,
   FundingInformationItemForm,
 } from '../drif-eoi/drif-eoi-form';
+import { DrrFundingListComponent } from '../drr-funding-list/drr-funding-list.component';
 
 @Component({
   selector: 'drif-eoi-step-3',
@@ -43,11 +45,13 @@ import {
     MatInputModule,
     MatIconModule,
     MatSelectModule,
+    MatRadioModule,
     TranslocoModule,
     DrrTextareaComponent,
     DrrInputComponent,
     DrrSelectComponent,
     DrrCurrencyInputComponent,
+    DrrFundingListComponent,
   ],
   templateUrl: './drif-eoi-step-3.component.html',
   styleUrl: './drif-eoi-step-3.component.scss',
@@ -83,6 +87,26 @@ export class DrifEoiStep3Component {
       .valueChanges.pipe(distinctUntilChanged())
       .subscribe(() => {
         this.calculateRemainingAmount();
+      });
+
+    if (this.fundingInformationForm.get('haveOtherFunding')?.value !== true) {
+      this.getFormArray('otherFunding').clear();
+      this.getFormArray('otherFunding').disable();
+    }
+    this.fundingInformationForm
+      .get('haveOtherFunding')
+      ?.valueChanges.subscribe((value) => {
+        if (value) {
+          this.getFormArray('otherFunding').enable();
+          if (this.getFormArray('otherFunding').length === 0) {
+            this.getFormArray('otherFunding').push(
+              this.formBuilder.formGroup(FundingInformationItemForm)
+            );
+          }
+        } else {
+          this.getFormArray('otherFunding').clear();
+          this.getFormArray('otherFunding').disable();
+        }
       });
 
     this.breakpointObserver

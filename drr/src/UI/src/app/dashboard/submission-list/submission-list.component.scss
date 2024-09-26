@@ -27,3 +27,10 @@
   font-size: 1.5rem;
   color: #ccc;
 }
+
+:host {
+  ::ng-deep .mat-mdc-table .mat-mdc-header-cell {
+    background: #e8f3ff;
+    font-weight: bold;
+  }
+}

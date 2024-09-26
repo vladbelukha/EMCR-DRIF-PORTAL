@@ -13,6 +13,7 @@
   "stepError": "Missing fields",
   "next": "Next",
   "back": "Back",
+  "exitForm": "Exit Form",
   "submit": "Submit",
   "proponentType": "Primary Proponent",
   "FirstNation": "First Nation",
@@ -158,7 +159,7 @@
     "fundingRequest": "Funding Request",
     "modified": "Modified On",
     "submitted": "Submitted On",
-    "partneringProponent": "Partnering Proponent",
+    "partneringProponent": "Partnering Proponent(s)",
     "action": "Action"
   }
 }
