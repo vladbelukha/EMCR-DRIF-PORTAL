@@ -150,7 +150,6 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.drr_pastresponsecostprojectdesignedtomitigate, opt => opt.MapFrom(src => src.PreviousResponse.HasValue ? (int?)Enum.Parse<DRRYesNoNotApplicable>(src.PreviousResponse.Value.ToString()) : null))
                 .ForMember(dest => dest.drr_cost, opt => opt.MapFrom(src => src.PreviousResponseCost))
                 //PreviousResponseComments
-                .ForMember(dest => dest.drr_stepstakentobecosteffective, opt => opt.MapFrom(src => src.ActivityCostEffectiveness))
                 .ForMember(dest => dest.drr_costconsiderationsapply, opt => opt.MapFrom(src => src.CostConsiderationsApplied.HasValue && src.CostConsiderationsApplied.Value ? DRRTwoOptions.Yes : DRRTwoOptions.No))
                 //CostConsiderations
                 .ForMember(dest => dest.drr_explaincostconsiderations, opt => opt.MapFrom(src => src.CostConsiderationsComments))
@@ -296,7 +295,6 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.PreviousResponse, opt => opt.MapFrom(src => src.drr_pastresponsecostprojectdesignedtomitigate.HasValue ? (int?)Enum.Parse<YesNoOption>(((DRRYesNoNotApplicable)src.drr_pastresponsecostprojectdesignedtomitigate).ToString()) : null))
                 .ForMember(dest => dest.PreviousResponseCost, opt => opt.MapFrom(src => src.drr_cost))
                 .ForMember(dest => dest.PreviousResponseComments, opt => opt.Ignore())
-                .ForMember(dest => dest.ActivityCostEffectiveness, opt => opt.MapFrom(src => src.drr_stepstakentobecosteffective))
                 .ForMember(dest => dest.CostConsiderationsApplied, opt => opt.MapFrom(src => src.drr_costconsiderationsapply.HasValue ? src.drr_costconsiderationsapply.Value == (int)DRRTwoOptions.Yes : (bool?)null))
                 .ForMember(dest => dest.CostConsiderations, opt => opt.Ignore())
                 .ForMember(dest => dest.CostConsiderationsComments, opt => opt.MapFrom(src => src.drr_explaincostconsiderations))
