@@ -33,7 +33,7 @@ services.AddTransient<IUserService, UserService>();
 services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 services.AddAutoMapper(typeof(ApplicationMapperProfile));
 services.AddAutoMapper(typeof(IntakeMapperProfile));
-services.AddScoped(sp =>
+services.AddSingleton(sp =>
 {
     var dynamicsApiEndpoint = configuration.GetValue<string>("Dynamics:DynamicsApiEndpoint");
     var tokenProvider = sp.GetRequiredService<ISecurityTokenProvider>();

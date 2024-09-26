@@ -36,6 +36,7 @@ namespace EMCR.DRR.Managers.Intake
         public IEnumerable<string>? FiscalYears { get; set; } = Array.Empty<string>();
         public IEnumerable<string>? Professionals { get; set; } = Array.Empty<string>();
         public IEnumerable<string>? IncreasedResiliency { get; set; } = Array.Empty<string>();
+        public IEnumerable<string>? ClimateAssessmentToolOptions { get; set; } = new[] { "Test1", "Test2" };
     }
 
     public class DeclarationInfo

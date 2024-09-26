@@ -243,6 +243,9 @@ namespace EMCR.DRR.Controllers
 
         //Climate Adaptation - 6
         public bool? IncorporateFutureClimateConditions { get; set; }
+        public bool? ClimateAssessment{ get; set; }
+        public IEnumerable<string>? ClimateAssessmentTools { get; set; }
+        public string? ClimateAssessmentComments { get; set; }
 
         //Permits Regulations & Standards - 7
         public bool? Approvals { get; set; }
