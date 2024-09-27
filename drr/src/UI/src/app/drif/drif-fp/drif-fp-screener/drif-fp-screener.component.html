@@ -111,19 +111,17 @@
   </ol>
   <div *ngIf="allQuestionsAnswered()" class="screener-results">
     @if (hasNegativeAnswers()) {
-    <mat-card>
-      <div class="screener-results">
-        <mat-icon style="color: #f9ca54">warning</mat-icon>
-        <i>{{ t("hasNegativeAnswers") }}</i>
-      </div>
-    </mat-card>
+    <drr-alert
+      class="screener-alert"
+      [type]="'warning'"
+      [message]="t('hasNegativeAnswers')"
+    ></drr-alert>
     } @else {
-    <mat-card>
-      <div class="screener-results">
-        <mat-icon style="color: #43893e">check_circle</mat-icon>
-        <i>{{ t("allAnswersPositive") }}</i>
-      </div>
-    </mat-card>
+    <drr-alert
+      class="screener-alert"
+      [type]="'success'"
+      [message]="t('allAnswersPositive')"
+    ></drr-alert>
     }
   </div>
   <div class="screener-footer">

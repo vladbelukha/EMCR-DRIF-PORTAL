@@ -446,6 +446,12 @@ export class DrifFpComponent {
             ?.addValidators(Validators.required);
         }
 
+        if (response.regionalProject === true) {
+          this.getFormGroup('proponentAndProjectInformation')
+            .get('regionalProjectComments')
+            ?.addValidators(Validators.required);
+        }
+
         const standardsFormArray = this.getFormGroup(
           'permitsRegulationsAndStandards'
         ).get('standards') as FormArray;
