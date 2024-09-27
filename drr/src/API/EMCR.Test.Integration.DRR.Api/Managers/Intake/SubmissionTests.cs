@@ -570,7 +570,6 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             application.PreviousResponse = EMCR.DRR.Controllers.YesNoOption.No;
             application.PreviousResponseCost = 1200;
             application.PreviousResponseComments = "previous response comments";
-            application.ActivityCostEffectiveness = "very effective";
             application.CostConsiderationsApplied = true;
             application.CostConsiderations = new[] { "cost consideration 1", "cost consideration 2" };
             application.CostConsiderationsComments = "cost consideration comments";

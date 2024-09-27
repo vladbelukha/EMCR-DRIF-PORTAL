@@ -266,7 +266,6 @@ namespace EMCR.DRR.Managers.Intake
         public YesNoOption? PreviousResponse { get; set; }
         public decimal? PreviousResponseCost { get; set; }
         public string? PreviousResponseComments { get; set; }
-        public string? ActivityCostEffectiveness { get; set; }
         public bool? CostConsiderationsApplied { get; set; }
         public IEnumerable<string>? CostConsiderations { get; set; }
         public string? CostConsiderationsComments { get; set; }
