@@ -70,10 +70,13 @@ export class SubmissionListComponent {
     value,
     label: this.translocoService.translate(value),
   }));
-  statusOptions = Object.values(SubmissionPortalStatus).map((value) => ({
-    value,
-    label: this.translocoService.translate(value),
-  }));
+  statusOptions = Object.values(SubmissionPortalStatus)
+    .filter((status) => status !== SubmissionPortalStatus.ApprovedInPrinciple)
+    .map((value) => ({
+      value,
+      label: this.translocoService.translate(value),
+    }))
+    .sort((a, b) => a.label.localeCompare(b.label));
 
   filterApplied = false;
   filterForm = this.formbuilder.formGroup(SubmissionFilter);
@@ -102,7 +105,7 @@ export class SubmissionListComponent {
   };
   sort: Sort = {
     active: 'id',
-    direction: 'desc',
+    direction: 'asc',
   };
 
   ngOnInit() {
@@ -142,7 +145,7 @@ export class SubmissionListComponent {
   onSortSubmissionTable(sort: Sort) {
     if (sort.direction === '') {
       this.sort.active = 'id';
-      this.sort.direction = 'desc';
+      this.sort.direction = 'asc';
     } else {
       this.sort = sort;
     }
@@ -235,7 +238,7 @@ export class SubmissionListComponent {
   }
 
   applyFilters() {
-    if (this.filterForm.untouched) {
+    if (this.filterForm.pristine) {
       return;
     }
 
@@ -245,12 +248,13 @@ export class SubmissionListComponent {
   }
 
   clearFilters() {
-    if (this.filterForm.untouched) {
+    if (this.filterForm.pristine) {
       return;
     }
 
     this.paginator.pageIndex = 0;
     this.filterForm.reset({ emitEvent: false });
+    this.filterForm.markAsPristine();
     this.filterApplied = false;
     this.load();
   }

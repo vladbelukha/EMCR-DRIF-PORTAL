@@ -16,9 +16,10 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { IFormGroup, RxFormControl } from '@rxweb/reactive-form-validators';
 import { distinctUntilChanged } from 'rxjs';
-import { Hazards } from '../../../../model';
+import { Hazards, ProjectType } from '../../../../model';
 import { DrrDatepickerComponent } from '../../../shared/controls/drr-datepicker/drr-datepicker.component';
 import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
+import { DrrRadioButtonComponent } from '../../../shared/controls/drr-radio-button/drr-radio-button.component';
 import { DrrSelectComponent } from '../../../shared/controls/drr-select/drr-select.component';
 import { ProjectInformationForm } from '../drif-eoi-form';
 
@@ -40,6 +41,7 @@ import { ProjectInformationForm } from '../drif-eoi-form';
     DrrInputComponent,
     DrrSelectComponent,
     DrrDatepickerComponent,
+    DrrRadioButtonComponent,
   ],
   templateUrl: './drif-eoi-step-2.component.html',
   styleUrl: './drif-eoi-step-2.component.scss',
@@ -53,6 +55,11 @@ export class DrifEoiStep2Component {
   minStartDate = new Date();
 
   hazardsOptions = Object.values(Hazards).map((value) => ({
+    value,
+    label: this.translocoService.translate(value),
+  }));
+
+  streamOptions = Object.values(ProjectType).map((value) => ({
     value,
     label: this.translocoService.translate(value),
   }));

@@ -95,17 +95,45 @@
     </div>
 
     <mat-label class="drr-label" style="margin-top: 1rem">{{
-      t("verification")
+      t("rationaleForSolution")
     }}</mat-label>
     <drr-chip-autocomplete
-      [label]="t('verificationMethods')"
+      [label]="t('rationaleForSolutionText')"
       [rxFormControl]="projectPlanForm.get('verificationMethods')"
       [options]="verificationMethodOptions"
     ></drr-chip-autocomplete>
     <drr-textarea
       [label]="t('verificationMethodsComments')"
       [maxlength]="2000"
-      [rxFormControl]="projectPlanForm.get('verificationMethodsComments')"
+      [rxFormControl]="projectPlanForm.get('rationaleForSolution')"
+    ></drr-textarea>
+
+    <mat-label class="drr-label" style="margin-top: 1rem">{{
+      t("mitigation")
+    }}</mat-label>
+    <drr-textarea
+      [label]="t('addressRisksAndHazards')"
+      [maxlength]="2000"
+      [rxFormControl]="projectPlanForm.get('addressRisksAndHazards')"
+    >
+    </drr-textarea>
+
+    <mat-label class="drr-label" style="margin-top: 1rem">{{
+      t("disasterRiskReduction")
+    }}</mat-label>
+    <drr-textarea
+      [label]="t('disasterRiskUnderstanding')"
+      [maxlength]="2000"
+      [rxFormControl]="projectPlanForm.get('disasterRiskUnderstanding')"
+    ></drr-textarea>
+
+    <mat-label class="drr-label" style="margin-top: 1rem">{{
+      t("rationaleForFunding")
+    }}</mat-label>
+    <drr-textarea
+      [label]="t('rationaleForFundingText')"
+      [maxlength]="2000"
+      [rxFormControl]="projectPlanForm.get('rationaleForFunding')"
     ></drr-textarea>
 
     <mat-label class="drr-label">{{ t("projectAlternates") }}</mat-label>

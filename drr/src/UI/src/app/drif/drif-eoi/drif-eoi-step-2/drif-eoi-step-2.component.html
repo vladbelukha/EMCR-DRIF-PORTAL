@@ -36,23 +36,11 @@
       [maxlength]="100"
     ></drr-input>
 
-    <mat-label class="drr-label">{{ t("projectType") }}*</mat-label>
-    <mat-radio-group
-      id="projectType"
-      class="drr-radio-group"
-      aria-label="Select an option"
-      formControlName="projectType"
-    >
-      <mat-error
-        *ngIf="
-          projectInformationForm.get('projectType')?.touched &&
-          projectInformationForm.get('projectType')?.hasError('required')
-        "
-        >{{ t("required") }}</mat-error
-      >
-      <mat-radio-button value="New">{{ t("New") }}</mat-radio-button>
-      <mat-radio-button value="Existing">{{ t("Existing") }}</mat-radio-button>
-    </mat-radio-group>
+    <mat-label class="drr-label">{{ t("stream") }}*</mat-label>
+    <drr-radio-button
+      [rxFormControl]="getFormControl('stream')"
+      [options]="streamOptions"
+    ></drr-radio-button>
     <mat-label class="drr-label">{{ t("relatedHazards") }}</mat-label>
 
     <drr-select

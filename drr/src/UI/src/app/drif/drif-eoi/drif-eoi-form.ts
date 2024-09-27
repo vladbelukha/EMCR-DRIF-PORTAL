@@ -138,7 +138,7 @@ export class ProjectInformationForm {
 
   @prop()
   @required()
-  projectType?: ProjectType;
+  stream?: ProjectType;
 
   @prop()
   @required()

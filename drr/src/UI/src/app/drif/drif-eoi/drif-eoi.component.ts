@@ -194,7 +194,7 @@ export class EOIApplicationComponent {
               projectContact: application.projectContact,
             },
             projectInformation: {
-              projectType: application.projectType,
+              stream: application.projectType,
               projectTitle: application.projectTitle,
               scopeStatement: application.scopeStatement,
               fundingStream: application.fundingStream,

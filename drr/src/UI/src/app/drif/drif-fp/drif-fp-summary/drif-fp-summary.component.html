@@ -6,9 +6,7 @@
     </mat-card-header>
     <mat-card-content>
       <div>
-        <mat-label class="drr-label">{{
-          t("primaryProjectContact")
-        }}</mat-label>
+        <mat-label class="drr-label">{{ t("projectContact") }}</mat-label>
         <div class="summary-row">
           <drr-summary-item
             [label]="t('firstName')"
@@ -436,7 +434,7 @@
       </div>
 
       <drr-summary-item
-        [label]="t('verificationMethods')"
+        [label]="t('rationaleForSolutionText')"
         [rxFormControl]="
           fullProposalForm.get('projectPlan.verificationMethods')
         "
@@ -448,7 +446,31 @@
       <drr-summary-item
         [label]="t('verificationMethodsComments')"
         [rxFormControl]="
-          fullProposalForm.get('projectPlan.verificationMethodsComments')
+          fullProposalForm.get('projectPlan.rationaleForSolution')
+        "
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('addressRisksAndHazards')"
+        [rxFormControl]="
+          fullProposalForm.get('projectPlan.addressRisksAndHazards')
+        "
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('disasterRiskUnderstanding')"
+        [rxFormControl]="
+          fullProposalForm.get('projectPlan.disasterRiskUnderstanding')
+        "
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('rationaleForFundingText')"
+        [rxFormControl]="
+          fullProposalForm.get('projectPlan.rationaleForFunding')
         "
       >
       </drr-summary-item>
@@ -548,6 +570,39 @@
         [label]="t('climateAdaptationText')"
         [rxFormControl]="
           fullProposalForm.get('climateAdaptation.climateAdaptation')
+        "
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('climateAssessment')"
+        [rxFormControl]="
+          fullProposalForm.get('climateAdaptation.climateAssessment')
+        "
+        controlType="radio"
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        *ngIf="
+          fullProposalForm.get('climateAdaptation.climateAssessment')?.value
+        "
+        [label]="t('climateAssessmentToolsText')"
+        [rxFormControl]="
+          fullProposalForm.get('climateAdaptation.climateAssessmentTools')
+        "
+        controlType="array"
+        [translate]="false"
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        *ngIf="
+          fullProposalForm.get('climateAdaptation.climateAssessment')?.value
+        "
+        [label]="t('climateAssessmentComments')"
+        [rxFormControl]="
+          fullProposalForm.get('climateAdaptation.climateAssessmentComments')
         "
       >
       </drr-summary-item>
@@ -982,12 +1037,6 @@
       </drr-summary-item>
 
       <drr-summary-item
-        [label]="t('costEffectiveQuestion')"
-        [rxFormControl]="fullProposalForm.get('budget.costEffective')"
-        controlType="radio"
-      ></drr-summary-item>
-
-      <drr-summary-item
         [label]="t('costEffectiveComments')"
         [rxFormControl]="fullProposalForm.get('budget.costEffectiveComments')"
       ></drr-summary-item>
@@ -1009,13 +1058,6 @@
         [label]="t('previousResponseComments')"
         [rxFormControl]="
           fullProposalForm.get('budget.previousResponseComments')
-        "
-      ></drr-summary-item>
-
-      <drr-summary-item
-        [label]="t('activityCostEffectiveness')"
-        [rxFormControl]="
-          fullProposalForm.get('budget.activityCostEffectiveness')
         "
       ></drr-summary-item>
 

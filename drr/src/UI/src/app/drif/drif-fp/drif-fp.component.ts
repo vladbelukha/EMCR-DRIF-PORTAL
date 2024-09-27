@@ -241,7 +241,10 @@ export class DrifFpComponent {
             projectDescription: response.projectDescription,
             proposedActivities: response.proposedActivities,
             verificationMethods: response.verificationMethods,
-            verificationMethodsComments: response.verificationMethodsComments,
+            addressRisksAndHazards: response.addressRisksAndHazards,
+            disasterRiskUnderstanding: response.disasterRiskUnderstanding,
+            rationaleForFunding: response.rationaleForFunding,
+            rationaleForSolution: response.rationaleForSolution,
           },
           projectEngagement: {
             affectedParties: response.affectedParties,
@@ -257,6 +260,9 @@ export class DrifFpComponent {
             incorporateFutureClimateConditions:
               response.incorporateFutureClimateConditions,
             climateAdaptation: response.climateAdaptation,
+            climateAssessment: response.climateAssessment,
+            climateAssessmentComments: response.climateAssessmentComments,
+            climateAssessmentTools: response.climateAssessmentTools,
           },
           permitsRegulationsAndStandards: {
             meetsRegulatoryRequirements: response.meetsRegulatoryRequirements,
@@ -301,16 +307,14 @@ export class DrifFpComponent {
           },
           budget: {
             haveOtherFunding: response.haveOtherFunding,
-            estimatedTotal: response.estimatedTotal,
+            eligibleFundingRequest: response.eligibleFundingRequest,
             fundingRequest: response.fundingRequest,
             remainingAmount: response.remainingAmount,
             discrepancyComment: response.discrepancyComment,
             totalDrifFundingRequest: response.totalDrifFundingRequest,
-            activityCostEffectiveness: response.activityCostEffectiveness,
             costConsiderations: response.costConsiderations,
             costConsiderationsApplied: response.costConsiderationsApplied,
             costConsiderationsComments: response.costConsiderationsComments,
-            costEffective: response.costEffective,
             costEffectiveComments: response.costEffectiveComments,
             previousResponse: response.previousResponse,
             previousResponseComments: response.previousResponseComments,
@@ -395,18 +399,25 @@ export class DrifFpComponent {
           );
         });
 
-        const fundingInformationItemFormArray = this.getFormGroup('budget').get(
+        const otherFundingArray = this.getFormGroup('budget').get(
           'otherFunding'
         ) as FormArray;
-        if (response.otherFunding?.length! > 0) {
-          fundingInformationItemFormArray.clear({ emitEvent: false });
+        if (response.haveOtherFunding) {
+          if (response.otherFunding?.length! > 0) {
+            otherFundingArray.clear({ emitEvent: false });
+          }
+          response.otherFunding?.forEach((funding) => {
+            otherFundingArray?.push(
+              this.formBuilder.formGroup(
+                new FundingInformationItemForm(funding)
+              ),
+              { emitEvent: false }
+            );
+          });
+        } else {
+          otherFundingArray?.clear();
+          otherFundingArray?.disable();
         }
-        response.otherFunding?.forEach((funding) => {
-          fundingInformationItemFormArray?.push(
-            this.formBuilder.formGroup(new FundingInformationItemForm(funding)),
-            { emitEvent: false }
-          );
-        });
 
         const yearOverYearFormArray = this.getFormGroup('budget').get(
           'yearOverYearFunding'
@@ -425,6 +436,13 @@ export class DrifFpComponent {
           this.fullProposalForm
             .get('permitsRegulationsAndStandards')
             ?.get('professionals')
+            ?.addValidators(Validators.required);
+        }
+
+        if (response.climateAssessment === true) {
+          this.fullProposalForm
+            .get('climateAdaptation')
+            ?.get('climateAssessmentTools')
             ?.addValidators(Validators.required);
         }
 
@@ -464,6 +482,51 @@ export class DrifFpComponent {
 
           standardsFormArray?.push(standardInfoForm, { emitEvent: false });
         });
+
+        if (response.complexityRiskMitigated === true) {
+          this.getFormGroup('projectRisks')
+            .get('complexityRisks')
+            ?.addValidators(Validators.required);
+          this.getFormGroup('projectRisks')
+            .get('complexityRiskComments')
+            ?.addValidators(Validators.required);
+        }
+
+        if (response.readinessRiskMitigated === true) {
+          this.getFormGroup('projectRisks')
+            .get('readinessRisks')
+            ?.addValidators(Validators.required);
+          this.getFormGroup('projectRisks')
+            .get('readinessRiskComments')
+            ?.addValidators(Validators.required);
+        }
+
+        if (response.sensitivityRiskMitigated === true) {
+          this.getFormGroup('projectRisks')
+            .get('sensitivityRisks')
+            ?.addValidators(Validators.required);
+          this.getFormGroup('projectRisks')
+            .get('sensitivityRiskComments')
+            ?.addValidators(Validators.required);
+        }
+
+        if (response.capacityRiskMitigated === true) {
+          this.getFormGroup('projectRisks')
+            .get('capacityRisks')
+            ?.addValidators(Validators.required);
+          this.getFormGroup('projectRisks')
+            .get('capacityRiskComments')
+            ?.addValidators(Validators.required);
+        }
+
+        if (response.riskTransferMigigated === true) {
+          this.getFormGroup('projectRisks')
+            .get('transferRisks')
+            ?.addValidators(Validators.required);
+          this.getFormGroup('projectRisks')
+            .get('transferRisksComments')
+            ?.addValidators(Validators.required);
+        }
 
         this.fullProposalForm.markAsPristine();
         this.formChanged = false;

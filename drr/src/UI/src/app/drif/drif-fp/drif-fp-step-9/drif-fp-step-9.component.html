@@ -6,12 +6,14 @@
       [rxFormControl]="projectRisksForm.get('complexityRiskMitigated')"
     ></drr-radio-button>
     <drr-chip-autocomplete
+      *ngIf="projectRisksForm.get('complexityRiskMitigated')?.value === true"
       [label]="t('complexityRisks')"
       [placeholder]="t('complexityRisksPlaceholder')"
       [options]="complexityRiskOptions"
       [rxFormControl]="projectRisksForm.get('complexityRisks')"
     ></drr-chip-autocomplete>
     <drr-textarea
+      *ngIf="projectRisksForm.get('complexityRiskMitigated')?.value === true"
       [label]="t('complexityRiskComments')"
       [maxlength]="2000"
       [rxFormControl]="projectRisksForm.get('complexityRiskComments')"
@@ -23,12 +25,14 @@
       [rxFormControl]="projectRisksForm.get('readinessRiskMitigated')"
     ></drr-radio-button>
     <drr-chip-autocomplete
+      *ngIf="projectRisksForm.get('readinessRiskMitigated')?.value === true"
       [label]="t('readinessRisks')"
       [placeholder]="t('readinessRisksPlaceholder')"
       [options]="readinessRiskOptions"
       [rxFormControl]="projectRisksForm.get('readinessRisks')"
     ></drr-chip-autocomplete>
     <drr-textarea
+      *ngIf="projectRisksForm.get('readinessRiskMitigated')?.value === true"
       [label]="t('readinessRiskComments')"
       [maxlength]="2000"
       [rxFormControl]="projectRisksForm.get('readinessRiskComments')"
@@ -40,12 +44,14 @@
       [rxFormControl]="projectRisksForm.get('sensitivityRiskMitigated')"
     ></drr-radio-button>
     <drr-chip-autocomplete
+      *ngIf="projectRisksForm.get('sensitivityRiskMitigated')?.value === true"
       [label]="t('sensitivityRisks')"
       [placeholder]="t('sensitivityRisksPlaceholder')"
       [options]="sensitivityRiskOptions"
       [rxFormControl]="projectRisksForm.get('sensitivityRisks')"
     ></drr-chip-autocomplete>
     <drr-textarea
+      *ngIf="projectRisksForm.get('sensitivityRiskMitigated')?.value === true"
       [label]="t('sensitivityRiskComments')"
       [maxlength]="2000"
       [rxFormControl]="projectRisksForm.get('sensitivityRiskComments')"
@@ -57,12 +63,14 @@
       [rxFormControl]="projectRisksForm.get('capacityRiskMitigated')"
     ></drr-radio-button>
     <drr-chip-autocomplete
+      *ngIf="projectRisksForm.get('capacityRiskMitigated')?.value === true"
       [label]="t('capacityRisks')"
       [placeholder]="t('capacityRisksPlaceholder')"
       [options]="capacityRiskOptions"
       [rxFormControl]="projectRisksForm.get('capacityRisks')"
     ></drr-chip-autocomplete>
     <drr-textarea
+      *ngIf="projectRisksForm.get('capacityRiskMitigated')?.value === true"
       [label]="t('capacityRiskComments')"
       [maxlength]="2000"
       [rxFormControl]="projectRisksForm.get('capacityRiskComments')"
@@ -73,8 +81,12 @@
       [label]="t('riskTransferMigigated')"
       [rxFormControl]="projectRisksForm.get('riskTransferMigigated')"
     ></drr-radio-button>
-    <mat-label>{{ t("transferRisks") }}</mat-label>
+    <mat-label
+      *ngIf="projectRisksForm.get('riskTransferMigigated')?.value === true"
+      >{{ t("transferRisks") }}</mat-label
+    >
     <mat-selection-list
+      *ngIf="projectRisksForm.get('riskTransferMigigated')?.value === true"
       class="drr-single-input"
       [formControl]="getFormControl('transferRisks')"
     >
@@ -85,6 +97,7 @@
       }
     </mat-selection-list>
     <drr-textarea
+      *ngIf="projectRisksForm.get('riskTransferMigigated')?.value === true"
       [label]="t('transferRisksComments')"
       [maxlength]="2000"
       [rxFormControl]="projectRisksForm.get('transferRisksComments')"

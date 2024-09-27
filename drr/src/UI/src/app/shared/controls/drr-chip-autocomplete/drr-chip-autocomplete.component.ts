@@ -123,7 +123,6 @@ export class DrrChipAutocompleteComponent {
   }
 
   optionSelected(event: MatAutocompleteSelectedEvent) {
-    console.log('optionSelected');
     this.currentInputControl.setValue('');
 
     let value = event.option.viewValue;

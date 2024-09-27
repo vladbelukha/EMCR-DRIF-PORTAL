@@ -202,8 +202,7 @@ export class YearOverYearFundingForm {
 
 export class BudgetForm {
   @prop()
-  @required()
-  estimatedTotal?: number;
+  eligibleFundingRequest?: number;
 
   @prop()
   @required()
@@ -235,10 +234,6 @@ export class BudgetForm {
 
   @prop()
   @required()
-  costEffective?: boolean;
-
-  @prop()
-  @required()
   costEffectiveComments?: string;
 
   @prop()
@@ -249,11 +244,8 @@ export class BudgetForm {
   previousResponseCost?: number;
 
   @prop()
-  previousResponseComments?: string;
-
-  @prop()
   @required()
-  activityCostEffectiveness?: string;
+  previousResponseComments?: string;
 
   @prop()
   @required()
@@ -280,6 +272,16 @@ export class ClimateAdaptationForm {
   @prop()
   climateAdaptation?: string;
 
+  @prop()
+  @required()
+  climateAssessment?: boolean;
+
+  @prop()
+  climateAssessmentTools?: string[] = [];
+
+  @prop()
+  climateAssessmentComments?: string;
+
   constructor(values: ClimateAdaptationForm) {
     Object.assign(this, values);
   }
@@ -291,8 +293,6 @@ export class ProjectRisksForm {
   complexityRiskMitigated?: boolean;
 
   @prop()
-  @required()
-  @minLength({ value: 1 })
   complexityRisks?: string[];
 
   @prop()
@@ -303,8 +303,6 @@ export class ProjectRisksForm {
   readinessRiskMitigated?: boolean;
 
   @prop()
-  @required()
-  @minLength({ value: 1 })
   readinessRisks?: string[];
 
   @prop()
@@ -315,8 +313,6 @@ export class ProjectRisksForm {
   sensitivityRiskMitigated?: boolean;
 
   @prop()
-  @required()
-  @minLength({ value: 1 })
   sensitivityRisks?: string[];
 
   @prop()
@@ -327,8 +323,6 @@ export class ProjectRisksForm {
   capacityRiskMitigated?: boolean;
 
   @prop()
-  @required()
-  @minLength({ value: 1 })
   capacityRisks?: string[];
 
   @prop()
@@ -339,8 +333,6 @@ export class ProjectRisksForm {
   riskTransferMigigated?: boolean;
 
   @prop()
-  @required()
-  @minLength({ value: 1 })
   transferRisks?: string[];
 
   @prop()
@@ -441,7 +433,19 @@ export class ProjectPlanForm {
 
   @prop()
   @required()
-  verificationMethodsComments?: string;
+  rationaleForSolution?: string;
+
+  @prop()
+  @required()
+  addressRisksAndHazards?: string;
+
+  @prop()
+  @required()
+  disasterRiskUnderstanding?: string;
+
+  @prop()
+  @required()
+  rationaleForFunding?: string;
 
   @prop()
   @required()
