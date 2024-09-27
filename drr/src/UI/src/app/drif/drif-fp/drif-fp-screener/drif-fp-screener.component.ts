@@ -19,6 +19,7 @@ import {
   DrrRadioButtonComponent,
   RadioOption,
 } from '../../../shared/controls/drr-radio-button/drr-radio-button.component';
+import { DrrAlertComponent } from '../../../shared/drr-alert/drr-alert.component';
 import { ScreenerQuestionsForm } from './drif-fp-screener-form';
 import { DrifFpScreenerQuestionComponent } from './drif-fp-screener-question.component';
 
@@ -40,6 +41,7 @@ import { DrifFpScreenerQuestionComponent } from './drif-fp-screener-question.com
     MatDividerModule,
     DrrRadioButtonComponent,
     DrifFpScreenerQuestionComponent,
+    DrrAlertComponent,
   ],
   templateUrl: './drif-fp-screener.component.html',
   styleUrl: './drif-fp-screener.component.scss',
