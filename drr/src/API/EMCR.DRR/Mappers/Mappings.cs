@@ -77,6 +77,8 @@ namespace EMCR.DRR.API.Mappers
                     return SubmissionPortalStatus.UnderReview;
                 case Managers.Intake.ApplicationStatus.Withdrawn:
                     return SubmissionPortalStatus.Withdrawn;
+                case Managers.Intake.ApplicationStatus.Deleted:
+                    return SubmissionPortalStatus.Deleted;
                 default:
                     return SubmissionPortalStatus.Draft;
             }

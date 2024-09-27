@@ -92,14 +92,25 @@ namespace EMCR.DRR.Controllers
         }
 
         [HttpPost("eoi/{id}/withdraw")]
-        public async Task<ActionResult<ApplicationResult>> WithdrawApplication([FromBody] EoiApplication application, string id)
+        public async Task<ActionResult<ApplicationResult>> WithdrawApplication(string id)
         {
             try
             {
-                application.Id = id;
-                application.Status = SubmissionPortalStatus.Withdrawn;
-                await Task.CompletedTask;
+                await intakeManager.Handle(new WithdrawApplicationCommand { Id = id, UserInfo = GetCurrentUser() });
+                return Ok(new ApplicationResult { Id = id });
+            }
+            catch (Exception e)
+            {
+                return errorParser.Parse(e, logger);
+            }
+        }
 
+        [HttpDelete("eoi/{id}")]
+        public async Task<ActionResult<ApplicationResult>> DeleteApplication(string id)
+        {
+            try
+            {
+                await intakeManager.Handle(new DeleteApplicationCommand { Id = id, UserInfo = GetCurrentUser() });
                 return Ok(new ApplicationResult { Id = id });
             }
             catch (Exception e)

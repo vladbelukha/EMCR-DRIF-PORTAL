@@ -38,6 +38,8 @@ namespace EMCR.DRR.Managers.Intake
                 CreateFpFromEoiCommand c => await Handle(c),
                 FpSaveApplicationCommand c => await Handle(c),
                 FpSubmitApplicationCommand c => await Handle(c),
+                WithdrawApplicationCommand c => await Handle(c),
+                DeleteApplicationCommand c => await Handle(c),
                 _ => throw new NotSupportedException($"{cmd.GetType().Name} is not supported")
             };
         }
@@ -74,7 +76,7 @@ namespace EMCR.DRR.Managers.Intake
             application.BCeIDBusinessId = cmd.UserInfo.BusinessId;
             application.ProponentName = cmd.UserInfo.BusinessName;
             if (application.Submitter != null) application.Submitter.BCeId = cmd.UserInfo.UserId;
-            var id = (await applicationRepository.Manage(new SubmitApplication { Application = application })).Id;
+            var id = (await applicationRepository.Manage(new SaveApplication { Application = application })).Id;
             return id;
         }
 
@@ -87,7 +89,9 @@ namespace EMCR.DRR.Managers.Intake
             application.ProponentName = cmd.UserInfo.BusinessName;
             application.SubmittedDate = DateTime.UtcNow;
             if (application.Submitter != null) application.Submitter.BCeId = cmd.UserInfo.UserId;
-            var id = (await applicationRepository.Manage(new SubmitApplication { Application = application })).Id;
+            //TODO - add field validations
+
+            var id = (await applicationRepository.Manage(new SaveApplication { Application = application })).Id;
             return id;
         }
 
@@ -108,7 +112,7 @@ namespace EMCR.DRR.Managers.Intake
             application.BCeIDBusinessId = cmd.UserInfo.BusinessId;
             application.ProponentName = cmd.UserInfo.BusinessName;
             if (application.Submitter != null) application.Submitter.BCeId = cmd.UserInfo.UserId;
-            var id = (await applicationRepository.Manage(new SubmitApplication { Application = application })).Id;
+            var id = (await applicationRepository.Manage(new SaveApplication { Application = application })).Id;
             return id;
         }
 
@@ -121,7 +125,32 @@ namespace EMCR.DRR.Managers.Intake
             application.ProponentName = cmd.UserInfo.BusinessName;
             application.SubmittedDate = DateTime.UtcNow;
             if (application.Submitter != null) application.Submitter.BCeId = cmd.UserInfo.UserId;
-            var id = (await applicationRepository.Manage(new SubmitApplication { Application = application })).Id;
+            //TODO - add field validations
+
+            var id = (await applicationRepository.Manage(new SaveApplication { Application = application })).Id;
+            return id;
+        }
+
+        public async Task<string> Handle(WithdrawApplicationCommand cmd)
+        {
+            var canAccess = await CanAccessApplication(cmd.Id, cmd.UserInfo.BusinessId);
+            if (!canAccess) throw new ForbiddenException("Not allowed to access this application.");
+            var application = (await applicationRepository.Query(new ApplicationsQuery { Id = cmd.Id })).Items.SingleOrDefault();
+            if (application == null) throw new NotFoundException("Application not found");
+            if (application.Status != ApplicationStatus.Submitted && application.Status != ApplicationStatus.InReview) throw new BusinessValidationException("Application can only be withdrawn if it is Under Review");
+            application.Status = ApplicationStatus.Withdrawn;
+            var id = (await applicationRepository.Manage(new SaveApplication { Application = application })).Id;
+            return id;
+        }
+
+        public async Task<string> Handle(DeleteApplicationCommand cmd)
+        {
+            var canAccess = await CanAccessApplication(cmd.Id, cmd.UserInfo.BusinessId);
+            if (!canAccess) throw new ForbiddenException("Not allowed to access this application.");
+            var application = (await applicationRepository.Query(new ApplicationsQuery { Id = cmd.Id })).Items.SingleOrDefault();
+            if (application == null) throw new NotFoundException("Application not found");
+            if (application.Status != ApplicationStatus.DraftProponent && application.Status != ApplicationStatus.DraftStaff) throw new BusinessValidationException("Application can only be deleted if it is in Draft");
+            var id = (await applicationRepository.Manage(new DeleteApplication { Id = cmd.Id })).Id;
             return id;
         }
 
