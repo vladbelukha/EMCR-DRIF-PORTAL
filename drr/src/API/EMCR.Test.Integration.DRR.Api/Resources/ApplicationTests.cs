@@ -25,7 +25,7 @@ namespace EMCR.Tests.Integration.DRR.Resources
         public async Task CanCreateEOIApplication()
         {
             var originalApplication = CreateTestEOIApplication();
-            var id = (await applicationRepository.Manage(new SubmitApplication { Application = originalApplication })).Id;
+            var id = (await applicationRepository.Manage(new SaveApplication { Application = originalApplication })).Id;
             id.ShouldNotBeEmpty();
 
             var newApplication = (await applicationRepository.Query(new ApplicationsQuery { Id = id })).Items.ShouldHaveSingleItem();
@@ -42,7 +42,7 @@ namespace EMCR.Tests.Integration.DRR.Resources
         public async Task CanUpdateEOIApplication()
         {
             var originalApplication = CreateTestEOIApplication();
-            var id = (await applicationRepository.Manage(new SubmitApplication { Application = originalApplication })).Id;
+            var id = (await applicationRepository.Manage(new SaveApplication { Application = originalApplication })).Id;
             id.ShouldNotBeEmpty();
 
             var applicationToUpdate = (await applicationRepository.Query(new ApplicationsQuery { Id = id })).Items.ShouldHaveSingleItem();
@@ -62,7 +62,7 @@ namespace EMCR.Tests.Integration.DRR.Resources
                     new CriticalInfrastructure {Name= $"{currPrefix}_updated_infrastructure2", Impact = "updated impact" },
                 };
 
-            await applicationRepository.Manage(new SubmitApplication { Application = applicationToUpdate });
+            await applicationRepository.Manage(new SaveApplication { Application = applicationToUpdate });
 
             var updatedApplication = (await applicationRepository.Query(new ApplicationsQuery { Id = id })).Items.ShouldHaveSingleItem();
             updatedApplication.InfrastructureImpacted.First().Name.ShouldContain("updated");
@@ -83,7 +83,7 @@ namespace EMCR.Tests.Integration.DRR.Resources
             var originalApplication = CreateTestEOIApplication();
             originalApplication.SubmittedDate = DateTime.UtcNow;
             originalApplication.Status = ApplicationStatus.Invited;
-            var eoiId = (await applicationRepository.Manage(new SubmitApplication { Application = originalApplication })).Id;
+            var eoiId = (await applicationRepository.Manage(new SaveApplication { Application = originalApplication })).Id;
             eoiId.ShouldNotBeEmpty();
 
             var eoiApplication = (await applicationRepository.Query(new ApplicationsQuery { Id = eoiId })).Items.ShouldHaveSingleItem();
@@ -103,7 +103,7 @@ namespace EMCR.Tests.Integration.DRR.Resources
             var originalEOI = CreateTestEOIApplication();
             originalEOI.SubmittedDate = DateTime.UtcNow;
             originalEOI.Status = ApplicationStatus.Invited;
-            var eoiId = (await applicationRepository.Manage(new SubmitApplication { Application = originalEOI })).Id;
+            var eoiId = (await applicationRepository.Manage(new SaveApplication { Application = originalEOI })).Id;
             eoiId.ShouldNotBeEmpty();
 
             var eoiApplication = (await applicationRepository.Query(new ApplicationsQuery { Id = eoiId })).Items.ShouldHaveSingleItem();
@@ -120,7 +120,7 @@ namespace EMCR.Tests.Integration.DRR.Resources
                 }},
             };
 
-            await applicationRepository.Manage(new SubmitApplication { Application = fpApplication });
+            await applicationRepository.Manage(new SaveApplication { Application = fpApplication });
 
             var updatedFpApplication = (await applicationRepository.Query(new ApplicationsQuery { Id = fpId })).Items.ShouldHaveSingleItem();
             updatedFpApplication.Standards.ShouldNotBeEmpty();

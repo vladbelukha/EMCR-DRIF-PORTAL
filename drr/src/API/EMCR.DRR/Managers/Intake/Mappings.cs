@@ -57,6 +57,7 @@ namespace EMCR.DRR.Managers.Intake
                 .ForMember(dest => dest.ReadinessRisks, opt => opt.MapFrom(src => src.ReadinessRisks.Select(p => p.Name)))
                 .ForMember(dest => dest.SensitivityRisks, opt => opt.MapFrom(src => src.SensitivityRisks.Select(p => p.Name)))
                 .ForMember(dest => dest.CapacityRisks, opt => opt.MapFrom(src => src.CapacityRisks.Select(p => p.Name)))
+                .ForMember(dest => dest.ClimateAssessmentTools, opt => opt.MapFrom(src => src.ClimateAssessmentTools.Select(p => p.Name)))
                 ;
 
             CreateMap<DraftFpApplication, Application>(MemberList.None)
@@ -78,6 +79,7 @@ namespace EMCR.DRR.Managers.Intake
                 .ForMember(dest => dest.ReadinessRisks, opt => opt.MapFrom(src => src.ReadinessRisks.Select(p => p.Name)))
                 .ForMember(dest => dest.SensitivityRisks, opt => opt.MapFrom(src => src.SensitivityRisks.Select(p => p.Name)))
                 .ForMember(dest => dest.CapacityRisks, opt => opt.MapFrom(src => src.CapacityRisks.Select(p => p.Name)))
+                .ForMember(dest => dest.ClimateAssessmentTools, opt => opt.MapFrom(src => src.ClimateAssessmentTools.Select(p => p.Name)))
                 ;
 
             CreateMap<Controllers.FundingInformation, FundingInformation>()
@@ -159,6 +161,10 @@ namespace EMCR.DRR.Managers.Intake
             CreateMap<string, TransferRisks>()
                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src))
                ;
+            
+            CreateMap<string, ClimateAssessmentToolsInfo>()
+               .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src))
+               ;
 
             CreateMap<Controllers.ProposedActivity, ProposedActivity>()
                 .ReverseMap()
@@ -204,6 +210,8 @@ namespace EMCR.DRR.Managers.Intake
                     return SubmissionPortalStatus.UnderReview;
                 case ApplicationStatus.Withdrawn:
                     return SubmissionPortalStatus.Withdrawn;
+                case ApplicationStatus.Deleted:
+                    return SubmissionPortalStatus.Deleted;
                 default:
                     return SubmissionPortalStatus.Draft;
             }

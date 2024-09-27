@@ -89,6 +89,8 @@ namespace EMCR.DRR.Resources.Applications
 
                 //Climate Adaptation - 6
                 .ForMember(dest => dest.drr_doesprojectconsiderclimatechange, opt => opt.MapFrom(src => src.IncorporateFutureClimateConditions.HasValue && src.IncorporateFutureClimateConditions.Value ? DRRTwoOptions.Yes : DRRTwoOptions.No))
+                .ForMember(dest => dest.drr_hasprojectusedclimatechangeassessmenttool, opt => opt.MapFrom(src => src.ClimateAssessment.HasValue && src.ClimateAssessment.Value ? DRRTwoOptions.Yes : DRRTwoOptions.No))
+                .ForMember(dest => dest.drr_drr_application_drr_climateassessmenttoolitem_Application, opt => opt.MapFrom(src => src.ClimateAssessmentTools))
 
                 //Permits Regulations & Standards - 7
                 .ForMember(dest => dest.drr_projecteligibleforrequiredpermitsapproval, opt => opt.MapFrom(src => src.Approvals.HasValue && src.Approvals.Value ? DRRTwoOptions.Yes : DRRTwoOptions.No))
@@ -244,6 +246,9 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.CollaborationComments, opt => opt.MapFrom(src => src.drr_howprojectcontributetocollaboration))
                 //Climate Adaptation - 6
                 .ForMember(dest => dest.IncorporateFutureClimateConditions, opt => opt.MapFrom(src => src.drr_doesprojectconsiderclimatechange.HasValue ? src.drr_doesprojectconsiderclimatechange.Value == (int)DRRTwoOptions.Yes : (bool?)null))
+                .ForMember(dest => dest.ClimateAssessment, opt => opt.MapFrom(src => src.drr_hasprojectusedclimatechangeassessmenttool.HasValue ? src.drr_hasprojectusedclimatechangeassessmenttool.Value == (int)DRRTwoOptions.Yes : (bool?)null))
+                .ForMember(dest => dest.ClimateAssessmentTools, opt => opt.MapFrom(src => src.drr_drr_application_drr_climateassessmenttoolitem_Application))
+                .ForMember(dest => dest.ClimateAssessmentComments, opt => opt.Ignore())
                 //Permits Regulations & Standards - 7
                 .ForMember(dest => dest.Approvals, opt => opt.MapFrom(src => src.drr_projecteligibleforrequiredpermitsapproval.HasValue ? src.drr_projecteligibleforrequiredpermitsapproval.Value == (int)DRRTwoOptions.Yes : (bool?)null))
                 .ForMember(dest => dest.ApprovalsComments, opt => opt.MapFrom(src => src.drr_projecteligibleforpermitsapprovalcomments))
@@ -439,6 +444,13 @@ namespace EMCR.DRR.Resources.Applications
               .ReverseMap()
               .ValidateMemberList(MemberList.Destination)
               .ForMember(dest => dest.Name, opt => opt.MapFrom(src => string.IsNullOrEmpty(src.drr_projectcapacitychallengecomments) ? src.drr_ProjectCapacityChallenge.drr_name : src.drr_projectcapacitychallengecomments))
+            ;
+
+            CreateMap<ClimateAssessmentToolsInfo, drr_climateassessmenttoolitem>(MemberList.None)
+              .ForMember(dest => dest.drr_ClimateAssessmentTool, opt => opt.MapFrom(src => new drr_climateassessmenttool { drr_name = src.Name }))
+              .ReverseMap()
+              .ValidateMemberList(MemberList.Destination)
+              .ForMember(dest => dest.Name, opt => opt.MapFrom(src => string.IsNullOrEmpty(src.drr_climateassessmmenttoolcomments) ? src.drr_ClimateAssessmentTool.drr_name : src.drr_climateassessmmenttoolcomments))
             ;
 
             CreateMap<IncreasedResiliency, drr_resiliencyitem>(MemberList.None)
