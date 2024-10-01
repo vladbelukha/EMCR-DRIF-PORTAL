@@ -238,7 +238,9 @@
     "apply": "Apply",
     "createFP": "Create Full Proposal",
     "withdrawTitle": "Withdraw Submission",
-    "withdrawText": "This will withdraw your submission from consideration for funding. Once withdrawn, you can choose to edit and resubmit it at a later date. Are you sure you want to continue?"
+    "withdrawText": "This will withdraw your submission from consideration for funding. Once withdrawn, you can choose to edit and resubmit it at a later date. Are you sure you want to continue?",
+    "deleteTitle": "Delete Submission",
+    "deleteText": "You will not be able to view or recover a deleted draft. Are you sure you want to proceed?"
   },
   "createFP": "Create Full Proposal",
   "FP": "Full Proposal",

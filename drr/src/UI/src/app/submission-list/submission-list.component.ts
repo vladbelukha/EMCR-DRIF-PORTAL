@@ -132,8 +132,12 @@ export class SubmissionListComponent {
     value,
     label: this.translocoService.translate(value),
   }));
+  exludedStatuses: SubmissionPortalStatus[] = [
+    SubmissionPortalStatus.ApprovedInPrinciple,
+    SubmissionPortalStatus.Deleted,
+  ];
   statusOptions = Object.values(SubmissionPortalStatus)
-    .filter((status) => status !== SubmissionPortalStatus.ApprovedInPrinciple)
+    .filter((status) => !this.exludedStatuses.includes(status))
     .map((value) => ({
       value,
       label: this.translocoService.translate(value),
@@ -235,6 +239,45 @@ export class SubmissionListComponent {
           submission.status == 'Draft' ? '/drif-fp' : '/fp-submission-details',
           submission.id,
         ]);
+  }
+
+  onDeleteClick(submission: Submission, event: Event) {
+    event.preventDefault();
+
+    this.matDialog
+      .open(DrrDialogComponent, {
+        data: {
+          title: this.translocoService.translate('submission-list.deleteTitle'),
+          text: this.translocoService.translate('submission-list.deleteText'),
+        },
+      })
+      .afterClosed()
+      .subscribe((result) => {
+        if (result) {
+          if (result === DialogResponse.Yes) {
+            this.deleteApplication(submission);
+          }
+        }
+      });
+  }
+
+  deleteApplication(submission: Submission) {
+    switch (submission.applicationType) {
+      case ApplicationType.EOI:
+        this.applicationService
+          .dRIFApplicationDeleteApplication(submission.id!)
+          .subscribe(() => {
+            this.load();
+          });
+        break;
+      case ApplicationType.FP:
+        this.applicationService
+          .dRIFApplicationDeleteFPApplication(submission.id!)
+          .subscribe(() => {
+            this.load();
+          });
+        break;
+    }
   }
 
   onWithdrawClick(submission: Submission, event: Event) {
