@@ -84,6 +84,13 @@ export class DrifapplicationService {
       draftEoiApplication,options
     );
   }
+ dRIFApplicationDeleteApplication<TData = ApplicationResult>(
+    id: string, options?: HttpClientOptions
+  ): Observable<TData>  {
+    return this.http.delete<TData>(
+      `/api/drifapplication/eoi/${id}`,options
+    );
+  }
  dRIFApplicationCreateEOIApplication<TData = ApplicationResult>(
     draftEoiApplication: DraftEoiApplication, options?: HttpClientOptions
   ): Observable<TData>  {
@@ -110,12 +117,10 @@ export class DrifapplicationService {
     );
   }
  dRIFApplicationWithdrawApplication<TData = ApplicationResult>(
-    id: string,
-    eoiApplication: EoiApplication, options?: HttpClientOptions
+    id: string, options?: HttpClientOptions
   ): Observable<TData>  {
     return this.http.post<TData>(
-      `/api/drifapplication/eoi/${id}/withdraw`,
-      eoiApplication,options
+      `/api/drifapplication/eoi/${id}/withdraw`,undefined,options
     );
   }
  dRIFApplicationGetFP<TData = DraftFpApplication>(
@@ -132,6 +137,13 @@ export class DrifapplicationService {
     return this.http.post<TData>(
       `/api/drifapplication/fp/${id}`,
       draftFpApplication,options
+    );
+  }
+ dRIFApplicationDeleteFPApplication<TData = ApplicationResult>(
+    id: string, options?: HttpClientOptions
+  ): Observable<TData>  {
+    return this.http.delete<TData>(
+      `/api/drifapplication/fp/${id}`,options
     );
   }
  dRIFApplicationCreateFPFromEOI<TData = ApplicationResult>(
@@ -155,12 +167,10 @@ export class DrifapplicationService {
     );
   }
  dRIFApplicationWithdrawFPApplication<TData = ApplicationResult>(
-    id: string,
-    eoiApplication: EoiApplication, options?: HttpClientOptions
+    id: string, options?: HttpClientOptions
   ): Observable<TData>  {
     return this.http.post<TData>(
-      `/api/drifapplication/fp/${id}/withdraw`,
-      eoiApplication,options
+      `/api/drifapplication/fp/${id}/withdraw`,undefined,options
     );
   }
 };
@@ -169,12 +179,14 @@ export type DRIFApplicationGetClientResult = NonNullable<SubmissionResponse>
 export type DRIFApplicationGetDeclarationsClientResult = NonNullable<DeclarationResult>
 export type DRIFApplicationGetEOIClientResult = NonNullable<DraftEoiApplication>
 export type DRIFApplicationUpdateApplicationClientResult = NonNullable<ApplicationResult>
+export type DRIFApplicationDeleteApplicationClientResult = NonNullable<ApplicationResult>
 export type DRIFApplicationCreateEOIApplicationClientResult = NonNullable<ApplicationResult>
 export type DRIFApplicationSubmitApplicationClientResult = NonNullable<ApplicationResult>
 export type DRIFApplicationSubmitApplication2ClientResult = NonNullable<ApplicationResult>
 export type DRIFApplicationWithdrawApplicationClientResult = NonNullable<ApplicationResult>
 export type DRIFApplicationGetFPClientResult = NonNullable<DraftFpApplication>
 export type DRIFApplicationUpdateFPApplicationClientResult = NonNullable<ApplicationResult>
+export type DRIFApplicationDeleteFPApplicationClientResult = NonNullable<ApplicationResult>
 export type DRIFApplicationCreateFPFromEOIClientResult = NonNullable<ApplicationResult>
 export type DRIFApplicationSubmitFPApplicationClientResult = NonNullable<ApplicationResult>
 export type DRIFApplicationWithdrawFPApplicationClientResult = NonNullable<ApplicationResult>

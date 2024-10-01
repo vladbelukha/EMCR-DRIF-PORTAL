@@ -141,24 +141,44 @@
         <th mat-header-cell *matHeaderCellDef>
           {{ t("actions") }}
         </th>
-        <td mat-cell *matCellDef="let element" class="submission-actions">
-          <button
-            *ngIf="element.status === 'Draft'"
-            mat-stroked-button
-            color="primary"
-            (click)="onViewFormClick(element, $event)"
-          >
-            {{ t("edit") }}
-          </button>
-          <button
-            style="white-space: nowrap"
-            *ngIf="canCreateFullProposal(element)"
-            mat-raised-button
-            color="primary"
-            (click)="createFullProposal(element, $event)"
-          >
-            {{ t("createFP") }}
-          </button>
+        <td mat-cell *matCellDef="let element">
+          <div class="submission-actions">
+            <button
+              *ngIf="
+                element.status === 'Draft' || element.status === 'Withdrawn'
+              "
+              mat-stroked-button
+              color="primary"
+              (click)="onViewFormClick(element, $event)"
+            >
+              {{ t("edit") }}
+            </button>
+            <button
+              *ngIf="element.status === 'Draft'"
+              mat-stroked-button
+              color="warn"
+              (click)="onDeleteClick(element, $event)"
+            >
+              {{ t("delete") }}
+            </button>
+            <button
+              *ngIf="element.status === 'UnderReview'"
+              mat-stroked-button
+              color="primary"
+              (click)="onWithdrawClick(element, $event)"
+            >
+              {{ t("withdraw") }}
+            </button>
+            <button
+              style="white-space: nowrap"
+              *ngIf="canCreateFullProposal(element)"
+              mat-raised-button
+              color="primary"
+              (click)="createFullProposal(element, $event)"
+            >
+              {{ t("createFP") }}
+            </button>
+          </div>
           <!-- <button mat-raised-button color="warn">{{ t("delete") }}</button>
         <button mat-raised-button color="accent">{{ t("withdraw") }}</button> -->
         </td>

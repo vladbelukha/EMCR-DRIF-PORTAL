@@ -1,7 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
+import { Component, Inject, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatSortModule, Sort } from '@angular/material/sort';
@@ -36,6 +44,59 @@ class SubmissionFilter {
   status?: SubmissionPortalStatus[];
 }
 
+export enum DialogResponse {
+  Yes = 'Yes',
+  No = 'No',
+}
+
+@UntilDestroy()
+@Component({
+  selector: 'drr-dialog',
+  standalone: true,
+  template: `<h2 mat-dialog-title class="dialog-title">
+      <mat-icon style="color: #e6a700">warning</mat-icon>
+      <span style="margin-left: 1rem;">{{ data.title }}</span>
+    </h2>
+    <mat-divider></mat-divider>
+    <mat-dialog-content style="color: inherit;">{{
+      data.text
+    }}</mat-dialog-content>
+    <mat-divider></mat-divider>
+    <mat-dialog-actions class="dialog-actions">
+      <button mat-stroked-button [mat-dialog-close]="confirm">Yes</button>
+      <button mat-button [mat-dialog-close]="cancel" cdkFocusInitial>No</button>
+    </mat-dialog-actions>`,
+  styles: [
+    `
+      .dialog-title {
+        display: flex;
+        align-items: flex-end;
+      }
+
+      .dialog-actions {
+        justify-content: flex-end;
+      }
+    `,
+  ],
+  imports: [
+    CommonModule,
+    HttpClientModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatIconModule,
+    MatDividerModule,
+  ],
+})
+export class DrrDialogComponent {
+  constructor(
+    public dialogRef: MatDialogRef<DrrDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {}
+
+  confirm = DialogResponse.Yes;
+  cancel = DialogResponse.No;
+}
+
 @UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'drr-submission-list',
@@ -61,6 +122,7 @@ export class SubmissionListComponent {
   applicationService = inject(DrifapplicationService);
   formbuilder = inject(RxFormBuilder);
   translocoService = inject(TranslocoService);
+  matDialog = inject(MatDialog);
 
   programTypeOptions = Object.values(ProgramType).map((value) => ({
     value,
@@ -70,8 +132,12 @@ export class SubmissionListComponent {
     value,
     label: this.translocoService.translate(value),
   }));
+  exludedStatuses: SubmissionPortalStatus[] = [
+    SubmissionPortalStatus.ApprovedInPrinciple,
+    SubmissionPortalStatus.Deleted,
+  ];
   statusOptions = Object.values(SubmissionPortalStatus)
-    .filter((status) => status !== SubmissionPortalStatus.ApprovedInPrinciple)
+    .filter((status) => !this.exludedStatuses.includes(status))
     .map((value) => ({
       value,
       label: this.translocoService.translate(value),
@@ -173,6 +239,86 @@ export class SubmissionListComponent {
           submission.status == 'Draft' ? '/drif-fp' : '/fp-submission-details',
           submission.id,
         ]);
+  }
+
+  onDeleteClick(submission: Submission, event: Event) {
+    event.preventDefault();
+
+    this.matDialog
+      .open(DrrDialogComponent, {
+        data: {
+          title: this.translocoService.translate('submission-list.deleteTitle'),
+          text: this.translocoService.translate('submission-list.deleteText'),
+        },
+      })
+      .afterClosed()
+      .subscribe((result) => {
+        if (result) {
+          if (result === DialogResponse.Yes) {
+            this.deleteApplication(submission);
+          }
+        }
+      });
+  }
+
+  deleteApplication(submission: Submission) {
+    switch (submission.applicationType) {
+      case ApplicationType.EOI:
+        this.applicationService
+          .dRIFApplicationDeleteApplication(submission.id!)
+          .subscribe(() => {
+            this.load();
+          });
+        break;
+      case ApplicationType.FP:
+        this.applicationService
+          .dRIFApplicationDeleteFPApplication(submission.id!)
+          .subscribe(() => {
+            this.load();
+          });
+        break;
+    }
+  }
+
+  onWithdrawClick(submission: Submission, event: Event) {
+    event.preventDefault();
+
+    this.matDialog
+      .open(DrrDialogComponent, {
+        data: {
+          title: this.translocoService.translate(
+            'submission-list.withdrawTitle'
+          ),
+          text: this.translocoService.translate('submission-list.withdrawText'),
+        },
+      })
+      .afterClosed()
+      .subscribe((result) => {
+        if (result) {
+          if (result === DialogResponse.Yes) {
+            this.withdrawApplication(submission);
+          }
+        }
+      });
+  }
+
+  withdrawApplication(submission: Submission) {
+    switch (submission.applicationType) {
+      case ApplicationType.EOI:
+        this.applicationService
+          .dRIFApplicationWithdrawApplication(submission.id!)
+          .subscribe(() => {
+            this.load();
+          });
+        break;
+      case ApplicationType.FP:
+        this.applicationService
+          .dRIFApplicationWithdrawFPApplication(submission.id!)
+          .subscribe(() => {
+            this.load();
+          });
+        break;
+    }
   }
 
   canCreateFullProposal(submission: Submission) {
