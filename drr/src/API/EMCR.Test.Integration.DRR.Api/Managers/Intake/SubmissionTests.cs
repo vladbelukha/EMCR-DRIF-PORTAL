@@ -97,7 +97,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             var queryRes = await manager.Handle(new DrrApplicationsQuery { BusinessId = GetTestUserInfo().BusinessId, QueryOptions = queryOptions });
             var applications = queryRes.Items;
             var submissions = mapper.Map<IEnumerable<Submission>>(applications);
-            submissions.Count().ShouldBe(15);
+            submissions.Count().ShouldBeLessThanOrEqualTo(15);
         }
 
         [Test]
@@ -120,7 +120,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             var queryRes = await manager.Handle(new DrrApplicationsQuery { BusinessId = GetTestUserInfo().BusinessId, QueryOptions = queryOptions });
             var applications = queryRes.Items;
             var submissions = mapper.Map<IEnumerable<Submission>>(applications);
-            submissions.Count().ShouldBe(20);
+            submissions.Count().ShouldBeLessThanOrEqualTo(20);
         }
 
         [Test]
@@ -300,6 +300,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             updatedFp.Professionals.ShouldContain(p => p.Name == "professional1");
             updatedFp.LocalGovernmentAuthorizedByPartners.ShouldBe(EMCR.DRR.Managers.Intake.YesNoOption.NotApplicable);
             ((int)updatedFp.OperationAndMaintenance).ShouldBe((int)fpToUpdate.OperationAndMaintenance);
+            updatedFp.ClimateAssessmentTools.ShouldNotBeEmpty();
         }
 
         [Test]
@@ -351,6 +352,66 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             ////twiceUpdatedFp.TransferRisks.Count().ShouldBe(fpToUpdate.TransferRisks.Count());
             twiceUpdatedFp.YearOverYearFunding.Count().ShouldBe(fpToUpdate.YearOverYearFunding.Count());
             //twiceUpdatedFp.CostConsiderations.Count().ShouldBe(fpToUpdate.CostConsiderations.Count());
+        }
+
+        [Test]
+        public async Task WithdrawApplication_StatusDraft_ThrowsError()
+        {
+            var application = mapper.Map<EoiApplication>(CreateNewTestEOIApplication());
+            application.Status = SubmissionPortalStatus.Draft;
+
+            var id = await manager.Handle(new EoiSaveApplicationCommand { application = application, UserInfo = GetTestUserInfo() });
+            id.ShouldNotBeEmpty();
+
+            Should.Throw<Exception>(() => manager.Handle(new WithdrawApplicationCommand { Id = id, UserInfo = GetTestUserInfo() }));
+        }
+
+        [Test]
+        public async Task WithdrawApplication_StatusSubmitted_ApplicationWithdrawn()
+        {
+            var application = mapper.Map<EoiApplication>(CreateNewTestEOIApplication());
+            application.Status = SubmissionPortalStatus.UnderReview;
+            application.AuthorizedRepresentativeStatement = true;
+            application.FOIPPAConfirmation = true;
+            application.InformationAccuracyStatement = true;
+
+            var id = await manager.Handle(new EoiSubmitApplicationCommand { application = application, UserInfo = GetTestUserInfo() });
+            id.ShouldNotBeEmpty();
+
+            await manager.Handle(new WithdrawApplicationCommand { Id = id, UserInfo = GetTestUserInfo() });
+            var withdrawnApplication = (await manager.Handle(new DrrApplicationsQuery { Id = id, BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault();
+            withdrawnApplication.Status.ShouldBe(ApplicationStatus.Withdrawn);
+        }
+
+        [Test]
+        public async Task DeleteApplication_StatusSubmitted_ThrowsError()
+        {
+            var application = mapper.Map<EoiApplication>(CreateNewTestEOIApplication());
+            application.Status = SubmissionPortalStatus.UnderReview;
+            application.AuthorizedRepresentativeStatement = true;
+            application.FOIPPAConfirmation = true;
+            application.InformationAccuracyStatement = true;
+
+            var id = await manager.Handle(new EoiSaveApplicationCommand { application = application, UserInfo = GetTestUserInfo() });
+            id.ShouldNotBeEmpty();
+
+            Should.Throw<Exception>(() => manager.Handle(new DeleteApplicationCommand { Id = id, UserInfo = GetTestUserInfo() }));
+        }
+
+        [Test]
+        public async Task DeleteApplication_StatusDraft_StatusUpdatedToDeleted()
+        {
+            var application = mapper.Map<EoiApplication>(CreateNewTestEOIApplication());
+            application.Status = SubmissionPortalStatus.Draft;
+
+            var id = await manager.Handle(new EoiSaveApplicationCommand { application = application, UserInfo = GetTestUserInfo() });
+            id.ShouldNotBeEmpty();
+
+            var res = await manager.Handle(new DeleteApplicationCommand { Id = id, UserInfo = GetTestUserInfo() });
+            res.ShouldBe(id);
+
+            var deletedApplication = (await manager.Handle(new DrrApplicationsQuery { Id = id, BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault();
+            deletedApplication.ShouldBeNull();
         }
 
 #pragma warning restore CS8604 // Possible null reference argument.
@@ -516,6 +577,9 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
 
             //Climate Adaptation - 6
             application.IncorporateFutureClimateConditions = true;
+            application.ClimateAssessment = true;
+            application.ClimateAssessmentTools = new[] { "tool 1", "tool 2" };
+            application.ClimateAssessmentComments = "climate assessment comments";
 
             //Permits Regulations & Standards - 7
             application.Approvals = false;

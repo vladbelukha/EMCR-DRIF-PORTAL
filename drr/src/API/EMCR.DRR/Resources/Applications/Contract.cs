@@ -75,9 +75,14 @@ namespace EMCR.DRR.Resources.Applications
         public IEnumerable<DeclarationInfo> Items { get; set; } = Array.Empty<DeclarationInfo>();
     }
 
-    public class SubmitApplication : ManageApplicationCommand
+    public class SaveApplication : ManageApplicationCommand
     {
         public required Application Application { get; set; }
+    }
+
+    public class DeleteApplication : ManageApplicationCommand
+    {
+        public required string Id { get; set; }
     }
 
     public class StandardSingle
@@ -189,6 +194,7 @@ namespace EMCR.DRR.Resources.Applications
         FPSubmitted = 172580007,
         Approved = 172580008,
         ApprovedInPrinciple = 172580009,
-        Closed = 2
+        Closed = 2,
+        Deleted = 172580010,
     }
 }

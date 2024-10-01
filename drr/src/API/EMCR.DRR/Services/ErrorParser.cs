@@ -57,6 +57,20 @@ namespace EMCR.DRR.API.Services
         public string Id { get; }
     }
 
+    public class BusinessValidationException : DrrApplicationException
+    {
+        public BusinessValidationException(string message) : base(message)
+        {
+        }
+
+        public BusinessValidationException(string message, string id) : base(message)
+        {
+            Id = id;
+        }
+
+        public string Id { get; }
+    }
+
     public class ErrorParser
     {
         public ActionResult Parse(Exception ex, ILogger logger)
@@ -68,6 +82,7 @@ namespace EMCR.DRR.API.Services
             {
                 NotFoundException e => new NotFoundObjectResult(new ProblemDetails { Type = "NotFoundException", Title = "Not Found", Detail = e.Message }) { StatusCode = (int)HttpStatusCode.NotFound },
                 ForbiddenException e => new ObjectResult(new ProblemDetails { Type = "ForbiddenException", Title = "Forbidden", Detail = e.Message }) { StatusCode = (int)HttpStatusCode.Forbidden },
+                BusinessValidationException e => new BadRequestObjectResult(new ProblemDetails { Type = "BadRequest", Title = "Business Validation Exception", Detail = e.Message }) { StatusCode = (int)HttpStatusCode.BadRequest },
                 ArgumentNullException e => new BadRequestObjectResult(new ProblemDetails { Type = "BadRequest", Title = "Null Argument", Detail = e.Message }) { StatusCode = (int)HttpStatusCode.BadRequest },
                 _ => new BadRequestObjectResult(new ProblemDetails { Type = "Unknown", Title = "Unexpected error", Detail = details }) { StatusCode = (int)HttpStatusCode.BadRequest },
             };

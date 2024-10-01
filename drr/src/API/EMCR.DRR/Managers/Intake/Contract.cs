@@ -36,7 +36,7 @@ namespace EMCR.DRR.Managers.Intake
         public IEnumerable<string>? FiscalYears { get; set; } = Array.Empty<string>();
         public IEnumerable<string>? Professionals { get; set; } = Array.Empty<string>();
         public IEnumerable<string>? IncreasedResiliency { get; set; } = Array.Empty<string>();
-        public IEnumerable<string>? ClimateAssessmentToolOptions { get; set; } = new[] { "Test1", "Test2" };
+        public IEnumerable<string>? ClimateAssessmentToolOptions { get; set; } = Array.Empty<string>();
     }
 
     public class DeclarationInfo
@@ -100,6 +100,18 @@ namespace EMCR.DRR.Managers.Intake
     public class FpSubmitApplicationCommand : IntakeCommand
     {
         public FpApplication application { get; set; } = null!;
+        public UserInfo UserInfo { get; set; }
+    }
+
+    public class WithdrawApplicationCommand : IntakeCommand
+    {
+        public string Id { get; set; }
+        public UserInfo UserInfo { get; set; }
+    }
+
+    public class DeleteApplicationCommand : IntakeCommand
+    {
+        public string Id { get; set; }
         public UserInfo UserInfo { get; set; }
     }
 
@@ -212,6 +224,9 @@ namespace EMCR.DRR.Managers.Intake
 
         //Climate Adaptation - 6
         public bool? IncorporateFutureClimateConditions { get; set; }
+        public bool? ClimateAssessment { get; set; }
+        public IEnumerable<ClimateAssessmentToolsInfo> ClimateAssessmentTools { get; set; }
+        public string? ClimateAssessmentComments { get; set; }
 
         //Permits Regulations & Standards - 7
         public bool? Approvals { get; set; }
@@ -388,6 +403,11 @@ namespace EMCR.DRR.Managers.Intake
         public required string Name { get; set; }
     }
 
+    public class ClimateAssessmentToolsInfo
+    {
+        public required string Name { get; set; }
+    }
+
     public class YearOverYearFunding
     {
         public string? Year { get; set; }
@@ -493,7 +513,8 @@ namespace EMCR.DRR.Managers.Intake
         FPSubmitted,
         Approved,
         ApprovedInPrinciple,
-        Closed
+        Closed,
+        Deleted
     }
 
     public enum YesNoOption

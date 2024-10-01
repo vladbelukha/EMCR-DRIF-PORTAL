@@ -27,7 +27,8 @@ namespace EMCR.DRR.Resources.Applications
         {
             return cmd switch
             {
-                SubmitApplication c => await HandleSubmitApplication(c),
+                SaveApplication c => await HandleSaveApplication(c),
+                DeleteApplication c => await HandleDeleteApplication(c),
                 _ => throw new NotSupportedException($"{cmd.GetType().Name} is not supported")
             };
         }
@@ -63,6 +64,7 @@ namespace EMCR.DRR.Resources.Applications
         {
             var readCtx = dRRContextFactory.CreateReadOnly();
 
+            //TODO - do these in parallel
             var standardsInfo = (await readCtx.drr_provincialstandards.Expand(d => d.drr_Category).Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").OrderBy(d => d.drr_name).GetAllPagesAsync()).Select(d => new StandardSingle { Name = d.drr_name, Category = d.drr_Category.drr_name }).ToList();
             var standardCategories = (await readCtx.drr_provincialstandardcategories.Where(d => d.statecode == (int)EntityState.Active).OrderBy(d => d.drr_name).GetAllPagesAsync()).Select(d => d.drr_name).ToList();
             var complexityRisks = (await readCtx.drr_projectcomplexityrisks.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").OrderBy(d => d.drr_name).GetAllPagesAsync()).Select(d => d.drr_name).ToList();
@@ -77,6 +79,7 @@ namespace EMCR.DRR.Resources.Applications
             var fiscalYears = (await readCtx.drr_fiscalyears.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").OrderBy(d => d.drr_name).GetAllPagesAsync()).Select(d => d.drr_name).ToList();
             var qualifiedProfessionals = (await readCtx.drr_qualifiedprofessionals.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").OrderBy(d => d.drr_name).GetAllPagesAsync()).Select(d => d.drr_name).ToList();
             var resiliencies = (await readCtx.drr_resiliencies.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").OrderBy(d => d.drr_name).GetAllPagesAsync()).Select(d => d.drr_name).ToList();
+            var climateAssessmentToolOptions = (await readCtx.drr_climateassessmenttools.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").OrderBy(d => d.drr_name).GetAllPagesAsync()).Select(d => d.drr_name).ToList();
 
             var standards = new List<Controllers.StandardInfo>();
             foreach (var category in standardCategories)
@@ -103,7 +106,8 @@ namespace EMCR.DRR.Resources.Applications
                 CapacityRisks = capacityRisks,
                 FiscalYears = fiscalYears,
                 Professionals = qualifiedProfessionals,
-                IncreasedResiliency = resiliencies
+                IncreasedResiliency = resiliencies,
+                ClimateAssessmentToolOptions = climateAssessmentToolOptions,
             };
         }
 
@@ -172,7 +176,7 @@ namespace EMCR.DRR.Resources.Applications
 
             var applicationsQuery = readCtx.drr_applications
                 .Expand(a => a.drr_ApplicationType).Expand(a => a.drr_Program) //Added for sorting purposes
-                .Where(a => a.statecode == (int)EntityState.Active);
+                .Where(a => a.statuscode != (int)ApplicationStatusOptionSet.Deleted);
             if (!string.IsNullOrEmpty(query.Id)) applicationsQuery = applicationsQuery.Where(a => a.drr_name == query.Id);
             if (!string.IsNullOrEmpty(query.BusinessId)) applicationsQuery = applicationsQuery.Where(a => a.drr_Primary_Proponent_Name.drr_bceidguid == query.BusinessId);
             if (query.FilterOptions != null)
@@ -196,7 +200,7 @@ namespace EMCR.DRR.Resources.Applications
             return new ApplicationQueryResult { Items = mapper.Map<IEnumerable<Application>>(results), Length = length };
         }
 
-        public async Task<ManageApplicationCommandResult> HandleSubmitApplication(SubmitApplication cmd)
+        public async Task<ManageApplicationCommandResult> HandleSaveApplication(SaveApplication cmd)
         {
             var ctx = dRRContextFactory.Create();
             if (string.IsNullOrEmpty(cmd.Application.Id))
@@ -207,6 +211,17 @@ namespace EMCR.DRR.Resources.Applications
             {
                 return new ManageApplicationCommandResult { Id = await Update(ctx, cmd.Application) };
             }
+        }
+
+        public async Task<ManageApplicationCommandResult> HandleDeleteApplication(DeleteApplication cmd)
+        {
+            var ctx = dRRContextFactory.Create();
+            var application = await ctx.drr_applications.Where(a => a.drr_name == cmd.Id).SingleOrDefaultAsync();
+            ctx.DeactivateObject(application, (int)ApplicationStatusOptionSet.Deleted);
+            ctx.UpdateObject(application);
+            await ctx.SaveChangesAsync();
+            ctx.DetachAll();
+            return new ManageApplicationCommandResult { Id = cmd.Id };
         }
 
         private async Task<string> Create(DRRContext ctx, Application application)
@@ -247,6 +262,7 @@ namespace EMCR.DRR.Resources.Applications
                 ctx.LoadPropertyAsync(currentApplication, nameof(drr_application.drr_drr_application_drr_projectcapacitychallengeitem_Application)),
                 ctx.LoadPropertyAsync(currentApplication, nameof(drr_application.drr_drr_application_drr_driffundingrequest_Application)),
                 ctx.LoadPropertyAsync(currentApplication, nameof(drr_application.drr_drr_application_drr_resiliencyitem_Application)),
+                ctx.LoadPropertyAsync(currentApplication, nameof(drr_application.drr_drr_application_drr_climateassessmenttoolitem_Application)),
             };
 
             await Task.WhenAll(loadTasks);
@@ -358,6 +374,11 @@ namespace EMCR.DRR.Resources.Applications
                 ctx.AttachTo(nameof(ctx.drr_projectcapacitychallengeitems), risk);
                 ctx.DeleteObject(risk);
             }
+            foreach (var item in drrApplication.drr_drr_application_drr_climateassessmenttoolitem_Application)
+            {
+                ctx.AttachTo(nameof(ctx.drr_climateassessmenttoolitems), item);
+                ctx.DeleteObject(item);
+            }
             foreach (var funding in drrApplication.drr_drr_application_drr_driffundingrequest_Application)
             {
                 ctx.AttachTo(nameof(ctx.drr_driffundingrequests), funding);
@@ -435,6 +456,10 @@ namespace EMCR.DRR.Resources.Applications
                 (await ctx.drr_resiliencies.GetAllPagesAsync()).ToList() :
                 new List<drr_resiliency>();
 
+            var climateAssessmentToolsMasterList = drrApplication.drr_drr_application_drr_climateassessmenttoolitem_Application.Count > 0 ?
+                (await ctx.drr_climateassessmenttools.GetAllPagesAsync()).ToList() :
+                new List<drr_climateassessmenttool>();
+
             AddProvincialStandards(ctx, drrApplication, standardsMasterList, categoryMasterList);
             AddQualifiedProfessionals(ctx, drrApplication, professionalsMasterList);
             AddProposedActivities(ctx, drrApplication);
@@ -447,6 +472,7 @@ namespace EMCR.DRR.Resources.Applications
             AddSensitivityRisks(ctx, drrApplication, sensitivityRisksMasterList);
             AddCapacityRisks(ctx, drrApplication, capacityRisksMasterList);
             AddResiliencies(ctx, drrApplication, resiliencyMasterList);
+            AddClimateAssessmentTools(ctx, drrApplication, climateAssessmentToolsMasterList);
             AddYearOverYearFunding(ctx, drrApplication, fiscalYearsMasterList);
 
             SetApplicationType(ctx, drrApplication, application.ApplicationTypeName);
@@ -838,6 +864,28 @@ namespace EMCR.DRR.Resources.Applications
             }
         }
 
+        private static void AddClimateAssessmentTools(DRRContext drrContext, drr_application application, List<drr_climateassessmenttool> climateAssessmentToolsMasterList)
+        {
+            foreach (var item in application.drr_drr_application_drr_climateassessmenttoolitem_Application)
+            {
+                if (item != null)
+                {
+                    var masterVal = climateAssessmentToolsMasterList.FirstOrDefault(s => s.drr_name == item.drr_ClimateAssessmentTool?.drr_name);
+                    if (masterVal == null)
+                    {
+                        masterVal = climateAssessmentToolsMasterList.FirstOrDefault(s => s.drr_name == "Other");
+                        item.drr_climateassessmmenttoolcomments = item.drr_ClimateAssessmentTool?.drr_name;
+                    }
+                    item.drr_ClimateAssessmentTool = masterVal;
+
+                    drrContext.AddTodrr_climateassessmenttoolitems(item);
+                    drrContext.AddLink(application, nameof(application.drr_drr_application_drr_climateassessmenttoolitem_Application), item);
+                    drrContext.SetLink(item, nameof(item.drr_Application), application);
+                    drrContext.SetLink(item, nameof(item.drr_ClimateAssessmentTool), masterVal);
+                }
+            }
+        }
+
         private static void AddYearOverYearFunding(DRRContext drrContext, drr_application application, List<drr_fiscalyear> fiscalYearsMasterList)
         {
             foreach (var request in application.drr_drr_application_drr_driffundingrequest_Application)
@@ -906,6 +954,7 @@ namespace EMCR.DRR.Resources.Applications
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_drr_application_drr_projectsensitivityriskitem_Application), ct),
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_drr_application_drr_projectcapacitychallengeitem_Application), ct),
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_drr_application_drr_resiliencyitem_Application), ct),
+                    ctx.LoadPropertyAsync(application, nameof(drr_application.drr_drr_application_drr_climateassessmenttoolitem_Application), ct),
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_drr_application_drr_driffundingrequest_Application), ct),
                 }).ToList();
             }
@@ -984,19 +1033,27 @@ namespace EMCR.DRR.Resources.Applications
                 ctx.AttachTo(nameof(DRRContext.drr_resiliencyitems), item);
                 await ctx.LoadPropertyAsync(item, nameof(drr_resiliencyitem.drr_Resiliency), ct);
             });
+
+            await application.drr_drr_application_drr_climateassessmenttoolitem_Application.ForEachAsync(5, async item =>
+            {
+                ctx.AttachTo(nameof(DRRContext.drr_climateassessmenttoolitems), item);
+                await ctx.LoadPropertyAsync(item, nameof(drr_climateassessmenttoolitem.drr_ClimateAssessmentTool), ct);
+            });
         }
 
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
         private List<drr_application> SortAndPageResults(List<drr_application> applications, ApplicationsQuery query)
         {
             var descending = false;
-            if (query.OrderBy.Contains(" desc"))
+            if (!string.IsNullOrEmpty(query.OrderBy))
             {
-                descending = true;
-                query.OrderBy = Regex.Replace(query.OrderBy, @" desc", "");
+                if (query.OrderBy.Contains(" desc"))
+                {
+                    descending = true;
+                    query.OrderBy = Regex.Replace(query.OrderBy, @" desc", "");
+                }
+                if (descending) applications = applications.OrderByDescending(a => GetPropertyValueForSort(a, query.OrderBy)).ToList();
+                else applications = applications.OrderBy(a => GetPropertyValueForSort(a, query.OrderBy)).ToList();
             }
-            if (descending) applications = applications.OrderByDescending(a => GetPropertyValueForSort(a, query.OrderBy)).ToList();
-            else applications = applications.OrderBy(a => GetPropertyValueForSort(a, query.OrderBy)).ToList();
 
             if (query.Page > 0)
             {
@@ -1011,17 +1068,19 @@ namespace EMCR.DRR.Resources.Applications
 
             return applications;
         }
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
 
         private string GetFilterXML(ApplicationsQuery query)
         {
             var filterString = $@"<link-entity name='account' to='drr_primary_proponent_name' from='accountid' alias='acc' link-type='inner'>
                                     <filter><condition attribute='drr_bceidguid' operator='eq' value='{query.BusinessId}' /></filter>
-                                  </link-entity>";
+                                  </link-entity>
+                                  <filter>";
+
+
+            filterString += $"<condition attribute='statecode' operator='ne' value='{(int)ApplicationStatusOptionSet.Deleted}' />";
 
             if (query.FilterOptions != null)
             {
-                filterString += "<filter>";
                 if (!string.IsNullOrEmpty(query.FilterOptions.ApplicationType))
                 {
                     filterString += $@"<condition attribute='drr_applicationtypename' operator='eq' value='{query.FilterOptions.ApplicationType}' />";
@@ -1039,8 +1098,8 @@ namespace EMCR.DRR.Resources.Applications
                     }
                     filterString += @"</condition>";
                 }
-                filterString += "</filter>";
             }
+            filterString += "</filter>";
 
             return filterString;
         }
@@ -1106,28 +1165,31 @@ namespace EMCR.DRR.Resources.Applications
                 case ApplicationStatusOptionSet.Closed:
                     return 2; //Closed
 
+                case ApplicationStatusOptionSet.Deleted:
+                    return 3; //Closed
+
                 case ApplicationStatusOptionSet.DraftStaff:
                 case ApplicationStatusOptionSet.DraftProponent:
-                    return 3; //Draft
+                    return 4; //Draft
 
                 case ApplicationStatusOptionSet.Invited:
-                    return 4; //EligibleInvited
+                    return 5; //EligibleInvited
 
                 case ApplicationStatusOptionSet.InPool:
-                    return 5; //EligiblePending
+                    return 6; //EligiblePending
 
                 case ApplicationStatusOptionSet.FPSubmitted:
-                    return 6; //FullProposalSubmitted
+                    return 7; //FullProposalSubmitted
 
                 case ApplicationStatusOptionSet.Ineligible:
-                    return 7; //Ineligible
+                    return 8; //Ineligible
 
                 case ApplicationStatusOptionSet.Submitted:
                 case ApplicationStatusOptionSet.InReview:
-                    return 8;//UnderReview
+                    return 9;//UnderReview
 
                 case ApplicationStatusOptionSet.Withdrawn:
-                    return 9; //Withdrawn
+                    return 10; //Withdrawn
 
                 default: return 0;
             }

@@ -14,6 +14,7 @@ namespace EMCR.DRR.API.Model
         Closed,
         FullProposalSubmitted,
         Approved,
-        ApprovedInPrinciple
+        ApprovedInPrinciple,
+        Deleted,
     }
 }
