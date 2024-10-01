@@ -175,7 +175,7 @@ namespace EMCR.DRR.Resources.Applications
             var readCtx = dRRContextFactory.CreateReadOnly();
 
             var applicationsQuery = readCtx.drr_applications
-                .Expand(a => a.drr_ApplicationType).Expand(a => a.drr_Program) //Added for sorting purposes
+                .Expand(a => a.drr_ApplicationType).Expand(a => a.drr_Program)
                 .Where(a => a.statuscode != (int)ApplicationStatusOptionSet.Deleted);
             if (!string.IsNullOrEmpty(query.Id)) applicationsQuery = applicationsQuery.Where(a => a.drr_name == query.Id);
             if (!string.IsNullOrEmpty(query.BusinessId)) applicationsQuery = applicationsQuery.Where(a => a.drr_Primary_Proponent_Name.drr_bceidguid == query.BusinessId);
@@ -269,7 +269,7 @@ namespace EMCR.DRR.Resources.Applications
 
             if (currentApplication == null) throw new NotFoundException("Application not found");
 
-            var partnerAccounts = (await ctx.connections.Expand(c => c.record2id_account).Where(c => c.record1id_drr_application.drr_applicationid == currentApplication.drr_applicationid).GetAllPagesAsync()).Select(p => p.record2id_account).ToList();
+            var partnerAccounts = (await ctx.connections.Expand(c => c.record2id_account).Where(c => c.record1id_drr_application.drr_applicationid == currentApplication.drr_applicationid && c.statecode == (int)EntityState.Active).GetAllPagesAsync()).Select(p => p.record2id_account).Distinct().ToList();
             ctx.DetachAll();
             RemoveOldData(ctx, currentApplication, partnerAccounts);
 
@@ -960,6 +960,8 @@ namespace EMCR.DRR.Resources.Applications
             }
 
             await Task.WhenAll(loadTasks);
+
+            application.drr_application_connections1 = new System.Collections.ObjectModel.Collection<connection>(application.drr_application_connections1.Where(c => c.statecode == (int)EntityState.Active).ToList());
 
             await application.drr_drr_application_drr_provincialstandarditem_Application.ForEachAsync(5, async s =>
             {
