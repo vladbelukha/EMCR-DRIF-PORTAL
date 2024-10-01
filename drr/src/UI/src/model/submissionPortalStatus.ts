@@ -20,4 +20,5 @@ export const SubmissionPortalStatus = {
   FullProposalSubmitted: 'FullProposalSubmitted',
   Approved: 'Approved',
   ApprovedInPrinciple: 'ApprovedInPrinciple',
+  Deleted: 'Deleted',
 } as const;

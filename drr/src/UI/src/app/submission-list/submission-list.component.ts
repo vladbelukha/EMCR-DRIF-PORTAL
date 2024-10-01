@@ -263,14 +263,14 @@ export class SubmissionListComponent {
     switch (submission.applicationType) {
       case ApplicationType.EOI:
         this.applicationService
-          .dRIFApplicationWithdrawApplication(submission.id!, {})
+          .dRIFApplicationWithdrawApplication(submission.id!)
           .subscribe(() => {
             this.load();
           });
         break;
       case ApplicationType.FP:
         this.applicationService
-          .dRIFApplicationWithdrawFPApplication(submission.id!, {})
+          .dRIFApplicationWithdrawFPApplication(submission.id!)
           .subscribe(() => {
             this.load();
           });
