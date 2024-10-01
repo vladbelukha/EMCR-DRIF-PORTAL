@@ -301,6 +301,20 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             updatedFp.LocalGovernmentAuthorizedByPartners.ShouldBe(EMCR.DRR.Managers.Intake.YesNoOption.NotApplicable);
             ((int)updatedFp.OperationAndMaintenance).ShouldBe((int)fpToUpdate.OperationAndMaintenance);
             updatedFp.ClimateAssessmentTools.ShouldNotBeEmpty();
+
+            var ret = mapper.Map<DraftFpApplication>(updatedFp);
+            ret.VerificationMethods.ShouldContain("autotest-verification-method");
+            ret.AffectedParties.ShouldContain("party 1");
+            ret.ClimateAssessmentTools.ShouldContain("tool 1");
+            ret.Professionals.ShouldContain("professional1");
+            ret.CostReductions.ShouldContain("cost reduction 1");
+            ret.CoBenefits.ShouldContain("benefit 1");
+            ret.IncreasedResiliency.ShouldContain("resiliency 1");
+            ret.ComplexityRisks.ShouldContain("complexity risk 1");
+            ret.ReadinessRisks.ShouldContain("readiness risk 1");
+            ret.SensitivityRisks.ShouldContain("sensitivity risk 1");
+            ret.CapacityRisks.ShouldContain("capacity risk 1");
+            ret.CostConsiderations.ShouldContain("cost consideration 1");
         }
 
         [Test]

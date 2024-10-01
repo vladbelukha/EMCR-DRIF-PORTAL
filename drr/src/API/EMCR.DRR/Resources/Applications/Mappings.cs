@@ -153,7 +153,7 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.drr_cost, opt => opt.MapFrom(src => src.PreviousResponseCost))
                 //PreviousResponseComments
                 .ForMember(dest => dest.drr_costconsiderationsapply, opt => opt.MapFrom(src => src.CostConsiderationsApplied.HasValue && src.CostConsiderationsApplied.Value ? DRRTwoOptions.Yes : DRRTwoOptions.No))
-                //CostConsiderations
+                .ForMember(dest => dest.drr_drr_application_drr_costconsiderationitem_Application, opt => opt.MapFrom(src => src.CostConsiderations))
                 .ForMember(dest => dest.drr_explaincostconsiderations, opt => opt.MapFrom(src => src.CostConsiderationsComments))
 
                 //Attachments - 11
@@ -301,7 +301,7 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.PreviousResponseCost, opt => opt.MapFrom(src => src.drr_cost))
                 .ForMember(dest => dest.PreviousResponseComments, opt => opt.Ignore())
                 .ForMember(dest => dest.CostConsiderationsApplied, opt => opt.MapFrom(src => src.drr_costconsiderationsapply.HasValue ? src.drr_costconsiderationsapply.Value == (int)DRRTwoOptions.Yes : (bool?)null))
-                .ForMember(dest => dest.CostConsiderations, opt => opt.Ignore())
+                .ForMember(dest => dest.CostConsiderations, opt => opt.MapFrom(src => src.drr_drr_application_drr_costconsiderationitem_Application))
                 .ForMember(dest => dest.CostConsiderationsComments, opt => opt.MapFrom(src => src.drr_explaincostconsiderations))
             ;
 
@@ -458,6 +458,13 @@ namespace EMCR.DRR.Resources.Applications
               .ReverseMap()
               .ValidateMemberList(MemberList.Destination)
               .ForMember(dest => dest.Name, opt => opt.MapFrom(src => string.IsNullOrEmpty(src.drr_resiliencycomments) ? src.drr_Resiliency.drr_name : src.drr_resiliencycomments))
+            ;
+
+            CreateMap<CostConsideration, drr_costconsiderationitem>(MemberList.None)
+              .ForMember(dest => dest.drr_CostConsideration, opt => opt.MapFrom(src => new drr_costconsideration { drr_name = src.Name }))
+              .ReverseMap()
+              .ValidateMemberList(MemberList.Destination)
+              .ForMember(dest => dest.Name, opt => opt.MapFrom(src => string.IsNullOrEmpty(src.drr_costconsiderationcomments) ? src.drr_CostConsideration.drr_name : src.drr_costconsiderationcomments))
             ;
 
             CreateMap<YearOverYearFunding, drr_driffundingrequest>(MemberList.None)

@@ -282,7 +282,7 @@ namespace EMCR.DRR.Managers.Intake
         public decimal? PreviousResponseCost { get; set; }
         public string? PreviousResponseComments { get; set; }
         public bool? CostConsiderationsApplied { get; set; }
-        public IEnumerable<string>? CostConsiderations { get; set; }
+        public IEnumerable<CostConsideration> CostConsiderations { get; set; }
         public string? CostConsiderationsComments { get; set; }
 
         //Attachments - 11
@@ -404,6 +404,11 @@ namespace EMCR.DRR.Managers.Intake
     }
 
     public class ClimateAssessmentToolsInfo
+    {
+        public required string Name { get; set; }
+    }
+    
+    public class CostConsideration
     {
         public required string Name { get; set; }
     }

@@ -53,11 +53,13 @@ namespace EMCR.DRR.Managers.Intake
                 .ForMember(dest => dest.AffectedParties, opt => opt.MapFrom(src => src.AffectedParties.Select(p => p.Name)))
                 .ForMember(dest => dest.CostReductions, opt => opt.MapFrom(src => src.CostReductions.Select(p => p.Name)))
                 .ForMember(dest => dest.CoBenefits, opt => opt.MapFrom(src => src.CoBenefits.Select(p => p.Name)))
+                .ForMember(dest => dest.IncreasedResiliency, opt => opt.MapFrom(src => src.IncreasedResiliency.Select(p => p.Name)))
                 .ForMember(dest => dest.ComplexityRisks, opt => opt.MapFrom(src => src.ComplexityRisks.Select(p => p.Name)))
                 .ForMember(dest => dest.ReadinessRisks, opt => opt.MapFrom(src => src.ReadinessRisks.Select(p => p.Name)))
                 .ForMember(dest => dest.SensitivityRisks, opt => opt.MapFrom(src => src.SensitivityRisks.Select(p => p.Name)))
                 .ForMember(dest => dest.CapacityRisks, opt => opt.MapFrom(src => src.CapacityRisks.Select(p => p.Name)))
                 .ForMember(dest => dest.ClimateAssessmentTools, opt => opt.MapFrom(src => src.ClimateAssessmentTools.Select(p => p.Name)))
+                .ForMember(dest => dest.CostConsiderations, opt => opt.MapFrom(src => src.CostConsiderations.Select(p => p.Name)))
                 ;
 
             CreateMap<DraftFpApplication, Application>(MemberList.None)
@@ -75,11 +77,13 @@ namespace EMCR.DRR.Managers.Intake
                 .ForMember(dest => dest.AffectedParties, opt => opt.MapFrom(src => src.AffectedParties.Select(p => p.Name)))
                 .ForMember(dest => dest.CostReductions, opt => opt.MapFrom(src => src.CostReductions.Select(p => p.Name)))
                 .ForMember(dest => dest.CoBenefits, opt => opt.MapFrom(src => src.CoBenefits.Select(p => p.Name)))
+                .ForMember(dest => dest.IncreasedResiliency, opt => opt.MapFrom(src => src.IncreasedResiliency.Select(p => p.Name)))
                 .ForMember(dest => dest.ComplexityRisks, opt => opt.MapFrom(src => src.ComplexityRisks.Select(p => p.Name)))
                 .ForMember(dest => dest.ReadinessRisks, opt => opt.MapFrom(src => src.ReadinessRisks.Select(p => p.Name)))
                 .ForMember(dest => dest.SensitivityRisks, opt => opt.MapFrom(src => src.SensitivityRisks.Select(p => p.Name)))
                 .ForMember(dest => dest.CapacityRisks, opt => opt.MapFrom(src => src.CapacityRisks.Select(p => p.Name)))
                 .ForMember(dest => dest.ClimateAssessmentTools, opt => opt.MapFrom(src => src.ClimateAssessmentTools.Select(p => p.Name)))
+                .ForMember(dest => dest.CostConsiderations, opt => opt.MapFrom(src => src.CostConsiderations.Select(p => p.Name)))
                 ;
 
             CreateMap<Controllers.FundingInformation, FundingInformation>()
@@ -163,6 +167,10 @@ namespace EMCR.DRR.Managers.Intake
                ;
             
             CreateMap<string, ClimateAssessmentToolsInfo>()
+               .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src))
+               ;
+
+            CreateMap<string, CostConsideration>()
                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src))
                ;
 

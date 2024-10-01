@@ -263,6 +263,7 @@ namespace EMCR.DRR.Resources.Applications
                 ctx.LoadPropertyAsync(currentApplication, nameof(drr_application.drr_drr_application_drr_driffundingrequest_Application)),
                 ctx.LoadPropertyAsync(currentApplication, nameof(drr_application.drr_drr_application_drr_resiliencyitem_Application)),
                 ctx.LoadPropertyAsync(currentApplication, nameof(drr_application.drr_drr_application_drr_climateassessmenttoolitem_Application)),
+                ctx.LoadPropertyAsync(currentApplication, nameof(drr_application.drr_drr_application_drr_costconsiderationitem_Application)),
             };
 
             await Task.WhenAll(loadTasks);
@@ -379,6 +380,11 @@ namespace EMCR.DRR.Resources.Applications
                 ctx.AttachTo(nameof(ctx.drr_climateassessmenttoolitems), item);
                 ctx.DeleteObject(item);
             }
+            foreach (var cost in drrApplication.drr_drr_application_drr_costconsiderationitem_Application)
+            {
+                ctx.AttachTo(nameof(ctx.drr_costconsiderationitems), cost);
+                ctx.DeleteObject(cost);
+            }
             foreach (var funding in drrApplication.drr_drr_application_drr_driffundingrequest_Application)
             {
                 ctx.AttachTo(nameof(ctx.drr_driffundingrequests), funding);
@@ -460,6 +466,10 @@ namespace EMCR.DRR.Resources.Applications
                 (await ctx.drr_climateassessmenttools.GetAllPagesAsync()).ToList() :
                 new List<drr_climateassessmenttool>();
 
+            var costConsiderationsMasterList = drrApplication.drr_drr_application_drr_costconsiderationitem_Application.Count > 0 ?
+                (await ctx.drr_costconsiderations.GetAllPagesAsync()).ToList() :
+                new List<drr_costconsideration>();
+
             AddProvincialStandards(ctx, drrApplication, standardsMasterList, categoryMasterList);
             AddQualifiedProfessionals(ctx, drrApplication, professionalsMasterList);
             AddProposedActivities(ctx, drrApplication);
@@ -473,6 +483,7 @@ namespace EMCR.DRR.Resources.Applications
             AddCapacityRisks(ctx, drrApplication, capacityRisksMasterList);
             AddResiliencies(ctx, drrApplication, resiliencyMasterList);
             AddClimateAssessmentTools(ctx, drrApplication, climateAssessmentToolsMasterList);
+            AddCostConsiderations(ctx, drrApplication, costConsiderationsMasterList);
             AddYearOverYearFunding(ctx, drrApplication, fiscalYearsMasterList);
 
             SetApplicationType(ctx, drrApplication, application.ApplicationTypeName);
@@ -885,6 +896,28 @@ namespace EMCR.DRR.Resources.Applications
                 }
             }
         }
+        
+        private static void AddCostConsiderations(DRRContext drrContext, drr_application application, List<drr_costconsideration> costConsiderationsMasterList)
+        {
+            foreach (var item in application.drr_drr_application_drr_costconsiderationitem_Application)
+            {
+                if (item != null)
+                {
+                    var masterVal = costConsiderationsMasterList.FirstOrDefault(s => s.drr_name == item.drr_CostConsideration?.drr_name);
+                    if (masterVal == null)
+                    {
+                        masterVal = costConsiderationsMasterList.FirstOrDefault(s => s.drr_name == "Other");
+                        item.drr_costconsiderationcomments = item.drr_CostConsideration?.drr_name;
+                    }
+                    item.drr_CostConsideration = masterVal;
+
+                    drrContext.AddTodrr_costconsiderationitems(item);
+                    drrContext.AddLink(application, nameof(application.drr_drr_application_drr_costconsiderationitem_Application), item);
+                    drrContext.SetLink(item, nameof(item.drr_Application), application);
+                    drrContext.SetLink(item, nameof(item.drr_CostConsideration), masterVal);
+                }
+            }
+        }
 
         private static void AddYearOverYearFunding(DRRContext drrContext, drr_application application, List<drr_fiscalyear> fiscalYearsMasterList)
         {
@@ -955,6 +988,7 @@ namespace EMCR.DRR.Resources.Applications
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_drr_application_drr_projectcapacitychallengeitem_Application), ct),
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_drr_application_drr_resiliencyitem_Application), ct),
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_drr_application_drr_climateassessmenttoolitem_Application), ct),
+                    ctx.LoadPropertyAsync(application, nameof(drr_application.drr_drr_application_drr_costconsiderationitem_Application), ct),
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_drr_application_drr_driffundingrequest_Application), ct),
                 }).ToList();
             }
@@ -1040,6 +1074,12 @@ namespace EMCR.DRR.Resources.Applications
             {
                 ctx.AttachTo(nameof(DRRContext.drr_climateassessmenttoolitems), item);
                 await ctx.LoadPropertyAsync(item, nameof(drr_climateassessmenttoolitem.drr_ClimateAssessmentTool), ct);
+            });
+            
+            await application.drr_drr_application_drr_costconsiderationitem_Application.ForEachAsync(5, async item =>
+            {
+                ctx.AttachTo(nameof(DRRContext.drr_costconsiderationitems), item);
+                await ctx.LoadPropertyAsync(item, nameof(drr_costconsiderationitem.drr_CostConsideration), ct);
             });
         }
 
