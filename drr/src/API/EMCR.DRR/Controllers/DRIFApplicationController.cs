@@ -17,7 +17,7 @@ namespace EMCR.DRR.Controllers
     [Route("api/[controller]")]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
-    //[Authorize]
+    [Authorize]
     public partial class DRIFApplicationController : ControllerBase
     {
         private readonly ILogger<DRIFApplicationController> logger;
