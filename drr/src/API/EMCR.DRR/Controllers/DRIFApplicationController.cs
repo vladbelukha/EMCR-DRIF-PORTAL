@@ -17,7 +17,7 @@ namespace EMCR.DRR.Controllers
     [Route("api/[controller]")]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
-    [Authorize]
+    //[Authorize]
     public partial class DRIFApplicationController : ControllerBase
     {
         private readonly ILogger<DRIFApplicationController> logger;
@@ -148,7 +148,7 @@ namespace EMCR.DRR.Controllers
         public FundingStream? FundingStream { get; set; }
         [Mandatory]
         public string? ProjectTitle { get; set; }
-        [Mandatory]
+        [EOIMandatory]
         public ProjectType? ProjectType { get; set; }
         public string? ScopeStatement { get; set; }
         [Mandatory]
@@ -180,7 +180,7 @@ namespace EMCR.DRR.Controllers
 
         //Project Detail - 5
         public string? RationaleForFunding { get; set; }
-        [Mandatory]
+        [EOIMandatory]
         public EstimatedNumberOfPeople? EstimatedPeopleImpacted { get; set; }
         [Mandatory]
         public string? CommunityImpact { get; set; }
@@ -247,6 +247,7 @@ namespace EMCR.DRR.Controllers
         public AreaUnits? Units { get; set; }
         [MandatoryIfAny(Values = new[] { nameof(AreaUnits.Acres), nameof(AreaUnits.Hectares), nameof(AreaUnits.SqKm) }, PropertyName = nameof(Units))]
         public string? AreaDescription { get; set; }
+        [FPMandatory]
         public EstimatedNumberOfPeopleFP? EstimatedPeopleImpactedFP { get; set; }
 
         //Project Plan - 4
@@ -291,9 +292,9 @@ namespace EMCR.DRR.Controllers
         public bool? MeetsRegulatoryRequirements { get; set; }
         [MandatoryIf("MeetsRegulatoryRequirements", true)]
         public string? MeetsRegulatoryComments { get; set; }
-        [Mandatory]
+        //[Mandatory]
         public bool? MeetsEligibilityRequirements { get; set; }
-        [MandatoryIf("MeetsEligibilityRequirements", true)]
+        //[MandatoryIf("MeetsEligibilityRequirements", true)]
         public string? MeetsEligibilityComments { get; set; }
 
         //Project Outcomes - 8
@@ -592,6 +593,35 @@ namespace EMCR.DRR.Controllers
 #pragma warning disable CS8603 // Possible null reference return.
 #pragma warning disable CS8604 // Possible null reference argument.
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
+    public class EOIMandatory : ValidationAttribute
+    {
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        {
+            var model = validationContext.ObjectInstance;
+
+            if (model.GetType() == typeof(EoiApplication) && value == null)
+            {
+                var propertyInfo = validationContext.ObjectType.GetProperty(validationContext.MemberName);
+                return new ValidationResult($"{propertyInfo.Name} is required");
+            }
+            return ValidationResult.Success;
+        }
+    }
+
+    public class FPMandatory : ValidationAttribute
+    {
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        {
+            var model = validationContext.ObjectInstance;
+
+            if (model.GetType() == typeof(FpApplication) && value == null)
+            {
+                var propertyInfo = validationContext.ObjectType.GetProperty(validationContext.MemberName);
+                return new ValidationResult($"{propertyInfo.Name} is required");
+            }
+            return ValidationResult.Success;
+        }
+    }
 
     public class Mandatory : ValidationAttribute
     {
