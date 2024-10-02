@@ -94,7 +94,7 @@ export class DrifFpStep10Component {
         const total = years.reduce((acc, year) => acc + Number(year.amount), 0);
         this.budgetForm.get('totalDrifFundingRequest')?.setValue(total);
 
-        if (total !== this.budgetForm.get('estimatedTotal')?.value) {
+        if (total !== this.budgetForm.get('fundingRequest')?.value) {
           this.budgetForm
             .get('discrepancyComment')
             ?.setValidators(Validators.required);
@@ -161,13 +161,12 @@ export class DrifFpStep10Component {
   showDiscrepancyComment() {
     return (
       this.budgetForm.get('totalDrifFundingRequest')?.value !==
-      this.budgetForm.get('estimatedTotal')?.value
+      this.budgetForm.get('fundingRequest')?.value
     );
   }
 
   calculateRemainingAmount() {
-    const estimatedTotal = this.budgetForm.get('estimatedTotal')?.value ?? 0;
-
+    // how much I'm covering with other funding
     let otherFundingSum = this.getFormArray('otherFunding').controls.reduce(
       (total, funding) => total + Number(funding.value.amount),
       0
@@ -177,9 +176,15 @@ export class DrifFpStep10Component {
       otherFundingSum = 0;
     }
 
+    // how much will the project cost, but not how much I'm asking for
     const fundingRequest = this.budgetForm.get('fundingRequest')?.value ?? 0;
+    // how much I'm asking for
+    const totalDrifFundingRequest =
+      this.budgetForm.get('totalDrifFundingRequest')?.value ?? 0;
 
-    let remainingAmount = estimatedTotal - otherFundingSum - fundingRequest;
+    // how much is left to cover and I need to explain how I'm going to cover it
+    let remainingAmount =
+      fundingRequest - totalDrifFundingRequest - otherFundingSum;
 
     this.budgetForm.patchValue({ remainingAmount });
 

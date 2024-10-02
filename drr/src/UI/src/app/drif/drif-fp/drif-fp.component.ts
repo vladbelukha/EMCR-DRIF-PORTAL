@@ -653,10 +653,9 @@ export class DrifFpComponent {
       .subscribe({
         next: (response) => {
           this.hotToast.close();
-          this.hotToast.success('Application submitted successfully', {
-            duration: 5000,
-            autoClose: true,
-          });
+          this.hotToast.success(
+            `Your submission has been received. ID #: ${response.id}`
+          );
 
           this.router.navigate(['/submissions']);
         },

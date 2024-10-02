@@ -380,7 +380,6 @@ export class EOIApplicationComponent {
     }
   }
 
-  // TODO: take from server response
   lastSavedAt?: Date;
 
   save() {
@@ -500,10 +499,9 @@ export class EOIApplicationComponent {
 
   onSubmitSuccess = (response: ApplicationResult) => {
     this.hotToast.close();
-    this.hotToast.success('Application submitted successfully', {
-      autoClose: true,
-      duration: 5000,
-    });
+    this.hotToast.success(
+      `Your submission has been received. ID #: ${response.id}`
+    );
     this.router.navigate(['/submissions']);
   };
 
