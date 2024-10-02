@@ -91,6 +91,7 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.drr_doesprojectconsiderclimatechange, opt => opt.MapFrom(src => src.IncorporateFutureClimateConditions.HasValue && src.IncorporateFutureClimateConditions.Value ? DRRTwoOptions.Yes : DRRTwoOptions.No))
                 .ForMember(dest => dest.drr_hasprojectusedclimatechangeassessmenttool, opt => opt.MapFrom(src => src.ClimateAssessment.HasValue && src.ClimateAssessment.Value ? DRRTwoOptions.Yes : DRRTwoOptions.No))
                 .ForMember(dest => dest.drr_drr_application_drr_climateassessmenttoolitem_Application, opt => opt.MapFrom(src => src.ClimateAssessmentTools))
+                .ForMember(dest => dest.drr_howtoolsusedtobenefitproject, opt => opt.MapFrom(src => src.ClimateAssessmentComments))
 
                 //Permits Regulations & Standards - 7
                 .ForMember(dest => dest.drr_projecteligibleforrequiredpermitsapproval, opt => opt.MapFrom(src => src.Approvals.HasValue && src.Approvals.Value ? DRRTwoOptions.Yes : DRRTwoOptions.No))
@@ -248,7 +249,7 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.IncorporateFutureClimateConditions, opt => opt.MapFrom(src => src.drr_doesprojectconsiderclimatechange.HasValue ? src.drr_doesprojectconsiderclimatechange.Value == (int)DRRTwoOptions.Yes : (bool?)null))
                 .ForMember(dest => dest.ClimateAssessment, opt => opt.MapFrom(src => src.drr_hasprojectusedclimatechangeassessmenttool.HasValue ? src.drr_hasprojectusedclimatechangeassessmenttool.Value == (int)DRRTwoOptions.Yes : (bool?)null))
                 .ForMember(dest => dest.ClimateAssessmentTools, opt => opt.MapFrom(src => src.drr_drr_application_drr_climateassessmenttoolitem_Application))
-                .ForMember(dest => dest.ClimateAssessmentComments, opt => opt.Ignore())
+                .ForMember(dest => dest.ClimateAssessmentComments, opt => opt.MapFrom(src => src.drr_howtoolsusedtobenefitproject))
                 //Permits Regulations & Standards - 7
                 .ForMember(dest => dest.Approvals, opt => opt.MapFrom(src => src.drr_projecteligibleforrequiredpermitsapproval.HasValue ? src.drr_projecteligibleforrequiredpermitsapproval.Value == (int)DRRTwoOptions.Yes : (bool?)null))
                 .ForMember(dest => dest.ApprovalsComments, opt => opt.MapFrom(src => src.drr_projecteligibleforpermitsapprovalcomments))
