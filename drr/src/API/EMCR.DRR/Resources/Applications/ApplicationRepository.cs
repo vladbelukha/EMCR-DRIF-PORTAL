@@ -123,7 +123,7 @@ namespace EMCR.DRR.Resources.Applications
         {
             var filterString = GetFilterXML(query);
             var orderString = GetOrderXML(query);
-            var orderByStatus = !string.IsNullOrEmpty(query.OrderBy) && query.OrderBy.Equals("statuscode");
+            var orderByStatus = !string.IsNullOrEmpty(query.OrderBy) && query.OrderBy.Contains("statuscode");
 
             //If not order by status then perform paging in the query
             var fetchString = orderByStatus ? "<fetch>" : $"<fetch count='{query.Count}' page='{query.Page}'>";
