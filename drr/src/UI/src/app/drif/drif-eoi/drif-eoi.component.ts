@@ -500,7 +500,7 @@ export class EOIApplicationComponent {
   onSubmitSuccess = (response: ApplicationResult) => {
     this.hotToast.close();
     this.hotToast.success(
-      `Your submission has been received. ID #: ${response.id}`
+      `Your submission has been received. \tID #: ${response.id}`
     );
     this.router.navigate(['/submissions']);
   };
