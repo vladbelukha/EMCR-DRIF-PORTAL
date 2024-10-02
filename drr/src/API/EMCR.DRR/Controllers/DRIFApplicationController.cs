@@ -130,8 +130,14 @@ namespace EMCR.DRR.Controllers
     }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-    public class DraftApplication
+    public abstract class DraftApplication
     {
+        public abstract IEnumerable<ContactDetails> AdditionalContacts { get; set; }
+    }
+
+    public class DraftEoiApplication : DraftApplication
+    {
+        public string? FpId { get; set; }
         public string? Id { get; set; }
         public SubmissionPortalStatus? Status { get; set; }
 
@@ -140,7 +146,7 @@ namespace EMCR.DRR.Controllers
         public ContactDetails? Submitter { get; set; }
         [Mandatory]
         public ContactDetails? ProjectContact { get; set; }
-        public IEnumerable<ContactDetails> AdditionalContacts { get; set; }
+        public override IEnumerable<ContactDetails> AdditionalContacts { get; set; }
         [CollectionStringLengthValid(ErrorMessage = "PartneringProponents have a limit of 40 characters per name")]
         public IEnumerable<string> PartneringProponents { get; set; }
 
@@ -148,8 +154,8 @@ namespace EMCR.DRR.Controllers
         public FundingStream? FundingStream { get; set; }
         [Mandatory]
         public string? ProjectTitle { get; set; }
-        [EOIMandatory]
-        public ProjectType? ProjectType { get; set; }
+        [Mandatory]
+        public ProjectType? Stream { get; set; }
         public string? ScopeStatement { get; set; }
         [Mandatory]
         public IEnumerable<Hazards>? RelatedHazards { get; set; }
@@ -173,14 +179,14 @@ namespace EMCR.DRR.Controllers
 
         //Location Information - 4
         public bool? OwnershipDeclaration { get; set; }
-        [MandatoryIf("OwnershipDeclaration", true)]
+        [MandatoryIf("OwnershipDeclaration", false)]
         public string? OwnershipDescription { get; set; }
         [Mandatory]
         public string? LocationDescription { get; set; }
 
         //Project Detail - 5
         public string? RationaleForFunding { get; set; }
-        [EOIMandatory]
+        [Mandatory]
         public EstimatedNumberOfPeople? EstimatedPeopleImpacted { get; set; }
         [Mandatory]
         public string? CommunityImpact { get; set; }
@@ -207,11 +213,6 @@ namespace EMCR.DRR.Controllers
         public string? OtherInformation { get; set; }
     }
 
-    public class DraftEoiApplication : DraftApplication
-    {
-        public string? FpId { get; set; }
-    }
-
     public class EoiApplication : DraftEoiApplication
     {
         //Declaration
@@ -223,15 +224,27 @@ namespace EMCR.DRR.Controllers
     public class DraftFpApplication : DraftApplication
     {
         public string? EoiId { get; set; }
+        public string? Id { get; set; }
+        public SubmissionPortalStatus? Status { get; set; }
 
         //Proponent & Project Information - 1
         [Mandatory]
+        public string? ProjectTitle { get; set; }
+        public string? MainDeliverable { get; set; }
+        [Mandatory]
+        public ContactDetails? ProjectContact { get; set; }
+        [Mandatory]
+        public override IEnumerable<ContactDetails> AdditionalContacts { get; set; }
+        [CollectionStringLengthValid(ErrorMessage = "PartneringProponents have a limit of 40 characters per name")]
+        public IEnumerable<string> PartneringProponents { get; set; }
         public bool? RegionalProject { get; set; }
         [MandatoryIf("RegionalProject", true)]
         public string? RegionalProjectComments { get; set; }
-        public string? MainDeliverable { get; set; }
 
         //Ownership & Authorization - 2
+        public bool? OwnershipDeclaration { get; set; }
+        [MandatoryIf("OwnershipDeclaration", false)]
+        public string? OwnershipDescription { get; set; }
         public bool? HaveAuthorityToDevelop { get; set; }
         public YesNoOption? OperationAndMaintenance { get; set; }
         public string? OperationAndMaintenanceComments { get; set; }
@@ -243,17 +256,39 @@ namespace EMCR.DRR.Controllers
         public string? AuthorizationOrEndorsementComments { get; set; }
 
         //Project Area - 3
+        [Mandatory]
+        public string? LocationDescription { get; set; }
         public int? Area { get; set; }
         public AreaUnits? Units { get; set; }
         [MandatoryIfAny(Values = new[] { nameof(AreaUnits.Acres), nameof(AreaUnits.Hectares), nameof(AreaUnits.SqKm) }, PropertyName = nameof(Units))]
         public string? AreaDescription { get; set; }
-        [FPMandatory]
+        [Mandatory]
+        public IEnumerable<Hazards>? RelatedHazards { get; set; }
+        public string? OtherHazardsDescription { get; set; }
+        [Mandatory]
+        public string? CommunityImpact { get; set; }
+        [Mandatory]
         public EstimatedNumberOfPeopleFP? EstimatedPeopleImpactedFP { get; set; }
+        [Mandatory]
+        public bool? IsInfrastructureImpacted { get; set; }
+        [MandatoryIf("IsInfrastructureImpacted", true)]
+        public IEnumerable<InfrastructureImpacted>? InfrastructureImpacted { get; set; }
 
         //Project Plan - 4
+        [Mandatory]
+        public DateTime? StartDate { get; set; }
+        [Mandatory]
+        public DateTime? EndDate { get; set; }
+        [Mandatory]
+        public string? ProjectDescription { get; set; }
         public IEnumerable<ProposedActivity>? ProposedActivities { get; set; }
         public IEnumerable<string>? VerificationMethods { get; set; }
-        public string? VerificationMethodsComments { get; set; }
+        [Mandatory]
+        //public string? VerificationMethodsComments { get; set; }
+        public string? RationaleForSolution { get; set; }
+        public string? AddressRisksAndHazards { get; set; }
+        public string? DisasterRiskUnderstanding { get; set; }
+        public string? RationaleForFunding { get; set; }
         [Mandatory]
         public string? ProjectAlternateOptions { get; set; }
 
@@ -271,6 +306,7 @@ namespace EMCR.DRR.Controllers
 
         //Climate Adaptation - 6
         public bool? IncorporateFutureClimateConditions { get; set; }
+        public string? ClimateAdaptation { get; set; }
         public bool? ClimateAssessment { get; set; }
         [MandatoryIf("ClimateAssessment", true)]
         public IEnumerable<string>? ClimateAssessmentTools { get; set; }
@@ -293,9 +329,9 @@ namespace EMCR.DRR.Controllers
         [MandatoryIf("MeetsRegulatoryRequirements", true)]
         public string? MeetsRegulatoryComments { get; set; }
         //[Mandatory]
-        public bool? MeetsEligibilityRequirements { get; set; }
+        //public bool? MeetsEligibilityRequirements { get; set; }
         //[MandatoryIf("MeetsEligibilityRequirements", true)]
-        public string? MeetsEligibilityComments { get; set; }
+        //public string? MeetsEligibilityComments { get; set; }
 
         //Project Outcomes - 8
         [Mandatory]
@@ -354,11 +390,19 @@ namespace EMCR.DRR.Controllers
         //Budget - 10
         [Range(0, ApplicationValidators.FUNDING_MAX_VAL)]
         public decimal? EligibleFundingRequest { get; set; }
+        [Range(0, ApplicationValidators.FUNDING_MAX_VAL)]
+        public decimal? FundingRequest { get; set; }
+        public decimal? RemainingAmount { get; set; }
         public IEnumerable<YearOverYearFunding>? YearOverYearFunding { get; set; }
         [Range(0, ApplicationValidators.FUNDING_MAX_VAL)]
         public decimal? TotalDrifFundingRequest { get; set; }
         public string? DiscrepancyComment { get; set; }
-        public bool? CostEffective { get; set; }
+        [Mandatory]
+        public bool? HaveOtherFunding { get; set; }
+        [MandatoryIf("HaveOtherFunding", true)]
+        public IEnumerable<FundingInformation> OtherFunding { get; set; }
+        public string? IntendToSecureFunding { get; set; }
+        //public bool? CostEffective { get; set; }
         [Mandatory]
         public string? CostEffectiveComments { get; set; }
         [Mandatory]
@@ -593,43 +637,13 @@ namespace EMCR.DRR.Controllers
 #pragma warning disable CS8603 // Possible null reference return.
 #pragma warning disable CS8604 // Possible null reference argument.
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
-    public class EOIMandatory : ValidationAttribute
-    {
-        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
-        {
-            var model = validationContext.ObjectInstance;
-
-            if (model.GetType() == typeof(EoiApplication) && value == null)
-            {
-                var propertyInfo = validationContext.ObjectType.GetProperty(validationContext.MemberName);
-                return new ValidationResult($"{propertyInfo.Name} is required");
-            }
-            return ValidationResult.Success;
-        }
-    }
-
-    public class FPMandatory : ValidationAttribute
-    {
-        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
-        {
-            var model = validationContext.ObjectInstance;
-
-            if (model.GetType() == typeof(FpApplication) && value == null)
-            {
-                var propertyInfo = validationContext.ObjectType.GetProperty(validationContext.MemberName);
-                return new ValidationResult($"{propertyInfo.Name} is required");
-            }
-            return ValidationResult.Success;
-        }
-    }
-
     public class Mandatory : ValidationAttribute
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             var model = validationContext.ObjectInstance;
 
-            if ((model.GetType() == typeof(FpApplication) || model.GetType() == typeof(EoiApplication)) && value == null)
+            if ((model.GetType() != typeof(DraftEoiApplication) && model.GetType() != typeof(DraftFpApplication)) && value == null)
             {
                 var propertyInfo = validationContext.ObjectType.GetProperty(validationContext.MemberName);
                 return new ValidationResult($"{propertyInfo.Name} is required");
