@@ -477,7 +477,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
                 //Project Information - 2
                 FundingStream = EMCR.DRR.Controllers.FundingStream.Stream1,
                 ProjectTitle = "Project Title",
-                ProjectType = EMCR.DRR.Controllers.ProjectType.New,
+                Stream = EMCR.DRR.Controllers.ProjectType.New,
                 ScopeStatement = "scope",
                 RelatedHazards = new[]
                 {
@@ -580,7 +580,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
                 new EMCR.DRR.Controllers.ProposedActivity {StartDate = DateTime.UtcNow, EndDate = DateTime.UtcNow.AddDays(5), Name = "autotest-proposed-activity-name", RelatedMilestone = "some milestone" }
             };
             application.VerificationMethods = new[] { "autotest-verification-method" };
-            application.VerificationMethodsComments = "verification method comments";
+            //application.VerificationMethodsComments = "verification method comments";
             application.ProjectAlternateOptions = "some alternate options";
 
             //Project Engagement - 5
@@ -644,7 +644,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             application.YearOverYearFunding = new[] { new EMCR.DRR.Controllers.YearOverYearFunding { Amount = 100, Year = "2024/2025" } };
             application.TotalDrifFundingRequest = 5000;
             application.DiscrepancyComment = "discrepancy comment";
-            application.CostEffective = false;
+            //application.CostEffective = false;
             application.CostEffectiveComments = "cost effective comments";
             application.PreviousResponse = EMCR.DRR.Controllers.YesNoOption.No;
             application.PreviousResponseCost = 1200;

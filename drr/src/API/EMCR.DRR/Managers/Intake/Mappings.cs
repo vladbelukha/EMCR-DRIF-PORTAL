@@ -8,22 +8,18 @@ namespace EMCR.DRR.Managers.Intake
     {
         public IntakeMapperProfile()
         {
-            CreateMap<Application, DraftApplication>()
-                .ForMember(dest => dest.AdditionalContacts, opt => opt.MapFrom(src => DRRAdditionalContactMapper(src.AdditionalContact1, src.AdditionalContact2)))
-                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => DRRApplicationStatusMapper(src.Status)))
-                .ForMember(dest => dest.PartneringProponents, opt => opt.MapFrom(src => src.PartneringProponents.Select(p => p.Name)))
-                ;
-
             CreateMap<EoiApplication, Application>(MemberList.None)
                 .ForMember(dest => dest.AdditionalContact1, opt => opt.MapFrom(src => src.AdditionalContacts.FirstOrDefault()))
                 .ForMember(dest => dest.AdditionalContact2, opt => opt.MapFrom(src => src.AdditionalContacts.ElementAtOrDefault(1)))
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => IntakeStatusMapper(src.Status)))
                 .ForMember(dest => dest.ApplicationTypeName, opt => opt.MapFrom(src => "EOI"))
                 .ForMember(dest => dest.ProgramName, opt => opt.MapFrom(src => "DRIF"))
+                .ForMember(dest => dest.ProjectType, opt => opt.MapFrom(src => src.Stream))
                 .ReverseMap()
                 .ForMember(dest => dest.AdditionalContacts, opt => opt.MapFrom(src => DRRAdditionalContactMapper(src.AdditionalContact1, src.AdditionalContact2)))
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => DRRApplicationStatusMapper(src.Status)))
                 .ForMember(dest => dest.PartneringProponents, opt => opt.MapFrom(src => src.PartneringProponents.Select(p => p.Name)))
+                .ForMember(dest => dest.Stream, opt => opt.MapFrom(src => src.ProjectType))
                 ;
 
             CreateMap<DraftEoiApplication, Application>(MemberList.None)
@@ -32,10 +28,12 @@ namespace EMCR.DRR.Managers.Intake
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => IntakeStatusMapper(src.Status)))
                 .ForMember(dest => dest.ApplicationTypeName, opt => opt.MapFrom(src => "EOI"))
                 .ForMember(dest => dest.ProgramName, opt => opt.MapFrom(src => "DRIF"))
+                .ForMember(dest => dest.ProjectType, opt => opt.MapFrom(src => src.Stream))
                 .ReverseMap()
                 .ForMember(dest => dest.AdditionalContacts, opt => opt.MapFrom(src => DRRAdditionalContactMapper(src.AdditionalContact1, src.AdditionalContact2)))
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => DRRApplicationStatusMapper(src.Status)))
                 .ForMember(dest => dest.PartneringProponents, opt => opt.MapFrom(src => src.PartneringProponents.Select(p => p.Name)))
+                .ForMember(dest => dest.Stream, opt => opt.MapFrom(src => src.ProjectType))
                 ;
 
             CreateMap<FpApplication, Application>(MemberList.None)
@@ -165,7 +163,7 @@ namespace EMCR.DRR.Managers.Intake
             CreateMap<string, TransferRisks>()
                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src))
                ;
-            
+
             CreateMap<string, ClimateAssessmentToolsInfo>()
                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src))
                ;

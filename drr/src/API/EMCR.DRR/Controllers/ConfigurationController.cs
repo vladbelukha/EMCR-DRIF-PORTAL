@@ -1,10 +1,7 @@
-﻿using AutoMapper;
-using EMCR.DRR.API.Services;
-using EMCR.DRR.Controllers;
+﻿using EMCR.DRR.API.Services;
 using EMCR.DRR.Managers.Intake;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace EMCR.DRR.API.Controllers
 {
