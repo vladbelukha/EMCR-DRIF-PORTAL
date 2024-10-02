@@ -410,65 +410,55 @@ namespace EMCR.DRR.Resources.Applications
             AddFundinSources(ctx, drrApplication);
             AddInfrastructureImpacted(ctx, drrApplication);
 
-            var standardsMasterList = drrApplication.drr_drr_application_drr_provincialstandarditem_Application.Count > 0 ?
-                (await ctx.drr_provincialstandards.Expand(s => s.drr_Category).GetAllPagesAsync()).ToList() :
-                new List<drr_provincialstandard>();
+            var standardsMasterListTask = LoadStandardsMasterList(ctx, drrApplication);
+            var categoryMasterListTask = LoadCategoryMasterList(ctx, drrApplication);
+            var affectedPartiesMasterListTask = LoadAffectedPartiesMasterList(ctx, drrApplication);
+            var projectNeedsMasterListTask = LoadProjectNeedsMasterList(ctx, drrApplication);
+            var costReductionsMasterListTask = LoadCostReductionsMasterList(ctx, drrApplication);
+            var coBenefitsMasterListTask = LoadCoBenefitsMasterList(ctx, drrApplication);
+            var complexityRisksMasterListTask = LoadComplexityRisksMasterList(ctx, drrApplication);
+            var readinessRisksMasterListTask = LoadReadinessRisksMasterList(ctx, drrApplication);
+            var sensitivityRisksMasterListTask = LoadSensitivityRisksMasterList(ctx, drrApplication);
+            var capacityRisksMasterListTask = LoadCapacityRisksMasterList(ctx, drrApplication);
+            var fiscalYearsMasterListTask = LoadFiscalYearsMasterList(ctx, drrApplication);
+            var professionalsMasterListTask = LoadProfessionalsMasterList(ctx, drrApplication);
+            var resiliencyMasterListTask = LoadResiliencyMasterList(ctx, drrApplication);
+            var climateAssessmentToolsMasterListTask = LoadClimateAssessmentToolsMasterList(ctx, drrApplication);
+            var costConsiderationsMasterListTask = LoadCostConsiderationsMasterList(ctx, drrApplication);
 
-            var categoryMasterList = drrApplication.drr_drr_application_drr_provincialstandarditem_Application.Count > 0 ?
-                (await ctx.drr_provincialstandardcategories.GetAllPagesAsync()).ToList() :
-                new List<drr_provincialstandardcategory>();
+            await Task.WhenAll([
+                standardsMasterListTask,
+                categoryMasterListTask,
+                affectedPartiesMasterListTask,
+                projectNeedsMasterListTask,
+                costReductionsMasterListTask,
+                coBenefitsMasterListTask,
+                complexityRisksMasterListTask,
+                readinessRisksMasterListTask,
+                sensitivityRisksMasterListTask,
+                capacityRisksMasterListTask,
+                fiscalYearsMasterListTask,
+                professionalsMasterListTask,
+                resiliencyMasterListTask,
+                climateAssessmentToolsMasterListTask,
+                costConsiderationsMasterListTask
+            ]);
 
-            var affectedPartiesMasterList = drrApplication.drr_drr_application_drr_impactedoraffectedpartyitem_Application.Count > 0 ?
-                (await ctx.drr_impactedoraffectedparties.GetAllPagesAsync()).ToList() :
-                new List<drr_impactedoraffectedparty>();
-
-            var projectNeedsMasterList = drrApplication.drr_drr_application_drr_projectneedidentificationitem_Application.Count > 0 ?
-                (await ctx.drr_projectneedidentifications.GetAllPagesAsync()).ToList() :
-                new List<drr_projectneedidentification>();
-
-            var costReductionsMasterList = drrApplication.drr_drr_application_drr_costreductionitem_Application.Count > 0 ?
-                (await ctx.drr_costreductions.GetAllPagesAsync()).ToList() :
-                new List<drr_costreduction>();
-
-            var coBenefitsMasterList = drrApplication.drr_drr_application_drr_cobenefititem_Application.Count > 0 ?
-                (await ctx.drr_cobenefits.GetAllPagesAsync()).ToList() :
-                new List<drr_cobenefit>();
-
-            var complexityRisksMasterList = drrApplication.drr_drr_application_drr_projectcomplexityriskitem_Application.Count > 0 ?
-                (await ctx.drr_projectcomplexityrisks.GetAllPagesAsync()).ToList() :
-                new List<drr_projectcomplexityrisk>();
-
-            var readinessRisksMasterList = drrApplication.drr_drr_application_drr_projectreadinessriskitem_Application.Count > 0 ?
-                (await ctx.drr_projectreadinessrisks.GetAllPagesAsync()).ToList() :
-                new List<drr_projectreadinessrisk>();
-
-            var sensitivityRisksMasterList = drrApplication.drr_drr_application_drr_projectsensitivityriskitem_Application.Count > 0 ?
-                (await ctx.drr_projectsensitivityrisks.GetAllPagesAsync()).ToList() :
-                new List<drr_projectsensitivityrisk>();
-
-            var capacityRisksMasterList = drrApplication.drr_drr_application_drr_projectcapacitychallengeitem_Application.Count > 0 ?
-                (await ctx.drr_projectcapacitychallenges.GetAllPagesAsync()).ToList() :
-                new List<drr_projectcapacitychallenge>();
-
-            var fiscalYearsMasterList = drrApplication.drr_drr_application_drr_driffundingrequest_Application.Count > 0 ?
-                (await ctx.drr_fiscalyears.GetAllPagesAsync()).ToList() :
-                new List<drr_fiscalyear>();
-
-            var professionalsMasterList = drrApplication.drr_drr_application_drr_qualifiedprofessionalitem_Application.Count > 0 ?
-                (await ctx.drr_qualifiedprofessionals.GetAllPagesAsync()).ToList() :
-                new List<drr_qualifiedprofessional>();
-
-            var resiliencyMasterList = drrApplication.drr_drr_application_drr_resiliencyitem_Application.Count > 0 ?
-                (await ctx.drr_resiliencies.GetAllPagesAsync()).ToList() :
-                new List<drr_resiliency>();
-
-            var climateAssessmentToolsMasterList = drrApplication.drr_drr_application_drr_climateassessmenttoolitem_Application.Count > 0 ?
-                (await ctx.drr_climateassessmenttools.GetAllPagesAsync()).ToList() :
-                new List<drr_climateassessmenttool>();
-
-            var costConsiderationsMasterList = drrApplication.drr_drr_application_drr_costconsiderationitem_Application.Count > 0 ?
-                (await ctx.drr_costconsiderations.GetAllPagesAsync()).ToList() :
-                new List<drr_costconsideration>();
+            var standardsMasterList = standardsMasterListTask.Result;
+            var categoryMasterList = categoryMasterListTask.Result;
+            var affectedPartiesMasterList = affectedPartiesMasterListTask.Result;
+            var projectNeedsMasterList = projectNeedsMasterListTask.Result;
+            var costReductionsMasterList = costReductionsMasterListTask.Result;
+            var coBenefitsMasterList = coBenefitsMasterListTask.Result;
+            var complexityRisksMasterList = complexityRisksMasterListTask.Result;
+            var readinessRisksMasterList = readinessRisksMasterListTask.Result;
+            var sensitivityRisksMasterList = sensitivityRisksMasterListTask.Result;
+            var capacityRisksMasterList = capacityRisksMasterListTask.Result;
+            var fiscalYearsMasterList = fiscalYearsMasterListTask.Result;
+            var professionalsMasterList = professionalsMasterListTask.Result;
+            var resiliencyMasterList = resiliencyMasterListTask.Result;
+            var climateAssessmentToolsMasterList = climateAssessmentToolsMasterListTask.Result;
+            var costConsiderationsMasterList = costConsiderationsMasterListTask.Result;
 
             AddProvincialStandards(ctx, drrApplication, standardsMasterList, categoryMasterList);
             AddQualifiedProfessionals(ctx, drrApplication, professionalsMasterList);
@@ -488,7 +478,7 @@ namespace EMCR.DRR.Resources.Applications
 
             SetApplicationType(ctx, drrApplication, application.ApplicationTypeName);
             SetProgram(ctx, drrApplication, application.ProgramName);
-            await SetDeclarations(ctx, drrApplication);
+            await SetDeclarations(ctx, drrApplication, application.ApplicationTypeName);
 
             var partnerAccounts = mapper.Map<IEnumerable<account>>(application.PartneringProponents);
             foreach (var account in partnerAccounts)
@@ -510,6 +500,111 @@ namespace EMCR.DRR.Resources.Applications
             return drrApplicationNumber;
         }
 
+        private async Task<List<drr_provincialstandard>> LoadStandardsMasterList(DRRContext ctx, drr_application drrApplication)
+        {
+            return drrApplication.drr_drr_application_drr_provincialstandarditem_Application.Count > 0 ?
+                (await ctx.drr_provincialstandards.Expand(s => s.drr_Category).GetAllPagesAsync()).ToList() :
+                new List<drr_provincialstandard>();
+        }
+
+        private async Task<List<drr_provincialstandardcategory>> LoadCategoryMasterList(DRRContext ctx, drr_application drrApplication)
+        {
+            return drrApplication.drr_drr_application_drr_provincialstandarditem_Application.Count > 0 ?
+                (await ctx.drr_provincialstandardcategories.GetAllPagesAsync()).ToList() :
+                new List<drr_provincialstandardcategory>();
+        }
+
+        private async Task<List<drr_impactedoraffectedparty>> LoadAffectedPartiesMasterList(DRRContext ctx, drr_application drrApplication)
+        {
+            return drrApplication.drr_drr_application_drr_impactedoraffectedpartyitem_Application.Count > 0 ?
+                    (await ctx.drr_impactedoraffectedparties.GetAllPagesAsync()).ToList() :
+                    new List<drr_impactedoraffectedparty>();
+        }
+
+        private async Task<List<drr_projectneedidentification>> LoadProjectNeedsMasterList(DRRContext ctx, drr_application drrApplication)
+        {
+            return drrApplication.drr_drr_application_drr_projectneedidentificationitem_Application.Count > 0 ?
+                (await ctx.drr_projectneedidentifications.GetAllPagesAsync()).ToList() :
+                new List<drr_projectneedidentification>();
+        }
+
+        private async Task<List<drr_costreduction>> LoadCostReductionsMasterList(DRRContext ctx, drr_application drrApplication)
+        {
+            return drrApplication.drr_drr_application_drr_costreductionitem_Application.Count > 0 ?
+                (await ctx.drr_costreductions.GetAllPagesAsync()).ToList() :
+                new List<drr_costreduction>();
+        }
+
+        private async Task<List<drr_cobenefit>> LoadCoBenefitsMasterList(DRRContext ctx, drr_application drrApplication)
+        {
+            return drrApplication.drr_drr_application_drr_cobenefititem_Application.Count > 0 ?
+                (await ctx.drr_cobenefits.GetAllPagesAsync()).ToList() :
+                new List<drr_cobenefit>();
+        }
+
+        private async Task<List<drr_projectcomplexityrisk>> LoadComplexityRisksMasterList(DRRContext ctx, drr_application drrApplication)
+        {
+            return drrApplication.drr_drr_application_drr_projectcomplexityriskitem_Application.Count > 0 ?
+                (await ctx.drr_projectcomplexityrisks.GetAllPagesAsync()).ToList() :
+                new List<drr_projectcomplexityrisk>();
+        }
+
+        private async Task<List<drr_projectreadinessrisk>> LoadReadinessRisksMasterList(DRRContext ctx, drr_application drrApplication)
+        {
+            return drrApplication.drr_drr_application_drr_projectreadinessriskitem_Application.Count > 0 ?
+                (await ctx.drr_projectreadinessrisks.GetAllPagesAsync()).ToList() :
+                new List<drr_projectreadinessrisk>();
+        }
+
+        private async Task<List<drr_projectsensitivityrisk>> LoadSensitivityRisksMasterList(DRRContext ctx, drr_application drrApplication)
+        {
+            return drrApplication.drr_drr_application_drr_projectsensitivityriskitem_Application.Count > 0 ?
+                (await ctx.drr_projectsensitivityrisks.GetAllPagesAsync()).ToList() :
+                new List<drr_projectsensitivityrisk>();
+        }
+
+        private async Task<List<drr_projectcapacitychallenge>> LoadCapacityRisksMasterList(DRRContext ctx, drr_application drrApplication)
+        {
+            return drrApplication.drr_drr_application_drr_projectcapacitychallengeitem_Application.Count > 0 ?
+                (await ctx.drr_projectcapacitychallenges.GetAllPagesAsync()).ToList() :
+                new List<drr_projectcapacitychallenge>();
+        }
+
+        private async Task<List<drr_fiscalyear>> LoadFiscalYearsMasterList(DRRContext ctx, drr_application drrApplication)
+        {
+            return drrApplication.drr_drr_application_drr_driffundingrequest_Application.Count > 0 ?
+                (await ctx.drr_fiscalyears.GetAllPagesAsync()).ToList() :
+                new List<drr_fiscalyear>();
+        }
+
+        private async Task<List<drr_qualifiedprofessional>> LoadProfessionalsMasterList(DRRContext ctx, drr_application drrApplication)
+        {
+            return drrApplication.drr_drr_application_drr_qualifiedprofessionalitem_Application.Count > 0 ?
+                (await ctx.drr_qualifiedprofessionals.GetAllPagesAsync()).ToList() :
+                new List<drr_qualifiedprofessional>();
+        }
+
+        private async Task<List<drr_resiliency>> LoadResiliencyMasterList(DRRContext ctx, drr_application drrApplication)
+        {
+            return drrApplication.drr_drr_application_drr_resiliencyitem_Application.Count > 0 ?
+                (await ctx.drr_resiliencies.GetAllPagesAsync()).ToList() :
+                new List<drr_resiliency>();
+        }
+
+        private async Task<List<drr_climateassessmenttool>> LoadClimateAssessmentToolsMasterList(DRRContext ctx, drr_application drrApplication)
+        {
+            return drrApplication.drr_drr_application_drr_climateassessmenttoolitem_Application.Count > 0 ?
+                (await ctx.drr_climateassessmenttools.GetAllPagesAsync()).ToList() :
+                new List<drr_climateassessmenttool>();
+        }
+
+        private async Task<List<drr_costconsideration>> LoadCostConsiderationsMasterList(DRRContext ctx, drr_application drrApplication)
+        {
+            return drrApplication.drr_drr_application_drr_costconsiderationitem_Application.Count > 0 ?
+                (await ctx.drr_costconsiderations.GetAllPagesAsync()).ToList() :
+                new List<drr_costconsideration>();
+        }
+
         private async Task<account> CheckForExistingProponent(DRRContext ctx, account proponent, Application application)
         {
             var existingProponent = string.IsNullOrEmpty(application.BCeIDBusinessId) ? null : await ctx.accounts.Where(a => a.drr_bceidguid == application.BCeIDBusinessId).SingleOrDefaultAsync();
@@ -524,10 +619,10 @@ namespace EMCR.DRR.Resources.Applications
             return proponent;
         }
 
-        private static async Task SetDeclarations(DRRContext drrContext, drr_application application)
+        private static async Task SetDeclarations(DRRContext drrContext, drr_application application, string ApplicationTypeName)
         {
-            var accuracyDeclaration = (await drrContext.drr_legaldeclarations.Where(d => d.statecode == (int)EntityState.Active && d.drr_declarationtype == (int)DeclarationTypeOptionSet.AccuracyOfInformation).GetAllPagesAsync()).FirstOrDefault();
-            var representativeDeclaration = (await drrContext.drr_legaldeclarations.Where(d => d.statecode == (int)EntityState.Active && d.drr_declarationtype == (int)DeclarationTypeOptionSet.AuthorizedRepresentative).GetAllPagesAsync()).FirstOrDefault();
+            var accuracyDeclaration = (await drrContext.drr_legaldeclarations.Where(d => d.statecode == (int)EntityState.Active && d.drr_declarationtype == (int)DeclarationTypeOptionSet.AccuracyOfInformation && d.drr_ApplicationType.drr_name == ApplicationTypeName).GetAllPagesAsync()).FirstOrDefault();
+            var representativeDeclaration = (await drrContext.drr_legaldeclarations.Where(d => d.statecode == (int)EntityState.Active && d.drr_declarationtype == (int)DeclarationTypeOptionSet.AuthorizedRepresentative && d.drr_ApplicationType.drr_name == ApplicationTypeName).GetAllPagesAsync()).FirstOrDefault();
 
             if (accuracyDeclaration != null)
             {
@@ -896,7 +991,7 @@ namespace EMCR.DRR.Resources.Applications
                 }
             }
         }
-        
+
         private static void AddCostConsiderations(DRRContext drrContext, drr_application application, List<drr_costconsideration> costConsiderationsMasterList)
         {
             foreach (var item in application.drr_drr_application_drr_costconsiderationitem_Application)
@@ -997,90 +1092,149 @@ namespace EMCR.DRR.Resources.Applications
 
             application.drr_application_connections1 = new System.Collections.ObjectModel.Collection<connection>(application.drr_application_connections1.Where(c => c.statecode == (int)EntityState.Active).ToList());
 
+            await Task.WhenAll([
+                ParallelLoadProvincialStandards(ctx, application, ct),
+                ParallelLoadFundingRequests(ctx, application, ct),
+                ParallelLoadQualifiedProfessionals(ctx, application, ct),
+                ParallelLoadAffectedParties(ctx, application, ct),
+                ParallelLoadProjectNeedIdentifications(ctx, application, ct),
+                ParallelLoadCostReductions(ctx, application, ct),
+                ParallelLoadCoBenefits(ctx, application, ct),
+                ParallelLoadComplexityRisks(ctx, application, ct),
+                ParallelLoadReadinessRisks(ctx, application, ct),
+                ParallelLoadSensitivityRisks(ctx, application, ct),
+                ParallelLoadCapacityChallenges(ctx, application, ct),
+                ParallelLoadResiliencies(ctx, application, ct),
+                ParallelLoadClimateAssessmentTools(ctx, application, ct),
+                ParallelLoadCostConsiderations(ctx, application, ct),
+                ]);
+        }
+
+        private static async Task ParallelLoadProvincialStandards(DRRContext ctx, drr_application application, CancellationToken ct)
+        {
             await application.drr_drr_application_drr_provincialstandarditem_Application.ForEachAsync(5, async s =>
             {
                 ctx.AttachTo(nameof(DRRContext.drr_provincialstandarditems), s);
                 await ctx.LoadPropertyAsync(s, nameof(drr_provincialstandarditem.drr_ProvincialStandard), ct);
                 await ctx.LoadPropertyAsync(s, nameof(drr_provincialstandarditem.drr_ProvincialStandardCategory), ct);
             });
+        }
 
+        private static async Task ParallelLoadFundingRequests(DRRContext ctx, drr_application application, CancellationToken ct)
+        {
             await application.drr_drr_application_drr_driffundingrequest_Application.ForEachAsync(5, async f =>
-            {
-                ctx.AttachTo(nameof(DRRContext.drr_driffundingrequests), f);
-                await ctx.LoadPropertyAsync(f, nameof(drr_driffundingrequest.drr_FiscalYear), ct);
-            });
+                {
+                    ctx.AttachTo(nameof(DRRContext.drr_driffundingrequests), f);
+                    await ctx.LoadPropertyAsync(f, nameof(drr_driffundingrequest.drr_FiscalYear), ct);
+                });
+        }
 
+        private static async Task ParallelLoadQualifiedProfessionals(DRRContext ctx, drr_application application, CancellationToken ct)
+        {
             await application.drr_drr_application_drr_qualifiedprofessionalitem_Application.ForEachAsync(5, async f =>
             {
                 ctx.AttachTo(nameof(DRRContext.drr_qualifiedprofessionalitems), f);
                 await ctx.LoadPropertyAsync(f, nameof(drr_qualifiedprofessionalitem.drr_QualifiedProfessional), ct);
             });
+        }
 
+        private static async Task ParallelLoadAffectedParties(DRRContext ctx, drr_application application, CancellationToken ct)
+        {
             await application.drr_drr_application_drr_impactedoraffectedpartyitem_Application.ForEachAsync(5, async item =>
             {
                 ctx.AttachTo(nameof(DRRContext.drr_impactedoraffectedpartyitems), item);
                 await ctx.LoadPropertyAsync(item, nameof(drr_impactedoraffectedpartyitem.drr_ImpactedorAffectedParty), ct);
             });
+        }
 
+        private static async Task ParallelLoadProjectNeedIdentifications(DRRContext ctx, drr_application application, CancellationToken ct)
+        {
             await application.drr_drr_application_drr_projectneedidentificationitem_Application.ForEachAsync(5, async item =>
             {
                 ctx.AttachTo(nameof(DRRContext.drr_projectneedidentificationitems), item);
                 await ctx.LoadPropertyAsync(item, nameof(drr_projectneedidentificationitem.drr_projectneedidentification), ct);
             });
+        }
 
+        private static async Task ParallelLoadCostReductions(DRRContext ctx, drr_application application, CancellationToken ct)
+        {
             await application.drr_drr_application_drr_costreductionitem_Application.ForEachAsync(5, async item =>
-            {
-                ctx.AttachTo(nameof(DRRContext.drr_costreductionitems), item);
-                await ctx.LoadPropertyAsync(item, nameof(drr_costreductionitem.drr_CostReduction), ct);
-            });
+                {
+                    ctx.AttachTo(nameof(DRRContext.drr_costreductionitems), item);
+                    await ctx.LoadPropertyAsync(item, nameof(drr_costreductionitem.drr_CostReduction), ct);
+                });
+        }
 
+        private static async Task ParallelLoadCoBenefits(DRRContext ctx, drr_application application, CancellationToken ct)
+        {
             await application.drr_drr_application_drr_cobenefititem_Application.ForEachAsync(5, async item =>
-            {
-                ctx.AttachTo(nameof(DRRContext.drr_cobenefititems), item);
-                await ctx.LoadPropertyAsync(item, nameof(drr_cobenefititem.drr_CoBenefit), ct);
-            });
+                {
+                    ctx.AttachTo(nameof(DRRContext.drr_cobenefititems), item);
+                    await ctx.LoadPropertyAsync(item, nameof(drr_cobenefititem.drr_CoBenefit), ct);
+                });
+        }
 
+        private static async Task ParallelLoadComplexityRisks(DRRContext ctx, drr_application application, CancellationToken ct)
+        {
             await application.drr_drr_application_drr_projectcomplexityriskitem_Application.ForEachAsync(5, async item =>
-            {
-                ctx.AttachTo(nameof(DRRContext.drr_projectcomplexityriskitems), item);
-                await ctx.LoadPropertyAsync(item, nameof(drr_projectcomplexityriskitem.drr_ProjectComplexityRisk), ct);
-            });
+                {
+                    ctx.AttachTo(nameof(DRRContext.drr_projectcomplexityriskitems), item);
+                    await ctx.LoadPropertyAsync(item, nameof(drr_projectcomplexityriskitem.drr_ProjectComplexityRisk), ct);
+                });
+        }
 
+        private static async Task ParallelLoadReadinessRisks(DRRContext ctx, drr_application application, CancellationToken ct)
+        {
             await application.drr_drr_application_drr_projectreadinessriskitem_Application.ForEachAsync(5, async item =>
-            {
-                ctx.AttachTo(nameof(DRRContext.drr_projectreadinessriskitems), item);
-                await ctx.LoadPropertyAsync(item, nameof(drr_projectreadinessriskitem.drr_ProjectReadinessRisk), ct);
-            });
+                {
+                    ctx.AttachTo(nameof(DRRContext.drr_projectreadinessriskitems), item);
+                    await ctx.LoadPropertyAsync(item, nameof(drr_projectreadinessriskitem.drr_ProjectReadinessRisk), ct);
+                });
+        }
 
+        private static async Task ParallelLoadSensitivityRisks(DRRContext ctx, drr_application application, CancellationToken ct)
+        {
             await application.drr_drr_application_drr_projectsensitivityriskitem_Application.ForEachAsync(5, async item =>
-            {
-                ctx.AttachTo(nameof(DRRContext.drr_projectsensitivityriskitems), item);
-                await ctx.LoadPropertyAsync(item, nameof(drr_projectsensitivityriskitem.drr_ProjectSensitivityRisk), ct);
-            });
+                {
+                    ctx.AttachTo(nameof(DRRContext.drr_projectsensitivityriskitems), item);
+                    await ctx.LoadPropertyAsync(item, nameof(drr_projectsensitivityriskitem.drr_ProjectSensitivityRisk), ct);
+                });
+        }
 
+        private static async Task ParallelLoadCapacityChallenges(DRRContext ctx, drr_application application, CancellationToken ct)
+        {
             await application.drr_drr_application_drr_projectcapacitychallengeitem_Application.ForEachAsync(5, async item =>
-            {
-                ctx.AttachTo(nameof(DRRContext.drr_projectcapacitychallengeitems), item);
-                await ctx.LoadPropertyAsync(item, nameof(drr_projectcapacitychallengeitem.drr_ProjectCapacityChallenge), ct);
-            });
+                {
+                    ctx.AttachTo(nameof(DRRContext.drr_projectcapacitychallengeitems), item);
+                    await ctx.LoadPropertyAsync(item, nameof(drr_projectcapacitychallengeitem.drr_ProjectCapacityChallenge), ct);
+                });
+        }
 
+        private static async Task ParallelLoadResiliencies(DRRContext ctx, drr_application application, CancellationToken ct)
+        {
             await application.drr_drr_application_drr_resiliencyitem_Application.ForEachAsync(5, async item =>
-            {
-                ctx.AttachTo(nameof(DRRContext.drr_resiliencyitems), item);
-                await ctx.LoadPropertyAsync(item, nameof(drr_resiliencyitem.drr_Resiliency), ct);
-            });
+                {
+                    ctx.AttachTo(nameof(DRRContext.drr_resiliencyitems), item);
+                    await ctx.LoadPropertyAsync(item, nameof(drr_resiliencyitem.drr_Resiliency), ct);
+                });
+        }
 
+        private static async Task ParallelLoadClimateAssessmentTools(DRRContext ctx, drr_application application, CancellationToken ct)
+        {
             await application.drr_drr_application_drr_climateassessmenttoolitem_Application.ForEachAsync(5, async item =>
-            {
-                ctx.AttachTo(nameof(DRRContext.drr_climateassessmenttoolitems), item);
-                await ctx.LoadPropertyAsync(item, nameof(drr_climateassessmenttoolitem.drr_ClimateAssessmentTool), ct);
-            });
-            
+                {
+                    ctx.AttachTo(nameof(DRRContext.drr_climateassessmenttoolitems), item);
+                    await ctx.LoadPropertyAsync(item, nameof(drr_climateassessmenttoolitem.drr_ClimateAssessmentTool), ct);
+                });
+        }
+
+        private static async Task ParallelLoadCostConsiderations(DRRContext ctx, drr_application application, CancellationToken ct)
+        {
             await application.drr_drr_application_drr_costconsiderationitem_Application.ForEachAsync(5, async item =>
-            {
-                ctx.AttachTo(nameof(DRRContext.drr_costconsiderationitems), item);
-                await ctx.LoadPropertyAsync(item, nameof(drr_costconsiderationitem.drr_CostConsideration), ct);
-            });
+                {
+                    ctx.AttachTo(nameof(DRRContext.drr_costconsiderationitems), item);
+                    await ctx.LoadPropertyAsync(item, nameof(drr_costconsiderationitem.drr_CostConsideration), ct);
+                });
         }
 
         private List<drr_application> SortAndPageResults(List<drr_application> applications, ApplicationsQuery query)

@@ -301,6 +301,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             updatedFp.LocalGovernmentAuthorizedByPartners.ShouldBe(EMCR.DRR.Managers.Intake.YesNoOption.NotApplicable);
             ((int)updatedFp.OperationAndMaintenance).ShouldBe((int)fpToUpdate.OperationAndMaintenance);
             updatedFp.ClimateAssessmentTools.ShouldNotBeEmpty();
+            updatedFp.ClimateAssessmentComments.ShouldBe("climate assessment comments");
 
             var ret = mapper.Map<DraftFpApplication>(updatedFp);
             ret.VerificationMethods.ShouldContain("autotest-verification-method");
