@@ -91,10 +91,6 @@ export class DrifEoiStep3Component {
         this.calculateRemainingAmount();
       });
 
-    if (this.fundingInformationForm.get('haveOtherFunding')?.value !== true) {
-      this.getFormArray('otherFunding').clear({ emitEvent: false });
-      this.getFormArray('otherFunding').disable();
-    }
     this.fundingInformationForm
       .get('haveOtherFunding')
       ?.valueChanges.pipe(distinctUntilChanged())
@@ -172,7 +168,7 @@ export class DrifEoiStep3Component {
   }
 
   getRemainingAmount() {
-    return this.getFormControl('remainingAmount').value;
+    return this.fundingInformationForm.get('remainingAmount')?.value;
   }
 
   getRemainingAmountAbs() {
