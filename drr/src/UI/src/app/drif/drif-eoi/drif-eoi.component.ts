@@ -194,7 +194,7 @@ export class EOIApplicationComponent {
               projectContact: application.projectContact,
             },
             projectInformation: {
-              stream: application.projectType,
+              stream: application.stream,
               projectTitle: application.projectTitle,
               scopeStatement: application.scopeStatement,
               fundingStream: application.fundingStream,
@@ -500,7 +500,7 @@ export class EOIApplicationComponent {
   onSubmitSuccess = (response: ApplicationResult) => {
     this.hotToast.close();
     this.hotToast.success(
-      `Your submission has been received. \tID #: ${response.id}`
+      `Your submission has been received. \nID #: ${response.id}`
     );
     this.router.navigate(['/submissions']);
   };

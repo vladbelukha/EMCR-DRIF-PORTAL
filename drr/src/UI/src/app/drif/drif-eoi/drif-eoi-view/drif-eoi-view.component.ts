@@ -70,7 +70,7 @@ export class DrifEoiViewComponent {
             projectContact: application.projectContact,
           },
           projectInformation: {
-            stream: application.projectType,
+            stream: application.stream,
             projectTitle: application.projectTitle,
             scopeStatement: application.scopeStatement,
             fundingStream: application.fundingStream,

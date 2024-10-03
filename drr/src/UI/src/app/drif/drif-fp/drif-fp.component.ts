@@ -200,8 +200,6 @@ export class DrifFpComponent {
       next: (response) => {
         const formData: DrifFpForm = {
           eoiId: response.eoiId,
-          fundingStream: response.fundingStream,
-          projectType: response.projectType,
           proponentAndProjectInformation: {
             projectContact: response.projectContact,
             projectTitle: response.projectTitle,
@@ -658,7 +656,7 @@ export class DrifFpComponent {
         next: (response) => {
           this.hotToast.close();
           this.hotToast.success(
-            `Your submission has been received. \tID #: ${response.id}`
+            `Your submission has been received. \nID #: ${response.id}`
           );
 
           this.router.navigate(['/submissions']);
