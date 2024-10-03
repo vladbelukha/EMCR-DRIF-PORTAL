@@ -200,8 +200,6 @@ export class DrifFpComponent {
       next: (response) => {
         const formData: DrifFpForm = {
           eoiId: response.eoiId,
-          fundingStream: response.fundingStream,
-          projectType: response.projectType,
           proponentAndProjectInformation: {
             projectContact: response.projectContact,
             projectTitle: response.projectTitle,
@@ -371,20 +369,24 @@ export class DrifFpComponent {
             ?.updateValueAndValidity();
         }
 
-        const infrastructureImpacted = this.getFormGroup('projectArea').get(
-          'infrastructureImpacted'
-        ) as FormArray;
-        if (response.infrastructureImpacted?.length! > 0) {
-          infrastructureImpacted.clear({ emitEvent: false });
+        const infrastructureImpactedArray = this.getFormGroup(
+          'projectArea'
+        ).get('infrastructureImpacted') as FormArray;
+        if (
+          response.isInfrastructureImpacted === false ||
+          response.infrastructureImpacted?.length! > 0
+        ) {
+          infrastructureImpactedArray.clear();
+        } else {
+          response.infrastructureImpacted?.forEach((infrastructure) => {
+            infrastructureImpactedArray?.push(
+              this.formBuilder.formGroup(
+                new ImpactedInfrastructureForm(infrastructure)
+              ),
+              { emitEvent: false }
+            );
+          });
         }
-        response.infrastructureImpacted?.forEach((infrastructure) => {
-          infrastructureImpacted?.push(
-            this.formBuilder.formGroup(
-              new ImpactedInfrastructureForm(infrastructure)
-            ),
-            { emitEvent: false }
-          );
-        });
 
         const proposedActivitiesArray = this.getFormGroup('projectPlan').get(
           'proposedActivities'
@@ -654,7 +656,7 @@ export class DrifFpComponent {
         next: (response) => {
           this.hotToast.close();
           this.hotToast.success(
-            `Your submission has been received. ID #: ${response.id}`
+            `Your submission has been received. \nID #: ${response.id}`
           );
 
           this.router.navigate(['/submissions']);

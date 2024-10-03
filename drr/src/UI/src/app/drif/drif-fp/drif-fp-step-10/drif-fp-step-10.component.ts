@@ -152,6 +152,7 @@ export class DrifFpStep10Component {
           this.budgetForm.get('costConsiderationsComments')?.clearValidators();
         }
 
+        this.budgetForm.get('costConsiderations')?.updateValueAndValidity();
         this.budgetForm
           .get('costConsiderationsComments')
           ?.updateValueAndValidity();

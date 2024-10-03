@@ -60,8 +60,6 @@ export class DrifFpViewComponent {
     this.appService.dRIFApplicationGetFP(id).subscribe((response) => {
       const formData: DrifFpForm = {
         eoiId: response.eoiId,
-        fundingStream: response.fundingStream,
-        projectType: response.projectType,
         proponentAndProjectInformation: {
           projectContact: response.projectContact,
           projectTitle: response.projectTitle,

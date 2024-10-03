@@ -4,15 +4,23 @@
  * DRR API
  * OpenAPI spec version: 1.0.0
  */
+import type { ContactDetails } from './contactDetails';
 import type { Attachment } from './attachment';
 import type { EstimatedNumberOfPeopleFP } from './estimatedNumberOfPeopleFP';
 import type { YesNoOption } from './yesNoOption';
+import type { InfrastructureImpacted } from './infrastructureImpacted';
+import type { FundingInformation } from './fundingInformation';
 import type { ProposedActivity } from './proposedActivity';
+import type { Hazards } from './hazards';
 import type { StandardInfo } from './standardInfo';
+import type { SubmissionPortalStatus } from './submissionPortalStatus';
 import type { AreaUnits } from './areaUnits';
 import type { YearOverYearFunding } from './yearOverYearFunding';
 
 export type DraftFpApplicationAllOf = {
+  additionalContacts?: ContactDetails[];
+  /** @nullable */
+  addressRisksAndHazards?: string;
   /** @nullable */
   affectedParties?: string[];
   /** @nullable */
@@ -34,6 +42,8 @@ export type DraftFpApplicationAllOf = {
   /** @nullable */
   capacityRisks?: string[];
   /** @nullable */
+  climateAdaptation?: string;
+  /** @nullable */
   climateAssessment?: boolean;
   /** @nullable */
   climateAssessmentComments?: string;
@@ -45,6 +55,8 @@ export type DraftFpApplicationAllOf = {
   coBenefits?: string[];
   /** @nullable */
   collaborationComments?: string;
+  /** @nullable */
+  communityImpact?: string;
   /** @nullable */
   complexityRiskComments?: string;
   /** @nullable */
@@ -58,13 +70,13 @@ export type DraftFpApplicationAllOf = {
   /** @nullable */
   costConsiderationsComments?: string;
   /** @nullable */
-  costEffective?: boolean;
-  /** @nullable */
   costEffectiveComments?: string;
   /** @nullable */
   costReductionComments?: string;
   /** @nullable */
   costReductions?: string[];
+  /** @nullable */
+  disasterRiskUnderstanding?: string;
   /** @nullable */
   discrepancyComment?: string;
   /**
@@ -73,6 +85,8 @@ export type DraftFpApplicationAllOf = {
    * @nullable
    */
   eligibleFundingRequest?: number;
+  /** @nullable */
+  endDate?: string;
   /** @nullable */
   engagedWithFirstNationsComments?: string;
   /** @nullable */
@@ -83,10 +97,20 @@ export type DraftFpApplicationAllOf = {
   estimatedPeopleImpactedFP?: EstimatedNumberOfPeopleFP;
   /** @nullable */
   firstNationsAuthorizedByPartners?: YesNoOption;
+  /**
+   * @minimum 0
+   * @maximum 999999999.99
+   * @nullable
+   */
+  fundingRequest?: number;
   /** @nullable */
   futureCostReduction?: boolean;
   /** @nullable */
   haveAuthorityToDevelop?: boolean;
+  /** @nullable */
+  haveOtherFunding?: boolean;
+  /** @nullable */
+  id?: string;
   /** @nullable */
   incorporateFutureClimateConditions?: boolean;
   /** @nullable */
@@ -94,13 +118,17 @@ export type DraftFpApplicationAllOf = {
   /** @nullable */
   increasedResiliencyComments?: string;
   /** @nullable */
+  infrastructureImpacted?: InfrastructureImpacted[];
+  /** @nullable */
+  intendToSecureFunding?: string;
+  /** @nullable */
+  isInfrastructureImpacted?: boolean;
+  /** @nullable */
   localGovernmentAuthorizedByPartners?: YesNoOption;
   /** @nullable */
+  locationDescription?: string;
+  /** @nullable */
   mainDeliverable?: string;
-  /** @nullable */
-  meetsEligibilityComments?: string;
-  /** @nullable */
-  meetsEligibilityRequirements?: boolean;
   /** @nullable */
   meetsRegulatoryComments?: string;
   /** @nullable */
@@ -113,6 +141,14 @@ export type DraftFpApplicationAllOf = {
   otherEngagement?: YesNoOption;
   /** @nullable */
   otherEngagementComments?: string;
+  otherFunding?: FundingInformation[];
+  /** @nullable */
+  otherHazardsDescription?: string;
+  /** @nullable */
+  ownershipDeclaration?: boolean;
+  /** @nullable */
+  ownershipDescription?: string;
+  partneringProponents?: string[];
   /** @nullable */
   previousResponse?: YesNoOption;
   /** @nullable */
@@ -130,11 +166,21 @@ export type DraftFpApplicationAllOf = {
   /** @nullable */
   projectAlternateOptions?: string;
   /** @nullable */
+  projectContact?: ContactDetails;
+  /** @nullable */
+  projectDescription?: string;
+  /** @nullable */
+  projectTitle?: string;
+  /** @nullable */
   proposedActivities?: ProposedActivity[];
   /** @nullable */
   publicBenefit?: boolean;
   /** @nullable */
   publicBenefitComments?: string;
+  /** @nullable */
+  rationaleForFunding?: string;
+  /** @nullable */
+  rationaleForSolution?: string;
   /** @nullable */
   readinessRiskComments?: string;
   /** @nullable */
@@ -145,6 +191,10 @@ export type DraftFpApplicationAllOf = {
   regionalProject?: boolean;
   /** @nullable */
   regionalProjectComments?: string;
+  /** @nullable */
+  relatedHazards?: Hazards[];
+  /** @nullable */
+  remainingAmount?: number;
   /** @nullable */
   riskTransferMigigated?: boolean;
   /** @nullable */
@@ -159,6 +209,12 @@ export type DraftFpApplicationAllOf = {
   standardsAcceptable?: YesNoOption;
   /** @nullable */
   standardsComments?: string;
+  /** @nullable */
+  startDate?: string;
+  /** @nullable */
+  status?: SubmissionPortalStatus;
+  /** @nullable */
+  submitter?: ContactDetails;
   /**
    * @minimum 0
    * @maximum 999999999.99
@@ -173,8 +229,6 @@ export type DraftFpApplicationAllOf = {
   units?: AreaUnits;
   /** @nullable */
   verificationMethods?: string[];
-  /** @nullable */
-  verificationMethodsComments?: string;
   /** @nullable */
   yearOverYearFunding?: YearOverYearFunding[];
 };
