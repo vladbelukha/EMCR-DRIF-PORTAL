@@ -241,7 +241,7 @@ export class ProjectDetailsForm {
   isInfrastructureImpacted?: boolean;
 
   @propArray(InfrastructureImpactedForm)
-  infrastructureImpacted?: InfrastructureImpacted[] = [{}];
+  infrastructureImpacted?: InfrastructureImpacted[] = [];
 
   @prop()
   @required()

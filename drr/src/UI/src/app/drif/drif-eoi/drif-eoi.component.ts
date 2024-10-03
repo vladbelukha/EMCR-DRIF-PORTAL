@@ -305,22 +305,26 @@ export class EOIApplicationComponent {
             fundingInformationItemFormArray?.push(fundingInformationItemForm);
           });
 
-          const infrastructureImpacted = this.getFormGroup(
+          const infrastructureImpactedArray = this.getFormGroup(
             'projectDetails'
           ).get('infrastructureImpacted') as FormArray;
-          if (application.infrastructureImpacted?.some((i) => i)) {
-            infrastructureImpacted.clear({ emitEvent: false });
+          if (
+            application.isInfrastructureImpacted === false ||
+            application.infrastructureImpacted?.length! > 0
+          ) {
+            infrastructureImpactedArray.clear({ emitEvent: false });
+          } else {
+            application.infrastructureImpacted?.forEach((infrastructure) => {
+              if (infrastructure) {
+                infrastructureImpactedArray?.push(
+                  this.formBuilder.formGroup(
+                    new InfrastructureImpactedForm(infrastructure)
+                  ),
+                  { emitEvent: false }
+                );
+              }
+            });
           }
-          application.infrastructureImpacted?.forEach((infrastructure) => {
-            if (infrastructure) {
-              infrastructureImpacted?.push(
-                this.formBuilder.formGroup(
-                  new InfrastructureImpactedForm(infrastructure)
-                ),
-                { emitEvent: false }
-              );
-            }
-          });
 
           this.eoiApplicationForm.markAsPristine();
           this.formChanged = false;
