@@ -535,6 +535,18 @@ export class DrifFpComponent {
             ?.addValidators(Validators.required);
         }
 
+        if (response.meetsRegulatoryRequirements === true) {
+          this.getFormGroup('permitsRegulationsAndStandards')
+            .get('meetsRegulatoryComments')
+            ?.addValidators(Validators.required);
+        }
+
+        if (response.approvals === true) {
+          this.getFormGroup('permitsRegulationsAndStandards')
+            .get('approvalsComments')
+            ?.addValidators(Validators.required);
+        }
+
         this.fullProposalForm.markAsPristine();
         this.formChanged = false;
       },

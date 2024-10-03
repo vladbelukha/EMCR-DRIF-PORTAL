@@ -230,13 +230,15 @@ export class SubmissionListComponent {
 
     submission.applicationType === 'EOI'
       ? this.router.navigate([
-          submission.status == 'Draft'
+          submission.status == 'Draft' || submission.status == 'Withdrawn'
             ? '/drif-eoi'
             : '/eoi-submission-details',
           submission.id,
         ])
       : this.router.navigate([
-          submission.status == 'Draft' ? '/drif-fp' : '/fp-submission-details',
+          submission.status == 'Draft' || submission.status == 'Withdrawn'
+            ? '/drif-fp'
+            : '/fp-submission-details',
           submission.id,
         ]);
   }
