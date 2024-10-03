@@ -22,7 +22,7 @@ namespace EMCR.Tests.Unit.DRR
             .RuleFor(a => a.PartneringProponents, f => Enumerable.Range(0, f.Random.Int(0, 5)).Select(x => f.Company.CompanyName()).ToList())
             .RuleFor(a => a.FundingStream, f => f.Random.Enum<FundingStream>())
             .RuleFor(a => a.ProjectTitle, f => f.Name.JobArea())
-            .RuleFor(a => a.ProjectType, f => f.Random.Enum<ProjectType>())
+            .RuleFor(a => a.Stream, f => f.Random.Enum<ProjectType>())
             .RuleFor(a => a.ScopeStatement, f => f.Lorem.Sentence())
             .RuleFor(a => a.RelatedHazards, f => Enumerable.Range(1, f.Random.Int(1, 8)).Select(x => f.Random.Enum<Hazards>()).Distinct().ToList())
             .RuleFor(a => a.OtherHazardsDescription, f => f.Lorem.Sentence())
