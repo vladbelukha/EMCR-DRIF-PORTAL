@@ -82,9 +82,11 @@
       [rxFormControl]="budgetForm.get('haveOtherFunding')"
     ></drr-radio-button>
 
+    @if (budgetForm.get('haveOtherFunding')?.value === true) {
     <drr-funding-list
       [fundingFormArray]="getFormArray('otherFunding')"
     ></drr-funding-list>
+    }
 
     <mat-label class="drr-label" style="margin-top: 10px">{{
       getRemainingAmount() > 0
