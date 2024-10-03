@@ -227,7 +227,7 @@ export class BudgetForm {
   haveOtherFunding?: boolean;
 
   @propArray(FundingInformationItemForm)
-  otherFunding?: FundingInformationItemForm[] = [{}];
+  otherFunding?: FundingInformationItemForm[] = [];
 
   @prop()
   intendToSecureFunding?: string;
@@ -381,7 +381,7 @@ export class ProjectAreaForm {
   isInfrastructureImpacted?: boolean;
 
   @propArray(ImpactedInfrastructureForm)
-  infrastructureImpacted?: ImpactedInfrastructureForm[] = [{}];
+  infrastructureImpacted?: ImpactedInfrastructureForm[] = [];
 
   constructor(values: ProjectAreaForm) {
     Object.assign(this, values);
@@ -423,7 +423,6 @@ export class ProjectPlanForm {
   projectDescription?: string;
 
   @propArray(ProposedActivityForm)
-  // TODO: @minLength({ value: 1}) doesn't work with object arrays?
   proposedActivities?: ProposedActivityForm[] = [{}];
 
   @prop()

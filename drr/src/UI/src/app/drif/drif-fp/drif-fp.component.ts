@@ -376,7 +376,7 @@ export class DrifFpComponent {
           response.isInfrastructureImpacted === false ||
           response.infrastructureImpacted?.length! > 0
         ) {
-          infrastructureImpactedArray.clear();
+          infrastructureImpactedArray.clear({ emitEvent: false });
         } else {
           response.infrastructureImpacted?.forEach((infrastructure) => {
             infrastructureImpactedArray?.push(
