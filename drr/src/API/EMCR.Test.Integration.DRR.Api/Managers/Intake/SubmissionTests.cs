@@ -82,6 +82,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             fullProposal.EoiId.ShouldBe(eoiId);
 
             var fpToUpdate = FillInFullProposal(mapper.Map<DraftFpApplication>(fullProposal));
+            fpToUpdate.Submitter = eoi.Submitter;
             fpToUpdate.Status = SubmissionPortalStatus.UnderReview;
             await manager.Handle(new FpSaveApplicationCommand { application = mapper.Map<FpApplication>(fpToUpdate), UserInfo = GetTestUserInfo() });
 

@@ -226,6 +226,7 @@ namespace EMCR.DRR.Controllers
         public string? EoiId { get; set; }
         public string? Id { get; set; }
         public SubmissionPortalStatus? Status { get; set; }
+        public ContactDetails? Submitter { get; set; }
 
         //Proponent & Project Information - 1
         [Mandatory]
