@@ -404,10 +404,12 @@ export class DrifFpComponent {
         const otherFundingArray = this.getFormGroup('budget').get(
           'otherFunding'
         ) as FormArray;
-        if (response.haveOtherFunding) {
-          if (response.otherFunding?.length! > 0) {
-            otherFundingArray.clear({ emitEvent: false });
-          }
+        if (
+          response.haveOtherFunding === false ||
+          response.otherFunding?.length! > 0
+        ) {
+          otherFundingArray.clear({ emitEvent: false });
+        } else {
           response.otherFunding?.forEach((funding) => {
             otherFundingArray?.push(
               this.formBuilder.formGroup(
@@ -416,9 +418,6 @@ export class DrifFpComponent {
               { emitEvent: false }
             );
           });
-        } else {
-          otherFundingArray?.clear();
-          otherFundingArray?.disable();
         }
 
         const yearOverYearFormArray = this.getFormGroup('budget').get(
@@ -533,6 +532,18 @@ export class DrifFpComponent {
             ?.addValidators(Validators.required);
           this.getFormGroup('projectRisks')
             .get('transferRisksComments')
+            ?.addValidators(Validators.required);
+        }
+
+        if (response.meetsRegulatoryRequirements === true) {
+          this.getFormGroup('permitsRegulationsAndStandards')
+            .get('meetsRegulatoryComments')
+            ?.addValidators(Validators.required);
+        }
+
+        if (response.approvals === true) {
+          this.getFormGroup('permitsRegulationsAndStandards')
+            .get('approvalsComments')
             ?.addValidators(Validators.required);
         }
 

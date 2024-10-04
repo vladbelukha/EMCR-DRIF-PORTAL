@@ -35,18 +35,27 @@
       <mat-radio-button [value]="false">No</mat-radio-button>
     </mat-radio-group>
 
+    @if(fundingInformationForm.get('haveOtherFunding')?.value === true) {
     <drr-funding-list
       [fundingFormArray]="getFormArray('otherFunding')"
     ></drr-funding-list>
+    }
 
-    <mat-label class="drr-label" style="margin-top: 10px">{{
-      getRemainingAmount() > 0
-        ? t("missingFundsLabel")
-        : t("excessFundingLabel")
-    }}</mat-label>
-    <mat-label [style.color]="getRemainingAmount() < 0 ? 'red' : 'initial'">{{
-      getRemainingAmountAbs() | currency
-    }}</mat-label>
+    <mat-label
+      *ngIf="getRemainingAmount() !== null"
+      class="drr-label"
+      style="margin-top: 10px"
+      >{{
+        getRemainingAmount() > 0
+          ? t("missingFundsLabel")
+          : t("excessFundingLabel")
+      }}</mat-label
+    >
+    <mat-label
+      *ngIf="getRemainingAmount() !== null"
+      [style.color]="getRemainingAmount() < 0 ? 'red' : 'initial'"
+      >{{ getRemainingAmountAbs() | currency }}</mat-label
+    >
     <mat-hint *ngIf="getRemainingAmount() < 0" style="color: red">{{
       t("excessFundingTextEoi")
     }}</mat-hint>

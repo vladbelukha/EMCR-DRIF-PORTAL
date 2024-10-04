@@ -80,6 +80,36 @@ export class DrifFpStep7Component {
         }
         professionalsControl?.updateValueAndValidity();
       });
+
+    this.permitsRegulationsAndStandardsForm
+      .get('meetsRegulatoryRequirements')
+      ?.valueChanges.pipe(distinctUntilChanged())
+      .subscribe((value) => {
+        const regulatoryRequirementsControl =
+          this.permitsRegulationsAndStandardsForm.get(
+            'meetsRegulatoryComments'
+          );
+        if (value === false) {
+          regulatoryRequirementsControl?.clearValidators();
+        } else {
+          regulatoryRequirementsControl?.addValidators(Validators.required);
+        }
+        regulatoryRequirementsControl?.updateValueAndValidity();
+      });
+
+    this.permitsRegulationsAndStandardsForm
+      .get('approvals')
+      ?.valueChanges.pipe(distinctUntilChanged())
+      .subscribe((value) => {
+        const approvalsControl =
+          this.permitsRegulationsAndStandardsForm.get('approvalsComments');
+        if (value === false) {
+          approvalsControl?.clearValidators();
+        } else {
+          approvalsControl?.addValidators(Validators.required);
+        }
+        approvalsControl?.updateValueAndValidity();
+      });
   }
 
   getStandardsInfoArrayControls() {

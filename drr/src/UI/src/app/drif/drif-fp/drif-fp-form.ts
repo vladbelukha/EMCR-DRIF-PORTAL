@@ -150,7 +150,6 @@ export class PermitsRegulationsAndStandardsForm {
   approvals?: boolean;
 
   @prop()
-  @required()
   approvalsComments?: string;
 
   @prop()
@@ -178,7 +177,6 @@ export class PermitsRegulationsAndStandardsForm {
   meetsRegulatoryRequirements?: boolean;
 
   @prop()
-  @required()
   meetsRegulatoryComments?: string;
 
   constructor(values: PermitsRegulationsAndStandardsForm) {

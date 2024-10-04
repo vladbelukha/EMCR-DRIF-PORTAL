@@ -154,7 +154,7 @@
               {{ t("edit") }}
             </button>
             <button
-              *ngIf="element.status === 'Draft'"
+              *ngIf="element.actions.includes('Delete')"
               mat-stroked-button
               color="warn"
               (click)="onDeleteClick(element, $event)"
@@ -162,7 +162,7 @@
               {{ t("delete") }}
             </button>
             <button
-              *ngIf="element.status === 'UnderReview'"
+              *ngIf="element.actions.includes('Withdraw')"
               mat-stroked-button
               color="primary"
               (click)="onWithdrawClick(element, $event)"
@@ -171,7 +171,7 @@
             </button>
             <button
               style="white-space: nowrap"
-              *ngIf="canCreateFullProposal(element)"
+              *ngIf="element.actions.includes('CreateFP')"
               mat-raised-button
               color="primary"
               (click)="createFullProposal(element, $event)"
