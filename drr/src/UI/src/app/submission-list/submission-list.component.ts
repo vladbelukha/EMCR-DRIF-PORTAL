@@ -323,10 +323,6 @@ export class SubmissionListComponent {
     }
   }
 
-  canCreateFullProposal(submission: Submission) {
-    return submission.status === 'EligibleInvited' && !submission.existingFpId;
-  }
-
   createFullProposal(submission: Submission, event: Event) {
     event.preventDefault();
 
