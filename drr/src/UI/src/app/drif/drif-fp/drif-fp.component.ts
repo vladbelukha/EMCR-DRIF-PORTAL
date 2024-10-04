@@ -453,6 +453,10 @@ export class DrifFpComponent {
             ?.addValidators(Validators.required);
         }
 
+        if (response.produceCoBenefits === false) {
+          this.getFormGroup('projectOutcomes').get('coBenefits')?.disable();
+        }
+
         const standardsFormArray = this.getFormGroup(
           'permitsRegulationsAndStandards'
         ).get('standards') as FormArray;
