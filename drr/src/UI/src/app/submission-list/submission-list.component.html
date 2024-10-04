@@ -144,9 +144,7 @@
         <td mat-cell *matCellDef="let element">
           <div class="submission-actions">
             <button
-              *ngIf="
-                element.status === 'Draft' || element.status === 'Withdrawn'
-              "
+              *ngIf="element.actions.includes('Edit')"
               mat-stroked-button
               color="primary"
               (click)="onViewFormClick(element, $event)"

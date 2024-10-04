@@ -12,5 +12,6 @@ export type Actions = typeof Actions[keyof typeof Actions];
 export const Actions = {
   CreateFP: 'CreateFP',
   Delete: 'Delete',
+  Edit: 'Edit',
   Withdraw: 'Withdraw',
 } as const;
