@@ -4,12 +4,14 @@
  * DRR API
  * OpenAPI spec version: 1.0.0
  */
+import type { Actions } from './actions';
 import type { ApplicationType } from './applicationType';
 import type { FundingStream } from './fundingStream';
 import type { ProgramType } from './programType';
 import type { SubmissionPortalStatus } from './submissionPortalStatus';
 
 export interface Submission {
+  actions?: Actions[];
   applicationType?: ApplicationType;
   /** @nullable */
   existingFpId?: string;
