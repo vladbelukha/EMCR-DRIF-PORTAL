@@ -52,6 +52,9 @@ namespace EMCR.DRR.API.Model
         [Description("Delete")]
         Delete,
 
+        [Description("Edit")]
+        Edit,
+
         [Description("Withdraw")]
         Withdraw,
     }
