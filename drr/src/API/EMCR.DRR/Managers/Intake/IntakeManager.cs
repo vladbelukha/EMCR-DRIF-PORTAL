@@ -62,8 +62,10 @@ namespace EMCR.DRR.Managers.Intake
             var orderBy = GetOrderBy(q.QueryOptions?.OrderBy);
             var filterOptions = ParseFilter(q.QueryOptions?.Filter);
 
-            var res = string.IsNullOrEmpty(q.Id) ? await applicationRepository.QueryList(new ApplicationsQuery { Id = q.Id, BusinessId = q.BusinessId, Page = page, Count = count, OrderBy = orderBy, FilterOptions = filterOptions }) :
-            await applicationRepository.Query(new ApplicationsQuery { Id = q.Id, BusinessId = q.BusinessId, Page = page, Count = count, OrderBy = orderBy, FilterOptions = filterOptions });
+            //var res = string.IsNullOrEmpty(q.Id) ? await applicationRepository.QueryList(new ApplicationsQuery { Id = q.Id, BusinessId = q.BusinessId, Page = page, Count = count, OrderBy = orderBy, FilterOptions = filterOptions }) :
+            //await applicationRepository.Query(new ApplicationsQuery { Id = q.Id, BusinessId = q.BusinessId, Page = page, Count = count, OrderBy = orderBy, FilterOptions = filterOptions });
+
+            var res = await applicationRepository.Query(new ApplicationsQuery { Id = q.Id, BusinessId = q.BusinessId, Page = page, Count = count, OrderBy = orderBy, FilterOptions = filterOptions });
 
             return new IntakeQueryResponse { Items = res.Items, Length = res.Length };
         }
