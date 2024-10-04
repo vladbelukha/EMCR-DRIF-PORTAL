@@ -271,6 +271,32 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
         }
 
         [Test]
+        public async Task DeleteFP_ThrowsError()
+        {
+            var eoi = mapper.Map<EoiApplication>(CreateNewTestEOIApplication());
+            eoi.Status = SubmissionPortalStatus.EligibleInvited;
+            eoi.AuthorizedRepresentativeStatement = true;
+            eoi.FOIPPAConfirmation = true;
+            eoi.InformationAccuracyStatement = true;
+
+            var eoiId = await manager.Handle(new EoiSubmitApplicationCommand { application = eoi, UserInfo = GetTestUserInfo() });
+            eoiId.ShouldNotBeEmpty();
+
+            var screenerQuestions = CreateScreenerQuestions();
+            screenerQuestions.FirstNationsAuthorizedByPartners = EMCR.DRR.Managers.Intake.YesNoOption.NotApplicable;
+            screenerQuestions.LocalGovernmentAuthorizedByPartners = EMCR.DRR.Managers.Intake.YesNoOption.NotApplicable;
+            screenerQuestions.EngagedWithFirstNationsOccurred = false;
+
+            var fpId = await manager.Handle(new CreateFpFromEoiCommand { EoiId = eoiId, UserInfo = GetTestUserInfo(), ScreenerQuestions = screenerQuestions });
+            fpId.ShouldNotBeEmpty();
+
+            var fullProposal = (await manager.Handle(new DrrApplicationsQuery { Id = fpId, BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault();
+            fullProposal.Id.ShouldBe(fpId);
+
+            Should.Throw<Exception>(() => manager.Handle(new DeleteApplicationCommand { Id = fpId, UserInfo = GetTestUserInfo() }));
+        }
+
+        [Test]
         public async Task CanUpdateFp()
         {
             var eoi = mapper.Map<EoiApplication>(CreateNewTestEOIApplication());

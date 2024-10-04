@@ -22,11 +22,12 @@ namespace EMCR.DRR.API.Mappers
             CreateMap<Managers.Intake.Application, Submission>()
                 .ForMember(dest => dest.ApplicationType, opt => opt.MapFrom(src => DRRApplicationTypeMapper(src.ApplicationTypeName)))
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => DRRApplicationStatusMapper(src.Status)))
-                .ForMember(dest => dest.FundingRequest, opt => opt.MapFrom(src => src.FundingRequest.ToString()))
+                .ForMember(dest => dest.FundingRequest, opt => opt.MapFrom(src => src.EligibleFundingRequest.ToString()))
                 .ForMember(dest => dest.ModifiedDate, opt => opt.MapFrom(src => src.ModifiedOn))
                 .ForMember(dest => dest.ExistingFpId, opt => opt.MapFrom(src => src.FpId))
                 .ForMember(dest => dest.PartneringProponents, opt => opt.MapFrom(src => src.PartneringProponents.Select(p => p.Name)))
                 .ForMember(dest => dest.ProgramType, opt => opt.MapFrom(src => Enum.Parse<ProgramType>(src.ProgramName)))
+                .ForMember(dest => dest.Actions, opt => opt.MapFrom(src => DRRActionsMapper(src)))
                 ;
 
             CreateMap<Managers.Intake.DeclarationInfo, DeclarationInfo>()
@@ -49,6 +50,17 @@ namespace EMCR.DRR.API.Mappers
                     return ApplicationType.FP;
                 default: return ApplicationType.EOI;
             }
+        }
+
+        private IEnumerable<Actions> DRRActionsMapper(Managers.Intake.Application application)
+        {
+            var ret = new List<Actions>();
+
+            if (application.ApplicationTypeName.Equals("EOI") && application.Status == Managers.Intake.ApplicationStatus.Invited) ret.Add(Actions.CreateFP);
+            if (application.ApplicationTypeName.Equals("EOI") && (application.Status == Managers.Intake.ApplicationStatus.DraftStaff || application.Status == Managers.Intake.ApplicationStatus.DraftProponent)) ret.Add(Actions.Delete);
+            if (application.Status == Managers.Intake.ApplicationStatus.Submitted) ret.Add(Actions.Withdraw);
+
+            return ret;
         }
 
         private SubmissionPortalStatus DRRApplicationStatusMapper(Managers.Intake.ApplicationStatus status)
