@@ -100,6 +100,12 @@ namespace EMCR.DRR.Managers.Intake
             var canAccess = await CanAccessApplication(cmd.EoiId, cmd.UserInfo.BusinessId);
             if (!canAccess) throw new ForbiddenException("Not allowed to access this application.");
 
+            var application = (await applicationRepository.Query(new ApplicationsQuery { Id = cmd.EoiId })).Items.SingleOrDefault();
+            if (application == null) throw new NotFoundException("Application not found");
+            if (!application.ApplicationTypeName.Equals("EOI")) throw new BusinessValidationException("Can only create FP from an EOI");
+            if (application.Status != ApplicationStatus.Invited) throw new BusinessValidationException("Can only create FP if EOI is Invited");
+            if (!string.IsNullOrEmpty(application.FpId)) throw new BusinessValidationException("This EOI already has an associated FP");
+
             var res = (await caseRepository.Manage(new GenerateFpFromEoi { EoiId = cmd.EoiId, ScreenerQuestions = cmd.ScreenerQuestions })).Id;
             return res;
         }
@@ -137,7 +143,7 @@ namespace EMCR.DRR.Managers.Intake
             if (!canAccess) throw new ForbiddenException("Not allowed to access this application.");
             var application = (await applicationRepository.Query(new ApplicationsQuery { Id = cmd.Id })).Items.SingleOrDefault();
             if (application == null) throw new NotFoundException("Application not found");
-            if (application.Status != ApplicationStatus.Submitted && application.Status != ApplicationStatus.InReview) throw new BusinessValidationException("Application can only be withdrawn if it is Under Review");
+            if (application.Status != ApplicationStatus.Submitted) throw new BusinessValidationException("Application can only be withdrawn while it is in Submitted Status");
             application.Status = ApplicationStatus.Withdrawn;
             var id = (await applicationRepository.Manage(new SaveApplication { Application = application })).Id;
             return id;
@@ -150,6 +156,7 @@ namespace EMCR.DRR.Managers.Intake
             var application = (await applicationRepository.Query(new ApplicationsQuery { Id = cmd.Id })).Items.SingleOrDefault();
             if (application == null) throw new NotFoundException("Application not found");
             if (application.Status != ApplicationStatus.DraftProponent && application.Status != ApplicationStatus.DraftStaff) throw new BusinessValidationException("Application can only be deleted if it is in Draft");
+            if (!application.ApplicationTypeName.Equals("EOI")) throw new BusinessValidationException("Only EOI applications can be deleted");
             var id = (await applicationRepository.Manage(new DeleteApplication { Id = cmd.Id })).Id;
             return id;
         }
@@ -244,7 +251,7 @@ namespace EMCR.DRR.Managers.Intake
                 case "applicationtype": return "drr_applicationtypename" + dir;
                 case "programtype": return "drr_programname" + dir;
                 case "status": return "statuscode" + dir;
-                case "fundingrequest": return "drr_estimateddriffundingprogramrequest" + dir;
+                case "fundingrequest": return "drr_eligibleamount" + dir;
                 case "modifieddate": return "modifiedon" + dir;
                 case "submitteddate": return "drr_submitteddate" + dir;
                 default: return "drr_name";
