@@ -616,51 +616,6 @@
     </mat-card-header>
     <mat-card-content>
       <drr-summary-item
-        [label]="t('approvalsQuestion')"
-        [rxFormControl]="
-          fullProposalForm.get('permitsRegulationsAndStandards.approvals')
-        "
-        controlType="radio"
-      >
-      </drr-summary-item>
-      <drr-summary-item
-        [label]="t('approvalsComments')"
-        [rxFormControl]="
-          fullProposalForm.get(
-            'permitsRegulationsAndStandards.approvalsComments'
-          )
-        "
-      >
-      </drr-summary-item>
-      <drr-summary-item
-        [label]="t('professionalGuidanceQuestion')"
-        [rxFormControl]="
-          fullProposalForm.get(
-            'permitsRegulationsAndStandards.professionalGuidance'
-          )
-        "
-        controlType="radio"
-      >
-      </drr-summary-item>
-      <drr-summary-item
-        [label]="t('professionals')"
-        [rxFormControl]="
-          fullProposalForm.get('permitsRegulationsAndStandards.professionals')
-        "
-        controlType="array"
-        [translate]="false"
-      >
-      </drr-summary-item>
-      <drr-summary-item
-        [label]="t('professionalGuidanceComments')"
-        [rxFormControl]="
-          fullProposalForm.get(
-            'permitsRegulationsAndStandards.professionalGuidanceComments'
-          )
-        "
-      >
-      </drr-summary-item>
-      <drr-summary-item
         [label]="t('standardsAcceptableQuestion')"
         [rxFormControl]="
           fullProposalForm.get(
@@ -714,6 +669,38 @@
         "
       >
       </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('professionalGuidanceQuestion')"
+        [rxFormControl]="
+          fullProposalForm.get(
+            'permitsRegulationsAndStandards.professionalGuidance'
+          )
+        "
+        controlType="radio"
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('professionals')"
+        [rxFormControl]="
+          fullProposalForm.get('permitsRegulationsAndStandards.professionals')
+        "
+        controlType="array"
+        [translate]="false"
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('professionalGuidanceComments')"
+        [rxFormControl]="
+          fullProposalForm.get(
+            'permitsRegulationsAndStandards.professionalGuidanceComments'
+          )
+        "
+      >
+      </drr-summary-item>
+
       <drr-summary-item
         [label]="t('meetsRegulatoryRequirements')"
         [rxFormControl]="
@@ -729,6 +716,24 @@
         [rxFormControl]="
           fullProposalForm.get(
             'permitsRegulationsAndStandards.meetsRegulatoryComments'
+          )
+        "
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('approvalsQuestion')"
+        [rxFormControl]="
+          fullProposalForm.get('permitsRegulationsAndStandards.approvals')
+        "
+        controlType="radio"
+      >
+      </drr-summary-item>
+      <drr-summary-item
+        [label]="t('approvalsComments')"
+        [rxFormControl]="
+          fullProposalForm.get(
+            'permitsRegulationsAndStandards.approvalsComments'
           )
         "
       >
