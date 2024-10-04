@@ -1273,7 +1273,7 @@ namespace EMCR.DRR.Resources.Applications
                                   <filter>";
 
 
-            filterString += $"<condition attribute='statecode' operator='ne' value='{(int)ApplicationStatusOptionSet.Deleted}' />";
+            filterString += $"<condition attribute='statuscode' operator='ne' value='{(int)ApplicationStatusOptionSet.Deleted}' />";
 
             if (query.FilterOptions != null)
             {
