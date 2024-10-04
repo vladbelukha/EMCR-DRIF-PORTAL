@@ -23,6 +23,7 @@ namespace EMCR.DRR.API.Model
         public DateTime? SubmittedDate { get; set; }
         public required string[] PartneringProponents { get; set; }
         public FundingStream? FundingStream { get; set; }
+        public required IEnumerable<Actions> Actions { get; set; } = Array.Empty<Actions>();
     }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
@@ -40,5 +41,18 @@ namespace EMCR.DRR.API.Model
     {
         [Description("DRIF")]
         DRIF,
+    }
+
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public enum Actions
+    {
+        [Description("CreateFP")]
+        CreateFP,
+
+        [Description("Delete")]
+        Delete,
+
+        [Description("Withdraw")]
+        Withdraw,
     }
 }
