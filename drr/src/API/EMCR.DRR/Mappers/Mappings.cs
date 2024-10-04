@@ -56,7 +56,7 @@ namespace EMCR.DRR.API.Mappers
         {
             var ret = new List<Actions>();
 
-            if (application.ApplicationTypeName.Equals("EOI") && application.Status == Managers.Intake.ApplicationStatus.Invited) ret.Add(Actions.CreateFP);
+            if (application.ApplicationTypeName.Equals("EOI") && application.Status == Managers.Intake.ApplicationStatus.Invited && string.IsNullOrEmpty(application.FpId)) ret.Add(Actions.CreateFP);
             if (application.ApplicationTypeName.Equals("EOI") && (application.Status == Managers.Intake.ApplicationStatus.DraftStaff || application.Status == Managers.Intake.ApplicationStatus.DraftProponent)) ret.Add(Actions.Delete);
             if (application.Status == Managers.Intake.ApplicationStatus.DraftStaff || application.Status == Managers.Intake.ApplicationStatus.DraftProponent || application.Status == Managers.Intake.ApplicationStatus.Withdrawn) ret.Add(Actions.Edit);
             if (application.Status == Managers.Intake.ApplicationStatus.Submitted) ret.Add(Actions.Withdraw);
