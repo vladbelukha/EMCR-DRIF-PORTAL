@@ -18,7 +18,6 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import {
   MatStepper,
@@ -74,7 +73,6 @@ import { DrifEoiStep8Component } from './drif-eoi-step-8/drif-eoi-step-8.compone
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatRadioModule,
     MatIconModule,
     MatDividerModule,
     MatSelectModule,

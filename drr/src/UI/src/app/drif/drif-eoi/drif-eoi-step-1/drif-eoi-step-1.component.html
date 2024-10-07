@@ -1,29 +1,11 @@
 <div class="drr-step-container" *transloco="let t">
   <form [formGroup]="proponentInformationForm">
     <mat-label class="drr-label">{{ t("proponentType") }}*</mat-label>
-    <mat-radio-group
-      id="proponentType"
-      class="drr-radio-group"
-      aria-label="Select an option"
-      formControlName="proponentType"
-    >
-      <mat-error
-        *ngIf="
-          proponentInformationForm.get('proponentType')?.touched &&
-          proponentInformationForm.get('proponentType')?.hasError('required')
-        "
-        >{{ t("required") }}</mat-error
-      >
-      <mat-radio-button value="FirstNation">{{
-        t("FirstNation")
-      }}</mat-radio-button>
-      <mat-radio-button value="LocalGovernment">{{
-        t("LocalGovernment")
-      }}</mat-radio-button>
-      <mat-radio-button value="RegionalDistrict">{{
-        t("RegionalDistrict")
-      }}</mat-radio-button>
-    </mat-radio-group>
+    <drr-radio-button
+      [rxFormControl]="getFormControl('proponentType')"
+      [options]="proponentTypeOptions"
+    ></drr-radio-button>
+
     <mat-label class="drr-label">{{ t("proponentName") }}</mat-label>
     <drr-input
       class="drr-single-input"

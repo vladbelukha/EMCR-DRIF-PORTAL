@@ -22,10 +22,10 @@ import {
 import { distinctUntilChanged } from 'rxjs';
 import { FundingType } from '../../../../model';
 
-import { MatRadioModule } from '@angular/material/radio';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { DrrCurrencyInputComponent } from '../../../shared/controls/drr-currency-input/drr-currency-input.component';
 import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
+import { DrrRadioButtonComponent } from '../../../shared/controls/drr-radio-button/drr-radio-button.component';
 import { DrrSelectComponent } from '../../../shared/controls/drr-select/drr-select.component';
 import { DrrTextareaComponent } from '../../../shared/controls/drr-textarea/drr-textarea.component';
 import { DrrFundingListComponent } from '../../drr-funding-list/drr-funding-list.component';
@@ -47,13 +47,13 @@ import {
     MatInputModule,
     MatIconModule,
     MatSelectModule,
-    MatRadioModule,
     TranslocoModule,
     DrrTextareaComponent,
     DrrInputComponent,
     DrrSelectComponent,
     DrrCurrencyInputComponent,
     DrrFundingListComponent,
+    DrrRadioButtonComponent,
   ],
   templateUrl: './drif-eoi-step-3.component.html',
   styleUrl: './drif-eoi-step-3.component.scss',

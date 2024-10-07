@@ -8,8 +8,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatRadioModule } from '@angular/material/radio';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import {
   IFormGroup,
@@ -17,7 +16,9 @@ import {
   RxFormControl,
 } from '@rxweb/reactive-form-validators';
 import { distinctUntilChanged, Subscription } from 'rxjs';
+import { ProponentType } from '../../../../model';
 import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
+import { DrrRadioButtonComponent } from '../../../shared/controls/drr-radio-button/drr-radio-button.component';
 import { ProfileStore } from '../../../store/profile.store';
 import {
   ContactDetailsForm,
@@ -35,13 +36,13 @@ import {
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatRadioModule,
     MatIconModule,
     MatDividerModule,
     MatButtonModule,
     MatCheckboxModule,
     TranslocoModule,
     DrrInputComponent,
+    DrrRadioButtonComponent,
   ],
   templateUrl: './drif-eoi-step-1.component.html',
   styleUrl: './drif-eoi-step-1.component.scss',
@@ -50,9 +51,15 @@ export class DrifEoiStep1Component {
   formBuilder = inject(RxFormBuilder);
   breakpointObserver = inject(BreakpointObserver);
   profileStore = inject(ProfileStore);
+  translocoService = inject(TranslocoService);
 
   submitterSub: Subscription | undefined;
   isMobile = false;
+
+  proponentTypeOptions = Object.values(ProponentType).map((value) => ({
+    value,
+    label: this.translocoService.translate(value),
+  }));
 
   @Input()
   proponentInformationForm!: IFormGroup<ProponentInformationForm>;

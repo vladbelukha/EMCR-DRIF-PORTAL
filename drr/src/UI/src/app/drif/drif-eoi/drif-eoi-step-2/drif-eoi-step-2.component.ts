@@ -10,13 +10,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { IFormGroup, RxFormControl } from '@rxweb/reactive-form-validators';
 import { distinctUntilChanged } from 'rxjs';
-import { Hazards, ProjectType } from '../../../../model';
+import { FundingStream, Hazards, ProjectType } from '../../../../model';
 import { DrrDatepickerComponent } from '../../../shared/controls/drr-datepicker/drr-datepicker.component';
 import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
 import { DrrRadioButtonComponent } from '../../../shared/controls/drr-radio-button/drr-radio-button.component';
@@ -34,7 +33,6 @@ import { ProjectInformationForm } from '../drif-eoi-form';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatRadioModule,
     MatSelectModule,
     MatDatepickerModule,
     TranslocoModule,
@@ -53,6 +51,11 @@ export class DrifEoiStep2Component {
   projectInformationForm!: IFormGroup<ProjectInformationForm>;
 
   minStartDate = new Date();
+
+  fundingStreamOptions = Object.values(FundingStream).map((value) => ({
+    value,
+    label: this.translocoService.translate(value),
+  }));
 
   hazardsOptions = Object.values(Hazards).map((value) => ({
     value,

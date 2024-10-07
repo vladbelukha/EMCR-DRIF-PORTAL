@@ -21,19 +21,9 @@
     ></drr-currency-input>
 
     <mat-label class="drr-label">{{ t("otherFunding") }}</mat-label>
-
-    <mat-radio-group formControlName="haveOtherFunding" class="drr-radio-group">
-      <mat-error
-        *ngIf="
-          fundingInformationForm.get('haveOtherFunding')?.touched &&
-          fundingInformationForm.get('haveOtherFunding')?.hasError('required')
-        "
-        >{{ t("required") }}</mat-error
-      >
-
-      <mat-radio-button [value]="true">Yes</mat-radio-button>
-      <mat-radio-button [value]="false">No</mat-radio-button>
-    </mat-radio-group>
+    <drr-radio-button
+      [rxFormControl]="getFormControl('haveOtherFunding')"
+    ></drr-radio-button>
 
     @if(fundingInformationForm.get('haveOtherFunding')?.value === true) {
     <drr-funding-list

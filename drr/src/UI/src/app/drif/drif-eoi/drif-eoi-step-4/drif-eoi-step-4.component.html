@@ -1,24 +1,9 @@
 <div class="drr-step-container" *transloco="let t">
   <mat-label class="drr-label">{{ t("ownershipDeclaration") }}</mat-label>
-  <mat-label>{{ t("ownershipDeclarationText") }}*</mat-label>
-  <mat-radio-group
-    id="ownershipDeclaration"
-    class="drr-radio-group"
-    aria-label="Select an option"
-    [formControl]="getFormControl('ownershipDeclaration')"
-  >
-    <mat-error
-      *ngIf="
-        locationInformationForm.get('ownershipDeclaration')?.touched &&
-        locationInformationForm
-          .get('ownershipDeclaration')
-          ?.hasError('required')
-      "
-      >{{ t("required") }}</mat-error
-    >
-    <mat-radio-button [value]="true">Yes</mat-radio-button>
-    <mat-radio-button [value]="false">No</mat-radio-button>
-  </mat-radio-group>
+  <drr-radio-button
+    [label]="t('ownershipDeclarationText')"
+    [rxFormControl]="getFormControl('ownershipDeclaration')"
+  ></drr-radio-button>
 
   <drr-textarea
     *ngIf="getFormControl('ownershipDeclaration').value === false"
