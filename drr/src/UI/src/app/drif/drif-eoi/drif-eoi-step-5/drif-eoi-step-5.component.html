@@ -5,7 +5,7 @@
       [id]="'rationaleForFunding'"
       [label]="t('rationaleForFundingText')"
       [maxlength]="2000"
-      [rxFormControl]="getFormControl('rationaleForFunding')"
+      [rxFormControl]="projectDetailsForm.get('rationaleForFunding')"
       [rows]="10"
     ></drr-textarea>
 
@@ -15,7 +15,7 @@
         class="drr-single-input"
         [id]="'estimatedPeopleImpacted'"
         [label]="t('estimatedPeopleImpacted')"
-        [rxFormControl]="getFormControl('estimatedPeopleImpacted')"
+        [rxFormControl]="projectDetailsForm.get('estimatedPeopleImpacted')"
         [options]="estimatedNumberOfPeopleOptions"
       ></drr-select>
 
@@ -25,7 +25,7 @@
         [id]="'communityImpact'"
         [label]="t('communityImpactText')"
         [maxlength]="2000"
-        [rxFormControl]="getFormControl('communityImpact')"
+        [rxFormControl]="projectDetailsForm.get('communityImpact')"
         [rows]="10"
       ></drr-textarea>
 
@@ -86,7 +86,7 @@
         style="margin-top: 8px"
         [label]="t('disasterRiskUnderstanding')"
         [maxlength]="2000"
-        [rxFormControl]="getFormControl('disasterRiskUnderstanding')"
+        [rxFormControl]="projectDetailsForm.get('disasterRiskUnderstanding')"
         [rows]="10"
       ></drr-textarea>
 
@@ -94,7 +94,9 @@
         [id]="'additionalBackgroundInformation'"
         [label]="t('additionalBackgroundInformation')"
         [maxlength]="2000"
-        [rxFormControl]="getFormControl('additionalBackgroundInformation')"
+        [rxFormControl]="
+          projectDetailsForm.get('additionalBackgroundInformation')
+        "
         [rows]="10"
       ></drr-textarea>
     </div>
@@ -105,14 +107,14 @@
         [id]="'addressRisksAndHazards'"
         [label]="t('addressRisksAndHazards')"
         [maxlength]="2000"
-        [rxFormControl]="getFormControl('addressRisksAndHazards')"
+        [rxFormControl]="projectDetailsForm.get('addressRisksAndHazards')"
         [rows]="10"
       ></drr-textarea>
 
       <drr-textarea
         [label]="t('drifProgramGoalAlignment')"
         [maxlength]="2000"
-        [rxFormControl]="getFormControl('projectDescription')"
+        [rxFormControl]="projectDetailsForm.get('projectDescription')"
         [rows]="10"
       ></drr-textarea>
 
@@ -120,7 +122,9 @@
         [id]="'additionalSolutionInformation'"
         [label]="t('additionalSolutionInformation')"
         [maxlength]="2000"
-        [rxFormControl]="getFormControl('additionalSolutionInformation')"
+        [rxFormControl]="
+          projectDetailsForm.get('additionalSolutionInformation')
+        "
         [rows]="10"
       ></drr-textarea>
 
@@ -129,7 +133,7 @@
         [id]="'rationaleForSolution'"
         [label]="t('rationaleForSolutionText')"
         [maxlength]="2000"
-        [rxFormControl]="getFormControl('rationaleForSolution')"
+        [rxFormControl]="projectDetailsForm.get('rationaleForSolution')"
         [rows]="10"
       ></drr-textarea>
     </div>

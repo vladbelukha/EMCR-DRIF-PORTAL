@@ -91,10 +91,6 @@ export class DrifEoiStep1Component {
     return this.proponentInformationForm.get(formArrayName) as FormArray;
   }
 
-  getFormControl(name: string): RxFormControl {
-    return this.proponentInformationForm.get(name) as RxFormControl;
-  }
-
   getGroupFormControl(controlName: string, groupName: string): RxFormControl {
     return this.proponentInformationForm
       .get(groupName)

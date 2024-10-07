@@ -1,11 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, inject } from '@angular/core';
-import {
-  FormArray,
-  FormControl,
-  FormsModule,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { FormArray, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -79,10 +74,6 @@ export class DrifEoiStep5Component {
 
   getFormArray(formArrayName: string) {
     return this.projectDetailsForm.get(formArrayName) as FormArray;
-  }
-
-  getFormControl(name: string): FormControl {
-    return this.projectDetailsForm.get(name) as FormControl;
   }
 
   addInfrastructure() {

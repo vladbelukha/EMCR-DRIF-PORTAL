@@ -6,7 +6,7 @@
       class="drr-single-input"
       [id]="'estimatedTotal'"
       [label]="t('estimatedTotal')"
-      [rxFormControl]="getFormControl('estimatedTotal')"
+      [rxFormControl]="fundingInformationForm.get('estimatedTotal')"
       [max]="1000000000"
     ></drr-currency-input>
 
@@ -16,13 +16,13 @@
       class="drr-single-input"
       [id]="'fundingRequest'"
       [label]="t('fundingRequest')"
-      [rxFormControl]="getFormControl('fundingRequest')"
+      [rxFormControl]="fundingInformationForm.get('fundingRequest')"
       [max]="1000000000"
     ></drr-currency-input>
 
     <mat-label class="drr-label">{{ t("otherFunding") }}</mat-label>
     <drr-radio-button
-      [rxFormControl]="getFormControl('haveOtherFunding')"
+      [rxFormControl]="fundingInformationForm.get('haveOtherFunding')"
     ></drr-radio-button>
 
     @if(fundingInformationForm.get('haveOtherFunding')?.value === true) {
@@ -59,7 +59,7 @@
       [id]="'intendToSecureFunding'"
       [label]="t('intendToSecureFunding')"
       [maxlength]="2000"
-      [rxFormControl]="getFormControl('intendToSecureFunding')"
+      [rxFormControl]="fundingInformationForm.get('intendToSecureFunding')"
     ></drr-textarea>
   </form>
 </div>

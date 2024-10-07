@@ -1,11 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import {
-  FormControl,
-  FormsModule,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -58,9 +53,5 @@ export class DrifEoiStep4Component {
         ownershipDescription?.reset();
         ownershipDescription?.updateValueAndValidity();
       });
-  }
-
-  getFormControl(name: string): FormControl {
-    return this.locationInformationForm.get(name) as FormControl;
   }
 }

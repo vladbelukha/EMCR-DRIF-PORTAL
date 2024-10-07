@@ -2,15 +2,15 @@
   <mat-label class="drr-label">{{ t("ownershipDeclaration") }}</mat-label>
   <drr-radio-button
     [label]="t('ownershipDeclarationText')"
-    [rxFormControl]="getFormControl('ownershipDeclaration')"
+    [rxFormControl]="locationInformationForm.get('ownershipDeclaration')"
   ></drr-radio-button>
 
   <drr-textarea
-    *ngIf="getFormControl('ownershipDeclaration').value === false"
+    *ngIf="locationInformationForm.get('ownershipDeclaration')?.value === false"
     [id]="'ownershipDescription'"
     [label]="t('ownershipDescription')"
     [maxlength]="2000"
-    [rxFormControl]="getFormControl('ownershipDescription')"
+    [rxFormControl]="locationInformationForm.get('ownershipDescription')"
   ></drr-textarea>
 
   <mat-label class="drr-label">{{ t("locationDescription") }}</mat-label>
@@ -18,6 +18,6 @@
     [id]="'locationDescription'"
     [label]="t('locationDescription')"
     [maxlength]="2000"
-    [rxFormControl]="getFormControl('locationDescription')"
+    [rxFormControl]="locationInformationForm.get('locationDescription')"
   ></drr-textarea>
 </div>

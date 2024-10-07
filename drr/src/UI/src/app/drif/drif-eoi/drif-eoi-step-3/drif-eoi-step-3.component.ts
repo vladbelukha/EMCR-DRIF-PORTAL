@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, inject } from '@angular/core';
 import {
   FormArray,
-  FormControl,
   FormsModule,
   ReactiveFormsModule,
   Validators,
@@ -157,10 +156,6 @@ export class DrifEoiStep3Component {
 
   removeOtherSource(index: number) {
     this.getFormArray('otherFunding').removeAt(index);
-  }
-
-  getFormControl(name: string): FormControl {
-    return this.fundingInformationForm.get(name) as FormControl;
   }
 
   getRemainingAmount() {

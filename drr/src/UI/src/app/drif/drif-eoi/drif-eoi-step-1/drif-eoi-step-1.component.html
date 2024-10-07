@@ -2,7 +2,7 @@
   <form [formGroup]="proponentInformationForm">
     <mat-label class="drr-label">{{ t("proponentType") }}*</mat-label>
     <drr-radio-button
-      [rxFormControl]="getFormControl('proponentType')"
+      [rxFormControl]="proponentInformationForm.get('proponentType')"
       [options]="proponentTypeOptions"
     ></drr-radio-button>
 
@@ -11,7 +11,7 @@
       class="drr-single-input"
       [id]="'proponentName'"
       [label]="t('proponentNameText')"
-      [rxFormControl]="getFormControl('proponentName')"
+      [rxFormControl]="proponentInformationForm.get('proponentName')"
       [maxlength]="100"
     ></drr-input>
 

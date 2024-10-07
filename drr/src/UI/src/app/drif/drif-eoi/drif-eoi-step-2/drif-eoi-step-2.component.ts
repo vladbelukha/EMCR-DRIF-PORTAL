@@ -13,7 +13,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy } from '@ngneat/until-destroy';
-import { IFormGroup, RxFormControl } from '@rxweb/reactive-form-validators';
+import { IFormGroup } from '@rxweb/reactive-form-validators';
 import { distinctUntilChanged } from 'rxjs';
 import { FundingStream, Hazards, ProjectType } from '../../../../model';
 import { DrrDatepickerComponent } from '../../../shared/controls/drr-datepicker/drr-datepicker.component';
@@ -88,10 +88,6 @@ export class DrifEoiStep2Component {
 
   getFormArray(formArrayName: string) {
     return this.projectInformationForm.get(formArrayName) as FormArray;
-  }
-
-  getFormControl(name: string): RxFormControl {
-    return this.projectInformationForm.get(name) as RxFormControl;
   }
 
   otherHazardSelected() {
