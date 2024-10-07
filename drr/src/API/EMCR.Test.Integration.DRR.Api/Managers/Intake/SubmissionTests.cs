@@ -343,6 +343,8 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             ret.SensitivityRisks.ShouldContain("sensitivity risk 1");
             ret.CapacityRisks.ShouldContain("capacity risk 1");
             ret.CostConsiderations.ShouldContain("cost consideration 1");
+            ret.MeetsEligibilityRequirements.ShouldBe(true);
+            ret.MeetsEligibilityComments.ShouldBe("eligibility comments");
         }
 
         [Test]
@@ -637,6 +639,8 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             application.StandardsComments = "standards comments";
             application.MeetsRegulatoryRequirements = false;
             application.MeetsRegulatoryComments = "regulations comments";
+            application.MeetsEligibilityRequirements = false;
+            application.MeetsEligibilityComments = "eligibility comments";
 
             //Project Outcomes - 8
             application.PublicBenefit = false;
