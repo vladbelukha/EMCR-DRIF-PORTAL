@@ -176,71 +176,71 @@ export class EOIApplicationComponent {
 
       this.applicationService
         .dRIFApplicationGetEOI(id)
-        .subscribe((application) => {
+        .subscribe((response) => {
           const profileData = this.profileStore.getProfile();
 
           const resetSubmitter =
-            profileData.firstName?.() != application.submitter?.firstName ||
-            profileData.lastName?.() != application.submitter?.lastName;
+            profileData.firstName?.() != response.submitter?.firstName ||
+            profileData.lastName?.() != response.submitter?.lastName;
 
           // transform application into step forms
           const eoiApplicationForm: EOIApplicationForm = {
             proponentInformation: {
-              proponentType: application.proponentType,
-              additionalContacts: application.additionalContacts,
-              partneringProponents: application.partneringProponents,
-              projectContact: application.projectContact,
+              proponentType: response.proponentType,
+              additionalContacts: response.additionalContacts,
+              partneringProponents: response.partneringProponents,
+              projectContact: response.projectContact,
             },
             projectInformation: {
-              stream: application.stream,
-              projectTitle: application.projectTitle,
-              scopeStatement: application.scopeStatement,
-              fundingStream: application.fundingStream,
-              relatedHazards: application.relatedHazards,
-              otherHazardsDescription: application.otherHazardsDescription,
-              startDate: application.startDate,
-              endDate: application.endDate,
+              stream: response.stream,
+              projectTitle: response.projectTitle,
+              scopeStatement: response.scopeStatement,
+              fundingStream: response.fundingStream,
+              relatedHazards: response.relatedHazards,
+              otherHazardsDescription: response.otherHazardsDescription,
+              startDate: response.startDate,
+              endDate: response.endDate,
             },
             fundingInformation: {
-              fundingRequest: application.fundingRequest,
-              remainingAmount: application.remainingAmount,
-              intendToSecureFunding: application.intendToSecureFunding,
-              estimatedTotal: application.estimatedTotal,
-              haveOtherFunding: application.haveOtherFunding,
+              fundingRequest: response.fundingRequest,
+              remainingAmount: response.remainingAmount,
+              intendToSecureFunding: response.intendToSecureFunding,
+              estimatedTotal: response.estimatedTotal,
+              haveOtherFunding: response.haveOtherFunding,
             },
             locationInformation: {
-              ownershipDeclaration: application.ownershipDeclaration,
-              ownershipDescription: application.ownershipDescription,
-              locationDescription: application.locationDescription,
+              ownershipDeclaration: response.ownershipDeclaration,
+              ownershipDescription: response.ownershipDescription,
+              locationDescription: response.locationDescription,
             },
             projectDetails: {
               additionalBackgroundInformation:
-                application.additionalBackgroundInformation,
+                response.additionalBackgroundInformation,
               additionalSolutionInformation:
-                application.additionalSolutionInformation,
-              addressRisksAndHazards: application.addressRisksAndHazards,
-              disasterRiskUnderstanding: application.disasterRiskUnderstanding,
-              projectDescription: application.projectDescription,
-              estimatedPeopleImpacted: application.estimatedPeopleImpacted,
-              communityImpact: application.communityImpact,
-              isInfrastructureImpacted: application.isInfrastructureImpacted,
-              infrastructureImpacted: application.infrastructureImpacted,
-              rationaleForFunding: application.rationaleForFunding,
-              rationaleForSolution: application.rationaleForSolution,
+                response.additionalSolutionInformation,
+              addressRisksAndHazards: response.addressRisksAndHazards,
+              disasterRiskUnderstanding: response.disasterRiskUnderstanding,
+              projectDescription: response.projectDescription,
+              estimatedPeopleImpacted: response.estimatedPeopleImpacted,
+              communityImpact: response.communityImpact,
+              isInfrastructureImpacted: response.isInfrastructureImpacted,
+              infrastructureImpacted: response.infrastructureImpacted,
+              rationaleForFunding: response.rationaleForFunding,
+              rationaleForSolution: response.rationaleForSolution,
             },
             engagementPlan: {
               additionalEngagementInformation:
-                application.additionalEngagementInformation,
-              firstNationsEngagement: application.firstNationsEngagement,
-              neighbourEngagement: application.neighbourEngagement,
+                response.additionalEngagementInformation,
+              firstNationsEngagement: response.firstNationsEngagement,
+              neighbourEngagement: response.neighbourEngagement,
             },
             otherSupportingInformation: {
-              climateAdaptation: application.climateAdaptation,
-              otherInformation: application.otherInformation,
+              climateAdaptation: response.climateAdaptation,
+              otherInformation: response.otherInformation,
             },
             declaration: {
               submitter: !resetSubmitter
-                ? application.submitter
+                ? response.submitter
                 : {
                     firstName: profileData.firstName?.(),
                     lastName: profileData.lastName?.(),
@@ -256,39 +256,15 @@ export class EOIApplicationComponent {
             emitEvent: false,
           });
 
-          const partneringProponentsArray = this.getFormGroup(
-            'proponentInformation'
-          ).get('partneringProponentsArray') as FormArray;
-          if (application.partneringProponents?.length! > 0) {
-            partneringProponentsArray.clear({ emitEvent: false });
-          }
-          application.partneringProponents?.forEach((proponent) => {
-            partneringProponentsArray?.push(
-              this.formBuilder.formGroup(new StringItem({ value: proponent })),
-              { emitEvent: false }
-            );
-          });
-
-          const additionalContactsArray = this.getFormGroup(
-            'proponentInformation'
-          ).get('additionalContacts') as FormArray;
-          if (application.additionalContacts?.length! > 0) {
-            additionalContactsArray.clear({ emitEvent: false });
-          }
-          application.additionalContacts?.forEach((contact) => {
-            additionalContactsArray?.push(
-              this.formBuilder.formGroup(new ContactDetailsForm(contact)),
-              { emitEvent: false }
-            );
-          });
+          this.initStep1(response);
 
           const fundingInformationItemFormArray = this.getFormGroup(
             'fundingInformation'
           ).get('otherFunding') as FormArray;
-          if (application.otherFunding?.length! > 0) {
+          if (response.otherFunding?.length! > 0) {
             fundingInformationItemFormArray.clear({ emitEvent: false });
           }
-          application.otherFunding?.forEach((funding) => {
+          response.otherFunding?.forEach((funding) => {
             const fundingInformationItemForm = this.formBuilder.formGroup(
               new FundingInformationItemForm(funding)
             );
@@ -307,12 +283,12 @@ export class EOIApplicationComponent {
             'projectDetails'
           ).get('infrastructureImpacted') as FormArray;
           if (
-            application.isInfrastructureImpacted === false ||
-            application.infrastructureImpacted?.length! > 0
+            response.isInfrastructureImpacted === false ||
+            response.infrastructureImpacted?.length! > 0
           ) {
             infrastructureImpactedArray.clear({ emitEvent: false });
           } else {
-            application.infrastructureImpacted?.forEach((infrastructure) => {
+            response.infrastructureImpacted?.forEach((infrastructure) => {
               if (infrastructure) {
                 infrastructureImpactedArray?.push(
                   this.formBuilder.formGroup(
@@ -327,7 +303,7 @@ export class EOIApplicationComponent {
           this.eoiApplicationForm.markAsPristine();
           this.formChanged = false;
 
-          if (application.status == 'UnderReview') {
+          if (response.status == 'UnderReview') {
             this.eoiApplicationForm.disable();
           }
         });
@@ -349,6 +325,34 @@ export class EOIApplicationComponent {
 
   ngOnDestroy() {
     clearInterval(this.autoSaveTimer);
+  }
+
+  initStep1(response: DraftEoiApplication) {
+    const partneringProponentsArray = this.getFormGroup(
+      'proponentInformation'
+    ).get('partneringProponentsArray') as FormArray;
+    if (response.partneringProponents?.length! > 0) {
+      partneringProponentsArray.clear({ emitEvent: false });
+    }
+    response.partneringProponents?.forEach((proponent) => {
+      partneringProponentsArray?.push(
+        this.formBuilder.formGroup(new StringItem({ value: proponent })),
+        { emitEvent: false }
+      );
+    });
+
+    const additionalContactsArray = this.getFormGroup(
+      'proponentInformation'
+    ).get('additionalContacts') as FormArray;
+    if (response.additionalContacts?.length! > 0) {
+      additionalContactsArray.clear({ emitEvent: false });
+    }
+    response.additionalContacts?.forEach((contact) => {
+      additionalContactsArray?.push(
+        this.formBuilder.formGroup(new ContactDetailsForm(contact)),
+        { emitEvent: false }
+      );
+    });
   }
 
   getProjectTitle() {

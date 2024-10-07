@@ -21,7 +21,7 @@
       [label]="t('type')"
       [rxFormControl]="funding.get('type')"
       [options]="fundingTypeOptions"
-      (selectionChange)="setFundingTypeDesctiption($event, i)"
+      (selectionChange)="setFundingTypeDesctiption($event, funding.get('otherDescription')!)"
     ></drr-select>
     <drr-input
       class="other-grants-input"

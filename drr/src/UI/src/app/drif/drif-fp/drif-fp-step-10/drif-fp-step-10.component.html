@@ -18,27 +18,22 @@
       t("yearOverYearFundingRequest")
     }}</mat-label>
     <mat-label>{{ t("yearOverYearFundingRequestText") }}</mat-label>
-    <div formArrayName="yearOverYearFunding">
+    <div>
       <div
         class="array-item-container"
         *ngFor="
           let funding of getFormArray('yearOverYearFunding').controls;
           let i = index
         "
-        [formGroupName]="i"
       >
         <drr-select
           [label]="t('fiscalYear')"
-          [rxFormControl]="
-            getArrayFormControl('yearOverYearFunding', 'year', i)
-          "
+          [rxFormControl]="funding.get('year')"
           [options]="fiscalYearsOptions"
         ></drr-select>
         <drr-currency-input
           [label]="t('amount')"
-          [rxFormControl]="
-            getArrayFormControl('yearOverYearFunding', 'amount', i)
-          "
+          [rxFormControl]="funding.get('amount')"
         ></drr-currency-input>
         <button mat-mini-fab color="warn" (click)="removeYear(i)">
           <mat-icon>delete</mat-icon>

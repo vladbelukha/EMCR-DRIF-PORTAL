@@ -15,11 +15,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { TranslocoModule } from '@ngneat/transloco';
 import { UntilDestroy } from '@ngneat/until-destroy';
-import {
-  IFormGroup,
-  RxFormBuilder,
-  RxFormControl,
-} from '@rxweb/reactive-form-validators';
+import { IFormGroup, RxFormBuilder } from '@rxweb/reactive-form-validators';
 import { distinctUntilChanged } from 'rxjs';
 import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
 import { DrrRadioButtonComponent } from '../../../shared/controls/drr-radio-button/drr-radio-button.component';
@@ -104,16 +100,6 @@ export class DrifFpStep1Component {
 
   getFormArray(name: string) {
     return this.proponentAndProjectInformationForm.get(name) as FormArray;
-  }
-
-  getArrayFormControl(
-    controlName: string,
-    arrayName: string,
-    index: number
-  ): RxFormControl {
-    return this.getFormArray(arrayName)?.controls[index]?.get(
-      controlName
-    ) as RxFormControl;
   }
 
   addAdditionalContact() {

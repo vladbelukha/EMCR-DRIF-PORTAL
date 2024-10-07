@@ -12,13 +12,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatSelectChange, MatSelectModule } from '@angular/material/select';
+import { MatSelectModule } from '@angular/material/select';
 import { TranslocoModule } from '@ngneat/transloco';
-import {
-  IFormGroup,
-  RxFormBuilder,
-  RxFormControl,
-} from '@rxweb/reactive-form-validators';
+import { IFormGroup, RxFormBuilder } from '@rxweb/reactive-form-validators';
 import { distinctUntilChanged } from 'rxjs';
 import { FundingType } from '../../../../model';
 
@@ -175,36 +171,7 @@ export class DrifEoiStep3Component {
     return Math.abs(this.getRemainingAmount());
   }
 
-  getArrayFormControl(
-    controlName: string,
-    arrayName: string,
-    index: number
-  ): RxFormControl {
-    return this.getFormArray(arrayName)?.controls[index]?.get(
-      controlName
-    ) as RxFormControl;
-  }
-
   hasOtherGrants(selectValue: FundingType[]) {
     return selectValue?.includes(FundingType.OtherGrants);
-  }
-
-  // event handler for funding type change
-  setFundingTypeDesctiption(event: MatSelectChange, index: number) {
-    const descriptionControl = this.getArrayFormControl(
-      'otherDescription',
-      'otherFunding',
-      index
-    );
-
-    // check if value contains FundingType.OtherGrants
-    if (this.hasOtherGrants(event.value)) {
-      descriptionControl.addValidators(Validators.required);
-    } else {
-      descriptionControl.clearValidators();
-    }
-
-    descriptionControl.reset();
-    descriptionControl.updateValueAndValidity();
   }
 }

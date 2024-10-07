@@ -101,16 +101,6 @@ export class DrifEoiStep1Component {
       ?.get(controlName) as RxFormControl;
   }
 
-  getArrayFormControl(
-    controlName: string,
-    arrayName: string,
-    index: number
-  ): RxFormControl {
-    return this.getFormArray(arrayName)?.controls[index]?.get(
-      controlName
-    ) as RxFormControl;
-  }
-
   addAdditionalContact() {
     this.getFormArray('additionalContacts').push(
       this.formBuilder.formGroup(ContactDetailsForm)
