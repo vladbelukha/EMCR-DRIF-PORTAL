@@ -329,10 +329,10 @@ namespace EMCR.DRR.Controllers
         public bool? MeetsRegulatoryRequirements { get; set; }
         [MandatoryIf("MeetsRegulatoryRequirements", true)]
         public string? MeetsRegulatoryComments { get; set; }
-        //[Mandatory]
-        //public bool? MeetsEligibilityRequirements { get; set; }
-        //[MandatoryIf("MeetsEligibilityRequirements", true)]
-        //public string? MeetsEligibilityComments { get; set; }
+        [Mandatory]
+        public bool? MeetsEligibilityRequirements { get; set; }
+        [MandatoryIf("MeetsEligibilityRequirements", true)]
+        public string? MeetsEligibilityComments { get; set; }
 
         //Project Outcomes - 8
         [Mandatory]
