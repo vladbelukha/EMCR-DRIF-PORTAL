@@ -257,48 +257,8 @@ export class EOIApplicationComponent {
           });
 
           this.initStep1(response);
-
-          const fundingInformationItemFormArray = this.eoiApplicationForm.get(
-            'fundingInformation.otherFunding'
-          ) as FormArray;
-          if (response.otherFunding?.length! > 0) {
-            fundingInformationItemFormArray.clear({ emitEvent: false });
-          }
-          response.otherFunding?.forEach((funding) => {
-            const fundingInformationItemForm = this.formBuilder.formGroup(
-              new FundingInformationItemForm(funding)
-            );
-            fundingInformationItemFormArray?.push(fundingInformationItemForm, {
-              emitEvent: false,
-            });
-            if (funding.type === FundingType.OtherGrants) {
-              fundingInformationItemForm
-                .get('otherDescription')
-                ?.setValidators([Validators.required]);
-            }
-            fundingInformationItemFormArray?.push(fundingInformationItemForm);
-          });
-
-          const infrastructureImpactedArray = this.eoiApplicationForm.get(
-            'projectDetails.infrastructureImpacted'
-          ) as FormArray;
-          if (
-            response.isInfrastructureImpacted === false ||
-            response.infrastructureImpacted?.length! > 0
-          ) {
-            infrastructureImpactedArray.clear({ emitEvent: false });
-          } else {
-            response.infrastructureImpacted?.forEach((infrastructure) => {
-              if (infrastructure) {
-                infrastructureImpactedArray?.push(
-                  this.formBuilder.formGroup(
-                    new InfrastructureImpactedForm(infrastructure)
-                  ),
-                  { emitEvent: false }
-                );
-              }
-            });
-          }
+          this.initStep3(response);
+          this.initStep5(response);
 
           this.eoiApplicationForm.markAsPristine();
           this.formChanged = false;
@@ -353,6 +313,52 @@ export class EOIApplicationComponent {
         { emitEvent: false }
       );
     });
+  }
+
+  initStep3(response: DraftEoiApplication) {
+    const fundingInformationItemFormArray = this.eoiApplicationForm.get(
+      'fundingInformation.otherFunding'
+    ) as FormArray;
+    if (response.otherFunding?.length! > 0) {
+      fundingInformationItemFormArray.clear({ emitEvent: false });
+    }
+    response.otherFunding?.forEach((funding) => {
+      const fundingInformationItemForm = this.formBuilder.formGroup(
+        new FundingInformationItemForm(funding)
+      );
+      fundingInformationItemFormArray?.push(fundingInformationItemForm, {
+        emitEvent: false,
+      });
+      if (funding.type === FundingType.OtherGrants) {
+        fundingInformationItemForm
+          .get('otherDescription')
+          ?.setValidators([Validators.required]);
+      }
+      fundingInformationItemFormArray?.push(fundingInformationItemForm);
+    });
+  }
+
+  initStep5(response: DraftEoiApplication) {
+    const infrastructureImpactedArray = this.eoiApplicationForm.get(
+      'projectDetails.infrastructureImpacted'
+    ) as FormArray;
+    if (
+      response.isInfrastructureImpacted === false ||
+      response.infrastructureImpacted?.length! > 0
+    ) {
+      infrastructureImpactedArray.clear({ emitEvent: false });
+    } else {
+      response.infrastructureImpacted?.forEach((infrastructure) => {
+        if (infrastructure) {
+          infrastructureImpactedArray?.push(
+            this.formBuilder.formGroup(
+              new InfrastructureImpactedForm(infrastructure)
+            ),
+            { emitEvent: false }
+          );
+        }
+      });
+    }
   }
 
   getProjectTitle() {

@@ -328,228 +328,15 @@ export class DrifFpComponent {
 
         this.fullProposalForm.patchValue(formData, { emitEvent: false });
 
-        const partneringProponentsArray = this.fullProposalForm.get(
-          'proponentAndProjectInformation.partneringProponentsArray'
-        ) as FormArray;
-        if (response.partneringProponents?.length! > 0) {
-          partneringProponentsArray.clear({ emitEvent: false });
-        }
-        response.partneringProponents?.forEach((proponent) => {
-          partneringProponentsArray?.push(
-            this.formBuilder.formGroup(new StringItem({ value: proponent })),
-            { emitEvent: false }
-          );
-        });
-
-        const additionalContactsArray = this.fullProposalForm.get(
-          'proponentAndProjectInformation.additionalContacts'
-        ) as FormArray;
-        if (response.additionalContacts?.length! > 0) {
-          additionalContactsArray.clear({ emitEvent: false });
-        }
-        response.additionalContacts?.forEach((contact) => {
-          additionalContactsArray?.push(
-            this.formBuilder.formGroup(new ContactDetailsForm(contact)),
-            { emitEvent: false }
-          );
-        });
-
-        if (
-          this.fullProposalForm
-            .get('ownershipAndAuthorization')
-            ?.get('ownershipDeclaration')?.value === false
-        ) {
-          this.fullProposalForm
-            .get('ownershipAndAuthorization')
-            ?.get('ownershipDescription')
-            ?.addValidators(Validators.required);
-          this.fullProposalForm
-            .get('ownershipAndAuthorization')
-            ?.get('ownershipDescription')
-            ?.updateValueAndValidity();
-        }
-
-        const infrastructureImpactedArray = this.fullProposalForm.get(
-          'projectArea.infrastructureImpacted'
-        ) as FormArray;
-        if (
-          response.isInfrastructureImpacted === false ||
-          response.infrastructureImpacted?.length! > 0
-        ) {
-          infrastructureImpactedArray.clear({ emitEvent: false });
-        } else {
-          response.infrastructureImpacted?.forEach((infrastructure) => {
-            infrastructureImpactedArray?.push(
-              this.formBuilder.formGroup(
-                new ImpactedInfrastructureForm(infrastructure)
-              ),
-              { emitEvent: false }
-            );
-          });
-        }
-
-        const proposedActivitiesArray = this.fullProposalForm.get(
-          'projectPlan.proposedActivities'
-        ) as FormArray;
-        if (response.proposedActivities?.length! > 0) {
-          proposedActivitiesArray.clear({ emitEvent: false });
-        }
-        response.proposedActivities?.forEach((activity) => {
-          proposedActivitiesArray?.push(
-            this.formBuilder.formGroup(new ProposedActivityForm(activity)),
-            { emitEvent: false }
-          );
-        });
-
-        const otherFundingArray = this.fullProposalForm.get(
-          'budget.otherFunding'
-        ) as FormArray;
-        if (
-          response.haveOtherFunding === false ||
-          response.otherFunding?.length! > 0
-        ) {
-          otherFundingArray.clear({ emitEvent: false });
-        } else {
-          response.otherFunding?.forEach((funding) => {
-            otherFundingArray?.push(
-              this.formBuilder.formGroup(
-                new FundingInformationItemForm(funding)
-              ),
-              { emitEvent: false }
-            );
-          });
-        }
-
-        const yearOverYearFormArray = this.fullProposalForm.get(
-          'budget.yearOverYearFunding'
-        ) as FormArray;
-        if (response.yearOverYearFunding?.length! > 0) {
-          yearOverYearFormArray.clear({ emitEvent: false });
-        }
-        response.yearOverYearFunding?.forEach((funding) => {
-          yearOverYearFormArray?.push(
-            this.formBuilder.formGroup(new YearOverYearFundingForm(funding)),
-            { emitEvent: false }
-          );
-        });
-
-        if (response.professionalGuidance === true) {
-          this.fullProposalForm
-            .get('permitsRegulationsAndStandards')
-            ?.get('professionals')
-            ?.addValidators(Validators.required);
-        }
-
-        if (response.climateAssessment === true) {
-          this.fullProposalForm
-            .get('climateAdaptation')
-            ?.get('climateAssessmentTools')
-            ?.addValidators(Validators.required);
-        }
-
-        if (response.regionalProject === true) {
-          this.fullProposalForm
-            .get('proponentAndProjectInformation.regionalProjectComments')
-            ?.addValidators(Validators.required);
-        }
-
-        if (response.produceCoBenefits === false) {
-          this.fullProposalForm.get('projectOutcomes.coBenefits')?.disable();
-        }
-
-        const standardsFormArray = this.fullProposalForm.get(
-          'permitsRegulationsAndStandards.standards'
-        ) as FormArray;
-        this.optionsStore.standards?.()?.forEach((standard) => {
-          const standardsInfo = response.standards?.find(
-            (s) => s.category === standard.category
-          );
-          const standardInfo = new StandardInfoForm({
-            isCategorySelected: standardsInfo?.isCategorySelected,
-            category: standard.category,
-            standards: standardsInfo?.isCategorySelected
-              ? standardsInfo?.standards ?? []
-              : [],
-          });
-          const standardInfoForm = this.formBuilder.formGroup(standardInfo);
-
-          if (standardsInfo?.isCategorySelected === false) {
-            standardInfoForm.get('standards')?.disable();
-          }
-
-          standardInfoForm
-            .get('isCategorySelected')
-            ?.valueChanges.pipe(distinctUntilChanged())
-            .subscribe((value) => {
-              if (value === false) {
-                standardInfoForm.get('standards')?.setValue([], {
-                  emitEvent: false,
-                });
-                standardInfoForm.get('standards')?.disable();
-              } else {
-                standardInfoForm.get('standards')?.enable();
-              }
-            });
-
-          standardsFormArray?.push(standardInfoForm, { emitEvent: false });
-        });
-
-        if (response.complexityRiskMitigated === true) {
-          this.fullProposalForm
-            .get('projectRisks.complexityRisks')
-            ?.addValidators(Validators.required);
-          this.fullProposalForm
-            .get('projectRisks.complexityRiskComments')
-            ?.addValidators(Validators.required);
-        }
-
-        if (response.readinessRiskMitigated === true) {
-          this.fullProposalForm
-            .get('projectRisks.readinessRisks')
-            ?.addValidators(Validators.required);
-          this.fullProposalForm
-            .get('projectRisks.readinessRiskComments')
-            ?.addValidators(Validators.required);
-        }
-
-        if (response.sensitivityRiskMitigated === true) {
-          this.fullProposalForm
-            .get('projectRisks.sensitivityRisks')
-            ?.addValidators(Validators.required);
-          this.fullProposalForm
-            .get('projectRisks.sensitivityRiskComments')
-            ?.addValidators(Validators.required);
-        }
-
-        if (response.capacityRiskMitigated === true) {
-          this.fullProposalForm
-            .get('projectRisks.capacityRisks')
-            ?.addValidators(Validators.required);
-          this.fullProposalForm
-            .get('projectRisks.capacityRiskComments')
-            ?.addValidators(Validators.required);
-        }
-
-        if (response.riskTransferMigigated === true) {
-          this.fullProposalForm
-            .get('projectRisks.transferRisks')
-            ?.addValidators(Validators.required);
-          this.fullProposalForm
-            .get('projectRisks.transferRisksComments')
-            ?.addValidators(Validators.required);
-        }
-
-        if (response.meetsRegulatoryRequirements === true) {
-          this.fullProposalForm
-            .get('permitsRegulationsAndStandards.meetsRegulatoryComments')
-            ?.addValidators(Validators.required);
-        }
-
-        if (response.approvals === true) {
-          this.fullProposalForm
-            .get('permitsRegulationsAndStandards.approvalsComments')
-            ?.addValidators(Validators.required);
-        }
+        this.initStep1(response);
+        this.initStep2();
+        this.initStep3(response);
+        this.initStep4(response);
+        this.initStep6(response);
+        this.initStep7(response);
+        this.initStep8(response);
+        this.initStep9(response);
+        this.initStep10(response);
 
         this.fullProposalForm.markAsPristine();
         this.formChanged = false;
@@ -557,6 +344,245 @@ export class DrifFpComponent {
       error: (error) => {
         this.hotToast.error('Failed to load application');
       },
+    });
+  }
+
+  initStep1(response: DraftFpApplication) {
+    const partneringProponentsArray = this.fullProposalForm.get(
+      'proponentAndProjectInformation.partneringProponentsArray'
+    ) as FormArray;
+    if (response.partneringProponents?.length! > 0) {
+      partneringProponentsArray.clear({ emitEvent: false });
+    }
+    response.partneringProponents?.forEach((proponent) => {
+      partneringProponentsArray?.push(
+        this.formBuilder.formGroup(new StringItem({ value: proponent })),
+        { emitEvent: false }
+      );
+    });
+
+    const additionalContactsArray = this.fullProposalForm.get(
+      'proponentAndProjectInformation.additionalContacts'
+    ) as FormArray;
+    if (response.additionalContacts?.length! > 0) {
+      additionalContactsArray.clear({ emitEvent: false });
+    }
+    response.additionalContacts?.forEach((contact) => {
+      additionalContactsArray?.push(
+        this.formBuilder.formGroup(new ContactDetailsForm(contact)),
+        { emitEvent: false }
+      );
+    });
+
+    if (response.regionalProject === true) {
+      this.fullProposalForm
+        .get('proponentAndProjectInformation.regionalProjectComments')
+        ?.addValidators(Validators.required);
+    }
+  }
+
+  initStep2() {
+    if (
+      this.fullProposalForm
+        .get('ownershipAndAuthorization')
+        ?.get('ownershipDeclaration')?.value === false
+    ) {
+      this.fullProposalForm
+        .get('ownershipAndAuthorization')
+        ?.get('ownershipDescription')
+        ?.addValidators(Validators.required);
+      this.fullProposalForm
+        .get('ownershipAndAuthorization')
+        ?.get('ownershipDescription')
+        ?.updateValueAndValidity();
+    }
+  }
+
+  initStep3(response: DraftFpApplication) {
+    const infrastructureImpactedArray = this.fullProposalForm.get(
+      'projectArea.infrastructureImpacted'
+    ) as FormArray;
+    if (
+      response.isInfrastructureImpacted === false ||
+      response.infrastructureImpacted?.length! > 0
+    ) {
+      infrastructureImpactedArray.clear({ emitEvent: false });
+    } else {
+      response.infrastructureImpacted?.forEach((infrastructure) => {
+        infrastructureImpactedArray?.push(
+          this.formBuilder.formGroup(
+            new ImpactedInfrastructureForm(infrastructure)
+          ),
+          { emitEvent: false }
+        );
+      });
+    }
+  }
+
+  initStep4(response: DraftFpApplication) {
+    const proposedActivitiesArray = this.fullProposalForm.get(
+      'projectPlan.proposedActivities'
+    ) as FormArray;
+    if (response.proposedActivities?.length! > 0) {
+      proposedActivitiesArray.clear({ emitEvent: false });
+    }
+    response.proposedActivities?.forEach((activity) => {
+      proposedActivitiesArray?.push(
+        this.formBuilder.formGroup(new ProposedActivityForm(activity)),
+        { emitEvent: false }
+      );
+    });
+  }
+
+  initStep6(response: DraftFpApplication) {
+    if (response.climateAssessment === true) {
+      this.fullProposalForm
+        .get('climateAdaptation')
+        ?.get('climateAssessmentTools')
+        ?.addValidators(Validators.required);
+    }
+  }
+
+  initStep7(response: DraftFpApplication) {
+    const standardsFormArray = this.fullProposalForm.get(
+      'permitsRegulationsAndStandards.standards'
+    ) as FormArray;
+    this.optionsStore.standards?.()?.forEach((standard) => {
+      const standardsInfo = response.standards?.find(
+        (s) => s.category === standard.category
+      );
+      const standardInfo = new StandardInfoForm({
+        isCategorySelected: standardsInfo?.isCategorySelected,
+        category: standard.category,
+        standards: standardsInfo?.isCategorySelected
+          ? standardsInfo?.standards ?? []
+          : [],
+      });
+      const standardInfoForm = this.formBuilder.formGroup(standardInfo);
+
+      if (standardsInfo?.isCategorySelected === false) {
+        standardInfoForm.get('standards')?.disable();
+      }
+
+      standardInfoForm
+        .get('isCategorySelected')
+        ?.valueChanges.pipe(distinctUntilChanged())
+        .subscribe((value) => {
+          if (value === false) {
+            standardInfoForm.get('standards')?.setValue([], {
+              emitEvent: false,
+            });
+            standardInfoForm.get('standards')?.disable();
+          } else {
+            standardInfoForm.get('standards')?.enable();
+          }
+        });
+
+      standardsFormArray?.push(standardInfoForm, { emitEvent: false });
+    });
+
+    if (response.professionalGuidance === true) {
+      this.fullProposalForm
+        .get('permitsRegulationsAndStandards')
+        ?.get('professionals')
+        ?.addValidators(Validators.required);
+    }
+
+    if (response.meetsRegulatoryRequirements === true) {
+      this.fullProposalForm
+        .get('permitsRegulationsAndStandards.meetsRegulatoryComments')
+        ?.addValidators(Validators.required);
+    }
+
+    if (response.approvals === true) {
+      this.fullProposalForm
+        .get('permitsRegulationsAndStandards.approvalsComments')
+        ?.addValidators(Validators.required);
+    }
+  }
+
+  initStep8(response: DraftFpApplication) {
+    if (response.produceCoBenefits === false) {
+      this.fullProposalForm.get('projectOutcomes.coBenefits')?.disable();
+    }
+  }
+
+  initStep9(response: DraftFpApplication) {
+    if (response.complexityRiskMitigated === true) {
+      this.fullProposalForm
+        .get('projectRisks.complexityRisks')
+        ?.addValidators(Validators.required);
+      this.fullProposalForm
+        .get('projectRisks.complexityRiskComments')
+        ?.addValidators(Validators.required);
+    }
+
+    if (response.readinessRiskMitigated === true) {
+      this.fullProposalForm
+        .get('projectRisks.readinessRisks')
+        ?.addValidators(Validators.required);
+      this.fullProposalForm
+        .get('projectRisks.readinessRiskComments')
+        ?.addValidators(Validators.required);
+    }
+
+    if (response.sensitivityRiskMitigated === true) {
+      this.fullProposalForm
+        .get('projectRisks.sensitivityRisks')
+        ?.addValidators(Validators.required);
+      this.fullProposalForm
+        .get('projectRisks.sensitivityRiskComments')
+        ?.addValidators(Validators.required);
+    }
+
+    if (response.capacityRiskMitigated === true) {
+      this.fullProposalForm
+        .get('projectRisks.capacityRisks')
+        ?.addValidators(Validators.required);
+      this.fullProposalForm
+        .get('projectRisks.capacityRiskComments')
+        ?.addValidators(Validators.required);
+    }
+
+    if (response.riskTransferMigigated === true) {
+      this.fullProposalForm
+        .get('projectRisks.transferRisks')
+        ?.addValidators(Validators.required);
+      this.fullProposalForm
+        .get('projectRisks.transferRisksComments')
+        ?.addValidators(Validators.required);
+    }
+  }
+
+  initStep10(response: DraftFpApplication) {
+    const otherFundingArray = this.fullProposalForm.get(
+      'budget.otherFunding'
+    ) as FormArray;
+    if (
+      response.haveOtherFunding === false ||
+      response.otherFunding?.length! > 0
+    ) {
+      otherFundingArray.clear({ emitEvent: false });
+    } else {
+      response.otherFunding?.forEach((funding) => {
+        otherFundingArray?.push(
+          this.formBuilder.formGroup(new FundingInformationItemForm(funding)),
+          { emitEvent: false }
+        );
+      });
+    }
+
+    const yearOverYearFormArray = this.fullProposalForm.get(
+      'budget.yearOverYearFunding'
+    ) as FormArray;
+    if (response.yearOverYearFunding?.length! > 0) {
+      yearOverYearFormArray.clear({ emitEvent: false });
+    }
+    response.yearOverYearFunding?.forEach((funding) => {
+      yearOverYearFormArray?.push(
+        this.formBuilder.formGroup(new YearOverYearFundingForm(funding)),
+        { emitEvent: false }
+      );
     });
   }
 
