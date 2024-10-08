@@ -10,11 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy } from '@ngneat/until-destroy';
-import {
-  IFormGroup,
-  RxFormBuilder,
-  RxFormControl,
-} from '@rxweb/reactive-form-validators';
+import { IFormGroup, RxFormBuilder } from '@rxweb/reactive-form-validators';
 import { distinctUntilChanged, Subscription } from 'rxjs';
 import { ProponentType } from '../../../../model';
 import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
@@ -89,12 +85,6 @@ export class DrifEoiStep1Component {
 
   getFormArray(formArrayName: string) {
     return this.proponentInformationForm.get(formArrayName) as FormArray;
-  }
-
-  getGroupFormControl(controlName: string, groupName: string): RxFormControl {
-    return this.proponentInformationForm
-      .get(groupName)
-      ?.get(controlName) as RxFormControl;
   }
 
   addAdditionalContact() {

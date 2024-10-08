@@ -328,9 +328,9 @@ export class DrifFpComponent {
 
         this.fullProposalForm.patchValue(formData, { emitEvent: false });
 
-        const partneringProponentsArray = this.getFormGroup(
-          'proponentAndProjectInformation'
-        ).get('partneringProponentsArray') as FormArray;
+        const partneringProponentsArray = this.fullProposalForm.get(
+          'proponentAndProjectInformation.partneringProponentsArray'
+        ) as FormArray;
         if (response.partneringProponents?.length! > 0) {
           partneringProponentsArray.clear({ emitEvent: false });
         }
@@ -341,9 +341,9 @@ export class DrifFpComponent {
           );
         });
 
-        const additionalContactsArray = this.getFormGroup(
-          'proponentAndProjectInformation'
-        ).get('additionalContacts') as FormArray;
+        const additionalContactsArray = this.fullProposalForm.get(
+          'proponentAndProjectInformation.additionalContacts'
+        ) as FormArray;
         if (response.additionalContacts?.length! > 0) {
           additionalContactsArray.clear({ emitEvent: false });
         }
@@ -369,9 +369,9 @@ export class DrifFpComponent {
             ?.updateValueAndValidity();
         }
 
-        const infrastructureImpactedArray = this.getFormGroup(
-          'projectArea'
-        ).get('infrastructureImpacted') as FormArray;
+        const infrastructureImpactedArray = this.fullProposalForm.get(
+          'projectArea.infrastructureImpacted'
+        ) as FormArray;
         if (
           response.isInfrastructureImpacted === false ||
           response.infrastructureImpacted?.length! > 0
@@ -388,8 +388,8 @@ export class DrifFpComponent {
           });
         }
 
-        const proposedActivitiesArray = this.getFormGroup('projectPlan').get(
-          'proposedActivities'
+        const proposedActivitiesArray = this.fullProposalForm.get(
+          'projectPlan.proposedActivities'
         ) as FormArray;
         if (response.proposedActivities?.length! > 0) {
           proposedActivitiesArray.clear({ emitEvent: false });
@@ -401,8 +401,8 @@ export class DrifFpComponent {
           );
         });
 
-        const otherFundingArray = this.getFormGroup('budget').get(
-          'otherFunding'
+        const otherFundingArray = this.fullProposalForm.get(
+          'budget.otherFunding'
         ) as FormArray;
         if (
           response.haveOtherFunding === false ||
@@ -420,8 +420,8 @@ export class DrifFpComponent {
           });
         }
 
-        const yearOverYearFormArray = this.getFormGroup('budget').get(
-          'yearOverYearFunding'
+        const yearOverYearFormArray = this.fullProposalForm.get(
+          'budget.yearOverYearFunding'
         ) as FormArray;
         if (response.yearOverYearFunding?.length! > 0) {
           yearOverYearFormArray.clear({ emitEvent: false });
@@ -448,18 +448,18 @@ export class DrifFpComponent {
         }
 
         if (response.regionalProject === true) {
-          this.getFormGroup('proponentAndProjectInformation')
-            .get('regionalProjectComments')
+          this.fullProposalForm
+            .get('proponentAndProjectInformation.regionalProjectComments')
             ?.addValidators(Validators.required);
         }
 
         if (response.produceCoBenefits === false) {
-          this.getFormGroup('projectOutcomes').get('coBenefits')?.disable();
+          this.fullProposalForm.get('projectOutcomes.coBenefits')?.disable();
         }
 
-        const standardsFormArray = this.getFormGroup(
-          'permitsRegulationsAndStandards'
-        ).get('standards') as FormArray;
+        const standardsFormArray = this.fullProposalForm.get(
+          'permitsRegulationsAndStandards.standards'
+        ) as FormArray;
         this.optionsStore.standards?.()?.forEach((standard) => {
           const standardsInfo = response.standards?.find(
             (s) => s.category === standard.category
@@ -495,59 +495,59 @@ export class DrifFpComponent {
         });
 
         if (response.complexityRiskMitigated === true) {
-          this.getFormGroup('projectRisks')
-            .get('complexityRisks')
+          this.fullProposalForm
+            .get('projectRisks.complexityRisks')
             ?.addValidators(Validators.required);
-          this.getFormGroup('projectRisks')
-            .get('complexityRiskComments')
+          this.fullProposalForm
+            .get('projectRisks.complexityRiskComments')
             ?.addValidators(Validators.required);
         }
 
         if (response.readinessRiskMitigated === true) {
-          this.getFormGroup('projectRisks')
-            .get('readinessRisks')
+          this.fullProposalForm
+            .get('projectRisks.readinessRisks')
             ?.addValidators(Validators.required);
-          this.getFormGroup('projectRisks')
-            .get('readinessRiskComments')
+          this.fullProposalForm
+            .get('projectRisks.readinessRiskComments')
             ?.addValidators(Validators.required);
         }
 
         if (response.sensitivityRiskMitigated === true) {
-          this.getFormGroup('projectRisks')
-            .get('sensitivityRisks')
+          this.fullProposalForm
+            .get('projectRisks.sensitivityRisks')
             ?.addValidators(Validators.required);
-          this.getFormGroup('projectRisks')
-            .get('sensitivityRiskComments')
+          this.fullProposalForm
+            .get('projectRisks.sensitivityRiskComments')
             ?.addValidators(Validators.required);
         }
 
         if (response.capacityRiskMitigated === true) {
-          this.getFormGroup('projectRisks')
-            .get('capacityRisks')
+          this.fullProposalForm
+            .get('projectRisks.capacityRisks')
             ?.addValidators(Validators.required);
-          this.getFormGroup('projectRisks')
-            .get('capacityRiskComments')
+          this.fullProposalForm
+            .get('projectRisks.capacityRiskComments')
             ?.addValidators(Validators.required);
         }
 
         if (response.riskTransferMigigated === true) {
-          this.getFormGroup('projectRisks')
-            .get('transferRisks')
+          this.fullProposalForm
+            .get('projectRisks.transferRisks')
             ?.addValidators(Validators.required);
-          this.getFormGroup('projectRisks')
-            .get('transferRisksComments')
+          this.fullProposalForm
+            .get('projectRisks.transferRisksComments')
             ?.addValidators(Validators.required);
         }
 
         if (response.meetsRegulatoryRequirements === true) {
-          this.getFormGroup('permitsRegulationsAndStandards')
-            .get('meetsRegulatoryComments')
+          this.fullProposalForm
+            .get('permitsRegulationsAndStandards.meetsRegulatoryComments')
             ?.addValidators(Validators.required);
         }
 
         if (response.approvals === true) {
-          this.getFormGroup('permitsRegulationsAndStandards')
-            .get('approvalsComments')
+          this.fullProposalForm
+            .get('permitsRegulationsAndStandards.approvalsComments')
             ?.addValidators(Validators.required);
         }
 

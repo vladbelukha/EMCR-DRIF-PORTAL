@@ -21,38 +21,44 @@
       <drr-input
         [id]="'projectContact_firstName'"
         [label]="t('firstName')"
-        [rxFormControl]="getGroupFormControl('firstName', 'projectContact')"
+        [rxFormControl]="
+          proponentInformationForm.get('projectContact.firstName')
+        "
         [maxlength]="40"
       ></drr-input>
       <drr-input
         [id]="'projectContact_lastName'"
         [label]="t('lastName')"
-        [rxFormControl]="getGroupFormControl('lastName', 'projectContact')"
+        [rxFormControl]="
+          proponentInformationForm.get('projectContact.lastName')
+        "
         [maxlength]="40"
       ></drr-input>
       <drr-input
         [id]="'projectContact_title'"
         [label]="t('title')"
-        [rxFormControl]="getGroupFormControl('title', 'projectContact')"
+        [rxFormControl]="proponentInformationForm.get('projectContact.title')"
         [maxlength]="40"
       ></drr-input>
       <drr-input
         [id]="'projectContact_department'"
         [label]="t('department')"
-        [rxFormControl]="getGroupFormControl('department', 'projectContact')"
+        [rxFormControl]="
+          proponentInformationForm.get('projectContact.department')
+        "
         [maxlength]="40"
       ></drr-input>
       <drr-input
         [id]="'projectContact_phone'"
         [label]="t('phone')"
-        [rxFormControl]="getGroupFormControl('phone', 'projectContact')"
+        [rxFormControl]="proponentInformationForm.get('projectContact.phone')"
         [maxlength]="10"
         [type]="'tel'"
       ></drr-input>
       <drr-input
         [id]="'projectContact_email'"
         [label]="t('email')"
-        [rxFormControl]="getGroupFormControl('email', 'projectContact')"
+        [rxFormControl]="proponentInformationForm.get('projectContact.email')"
         [maxlength]="40"
         [type]="'email'"
       ></drr-input>

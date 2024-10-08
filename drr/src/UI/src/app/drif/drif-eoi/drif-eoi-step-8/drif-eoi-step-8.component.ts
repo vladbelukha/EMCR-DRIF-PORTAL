@@ -7,7 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { TranslocoModule } from '@ngneat/transloco';
 import { UntilDestroy } from '@ngneat/until-destroy';
-import { IFormGroup, RxFormControl } from '@rxweb/reactive-form-validators';
+import { IFormGroup } from '@rxweb/reactive-form-validators';
 import { DrifapplicationService } from '../../../../api/drifapplication/drifapplication.service';
 import { ApplicationType, DeclarationType } from '../../../../model';
 import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
@@ -103,12 +103,6 @@ export class DrifEoiStep8Component {
         emitEvent: false,
       });
     }
-  }
-
-  getGroupFormControl(controlName: string, groupName: string): RxFormControl {
-    return this.declarationForm
-      .get(groupName)
-      ?.get(controlName) as RxFormControl;
   }
 
   get eoiApplicationForm(): IFormGroup<EOIApplicationForm> {

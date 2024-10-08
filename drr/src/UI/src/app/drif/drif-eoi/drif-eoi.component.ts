@@ -258,9 +258,9 @@ export class EOIApplicationComponent {
 
           this.initStep1(response);
 
-          const fundingInformationItemFormArray = this.getFormGroup(
-            'fundingInformation'
-          ).get('otherFunding') as FormArray;
+          const fundingInformationItemFormArray = this.eoiApplicationForm.get(
+            'fundingInformation.otherFunding'
+          ) as FormArray;
           if (response.otherFunding?.length! > 0) {
             fundingInformationItemFormArray.clear({ emitEvent: false });
           }
@@ -279,9 +279,9 @@ export class EOIApplicationComponent {
             fundingInformationItemFormArray?.push(fundingInformationItemForm);
           });
 
-          const infrastructureImpactedArray = this.getFormGroup(
-            'projectDetails'
-          ).get('infrastructureImpacted') as FormArray;
+          const infrastructureImpactedArray = this.eoiApplicationForm.get(
+            'projectDetails.infrastructureImpacted'
+          ) as FormArray;
           if (
             response.isInfrastructureImpacted === false ||
             response.infrastructureImpacted?.length! > 0
@@ -328,9 +328,9 @@ export class EOIApplicationComponent {
   }
 
   initStep1(response: DraftEoiApplication) {
-    const partneringProponentsArray = this.getFormGroup(
-      'proponentInformation'
-    ).get('partneringProponentsArray') as FormArray;
+    const partneringProponentsArray = this.eoiApplicationForm.get(
+      'proponentInformation.partneringProponentsArray'
+    ) as FormArray;
     if (response.partneringProponents?.length! > 0) {
       partneringProponentsArray.clear({ emitEvent: false });
     }
@@ -341,9 +341,9 @@ export class EOIApplicationComponent {
       );
     });
 
-    const additionalContactsArray = this.getFormGroup(
-      'proponentInformation'
-    ).get('additionalContacts') as FormArray;
+    const additionalContactsArray = this.eoiApplicationForm.get(
+      'proponentInformation.additionalContacts'
+    ) as FormArray;
     if (response.additionalContacts?.length! > 0) {
       additionalContactsArray.clear({ emitEvent: false });
     }
