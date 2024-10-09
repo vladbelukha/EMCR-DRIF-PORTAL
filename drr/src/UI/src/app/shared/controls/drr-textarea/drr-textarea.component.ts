@@ -32,7 +32,6 @@ export class DrrTextareaComponent {
   @Input() id = '';
   @Input() maxlength = 0;
   @Input() rows = 3;
-  @Input() useFloatingLabel = true;
 
   private _formControl = this.formBuilder.control('', []) as RxFormControl;
   @Input()
@@ -62,11 +61,5 @@ export class DrrTextareaComponent {
 
   getMandatoryMark() {
     return !!this.rxFormControl?.validator?.({})?.required ? '*' : '';
-  }
-
-  isRequired(): boolean {
-    return this.isMobile
-      ? false
-      : !!this.rxFormControl?.validator?.({})?.required;
   }
 }

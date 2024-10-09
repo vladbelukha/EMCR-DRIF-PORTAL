@@ -65,7 +65,6 @@
         [label]="t('discrepancyComment')"
         [maxlength]="2000"
         [rxFormControl]="budgetForm.get('discrepancyComment')"
-        [useFloatingLabel]="false"
       ></drr-textarea>
     </div>
 
@@ -114,7 +113,6 @@
       [label]="t('costEffectiveComments')"
       [rxFormControl]="budgetForm.get('costEffectiveComments')"
       [maxlength]="2000"
-      [useFloatingLabel]="true"
     ></drr-textarea>
 
     <mat-label class="drr-label">{{ t("previousResponse") }}</mat-label>
@@ -132,7 +130,6 @@
       [label]="t('previousResponseComments')"
       [rxFormControl]="budgetForm.get('previousResponseComments')"
       [maxlength]="2000"
-      [useFloatingLabel]="false"
     ></drr-textarea>
 
     <mat-label class="drr-label">{{ t("costConsiderations") }}</mat-label>
@@ -150,7 +147,6 @@
       [label]="t('costConsiderationsComments')"
       [rxFormControl]="budgetForm.get('costConsiderationsComments')"
       [maxlength]="2000"
-      [useFloatingLabel]="false"
     ></drr-textarea>
   </form>
 </div>
