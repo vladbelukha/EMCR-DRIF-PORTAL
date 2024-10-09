@@ -5,7 +5,7 @@
       [id]="'firstNationsEngagement'"
       [label]="t('firstNationsEngagement')"
       [maxlength]="2000"
-      [rxFormControl]="getFormControl('firstNationsEngagement')"
+      [rxFormControl]="engagementPlanForm.get('firstNationsEngagement')"
       [rows]="10"
     ></drr-textarea>
 
@@ -13,7 +13,7 @@
       [id]="'neighbourEngagement'"
       [label]="t('neighbourEngagement')"
       [maxlength]="2000"
-      [rxFormControl]="getFormControl('neighbourEngagement')"
+      [rxFormControl]="engagementPlanForm.get('neighbourEngagement')"
       [rows]="10"
     ></drr-textarea>
 
@@ -21,7 +21,9 @@
       [id]="'additionalEngagementInformation'"
       [label]="t('additionalEngagementInformation')"
       [maxlength]="2000"
-      [rxFormControl]="getFormControl('additionalEngagementInformation')"
+      [rxFormControl]="
+        engagementPlanForm.get('additionalEngagementInformation')
+      "
       [rows]="10"
     ></drr-textarea>
   </form>

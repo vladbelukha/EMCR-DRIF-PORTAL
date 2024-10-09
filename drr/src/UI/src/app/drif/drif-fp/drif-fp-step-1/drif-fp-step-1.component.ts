@@ -13,14 +13,9 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatRadioModule } from '@angular/material/radio';
 import { TranslocoModule } from '@ngneat/transloco';
 import { UntilDestroy } from '@ngneat/until-destroy';
-import {
-  IFormGroup,
-  RxFormBuilder,
-  RxFormControl,
-} from '@rxweb/reactive-form-validators';
+import { IFormGroup, RxFormBuilder } from '@rxweb/reactive-form-validators';
 import { distinctUntilChanged } from 'rxjs';
 import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
 import { DrrRadioButtonComponent } from '../../../shared/controls/drr-radio-button/drr-radio-button.component';
@@ -39,7 +34,6 @@ import { ProponentAndProjectInformationForm } from '../drif-fp-form';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatRadioModule,
     MatIconModule,
     MatDividerModule,
     MatButtonModule,
@@ -106,16 +100,6 @@ export class DrifFpStep1Component {
 
   getFormArray(name: string) {
     return this.proponentAndProjectInformationForm.get(name) as FormArray;
-  }
-
-  getArrayFormControl(
-    controlName: string,
-    arrayName: string,
-    index: number
-  ): RxFormControl {
-    return this.getFormArray(arrayName)?.controls[index]?.get(
-      controlName
-    ) as RxFormControl;
   }
 
   addAdditionalContact() {

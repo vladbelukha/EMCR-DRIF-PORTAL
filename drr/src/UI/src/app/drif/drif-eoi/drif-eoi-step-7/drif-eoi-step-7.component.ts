@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -30,8 +30,4 @@ import { OtherSupportingInformationForm } from '../drif-eoi-form';
 export class DrifEoiStep7Component {
   @Input()
   otherSupportingInformationForm!: IFormGroup<OtherSupportingInformationForm>;
-
-  getFormControl(name: string): FormControl {
-    return this.otherSupportingInformationForm.get(name) as FormControl;
-  }
 }

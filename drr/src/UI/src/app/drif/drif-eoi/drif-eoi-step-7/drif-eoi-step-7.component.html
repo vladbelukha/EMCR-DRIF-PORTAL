@@ -5,7 +5,7 @@
       [id]="'climateAdaptation'"
       [label]="t('climateAdaptationText')"
       [maxlength]="2000"
-      [rxFormControl]="getFormControl('climateAdaptation')"
+      [rxFormControl]="otherSupportingInformationForm.get('climateAdaptation')"
       [rows]="10"
     ></drr-textarea>
     <mat-label class="drr-label">{{ t("otherInformation") }}</mat-label>
@@ -13,7 +13,7 @@
       [id]="'otherInformation'"
       [label]="t('otherInformationText')"
       [maxlength]="2000"
-      [rxFormControl]="getFormControl('otherInformation')"
+      [rxFormControl]="otherSupportingInformationForm.get('otherInformation')"
       [rows]="10"
     ></drr-textarea>
   </form>

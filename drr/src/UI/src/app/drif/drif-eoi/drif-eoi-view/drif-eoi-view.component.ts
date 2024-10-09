@@ -5,11 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
 import { UntilDestroy } from '@ngneat/until-destroy';
-import {
-  IFormGroup,
-  RxFormBuilder,
-  RxFormGroup,
-} from '@rxweb/reactive-form-validators';
+import { IFormGroup, RxFormBuilder } from '@rxweb/reactive-form-validators';
 import { DrifapplicationService } from '../../../../api/drifapplication/drifapplication.service';
 import { SubmissionPortalStatus } from '../../../../model';
 import { ProfileStore } from '../../../store/profile.store';
@@ -128,9 +124,9 @@ export class DrifEoiViewComponent {
           ?.get('proponentName')
           ?.setValue(this.profileStore.organization(), { emitEvent: false });
 
-        const partneringProponentsArray = this.getFormGroup(
-          'proponentInformation'
-        ).get('partneringProponentsArray') as FormArray;
+        const partneringProponentsArray = this.eoiApplicationForm.get(
+          'proponentInformation.partneringProponentsArray'
+        ) as FormArray;
         partneringProponentsArray.clear({ emitEvent: false });
         application.partneringProponents?.forEach((proponent) => {
           partneringProponentsArray?.push(
@@ -139,9 +135,9 @@ export class DrifEoiViewComponent {
           );
         });
 
-        const fundingInformationItemFormArray = this.getFormGroup(
-          'fundingInformation'
-        ).get('otherFunding') as FormArray;
+        const fundingInformationItemFormArray = this.eoiApplicationForm.get(
+          'fundingInformation.otherFunding'
+        ) as FormArray;
         fundingInformationItemFormArray.clear({ emitEvent: false });
         application.otherFunding?.forEach((funding) => {
           fundingInformationItemFormArray?.push(
@@ -150,8 +146,8 @@ export class DrifEoiViewComponent {
           );
         });
 
-        const infrastructureImpacted = this.getFormGroup('projectDetails').get(
-          'infrastructureImpacted'
+        const infrastructureImpacted = this.eoiApplicationForm.get(
+          'projectDetails.infrastructureImpacted'
         ) as FormArray;
         infrastructureImpacted.clear({ emitEvent: false });
         application.infrastructureImpacted?.forEach((infrastructure) => {
@@ -163,10 +159,6 @@ export class DrifEoiViewComponent {
           );
         });
       });
-  }
-
-  getFormGroup(groupName: string) {
-    return this.eoiApplicationForm?.get(groupName) as RxFormGroup;
   }
 
   createFP() {

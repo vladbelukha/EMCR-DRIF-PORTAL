@@ -2,6 +2,7 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { CommonModule } from '@angular/common';
 import { Component, inject, Input } from '@angular/core';
 import {
+  AbstractControl,
   FormArray,
   FormsModule,
   ReactiveFormsModule,
@@ -59,11 +60,10 @@ export class DrrFundingListComponent {
       });
   }
 
-  setFundingTypeDesctiption(event: MatSelectChange, index: number) {
-    const descriptionControl = this.fundingFormArray
-      .at(index)
-      .get('otherDescription');
-
+  setFundingTypeDesctiption(
+    event: MatSelectChange,
+    descriptionControl: AbstractControl
+  ) {
     // check if value contains FundingType.OtherGrants
     if (this.hasOtherGrants(event.value)) {
       descriptionControl?.addValidators(Validators.required);
