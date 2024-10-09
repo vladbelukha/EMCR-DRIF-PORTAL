@@ -49,18 +49,18 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.drr_additionalrelevantinformation3, opt => opt.MapFrom(src => src.AdditionalEngagementInformation))
                 .ForMember(dest => dest.drr_climateadaptation, opt => opt.MapFrom(src => src.ClimateAdaptation))
                 .ForMember(dest => dest.drr_otherrelevantinformation, opt => opt.MapFrom(src => src.OtherInformation))
-                .ForMember(dest => dest.drr_authorizedrepresentative, opt => opt.MapFrom(src => src.AuthorizedRepresentativeStatement.HasValue && src.AuthorizedRepresentativeStatement.Value ? DRRTwoOptions.Yes : DRRTwoOptions.No))
-                .ForMember(dest => dest.drr_foippaconfirmation, opt => opt.MapFrom(src => src.FOIPPAConfirmation.HasValue && src.FOIPPAConfirmation.Value ? DRRTwoOptions.Yes : DRRTwoOptions.No))
-                .ForMember(dest => dest.drr_accuracyofinformation, opt => opt.MapFrom(src => src.InformationAccuracyStatement.HasValue && src.InformationAccuracyStatement.Value ? DRRTwoOptions.Yes : DRRTwoOptions.No))
+                .ForMember(dest => dest.drr_authorizedrepresentative, opt => opt.MapFrom(src => src.AuthorizedRepresentativeStatement.HasValue ? src.AuthorizedRepresentativeStatement.Value ? (int?)DRRTwoOptions.Yes : (int?)DRRTwoOptions.No : null))
+                .ForMember(dest => dest.drr_foippaconfirmation, opt => opt.MapFrom(src => src.FOIPPAConfirmation.HasValue ? src.FOIPPAConfirmation.Value ? (int?)DRRTwoOptions.Yes : (int?)DRRTwoOptions.No : null))
+                .ForMember(dest => dest.drr_accuracyofinformation, opt => opt.MapFrom(src => src.InformationAccuracyStatement.HasValue ? src.InformationAccuracyStatement.Value ? (int?)DRRTwoOptions.Yes : (int?)DRRTwoOptions.No : null))
                 .ForMember(dest => dest.drr_submitteddate, opt => opt.MapFrom(src => src.SubmittedDate))
                 .ForMember(dest => dest.statuscode, opt => opt.MapFrom(src => (int?)Enum.Parse<ApplicationStatusOptionSet>(src.Status.ToString())))
                 //FP Only Fields
                 //Proponent & Project Information - 1
-                .ForMember(dest => dest.drr_isthisaregionalproject, opt => opt.MapFrom(src => src.RegionalProject.HasValue && src.RegionalProject.Value ? DRRTwoOptions.Yes : DRRTwoOptions.No))
+                .ForMember(dest => dest.drr_isthisaregionalproject, opt => opt.MapFrom(src => src.RegionalProject.HasValue ? src.RegionalProject.Value ? (int?)DRRTwoOptions.Yes : (int?)DRRTwoOptions.No : null))
                 .ForMember(dest => dest.drr_isthisaregionalprojectcomments, opt => opt.MapFrom(src => src.RegionalProjectComments))
                 .ForMember(dest => dest.drr_projecttypefullproposal, opt => opt.MapFrom(src => src.MainDeliverable))
                 //Ownership & Authorization - 2
-                .ForMember(dest => dest.drr_proponenthastheauthorityandownership, opt => opt.MapFrom(src => src.HaveAuthorityToDevelop.HasValue && src.HaveAuthorityToDevelop.Value ? DRRTwoOptions.Yes : DRRTwoOptions.No))
+                .ForMember(dest => dest.drr_proponenthastheauthorityandownership, opt => opt.MapFrom(src => src.HaveAuthorityToDevelop.HasValue ? src.HaveAuthorityToDevelop.Value ? (int?)DRRTwoOptions.Yes : (int?)DRRTwoOptions.No : null))
                 .ForMember(dest => dest.drr_proponenttomaintaininfrastructurelongterm, opt => opt.MapFrom(src => src.OperationAndMaintenance.HasValue ? (int?)Enum.Parse<DRRYesNoNotApplicable>(src.OperationAndMaintenance.Value.ToString()) : null))
                 .ForMember(dest => dest.drr_commentsprojectauthority, opt => opt.MapFrom(src => src.OperationAndMaintenanceComments))
                 .ForMember(dest => dest.drr_authorizedendorsedfirstnationpartners, opt => opt.MapFrom(src => src.FirstNationsAuthorizedByPartners.HasValue ? (int?)Enum.Parse<DRRYesNoNotApplicable>(src.FirstNationsAuthorizedByPartners.Value.ToString()) : null))
@@ -70,7 +70,7 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.drr_estimatedsizeofprojectarea, opt => opt.MapFrom(src => src.Area))
                 .ForMember(dest => dest.drr_unitofmeasure, opt => opt.MapFrom(src => src.Units.HasValue ? (int?)Enum.Parse<AreaUnitsOptionSet>(src.Units.Value.ToString()) : null))
                 .ForMember(dest => dest.drr_projectarea, opt => opt.MapFrom(src => src.AreaDescription))
-                .ForMember(dest => dest.drr_criticalinfrastructurewillormaybeimpacted, opt => opt.MapFrom(src => src.IsInfrastructureImpacted.HasValue && src.IsInfrastructureImpacted.Value ? DRRTwoOptions.Yes : DRRTwoOptions.No))
+                .ForMember(dest => dest.drr_criticalinfrastructurewillormaybeimpacted, opt => opt.MapFrom(src => src.IsInfrastructureImpacted.HasValue ? src.IsInfrastructureImpacted.Value ? (int?)DRRTwoOptions.Yes : (int?)DRRTwoOptions.No : null))
                 .ForMember(dest => dest.drr_estimatednumberofpeopleimpactedfp, opt => opt.MapFrom(src => src.EstimatedPeopleImpactedFP.HasValue ? (int?)Enum.Parse<EstimatedNumberOfPeopleFPOptionSet>(src.EstimatedPeopleImpactedFP.Value.ToString()) : null))
 
                 //Project Plan - 4
@@ -80,7 +80,7 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.drr_extentalternateprojectoptionsconsidered, opt => opt.MapFrom(src => src.ProjectAlternateOptions))
 
                 //Project Engagement - 5
-                .ForMember(dest => dest.drr_meaningfullyengagedwithlocalfirstnations, opt => opt.MapFrom(src => src.EngagedWithFirstNationsOccurred.HasValue && src.EngagedWithFirstNationsOccurred.Value ? DRRTwoOptions.Yes : DRRTwoOptions.No))
+                .ForMember(dest => dest.drr_meaningfullyengagedwithlocalfirstnations, opt => opt.MapFrom(src => src.EngagedWithFirstNationsOccurred.HasValue ? src.EngagedWithFirstNationsOccurred.Value ? (int?)DRRTwoOptions.Yes : (int?)DRRTwoOptions.No : null))
                 .ForMember(dest => dest.drr_describeengagementfirstnations, opt => opt.MapFrom(src => src.EngagedWithFirstNationsComments))
                 .ForMember(dest => dest.drr_effectivelyengagedwithothers, opt => opt.MapFrom(src => src.OtherEngagement.HasValue ? (int?)Enum.Parse<DRRYesNoNotApplicable>(src.OtherEngagement.Value.ToString()) : null))
                 .ForMember(dest => dest.drr_drr_application_drr_impactedoraffectedpartyitem_Application, opt => opt.MapFrom(src => src.AffectedParties))
@@ -88,15 +88,15 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.drr_howprojectcontributetocollaboration, opt => opt.MapFrom(src => src.CollaborationComments))
 
                 //Climate Adaptation - 6
-                .ForMember(dest => dest.drr_doesprojectconsiderclimatechange, opt => opt.MapFrom(src => src.IncorporateFutureClimateConditions.HasValue && src.IncorporateFutureClimateConditions.Value ? DRRTwoOptions.Yes : DRRTwoOptions.No))
-                .ForMember(dest => dest.drr_hasprojectusedclimatechangeassessmenttool, opt => opt.MapFrom(src => src.ClimateAssessment.HasValue && src.ClimateAssessment.Value ? DRRTwoOptions.Yes : DRRTwoOptions.No))
+                .ForMember(dest => dest.drr_doesprojectconsiderclimatechange, opt => opt.MapFrom(src => src.IncorporateFutureClimateConditions.HasValue ? src.IncorporateFutureClimateConditions.Value ? (int?)DRRTwoOptions.Yes : (int?)DRRTwoOptions.No : null))
+                .ForMember(dest => dest.drr_hasprojectusedclimatechangeassessmenttool, opt => opt.MapFrom(src => src.ClimateAssessment.HasValue ? src.ClimateAssessment.Value ? (int?)DRRTwoOptions.Yes : (int?)DRRTwoOptions.No : null))
                 .ForMember(dest => dest.drr_drr_application_drr_climateassessmenttoolitem_Application, opt => opt.MapFrom(src => src.ClimateAssessmentTools))
                 .ForMember(dest => dest.drr_howtoolsusedtobenefitproject, opt => opt.MapFrom(src => src.ClimateAssessmentComments))
 
                 //Permits Regulations & Standards - 7
-                .ForMember(dest => dest.drr_projecteligibleforrequiredpermitsapproval, opt => opt.MapFrom(src => src.Approvals.HasValue && src.Approvals.Value ? DRRTwoOptions.Yes : DRRTwoOptions.No))
+                .ForMember(dest => dest.drr_projecteligibleforrequiredpermitsapproval, opt => opt.MapFrom(src => src.Approvals.HasValue ? src.Approvals.Value ? (int?)DRRTwoOptions.Yes : (int?)DRRTwoOptions.No : null))
                 .ForMember(dest => dest.drr_projecteligibleforpermitsapprovalcomments, opt => opt.MapFrom(src => src.ApprovalsComments))
-                .ForMember(dest => dest.drr_guidanceofqualifiedprofessional, opt => opt.MapFrom(src => src.ProfessionalGuidance.HasValue && src.ProfessionalGuidance.Value ? DRRTwoOptions.Yes : DRRTwoOptions.No))
+                .ForMember(dest => dest.drr_guidanceofqualifiedprofessional, opt => opt.MapFrom(src => src.ProfessionalGuidance.HasValue ? src.ProfessionalGuidance.Value ? (int?)DRRTwoOptions.Yes : (int?)DRRTwoOptions.No : null))
                 .ForMember(dest => dest.drr_drr_application_drr_qualifiedprofessionalitem_Application, opt => opt.MapFrom(src => src.Professionals))
                 .ForMember(dest => dest.drr_qualifiedprofessionalcomments, opt => opt.MapFrom(src => src.ProfessionalGuidanceComments))
                 .ForMember(dest => dest.drr_acceptableprovincialstandards, opt => opt.MapFrom(src => src.StandardsAcceptable.HasValue ? (int?)Enum.Parse<DRRYesNoNotApplicable>(src.StandardsAcceptable.Value.ToString()) : null))
@@ -108,37 +108,37 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.drr_othercategory, opt => opt.MapFrom(src => DRRCategorySelectedMapper(src.Standards.SingleOrDefault(s => s.Category == "Other"))))
                 .ForMember(dest => dest.drr_drr_application_drr_provincialstandarditem_Application, opt => opt.MapFrom(src => DRRProvincialStandardItemMapper(src.Standards)))
                 .ForMember(dest => dest.drr_commentsacceptableprovincialstandards, opt => opt.MapFrom(src => src.StandardsComments))
-                .ForMember(dest => dest.drr_requiredagencydiscussionsandapprovals, opt => opt.MapFrom(src => src.MeetsRegulatoryRequirements.HasValue && src.MeetsRegulatoryRequirements.Value ? DRRTwoOptions.Yes : DRRTwoOptions.No))
+                .ForMember(dest => dest.drr_requiredagencydiscussionsandapprovals, opt => opt.MapFrom(src => src.MeetsRegulatoryRequirements.HasValue ? src.MeetsRegulatoryRequirements.Value ? (int?)DRRTwoOptions.Yes : (int?)DRRTwoOptions.No : null))
                 .ForMember(dest => dest.drr_commentsrequiredagencydiscussionsapproval, opt => opt.MapFrom(src => src.MeetsRegulatoryComments))
-                .ForMember(dest => dest.drr_projecteligibleforrequiredpermitsapproval, opt => opt.MapFrom(src => src.MeetsEligibilityRequirements.HasValue && src.MeetsEligibilityRequirements.Value ? DRRTwoOptions.Yes : DRRTwoOptions.No))
+                .ForMember(dest => dest.drr_projecteligibleforrequiredpermitsapproval, opt => opt.MapFrom(src => src.MeetsEligibilityRequirements.HasValue ? src.MeetsEligibilityRequirements.Value ? (int?)DRRTwoOptions.Yes : (int?)DRRTwoOptions.No : null))
                 .ForMember(dest => dest.drr_projecteligibleforpermitsapprovalcomments, opt => opt.MapFrom(src => src.MeetsEligibilityComments))
 
                 //Project Outcomes - 8
-                .ForMember(dest => dest.drr_projectforbroadpublicuseorbenefit, opt => opt.MapFrom(src => src.PublicBenefit.HasValue && src.PublicBenefit.Value ? DRRTwoOptions.Yes : DRRTwoOptions.No))
+                .ForMember(dest => dest.drr_projectforbroadpublicuseorbenefit, opt => opt.MapFrom(src => src.PublicBenefit.HasValue ? src.PublicBenefit.Value ? (int?)DRRTwoOptions.Yes : (int?)DRRTwoOptions.No : null))
                 .ForMember(dest => dest.drr_projectforbroadpublicuseorbenefitcomments, opt => opt.MapFrom(src => src.PublicBenefitComments))
-                .ForMember(dest => dest.drr_willthisprojectreducecosts, opt => opt.MapFrom(src => src.FutureCostReduction.HasValue && src.FutureCostReduction.Value ? DRRTwoOptions.Yes : DRRTwoOptions.No))
+                .ForMember(dest => dest.drr_willthisprojectreducecosts, opt => opt.MapFrom(src => src.FutureCostReduction.HasValue ? src.FutureCostReduction.Value ? (int?)DRRTwoOptions.Yes : (int?)DRRTwoOptions.No : null))
                 .ForMember(dest => dest.drr_drr_application_drr_costreductionitem_Application, opt => opt.MapFrom(src => src.CostReductions))
                 .ForMember(dest => dest.drr_explainhowcostswillbereduced, opt => opt.MapFrom(src => src.CostReductionComments))
-                .ForMember(dest => dest.drr_willthisprojectproducecobenefits, opt => opt.MapFrom(src => src.ProduceCoBenefits.HasValue && src.ProduceCoBenefits.Value ? DRRTwoOptions.Yes : DRRTwoOptions.No))
+                .ForMember(dest => dest.drr_willthisprojectproducecobenefits, opt => opt.MapFrom(src => src.ProduceCoBenefits.HasValue ? src.ProduceCoBenefits.Value ? (int?)DRRTwoOptions.Yes : (int?)DRRTwoOptions.No : null))
                 .ForMember(dest => dest.drr_drr_application_drr_cobenefititem_Application, opt => opt.MapFrom(src => src.CoBenefits))
                 .ForMember(dest => dest.drr_howwilltheprojectproducecobenefits, opt => opt.MapFrom(src => src.CoBenefitComments))
                 .ForMember(dest => dest.drr_drr_application_drr_resiliencyitem_Application, opt => opt.MapFrom(src => src.IncreasedResiliency))
                 .ForMember(dest => dest.drr_resiliencycomments, opt => opt.MapFrom(src => src.IncreasedResiliencyComments))
 
                 //Project Risks - 9
-                .ForMember(dest => dest.drr_projectcomplexityrisksmitigated, opt => opt.MapFrom(src => src.ComplexityRiskMitigated.HasValue && src.ComplexityRiskMitigated.Value ? DRRTwoOptions.Yes : DRRTwoOptions.No))
+                .ForMember(dest => dest.drr_projectcomplexityrisksmitigated, opt => opt.MapFrom(src => src.ComplexityRiskMitigated.HasValue ? src.ComplexityRiskMitigated.Value ? (int?)DRRTwoOptions.Yes : (int?)DRRTwoOptions.No : null))
                 .ForMember(dest => dest.drr_drr_application_drr_projectcomplexityriskitem_Application, opt => opt.MapFrom(src => src.ComplexityRisks))
                 .ForMember(dest => dest.drr_howprojectcomplexityrisksmitigated, opt => opt.MapFrom(src => src.ComplexityRiskComments))
-                .ForMember(dest => dest.drr_projectreadinessrisksmitigated, opt => opt.MapFrom(src => src.ReadinessRiskMitigated.HasValue && src.ReadinessRiskMitigated.Value ? DRRTwoOptions.Yes : DRRTwoOptions.No))
+                .ForMember(dest => dest.drr_projectreadinessrisksmitigated, opt => opt.MapFrom(src => src.ReadinessRiskMitigated.HasValue ? src.ReadinessRiskMitigated.Value ? (int?)DRRTwoOptions.Yes : (int?)DRRTwoOptions.No : null))
                 .ForMember(dest => dest.drr_drr_application_drr_projectreadinessriskitem_Application, opt => opt.MapFrom(src => src.ReadinessRisks))
                 .ForMember(dest => dest.drr_howprojectreadinessrisksmitigated, opt => opt.MapFrom(src => src.ReadinessRiskComments))
-                .ForMember(dest => dest.drr_projectsensitivityrisksmitigated, opt => opt.MapFrom(src => src.SensitivityRiskMitigated.HasValue && src.SensitivityRiskMitigated.Value ? DRRTwoOptions.Yes : DRRTwoOptions.No))
+                .ForMember(dest => dest.drr_projectsensitivityrisksmitigated, opt => opt.MapFrom(src => src.SensitivityRiskMitigated.HasValue ? src.SensitivityRiskMitigated.Value ? (int?)DRRTwoOptions.Yes : (int?)DRRTwoOptions.No : null))
                 .ForMember(dest => dest.drr_drr_application_drr_projectsensitivityriskitem_Application, opt => opt.MapFrom(src => src.SensitivityRisks))
                 .ForMember(dest => dest.drr_howprojectsensitivityrisksmitigated, opt => opt.MapFrom(src => src.SensitivityRiskComments))
-                .ForMember(dest => dest.drr_projectcapacityrisksmitigated, opt => opt.MapFrom(src => src.CapacityRiskMitigated.HasValue && src.CapacityRiskMitigated.Value ? DRRTwoOptions.Yes : DRRTwoOptions.No))
+                .ForMember(dest => dest.drr_projectcapacityrisksmitigated, opt => opt.MapFrom(src => src.CapacityRiskMitigated.HasValue ? src.CapacityRiskMitigated.Value ? (int?)DRRTwoOptions.Yes : (int?)DRRTwoOptions.No : null))
                 .ForMember(dest => dest.drr_drr_application_drr_projectcapacitychallengeitem_Application, opt => opt.MapFrom(src => src.CapacityRisks))
                 .ForMember(dest => dest.drr_howcapacityrisksmitigated, opt => opt.MapFrom(src => src.CapacityRiskComments))
-                .ForMember(dest => dest.drr_isriskbeingincreasedortransferred, opt => opt.MapFrom(src => src.RiskTransferMigigated.HasValue && src.RiskTransferMigigated.Value ? DRRTwoOptions.Yes : DRRTwoOptions.No))
+                .ForMember(dest => dest.drr_isriskbeingincreasedortransferred, opt => opt.MapFrom(src => src.RiskTransferMigigated.HasValue ? src.RiskTransferMigigated.Value ? (int?)DRRTwoOptions.Yes : (int?)DRRTwoOptions.No : null))
                 //.ForMember(dest => dest., opt => opt.MapFrom(src => src.TransferRisks))
                 .ForMember(dest => dest.drr_describeriskincreasedortransferred, opt => opt.MapFrom(src => src.TransferRisksComments))
 
@@ -152,7 +152,7 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.drr_pastresponsecostprojectdesignedtomitigate, opt => opt.MapFrom(src => src.PreviousResponse.HasValue ? (int?)Enum.Parse<DRRYesNoNotApplicable>(src.PreviousResponse.Value.ToString()) : null))
                 .ForMember(dest => dest.drr_cost, opt => opt.MapFrom(src => src.PreviousResponseCost))
                 //PreviousResponseComments
-                .ForMember(dest => dest.drr_costconsiderationsapply, opt => opt.MapFrom(src => src.CostConsiderationsApplied.HasValue && src.CostConsiderationsApplied.Value ? DRRTwoOptions.Yes : DRRTwoOptions.No))
+                .ForMember(dest => dest.drr_costconsiderationsapply, opt => opt.MapFrom(src => src.CostConsiderationsApplied.HasValue ? src.CostConsiderationsApplied.Value ? (int?)DRRTwoOptions.Yes : (int?)DRRTwoOptions.No : null))
                 .ForMember(dest => dest.drr_drr_application_drr_costconsiderationitem_Application, opt => opt.MapFrom(src => src.CostConsiderations))
                 .ForMember(dest => dest.drr_explaincostconsiderations, opt => opt.MapFrom(src => src.CostConsiderationsComments))
 
