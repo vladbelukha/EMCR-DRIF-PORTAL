@@ -1,35 +1,17 @@
 <div class="drr-step-container" *transloco="let t">
   <form [formGroup]="proponentInformationForm">
     <mat-label class="drr-label">{{ t("proponentType") }}*</mat-label>
-    <mat-radio-group
-      id="proponentType"
-      class="drr-radio-group"
-      aria-label="Select an option"
-      formControlName="proponentType"
-    >
-      <mat-error
-        *ngIf="
-          proponentInformationForm.get('proponentType')?.touched &&
-          proponentInformationForm.get('proponentType')?.hasError('required')
-        "
-        >{{ t("required") }}</mat-error
-      >
-      <mat-radio-button value="FirstNation">{{
-        t("FirstNation")
-      }}</mat-radio-button>
-      <mat-radio-button value="LocalGovernment">{{
-        t("LocalGovernment")
-      }}</mat-radio-button>
-      <mat-radio-button value="RegionalDistrict">{{
-        t("RegionalDistrict")
-      }}</mat-radio-button>
-    </mat-radio-group>
+    <drr-radio-button
+      [rxFormControl]="proponentInformationForm.get('proponentType')"
+      [options]="proponentTypeOptions"
+    ></drr-radio-button>
+
     <mat-label class="drr-label">{{ t("proponentName") }}</mat-label>
     <drr-input
       class="drr-single-input"
       [id]="'proponentName'"
       [label]="t('proponentNameText')"
-      [rxFormControl]="getFormControl('proponentName')"
+      [rxFormControl]="proponentInformationForm.get('proponentName')"
       [maxlength]="100"
     ></drr-input>
 
@@ -39,49 +21,54 @@
       <drr-input
         [id]="'projectContact_firstName'"
         [label]="t('firstName')"
-        [rxFormControl]="getGroupFormControl('firstName', 'projectContact')"
+        [rxFormControl]="
+          proponentInformationForm.get('projectContact.firstName')
+        "
         [maxlength]="40"
       ></drr-input>
       <drr-input
         [id]="'projectContact_lastName'"
         [label]="t('lastName')"
-        [rxFormControl]="getGroupFormControl('lastName', 'projectContact')"
+        [rxFormControl]="
+          proponentInformationForm.get('projectContact.lastName')
+        "
         [maxlength]="40"
       ></drr-input>
       <drr-input
         [id]="'projectContact_title'"
         [label]="t('title')"
-        [rxFormControl]="getGroupFormControl('title', 'projectContact')"
+        [rxFormControl]="proponentInformationForm.get('projectContact.title')"
         [maxlength]="40"
       ></drr-input>
       <drr-input
         [id]="'projectContact_department'"
         [label]="t('department')"
-        [rxFormControl]="getGroupFormControl('department', 'projectContact')"
+        [rxFormControl]="
+          proponentInformationForm.get('projectContact.department')
+        "
         [maxlength]="40"
       ></drr-input>
       <drr-input
         [id]="'projectContact_phone'"
         [label]="t('phone')"
-        [rxFormControl]="getGroupFormControl('phone', 'projectContact')"
+        [rxFormControl]="proponentInformationForm.get('projectContact.phone')"
         [maxlength]="10"
         [type]="'tel'"
       ></drr-input>
       <drr-input
         [id]="'projectContact_email'"
         [label]="t('email')"
-        [rxFormControl]="getGroupFormControl('email', 'projectContact')"
+        [rxFormControl]="proponentInformationForm.get('projectContact.email')"
         [maxlength]="40"
         [type]="'email'"
       ></drr-input>
     </div>
-    <div formArrayName="additionalContacts">
+    <div>
       <div
         *ngFor="
           let projectContact of getFormArray('additionalContacts').controls;
           let i = index
         "
-        [formGroupName]="i"
       >
         <mat-label class="drr-label">{{
           t("additionalContact") + " " + (i + 1)
@@ -90,41 +77,31 @@
           <drr-input
             [id]="'projectContact_firstName_' + i"
             [label]="t('firstName')"
-            [rxFormControl]="
-              getArrayFormControl('firstName', 'additionalContacts', i)
-            "
+            [rxFormControl]="projectContact.get('firstName')"
             [maxlength]="40"
           ></drr-input>
           <drr-input
             [id]="'projectContact_lastName_' + i"
             [label]="t('lastName')"
-            [rxFormControl]="
-              getArrayFormControl('lastName', 'additionalContacts', i)
-            "
+            [rxFormControl]="projectContact.get('lastName')"
             [maxlength]="40"
           ></drr-input>
           <drr-input
             [id]="'projectContact_title_' + i"
             [label]="t('title')"
-            [rxFormControl]="
-              getArrayFormControl('title', 'additionalContacts', i)
-            "
+            [rxFormControl]="projectContact.get('title')"
             [maxlength]="40"
           ></drr-input>
           <drr-input
             [id]="'projectContact_department_' + i"
             [label]="t('department')"
-            [rxFormControl]="
-              getArrayFormControl('department', 'additionalContacts', i)
-            "
+            [rxFormControl]="projectContact.get('department')"
             [maxlength]="40"
           ></drr-input>
           <drr-input
             [id]="'projectContact_phone_' + i"
             [label]="t('phone')"
-            [rxFormControl]="
-              getArrayFormControl('phone', 'additionalContacts', i)
-            "
+            [rxFormControl]="projectContact.get('phone')"
             [maxlength]="10"
             [type]="'tel'"
           ></drr-input>
@@ -132,9 +109,7 @@
             class="project-contact-email"
             [id]="'projectContact_email_' + i"
             [label]="t('email')"
-            [rxFormControl]="
-              getArrayFormControl('email', 'additionalContacts', i)
-            "
+            [rxFormControl]="projectContact.get('email')"
             [maxlength]="40"
             [type]="'email'"
           ></drr-input>
@@ -167,23 +142,19 @@
     <mat-label class="drr-label" style="margin-top: 20px">{{
       t("partneringProponents")
     }}</mat-label>
-
-    <div formArrayName="partneringProponentsArray">
+    <div>
       <div
         class="proponent-container"
         *ngFor="
           let proponent of getFormArray('partneringProponentsArray').controls;
           let i = index
         "
-        [formGroupName]="i"
       >
         <drr-input
           class="drr-single-input"
           [id]="'proponent_' + i"
           [label]="t('partneringProponentNameText')"
-          [rxFormControl]="
-            getArrayFormControl('value', 'partneringProponentsArray', i)
-          "
+          [rxFormControl]="proponent.get('value')"
           [maxlength]="100"
         ></drr-input>
         <button mat-mini-fab color="warn" (click)="removeProponent(i)">

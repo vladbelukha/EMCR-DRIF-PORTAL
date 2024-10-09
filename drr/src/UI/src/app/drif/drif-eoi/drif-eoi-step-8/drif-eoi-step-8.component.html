@@ -10,38 +10,38 @@
       <drr-input
         [id]="'submitter_firstName'"
         [label]="t('firstName')"
-        [rxFormControl]="getGroupFormControl('firstName', 'submitter')"
+        [rxFormControl]="declarationForm.get('submitter.firstName')"
         [maxlength]="40"
       ></drr-input>
       <drr-input
         [id]="'submitter_lastName'"
         [label]="t('lastName')"
-        [rxFormControl]="getGroupFormControl('lastName', 'submitter')"
+        [rxFormControl]="declarationForm.get('submitter.lastName')"
         [maxlength]="40"
       ></drr-input>
       <drr-input
         [id]="'submitter_title'"
         [label]="t('title')"
-        [rxFormControl]="getGroupFormControl('title', 'submitter')"
+        [rxFormControl]="declarationForm.get('submitter.title')"
         [maxlength]="40"
       ></drr-input>
       <drr-input
         [id]="'submitter_department'"
         [label]="t('department')"
-        [rxFormControl]="getGroupFormControl('department', 'submitter')"
+        [rxFormControl]="declarationForm.get('submitter.department')"
         [maxlength]="40"
       ></drr-input>
       <drr-input
         [id]="'submitter_phone'"
         [label]="t('phone')"
-        [rxFormControl]="getGroupFormControl('phone', 'submitter')"
+        [rxFormControl]="declarationForm.get('submitter.phone')"
         [maxlength]="10"
         [type]="'tel'"
       ></drr-input>
       <drr-input
         [id]="'submitter_email'"
         [label]="t('email')"
-        [rxFormControl]="getGroupFormControl('email', 'submitter')"
+        [rxFormControl]="declarationForm.get('submitter.email')"
         [maxlength]="40"
         [type]="'email'"
       ></drr-input>

@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, inject } from '@angular/core';
 import {
   FormArray,
-  FormControl,
   FormsModule,
   ReactiveFormsModule,
   Validators,
@@ -12,20 +11,16 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatSelectChange, MatSelectModule } from '@angular/material/select';
+import { MatSelectModule } from '@angular/material/select';
 import { TranslocoModule } from '@ngneat/transloco';
-import {
-  IFormGroup,
-  RxFormBuilder,
-  RxFormControl,
-} from '@rxweb/reactive-form-validators';
+import { IFormGroup, RxFormBuilder } from '@rxweb/reactive-form-validators';
 import { distinctUntilChanged } from 'rxjs';
 import { FundingType } from '../../../../model';
 
-import { MatRadioModule } from '@angular/material/radio';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { DrrCurrencyInputComponent } from '../../../shared/controls/drr-currency-input/drr-currency-input.component';
 import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
+import { DrrRadioButtonComponent } from '../../../shared/controls/drr-radio-button/drr-radio-button.component';
 import { DrrSelectComponent } from '../../../shared/controls/drr-select/drr-select.component';
 import { DrrTextareaComponent } from '../../../shared/controls/drr-textarea/drr-textarea.component';
 import { DrrFundingListComponent } from '../../drr-funding-list/drr-funding-list.component';
@@ -47,13 +42,13 @@ import {
     MatInputModule,
     MatIconModule,
     MatSelectModule,
-    MatRadioModule,
     TranslocoModule,
     DrrTextareaComponent,
     DrrInputComponent,
     DrrSelectComponent,
     DrrCurrencyInputComponent,
     DrrFundingListComponent,
+    DrrRadioButtonComponent,
   ],
   templateUrl: './drif-eoi-step-3.component.html',
   styleUrl: './drif-eoi-step-3.component.scss',
@@ -163,10 +158,6 @@ export class DrifEoiStep3Component {
     this.getFormArray('otherFunding').removeAt(index);
   }
 
-  getFormControl(name: string): FormControl {
-    return this.fundingInformationForm.get(name) as FormControl;
-  }
-
   getRemainingAmount() {
     return this.fundingInformationForm.get('remainingAmount')?.value;
   }
@@ -175,36 +166,7 @@ export class DrifEoiStep3Component {
     return Math.abs(this.getRemainingAmount());
   }
 
-  getArrayFormControl(
-    controlName: string,
-    arrayName: string,
-    index: number
-  ): RxFormControl {
-    return this.getFormArray(arrayName)?.controls[index]?.get(
-      controlName
-    ) as RxFormControl;
-  }
-
   hasOtherGrants(selectValue: FundingType[]) {
     return selectValue?.includes(FundingType.OtherGrants);
-  }
-
-  // event handler for funding type change
-  setFundingTypeDesctiption(event: MatSelectChange, index: number) {
-    const descriptionControl = this.getArrayFormControl(
-      'otherDescription',
-      'otherFunding',
-      index
-    );
-
-    // check if value contains FundingType.OtherGrants
-    if (this.hasOtherGrants(event.value)) {
-      descriptionControl.addValidators(Validators.required);
-    } else {
-      descriptionControl.clearValidators();
-    }
-
-    descriptionControl.reset();
-    descriptionControl.updateValueAndValidity();
   }
 }

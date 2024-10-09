@@ -1,22 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, inject } from '@angular/core';
-import {
-  FormArray,
-  FormControl,
-  FormsModule,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { FormArray, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy } from '@ngneat/until-destroy';
-import {
-  IFormGroup,
-  RxFormBuilder,
-  RxFormControl,
-} from '@rxweb/reactive-form-validators';
+import { IFormGroup, RxFormBuilder } from '@rxweb/reactive-form-validators';
 import { distinctUntilChanged } from 'rxjs';
 import { EstimatedNumberOfPeople } from '../../../../model';
 import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
@@ -83,20 +74,6 @@ export class DrifEoiStep5Component {
 
   getFormArray(formArrayName: string) {
     return this.projectDetailsForm.get(formArrayName) as FormArray;
-  }
-
-  getFormControl(name: string): FormControl {
-    return this.projectDetailsForm.get(name) as FormControl;
-  }
-
-  getArrayFormControl(
-    controlName: string,
-    arrayName: string,
-    index: number
-  ): RxFormControl {
-    return this.getFormArray(arrayName)?.controls[index]?.get(
-      controlName
-    ) as RxFormControl;
   }
 
   addInfrastructure() {

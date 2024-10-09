@@ -85,7 +85,7 @@ export class SummaryItemComponent {
   isRequired(): boolean {
     if (this.rxFormControl && this.rxFormControl.validator) {
       const validator = this.rxFormControl.validator({} as AbstractControl);
-      return validator && validator['required'];
+      return !!validator && !!validator['required'];
     }
     return false;
   }

@@ -9,7 +9,6 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatSelectChange } from '@angular/material/select';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { IFormGroup, RxFormBuilder } from '@rxweb/reactive-form-validators';
@@ -205,14 +204,6 @@ export class DrifFpStep10Component {
     return this.budgetForm.get(formArrayName) as FormArray;
   }
 
-  getArrayFormControl(
-    formArrayName: string,
-    controlName: string,
-    index: number
-  ) {
-    return this.getFormArray(formArrayName)?.at(index).get(controlName);
-  }
-
   addYear() {
     this.getFormArray('yearOverYearFunding').push(
       this.formBuilder.formGroup(YearOverYearFundingForm)
@@ -225,24 +216,6 @@ export class DrifFpStep10Component {
 
   hasOtherGrants(selectValue: FundingType[]) {
     return selectValue?.includes(FundingType.OtherGrants);
-  }
-
-  setFundingTypeDesctiption(event: MatSelectChange, index: number) {
-    const descriptionControl = this.getArrayFormControl(
-      'otherDescription',
-      'otherFunding',
-      index
-    );
-
-    // check if value contains FundingType.OtherGrants
-    if (this.hasOtherGrants(event.value)) {
-      descriptionControl?.addValidators(Validators.required);
-    } else {
-      descriptionControl?.clearValidators();
-    }
-
-    descriptionControl?.reset();
-    descriptionControl?.updateValueAndValidity();
   }
 
   removeOtherSource(index: number) {

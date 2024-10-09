@@ -268,6 +268,12 @@ export class ClimateAdaptationForm {
   incorporateFutureClimateConditions?: boolean;
 
   @prop()
+  // TODO: investigate further
+  // conditionalExpression does not set validator, but form control errors which is not enough if field is filled
+  // @required({
+  //   conditionalExpression: (form: ClimateAdaptationForm) =>
+  //     form.incorporateFutureClimateConditions === true,
+  // })
   climateAdaptation?: string;
 
   @prop()
