@@ -440,6 +440,10 @@ export class DrifFpComponent {
         .get('climateAdaptation')
         ?.get('climateAssessmentTools')
         ?.addValidators(Validators.required);
+      this.fullProposalForm
+        .get('climateAdaptation')
+        ?.get('climateAssessmentComments')
+        ?.addValidators(Validators.required);
     }
   }
 

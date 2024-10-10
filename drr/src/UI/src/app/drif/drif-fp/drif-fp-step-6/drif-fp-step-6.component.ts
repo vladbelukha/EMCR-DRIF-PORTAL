@@ -70,12 +70,15 @@ export class DrifFpStep6Component {
         );
         if (value) {
           climateAssessmentToolsControl?.addValidators(Validators.required);
+          climateAssessmentCommentsControl?.addValidators(Validators.required);
         } else {
           climateAssessmentToolsControl?.reset();
           climateAssessmentToolsControl?.clearValidators();
           climateAssessmentCommentsControl?.reset();
+          climateAssessmentCommentsControl?.clearValidators();
         }
         climateAssessmentToolsControl?.updateValueAndValidity();
+        climateAssessmentCommentsControl?.updateValueAndValidity;
       });
   }
 }
