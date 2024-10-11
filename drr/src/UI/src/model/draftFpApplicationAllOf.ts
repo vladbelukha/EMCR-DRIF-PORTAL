@@ -24,10 +24,6 @@ export type DraftFpApplicationAllOf = {
   /** @nullable */
   affectedParties?: string[];
   /** @nullable */
-  approvals?: boolean;
-  /** @nullable */
-  approvalsComments?: string;
-  /** @nullable */
   area?: number;
   /** @nullable */
   areaDescription?: string;
@@ -129,6 +125,10 @@ export type DraftFpApplicationAllOf = {
   locationDescription?: string;
   /** @nullable */
   mainDeliverable?: string;
+  /** @nullable */
+  meetsEligibilityComments?: string;
+  /** @nullable */
+  meetsEligibilityRequirements?: boolean;
   /** @nullable */
   meetsRegulatoryComments?: string;
   /** @nullable */

@@ -128,8 +128,8 @@ export class DrifFpViewComponent {
           professionals: response.professionals,
           professionalGuidanceComments: response.professionalGuidanceComments,
           professionalGuidance: response.professionalGuidance,
-          approvalsComments: response.approvalsComments,
-          approvals: response.approvals,
+          meetsEligibilityComments: response.meetsEligibilityComments,
+          meetsEligibilityRequirements: response.meetsEligibilityRequirements,
         },
         projectOutcomes: {
           publicBenefit: response.publicBenefit,
