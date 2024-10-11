@@ -16,7 +16,7 @@ namespace EMCR.DRR.Resources.Applications
         private readonly IMapper mapper;
         private readonly CRMWebAPI api;
 
-        public ApplicationRepository(IDRRContextFactory dRRContextFactory, IMapper mapper, IServiceProvider services, CRMWebAPI api)
+        public ApplicationRepository(IDRRContextFactory dRRContextFactory, IMapper mapper, CRMWebAPI api)
         {
             this.mapper = mapper;
             this.dRRContextFactory = dRRContextFactory;

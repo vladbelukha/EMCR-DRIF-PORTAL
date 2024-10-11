@@ -6,6 +6,13 @@ namespace EMCR.DRR.Resources.Applications
 {
     public class ApplicationMapperProfile : Profile
     {
+        private string ArchaeologyCategoryName = "Archaeology";
+        private string EnvironmentMappingCategoryName = "Environment - Mapping and Landscape";
+        private string EnvironmentSeismicCategoryName = "Environment - Seismic";
+        private string EnvitonmentWaterCategoryName = "Environment - Water (includes Rivers, Flooding, etc.)";
+        private string FinancialCategoryName = "Financial";
+        private string OtherCategoryName = "Other";
+
         public ApplicationMapperProfile()
         {
 #pragma warning disable CS8629 // Nullable value type may be null.
@@ -94,20 +101,18 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.drr_howtoolsusedtobenefitproject, opt => opt.MapFrom(src => src.ClimateAssessmentComments))
 
                 //Permits Regulations & Standards - 7
-                .ForMember(dest => dest.drr_projecteligibleforrequiredpermitsapproval, opt => opt.MapFrom(src => src.Approvals.HasValue ? src.Approvals.Value ? (int?)DRRTwoOptions.Yes : (int?)DRRTwoOptions.No : null))
-                .ForMember(dest => dest.drr_projecteligibleforpermitsapprovalcomments, opt => opt.MapFrom(src => src.ApprovalsComments))
+                .ForMember(dest => dest.drr_archaeology, opt => opt.MapFrom(src => DRRCategorySelectedMapper(src.Standards.SingleOrDefault(s => s.Category == ArchaeologyCategoryName))))
+                .ForMember(dest => dest.drr_environmentmappingandlandscape, opt => opt.MapFrom(src => DRRCategorySelectedMapper(src.Standards.SingleOrDefault(s => s.Category == EnvironmentMappingCategoryName))))
+                .ForMember(dest => dest.drr_environmentseismic, opt => opt.MapFrom(src => DRRCategorySelectedMapper(src.Standards.SingleOrDefault(s => s.Category == EnvironmentSeismicCategoryName))))
+                .ForMember(dest => dest.drr_environmentwater, opt => opt.MapFrom(src => DRRCategorySelectedMapper(src.Standards.SingleOrDefault(s => s.Category == EnvitonmentWaterCategoryName))))
+                .ForMember(dest => dest.drr_financial, opt => opt.MapFrom(src => DRRCategorySelectedMapper(src.Standards.SingleOrDefault(s => s.Category == FinancialCategoryName))))
+                .ForMember(dest => dest.drr_othercategory, opt => opt.MapFrom(src => DRRCategorySelectedMapper(src.Standards.SingleOrDefault(s => s.Category == OtherCategoryName))))
+                .ForMember(dest => dest.drr_drr_application_drr_provincialstandarditem_Application, opt => opt.MapFrom(src => DRRProvincialStandardItemMapper(src.Standards)))
+                .ForMember(dest => dest.drr_commentsacceptableprovincialstandards, opt => opt.MapFrom(src => src.StandardsComments))
                 .ForMember(dest => dest.drr_guidanceofqualifiedprofessional, opt => opt.MapFrom(src => src.ProfessionalGuidance.HasValue ? src.ProfessionalGuidance.Value ? (int?)DRRTwoOptions.Yes : (int?)DRRTwoOptions.No : null))
                 .ForMember(dest => dest.drr_drr_application_drr_qualifiedprofessionalitem_Application, opt => opt.MapFrom(src => src.Professionals))
                 .ForMember(dest => dest.drr_qualifiedprofessionalcomments, opt => opt.MapFrom(src => src.ProfessionalGuidanceComments))
                 .ForMember(dest => dest.drr_acceptableprovincialstandards, opt => opt.MapFrom(src => src.StandardsAcceptable.HasValue ? (int?)Enum.Parse<DRRYesNoNotApplicable>(src.StandardsAcceptable.Value.ToString()) : null))
-                .ForMember(dest => dest.drr_archaeology, opt => opt.MapFrom(src => DRRCategorySelectedMapper(src.Standards.SingleOrDefault(s => s.Category == "Archaeology"))))
-                .ForMember(dest => dest.drr_environmentmappingandlandscape, opt => opt.MapFrom(src => DRRCategorySelectedMapper(src.Standards.SingleOrDefault(s => s.Category == "Environment - Mapping and Landscape"))))
-                .ForMember(dest => dest.drr_environmentseismic, opt => opt.MapFrom(src => DRRCategorySelectedMapper(src.Standards.SingleOrDefault(s => s.Category == "Environment - Seismic"))))
-                .ForMember(dest => dest.drr_environmentwater, opt => opt.MapFrom(src => DRRCategorySelectedMapper(src.Standards.SingleOrDefault(s => s.Category == "Environment - Water (includes Rivers, Flooding, etc.)"))))
-                .ForMember(dest => dest.drr_financial, opt => opt.MapFrom(src => DRRCategorySelectedMapper(src.Standards.SingleOrDefault(s => s.Category == "Financial"))))
-                .ForMember(dest => dest.drr_othercategory, opt => opt.MapFrom(src => DRRCategorySelectedMapper(src.Standards.SingleOrDefault(s => s.Category == "Other"))))
-                .ForMember(dest => dest.drr_drr_application_drr_provincialstandarditem_Application, opt => opt.MapFrom(src => DRRProvincialStandardItemMapper(src.Standards)))
-                .ForMember(dest => dest.drr_commentsacceptableprovincialstandards, opt => opt.MapFrom(src => src.StandardsComments))
                 .ForMember(dest => dest.drr_requiredagencydiscussionsandapprovals, opt => opt.MapFrom(src => src.MeetsRegulatoryRequirements.HasValue ? src.MeetsRegulatoryRequirements.Value ? (int?)DRRTwoOptions.Yes : (int?)DRRTwoOptions.No : null))
                 .ForMember(dest => dest.drr_commentsrequiredagencydiscussionsapproval, opt => opt.MapFrom(src => src.MeetsRegulatoryComments))
                 .ForMember(dest => dest.drr_projecteligibleforrequiredpermitsapproval, opt => opt.MapFrom(src => src.MeetsEligibilityRequirements.HasValue ? src.MeetsEligibilityRequirements.Value ? (int?)DRRTwoOptions.Yes : (int?)DRRTwoOptions.No : null))
@@ -250,17 +255,15 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.ClimateAssessmentTools, opt => opt.MapFrom(src => src.drr_drr_application_drr_climateassessmenttoolitem_Application))
                 .ForMember(dest => dest.ClimateAssessmentComments, opt => opt.MapFrom(src => src.drr_howtoolsusedtobenefitproject))
                 //Permits Regulations & Standards - 7
-                .ForMember(dest => dest.Approvals, opt => opt.MapFrom(src => src.drr_projecteligibleforrequiredpermitsapproval.HasValue ? src.drr_projecteligibleforrequiredpermitsapproval.Value == (int)DRRTwoOptions.Yes : (bool?)null))
-                .ForMember(dest => dest.ApprovalsComments, opt => opt.MapFrom(src => src.drr_projecteligibleforpermitsapprovalcomments))
-                .ForMember(dest => dest.ProfessionalGuidance, opt => opt.MapFrom(src => src.drr_guidanceofqualifiedprofessional.HasValue ? src.drr_guidanceofqualifiedprofessional.Value == (int)DRRTwoOptions.Yes : (bool?)null))
-                .ForMember(dest => dest.Professionals, opt => opt.MapFrom(src => src.drr_drr_application_drr_qualifiedprofessionalitem_Application))
-                .ForMember(dest => dest.ProfessionalGuidanceComments, opt => opt.MapFrom(src => src.drr_qualifiedprofessionalcomments))
                 .ForMember(dest => dest.StandardsAcceptable, opt => opt.MapFrom(src => src.drr_acceptableprovincialstandards.HasValue ? (int?)Enum.Parse<YesNoOption>(((DRRYesNoNotApplicable)src.drr_acceptableprovincialstandards).ToString()) : null))
                 .ForMember(dest => dest.Standards, opt => opt.MapFrom(src => DRRStandardInfoMapper(src, src.drr_drr_application_drr_provincialstandarditem_Application)))
                 .ForMember(dest => dest.StandardsComments, opt => opt.MapFrom(src => src.drr_commentsacceptableprovincialstandards))
+                .ForMember(dest => dest.ProfessionalGuidance, opt => opt.MapFrom(src => src.drr_guidanceofqualifiedprofessional.HasValue ? src.drr_guidanceofqualifiedprofessional.Value == (int)DRRTwoOptions.Yes : (bool?)null))
+                .ForMember(dest => dest.Professionals, opt => opt.MapFrom(src => src.drr_drr_application_drr_qualifiedprofessionalitem_Application))
+                .ForMember(dest => dest.ProfessionalGuidanceComments, opt => opt.MapFrom(src => src.drr_qualifiedprofessionalcomments))
                 .ForMember(dest => dest.MeetsRegulatoryRequirements, opt => opt.MapFrom(src => src.drr_requiredagencydiscussionsandapprovals.HasValue ? src.drr_requiredagencydiscussionsandapprovals.Value == (int)DRRTwoOptions.Yes : (bool?)null))
                 .ForMember(dest => dest.MeetsRegulatoryComments, opt => opt.MapFrom(src => src.drr_commentsrequiredagencydiscussionsapproval))
-                .ForMember(dest => dest.MeetsEligibilityRequirements, opt => opt.MapFrom(src => src.drr_projecteligibleforrequiredpermitsapproval))
+                .ForMember(dest => dest.MeetsEligibilityRequirements, opt => opt.MapFrom(src => src.drr_projecteligibleforrequiredpermitsapproval.HasValue ? src.drr_projecteligibleforrequiredpermitsapproval.Value == (int)DRRTwoOptions.Yes : (bool?)null))
                 .ForMember(dest => dest.MeetsEligibilityComments, opt => opt.MapFrom(src => src.drr_projecteligibleforpermitsapprovalcomments))
                 //Project Outcomes - 8
                 .ForMember(dest => dest.PublicBenefit, opt => opt.MapFrom(src => src.drr_projectforbroadpublicuseorbenefit.HasValue ? src.drr_projectforbroadpublicuseorbenefit.Value == (int)DRRTwoOptions.Yes : (bool?)null))

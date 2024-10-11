@@ -23,7 +23,7 @@ namespace EMCR.DRR.API.Controllers
             this.logger = logger;
             this.configuration = configuration;
             this.intakeManager = intakeManager;
-            this.errorParser = new ErrorParser();
+            errorParser = new ErrorParser();
         }
 
         /// <summary>

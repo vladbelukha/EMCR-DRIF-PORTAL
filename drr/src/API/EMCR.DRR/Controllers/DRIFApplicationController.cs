@@ -315,16 +315,14 @@ namespace EMCR.DRR.Controllers
         public string? ClimateAssessmentComments { get; set; }
 
         //Permits Regulations & Standards - 7
-        public bool? Approvals { get; set; }
-        public string? ApprovalsComments { get; set; }
+        public YesNoOption? StandardsAcceptable { get; set; }
+        public IEnumerable<StandardInfo>? Standards { get; set; }
+        public string? StandardsComments { get; set; }
         [Mandatory]
         public bool? ProfessionalGuidance { get; set; }
         [MandatoryIf("ProfessionalGuidance", true)]
         public IEnumerable<string>? Professionals { get; set; }
         public string? ProfessionalGuidanceComments { get; set; }
-        public YesNoOption? StandardsAcceptable { get; set; }
-        public IEnumerable<StandardInfo>? Standards { get; set; }
-        public string? StandardsComments { get; set; }
         [Mandatory]
         public bool? MeetsRegulatoryRequirements { get; set; }
         [MandatoryIf("MeetsRegulatoryRequirements", true)]

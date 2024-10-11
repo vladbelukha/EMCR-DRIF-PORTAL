@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
 using System.Text.Json.Serialization;
 using EMCR.DRR.API.Services;
+using EMCR.DRR.API.Services.S3;
 using EMCR.DRR.Controllers;
 using EMCR.DRR.Dynamics;
 using EMCR.DRR.Managers.Intake;
@@ -29,6 +30,7 @@ services.AddRouting(o => o.LowercaseUrls = true);
 services.AddEndpointsApiExplorer();
 services.AddIntakeManager();
 services.AddRepositories();
+services.AddS3Storage(configuration);
 services.AddTransient<IUserService, UserService>();
 services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 services.AddAutoMapper(typeof(ApplicationMapperProfile));

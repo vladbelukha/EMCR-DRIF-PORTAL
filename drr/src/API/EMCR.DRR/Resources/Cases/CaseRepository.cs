@@ -73,7 +73,7 @@ namespace EMCR.DRR.API.Resources.Cases
                 if (cmd.ScreenerQuestions.EngagedWithFirstNationsOccurred == true) fp.drr_meaningfullyengagedwithlocalfirstnations = (int)DRRTwoOptions.Yes;
                 if (cmd.ScreenerQuestions.IncorporateFutureClimateConditions == true) fp.drr_doesprojectconsiderclimatechange = (int)DRRTwoOptions.Yes;
                 if (cmd.ScreenerQuestions.MeetsRegulatoryRequirements == true) fp.drr_requiredagencydiscussionsandapprovals = (int)DRRTwoOptions.Yes;
-                if (cmd.ScreenerQuestions.MeetsEligibilityRequirements == true) fp.drr_willprojectmeetreqsforallpermitsetc = (int)DRRTwoOptions.Yes;
+                if (cmd.ScreenerQuestions.MeetsEligibilityRequirements == true) fp.drr_projecteligibleforrequiredpermitsapproval = (int)DRRTwoOptions.Yes;
 
                 fp.statuscode = (int)ApplicationStatusOptionSet.DraftProponent;
 

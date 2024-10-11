@@ -115,6 +115,33 @@ namespace EMCR.DRR.Managers.Intake
         public UserInfo UserInfo { get; set; }
     }
 
+    public class UploadAttachmentCommand : IntakeCommand
+    {
+        public AttachmentInfo AttachmentInfo { get; set; }
+        public UserInfo UserInfo { get; set; }
+    }
+
+    public class AttachmentInfo
+    {
+        public string? Id { get; set; }
+        public required string ApplicationId { get; set; }
+        public required IFormFile File { get; set; }
+        public DocumentType DocumentType { get; set; }
+    }
+
+    public enum DocumentType
+    {
+        ProponentEligibilitySupportingDocument,
+        ProjectEligibilitySupportingDocument,
+        ProjectWorkplan,
+        ProjectSchedule,
+        SitePlan,
+        PreliminaryDesign,
+        ProjectDetailsSupportingDocument,
+        CostEstimate,
+        BudgetSupportingDocument,
+    }
+
     public class Application
     {
         public string? Id { get; set; }
@@ -229,14 +256,12 @@ namespace EMCR.DRR.Managers.Intake
         public string? ClimateAssessmentComments { get; set; }
 
         //Permits Regulations & Standards - 7
-        public bool? Approvals { get; set; }
-        public string? ApprovalsComments { get; set; }
-        public bool? ProfessionalGuidance { get; set; }
-        public IEnumerable<ProfessionalInfo> Professionals { get; set; } //Missing list in CRM
-        public string? ProfessionalGuidanceComments { get; set; }
         public YesNoOption? StandardsAcceptable { get; set; }
         public IEnumerable<StandardInfo> Standards { get; set; }
         public string? StandardsComments { get; set; }
+        public bool? ProfessionalGuidance { get; set; }
+        public IEnumerable<ProfessionalInfo> Professionals { get; set; } //Missing list in CRM
+        public string? ProfessionalGuidanceComments { get; set; }
         public bool? MeetsRegulatoryRequirements { get; set; }
         public string? MeetsRegulatoryComments { get; set; }
         public bool? MeetsEligibilityRequirements { get; set; }
