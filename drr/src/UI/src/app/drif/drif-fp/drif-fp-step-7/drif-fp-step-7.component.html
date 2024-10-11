@@ -76,16 +76,18 @@
     ></drr-textarea>
 
     <mat-label class="drr-label">{{ t("approvals") }}</mat-label>
-    <mat-label>{{ t("approvalsQuestion") }}*</mat-label>
+    <mat-label>{{ t("meetsEligibilityRequirements") }}*</mat-label>
     <drr-radio-button
-      [rxFormControl]="permitsRegulationsAndStandardsForm.get('approvals')"
+      [rxFormControl]="
+        permitsRegulationsAndStandardsForm.get('meetsEligibilityRequirements')
+      "
     ></drr-radio-button>
 
     <drr-textarea
-      [label]="t('approvalsComments')"
+      [label]="t('meetsEligibilityComments')"
       [maxlength]="2000"
       [rxFormControl]="
-        permitsRegulationsAndStandardsForm.get('approvalsComments')
+        permitsRegulationsAndStandardsForm.get('meetsEligibilityComments')
       "
     ></drr-textarea>
   </form>

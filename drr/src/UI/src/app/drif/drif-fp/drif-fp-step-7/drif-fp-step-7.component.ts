@@ -98,17 +98,19 @@ export class DrifFpStep7Component {
       });
 
     this.permitsRegulationsAndStandardsForm
-      .get('approvals')
+      .get('meetsEligibilityRequirements')
       ?.valueChanges.pipe(distinctUntilChanged())
       .subscribe((value) => {
-        const approvalsControl =
-          this.permitsRegulationsAndStandardsForm.get('approvalsComments');
+        const meetsEligibilityCommentsControl =
+          this.permitsRegulationsAndStandardsForm.get(
+            'meetsEligibilityComments'
+          );
         if (value === false) {
-          approvalsControl?.clearValidators();
+          meetsEligibilityCommentsControl?.clearValidators();
         } else {
-          approvalsControl?.addValidators(Validators.required);
+          meetsEligibilityCommentsControl?.addValidators(Validators.required);
         }
-        approvalsControl?.updateValueAndValidity();
+        meetsEligibilityCommentsControl?.updateValueAndValidity();
       });
   }
 

@@ -271,8 +271,8 @@ export class DrifFpComponent {
             professionals: response.professionals,
             professionalGuidanceComments: response.professionalGuidanceComments,
             professionalGuidance: response.professionalGuidance,
-            approvalsComments: response.approvalsComments,
-            approvals: response.approvals,
+            meetsEligibilityComments: response.meetsEligibilityComments,
+            meetsEligibilityRequirements: response.meetsEligibilityRequirements,
           },
           projectOutcomes: {
             publicBenefit: response.publicBenefit,
@@ -498,9 +498,9 @@ export class DrifFpComponent {
         ?.addValidators(Validators.required);
     }
 
-    if (response.approvals === true) {
+    if (response.meetsEligibilityRequirements === true) {
       this.fullProposalForm
-        .get('permitsRegulationsAndStandards.approvalsComments')
+        .get('permitsRegulationsAndStandards.meetsEligibilityComments')
         ?.addValidators(Validators.required);
     }
   }

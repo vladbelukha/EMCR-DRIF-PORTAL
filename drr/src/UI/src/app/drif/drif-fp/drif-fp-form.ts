@@ -147,10 +147,10 @@ export class OwnershipAndAuthorizationForm {
 export class PermitsRegulationsAndStandardsForm {
   @prop()
   @required()
-  approvals?: boolean;
+  meetsEligibilityRequirements?: boolean;
 
   @prop()
-  approvalsComments?: string;
+  meetsEligibilityComments?: string;
 
   @prop()
   @required()
