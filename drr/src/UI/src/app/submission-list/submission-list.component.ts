@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
-import { Component, Inject, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import {
@@ -80,7 +79,6 @@ export enum DialogResponse {
   ],
   imports: [
     CommonModule,
-    HttpClientModule,
     MatDialogModule,
     MatButtonModule,
     MatIconModule,
@@ -88,10 +86,8 @@ export enum DialogResponse {
   ],
 })
 export class DrrDialogComponent {
-  constructor(
-    public dialogRef: MatDialogRef<DrrDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
-  ) {}
+  dialogRef = inject(MatDialogRef<DrrDialogComponent>);
+  data = inject(MAT_DIALOG_DATA);
 
   confirm = DialogResponse.Yes;
   cancel = DialogResponse.No;
