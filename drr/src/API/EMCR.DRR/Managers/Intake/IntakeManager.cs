@@ -3,6 +3,7 @@ using AutoMapper;
 using EMCR.DRR.API.Model;
 using EMCR.DRR.API.Resources.Cases;
 using EMCR.DRR.API.Services;
+using EMCR.DRR.API.Services.S3;
 using EMCR.DRR.Resources.Applications;
 
 namespace EMCR.DRR.Managers.Intake
@@ -12,12 +13,14 @@ namespace EMCR.DRR.Managers.Intake
         private readonly IMapper mapper;
         private readonly IApplicationRepository applicationRepository;
         private readonly ICaseRepository caseRepository;
+        private readonly IS3Provider s3Provider;
 
-        public IntakeManager(IMapper mapper, IApplicationRepository applicationRepository, ICaseRepository caseRepository)
+        public IntakeManager(IMapper mapper, IApplicationRepository applicationRepository, ICaseRepository caseRepository, IS3Provider s3Provider)
         {
             this.mapper = mapper;
             this.applicationRepository = applicationRepository;
             this.caseRepository = caseRepository;
+            this.s3Provider = s3Provider;
         }
 
         public async Task<IntakeQueryResponse> Handle(IntakeQuery cmd)
@@ -40,6 +43,7 @@ namespace EMCR.DRR.Managers.Intake
                 FpSubmitApplicationCommand c => await Handle(c),
                 WithdrawApplicationCommand c => await Handle(c),
                 DeleteApplicationCommand c => await Handle(c),
+                UploadAttachmentCommand c => await Handle(c),
                 _ => throw new NotSupportedException($"{cmd.GetType().Name} is not supported")
             };
         }
@@ -159,6 +163,24 @@ namespace EMCR.DRR.Managers.Intake
             if (!application.ApplicationTypeName.Equals("EOI")) throw new BusinessValidationException("Only EOI applications can be deleted");
             var id = (await applicationRepository.Manage(new DeleteApplication { Id = cmd.Id })).Id;
             return id;
+        }
+        
+        public async Task<string> Handle(UploadAttachmentCommand cmd)
+        {
+            var canAccess = await CanAccessApplication(cmd.AttachmentInfo.ApplicationId, cmd.UserInfo.BusinessId);
+            if (!canAccess) throw new ForbiddenException("Not allowed to access this application.");
+            var application = (await applicationRepository.Query(new ApplicationsQuery { Id = cmd.AttachmentInfo.ApplicationId })).Items.SingleOrDefault();
+            if (application == null) throw new NotFoundException("Application not found");
+            if (application.Status != ApplicationStatus.DraftProponent && application.Status != ApplicationStatus.DraftStaff) throw new BusinessValidationException("Can only edit attachments when application is in Draft");
+
+            var key = cmd.AttachmentInfo.Id ?? Guid.NewGuid().ToString();
+            //var file = new EMCR.DRR.API.Services.S3.File
+            //{
+
+            //}
+            //var id = (await s3Provider.HandleCommand(new UploadFileCommand { Key = key,  })
+            //return id;
+            return key;
         }
 
         public async Task<DeclarationQueryResult> Handle(DeclarationQuery _)

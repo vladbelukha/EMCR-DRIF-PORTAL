@@ -14,9 +14,20 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
         private string TestBusinessId = "autotest-dev-business-bceid";
         private string TestBusinessName = "autotest-dev-business-name";
         private string TestUserId = "autotest-dev-user-bceid";
+
+        private string CRAFTD1BusinessId = "9F4430C64A2546C08B1F129F4071C1B4";
+        private string CRAFTD1BusinessName = "EMCR CRAFT BCeID DEV";
+        private string CRAFTD1UserId = "FAAA14A088F94B78B121C8A025F7304D";
+
+
         private UserInfo GetTestUserInfo()
         {
             return new UserInfo { BusinessId = TestBusinessId, BusinessName = TestBusinessName, UserId = TestUserId };
+        }
+
+        private UserInfo GetCRAFTUserInfo()
+        {
+            return new UserInfo { BusinessId = CRAFTD1BusinessId, BusinessName = CRAFTD1BusinessName, UserId = CRAFTD1UserId };
         }
         private readonly IIntakeManager manager;
         private readonly IMapper mapper;
@@ -238,13 +249,16 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
         [Test]
         public async Task CanCreateFpFromEoi()
         {
+            var userInfo = GetTestUserInfo();
+            //var userInfo = GetCRAFTUserInfo();
+
             var eoi = mapper.Map<EoiApplication>(CreateNewTestEOIApplication());
             eoi.Status = SubmissionPortalStatus.EligibleInvited;
             eoi.AuthorizedRepresentativeStatement = true;
             eoi.FOIPPAConfirmation = true;
             eoi.InformationAccuracyStatement = true;
 
-            var eoiId = await manager.Handle(new EoiSubmitApplicationCommand { application = eoi, UserInfo = GetTestUserInfo() });
+            var eoiId = await manager.Handle(new EoiSubmitApplicationCommand { application = eoi, UserInfo = userInfo });
             eoiId.ShouldNotBeEmpty();
 
             var screenerQuestions = CreateScreenerQuestions();
@@ -252,11 +266,12 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             screenerQuestions.LocalGovernmentAuthorizedByPartners = EMCR.DRR.Managers.Intake.YesNoOption.NotApplicable;
             screenerQuestions.EngagedWithFirstNationsOccurred = false;
 
-            var fpId = await manager.Handle(new CreateFpFromEoiCommand { EoiId = eoiId, UserInfo = GetTestUserInfo(), ScreenerQuestions = screenerQuestions });
+            var fpId = await manager.Handle(new CreateFpFromEoiCommand { EoiId = eoiId, UserInfo = userInfo, ScreenerQuestions = screenerQuestions });
             fpId.ShouldNotBeEmpty();
 
-            var fullProposal = (await manager.Handle(new DrrApplicationsQuery { Id = fpId, BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault();
+            var fullProposal = (await manager.Handle(new DrrApplicationsQuery { Id = fpId, BusinessId = userInfo.BusinessId })).Items.SingleOrDefault();
             fullProposal.Id.ShouldBe(fpId);
+                
             fullProposal.RegionalProject.ShouldBeNull();
             fullProposal.MainDeliverable.ShouldBe(eoi.ScopeStatement);
             fullProposal.HaveAuthorityToDevelop.ShouldBe(screenerQuestions.HaveAuthorityToDevelop);
@@ -266,7 +281,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             fullProposal.EngagedWithFirstNationsOccurred.ShouldBeNull();
             fullProposal.IncorporateFutureClimateConditions.ShouldBe(screenerQuestions.IncorporateFutureClimateConditions);
             fullProposal.MeetsRegulatoryRequirements.ShouldBe(screenerQuestions.MeetsRegulatoryRequirements);
-            //fullProposal.MeetsEligibilityRequirements.ShouldBe(screenerQuestions.MeetsEligibilityRequirements);
+            fullProposal.MeetsEligibilityRequirements.ShouldBe(screenerQuestions.MeetsEligibilityRequirements);
 
         }
 
@@ -343,8 +358,8 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             ret.SensitivityRisks.ShouldContain("sensitivity risk 1");
             ret.CapacityRisks.ShouldContain("capacity risk 1");
             ret.CostConsiderations.ShouldContain("cost consideration 1");
-            ret.MeetsEligibilityRequirements.ShouldBe(true);
-            ret.MeetsEligibilityComments.ShouldBe("eligibility comments");
+            ret.MeetsEligibilityRequirements.ShouldBe(fpToUpdate.MeetsEligibilityRequirements);
+            ret.MeetsEligibilityComments.ShouldBe(fpToUpdate.MeetsEligibilityComments);
         }
 
         [Test]
@@ -626,17 +641,15 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             application.ClimateAssessmentComments = "climate assessment comments";
 
             //Permits Regulations & Standards - 7
-            application.Approvals = false;
-            application.ApprovalsComments = "approvals comments";
-            application.ProfessionalGuidance = false;
-            application.Professionals = new[] { "professional1", "professional2" };
-            application.ProfessionalGuidanceComments = "professional guidance comments";
             application.StandardsAcceptable = EMCR.DRR.Controllers.YesNoOption.NotApplicable;
             application.Standards = new[] {
                 new EMCR.DRR.Controllers.StandardInfo { IsCategorySelected = true, Category = "Environment - Water (includes Rivers, Flooding, etc.)", Standards = new [] { "BC Water Sustainability Act", "Water Survey Canada", "other water env standard" } },
                 new EMCR.DRR.Controllers.StandardInfo { IsCategorySelected = true, Category = "Other", Standards = new [] { "other_standard1"} },
             };
             application.StandardsComments = "standards comments";
+            application.ProfessionalGuidance = false;
+            application.Professionals = new[] { "professional1", "professional2" };
+            application.ProfessionalGuidanceComments = "professional guidance comments";
             application.MeetsRegulatoryRequirements = false;
             application.MeetsRegulatoryComments = "regulations comments";
             application.MeetsEligibilityRequirements = false;
