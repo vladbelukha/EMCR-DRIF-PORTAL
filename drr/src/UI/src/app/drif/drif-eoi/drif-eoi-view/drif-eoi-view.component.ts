@@ -10,6 +10,7 @@ import { DrifapplicationService } from '../../../../api/drifapplication/drifappl
 import { SubmissionPortalStatus } from '../../../../model';
 import { ProfileStore } from '../../../store/profile.store';
 import {
+  ContactDetailsForm,
   EOIApplicationForm,
   FundingInformationItemForm,
   InfrastructureImpactedForm,
@@ -123,6 +124,17 @@ export class DrifEoiViewComponent {
           .get('proponentInformation')
           ?.get('proponentName')
           ?.setValue(this.profileStore.organization(), { emitEvent: false });
+
+        const additionalContactsArray = this.eoiApplicationForm.get(
+          'proponentInformation.additionalContacts'
+        ) as FormArray;
+        additionalContactsArray.clear({ emitEvent: false });
+        application.additionalContacts?.forEach((contact) => {
+          additionalContactsArray?.push(
+            this.formBuilder.formGroup(new ContactDetailsForm(contact)),
+            { emitEvent: false }
+          );
+        });
 
         const partneringProponentsArray = this.eoiApplicationForm.get(
           'proponentInformation.partneringProponentsArray'
