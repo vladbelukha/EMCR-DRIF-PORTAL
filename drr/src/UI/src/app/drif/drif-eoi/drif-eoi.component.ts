@@ -25,7 +25,7 @@ import {
   StepperOrientation,
 } from '@angular/material/stepper';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HotToastService } from '@ngneat/hot-toast';
+
 import { TranslocoModule } from '@ngneat/transloco';
 import {
   IFormGroup,
@@ -59,6 +59,7 @@ import { DrifEoiStep5Component } from './drif-eoi-step-5/drif-eoi-step-5.compone
 import { DrifEoiStep6Component } from './drif-eoi-step-6/drif-eoi-step-6.component';
 import { DrifEoiStep7Component } from './drif-eoi-step-7/drif-eoi-step-7.component';
 import { DrifEoiStep8Component } from './drif-eoi-step-8/drif-eoi-step-8.component';
+import { HotToastService } from '@ngxpert/hot-toast';
 
 @UntilDestroy({ checkProperties: true })
 @Component({

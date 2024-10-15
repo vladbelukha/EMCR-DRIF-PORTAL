@@ -1,5 +1,5 @@
 @use "@angular/material" as mat;
-@use "@ngneat/hot-toast/src/styles/styles.scss";
+@use "@ngxpert/hot-toast/src/styles/styles.scss";
 
 @include mat.core();
 
@@ -104,7 +104,13 @@ $bcgov-warn-palette: (
   ),
 );
 
-$my-app-primary: mat.m2-define-palette($bcgov-primary-palette, 500, 700, 300, 900);
+$my-app-primary: mat.m2-define-palette(
+  $bcgov-primary-palette,
+  500,
+  700,
+  300,
+  900
+);
 $my-app-accent: mat.m2-define-palette(
   $bcgov-accent-palette,
   A200,

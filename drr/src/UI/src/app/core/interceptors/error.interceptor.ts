@@ -1,7 +1,8 @@
 import { HttpEvent, HttpHandlerFn, HttpRequest } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { HotToastService } from '@ngneat/hot-toast';
+
+import { HotToastService } from '@ngxpert/hot-toast';
 import { Observable, catchError, throwError } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 
