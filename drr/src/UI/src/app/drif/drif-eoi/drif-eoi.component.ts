@@ -44,6 +44,7 @@ import {
 import { ProfileStore } from '../../store/profile.store';
 
 import { UntilDestroy } from '@ngneat/until-destroy';
+import { HotToastService } from '@ngxpert/hot-toast';
 import {
   ContactDetailsForm,
   EOIApplicationForm,
@@ -59,7 +60,6 @@ import { DrifEoiStep5Component } from './drif-eoi-step-5/drif-eoi-step-5.compone
 import { DrifEoiStep6Component } from './drif-eoi-step-6/drif-eoi-step-6.component';
 import { DrifEoiStep7Component } from './drif-eoi-step-7/drif-eoi-step-7.component';
 import { DrifEoiStep8Component } from './drif-eoi-step-8/drif-eoi-step-8.component';
-import { HotToastService } from '@ngxpert/hot-toast';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -348,18 +348,18 @@ export class EOIApplicationComponent {
       response.infrastructureImpacted?.length! > 0
     ) {
       infrastructureImpactedArray.clear({ emitEvent: false });
-    } else {
-      response.infrastructureImpacted?.forEach((infrastructure) => {
-        if (infrastructure) {
-          infrastructureImpactedArray?.push(
-            this.formBuilder.formGroup(
-              new InfrastructureImpactedForm(infrastructure)
-            ),
-            { emitEvent: false }
-          );
-        }
-      });
     }
+
+    response.infrastructureImpacted?.forEach((infrastructure) => {
+      if (infrastructure) {
+        infrastructureImpactedArray?.push(
+          this.formBuilder.formGroup(
+            new InfrastructureImpactedForm(infrastructure)
+          ),
+          { emitEvent: false }
+        );
+      }
+    });
   }
 
   getProjectTitle() {

@@ -408,16 +408,15 @@ export class DrifFpComponent {
       response.infrastructureImpacted?.length! > 0
     ) {
       infrastructureImpactedArray.clear({ emitEvent: false });
-    } else {
-      response.infrastructureImpacted?.forEach((infrastructure) => {
-        infrastructureImpactedArray?.push(
-          this.formBuilder.formGroup(
-            new ImpactedInfrastructureForm(infrastructure)
-          ),
-          { emitEvent: false }
-        );
-      });
     }
+    response.infrastructureImpacted?.forEach((infrastructure) => {
+      infrastructureImpactedArray?.push(
+        this.formBuilder.formGroup(
+          new ImpactedInfrastructureForm(infrastructure)
+        ),
+        { emitEvent: false }
+      );
+    });
   }
 
   initStep4(response: DraftFpApplication) {
