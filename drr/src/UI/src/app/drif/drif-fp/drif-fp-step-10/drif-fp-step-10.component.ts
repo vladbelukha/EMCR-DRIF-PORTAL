@@ -70,7 +70,10 @@ export class DrifFpStep10Component {
   }));
   previousResponseOptions = [
     { value: YesNoOption.Yes, label: 'Yes' },
-    { value: YesNoOption.NotApplicable, label: 'Cost/Unknown' },
+    {
+      value: YesNoOption.NotApplicable,
+      label: this.translocoService.translate('costUnknown'),
+    },
     { value: YesNoOption.No, label: 'No' },
   ];
   costConsiderationsOptions = this.optionsStore.costConsiderations?.() ?? [];

@@ -344,6 +344,7 @@
   "costEffective": "Cost Effectiveness",
   "costEffectiveComments": "Describe how the project activities are cost effective (e.g. locally sourced resources, shared contract resources, minimalized travel)",
   "previousResponse": "Previous Response Costs",
+  "costUnknown": "Yes, but cost is unknown",
   "previousResponseQuestion": "Are there previous emergency response costs that the proposed project is designed to mitigate?",
   "previousResponseCost": "Previous Response Costs",
   "previousResponseComments": "Provide details on previous response costs",

@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import {
   IFormGroup,
@@ -12,6 +12,7 @@ import {
   RxFormGroup,
 } from '@rxweb/reactive-form-validators';
 import { NgxMaskPipe } from 'ngx-mask';
+import { YesNoOption } from '../../../../model';
 import { DrifEoiSummaryComponent } from '../../drif-eoi/drif-eoi-summary/drif-eoi-summary.component';
 import { SummaryItemComponent } from '../../summary-item/summary-item.component';
 import { DrifFpForm } from '../drif-fp-form';
@@ -33,6 +34,7 @@ import { DrifFpForm } from '../drif-fp-form';
   styleUrl: './drif-fp-summary.component.scss',
 })
 export class DrifFpSummaryComponent {
+  translocoService = inject(TranslocoService);
   private _fullProposalForm?: IFormGroup<DrifFpForm>;
 
   @Input()
@@ -102,5 +104,14 @@ export class DrifFpSummaryComponent {
     return Math.abs(
       this.fullProposalForm?.get('budget.remainingAmount')?.value ?? 0
     );
+  }
+
+  getPreviousResponseValue() {
+    return this.fullProposalForm.get('budget.previousResponse')?.value ===
+      YesNoOption.NotApplicable
+      ? this.translocoService.translate('costUnknown')
+      : this.translocoService.translate(
+          this.fullProposalForm.get('budget.previousResponse')?.value
+        );
   }
 }
