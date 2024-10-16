@@ -506,8 +506,22 @@ export class DrifFpComponent {
   }
 
   initStep8(response: DraftFpApplication) {
-    if (response.produceCoBenefits === false) {
-      this.fullProposalForm.get('projectOutcomes.coBenefits')?.disable();
+    if (response.futureCostReduction === true) {
+      this.fullProposalForm
+        .get('projectOutcomes.costReductions')
+        ?.addValidators(Validators.required);
+      this.fullProposalForm
+        .get('projectOutcomes.costReductionComments')
+        ?.addValidators(Validators.required);
+    }
+
+    if (response.produceCoBenefits === true) {
+      this.fullProposalForm
+        .get('projectOutcomes.coBenefits')
+        ?.addValidators(Validators.required);
+      this.fullProposalForm
+        .get('projectOutcomes.coBenefitComments')
+        ?.addValidators(Validators.required);
     }
   }
 
