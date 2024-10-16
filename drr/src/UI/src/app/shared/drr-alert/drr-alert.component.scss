@@ -20,31 +20,31 @@
 }
 
 .alert-danger {
-  background-color: mat.get-color-from-palette($bcgov-primary-palette, 50);
-  border-color: mat.get-color-from-palette($bcgov-primary-palette, 100);
-  color: mat.get-color-from-palette($bcgov-primary-palette, 900);
+  background-color: mat.m2-get-color-from-palette($bcgov-primary-palette, 50);
+  border-color: mat.m2-get-color-from-palette($bcgov-primary-palette, 100);
+  color: mat.m2-get-color-from-palette($bcgov-primary-palette, 900);
 }
 
 .alert-success {
-  border-color: mat.get-color-from-palette($bcgov-accent-palette, 900);
-  color: mat.get-color-from-palette($bcgov-accent-palette, 800);
+  border-color: mat.m2-get-color-from-palette($bcgov-accent-palette, 900);
+  color: mat.m2-get-color-from-palette($bcgov-accent-palette, 800);
 }
 
 .alert-info {
-  background-color: mat.get-color-from-palette($bcgov-primary-palette, 50);
-  border-color: mat.get-color-from-palette($bcgov-primary-palette, 100);
-  color: mat.get-color-from-palette($bcgov-primary-palette, 900);
+  background-color: mat.m2-get-color-from-palette($bcgov-primary-palette, 50);
+  border-color: mat.m2-get-color-from-palette($bcgov-primary-palette, 100);
+  color: mat.m2-get-color-from-palette($bcgov-primary-palette, 900);
 }
 
 .alert-warning {
-  background-color: mat.get-color-from-palette($bcgov-accent-palette, 50);
-  border-color: mat.get-color-from-palette($bcgov-accent-palette, 100);
-  color: mat.get-color-from-palette($bcgov-accent-palette, 900);
+  background-color: mat.m2-get-color-from-palette($bcgov-accent-palette, 50);
+  border-color: mat.m2-get-color-from-palette($bcgov-accent-palette, 100);
+  color: mat.m2-get-color-from-palette($bcgov-accent-palette, 900);
 }
 
 .alert-content {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  color: mat.get-color-from-palette($bcgov-primary-palette, 900);
+  color: mat.m2-get-color-from-palette($bcgov-primary-palette, 900);
 }

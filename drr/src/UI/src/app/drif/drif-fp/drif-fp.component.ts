@@ -20,7 +20,7 @@ import {
   StepperOrientation,
 } from '@angular/material/stepper';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HotToastService } from '@ngneat/hot-toast';
+
 import { TranslocoModule } from '@ngneat/transloco';
 import {
   IFormGroup,
@@ -39,6 +39,7 @@ import {
 } from '../drif-eoi/drif-eoi-form';
 
 import { UntilDestroy } from '@ngneat/until-destroy';
+import { HotToastService } from '@ngxpert/hot-toast';
 import { OptionsStore } from '../../store/options.store';
 import {
   DrifFpForm,
@@ -407,16 +408,15 @@ export class DrifFpComponent {
       response.infrastructureImpacted?.length! > 0
     ) {
       infrastructureImpactedArray.clear({ emitEvent: false });
-    } else {
-      response.infrastructureImpacted?.forEach((infrastructure) => {
-        infrastructureImpactedArray?.push(
-          this.formBuilder.formGroup(
-            new ImpactedInfrastructureForm(infrastructure)
-          ),
-          { emitEvent: false }
-        );
-      });
     }
+    response.infrastructureImpacted?.forEach((infrastructure) => {
+      infrastructureImpactedArray?.push(
+        this.formBuilder.formGroup(
+          new ImpactedInfrastructureForm(infrastructure)
+        ),
+        { emitEvent: false }
+      );
+    });
   }
 
   initStep4(response: DraftFpApplication) {

@@ -25,7 +25,7 @@ import {
   StepperOrientation,
 } from '@angular/material/stepper';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HotToastService } from '@ngneat/hot-toast';
+
 import { TranslocoModule } from '@ngneat/transloco';
 import {
   IFormGroup,
@@ -44,6 +44,7 @@ import {
 import { ProfileStore } from '../../store/profile.store';
 
 import { UntilDestroy } from '@ngneat/until-destroy';
+import { HotToastService } from '@ngxpert/hot-toast';
 import {
   ContactDetailsForm,
   EOIApplicationForm,
@@ -347,18 +348,18 @@ export class EOIApplicationComponent {
       response.infrastructureImpacted?.length! > 0
     ) {
       infrastructureImpactedArray.clear({ emitEvent: false });
-    } else {
-      response.infrastructureImpacted?.forEach((infrastructure) => {
-        if (infrastructure) {
-          infrastructureImpactedArray?.push(
-            this.formBuilder.formGroup(
-              new InfrastructureImpactedForm(infrastructure)
-            ),
-            { emitEvent: false }
-          );
-        }
-      });
     }
+
+    response.infrastructureImpacted?.forEach((infrastructure) => {
+      if (infrastructure) {
+        infrastructureImpactedArray?.push(
+          this.formBuilder.formGroup(
+            new InfrastructureImpactedForm(infrastructure)
+          ),
+          { emitEvent: false }
+        );
+      }
+    });
   }
 
   getProjectTitle() {
