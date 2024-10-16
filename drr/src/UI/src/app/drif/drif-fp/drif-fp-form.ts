@@ -242,7 +242,6 @@ export class BudgetForm {
   previousResponseCost?: number;
 
   @prop()
-  @required()
   previousResponseComments?: string;
 
   @prop()

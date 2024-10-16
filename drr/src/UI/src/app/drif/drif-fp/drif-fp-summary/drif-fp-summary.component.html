@@ -1087,6 +1087,11 @@
       ></drr-summary-item>
 
       <drr-summary-item
+        *ngIf="
+          fullProposalForm.get('budget.previousResponse')?.value === 'Yes' ||
+          fullProposalForm.get('budget.previousResponse')?.value ===
+            'NotApplicable'
+        "
         [label]="t('previousResponseComments')"
         [rxFormControl]="
           fullProposalForm.get('budget.previousResponseComments')

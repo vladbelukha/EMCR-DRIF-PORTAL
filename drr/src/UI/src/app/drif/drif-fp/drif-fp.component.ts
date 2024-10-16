@@ -31,7 +31,7 @@ import { DrifFpStep1Component } from './drif-fp-step-1/drif-fp-step-1.component'
 
 import { distinctUntilChanged } from 'rxjs/operators';
 import { DrifapplicationService } from '../../../api/drifapplication/drifapplication.service';
-import { DraftFpApplication } from '../../../model';
+import { DraftFpApplication, YesNoOption } from '../../../model';
 import {
   ContactDetailsForm,
   FundingInformationItemForm,
@@ -602,6 +602,31 @@ export class DrifFpComponent {
         { emitEvent: false }
       );
     });
+
+    const previousResponseCost = this.fullProposalForm.get(
+      'budget.previousResponseCost'
+    );
+    const previousResponseComments = this.fullProposalForm.get(
+      'budget.previousResponseComments'
+    );
+
+    switch (response.previousResponse) {
+      case YesNoOption.Yes:
+        previousResponseCost?.setValidators(Validators.required);
+        previousResponseComments?.setValidators(Validators.required);
+        break;
+      case YesNoOption.NotApplicable:
+        previousResponseCost?.clearValidators();
+        previousResponseComments?.setValidators(Validators.required);
+        break;
+      case YesNoOption.No:
+        previousResponseCost?.clearValidators();
+        previousResponseComments?.clearValidators();
+        break;
+
+      default:
+        break;
+    }
   }
 
   getFormGroup(groupName: string) {

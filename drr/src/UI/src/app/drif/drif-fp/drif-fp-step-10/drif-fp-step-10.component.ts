@@ -70,7 +70,7 @@ export class DrifFpStep10Component {
   }));
   previousResponseOptions = [
     { value: YesNoOption.Yes, label: 'Yes' },
-    { value: YesNoOption.NotApplicable, label: 'Yes, but costs unknown' },
+    { value: YesNoOption.NotApplicable, label: 'Cost/Unknown' },
     { value: YesNoOption.No, label: 'No' },
   ];
   costConsiderationsOptions = this.optionsStore.costConsiderations?.() ?? [];
@@ -133,6 +133,39 @@ export class DrifFpStep10Component {
           this.getFormArray('otherFunding').clear();
           this.getFormArray('otherFunding').disable();
         }
+      });
+
+    this.budgetForm
+      .get('previousResponse')
+      ?.valueChanges.pipe(distinctUntilChanged())
+      .subscribe((value) => {
+        const previousResponseCost = this.budgetForm.get(
+          'previousResponseCost'
+        );
+        const previousResponseComments = this.budgetForm.get(
+          'previousResponseComments'
+        );
+
+        switch (value) {
+          case YesNoOption.Yes:
+            previousResponseCost?.setValidators(Validators.required);
+            previousResponseComments?.setValidators(Validators.required);
+            break;
+          case YesNoOption.NotApplicable:
+            previousResponseCost?.clearValidators();
+            previousResponseComments?.setValidators(Validators.required);
+            break;
+          case YesNoOption.No:
+            previousResponseCost?.clearValidators();
+            previousResponseComments?.clearValidators();
+            break;
+
+          default:
+            break;
+        }
+
+        previousResponseCost?.updateValueAndValidity();
+        previousResponseComments?.updateValueAndValidity();
       });
 
     this.budgetForm

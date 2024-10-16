@@ -127,6 +127,10 @@
       [rxFormControl]="budgetForm.get('previousResponseCost')"
     ></drr-currency-input>
     <drr-textarea
+      *ngIf="
+        budgetForm.get('previousResponse')?.value === 'Yes' ||
+        budgetForm.get('previousResponse')?.value === 'NotApplicable'
+      "
       [label]="t('previousResponseComments')"
       [rxFormControl]="budgetForm.get('previousResponseComments')"
       [maxlength]="2000"
