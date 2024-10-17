@@ -100,6 +100,8 @@ export type DraftFpApplicationAllOf = {
   /** @nullable */
   haveOtherFunding?: boolean;
   /** @nullable */
+  howWasNeedIdentified?: string;
+  /** @nullable */
   id?: string;
   /** @nullable */
   incorporateFutureClimateConditions?: boolean;
@@ -173,8 +175,6 @@ export type DraftFpApplicationAllOf = {
   publicBenefitComments?: string;
   /** @nullable */
   rationaleForFunding?: string;
-  /** @nullable */
-  rationaleForSolution?: string;
   /** @nullable */
   readinessRiskComments?: string;
   /** @nullable */

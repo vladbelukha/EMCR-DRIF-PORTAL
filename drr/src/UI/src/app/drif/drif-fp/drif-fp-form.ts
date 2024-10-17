@@ -435,7 +435,7 @@ export class ProjectPlanForm {
 
   @prop()
   @required()
-  rationaleForSolution?: string;
+  howWasNeedIdentified?: string;
 
   @prop()
   @required()

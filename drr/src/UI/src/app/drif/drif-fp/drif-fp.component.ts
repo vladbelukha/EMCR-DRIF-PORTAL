@@ -239,7 +239,7 @@ export class DrifFpComponent {
               addressRisksAndHazards: response.addressRisksAndHazards,
               disasterRiskUnderstanding: response.disasterRiskUnderstanding,
               rationaleForFunding: response.rationaleForFunding,
-              rationaleForSolution: response.rationaleForSolution,
+              howWasNeedIdentified: response.howWasNeedIdentified,
             },
             projectEngagement: {
               affectedParties: response.affectedParties,
