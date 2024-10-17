@@ -163,7 +163,7 @@ export class DrifFpViewComponent {
         budget: {
           haveOtherFunding: response.haveOtherFunding,
           eligibleFundingRequest: response.eligibleFundingRequest,
-          fundingRequest: response.fundingRequest,
+          totalProjectCost: response.totalProjectCost,
           remainingAmount: response.remainingAmount,
           discrepancyComment: response.discrepancyComment,
           totalDrifFundingRequest: response.totalDrifFundingRequest,

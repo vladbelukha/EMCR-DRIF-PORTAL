@@ -204,7 +204,7 @@ export class BudgetForm {
 
   @prop()
   @required()
-  fundingRequest?: number;
+  totalProjectCost?: number;
 
   @prop()
   @required()

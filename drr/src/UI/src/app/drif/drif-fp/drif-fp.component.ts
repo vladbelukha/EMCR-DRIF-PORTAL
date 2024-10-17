@@ -31,7 +31,7 @@ import { DrifFpStep1Component } from './drif-fp-step-1/drif-fp-step-1.component'
 
 import { distinctUntilChanged } from 'rxjs/operators';
 import { DrifapplicationService } from '../../../api/drifapplication/drifapplication.service';
-import { DraftFpApplication, YesNoOption } from '../../../model';
+import { DraftFpApplication, FpApplication, YesNoOption } from '../../../model';
 import {
   ContactDetailsForm,
   FundingInformationItemForm,
@@ -305,7 +305,7 @@ export class DrifFpComponent {
             budget: {
               haveOtherFunding: response.haveOtherFunding,
               eligibleFundingRequest: response.eligibleFundingRequest,
-              fundingRequest: response.fundingRequest,
+              totalProjectCost: response.totalProjectCost,
               remainingAmount: response.remainingAmount,
               discrepancyComment: response.discrepancyComment,
               totalDrifFundingRequest: response.totalDrifFundingRequest,
@@ -672,7 +672,7 @@ export class DrifFpComponent {
       ...fpForm.budget,
       ...fpForm.attachments,
       ...fpForm.declarations,
-    } as DraftFpApplication;
+    } as FpApplication;
 
     return fpApp;
   }
