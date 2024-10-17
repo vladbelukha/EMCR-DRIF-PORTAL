@@ -285,8 +285,7 @@ namespace EMCR.DRR.Controllers
         public IEnumerable<ProposedActivity>? ProposedActivities { get; set; }
         public IEnumerable<string>? VerificationMethods { get; set; }
         [Mandatory]
-        //public string? VerificationMethodsComments { get; set; }
-        public string? RationaleForSolution { get; set; }
+        public string? HowWasNeedIdentified { get; set; }
         public string? AddressRisksAndHazards { get; set; }
         public string? DisasterRiskUnderstanding { get; set; }
         public string? RationaleForFunding { get; set; }

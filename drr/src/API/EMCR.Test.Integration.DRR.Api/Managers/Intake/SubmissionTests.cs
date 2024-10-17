@@ -329,6 +329,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             var fullProposal = (await manager.Handle(new DrrApplicationsQuery { Id = fpId, BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault();
             fullProposal.Id.ShouldBe(fpId);
             fullProposal.EoiId.ShouldBe(eoiId);
+            fullProposal.HowWasNeedIdentified.ShouldBe(eoi.RationaleForSolution);
 
             var fpToUpdate = FillInFullProposal(mapper.Map<DraftFpApplication>(fullProposal));
             await manager.Handle(new FpSaveApplicationCommand { application = mapper.Map<FpApplication>(fpToUpdate), UserInfo = GetTestUserInfo() });
@@ -346,7 +347,6 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             updatedFp.ClimateAssessmentComments.ShouldBe("climate assessment comments");
 
             var ret = mapper.Map<DraftFpApplication>(updatedFp);
-            ret.PreviousResponseComments.ShouldBe(fpToUpdate.PreviousResponseComments);
             ret.VerificationMethods.ShouldContain("autotest-verification-method");
             ret.AffectedParties.ShouldContain("party 1");
             ret.ClimateAssessmentTools.ShouldContain("tool 1");
@@ -359,9 +359,11 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             ret.SensitivityRisks.ShouldContain("sensitivity risk 1");
             ret.CapacityRisks.ShouldContain("capacity risk 1");
             ret.CostConsiderations.ShouldContain("cost consideration 1");
+            ret.PreviousResponseComments.ShouldBe(fpToUpdate.PreviousResponseComments);
             ret.MeetsEligibilityRequirements.ShouldBe(fpToUpdate.MeetsEligibilityRequirements);
             ret.MeetsEligibilityComments.ShouldBe(fpToUpdate.MeetsEligibilityComments);
             ret.TotalProjectCost.ShouldBe(fpToUpdate.TotalProjectCost);
+            ret.HowWasNeedIdentified.ShouldBe(fpToUpdate.HowWasNeedIdentified);
         }
 
         [Test]
@@ -626,7 +628,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
                 new EMCR.DRR.Controllers.ProposedActivity {StartDate = DateTime.UtcNow, EndDate = DateTime.UtcNow.AddDays(5), Name = "autotest-proposed-activity-name", RelatedMilestone = "some milestone" }
             };
             application.VerificationMethods = new[] { "autotest-verification-method" };
-            //application.VerificationMethodsComments = "verification method comments";
+            application.HowWasNeedIdentified = "need identified";
             application.ProjectAlternateOptions = "some alternate options";
 
             //Project Engagement - 5
