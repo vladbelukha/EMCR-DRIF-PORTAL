@@ -156,15 +156,12 @@ export class DrifFpComponent {
   };
 
   id?: string;
-  get isEditMode() {
-    return !!this.id;
-  }
 
   fullProposalForm = this.formBuilder.formGroup(
     DrifFpForm
   ) as IFormGroup<DrifFpForm>;
 
-  ngOnInit() {
+  async ngOnInit() {
     this.breakpointObserver
       .observe('(min-width: 768px)')
       .subscribe(({ matches }) => {
@@ -173,178 +170,182 @@ export class DrifFpComponent {
 
     this.id = this.route.snapshot.params['id'];
 
-    if (this.isEditMode) {
-      this.load();
+    await this.load().then(() => {
       this.formChanged = false;
-    }
-
-    setTimeout(() => {
-      this.fullProposalForm.valueChanges
-        .pipe(
-          distinctUntilChanged((a, b) => {
-            return JSON.stringify(a) == JSON.stringify(b);
-          })
-        )
-        .subscribe((val) => {
-          this.formChanged = true;
-          this.resetAutoSaveTimer();
-        });
-    }, 1000);
+      setTimeout(() => {
+        this.fullProposalForm.valueChanges
+          .pipe(
+            distinctUntilChanged((a, b) => {
+              return JSON.stringify(a) == JSON.stringify(b);
+            })
+          )
+          .subscribe((val) => {
+            this.formChanged = true;
+            this.resetAutoSaveTimer();
+          });
+      }, 1000);
+    });
   }
 
   ngOnDestroy() {
     clearInterval(this.autoSaveTimer);
   }
 
-  load() {
-    this.appService.dRIFApplicationGetFP(this.id!).subscribe({
-      next: (response) => {
-        const formData: DrifFpForm = {
-          eoiId: response.eoiId,
-          proponentAndProjectInformation: {
-            projectContact: response.projectContact,
-            projectTitle: response.projectTitle,
-            mainDeliverable: response.mainDeliverable,
-            regionalProject: response.regionalProject,
-            regionalProjectComments: response.regionalProjectComments,
-          },
-          ownershipAndAuthorization: {
-            ownershipDeclaration: response.ownershipDeclaration,
-            ownershipDescription: response.ownershipDescription,
-            haveAuthorityToDevelop: response.haveAuthorityToDevelop,
-            operationAndMaintenance: response.operationAndMaintenance,
-            operationAndMaintenanceComments:
-              response.operationAndMaintenanceComments,
-            firstNationsAuthorizedByPartners:
-              response.firstNationsAuthorizedByPartners,
-            localGovernmentAuthorizedByPartners:
-              response.localGovernmentAuthorizedByPartners,
-            authorizationOrEndorsementComments:
-              response.authorizationOrEndorsementComments,
-          },
-          projectArea: {
-            area: response.area,
-            areaDescription: response.areaDescription,
-            communityImpact: response.communityImpact,
-            estimatedPeopleImpactedFP: response.estimatedPeopleImpactedFP,
-            isInfrastructureImpacted: response.isInfrastructureImpacted,
-            locationDescription: response.locationDescription,
-            units: response.units,
-            relatedHazards: response.relatedHazards,
-            otherHazardsDescription: response.otherHazardsDescription,
-          },
-          projectPlan: {
-            startDate: response.startDate,
-            endDate: response.endDate,
-            projectAlternateOptions: response.projectAlternateOptions,
-            projectDescription: response.projectDescription,
-            proposedActivities: response.proposedActivities,
-            verificationMethods: response.verificationMethods,
-            addressRisksAndHazards: response.addressRisksAndHazards,
-            disasterRiskUnderstanding: response.disasterRiskUnderstanding,
-            rationaleForFunding: response.rationaleForFunding,
-            rationaleForSolution: response.rationaleForSolution,
-          },
-          projectEngagement: {
-            affectedParties: response.affectedParties,
-            collaborationComments: response.collaborationComments,
-            engagedWithFirstNationsOccurred:
-              response.engagedWithFirstNationsOccurred,
-            engagedWithFirstNationsComments:
-              response.engagedWithFirstNationsComments,
-            otherEngagement: response.otherEngagement,
-            otherEngagementComments: response.otherEngagementComments,
-          },
-          climateAdaptation: {
-            incorporateFutureClimateConditions:
-              response.incorporateFutureClimateConditions,
-            climateAdaptation: response.climateAdaptation,
-            climateAssessment: response.climateAssessment,
-            climateAssessmentComments: response.climateAssessmentComments,
-            climateAssessmentTools: response.climateAssessmentTools,
-          },
-          permitsRegulationsAndStandards: {
-            meetsRegulatoryRequirements: response.meetsRegulatoryRequirements,
-            meetsRegulatoryComments: response.meetsRegulatoryComments,
-            standards: response.standards,
-            standardsAcceptable: response.standardsAcceptable,
-            standardsComments: response.standardsComments,
-            professionals: response.professionals,
-            professionalGuidanceComments: response.professionalGuidanceComments,
-            professionalGuidance: response.professionalGuidance,
-            meetsEligibilityComments: response.meetsEligibilityComments,
-            meetsEligibilityRequirements: response.meetsEligibilityRequirements,
-          },
-          projectOutcomes: {
-            publicBenefit: response.publicBenefit,
-            publicBenefitComments: response.publicBenefitComments,
-            coBenefits: response.coBenefits,
-            coBenefitComments: response.coBenefitComments,
-            costReductions: response.costReductions,
-            costReductionComments: response.costReductionComments,
-            futureCostReduction: response.futureCostReduction,
-            increasedResiliency: response.increasedResiliency,
-            increasedResiliencyComments: response.increasedResiliencyComments,
-            produceCoBenefits: response.produceCoBenefits,
-          },
-          projectRisks: {
-            capacityRiskComments: response.capacityRiskComments,
-            capacityRiskMitigated: response.capacityRiskMitigated,
-            capacityRisks: response.capacityRisks,
-            complexityRiskComments: response.complexityRiskComments,
-            complexityRiskMitigated: response.complexityRiskMitigated,
-            complexityRisks: response.complexityRisks,
-            readinessRiskComments: response.readinessRiskComments,
-            readinessRiskMitigated: response.readinessRiskMitigated,
-            readinessRisks: response.readinessRisks,
-            riskTransferMigigated: response.riskTransferMigigated,
-            sensitivityRiskComments: response.sensitivityRiskComments,
-            sensitivityRiskMitigated: response.sensitivityRiskMitigated,
-            sensitivityRisks: response.sensitivityRisks,
-            transferRisks: response.transferRisks,
-            transferRisksComments: response.transferRisksComments,
-          },
-          budget: {
-            haveOtherFunding: response.haveOtherFunding,
-            eligibleFundingRequest: response.eligibleFundingRequest,
-            fundingRequest: response.fundingRequest,
-            remainingAmount: response.remainingAmount,
-            discrepancyComment: response.discrepancyComment,
-            totalDrifFundingRequest: response.totalDrifFundingRequest,
-            costConsiderations: response.costConsiderations,
-            costConsiderationsApplied: response.costConsiderationsApplied,
-            costConsiderationsComments: response.costConsiderationsComments,
-            costEffectiveComments: response.costEffectiveComments,
-            previousResponse: response.previousResponse,
-            previousResponseComments: response.previousResponseComments,
-            previousResponseCost: response.previousResponseCost,
-          },
-          attachments: {
-            // TODO: attachments: response.attachments,
-          },
-          declarations: {
-            submitter: response.submitter,
-          },
-        };
+  load(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.appService.dRIFApplicationGetFP(this.id!).subscribe({
+        next: (response) => {
+          const formData: DrifFpForm = {
+            eoiId: response.eoiId,
+            proponentAndProjectInformation: {
+              projectContact: response.projectContact,
+              projectTitle: response.projectTitle,
+              mainDeliverable: response.mainDeliverable,
+              regionalProject: response.regionalProject,
+              regionalProjectComments: response.regionalProjectComments,
+            },
+            ownershipAndAuthorization: {
+              ownershipDeclaration: response.ownershipDeclaration,
+              ownershipDescription: response.ownershipDescription,
+              haveAuthorityToDevelop: response.haveAuthorityToDevelop,
+              operationAndMaintenance: response.operationAndMaintenance,
+              operationAndMaintenanceComments:
+                response.operationAndMaintenanceComments,
+              firstNationsAuthorizedByPartners:
+                response.firstNationsAuthorizedByPartners,
+              localGovernmentAuthorizedByPartners:
+                response.localGovernmentAuthorizedByPartners,
+              authorizationOrEndorsementComments:
+                response.authorizationOrEndorsementComments,
+            },
+            projectArea: {
+              area: response.area,
+              areaDescription: response.areaDescription,
+              communityImpact: response.communityImpact,
+              estimatedPeopleImpactedFP: response.estimatedPeopleImpactedFP,
+              isInfrastructureImpacted: response.isInfrastructureImpacted,
+              locationDescription: response.locationDescription,
+              units: response.units,
+              relatedHazards: response.relatedHazards,
+              otherHazardsDescription: response.otherHazardsDescription,
+            },
+            projectPlan: {
+              startDate: response.startDate,
+              endDate: response.endDate,
+              projectAlternateOptions: response.projectAlternateOptions,
+              projectDescription: response.projectDescription,
+              proposedActivities: response.proposedActivities,
+              verificationMethods: response.verificationMethods,
+              addressRisksAndHazards: response.addressRisksAndHazards,
+              disasterRiskUnderstanding: response.disasterRiskUnderstanding,
+              rationaleForFunding: response.rationaleForFunding,
+              rationaleForSolution: response.rationaleForSolution,
+            },
+            projectEngagement: {
+              affectedParties: response.affectedParties,
+              collaborationComments: response.collaborationComments,
+              engagedWithFirstNationsOccurred:
+                response.engagedWithFirstNationsOccurred,
+              engagedWithFirstNationsComments:
+                response.engagedWithFirstNationsComments,
+              otherEngagement: response.otherEngagement,
+              otherEngagementComments: response.otherEngagementComments,
+            },
+            climateAdaptation: {
+              incorporateFutureClimateConditions:
+                response.incorporateFutureClimateConditions,
+              climateAdaptation: response.climateAdaptation,
+              climateAssessment: response.climateAssessment,
+              climateAssessmentComments: response.climateAssessmentComments,
+              climateAssessmentTools: response.climateAssessmentTools,
+            },
+            permitsRegulationsAndStandards: {
+              meetsRegulatoryRequirements: response.meetsRegulatoryRequirements,
+              meetsRegulatoryComments: response.meetsRegulatoryComments,
+              standards: response.standards,
+              standardsAcceptable: response.standardsAcceptable,
+              standardsComments: response.standardsComments,
+              professionals: response.professionals,
+              professionalGuidanceComments:
+                response.professionalGuidanceComments,
+              professionalGuidance: response.professionalGuidance,
+              meetsEligibilityComments: response.meetsEligibilityComments,
+              meetsEligibilityRequirements:
+                response.meetsEligibilityRequirements,
+            },
+            projectOutcomes: {
+              publicBenefit: response.publicBenefit,
+              publicBenefitComments: response.publicBenefitComments,
+              coBenefits: response.coBenefits,
+              coBenefitComments: response.coBenefitComments,
+              costReductions: response.costReductions,
+              costReductionComments: response.costReductionComments,
+              futureCostReduction: response.futureCostReduction,
+              increasedResiliency: response.increasedResiliency,
+              increasedResiliencyComments: response.increasedResiliencyComments,
+              produceCoBenefits: response.produceCoBenefits,
+            },
+            projectRisks: {
+              capacityRiskComments: response.capacityRiskComments,
+              capacityRiskMitigated: response.capacityRiskMitigated,
+              capacityRisks: response.capacityRisks,
+              complexityRiskComments: response.complexityRiskComments,
+              complexityRiskMitigated: response.complexityRiskMitigated,
+              complexityRisks: response.complexityRisks,
+              readinessRiskComments: response.readinessRiskComments,
+              readinessRiskMitigated: response.readinessRiskMitigated,
+              readinessRisks: response.readinessRisks,
+              riskTransferMigigated: response.riskTransferMigigated,
+              sensitivityRiskComments: response.sensitivityRiskComments,
+              sensitivityRiskMitigated: response.sensitivityRiskMitigated,
+              sensitivityRisks: response.sensitivityRisks,
+              transferRisks: response.transferRisks,
+              transferRisksComments: response.transferRisksComments,
+            },
+            budget: {
+              haveOtherFunding: response.haveOtherFunding,
+              eligibleFundingRequest: response.eligibleFundingRequest,
+              fundingRequest: response.fundingRequest,
+              remainingAmount: response.remainingAmount,
+              discrepancyComment: response.discrepancyComment,
+              totalDrifFundingRequest: response.totalDrifFundingRequest,
+              costConsiderations: response.costConsiderations,
+              costConsiderationsApplied: response.costConsiderationsApplied,
+              costConsiderationsComments: response.costConsiderationsComments,
+              costEffectiveComments: response.costEffectiveComments,
+              previousResponse: response.previousResponse,
+              previousResponseComments: response.previousResponseComments,
+              previousResponseCost: response.previousResponseCost,
+            },
+            attachments: {
+              // TODO: attachments: response.attachments,
+            },
+            declarations: {
+              submitter: response.submitter,
+            },
+          };
 
-        this.fullProposalForm.patchValue(formData, { emitEvent: false });
+          this.fullProposalForm.patchValue(formData, { emitEvent: false });
 
-        this.initStep1(response);
-        this.initStep2();
-        this.initStep3(response);
-        this.initStep4(response);
-        this.initStep6(response);
-        this.initStep7(response);
-        this.initStep8(response);
-        this.initStep9(response);
-        this.initStep10(response);
+          this.initStep1(response);
+          this.initStep2();
+          this.initStep3(response);
+          this.initStep4(response);
+          this.initStep6(response);
+          this.initStep7(response);
+          this.initStep8(response);
+          this.initStep9(response);
+          this.initStep10(response);
 
-        this.fullProposalForm.markAsPristine();
-        this.formChanged = false;
-      },
-      error: (error) => {
-        this.hotToast.error('Failed to load application');
-      },
+          this.fullProposalForm.markAsPristine();
+          this.formChanged = false;
+          resolve();
+        },
+        error: (error) => {
+          reject();
+          this.hotToast.error('Failed to load application');
+        },
+      });
     });
   }
 
@@ -581,14 +582,13 @@ export class DrifFpComponent {
       response.otherFunding?.length! > 0
     ) {
       otherFundingArray.clear({ emitEvent: false });
-    } else {
-      response.otherFunding?.forEach((funding) => {
-        otherFundingArray?.push(
-          this.formBuilder.formGroup(new FundingInformationItemForm(funding)),
-          { emitEvent: false }
-        );
-      });
     }
+    response.otherFunding?.forEach((funding) => {
+      otherFundingArray?.push(
+        this.formBuilder.formGroup(new FundingInformationItemForm(funding)),
+        { emitEvent: false }
+      );
+    });
 
     const yearOverYearFormArray = this.fullProposalForm.get(
       'budget.yearOverYearFunding'
