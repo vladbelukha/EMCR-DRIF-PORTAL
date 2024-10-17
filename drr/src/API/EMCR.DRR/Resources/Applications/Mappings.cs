@@ -83,7 +83,7 @@ namespace EMCR.DRR.Resources.Applications
                 //Project Plan - 4
                 .ForMember(dest => dest.drr_drr_application_drr_proposedactivity_Application, opt => opt.MapFrom(src => src.ProposedActivities))
                 .ForMember(dest => dest.drr_drr_application_drr_projectneedidentificationitem_Application, opt => opt.MapFrom(src => src.VerificationMethods))
-                .ForMember(dest => dest.drr_explainneedforproject, opt => opt.MapFrom(src => src.VerificationMethodsComments))
+                .ForMember(dest => dest.drr_howwastheneedfortheprojectidentified, opt => opt.MapFrom(src => src.HowWasNeedIdentified))
                 .ForMember(dest => dest.drr_extentalternateprojectoptionsconsidered, opt => opt.MapFrom(src => src.ProjectAlternateOptions))
 
                 //Project Engagement - 5
@@ -240,7 +240,7 @@ namespace EMCR.DRR.Resources.Applications
                 //Project Plan - 4
                 .ForMember(dest => dest.ProposedActivities, opt => opt.MapFrom(src => src.drr_drr_application_drr_proposedactivity_Application))
                 .ForMember(dest => dest.VerificationMethods, opt => opt.MapFrom(src => src.drr_drr_application_drr_projectneedidentificationitem_Application))
-                .ForMember(dest => dest.VerificationMethodsComments, opt => opt.MapFrom(src => src.drr_explainneedforproject))
+                .ForMember(dest => dest.HowWasNeedIdentified, opt => opt.MapFrom(src => src.drr_howwastheneedfortheprojectidentified))
                 .ForMember(dest => dest.ProjectAlternateOptions, opt => opt.MapFrom(src => src.drr_extentalternateprojectoptionsconsidered))
                 //Project Engagement - 5
                 .ForMember(dest => dest.EngagedWithFirstNationsOccurred, opt => opt.MapFrom(src => src.drr_meaningfullyengagedwithlocalfirstnations.HasValue ? src.drr_meaningfullyengagedwithlocalfirstnations.Value == (int)DRRTwoOptions.Yes : (bool?)null))

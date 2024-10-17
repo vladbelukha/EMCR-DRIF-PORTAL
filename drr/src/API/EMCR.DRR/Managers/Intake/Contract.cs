@@ -215,7 +215,7 @@ namespace EMCR.DRR.Managers.Intake
         public DateTime? ModifiedOn { get; set; } = null;
 
 
-        //--------------Full Proposal--------------
+        //--------------Full Proposal Only Fields--------------
         //Proponent & Project Information - 1
         public bool? RegionalProject { get; set; }
         public string? RegionalProjectComments { get; set; }
@@ -238,7 +238,7 @@ namespace EMCR.DRR.Managers.Intake
         //Project Plan - 4
         public IEnumerable<ProposedActivity>? ProposedActivities { get; set; }
         public IEnumerable<VerificationMethod> VerificationMethods { get; set; }
-        public string? VerificationMethodsComments { get; set; }
+        public string? HowWasNeedIdentified { get; set; }
         public string? ProjectAlternateOptions { get; set; }
 
         //Project Engagement - 5
