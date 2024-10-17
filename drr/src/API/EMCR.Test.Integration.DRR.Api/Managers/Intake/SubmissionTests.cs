@@ -271,7 +271,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
 
             var fullProposal = (await manager.Handle(new DrrApplicationsQuery { Id = fpId, BusinessId = userInfo.BusinessId })).Items.SingleOrDefault();
             fullProposal.Id.ShouldBe(fpId);
-                
+
             fullProposal.RegionalProject.ShouldBeNull();
             fullProposal.MainDeliverable.ShouldBe(eoi.ScopeStatement);
             fullProposal.HaveAuthorityToDevelop.ShouldBe(screenerQuestions.HaveAuthorityToDevelop);
@@ -282,7 +282,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             fullProposal.IncorporateFutureClimateConditions.ShouldBe(screenerQuestions.IncorporateFutureClimateConditions);
             fullProposal.MeetsRegulatoryRequirements.ShouldBe(screenerQuestions.MeetsRegulatoryRequirements);
             fullProposal.MeetsEligibilityRequirements.ShouldBe(screenerQuestions.MeetsEligibilityRequirements);
-
+            fullProposal.InfrastructureImpacted.ShouldHaveSingleItem();
         }
 
         [Test]
@@ -346,6 +346,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             updatedFp.ClimateAssessmentComments.ShouldBe("climate assessment comments");
 
             var ret = mapper.Map<DraftFpApplication>(updatedFp);
+            ret.PreviousResponseComments.ShouldBe(fpToUpdate.PreviousResponseComments);
             ret.VerificationMethods.ShouldContain("autotest-verification-method");
             ret.AffectedParties.ShouldContain("party 1");
             ret.ClimateAssessmentTools.ShouldContain("tool 1");
@@ -360,6 +361,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             ret.CostConsiderations.ShouldContain("cost consideration 1");
             ret.MeetsEligibilityRequirements.ShouldBe(fpToUpdate.MeetsEligibilityRequirements);
             ret.MeetsEligibilityComments.ShouldBe(fpToUpdate.MeetsEligibilityComments);
+            ret.TotalProjectCost.ShouldBe(fpToUpdate.TotalProjectCost);
         }
 
         [Test]
@@ -685,6 +687,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             application.TransferRisksComments = "transfer comments";
 
             //Budget - 10
+            application.TotalProjectCost = 5555;
             application.YearOverYearFunding = new[] { new EMCR.DRR.Controllers.YearOverYearFunding { Amount = 100, Year = "2024/2025" } };
             application.TotalDrifFundingRequest = 5000;
             application.DiscrepancyComment = "discrepancy comment";

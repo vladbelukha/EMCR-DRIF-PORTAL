@@ -387,10 +387,11 @@ namespace EMCR.DRR.Controllers
         public string? TransferRisksComments { get; set; }
 
         //Budget - 10
+        public decimal? TotalProjectCost { get; set; }
         [Range(0, ApplicationValidators.FUNDING_MAX_VAL)]
         public decimal? EligibleFundingRequest { get; set; }
         [Range(0, ApplicationValidators.FUNDING_MAX_VAL)]
-        public decimal? FundingRequest { get; set; }
+        //public decimal? FundingRequest { get; set; }
         public decimal? RemainingAmount { get; set; }
         public IEnumerable<YearOverYearFunding>? YearOverYearFunding { get; set; }
         [Range(0, ApplicationValidators.FUNDING_MAX_VAL)]
@@ -401,7 +402,6 @@ namespace EMCR.DRR.Controllers
         [MandatoryIf("HaveOtherFunding", true)]
         public IEnumerable<FundingInformation> OtherFunding { get; set; }
         public string? IntendToSecureFunding { get; set; }
-        //public bool? CostEffective { get; set; }
         [Mandatory]
         public string? CostEffectiveComments { get; set; }
         [Mandatory]

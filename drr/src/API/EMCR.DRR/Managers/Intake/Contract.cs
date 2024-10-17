@@ -301,7 +301,6 @@ namespace EMCR.DRR.Managers.Intake
         public IEnumerable<YearOverYearFunding> YearOverYearFunding { get; set; }
         public decimal? TotalDrifFundingRequest { get; set; }
         public string? DiscrepancyComment { get; set; }
-        public bool? CostEffective { get; set; }
         public string? CostEffectiveComments { get; set; }
         public YesNoOption? PreviousResponse { get; set; }
         public decimal? PreviousResponseCost { get; set; }
