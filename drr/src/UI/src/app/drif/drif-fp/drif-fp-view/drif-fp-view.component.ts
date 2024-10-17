@@ -102,7 +102,7 @@ export class DrifFpViewComponent {
           addressRisksAndHazards: response.addressRisksAndHazards,
           disasterRiskUnderstanding: response.disasterRiskUnderstanding,
           rationaleForFunding: response.rationaleForFunding,
-          rationaleForSolution: response.rationaleForSolution,
+          howWasNeedIdentified: response.howWasNeedIdentified,
         },
         projectEngagement: {
           affectedParties: response.affectedParties,
@@ -163,7 +163,7 @@ export class DrifFpViewComponent {
         budget: {
           haveOtherFunding: response.haveOtherFunding,
           eligibleFundingRequest: response.eligibleFundingRequest,
-          fundingRequest: response.fundingRequest,
+          totalProjectCost: response.totalProjectCost,
           remainingAmount: response.remainingAmount,
           discrepancyComment: response.discrepancyComment,
           totalDrifFundingRequest: response.totalDrifFundingRequest,

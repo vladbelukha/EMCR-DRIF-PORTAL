@@ -70,7 +70,10 @@ export class DrifFpStep10Component {
   }));
   previousResponseOptions = [
     { value: YesNoOption.Yes, label: 'Yes' },
-    { value: YesNoOption.NotApplicable, label: 'Yes, but costs unknown' },
+    {
+      value: YesNoOption.NotApplicable,
+      label: this.translocoService.translate('costUnknown'),
+    },
     { value: YesNoOption.No, label: 'No' },
   ];
   costConsiderationsOptions = this.optionsStore.costConsiderations?.() ?? [];
@@ -93,7 +96,7 @@ export class DrifFpStep10Component {
         const total = years.reduce((acc, year) => acc + Number(year.amount), 0);
         this.budgetForm.get('totalDrifFundingRequest')?.setValue(total);
 
-        if (total !== this.budgetForm.get('fundingRequest')?.value) {
+        if (total !== this.budgetForm.get('eligibleFundingRequest')?.value) {
           this.budgetForm
             .get('discrepancyComment')
             ?.setValidators(Validators.required);
@@ -105,6 +108,13 @@ export class DrifFpStep10Component {
       });
 
     this.budgetForm
+      .get('totalDrifFundingRequest')
+      ?.valueChanges.pipe(distinctUntilChanged())
+      .subscribe(() => {
+        this.calculateRemainingAmount();
+      });
+
+    this.budgetForm
       .get('otherFunding')!
       .valueChanges.pipe(distinctUntilChanged())
       .subscribe(() => {
@@ -112,7 +122,7 @@ export class DrifFpStep10Component {
       });
 
     this.budgetForm
-      .get('fundingRequest')!
+      .get('totalProjectCost')!
       .valueChanges.pipe(distinctUntilChanged())
       .subscribe(() => {
         this.calculateRemainingAmount();
@@ -133,6 +143,39 @@ export class DrifFpStep10Component {
           this.getFormArray('otherFunding').clear();
           this.getFormArray('otherFunding').disable();
         }
+      });
+
+    this.budgetForm
+      .get('previousResponse')
+      ?.valueChanges.pipe(distinctUntilChanged())
+      .subscribe((value) => {
+        const previousResponseCost = this.budgetForm.get(
+          'previousResponseCost'
+        );
+        const previousResponseComments = this.budgetForm.get(
+          'previousResponseComments'
+        );
+
+        switch (value) {
+          case YesNoOption.Yes:
+            previousResponseCost?.setValidators(Validators.required);
+            previousResponseComments?.setValidators(Validators.required);
+            break;
+          case YesNoOption.NotApplicable:
+            previousResponseCost?.clearValidators();
+            previousResponseComments?.setValidators(Validators.required);
+            break;
+          case YesNoOption.No:
+            previousResponseCost?.clearValidators();
+            previousResponseComments?.clearValidators();
+            break;
+
+          default:
+            break;
+        }
+
+        previousResponseCost?.updateValueAndValidity();
+        previousResponseComments?.updateValueAndValidity();
       });
 
     this.budgetForm
@@ -161,7 +204,7 @@ export class DrifFpStep10Component {
   showDiscrepancyComment() {
     return (
       this.budgetForm.get('totalDrifFundingRequest')?.value !==
-      this.budgetForm.get('fundingRequest')?.value
+      this.budgetForm.get('eligibleFundingRequest')?.value
     );
   }
 
@@ -177,14 +220,15 @@ export class DrifFpStep10Component {
     }
 
     // how much will the project cost, but not how much I'm asking for
-    const fundingRequest = this.budgetForm.get('fundingRequest')?.value ?? 0;
+    const totalProjectCost =
+      this.budgetForm.get('totalProjectCost')?.value ?? 0;
     // how much I'm asking for
     const totalDrifFundingRequest =
       this.budgetForm.get('totalDrifFundingRequest')?.value ?? 0;
 
     // how much is left to cover and I need to explain how I'm going to cover it
     let remainingAmount =
-      fundingRequest - totalDrifFundingRequest - otherFundingSum;
+      totalProjectCost - totalDrifFundingRequest - otherFundingSum;
 
     this.budgetForm.patchValue({ remainingAmount });
 

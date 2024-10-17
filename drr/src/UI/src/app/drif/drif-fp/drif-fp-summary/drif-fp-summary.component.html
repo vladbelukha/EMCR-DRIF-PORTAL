@@ -446,7 +446,7 @@
       <drr-summary-item
         [label]="t('verificationMethodsComments')"
         [rxFormControl]="
-          fullProposalForm.get('projectPlan.rationaleForSolution')
+          fullProposalForm.get('projectPlan.howWasNeedIdentified')
         "
       >
       </drr-summary-item>
@@ -770,6 +770,8 @@
         controlType="radio"
       >
       </drr-summary-item>
+      @if (fullProposalForm.get('projectOutcomes.futureCostReduction')?.value
+      === true) {
       <drr-summary-item
         [label]="t('costReductions')"
         [rxFormControl]="fullProposalForm.get('projectOutcomes.costReductions')"
@@ -784,6 +786,8 @@
         "
       >
       </drr-summary-item>
+      }
+
       <drr-summary-item
         [label]="t('produceCoBenefits')"
         [rxFormControl]="
@@ -791,6 +795,8 @@
         "
         controlType="radio"
       ></drr-summary-item>
+      @if(fullProposalForm.get('projectOutcomes.produceCoBenefits')?.value ===
+      true) {
       <drr-summary-item
         [label]="t('coBenefits')"
         [rxFormControl]="fullProposalForm.get('projectOutcomes.coBenefits')"
@@ -804,6 +810,8 @@
           fullProposalForm.get('projectOutcomes.coBenefitComments')
         "
       ></drr-summary-item>
+      }
+
       <drr-summary-item
         [label]="t('increasedResiliency')"
         [rxFormControl]="
@@ -834,6 +842,9 @@
         "
         controlType="radio"
       ></drr-summary-item>
+      @if (fullProposalForm.get('projectRisks.complexityRiskMitigated')?.value
+      === true) {
+
       <drr-summary-item
         [label]="t('complexityRisks')"
         [rxFormControl]="fullProposalForm.get('projectRisks.complexityRisks')"
@@ -845,7 +856,8 @@
         [rxFormControl]="
           fullProposalForm.get('projectRisks.complexityRiskComments')
         "
-      ></drr-summary-item>
+      ></drr-summary-item
+      >}
       <drr-summary-item
         [label]="t('projectReadiness')"
         [rxFormControl]="
@@ -853,6 +865,8 @@
         "
         controlType="radio"
       ></drr-summary-item>
+      @if (fullProposalForm.get('projectRisks.readinessRiskMitigated')?.value
+      === true) {
       <drr-summary-item
         [label]="t('readinessRisks')"
         [rxFormControl]="fullProposalForm.get('projectRisks.readinessRisks')"
@@ -865,6 +879,8 @@
           fullProposalForm.get('projectRisks.readinessRiskComments')
         "
       ></drr-summary-item>
+      }
+
       <drr-summary-item
         [label]="t('projectSensitivity')"
         [rxFormControl]="
@@ -872,6 +888,8 @@
         "
         controlType="radio"
       ></drr-summary-item>
+      @if (fullProposalForm.get('projectRisks.sensitivityRiskMitigated')?.value
+      === true) {
       <drr-summary-item
         [label]="t('sensitivityRisks')"
         [rxFormControl]="fullProposalForm.get('projectRisks.sensitivityRisks')"
@@ -884,6 +902,7 @@
           fullProposalForm.get('projectRisks.sensitivityRiskComments')
         "
       ></drr-summary-item>
+      }
       <drr-summary-item
         [label]="t('capacityRiskMitigated')"
         [rxFormControl]="
@@ -891,6 +910,8 @@
         "
         controlType="radio"
       ></drr-summary-item>
+      @if (fullProposalForm.get('projectRisks.capacityRiskMitigated')?.value ===
+      true) {
       <drr-summary-item
         [label]="t('capacityRisks')"
         [rxFormControl]="fullProposalForm.get('projectRisks.capacityRisks')"
@@ -903,6 +924,7 @@
           fullProposalForm.get('projectRisks.capacityRiskComments')
         "
       ></drr-summary-item>
+      }
       <drr-summary-item
         [label]="t('riskTransferMigigated')"
         [rxFormControl]="
@@ -910,6 +932,8 @@
         "
         controlType="radio"
       ></drr-summary-item>
+      @if (fullProposalForm.get('projectRisks.riskTransferMigigated')?.value ===
+      true) {
       <drr-summary-item
         [label]="t('transferRisks')"
         [rxFormControl]="fullProposalForm.get('projectRisks.transferRisks')"
@@ -922,6 +946,7 @@
           fullProposalForm.get('projectRisks.transferRisksComments')
         "
       ></drr-summary-item>
+      }
     </mat-card-content>
   </mat-card>
 
@@ -933,7 +958,7 @@
     <mat-card-content>
       <drr-summary-item
         [label]="t('totalProjectCost')"
-        [rxFormControl]="fullProposalForm.get('budget.fundingRequest')"
+        [rxFormControl]="fullProposalForm.get('budget.totalProjectCost')"
         controlType="currency"
       >
       </drr-summary-item>
@@ -1051,6 +1076,7 @@
       <drr-summary-item
         [label]="t('previousResponse')"
         [rxFormControl]="fullProposalForm.get('budget.previousResponse')"
+        [value]="getPreviousResponseValue()"
         controlType="radio"
         [translate]="false"
       ></drr-summary-item>
@@ -1059,9 +1085,15 @@
         *ngIf="fullProposalForm.get('budget.previousResponse')?.value === 'Yes'"
         [label]="t('previousResponseCost')"
         [rxFormControl]="fullProposalForm.get('budget.previousResponseCost')"
+        controlType="currency"
       ></drr-summary-item>
 
       <drr-summary-item
+        *ngIf="
+          fullProposalForm.get('budget.previousResponse')?.value === 'Yes' ||
+          fullProposalForm.get('budget.previousResponse')?.value ===
+            'NotApplicable'
+        "
         [label]="t('previousResponseComments')"
         [rxFormControl]="
           fullProposalForm.get('budget.previousResponseComments')

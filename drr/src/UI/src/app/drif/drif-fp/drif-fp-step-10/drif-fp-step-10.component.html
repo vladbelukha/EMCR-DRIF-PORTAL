@@ -5,7 +5,7 @@
       [id]="'totalProjectCost'"
       class="drr-single-input"
       [label]="t('totalProjectCost')"
-      [rxFormControl]="budgetForm.get('fundingRequest')"
+      [rxFormControl]="budgetForm.get('totalProjectCost')"
     ></drr-currency-input>
 
     <mat-label class="drr-label">{{ t("eligibleFundingRequest") }}</mat-label>
@@ -60,7 +60,6 @@
     }}</mat-label>
 
     <div *ngIf="showDiscrepancyComment()" style="margin-top: 1rem">
-      <mat-label class="drr-label">{{ t("discrepancyComment") }}</mat-label>
       <drr-textarea
         [label]="t('discrepancyComment')"
         [maxlength]="2000"
@@ -127,6 +126,10 @@
       [rxFormControl]="budgetForm.get('previousResponseCost')"
     ></drr-currency-input>
     <drr-textarea
+      *ngIf="
+        budgetForm.get('previousResponse')?.value === 'Yes' ||
+        budgetForm.get('previousResponse')?.value === 'NotApplicable'
+      "
       [label]="t('previousResponseComments')"
       [rxFormControl]="budgetForm.get('previousResponseComments')"
       [maxlength]="2000"

@@ -43,50 +43,41 @@ export class DrifFpStep8Component {
       .get('futureCostReduction')
       ?.valueChanges.pipe(distinctUntilChanged())
       .subscribe((value) => {
-        if (value) {
-          this.projectOutcomesForm
-            .get('costReductions')
-            ?.setValidators(Validators.required);
-          this.projectOutcomesForm.get('costReductions')?.enable();
-          this.projectOutcomesForm
-            .get('costReductionComments')
-            ?.setValidators(Validators.required);
+        const costReductions = this.projectOutcomesForm.get('costReductions');
+        const costReductionComments = this.projectOutcomesForm.get(
+          'costReductionComments'
+        );
+        if (value === true) {
+          costReductions?.setValidators(Validators.required);
+          costReductionComments?.setValidators(Validators.required);
         } else {
-          this.projectOutcomesForm.get('costReductions')?.clearValidators();
-          this.projectOutcomesForm.get('costReductions')?.disable();
-          this.projectOutcomesForm
-            .get('costReductionComments')
-            ?.clearValidators();
+          costReductions?.clearValidators();
+          costReductions?.reset();
+          costReductionComments?.clearValidators();
+          costReductionComments?.reset();
         }
-        this.projectOutcomesForm
-          .get('costReductions')
-          ?.updateValueAndValidity();
-        this.projectOutcomesForm
-          .get('costReductionComments')
-          ?.updateValueAndValidity();
+        costReductions?.updateValueAndValidity();
+        costReductionComments?.updateValueAndValidity();
       });
 
     this.projectOutcomesForm
       .get('produceCoBenefits')
       ?.valueChanges.pipe(distinctUntilChanged())
       .subscribe((value) => {
-        if (value) {
-          this.projectOutcomesForm
-            .get('coBenefits')
-            ?.setValidators(Validators.required);
-          this.projectOutcomesForm.get('coBenefits')?.enable();
-          this.projectOutcomesForm
-            .get('coBenefitComments')
-            ?.setValidators(Validators.required);
+        const coBenefits = this.projectOutcomesForm.get('coBenefits');
+        const coBenefitComments =
+          this.projectOutcomesForm.get('coBenefitComments');
+        if (value === true) {
+          coBenefits?.setValidators(Validators.required);
+          coBenefitComments?.setValidators(Validators.required);
         } else {
-          this.projectOutcomesForm.get('coBenefits')?.clearValidators();
-          this.projectOutcomesForm.get('coBenefits')?.disable();
-          this.projectOutcomesForm.get('coBenefitComments')?.clearValidators();
+          coBenefits?.clearValidators();
+          coBenefits?.reset();
+          coBenefitComments?.clearValidators();
+          coBenefitComments?.reset();
         }
-        this.projectOutcomesForm.get('coBenefits')?.updateValueAndValidity();
-        this.projectOutcomesForm
-          .get('coBenefitComments')
-          ?.updateValueAndValidity();
+        coBenefits?.updateValueAndValidity();
+        coBenefitComments?.updateValueAndValidity();
       });
   }
 }

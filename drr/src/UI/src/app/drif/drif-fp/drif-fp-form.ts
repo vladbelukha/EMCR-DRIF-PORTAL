@@ -204,7 +204,7 @@ export class BudgetForm {
 
   @prop()
   @required()
-  fundingRequest?: number;
+  totalProjectCost?: number;
 
   @prop()
   @required()
@@ -242,7 +242,6 @@ export class BudgetForm {
   previousResponseCost?: number;
 
   @prop()
-  @required()
   previousResponseComments?: string;
 
   @prop()
@@ -436,7 +435,7 @@ export class ProjectPlanForm {
 
   @prop()
   @required()
-  rationaleForSolution?: string;
+  howWasNeedIdentified?: string;
 
   @prop()
   @required()

@@ -16,6 +16,7 @@
       [label]="t('costReduction')"
       [rxFormControl]="projectOutcomesForm.get('futureCostReduction')"
     ></drr-radio-button>
+    @if (projectOutcomesForm.get('futureCostReduction')?.value === true) {
     <drr-chip-autocomplete
       [label]="t('costReductions')"
       [placeholder]="t('costReductionsPlaceholder')"
@@ -27,12 +28,14 @@
       [maxlength]="2000"
       [rxFormControl]="projectOutcomesForm.get('costReductionComments')"
     ></drr-textarea>
+    }
 
     <mat-label class="drr-label">{{ t("coBenefitsTitle") }}</mat-label>
     <drr-radio-button
       [label]="t('produceCoBenefits')"
       [rxFormControl]="projectOutcomesForm.get('produceCoBenefits')"
     ></drr-radio-button>
+    @if (projectOutcomesForm.get('produceCoBenefits')?.value === true) {
     <drr-chip-autocomplete
       [label]="t('coBenefits')"
       [placeholder]="t('coBenefitsPlaceholder')"
@@ -44,6 +47,7 @@
       [maxlength]="2000"
       [rxFormControl]="projectOutcomesForm.get('coBenefitComments')"
     ></drr-textarea>
+    }
 
     <mat-label class="drr-label">{{ t("resiliency") }}</mat-label>
     <drr-chip-autocomplete
