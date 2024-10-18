@@ -9,6 +9,10 @@
       "
     ></drr-radio-button>
 
+    <mat-label style="margin: 1rem 0">
+      {{ t("standardsAcceptableHint") }}
+    </mat-label>
+
     <div formArrayName="standards">
       <div
         *ngFor="let control of getStandardsInfoArrayControls(); let i = index"
