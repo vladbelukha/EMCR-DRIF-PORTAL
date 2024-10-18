@@ -255,7 +255,7 @@ export class DrifFpStep10Component {
   }
 
   removeYear(index: number) {
-    this.getFormArray('years').removeAt(index);
+    this.getFormArray('yearOverYearFunding').removeAt(index);
   }
 
   hasOtherGrants(selectValue: FundingType[]) {

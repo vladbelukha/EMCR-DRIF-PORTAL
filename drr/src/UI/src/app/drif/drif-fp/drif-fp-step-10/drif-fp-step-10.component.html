@@ -35,9 +35,10 @@
           [label]="t('amount')"
           [rxFormControl]="funding.get('amount')"
         ></drr-currency-input>
+        @if (i > 0) {
         <button mat-mini-fab color="warn" (click)="removeYear(i)">
-          <mat-icon>delete</mat-icon>
-        </button>
+          <mat-icon>delete</mat-icon></button
+        >}
       </div>
       <button
         style="margin-top: 10px"
