@@ -20,7 +20,7 @@ export interface FileUploadEvent {
 @UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'drr-attachment',
-  template: ` <div>
+  template: ` <div class="attachment-container">
     <mat-label>{{ label }}</mat-label>
     @if (attachmentForm) {
     <!-- TODO: download link -->
@@ -48,6 +48,12 @@ export interface FileUploadEvent {
   </div>`,
   styles: [
     `
+      .attachment-container {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
       .attachment {
         display: flex;
         flex-direction: row;

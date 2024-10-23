@@ -53,54 +53,51 @@ export class DrifFpStep11Component {
   @Input() applicationId!: string;
 
   uploadFiles(event: FileUploadEvent) {
-    // TODO: change to foreach file
-    const file = event.files[0];
+    event.files.forEach((file) => {
+      if (file == null) {
+        // TODO: show error
+        return;
+      }
 
-    // TODO: probably do some size verification here
+      this.attachmentsService
+        .attachmentUploadAttachment({
+          // TODO: probably use FileData to match FileInfo model
+          applicationId: this.applicationId,
+          documentType: event.documentType,
+          name: file.name,
+          comments: '',
+        })
+        .subscribe({
+          next: (attachment) => {
+            const projectPlanFormData = {
+              name: file.name,
+              comments: '',
+              id: attachment.id,
+              documentType: event.documentType,
+            } as AttachmentForm;
 
-    if (file == null) {
-      // TODO: show error
-      return;
-    }
+            const fileForm = this.formBuilder.formGroup(
+              AttachmentForm,
+              projectPlanFormData
+            ) as RxFormGroup;
 
-    this.attachmentsService
-      .attachmentUploadAttachment({
-        // TODO: probably use FileData to match FileInfo model
-        applicationId: this.applicationId,
-        documentType: event.documentType,
-        name: file.name,
-        comments: '',
-      })
-      .subscribe({
-        next: (attachment) => {
-          const projectPlanFormData = {
-            name: file.name,
-            comments: '',
-            id: attachment.id,
-            documentType: event.documentType,
-          } as AttachmentForm;
-
-          const fileForm = this.formBuilder.formGroup(
-            AttachmentForm,
-            projectPlanFormData
-          ) as RxFormGroup;
-
-          const attachmentsArray = this.attachmentsForm.get(
-            'attachments'
-          ) as FormArray;
-          attachmentsArray.push(fileForm);
-        },
-        error: () => {
-          // TODO: show error
-        },
-      });
+            const attachmentsArray = this.attachmentsForm.get(
+              'attachments'
+            ) as FormArray;
+            attachmentsArray.push(fileForm);
+          },
+          error: () => {
+            // TODO: show error
+          },
+        });
+    });
   }
 
   uploadOtherFiles(event: File[]) {
-    // this.uploadFiles({
-    //   files: event,
-    //   // TODO: documentType: 'Other',
-    // });
+    this.uploadFiles({
+      files: event,
+      documentType: 'OtherSupportingDocument',
+    });
   }
 
   removeFile(fileId: string) {
@@ -141,7 +138,8 @@ export class DrifFpStep11Component {
     ) as FormArray;
 
     return attachmentsArray.controls.filter(
-      (control) => control.value.documentType === 'DocumentType.Other' // TODO: use enum value when available
+      (control) =>
+        control.value.documentType === DocumentType.OtherSupportingDocument
     );
   }
 }

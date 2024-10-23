@@ -344,7 +344,7 @@ export class DrifFpComponent {
           this.initStep10(response);
           response.attachments = [
             {
-              documentType: DocumentType.ProjectWorkplan,
+              documentType: DocumentType.DetailedProjectWorkplan,
               name: 'FileName1',
               applicationId: 'FP-1',
               comments: 'File 1 comments',
