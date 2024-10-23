@@ -1,18 +1,10 @@
 <div class="drr-step-container" *transloco="let t">
   <form [formGroup]="budgetForm">
-    <mat-label class="drr-label">{{ t("totalProjectCost") }}</mat-label>
-    <drr-currency-input
-      [id]="'totalProjectCost'"
-      class="drr-single-input"
-      [label]="t('totalProjectCost')"
-      [rxFormControl]="budgetForm.get('totalProjectCost')"
-    ></drr-currency-input>
-
     <mat-label class="drr-label">{{ t("eligibleFundingRequest") }}</mat-label>
-    <mat-label>{{ t("eligibleFundingRequestText") }}</mat-label>
     <mat-label>{{
       budgetForm.get("eligibleFundingRequest")?.value | currency
     }}</mat-label>
+    <i>{{ t("eligibleFundingRequestText") }}</i>
 
     <mat-label class="drr-label" style="margin-top: 1rem">{{
       t("yearOverYearFundingRequest")
@@ -67,6 +59,16 @@
         [rxFormControl]="budgetForm.get('discrepancyComment')"
       ></drr-textarea>
     </div>
+
+    <mat-divider style="margin-top: 1rem"></mat-divider>
+
+    <mat-label class="drr-label">{{ t("totalProjectCost") }}</mat-label>
+    <drr-currency-input
+      [id]="'totalProjectCost'"
+      class="drr-single-input"
+      [label]="t('totalProjectCost')"
+      [rxFormControl]="budgetForm.get('totalProjectCost')"
+    ></drr-currency-input>
 
     <mat-label class="drr-label" style="margin-top: 1rem">{{
       t("otherFunding")

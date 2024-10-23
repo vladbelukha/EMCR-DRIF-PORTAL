@@ -7,6 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
@@ -32,15 +33,16 @@ import { BudgetForm, YearOverYearFundingForm } from '../drif-fp-form';
   imports: [
     CommonModule,
     MatInputModule,
+    MatIconModule,
+    MatButtonModule,
+    MatDividerModule,
+    TranslocoModule,
+    FormsModule,
+    ReactiveFormsModule,
     DrrInputComponent,
     DrrCurrencyInputComponent,
     DrrSelectComponent,
     DrrTextareaComponent,
-    TranslocoModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatIconModule,
-    MatButtonModule,
     DrrFundingListComponent,
     DrrRadioButtonComponent,
     DrrChipAutocompleteComponent,
