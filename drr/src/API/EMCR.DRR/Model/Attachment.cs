@@ -7,22 +7,22 @@ namespace EMCR.DRR.API.Model
         public string? Id { get; set; }
         public required string ApplicationId { get; set; }
         public required string Name { get; set; }
-        public string? Body { get; set; }
+        public byte[]? Body { get; set; }
         public string? Comments { get; set; }
         public DocumentType DocumentType { get; set; }
+        public bool? HaveResolution { get; set; }
     }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum DocumentType
     {
-        ProponentEligibilitySupportingDocument,
-        ProjectEligibilitySupportingDocument,
-        ProjectWorkplan,
+        DetailedProjectWorkplan,
         ProjectSchedule,
+        DetailedCostEstimate,
         SitePlan,
         PreliminaryDesign,
-        ProjectDetailsSupportingDocument,
-        CostEstimate,
-        BudgetSupportingDocument,
+        FirstNationsResolution,
+        LocalGovernmentResolution,
+        OtherSupportingDocument,
     }
 }
