@@ -31,7 +31,12 @@ import { DrifFpStep1Component } from './drif-fp-step-1/drif-fp-step-1.component'
 
 import { distinctUntilChanged } from 'rxjs/operators';
 import { DrifapplicationService } from '../../../api/drifapplication/drifapplication.service';
-import { DraftFpApplication, FpApplication, YesNoOption } from '../../../model';
+import {
+  DocumentType,
+  DraftFpApplication,
+  FpApplication,
+  YesNoOption,
+} from '../../../model';
 import {
   ContactDetailsForm,
   FundingInformationItemForm,
@@ -42,6 +47,7 @@ import { UntilDestroy } from '@ngneat/until-destroy';
 import { HotToastService } from '@ngxpert/hot-toast';
 import { OptionsStore } from '../../store/options.store';
 import {
+  AttachmentForm,
   DrifFpForm,
   ImpactedInfrastructureForm,
   ProposedActivityForm,
@@ -318,7 +324,7 @@ export class DrifFpComponent {
               previousResponseCost: response.previousResponseCost,
             },
             attachments: {
-              // TODO: attachments: response.attachments,
+              // haveResolution: response.haveResolution,
             },
             declarations: {
               submitter: response.submitter,
@@ -336,6 +342,16 @@ export class DrifFpComponent {
           this.initStep8(response);
           this.initStep9(response);
           this.initStep10(response);
+          response.attachments = [
+            {
+              documentType: DocumentType.ProjectWorkplan,
+              name: 'FileName1',
+              applicationId: 'FP-1',
+              comments: 'File 1 comments',
+              id: '1',
+            },
+          ];
+          this.initStep11(response);
 
           this.fullProposalForm.markAsPristine();
           this.formChanged = false;
@@ -627,6 +643,19 @@ export class DrifFpComponent {
       default:
         break;
     }
+  }
+
+  initStep11(response: DraftFpApplication) {
+    const attachmentsArray = this.fullProposalForm.get(
+      'attachments.attachments'
+    ) as FormArray;
+
+    response.attachments?.forEach((attachment) => {
+      attachmentsArray?.push(
+        this.formBuilder.formGroup(new AttachmentForm(attachment)),
+        { emitEvent: false }
+      );
+    });
   }
 
   getFormGroup(groupName: string) {

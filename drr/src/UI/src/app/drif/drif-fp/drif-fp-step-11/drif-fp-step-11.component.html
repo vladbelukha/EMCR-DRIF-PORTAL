@@ -1,17 +1,59 @@
-<ng-container *transloco="let t">
-  <mat-label class="drr-label">{{ t("supportingDocumentation") }}</mat-label>
-  <div *ngIf="files.length > 0" class="file-list">
-    <div *ngFor="let file of files; let i = index" class="list-item">
-      <h4 mat-line>{{ file.name }}</h4>
+<ng-container *transloco="let t; read: 'attachments'">
+  <mat-label class="drr-label">{{ t("requiredAttachments") }}</mat-label>
+  <div style="margin-top: 2rem">
+    <drr-attachment
+      [label]="'Detailed project workplan*'"
+      [attachmentForm]="getFormByDocumentType('ProjectWorkplan')"
+      (uploadFiles)="uploadFiles($event)"
+      (removeFile)="removeFile($event)"
+      [documentType]="'ProjectWorkplan'"
+    ></drr-attachment>
+
+    <drr-attachment
+      [label]="'Project schedule (unless included in workplan)*'"
+      [attachmentForm]="getFormByDocumentType('ProjectSchedule')"
+      (uploadFiles)="uploadFiles($event)"
+      (removeFile)="removeFile($event)"
+      [documentType]="'ProjectSchedule'"
+    ></drr-attachment>
+
+    <!-- TODO: other required documents -->
+  </div>
+  <div style="margin-top: 2rem">
+    <p>{{ t("firstNationResolution") }}</p>
+    <p>{{ t("localGovernmentResolution") }}</p>
+  </div>
+  <drr-radio-button
+    [label]="t('haveResolution')"
+    [rxFormControl]="attachmentsForm.get('haveResolution')"
+  ></drr-radio-button>
+
+  <mat-label class="drr-label" style="margin-top: 2rem">{{
+    t("otherSupportingDocumentation")
+  }}</mat-label>
+  <div class="file-list">
+    <div
+      *ngFor="let otherDocumentControl of getOtherFormArray(); let i = index"
+    >
       <drr-input
         class="drr-single-input"
-        [label]="'Provide a comment'"
+        [label]="'File name'"
+        [rxFormControl]="otherDocumentControl.get('name')"
       ></drr-input>
-      <button mat-mini-fab color="warn" (click)="removeFile(i)">
+      <drr-input
+        class="drr-single-input"
+        [label]="'Comments'"
+        [rxFormControl]="otherDocumentControl.get('comments')"
+      ></drr-input>
+      <button
+        mat-mini-fab
+        color="warn"
+        (click)="removeFile(otherDocumentControl?.get('id')?.value)"
+      >
         <mat-icon>delete</mat-icon>
       </button>
     </div>
   </div>
   <mat-label>{{ t("supportingDocumentationOptionalText") }}</mat-label>
-  <drr-file-upload (filesSelected)="filesSelected($event)"></drr-file-upload>
+  <drr-file-upload (filesSelected)="uploadOtherFiles($event)"></drr-file-upload>
 </ng-container>
