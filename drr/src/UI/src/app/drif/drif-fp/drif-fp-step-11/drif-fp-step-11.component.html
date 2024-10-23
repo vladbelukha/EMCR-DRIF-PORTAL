@@ -1,8 +1,10 @@
 <ng-container *transloco="let t; read: 'attachments'">
   <mat-label class="drr-label">{{ t("requiredAttachments") }}</mat-label>
-  <div style="margin-top: 2rem">
+  <div
+    style="margin-top: 2rem; display: flex; flex-direction: column; gap: 1rem"
+  >
     <drr-attachment
-      [label]="t('DetailedProjectWorkplan')"
+      [label]="t('DetailedProjectWorkplan') + '*'"
       [attachmentForm]="getFormByDocumentType('DetailedProjectWorkplan')"
       (uploadFiles)="uploadFiles($event)"
       (removeFile)="removeFile($event)"
@@ -18,7 +20,7 @@
     ></drr-attachment>
 
     <drr-attachment
-      [label]="t('DetailedCostEstimate')"
+      [label]="t('DetailedCostEstimate') + '*'"
       [attachmentForm]="getFormByDocumentType('DetailedCostEstimate')"
       (uploadFiles)="uploadFiles($event)"
       (removeFile)="removeFile($event)"
