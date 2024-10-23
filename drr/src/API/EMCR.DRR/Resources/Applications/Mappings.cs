@@ -152,7 +152,6 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.drr_drr_application_drr_driffundingrequest_Application, opt => opt.MapFrom(src => src.YearOverYearFunding))
                 .ForMember(dest => dest.drr_totaldrifprogramfundingrequest, opt => opt.MapFrom(src => src.TotalDrifFundingRequest))
                 .ForMember(dest => dest.drr_explaindiscrepancy, opt => opt.MapFrom(src => src.DiscrepancyComment))
-                //CostEffective
                 .ForMember(dest => dest.drr_costeffectiveness, opt => opt.MapFrom(src => src.CostEffectiveComments))
                 .ForMember(dest => dest.drr_pastresponsecostprojectdesignedtomitigate, opt => opt.MapFrom(src => src.PreviousResponse.HasValue ? (int?)Enum.Parse<DRRYesNoNotApplicable>(src.PreviousResponse.Value.ToString()) : null))
                 .ForMember(dest => dest.drr_cost, opt => opt.MapFrom(src => src.PreviousResponseCost))

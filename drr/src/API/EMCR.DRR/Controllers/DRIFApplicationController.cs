@@ -230,9 +230,6 @@ namespace EMCR.DRR.Controllers
 
         //Proponent & Project Information - 1
         [Mandatory]
-        public string? ProjectTitle { get; set; }
-        public string? MainDeliverable { get; set; }
-        [Mandatory]
         public ContactDetails? ProjectContact { get; set; }
         [Mandatory]
         public override IEnumerable<ContactDetails> AdditionalContacts { get; set; }
@@ -241,6 +238,9 @@ namespace EMCR.DRR.Controllers
         public bool? RegionalProject { get; set; }
         [MandatoryIf("RegionalProject", true)]
         public string? RegionalProjectComments { get; set; }
+        [Mandatory]
+        public string? ProjectTitle { get; set; }
+        public string? MainDeliverable { get; set; }
 
         //Ownership & Authorization - 2
         public bool? OwnershipDeclaration { get; set; }
@@ -261,10 +261,10 @@ namespace EMCR.DRR.Controllers
         public string? LocationDescription { get; set; }
         public int? Area { get; set; }
         public AreaUnits? Units { get; set; }
-        [MandatoryIfAny(Values = new[] { nameof(AreaUnits.Acres), nameof(AreaUnits.Hectares), nameof(AreaUnits.SqKm) }, PropertyName = nameof(Units))]
-        public string? AreaDescription { get; set; }
         [Mandatory]
         public IEnumerable<Hazards>? RelatedHazards { get; set; }
+        [MandatoryIfAny(Values = new[] { nameof(AreaUnits.Acres), nameof(AreaUnits.Hectares), nameof(AreaUnits.SqKm) }, PropertyName = nameof(Units))]
+        public string? AreaDescription { get; set; }
         public string? OtherHazardsDescription { get; set; }
         [Mandatory]
         public string? CommunityImpact { get; set; }
@@ -386,11 +386,11 @@ namespace EMCR.DRR.Controllers
         public string? TransferRisksComments { get; set; }
 
         //Budget - 10
+        [Range(0, ApplicationValidators.FUNDING_MAX_VAL)]
         public decimal? TotalProjectCost { get; set; }
         [Range(0, ApplicationValidators.FUNDING_MAX_VAL)]
         public decimal? EligibleFundingRequest { get; set; }
         [Range(0, ApplicationValidators.FUNDING_MAX_VAL)]
-        //public decimal? FundingRequest { get; set; }
         public decimal? RemainingAmount { get; set; }
         public IEnumerable<YearOverYearFunding>? YearOverYearFunding { get; set; }
         [Range(0, ApplicationValidators.FUNDING_MAX_VAL)]
@@ -405,6 +405,7 @@ namespace EMCR.DRR.Controllers
         public string? CostEffectiveComments { get; set; }
         [Mandatory]
         public YesNoOption? PreviousResponse { get; set; }
+        [Range(0, ApplicationValidators.FUNDING_MAX_VAL)]
         [MandatoryIf("PreviousResponse", YesNoOption.Yes)]
         public decimal? PreviousResponseCost { get; set; }
         [MandatoryIf("PreviousResponse", YesNoOption.Yes)]
