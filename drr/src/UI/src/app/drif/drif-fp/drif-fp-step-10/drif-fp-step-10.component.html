@@ -1,14 +1,28 @@
 <div class="drr-step-container" *transloco="let t">
   <form [formGroup]="budgetForm">
-    <mat-label class="drr-label">{{ t("eligibleFundingRequest") }}</mat-label>
-    <mat-label>{{
-      budgetForm.get("eligibleFundingRequest")?.value | currency
-    }}</mat-label>
-    <i>{{ t("eligibleFundingRequestText") }}</i>
+    <mat-label class="drr-label">DRIF Program Funding Breakdown</mat-label>
+    <p>
+      Let's review the total funding you are requesting from the DRIF program.
+    </p>
+    <p>
+      Based on your EOI, your eligible DRIF program funding is:
+      {{ budgetForm.get("eligibleFundingRequest")?.value | currency }}
+    </p>
 
-    <mat-label class="drr-label" style="margin-top: 1rem">{{
-      t("yearOverYearFundingRequest")
-    }}</mat-label>
+    <p>
+      The amount of funding you need may have changed since you submitted your
+      EOI for various reasons, including changes to the scope of your project or
+      more precise estimates. Use the fields below to provide a year-over-year
+      breakdown of your updated DRIF program funding request. If this total
+      differs from the eligible amount in your EOI, you will be asked to
+      explain.
+    </p>
+
+    <p>
+      Ensure that these numbers align with your Detailed Cost Estimate, which
+      you will attach on Step 11 of this form.
+    </p>
+
     <mat-label>{{ t("yearOverYearFundingRequestText") }}</mat-label>
     <div>
       <div
@@ -45,12 +59,10 @@
       </button>
     </div>
 
-    <mat-label class="drr-label" style="margin-top: 10px">{{
-      t("totalDrifFundingRequest")
-    }}</mat-label>
-    <mat-label>{{
-      budgetForm.get("totalDrifFundingRequest")?.value | currency
-    }}</mat-label>
+    <p>
+      Your updated DRIF program funding request is:
+      {{ budgetForm.get("totalDrifFundingRequest")?.value | currency }}
+    </p>
 
     <div *ngIf="showDiscrepancyComment()" style="margin-top: 1rem">
       <drr-textarea
@@ -60,15 +72,26 @@
       ></drr-textarea>
     </div>
 
-    <mat-divider style="margin-top: 1rem"></mat-divider>
+    <mat-divider style="margin: 2rem 0"></mat-divider>
 
-    <mat-label class="drr-label">{{ t("totalProjectCost") }}</mat-label>
+    <mat-label class="drr-label">Total Project Cost Breakdown</mat-label>
+    <p>
+      Let's review the total cost for your project, including funding sources
+      outside of the DRIF program. The total costs for your project may also
+      have changed since you submitted your EOI. The values below were copied
+      from your EOI, but you can update them as needed.
+    </p>
     <drr-currency-input
       [id]="'totalProjectCost'"
       class="drr-single-input"
       [label]="t('totalProjectCost')"
       [rxFormControl]="budgetForm.get('totalProjectCost')"
     ></drr-currency-input>
+
+    <p>
+      Your updated DRIF program funding request is:
+      {{ budgetForm.get("totalDrifFundingRequest")?.value | currency }}
+    </p>
 
     <mat-label class="drr-label" style="margin-top: 1rem">{{
       t("otherFunding")
@@ -84,7 +107,7 @@
     ></drr-funding-list>
     }
 
-    <mat-label class="drr-label" style="margin-top: 10px">{{
+    <mat-label class="drr-label" style="margin-top: 2rem">{{
       getRemainingAmount() > 0
         ? t("missingFundsLabel")
         : t("excessFundingLabel")
@@ -107,6 +130,8 @@
       [maxlength]="2000"
       [rxFormControl]="budgetForm.get('intendToSecureFunding')"
     ></drr-textarea>
+
+    <mat-divider style="margin: 2rem 0"></mat-divider>
 
     <mat-label class="drr-label" style="margin-top: 1rem">{{
       t("costEffective")
