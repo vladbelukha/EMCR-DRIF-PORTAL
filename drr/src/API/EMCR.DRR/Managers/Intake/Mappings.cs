@@ -48,7 +48,7 @@ namespace EMCR.DRR.Managers.Intake
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => DRRApplicationStatusMapper(src.Status)))
                 .ForMember(dest => dest.PartneringProponents, opt => opt.MapFrom(src => src.PartneringProponents.Select(p => p.Name)))
                 .ForMember(dest => dest.Professionals, opt => opt.MapFrom(src => src.Professionals.Select(p => p.Name)))
-                .ForMember(dest => dest.VerificationMethods, opt => opt.MapFrom(src => src.VerificationMethods.Select(p => p.Name)))
+                .ForMember(dest => dest.FoundationalOrPreviousWorks, opt => opt.MapFrom(src => src.FoundationalOrPreviousWorks.Select(p => p.Name)))
                 .ForMember(dest => dest.AffectedParties, opt => opt.MapFrom(src => src.AffectedParties.Select(p => p.Name)))
                 .ForMember(dest => dest.CostReductions, opt => opt.MapFrom(src => src.CostReductions.Select(p => p.Name)))
                 .ForMember(dest => dest.CoBenefits, opt => opt.MapFrom(src => src.CoBenefits.Select(p => p.Name)))
@@ -74,7 +74,7 @@ namespace EMCR.DRR.Managers.Intake
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => DRRApplicationStatusMapper(src.Status)))
                 .ForMember(dest => dest.PartneringProponents, opt => opt.MapFrom(src => src.PartneringProponents.Select(p => p.Name)))
                 .ForMember(dest => dest.Professionals, opt => opt.MapFrom(src => src.Professionals.Select(p => p.Name)))
-                .ForMember(dest => dest.VerificationMethods, opt => opt.MapFrom(src => src.VerificationMethods.Select(p => p.Name)))
+                .ForMember(dest => dest.FoundationalOrPreviousWorks, opt => opt.MapFrom(src => src.FoundationalOrPreviousWorks.Select(p => p.Name)))
                 .ForMember(dest => dest.AffectedParties, opt => opt.MapFrom(src => src.AffectedParties.Select(p => p.Name)))
                 .ForMember(dest => dest.CostReductions, opt => opt.MapFrom(src => src.CostReductions.Select(p => p.Name)))
                 .ForMember(dest => dest.CoBenefits, opt => opt.MapFrom(src => src.CoBenefits.Select(p => p.Name)))
@@ -140,7 +140,7 @@ namespace EMCR.DRR.Managers.Intake
                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src))
                ;
 
-            CreateMap<string, VerificationMethod>()
+            CreateMap<string, FoundationalOrPreviousWork>()
                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src))
                ;
 

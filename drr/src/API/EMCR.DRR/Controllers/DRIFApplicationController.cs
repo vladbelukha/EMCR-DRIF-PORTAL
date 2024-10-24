@@ -114,6 +114,7 @@ namespace EMCR.DRR.Controllers
         public const int CONTACT_MAX_LENGTH = 40;
         public const int ACCOUNT_MAX_LENGTH = 100;
         public const double FUNDING_MAX_VAL = 999999999.99;
+        public const double FUNDING_MIN_VAL = -999999999.99;
     }
 
     public class ApplicationResult
@@ -283,7 +284,7 @@ namespace EMCR.DRR.Controllers
         [Mandatory]
         public string? ProjectDescription { get; set; }
         public IEnumerable<ProposedActivity>? ProposedActivities { get; set; }
-        public IEnumerable<string>? VerificationMethods { get; set; }
+        public IEnumerable<string>? FoundationalOrPreviousWorks { get; set; }
         [Mandatory]
         public string? HowWasNeedIdentified { get; set; }
         public string? AddressRisksAndHazards { get; set; }
@@ -381,19 +382,23 @@ namespace EMCR.DRR.Controllers
         [Mandatory]
         public bool? RiskTransferMigigated { get; set; }
         //[MandatoryIf("RiskTransferMigigated", true)]
-        public IEnumerable<string>? TransferRisks { get; set; } //This is not a list in CRM. Update this
+        public IEnumerable<IncreasedOrTransferred>? IncreasedOrTransferred { get; set; }
         [MandatoryIf("RiskTransferMigigated", true)]
         public string? TransferRisksComments { get; set; }
 
         //Budget - 10
-        [Range(0, ApplicationValidators.FUNDING_MAX_VAL)]
+        [Range(ApplicationValidators.FUNDING_MIN_VAL, ApplicationValidators.FUNDING_MAX_VAL)]
+        [CurrencyNotNegativeForSubmission]
         public decimal? TotalProjectCost { get; set; }
-        [Range(0, ApplicationValidators.FUNDING_MAX_VAL)]
+        [Range(ApplicationValidators.FUNDING_MIN_VAL, ApplicationValidators.FUNDING_MAX_VAL)]
+        [CurrencyNotNegativeForSubmission]
         public decimal? EligibleFundingRequest { get; set; }
-        [Range(0, ApplicationValidators.FUNDING_MAX_VAL)]
+        [Range(ApplicationValidators.FUNDING_MIN_VAL, ApplicationValidators.FUNDING_MAX_VAL)]
+        [CurrencyNotNegativeForSubmission]
         public decimal? RemainingAmount { get; set; }
         public IEnumerable<YearOverYearFunding>? YearOverYearFunding { get; set; }
-        [Range(0, ApplicationValidators.FUNDING_MAX_VAL)]
+        [Range(ApplicationValidators.FUNDING_MIN_VAL, ApplicationValidators.FUNDING_MAX_VAL)]
+        [CurrencyNotNegativeForSubmission]
         public decimal? TotalDrifFundingRequest { get; set; }
         public string? DiscrepancyComment { get; set; }
         [Mandatory]
@@ -405,7 +410,8 @@ namespace EMCR.DRR.Controllers
         public string? CostEffectiveComments { get; set; }
         [Mandatory]
         public YesNoOption? PreviousResponse { get; set; }
-        [Range(0, ApplicationValidators.FUNDING_MAX_VAL)]
+        [Range(ApplicationValidators.FUNDING_MIN_VAL, ApplicationValidators.FUNDING_MAX_VAL)]
+        [CurrencyNotNegativeForSubmission]
         [MandatoryIf("PreviousResponse", YesNoOption.Yes)]
         public decimal? PreviousResponseCost { get; set; }
         [MandatoryIf("PreviousResponse", YesNoOption.Yes)]
@@ -612,6 +618,16 @@ namespace EMCR.DRR.Controllers
     }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
+    public enum IncreasedOrTransferred
+    {
+        [Description("Increased")]
+        Increased,
+
+        [Description("Transferred")]
+        Transferred,
+    }
+
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum YesNoOption
     {
         No,
@@ -646,6 +662,23 @@ namespace EMCR.DRR.Controllers
             {
                 var propertyInfo = validationContext.ObjectType.GetProperty(validationContext.MemberName);
                 return new ValidationResult($"{propertyInfo.Name} is required");
+            }
+            return ValidationResult.Success;
+        }
+    }
+
+    public class CurrencyNotNegativeForSubmission : ValidationAttribute
+    {
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        {
+            var model = validationContext.ObjectInstance;
+
+            if ((model.GetType() != typeof(DraftEoiApplication) && model.GetType() != typeof(DraftFpApplication)))
+            {
+                var propertyInfo = validationContext.ObjectType.GetProperty(validationContext.MemberName);
+                if (value == null) return new ValidationResult($"{propertyInfo.Name} is required");
+                decimal dec = Convert.ToDecimal(value);
+                if (dec < 0) return new ValidationResult($"{propertyInfo.Name} cannot be negative");
             }
             return ValidationResult.Success;
         }

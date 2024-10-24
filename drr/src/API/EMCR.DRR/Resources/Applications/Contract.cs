@@ -51,7 +51,7 @@ namespace EMCR.DRR.Resources.Applications
 
     public class EntitiesQueryResult
     {
-        public IEnumerable<string>? VerificationMethods { get; set; } = Array.Empty<string>();
+        public IEnumerable<string>? FoundationalOrPreviousWorks { get; set; } = Array.Empty<string>();
         public IEnumerable<string>? AffectedParties { get; set; } = Array.Empty<string>();
         public IEnumerable<Controllers.StandardInfo>? Standards { get; set; } = Array.Empty<Controllers.StandardInfo>();
         public IEnumerable<string>? CostReductions { get; set; } = Array.Empty<string>();
@@ -78,6 +78,11 @@ namespace EMCR.DRR.Resources.Applications
     public class SaveApplication : ManageApplicationCommand
     {
         public required Application Application { get; set; }
+    }
+
+    public class SubmitApplication : ManageApplicationCommand
+    {
+        public required string Id { get; set; }
     }
 
     public class DeleteApplication : ManageApplicationCommand
@@ -159,6 +164,12 @@ namespace EMCR.DRR.Resources.Applications
         Storm = 172580007,
         Tsunami = 172580008,
         Other = 172580999,
+    }
+
+    public enum IncreasedOrTransferredOptionSet
+    {
+        Increased = 172580000,
+        Transferred = 172580001,
     }
 
     public enum AreaUnitsOptionSet
