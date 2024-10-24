@@ -392,7 +392,7 @@
   "estimatedArea": "Estimated Size of Project Area",
   "estimatedAreaText": "If possible, provide size of area impacted by proposed project",
   "area": "Area Size",
-  "units": "Units",
+  "units": "Unit of Measure",
   "areaDescription": "Project Area",
   "areaDescriptionText": "How is the community/project area susceptible to the identified related hazards? This can include natural hazards, impacts, and/or specific events.",
   "estimatedPeopleImpactedText": "Please review the estimated number of people impacted by the project provided in the EOI and update as necessary.",
