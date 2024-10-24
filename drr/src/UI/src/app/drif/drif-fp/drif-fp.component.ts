@@ -42,6 +42,7 @@ import { UntilDestroy } from '@ngneat/until-destroy';
 import { HotToastService } from '@ngxpert/hot-toast';
 import { OptionsStore } from '../../store/options.store';
 import {
+  AttachmentForm,
   DrifFpForm,
   ImpactedInfrastructureForm,
   ProposedActivityForm,
@@ -318,7 +319,7 @@ export class DrifFpComponent {
               previousResponseCost: response.previousResponseCost,
             },
             attachments: {
-              // TODO: attachments: response.attachments,
+              // haveResolution: response.haveResolution,
             },
             declarations: {
               submitter: response.submitter,
@@ -336,6 +337,7 @@ export class DrifFpComponent {
           this.initStep8(response);
           this.initStep9(response);
           this.initStep10(response);
+          this.initStep11(response);
 
           this.fullProposalForm.markAsPristine();
           this.formChanged = false;
@@ -627,6 +629,19 @@ export class DrifFpComponent {
       default:
         break;
     }
+  }
+
+  initStep11(response: DraftFpApplication) {
+    const attachmentsArray = this.fullProposalForm.get(
+      'attachments.attachments'
+    ) as FormArray;
+
+    response.attachments?.forEach((attachment) => {
+      attachmentsArray?.push(
+        this.formBuilder.formGroup(new AttachmentForm(attachment)),
+        { emitEvent: false }
+      );
+    });
   }
 
   getFormGroup(groupName: string) {

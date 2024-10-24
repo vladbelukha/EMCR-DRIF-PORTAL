@@ -4,7 +4,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { TranslocoModule } from '@ngneat/transloco';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { NgxFileDropEntry, NgxFileDropModule } from 'ngx-file-drop';
-import { FileForm } from '../../../drif/drif-fp/drif-fp-form';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -22,33 +21,23 @@ export class DrrFileUploadComponent {
   useDropzone = true;
 
   @Output()
-  filesSelected: EventEmitter<FileForm[]> = new EventEmitter<FileForm[]>();
+  filesSelected: EventEmitter<File[]> = new EventEmitter<File[]>();
 
   filesDropped(files: NgxFileDropEntry[]) {
-    const filesToEmit: FileForm[] = [];
+    const filesToEmit: File[] = [];
     files.map((file) => {
       const fileEntry = file.fileEntry as FileSystemFileEntry;
-      fileEntry.file((f: File) => {
-        const fileForm: FileForm = {
-          name: f.name,
-          type: f.type,
-          id: f.name,
-        };
-        filesToEmit.push(fileForm);
+      fileEntry.file((file: File) => {
+        filesToEmit.push(file);
       });
     });
     this.filesSelected.emit(filesToEmit);
   }
 
   filesSelectedFromInput(event: any) {
-    const filesToEmit: FileForm[] = [];
+    const filesToEmit: File[] = [];
     [...event.target.files].map((file: File) => {
-      const fileForm: FileForm = {
-        name: file.name,
-        type: file.type,
-        id: file.name,
-      };
-      filesToEmit.push(fileForm);
+      filesToEmit.push(file);
     });
 
     this.filesSelected.emit(filesToEmit);

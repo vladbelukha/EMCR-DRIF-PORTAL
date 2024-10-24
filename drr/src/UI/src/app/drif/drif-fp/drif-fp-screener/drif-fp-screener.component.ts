@@ -21,7 +21,6 @@ import {
 } from '../../../shared/controls/drr-radio-button/drr-radio-button.component';
 import { DrrAlertComponent } from '../../../shared/drr-alert/drr-alert.component';
 import { ScreenerQuestionsForm } from './drif-fp-screener-form';
-import { DrifFpScreenerQuestionComponent } from './drif-fp-screener-question.component';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -40,7 +39,6 @@ import { DrifFpScreenerQuestionComponent } from './drif-fp-screener-question.com
     MatCardModule,
     MatDividerModule,
     DrrRadioButtonComponent,
-    DrifFpScreenerQuestionComponent,
     DrrAlertComponent,
   ],
   templateUrl: './drif-fp-screener.component.html',

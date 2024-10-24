@@ -6,6 +6,8 @@ import {
   required,
 } from '@rxweb/reactive-form-validators';
 import {
+  Attachment,
+  DocumentType,
   EstimatedNumberOfPeopleFP,
   FundingStream,
   Hazards,
@@ -26,21 +28,27 @@ export enum TransferRisks {
 }
 
 // TODO: temp before API provides the correct structure
-export class FileForm {
+export class AttachmentForm implements Attachment {
+  id?: string;
+
+  applicationId?: string | undefined;
+
   @prop()
+  @required()
   name?: string;
 
   @prop()
-  url?: string;
+  @required()
+  comments?: string;
 
   @prop()
-  type?: string;
+  documentType?: DocumentType | undefined;
 
-  @prop()
-  id?: string;
+  body?: string | undefined; // TODO: should not be in model
 
-  @prop()
-  comment?: string;
+  constructor(values: AttachmentForm) {
+    Object.assign(this, values);
+  }
 }
 
 export class ImpactedInfrastructureForm {
@@ -531,8 +539,12 @@ export class ProjectOutcomesForm {
 }
 
 export class AttachmentsForm {
-  @propArray(FileForm)
-  projectDocuments?: FileForm[] = [{}];
+  @propArray(AttachmentForm)
+  attachments?: AttachmentForm[] = [];
+
+  @prop()
+  @required()
+  haveResolution?: boolean;
 
   constructor(values: AttachmentsForm) {
     Object.assign(this, values);
