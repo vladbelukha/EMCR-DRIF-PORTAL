@@ -31,12 +31,7 @@ import { DrifFpStep1Component } from './drif-fp-step-1/drif-fp-step-1.component'
 
 import { distinctUntilChanged } from 'rxjs/operators';
 import { DrifapplicationService } from '../../../api/drifapplication/drifapplication.service';
-import {
-  DocumentType,
-  DraftFpApplication,
-  FpApplication,
-  YesNoOption,
-} from '../../../model';
+import { DraftFpApplication, FpApplication, YesNoOption } from '../../../model';
 import {
   ContactDetailsForm,
   FundingInformationItemForm,
@@ -342,15 +337,6 @@ export class DrifFpComponent {
           this.initStep8(response);
           this.initStep9(response);
           this.initStep10(response);
-          response.attachments = [
-            {
-              documentType: DocumentType.DetailedProjectWorkplan,
-              name: 'FileName1',
-              applicationId: 'FP-1',
-              comments: 'File 1 comments',
-              id: '1',
-            },
-          ];
           this.initStep11(response);
 
           this.fullProposalForm.markAsPristine();
