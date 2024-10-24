@@ -82,7 +82,7 @@ namespace EMCR.DRR.Resources.Applications
 
                 //Project Plan - 4
                 .ForMember(dest => dest.drr_drr_application_drr_proposedactivity_Application, opt => opt.MapFrom(src => src.ProposedActivities))
-                .ForMember(dest => dest.drr_drr_application_drr_projectneedidentificationitem_Application, opt => opt.MapFrom(src => src.VerificationMethods))
+                .ForMember(dest => dest.drr_drr_application_drr_foundationalorpreviousworkitem_Application, opt => opt.MapFrom(src => src.FoundationalOrPreviousWorks))
                 .ForMember(dest => dest.drr_howwastheneedfortheprojectidentified, opt => opt.MapFrom(src => src.HowWasNeedIdentified))
                 .ForMember(dest => dest.drr_extentalternateprojectoptionsconsidered, opt => opt.MapFrom(src => src.ProjectAlternateOptions))
 
@@ -127,6 +127,7 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.drr_willthisprojectproducecobenefits, opt => opt.MapFrom(src => src.ProduceCoBenefits.HasValue ? src.ProduceCoBenefits.Value ? (int?)DRRTwoOptions.Yes : (int?)DRRTwoOptions.No : null))
                 .ForMember(dest => dest.drr_drr_application_drr_cobenefititem_Application, opt => opt.MapFrom(src => src.CoBenefits))
                 .ForMember(dest => dest.drr_howwilltheprojectproducecobenefits, opt => opt.MapFrom(src => src.CoBenefitComments))
+                .ForMember(dest => dest.drr_projectincreasesresiliency, opt => opt.MapFrom(src => src.IncreasedResiliency.Count() > 0 ? (int?)DRRTwoOptions.Yes : (int?)DRRTwoOptions.No))
                 .ForMember(dest => dest.drr_drr_application_drr_resiliencyitem_Application, opt => opt.MapFrom(src => src.IncreasedResiliency))
                 .ForMember(dest => dest.drr_resiliencycomments, opt => opt.MapFrom(src => src.IncreasedResiliencyComments))
 
@@ -144,7 +145,7 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.drr_drr_application_drr_projectcapacitychallengeitem_Application, opt => opt.MapFrom(src => src.CapacityRisks))
                 .ForMember(dest => dest.drr_howcapacityrisksmitigated, opt => opt.MapFrom(src => src.CapacityRiskComments))
                 .ForMember(dest => dest.drr_isriskbeingincreasedortransferred, opt => opt.MapFrom(src => src.RiskTransferMigigated.HasValue ? src.RiskTransferMigigated.Value ? (int?)DRRTwoOptions.Yes : (int?)DRRTwoOptions.No : null))
-                //.ForMember(dest => dest., opt => opt.MapFrom(src => src.TransferRisks))
+                .ForMember(dest => dest.drr_increasedortransferred, opt => opt.MapFrom(src => src.IncreasedOrTransferred.Count() > 0 ? string.Join(",", src.IncreasedOrTransferred.Select(t => (int?)Enum.Parse<IncreasedOrTransferredOptionSet>(t.ToString()))) : null))
                 .ForMember(dest => dest.drr_describeriskincreasedortransferred, opt => opt.MapFrom(src => src.TransferRisksComments))
 
                 //Budget - 10
@@ -238,7 +239,7 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.EstimatedPeopleImpactedFP, opt => opt.MapFrom(src => src.drr_estimatednumberofpeopleimpactedfp.HasValue ? (int?)Enum.Parse<EstimatedNumberOfPeopleFP>(((EstimatedNumberOfPeopleFPOptionSet)src.drr_estimatednumberofpeopleimpactedfp).ToString()) : null))
                 //Project Plan - 4
                 .ForMember(dest => dest.ProposedActivities, opt => opt.MapFrom(src => src.drr_drr_application_drr_proposedactivity_Application))
-                .ForMember(dest => dest.VerificationMethods, opt => opt.MapFrom(src => src.drr_drr_application_drr_projectneedidentificationitem_Application))
+                .ForMember(dest => dest.FoundationalOrPreviousWorks, opt => opt.MapFrom(src => src.drr_drr_application_drr_foundationalorpreviousworkitem_Application))
                 .ForMember(dest => dest.HowWasNeedIdentified, opt => opt.MapFrom(src => src.drr_howwastheneedfortheprojectidentified))
                 .ForMember(dest => dest.ProjectAlternateOptions, opt => opt.MapFrom(src => src.drr_extentalternateprojectoptionsconsidered))
                 //Project Engagement - 5
@@ -289,7 +290,7 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.CapacityRisks, opt => opt.MapFrom(src => src.drr_drr_application_drr_projectcapacitychallengeitem_Application))
                 .ForMember(dest => dest.CapacityRiskComments, opt => opt.MapFrom(src => src.drr_howcapacityrisksmitigated))
                 .ForMember(dest => dest.RiskTransferMigigated, opt => opt.MapFrom(src => src.drr_isriskbeingincreasedortransferred.HasValue ? src.drr_isriskbeingincreasedortransferred.Value == (int)DRRTwoOptions.Yes : (bool?)null))
-                .ForMember(dest => dest.TransferRisks, opt => opt.Ignore())
+                .ForMember(dest => dest.IncreasedOrTransferred, opt => opt.MapFrom(src => !string.IsNullOrEmpty(src.drr_increasedortransferred) ? src.drr_increasedortransferred.Split(',', StringSplitOptions.None).Select(h => Enum.Parse<IncreasedOrTransferred>(((IncreasedOrTransferredOptionSet)int.Parse(h)).ToString()).ToString()) : null))
                 .ForMember(dest => dest.TransferRisksComments, opt => opt.MapFrom(src => src.drr_describeriskincreasedortransferred))
                 //Budget - 10
                 .ForMember(dest => dest.EligibleFundingRequest, opt => opt.MapFrom(src => src.drr_eligibleamount))
@@ -397,11 +398,11 @@ namespace EMCR.DRR.Resources.Applications
                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => string.IsNullOrEmpty(src.drr_impactedoraffectedpartycomments) ? src.drr_ImpactedorAffectedParty.drr_name : src.drr_impactedoraffectedpartycomments))
             ;
 
-            CreateMap<VerificationMethod, drr_projectneedidentificationitem>(MemberList.None)
-               .ForMember(dest => dest.drr_projectneedidentification, opt => opt.MapFrom(src => new drr_projectneedidentification { drr_name = src.Name }))
+            CreateMap<FoundationalOrPreviousWork, drr_foundationalorpreviousworkitem>(MemberList.None)
+               .ForMember(dest => dest.drr_FoundationalorPreviousWork, opt => opt.MapFrom(src => new drr_foundationalorpreviouswork { drr_name = src.Name }))
                .ReverseMap()
                .ValidateMemberList(MemberList.Destination)
-               .ForMember(dest => dest.Name, opt => opt.MapFrom(src => string.IsNullOrEmpty(src.drr_projectneedidentifiedcomments) ? src.drr_projectneedidentification.drr_name : src.drr_projectneedidentifiedcomments))
+               .ForMember(dest => dest.Name, opt => opt.MapFrom(src => string.IsNullOrEmpty(src.drr_foundationalorpreviousworkcomments) ? src.drr_FoundationalorPreviousWork.drr_name : src.drr_foundationalorpreviousworkcomments))
             ;
 
             CreateMap<CostReduction, drr_costreductionitem>(MemberList.None)

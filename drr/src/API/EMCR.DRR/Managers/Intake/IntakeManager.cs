@@ -94,6 +94,7 @@ namespace EMCR.DRR.Managers.Intake
             application.SubmittedDate = DateTime.UtcNow;
             if (application.Submitter != null) application.Submitter.BCeId = cmd.UserInfo.UserId;
             //TODO - add field validations
+            application.Status = ApplicationStatus.Submitted;
 
             var id = (await applicationRepository.Manage(new SaveApplication { Application = application })).Id;
             return id;
@@ -133,11 +134,9 @@ namespace EMCR.DRR.Managers.Intake
             var application = mapper.Map<Application>(cmd.application);
             application.BCeIDBusinessId = cmd.UserInfo.BusinessId;
             application.ProponentName = cmd.UserInfo.BusinessName;
-            application.SubmittedDate = DateTime.UtcNow;
             if (application.Submitter != null) application.Submitter.BCeId = cmd.UserInfo.UserId;
-            //TODO - add field validations
-
             var id = (await applicationRepository.Manage(new SaveApplication { Application = application })).Id;
+            await applicationRepository.Manage(new SubmitApplication { Id = id });
             return id;
         }
 
@@ -164,7 +163,7 @@ namespace EMCR.DRR.Managers.Intake
             var id = (await applicationRepository.Manage(new DeleteApplication { Id = cmd.Id })).Id;
             return id;
         }
-        
+
         public async Task<string> Handle(UploadAttachmentCommand cmd)
         {
             var canAccess = await CanAccessApplication(cmd.AttachmentInfo.ApplicationId, cmd.UserInfo.BusinessId);
