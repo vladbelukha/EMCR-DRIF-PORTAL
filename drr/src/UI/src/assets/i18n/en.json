@@ -411,13 +411,14 @@
     "skip": "Skip",
     "cancel": "Cancel",
     "continue": "Continue",
-    "instructions": "Answer the following questions to help to determine if you are ready to submit your Full Proposal.",
+    "instructions1": "This page will help you decide whether you are ready to submit a Full Proposal. If you answer \"no\" to any of the questions below, you may not be ready, you will receive warnings that may help you prepare.",
+    "instructions2": "You are free to skip these questions if you prefer.",
     "question1": "Have you prepared the following documents?",
     "projectWorkplan": "Detailed project workplan",
     "projectSchedule": "Project schedule(may be plan of project workplan)",
     "costEstimate": "Detailed cost estimate",
     "sitePlan": "Site plan",
-    "haveAuthorityToDevelop": "Does your First Nation/local government/regional district have the authority and ownership to develop, implement, maintain and operate the proposed project?",
+    "haveAuthorityToDevelop": "Do the proponents for this project have the authority to develop, implement, maintain and operate the proposed project?",
     "question3": "Has this project proposal been duly authorized or endorsed by all partnering proponents, as applicable:",
     "firstNationsAuthorizedByPartners": "In the case of a First Nations proponent, a resolution from its band council or council/board, or the appropriate authorization/endorsement as determined by the eligible proponent’s governance structure?",
     "localGovernmentAuthorizedByPartners": "In the case of a local government proponent, a resolution from its council/board?",
@@ -426,21 +427,7 @@
     "incorporateFutureClimateConditions": "Does the project incorporate future climate conditions and consider climate change in the project methodology?",
     "meetsRegulatoryRequirements": "Will the project meet the necessary regulatory requirements?",
     "meetsEligibilityRequirements": "Will the project meet eligibility requirements for all required permits, licences and authorizations?",
-    "allAnswersPositive": "Your responses have met all the necessary requirements for submitting the Full Proposal. You can now proceed to complete the Full Proposal form.",
-    "hasNegativeAnswers": "You may proceed to the Full Proposal; however, due to missing information on this page, there may be necessary components that you still need to collect in order to complete the Full Proposal. Please connect with {{supportEmail}} for support if needed.",
-    "negativeAnswers": {
-      "projectWorkplan": "A detailed workplan is required. Please prepare one prior to submission.",
-      "projectSchedule": "A project schedule is required, but may be included in your workplan. Please prepare one prior to submission.",
-      "costEstimate": "Detailed cost estimates are required. Please prepare them prior to submission.",
-      "sitePlan": "A site plan is required for projects that involve changes to a site. If relevant, please prepare one prior to submission.",
-      "haveAuthorityToDevelop": "Your First Nation, local government, or regional district must have the authority and ownership to develop, implement, maintain and operate the proposed project.",
-      "firstNationsAuthorizedByPartners": "If your proposal has partnering proponents, all of the partners must authorize or endorse the project. For First Nation proponents, you can submit authorization after you submit your Full Proposal, but the proposal will not be approved until the authorization is submitted.",
-      "localGovernmentAuthorizedByPartners": "If your proposal has partnering proponents, all of the partners must authorize or endorse the project.",
-      "foundationWorkCompleted": "Foundational work must be completed prior to submission.",
-      "engagedWithFirstNationsOccurred": "You must hold meaningful engagement with local First Nations prior to submission.",
-      "incorporateFutureClimateConditions": "The project must incorporate future climate conditions and consider climate change.",
-      "meetsRegulatoryRequirements": "The project must meet the necessary regulatory requirements.",
-      "meetsEligibilityRequirements": "The project must be eligible for all required permits, authorizations, and regulatory approvals."
-    }
+    "allAnswersPositive": "Everything appears to be in order. You can now fill out your Full Proposal.",
+    "hasNegativeAnswers": "It appears that you may be missing a few things. You’re welcome to proceed with filling out your Full Proposal, but you may find that you don’t have all of the information required. Even so, you can save your Full Proposal at any point and come back to it later when you do have the information you need."
   }
 }

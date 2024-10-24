@@ -16,97 +16,316 @@
     </button>
   </div>
   <mat-divider></mat-divider>
-  <h6 style="margin-top: 4rem">{{ t("instructions") }}</h6>
+  <p style="margin-top: 2rem">{{ t("instructions1") }}</p>
+  <p>{{ t("instructions2") }}</p>
   <ol>
     <li>
       <div>
         {{ t("question1") }}
       </div>
       <div class="nested-items">
-        <drif-fp-screener-question
-          [labelKey]="'projectWorkplan'"
-          [rxFormControl]="screenerForm.get('projectWorkplan')"
-        >
-        </drif-fp-screener-question>
+        <div>
+          <drr-radio-button
+            [label]="t('projectWorkplan')"
+            [rxFormControl]="screenerForm.get('projectWorkplan')"
+          ></drr-radio-button>
+          <drr-alert
+            class="screener-alert"
+            *ngIf="screenerForm.get('projectWorkplan')?.value === false"
+            [type]="'info'"
+          >
+            <p>
+              You’ll need a detailed workplan for your project to be approved.
+              If you’re not sure how to write a workplan, you can find a sample
+              template on the
+              <a
+                href="https://www2.gov.bc.ca/gov/content?id=76C1AA90A3844FDE9740B2E8B9355842"
+                >Disaster Resilience and Innovation Funding program page</a
+              >.
+            </p>
+          </drr-alert>
+        </div>
 
-        <drif-fp-screener-question
-          [labelKey]="'projectSchedule'"
-          [rxFormControl]="screenerForm.get('projectSchedule')"
-        >
-        </drif-fp-screener-question>
+        <div>
+          <drr-radio-button
+            [label]="t('projectSchedule')"
+            [rxFormControl]="screenerForm.get('projectSchedule')"
+          >
+          </drr-radio-button>
+          <drr-alert
+            class="screener-alert"
+            *ngIf="screenerForm.get('projectSchedule')?.value === false"
+            [type]="'info'"
+          >
+            <p>
+              You’ll need a project schedule for your project to be approved.
+              However, you can include a schedule in your workplan if you
+              prefer. If you’re not sure how to write a project schedule, you
+              can find a sample template on the
+              <a
+                href="https://www2.gov.bc.ca/gov/content?id=76C1AA90A3844FDE9740B2E8B9355842"
+              >
+                Disaster Resilience and Innovation Funding program page</a
+              >.
+            </p>
+          </drr-alert>
+        </div>
 
-        <drif-fp-screener-question
-          [labelKey]="'costEstimate'"
-          [rxFormControl]="screenerForm.get('costEstimate')"
-        >
-        </drif-fp-screener-question>
+        <div>
+          <drr-radio-button
+            [label]="t('costEstimate')"
+            [rxFormControl]="screenerForm.get('costEstimate')"
+          ></drr-radio-button>
+          <drr-alert
+            class="screener-alert"
+            *ngIf="screenerForm.get('costEstimate')?.value === false"
+            [type]="'info'"
+          >
+            <p>
+              You’ll need to provide cost estimates for your project to be
+              approved. If you’re not sure how to prepare cost estimates, you
+              can find a sample template on the
+              <a
+                href="https://www2.gov.bc.ca/gov/content?id=76C1AA90A3844FDE9740B2E8B9355842"
+                >Disaster Resilience and Innovation Funding program page</a
+              >.
+            </p>
+          </drr-alert>
+        </div>
 
-        <drif-fp-screener-question
-          [labelKey]="'sitePlan'"
-          [rxFormControl]="screenerForm.get('sitePlan')"
-          [options]="yesNoNotRequiredOptions"
-        >
-        </drif-fp-screener-question>
+        <div>
+          <drr-radio-button
+            [label]="t('sitePlan')"
+            [rxFormControl]="screenerForm.get('sitePlan')"
+            [options]="yesNoNotRequiredOptions"
+          ></drr-radio-button>
+          <drr-alert
+            class="screener-alert"
+            *ngIf="screenerForm.get('sitePlan')?.value === 'No'"
+            [type]="'info'"
+          >
+            <p>
+              If your project workplan includes a particular site, you’ll need
+              to provide a site plan that explains those impacts. If you’re not
+              sure how to prepare a site plan, you can find a sample template on
+              the
+              <a
+                href="https://www2.gov.bc.ca/gov/content?id=76C1AA90A3844FDE9740B2E8B9355842"
+                >Disaster Resilience and Innovation Funding program page</a
+              >.
+            </p>
+          </drr-alert>
+        </div>
       </div>
     </li>
     <li>
-      <drif-fp-screener-question
-        [labelKey]="'haveAuthorityToDevelop'"
-        [rxFormControl]="screenerForm.get('haveAuthorityToDevelop')"
-      ></drif-fp-screener-question>
+      <div>
+        <drr-radio-button
+          [label]="t('haveAuthorityToDevelop')"
+          [rxFormControl]="screenerForm.get('haveAuthorityToDevelop')"
+        ></drr-radio-button>
+        <drr-alert
+          class="screener-alert"
+          *ngIf="screenerForm.get('haveAuthorityToDevelop')?.value === false"
+          [type]="'info'"
+          [message]="
+            'The lead and/or partnering proponent must have the authority and ownership to develop, implement, maintain and operate the proposed project.'
+          "
+        >
+        </drr-alert>
+      </div>
     </li>
+
     <li>
       <div>
         {{ t("question3") }}
       </div>
       <div class="nested-items">
-        <drif-fp-screener-question
-          [labelKey]="'firstNationsAuthorizedByPartners'"
-          [rxFormControl]="screenerForm.get('firstNationsAuthorizedByPartners')"
-          [options]="yesNoNotApplicableOptions"
-        >
-        </drif-fp-screener-question>
+        <div>
+          <drr-radio-button
+            [label]="t('firstNationsAuthorizedByPartners')"
+            [rxFormControl]="
+              screenerForm.get('firstNationsAuthorizedByPartners')
+            "
+            [options]="yesNoNotApplicableOptions"
+          ></drr-radio-button>
+          <drr-alert
+            class="screener-alert"
+            *ngIf="
+              screenerForm.get('firstNationsAuthorizedByPartners')?.value ===
+              'No'
+            "
+            [type]="'info'"
+            [message]="
+              'If your proposal has partnering proponents, all of the partners must authorize or endorse the project. This authorization/endorsement must be submitted before the Shared Cost Agreement can be signed.'
+            "
+          >
+          </drr-alert>
+        </div>
 
-        <drif-fp-screener-question
-          [labelKey]="'localGovernmentAuthorizedByPartners'"
-          [rxFormControl]="
-            screenerForm.get('localGovernmentAuthorizedByPartners')
-          "
-          [options]="yesNoNotApplicableOptions"
+        <div>
+          <drr-radio-button
+            [label]="t('localGovernmentAuthorizedByPartners')"
+            [rxFormControl]="
+              screenerForm.get('localGovernmentAuthorizedByPartners')
+            "
+            [options]="yesNoNotApplicableOptions"
+          ></drr-radio-button>
+          <drr-alert
+            class="screener-alert"
+            *ngIf="
+              screenerForm.get('localGovernmentAuthorizedByPartners')?.value ===
+              'No'
+            "
+            [type]="'info'"
+            [message]="
+              'If your proposal has partnering proponents, all of the partners must authorize or endorse the project. This authorization/endorsement must be submitted before the Shared Cost Agreement can be signed.'
+            "
+          >
+          </drr-alert>
+        </div>
+      </div>
+    </li>
+
+    <li>
+      <div>
+        <drr-radio-button
+          [label]="t('foundationWorkCompleted')"
+          [rxFormControl]="screenerForm.get('foundationWorkCompleted')"
+          [options]="foundationWorkCompletedOptions"
+        ></drr-radio-button>
+        <drr-alert
+          class="screener-alert"
+          *ngIf="screenerForm.get('foundationWorkCompleted')?.value === 'No'"
+          [type]="'info'"
         >
-        </drif-fp-screener-question>
+          <p>
+            Structural projects must have completed the appropriate foundational
+            work, such as HRVA, disaster risk and resilience assessment,
+            mapping, planning, and so on. If you have not completed the
+            foundational work, there may be funding options available to help
+            you do that. For more information, refer to the
+            <a
+              href="https://www2.gov.bc.ca/assets/gov/public-safety-and-emergency-services/emergency-preparedness-response-recovery/embc/mitigation/drif-program_guide.pdf"
+              download="DRIF Program Guide"
+              target="_blank"
+            >
+              DRIF Program Guide</a
+            >.
+          </p>
+        </drr-alert>
+      </div>
+    </li>
+
+    <li>
+      <div>
+        <drr-radio-button
+          [label]="t('engagedWithFirstNationsOccurred')"
+          [rxFormControl]="screenerForm.get('engagedWithFirstNationsOccurred')"
+        ></drr-radio-button>
+        <drr-alert
+          class="screener-alert"
+          *ngIf="
+            screenerForm.get('engagedWithFirstNationsOccurred')?.value === false
+          "
+          [type]="'info'"
+        >
+          <p>
+            Meaningful engagement with First Nations, to discuss your project
+            and address any concerns, is required. If you have not engaged
+            properly with local First Nations, your project will not be
+            approved. For more information, refer to the
+            <a
+              href="https://www2.gov.bc.ca/assets/gov/public-safety-and-emergency-services/emergency-preparedness-response-recovery/embc/mitigation/drif-program_guide.pdf"
+              download="DRIF Program Guide"
+              target="_blank"
+            >
+              DRIF Program Guide</a
+            >.
+          </p>
+        </drr-alert>
       </div>
     </li>
     <li>
-      <drif-fp-screener-question
-        [labelKey]="'foundationWorkCompleted'"
-        [rxFormControl]="screenerForm.get('foundationWorkCompleted')"
-        [options]="foundationWorkCompletedOptions"
-      ></drif-fp-screener-question>
+      <div>
+        <drr-radio-button
+          [label]="t('incorporateFutureClimateConditions')"
+          [rxFormControl]="
+            screenerForm.get('incorporateFutureClimateConditions')
+          "
+        ></drr-radio-button>
+        <drr-alert
+          class="screener-alert"
+          *ngIf="
+            screenerForm.get('incorporateFutureClimateConditions')?.value ===
+            false
+          "
+          [type]="'info'"
+        >
+          <p>
+            You must consider climate change when planning your project,
+            including considering future climate conditions. Projects that do
+            not consider climate change will not be approved. For more
+            information, refer to the
+            <a
+              href="https://www2.gov.bc.ca/assets/gov/public-safety-and-emergency-services/emergency-preparedness-response-recovery/embc/mitigation/drif-program_guide.pdf"
+              download="DRIF Program Guide"
+              target="_blank"
+            >
+              DRIF Program Guide</a
+            >.
+          </p>
+        </drr-alert>
+      </div>
     </li>
     <li>
-      <drif-fp-screener-question
-        [labelKey]="'engagedWithFirstNationsOccurred'"
-        [rxFormControl]="screenerForm.get('engagedWithFirstNationsOccurred')"
-      ></drif-fp-screener-question>
+      <div>
+        <drr-radio-button
+          [label]="t('meetsRegulatoryRequirements')"
+          [rxFormControl]="screenerForm.get('meetsRegulatoryRequirements')"
+        ></drr-radio-button>
+        <drr-alert
+          class="screener-alert"
+          *ngIf="
+            screenerForm.get('meetsRegulatoryRequirements')?.value === false
+          "
+          [type]="'info'"
+        >
+          <p>
+            You are expected to understand the regulatory requirements that
+            apply to your project, and to meet those requirements. If you’re not
+            certain what requirements apply, contact the DMAP team at
+            <a href="mailto:EMCR.DisasterMitigation@gov.bc.ca">
+              EMCR.DisasterMitigation&#64;gov.bc.ca</a
+            >.
+          </p>
+        </drr-alert>
+      </div>
     </li>
     <li>
-      <drif-fp-screener-question
-        [labelKey]="'incorporateFutureClimateConditions'"
-        [rxFormControl]="screenerForm.get('incorporateFutureClimateConditions')"
-      ></drif-fp-screener-question>
-    </li>
-    <li>
-      <drif-fp-screener-question
-        [labelKey]="'meetsRegulatoryRequirements'"
-        [rxFormControl]="screenerForm.get('meetsRegulatoryRequirements')"
-      ></drif-fp-screener-question>
-    </li>
-    <li>
-      <drif-fp-screener-question
-        [labelKey]="'meetsEligibilityRequirements'"
-        [rxFormControl]="screenerForm.get('meetsEligibilityRequirements')"
-      ></drif-fp-screener-question>
+      <div>
+        <drr-radio-button
+          [label]="t('meetsEligibilityRequirements')"
+          [rxFormControl]="screenerForm.get('meetsEligibilityRequirements')"
+        ></drr-radio-button>
+        <drr-alert
+          class="screener-alert"
+          *ngIf="
+            screenerForm.get('meetsEligibilityRequirements')?.value === false
+          "
+          [type]="'info'"
+        >
+          <p>
+            You are expected to understand what permits, authorizations, and
+            approvals are required for your project, and to secure those
+            authorizations. If you’re not certain what requirements apply,
+            contact the DMAP team at
+            <a href="mailto:EMCR.DisasterMitigation@gov.bc.ca.">
+              EMCR.DisasterMitigation&#64;gov.bc.ca</a
+            >.
+          </p>
+        </drr-alert>
+      </div>
     </li>
   </ol>
   <div *ngIf="allQuestionsAnswered()" class="screener-results">
