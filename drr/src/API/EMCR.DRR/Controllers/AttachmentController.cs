@@ -3,6 +3,7 @@ using System.Security.Claims;
 using AutoMapper;
 using EMCR.DRR.API.Model;
 using EMCR.DRR.API.Services;
+using EMCR.DRR.API.Services.S3;
 using EMCR.DRR.Controllers;
 using EMCR.DRR.Managers.Intake;
 using Microsoft.AspNetCore.Authorization;
@@ -48,10 +49,10 @@ namespace EMCR.DRR.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ApplicationResult>> DownloadAttachment([FromBody] Attachment attachment, string id)
+        public async Task<ActionResult<AttachmentQueryResult>> DownloadAttachment(string id)
         {
-            await Task.CompletedTask;
-            return Ok(new { Name = "FileName", Body = "base64encodedfile" });
+            var file = (FileQueryResult)(await intakeManager.Handle(new DownloadAttachment { Id = id, UserInfo = GetCurrentUser() }));
+            return Ok(new AttachmentQueryResult { File = file.File });
         }
 
         [HttpPost("{id}")]
@@ -67,5 +68,10 @@ namespace EMCR.DRR.API.Controllers
             await Task.CompletedTask;
             return Ok(new ApplicationResult { Id = "fileId" });
         }
+    }
+
+    public class AttachmentQueryResult
+    {
+        public required S3File File { get; set; }
     }
 }

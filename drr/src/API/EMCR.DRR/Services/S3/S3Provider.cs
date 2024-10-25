@@ -16,27 +16,29 @@ namespace EMCR.DRR.API.Services.S3
             bucketName = configuration.GetValue<string>("S3:BucketName");
         }
 
-        public async Task<string> HandleCommand(StorageCommand cmd, CancellationToken cancellationToken)
+        public async Task<string> HandleCommand(StorageCommand cmd)
         {
+            var ct = new CancellationTokenSource().Token;
             return cmd switch
             {
-                UploadFileCommand c => await UploadStorageItem(c, cancellationToken),
+                UploadFileCommand c => await UploadStorageItem(c, ct),
                 _ => throw new NotSupportedException($"{cmd.GetType().Name} is not supported")
             };
         }
 
-        public async Task<StorageQueryResults?> HandleQuery(StorageQuery query, CancellationToken cancellationToken)
+        public async Task<StorageQueryResults> HandleQuery(StorageQuery query)
         {
+            var ct = new CancellationTokenSource().Token;
             return query switch
             {
-                FileQuery q => await DownloadStorageItem(q.Key, q.Folder, cancellationToken),
+                FileQuery q => await DownloadStorageItem(q.Key, q.Folder, ct),
                 _ => throw new NotSupportedException($"{query.GetType().Name} is not supported")
             };
         }
 
         private async Task<string> UploadStorageItem(UploadFileCommand cmd, CancellationToken cancellationToken)
         {
-            File file = cmd.File;
+            S3File file = cmd.File;
             var folder = cmd.Folder == null ? "" : $"{cmd.Folder}/";
             var key = $"{folder}{cmd.Key}";
 
@@ -93,7 +95,7 @@ namespace EMCR.DRR.API.Services.S3
             {
                 Key = key,
                 Folder = folder,
-                File = new File
+                File = new S3File
                 {
                     ContentType = response.Metadata["contentType"],
                     FileName = response.Metadata["filename"],

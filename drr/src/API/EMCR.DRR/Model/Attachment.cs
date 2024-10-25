@@ -7,7 +7,8 @@ namespace EMCR.DRR.API.Model
         public string? Id { get; set; }
         public required string ApplicationId { get; set; }
         public required string Name { get; set; }
-        public byte[]? Body { get; set; }
+        public required string ContentType { get; set; }
+        public required byte[] Content { get; set; }
         public string? Comments { get; set; }
         public DocumentType DocumentType { get; set; }
         public bool? HaveResolution { get; set; }
@@ -21,8 +22,7 @@ namespace EMCR.DRR.API.Model
         DetailedCostEstimate,
         SitePlan,
         PreliminaryDesign,
-        FirstNationsResolution,
-        LocalGovernmentResolution,
+        Resolution,
         OtherSupportingDocument,
     }
 }

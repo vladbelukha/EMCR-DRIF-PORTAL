@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using EMCR.DRR.API.Model;
+using EMCR.DRR.API.Services.S3;
 using EMCR.DRR.Controllers;
 
 namespace EMCR.DRR.Managers.Intake
@@ -182,6 +183,14 @@ namespace EMCR.DRR.Managers.Intake
 
             CreateMap<Resources.Applications.EntitiesQueryResult, EntitiesQueryResult>()
                 .ReverseMap()
+                ;
+
+            CreateMap<Attachment, AttachmentInfo>()
+                .ForMember(dest => dest.File, opt => opt.MapFrom(src => new S3File { Content = src.Content, ContentType = src.ContentType, FileName = src.Name }))
+                .ReverseMap()
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.File.FileName))
+                .ForMember(dest => dest.Content, opt => opt.MapFrom(src => src.File.Content))
+                .ForMember(dest => dest.ContentType, opt => opt.MapFrom(src => src.File.ContentType))
                 ;
 
         }
