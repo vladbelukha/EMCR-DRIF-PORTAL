@@ -2,8 +2,8 @@
 {
     public interface IS3Provider
     {
-        Task<string> HandleCommand(StorageCommand cmd, CancellationToken cancellationToken);
-        Task<StorageQueryResults?> HandleQuery(StorageQuery query, CancellationToken cancellationToken);
+        Task<string> HandleCommand(StorageCommand cmd);
+        Task<StorageQueryResults> HandleQuery(StorageQuery query);
     }
 
     public abstract class StorageCommand
@@ -14,7 +14,7 @@
 
     public class UploadFileCommand : StorageCommand
     {
-        public required File File { get; set; }
+        public required S3File File { get; set; }
         public FileTag? FileTag { get; set; }
     }
 
@@ -34,11 +34,11 @@
 
     public class FileQueryResult : StorageQueryResults
     {
-        public required File File { get; set; }
+        public required S3File File { get; set; }
         public FileTag? FileTag { get; set; }
     }
 
-    public class File
+    public class S3File
     {
         public byte[] Content { get; set; } = [];
         public string? ContentType { get; set; }

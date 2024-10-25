@@ -1,4 +1,5 @@
-﻿using EMCR.DRR.Controllers;
+﻿using EMCR.DRR.API.Services.S3;
+using EMCR.DRR.Controllers;
 
 namespace EMCR.DRR.Managers.Intake
 {
@@ -8,6 +9,7 @@ namespace EMCR.DRR.Managers.Intake
         Task<EntitiesQueryResult> Handle(EntitiesQuery query);
         Task<string> Handle(IntakeCommand cmd);
         Task<IntakeQueryResponse> Handle(IntakeQuery cmd);
+        Task<StorageQueryResults> Handle(AttachmentQuery cmd);
     }
 
     public class DeclarationQuery
@@ -120,12 +122,21 @@ namespace EMCR.DRR.Managers.Intake
         public AttachmentInfo AttachmentInfo { get; set; }
         public UserInfo UserInfo { get; set; }
     }
+    
+    public abstract class AttachmentQuery
+    { }
+    
+    public class DownloadAttachment : AttachmentQuery
+    {
+        public string? Id { get; set; }
+        public UserInfo UserInfo { get; set; }
+    }
 
     public class AttachmentInfo
     {
         public string? Id { get; set; }
         public required string ApplicationId { get; set; }
-        public required IFormFile File { get; set; }
+        public required S3File File { get; set; }
         public DocumentType DocumentType { get; set; }
     }
 
