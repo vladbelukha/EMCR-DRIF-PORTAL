@@ -8,14 +8,15 @@ import { UntilDestroy } from '@ngneat/until-destroy';
 import {
   IFormGroup,
   RxFormArray,
+  RxFormBuilder,
   RxFormControl,
   RxFormGroup,
 } from '@rxweb/reactive-form-validators';
 import { NgxMaskPipe } from 'ngx-mask';
-import { YesNoOption } from '../../../../model';
+import { DocumentType, YesNoOption } from '../../../../model';
 import { DrifEoiSummaryComponent } from '../../drif-eoi/drif-eoi-summary/drif-eoi-summary.component';
 import { SummaryItemComponent } from '../../summary-item/summary-item.component';
-import { DrifFpForm } from '../drif-fp-form';
+import { AttachmentForm, DrifFpForm } from '../drif-fp-form';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -36,6 +37,7 @@ import { DrifFpForm } from '../drif-fp-form';
 export class DrifFpSummaryComponent {
   translocoService = inject(TranslocoService);
   private _fullProposalForm?: IFormGroup<DrifFpForm>;
+  formBuilder = inject(RxFormBuilder);
 
   @Input()
   showSubmitterInfo = true;
@@ -72,6 +74,21 @@ export class DrifFpSummaryComponent {
 
   getRxFormArrayControls(groupName: string, controlName: string) {
     return (this.getGroup(groupName)?.get(controlName) as RxFormArray).controls;
+  }
+
+  getAttachmentByDocumentType(documentType: DocumentType) {
+    const attachmentsArray = this.fullProposalForm.get(
+      'attachments.attachments'
+    ) as RxFormArray;
+    const attahcment = attachmentsArray.controls.find(
+      (control) => control.get('documentType')?.value === documentType
+    ) as RxFormGroup;
+
+    return (
+      attahcment ??
+      // TODO: not sure if this is the correct way to handle this
+      (this.formBuilder.formGroup(AttachmentForm, {}) as RxFormGroup)
+    );
   }
 
   convertRxFormControl(formControl: AbstractControl<any, any> | null) {

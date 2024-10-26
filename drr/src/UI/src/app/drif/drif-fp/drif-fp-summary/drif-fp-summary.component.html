@@ -1124,10 +1124,161 @@
     </mat-card-content>
   </mat-card>
 
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{ t("steps.fp.step11") }}</mat-card-title>
+      <mat-card-subtitle>Step 11</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div>
+        <mat-label class="drr-label">{{
+          t("attachments.DetailedProjectWorkplan")
+        }}</mat-label>
+        <div class="summary-row">
+          <drr-summary-item
+            [label]="t('attachments.name')"
+            [rxFormControl]="
+              getAttachmentByDocumentType('DetailedProjectWorkplan')?.get(
+                'name'
+              )
+            "
+          >
+          </drr-summary-item>
+          <drr-summary-item
+            [label]="t('attachments.comments')"
+            [rxFormControl]="
+              getAttachmentByDocumentType('DetailedProjectWorkplan')?.get(
+                'comments'
+              )
+            "
+          >
+          </drr-summary-item>
+        </div>
+      </div>
+      <div>
+        <mat-label class="drr-label">{{
+          t("attachments.ProjectSchedule")
+        }}</mat-label>
+        <div class="summary-row">
+          <drr-summary-item
+            [label]="t('attachments.name')"
+            [rxFormControl]="
+              getAttachmentByDocumentType('ProjectSchedule')?.get('name')
+            "
+          >
+          </drr-summary-item>
+          <drr-summary-item
+            [label]="t('attachments.comments')"
+            [rxFormControl]="
+              getAttachmentByDocumentType('ProjectSchedule')?.get('comments')
+            "
+          >
+          </drr-summary-item>
+        </div>
+      </div>
+      <div>
+        <mat-label class="drr-label">{{
+          t("attachments.DetailedCostEstimate")
+        }}</mat-label>
+        <div class="summary-row">
+          <drr-summary-item
+            [label]="t('attachments.name')"
+            [rxFormControl]="
+              getAttachmentByDocumentType('DetailedCostEstimate')?.get('name')
+            "
+          >
+          </drr-summary-item>
+          <drr-summary-item
+            [label]="t('attachments.comments')"
+            [rxFormControl]="
+              getAttachmentByDocumentType('DetailedCostEstimate')?.get(
+                'comments'
+              )
+            "
+          >
+          </drr-summary-item>
+        </div>
+      </div>
+      <div>
+        <mat-label class="drr-label">{{ t("attachments.SitePlan") }}</mat-label>
+        <div class="summary-row">
+          <drr-summary-item
+            [label]="t('attachments.name')"
+            [rxFormControl]="
+              getAttachmentByDocumentType('SitePlan')?.get('name')
+            "
+          >
+          </drr-summary-item>
+          <drr-summary-item
+            [label]="t('attachments.comments')"
+            [rxFormControl]="
+              getAttachmentByDocumentType('SitePlan')?.get('comments')
+            "
+          >
+          </drr-summary-item>
+        </div>
+      </div>
+      <div>
+        <mat-label class="drr-label">{{
+          t("attachments.PreliminaryDesign")
+        }}</mat-label>
+        <div class="summary-row">
+          <drr-summary-item
+            [label]="t('attachments.name')"
+            [rxFormControl]="
+              getAttachmentByDocumentType('PreliminaryDesign')?.get('name')
+            "
+          >
+          </drr-summary-item>
+          <drr-summary-item
+            [label]="t('attachments.comments')"
+            [rxFormControl]="
+              getAttachmentByDocumentType('PreliminaryDesign')?.get('comments')
+            "
+          >
+          </drr-summary-item>
+        </div>
+      </div>
+      <drr-summary-item
+        [label]="t('attachments.haveResolution')"
+        [rxFormControl]="fullProposalForm.get('attachments.haveResolution')"
+        controlType="radio"
+      ></drr-summary-item>
+      @if (fullProposalForm.get('attachments.haveResolution')?.value === true) {
+      <div>
+        <mat-label class="drr-label">{{
+          t("attachments.FirstNationsResolution")
+        }}</mat-label>
+        <div class="summary-row">
+          <drr-summary-item
+            [label]="t('attachments.name')"
+            [rxFormControl]="
+              getAttachmentByDocumentType('FirstNationsResolution')?.get('name')
+            "
+          >
+          </drr-summary-item>
+          <drr-summary-item
+            [label]="t('attachments.comments')"
+            [rxFormControl]="
+              getAttachmentByDocumentType('FirstNationsResolution')?.get('comments')
+            "
+          >
+          </drr-summary-item>
+        </div>
+      </div>
+      } @else {
+      {{ t("attachments.noResolutionDocument") }}
+      }
+      <mat-label class="drr-label">{{
+        t("attachments.otherSupportingDocumentation")
+      }}</mat-label>
+    </mat-card-content>
+  </mat-card>
+
   <mat-card *ngIf="showSubmitterInfo">
     <mat-card-header>
-      <mat-card-title>{{ t("steps.fp.step8") }}</mat-card-title>
-      <mat-card-subtitle>Step 8</mat-card-subtitle>
+      <mat-card-title>{{ t("steps.fp.step12") }}</mat-card-title>
+      <mat-card-subtitle>Step 12</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
       <div

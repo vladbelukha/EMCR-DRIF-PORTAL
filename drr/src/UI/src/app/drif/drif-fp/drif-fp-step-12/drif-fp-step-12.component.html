@@ -1,5 +1,9 @@
 <div class="drr-step-container" *transloco="let t">
-  <drif-fp-summary [fullProposalForm]="fullProposalForm"> </drif-fp-summary>
+  <drif-fp-summary
+    [fullProposalForm]="fullProposalForm"
+    [showSubmitterInfo]="false"
+  >
+  </drif-fp-summary>
 
   <form [formGroup]="declarationsForm">
     <mat-label class="drr-label">{{ t("submitter") }}</mat-label>
