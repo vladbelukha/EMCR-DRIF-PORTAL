@@ -205,7 +205,7 @@ namespace EMCR.DRR.Resources.Applications
         FPSubmitted = 172580007,
         Approved = 172580008,
         ApprovedInPrinciple = 172580009,
-        Closed = 2,
-        Deleted = 172580010,
+        Closed = 172580011,
+        Deleted = 2,
     }
 }
