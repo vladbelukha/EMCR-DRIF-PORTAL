@@ -12,6 +12,7 @@ import {
   RxFormBuilder,
   RxFormGroup,
 } from '@rxweb/reactive-form-validators';
+import { saveAs } from 'file-saver';
 import { AttachmentService } from '../../../../api/attachment/attachment.service';
 import { DocumentType } from '../../../../model';
 import { DrrFileUploadComponent } from '../../../shared/controls/drr-file-upload/drr-file-upload.component';
@@ -120,6 +121,30 @@ export class DrifFpStep11Component {
           // TODO: show error
         },
       });
+  }
+
+  downloadFile(fileId: string) {
+    this.attachmentsService.attachmentDownloadAttachment(fileId).subscribe({
+      next: (response) => {
+        if (response.file == null) {
+          return;
+        }
+        const byteArray = this.base64ToByteArray(response.file.content!);
+        const blob = new Blob([byteArray], { type: response.file.contentType });
+        saveAs(blob, response.file.fileName);
+      },
+      error: () => {},
+    });
+  }
+
+  base64ToByteArray(base64: string): Uint8Array {
+    const binaryString = window.atob(base64);
+    const len = binaryString.length;
+    const bytes = new Uint8Array(len);
+    for (let i = 0; i < len; i++) {
+      bytes[i] = binaryString.charCodeAt(i);
+    }
+    return bytes;
   }
 
   getFormByDocumentType(documentType: DocumentType) {

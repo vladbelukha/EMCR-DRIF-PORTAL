@@ -44,7 +44,10 @@
     "resolutionDocument": "Resolution Document",
     "noResolutionDocument": "Document must be submitted when available to EMCR.DisasterMitigation@gov.bc.ca.",
     "otherSupportingDocumentation": "Other Supporting Documentation",
-    "supportingDocumentationOptionalText": "Optionally attach any other supporting documentation"
+    "supportingDocumentationOptionalText": "Optionally attach any other supporting documentation",
+    "name": "File name",
+    "comments": "Comments",
+    "downloadFile": "Download file"
   },
   "fpOwnership": "Land Ownership",
   "fpOwnershipQuestion": "Will the project will be in BC on land that the proponent has legal access to either through ownership, right of way, or other at the time the Shared Cost Agreement is signed?",

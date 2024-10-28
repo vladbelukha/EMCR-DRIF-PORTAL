@@ -97,7 +97,7 @@ namespace EMCR.DRR.API.Services.S3
                 Folder = folder,
                 File = new S3File
                 {
-                    ContentType = response.Metadata["contentType"],
+                    ContentType = response.Metadata["contenttype"],
                     FileName = response.Metadata["filename"],
                     Content = ms.ToArray(),
                     Metadata = GetMetadata(response.Metadata).AsEnumerable(),
