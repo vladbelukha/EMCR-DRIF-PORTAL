@@ -94,8 +94,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
 
             var fpToUpdate = FillInFullProposal(mapper.Map<DraftFpApplication>(fullProposal));
             fpToUpdate.Submitter = eoi.Submitter;
-            fpToUpdate.Status = SubmissionPortalStatus.UnderReview;
-            await manager.Handle(new FpSaveApplicationCommand { application = mapper.Map<FpApplication>(fpToUpdate), UserInfo = GetTestUserInfo() });
+            await manager.Handle(new FpSubmitApplicationCommand { application = mapper.Map<FpApplication>(fpToUpdate), UserInfo = GetTestUserInfo() });
 
             var updatedFp = (await manager.Handle(new DrrApplicationsQuery { Id = fpId, BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault();
             updatedFp.Status.ShouldBe(ApplicationStatus.Submitted);
@@ -345,9 +344,11 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             ((int)updatedFp.OperationAndMaintenance).ShouldBe((int)fpToUpdate.OperationAndMaintenance);
             updatedFp.ClimateAssessmentTools.ShouldNotBeEmpty();
             updatedFp.ClimateAssessmentComments.ShouldBe("climate assessment comments");
+            updatedFp.IncreasedOrTransferred.ShouldNotBeEmpty();
+            updatedFp.IntendToSecureFunding.ShouldBe(fpToUpdate.IntendToSecureFunding);
 
             var ret = mapper.Map<DraftFpApplication>(updatedFp);
-            ret.VerificationMethods.ShouldContain("autotest-verification-method");
+            ret.FoundationalOrPreviousWorks.ShouldContain("autotest-verification-method");
             ret.AffectedParties.ShouldContain("party 1");
             ret.ClimateAssessmentTools.ShouldContain("tool 1");
             ret.Professionals.ShouldContain("professional1");
@@ -403,7 +404,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             twiceUpdatedFp.Professionals.Count().ShouldBe(fpToUpdate.Professionals.Count());
             twiceUpdatedFp.Standards.Count().ShouldBe(6);
             twiceUpdatedFp.ProposedActivities.Count().ShouldBe(fpToUpdate.ProposedActivities.Count());
-            twiceUpdatedFp.VerificationMethods.Count().ShouldBe(fpToUpdate.VerificationMethods.Count());
+            twiceUpdatedFp.FoundationalOrPreviousWorks.Count().ShouldBe(fpToUpdate.FoundationalOrPreviousWorks.Count());
             twiceUpdatedFp.AffectedParties.Count().ShouldBe(fpToUpdate.AffectedParties.Count());
             twiceUpdatedFp.CostReductions.Count().ShouldBe(fpToUpdate.CostReductions.Count());
             twiceUpdatedFp.CoBenefits.Count().ShouldBe(fpToUpdate.CoBenefits.Count());
@@ -627,7 +628,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             {
                 new EMCR.DRR.Controllers.ProposedActivity {StartDate = DateTime.UtcNow, EndDate = DateTime.UtcNow.AddDays(5), Name = "autotest-proposed-activity-name", RelatedMilestone = "some milestone" }
             };
-            application.VerificationMethods = new[] { "autotest-verification-method" };
+            application.FoundationalOrPreviousWorks = new[] { "autotest-verification-method" };
             application.HowWasNeedIdentified = "need identified";
             application.ProjectAlternateOptions = "some alternate options";
 
@@ -685,7 +686,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             application.CapacityRisks = new[] { "capacity risk 1", "capacity risk 2" };
             application.CapacityRiskComments = "capacity comments";
             application.RiskTransferMigigated = true;
-            application.TransferRisks = new[] { "transfer risk 1", "transfer risk 2" };
+            application.IncreasedOrTransferred = new[] { EMCR.DRR.Controllers.IncreasedOrTransferred.Increased };
             application.TransferRisksComments = "transfer comments";
 
             //Budget - 10
@@ -694,6 +695,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             application.TotalDrifFundingRequest = 5000;
             application.DiscrepancyComment = "discrepancy comment";
             //application.CostEffective = false;
+            application.IntendToSecureFunding = "intend to secure funding";
             application.CostEffectiveComments = "cost effective comments";
             application.PreviousResponse = EMCR.DRR.Controllers.YesNoOption.No;
             application.PreviousResponseCost = 1200;

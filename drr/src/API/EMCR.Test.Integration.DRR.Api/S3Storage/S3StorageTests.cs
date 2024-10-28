@@ -2,7 +2,6 @@
 using EMCR.DRR.API.Services.S3;
 using Microsoft.Extensions.DependencyInjection;
 using Shouldly;
-using File = EMCR.DRR.API.Services.S3.File;
 
 namespace EMCR.Tests.Integration.DRR.Api.S3Storage
 {
@@ -19,13 +18,12 @@ namespace EMCR.Tests.Integration.DRR.Api.S3Storage
             var body = DateTime.Now.ToString();
             var fileName = "test.txt";
             byte[] bytes = Encoding.ASCII.GetBytes(body);
-            var file = new File { FileName = fileName, Content = bytes, ContentType = "text/plain", };
+            var file = new S3File { FileName = fileName, Content = bytes, ContentType = "text/plain", };
 
-            var ct = new CancellationTokenSource().Token;
-            var ret = await storageProvider.HandleCommand(new UploadFileCommand { Folder = "autotest-dev", Key = fileName, File = file }, ct);
+            var ret = await storageProvider.HandleCommand(new UploadFileCommand { Folder = "autotest-dev", Key = fileName, File = file });
             ret.ShouldBe(fileName);
 
-            var uploadedFile = await storageProvider.HandleQuery(new FileQuery { Key = fileName, Folder = "autotest-dev" }, ct);
+            var uploadedFile = await storageProvider.HandleQuery(new FileQuery { Key = fileName, Folder = "autotest-dev" });
             uploadedFile.ShouldNotBeNull().ShouldBeOfType<FileQueryResult>();
         }
     }

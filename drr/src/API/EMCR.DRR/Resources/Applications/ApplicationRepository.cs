@@ -28,6 +28,7 @@ namespace EMCR.DRR.Resources.Applications
             return cmd switch
             {
                 SaveApplication c => await HandleSaveApplication(c),
+                SubmitApplication c => await HandleSubmitApplication(c),
                 DeleteApplication c => await HandleDeleteApplication(c),
                 _ => throw new NotSupportedException($"{cmd.GetType().Name} is not supported")
             };
@@ -68,7 +69,7 @@ namespace EMCR.DRR.Resources.Applications
             var standardsInfo = (await readCtx.drr_provincialstandards.Expand(d => d.drr_Category).Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").OrderBy(d => d.drr_name).GetAllPagesAsync()).Select(d => new StandardSingle { Name = d.drr_name, Category = d.drr_Category.drr_name }).ToList();
             var standardCategories = (await readCtx.drr_provincialstandardcategories.Where(d => d.statecode == (int)EntityState.Active).OrderBy(d => d.drr_name).GetAllPagesAsync()).Select(d => d.drr_name).ToList();
             var complexityRisks = (await readCtx.drr_projectcomplexityrisks.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").OrderBy(d => d.drr_name).GetAllPagesAsync()).Select(d => d.drr_name).ToList();
-            var needIdentifications = (await readCtx.drr_projectneedidentifications.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").OrderBy(d => d.drr_name).GetAllPagesAsync()).Select(d => d.drr_name).ToList();
+            var foundationalOrPreviousWorks = (await readCtx.drr_foundationalorpreviousworks.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").OrderBy(d => d.drr_name).GetAllPagesAsync()).Select(d => d.drr_name).ToList();
             var affectedParties = (await readCtx.drr_impactedoraffectedparties.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").OrderBy(d => d.drr_name).GetAllPagesAsync()).Select(d => d.drr_name).ToList();
             var capacityRisks = (await readCtx.drr_projectcapacitychallenges.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").OrderBy(d => d.drr_name).GetAllPagesAsync()).Select(d => d.drr_name).ToList();
             var readinessRisks = (await readCtx.drr_projectreadinessrisks.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").OrderBy(d => d.drr_name).GetAllPagesAsync()).Select(d => d.drr_name).ToList();
@@ -94,7 +95,7 @@ namespace EMCR.DRR.Resources.Applications
 
             return new EntitiesQueryResult
             {
-                VerificationMethods = needIdentifications,
+                FoundationalOrPreviousWorks = foundationalOrPreviousWorks,
                 AffectedParties = affectedParties,
                 Standards = standards,
                 CostReductions = costReductions,
@@ -212,6 +213,18 @@ namespace EMCR.DRR.Resources.Applications
                 return new ManageApplicationCommandResult { Id = await Update(ctx, cmd.Application) };
             }
         }
+        
+        public async Task<ManageApplicationCommandResult> HandleSubmitApplication(SubmitApplication cmd)
+        {
+            var ctx = dRRContextFactory.Create();
+            var application = await ctx.drr_applications.Where(a => a.drr_name == cmd.Id).SingleOrDefaultAsync();
+            application.statuscode = (int)ApplicationStatusOptionSet.Submitted;
+            application.drr_submitteddate = DateTime.UtcNow;
+            ctx.UpdateObject(application);
+            await ctx.SaveChangesAsync();
+            ctx.DetachAll();
+            return new ManageApplicationCommandResult { Id = cmd.Id };
+        }
 
         public async Task<ManageApplicationCommandResult> HandleDeleteApplication(DeleteApplication cmd)
         {
@@ -253,7 +266,7 @@ namespace EMCR.DRR.Resources.Applications
                 ctx.LoadPropertyAsync(currentApplication, nameof(drr_application.drr_drr_application_drr_proposedactivity_Application)),
                 ctx.LoadPropertyAsync(currentApplication, nameof(drr_application.drr_drr_application_drr_provincialstandarditem_Application)),
                 ctx.LoadPropertyAsync(currentApplication, nameof(drr_application.drr_drr_application_drr_impactedoraffectedpartyitem_Application)),
-                ctx.LoadPropertyAsync(currentApplication, nameof(drr_application.drr_drr_application_drr_projectneedidentificationitem_Application)),
+                ctx.LoadPropertyAsync(currentApplication, nameof(drr_application.drr_drr_application_drr_foundationalorpreviousworkitem_Application)),
                 ctx.LoadPropertyAsync(currentApplication, nameof(drr_application.drr_drr_application_drr_costreductionitem_Application)),
                 ctx.LoadPropertyAsync(currentApplication, nameof(drr_application.drr_drr_application_drr_cobenefititem_Application)),
                 ctx.LoadPropertyAsync(currentApplication, nameof(drr_application.drr_drr_application_drr_projectcomplexityriskitem_Application)),
@@ -330,10 +343,10 @@ namespace EMCR.DRR.Resources.Applications
                 ctx.AttachTo(nameof(ctx.drr_proposedactivities), activity);
                 ctx.DeleteObject(activity);
             }
-            foreach (var need in drrApplication.drr_drr_application_drr_projectneedidentificationitem_Application)
+            foreach (var item in drrApplication.drr_drr_application_drr_foundationalorpreviousworkitem_Application)
             {
-                ctx.AttachTo(nameof(ctx.drr_projectneedidentificationitems), need);
-                ctx.DeleteObject(need);
+                ctx.AttachTo(nameof(ctx.drr_foundationalorpreviousworkitems), item);
+                ctx.DeleteObject(item);
             }
             foreach (var affectedParty in drrApplication.drr_drr_application_drr_impactedoraffectedpartyitem_Application)
             {
@@ -413,7 +426,7 @@ namespace EMCR.DRR.Resources.Applications
             var standardsMasterListTask = LoadStandardsMasterList(ctx, drrApplication);
             var categoryMasterListTask = LoadCategoryMasterList(ctx, drrApplication);
             var affectedPartiesMasterListTask = LoadAffectedPartiesMasterList(ctx, drrApplication);
-            var projectNeedsMasterListTask = LoadProjectNeedsMasterList(ctx, drrApplication);
+            var foundationalMasterListTask = LoadFoundationalMasterList(ctx, drrApplication);
             var costReductionsMasterListTask = LoadCostReductionsMasterList(ctx, drrApplication);
             var coBenefitsMasterListTask = LoadCoBenefitsMasterList(ctx, drrApplication);
             var complexityRisksMasterListTask = LoadComplexityRisksMasterList(ctx, drrApplication);
@@ -430,7 +443,7 @@ namespace EMCR.DRR.Resources.Applications
                 standardsMasterListTask,
                 categoryMasterListTask,
                 affectedPartiesMasterListTask,
-                projectNeedsMasterListTask,
+                foundationalMasterListTask,
                 costReductionsMasterListTask,
                 coBenefitsMasterListTask,
                 complexityRisksMasterListTask,
@@ -447,7 +460,7 @@ namespace EMCR.DRR.Resources.Applications
             var standardsMasterList = standardsMasterListTask.Result;
             var categoryMasterList = categoryMasterListTask.Result;
             var affectedPartiesMasterList = affectedPartiesMasterListTask.Result;
-            var projectNeedsMasterList = projectNeedsMasterListTask.Result;
+            var foundationalMasterList = foundationalMasterListTask.Result;
             var costReductionsMasterList = costReductionsMasterListTask.Result;
             var coBenefitsMasterList = coBenefitsMasterListTask.Result;
             var complexityRisksMasterList = complexityRisksMasterListTask.Result;
@@ -463,7 +476,7 @@ namespace EMCR.DRR.Resources.Applications
             AddProvincialStandards(ctx, drrApplication, standardsMasterList, categoryMasterList);
             AddQualifiedProfessionals(ctx, drrApplication, professionalsMasterList);
             AddProposedActivities(ctx, drrApplication);
-            AddProjectNeedIdentifications(ctx, drrApplication, projectNeedsMasterList);
+            AddFoundationOrPreviousWorks(ctx, drrApplication, foundationalMasterList);
             AddAffectedParties(ctx, drrApplication, affectedPartiesMasterList);
             AddCostReductions(ctx, drrApplication, costReductionsMasterList);
             AddCoBenefits(ctx, drrApplication, coBenefitsMasterList);
@@ -521,11 +534,11 @@ namespace EMCR.DRR.Resources.Applications
                     new List<drr_impactedoraffectedparty>();
         }
 
-        private async Task<List<drr_projectneedidentification>> LoadProjectNeedsMasterList(DRRContext ctx, drr_application drrApplication)
+        private async Task<List<drr_foundationalorpreviouswork>> LoadFoundationalMasterList(DRRContext ctx, drr_application drrApplication)
         {
-            return drrApplication.drr_drr_application_drr_projectneedidentificationitem_Application.Count > 0 ?
-                (await ctx.drr_projectneedidentifications.GetAllPagesAsync()).ToList() :
-                new List<drr_projectneedidentification>();
+            return drrApplication.drr_drr_application_drr_foundationalorpreviousworkitem_Application.Count > 0 ?
+                (await ctx.drr_foundationalorpreviousworks.GetAllPagesAsync()).ToList() :
+                new List<drr_foundationalorpreviouswork>();
         }
 
         private async Task<List<drr_costreduction>> LoadCostReductionsMasterList(DRRContext ctx, drr_application drrApplication)
@@ -794,24 +807,24 @@ namespace EMCR.DRR.Resources.Applications
             }
         }
 
-        private static void AddProjectNeedIdentifications(DRRContext drrContext, drr_application application, List<drr_projectneedidentification> projectNeedsMasterList)
+        private static void AddFoundationOrPreviousWorks(DRRContext drrContext, drr_application application, List<drr_foundationalorpreviouswork> foundationalMasterList)
         {
-            foreach (var need in application.drr_drr_application_drr_projectneedidentificationitem_Application)
+            foreach (var item in application.drr_drr_application_drr_foundationalorpreviousworkitem_Application)
             {
-                if (need != null)
+                if (item != null)
                 {
-                    var masterVal = projectNeedsMasterList.FirstOrDefault(s => s.drr_name == need.drr_projectneedidentification?.drr_name);
+                    var masterVal = foundationalMasterList.FirstOrDefault(s => s.drr_name == item.drr_FoundationalorPreviousWork?.drr_name);
                     if (masterVal == null)
                     {
-                        masterVal = projectNeedsMasterList.FirstOrDefault(s => s.drr_name == "Other");
-                        need.drr_projectneedidentifiedcomments = need.drr_projectneedidentification?.drr_name;
+                        masterVal = foundationalMasterList.FirstOrDefault(s => s.drr_name == "Other");
+                        item.drr_foundationalorpreviousworkcomments = item.drr_FoundationalorPreviousWork?.drr_name;
                     }
-                    need.drr_projectneedidentification = masterVal;
+                    item.drr_FoundationalorPreviousWork = masterVal;
 
-                    drrContext.AddTodrr_projectneedidentificationitems(need);
-                    drrContext.AddLink(application, nameof(application.drr_drr_application_drr_projectneedidentificationitem_Application), need);
-                    drrContext.SetLink(need, nameof(need.drr_Application), application);
-                    drrContext.SetLink(need, nameof(need.drr_projectneedidentification), masterVal);
+                    drrContext.AddTodrr_foundationalorpreviousworkitems(item);
+                    drrContext.AddLink(application, nameof(application.drr_drr_application_drr_foundationalorpreviousworkitem_Application), item);
+                    drrContext.SetLink(item, nameof(item.drr_Application), application);
+                    drrContext.SetLink(item, nameof(item.drr_FoundationalorPreviousWork), masterVal);
                 }
             }
         }
@@ -1074,7 +1087,7 @@ namespace EMCR.DRR.Resources.Applications
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_drr_application_drr_proposedactivity_Application), ct),
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_drr_application_drr_provincialstandarditem_Application), ct),
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_drr_application_drr_impactedoraffectedpartyitem_Application), ct),
-                    ctx.LoadPropertyAsync(application, nameof(drr_application.drr_drr_application_drr_projectneedidentificationitem_Application), ct),
+                    ctx.LoadPropertyAsync(application, nameof(drr_application.drr_drr_application_drr_foundationalorpreviousworkitem_Application), ct),
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_drr_application_drr_costreductionitem_Application), ct),
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_drr_application_drr_cobenefititem_Application), ct),
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_drr_application_drr_projectcomplexityriskitem_Application), ct),
@@ -1097,7 +1110,7 @@ namespace EMCR.DRR.Resources.Applications
                 ParallelLoadFundingRequests(ctx, application, ct),
                 ParallelLoadQualifiedProfessionals(ctx, application, ct),
                 ParallelLoadAffectedParties(ctx, application, ct),
-                ParallelLoadProjectNeedIdentifications(ctx, application, ct),
+                ParallelLoadFoundationalOrPreviousWorks(ctx, application, ct),
                 ParallelLoadCostReductions(ctx, application, ct),
                 ParallelLoadCoBenefits(ctx, application, ct),
                 ParallelLoadComplexityRisks(ctx, application, ct),
@@ -1147,12 +1160,12 @@ namespace EMCR.DRR.Resources.Applications
             });
         }
 
-        private static async Task ParallelLoadProjectNeedIdentifications(DRRContext ctx, drr_application application, CancellationToken ct)
+        private static async Task ParallelLoadFoundationalOrPreviousWorks(DRRContext ctx, drr_application application, CancellationToken ct)
         {
-            await application.drr_drr_application_drr_projectneedidentificationitem_Application.ForEachAsync(5, async item =>
+            await application.drr_drr_application_drr_foundationalorpreviousworkitem_Application.ForEachAsync(5, async item =>
             {
-                ctx.AttachTo(nameof(DRRContext.drr_projectneedidentificationitems), item);
-                await ctx.LoadPropertyAsync(item, nameof(drr_projectneedidentificationitem.drr_projectneedidentification), ct);
+                ctx.AttachTo(nameof(DRRContext.drr_foundationalorpreviousworkitems), item);
+                await ctx.LoadPropertyAsync(item, nameof(drr_foundationalorpreviousworkitem.drr_FoundationalorPreviousWork), ct);
             });
         }
 

@@ -1,4 +1,5 @@
-﻿using EMCR.DRR.Controllers;
+﻿using EMCR.DRR.API.Services.S3;
+using EMCR.DRR.Controllers;
 
 namespace EMCR.DRR.Managers.Intake
 {
@@ -8,6 +9,7 @@ namespace EMCR.DRR.Managers.Intake
         Task<EntitiesQueryResult> Handle(EntitiesQuery query);
         Task<string> Handle(IntakeCommand cmd);
         Task<IntakeQueryResponse> Handle(IntakeQuery cmd);
+        Task<StorageQueryResults> Handle(AttachmentQuery cmd);
     }
 
     public class DeclarationQuery
@@ -23,7 +25,7 @@ namespace EMCR.DRR.Managers.Intake
 
     public class EntitiesQueryResult
     {
-        public IEnumerable<string>? VerificationMethods { get; set; } = Array.Empty<string>(); //In CRM = Project Need Identifications
+        public IEnumerable<string>? FoundationalOrPreviousWorks { get; set; } = Array.Empty<string>(); //In CRM = Project Need Identifications
         public IEnumerable<string>? AffectedParties { get; set; } = Array.Empty<string>();
         public IEnumerable<Controllers.StandardInfo>? Standards { get; set; } = Array.Empty<Controllers.StandardInfo>();
         public IEnumerable<string>? CostReductions { get; set; } = Array.Empty<string>();
@@ -120,12 +122,21 @@ namespace EMCR.DRR.Managers.Intake
         public AttachmentInfo AttachmentInfo { get; set; }
         public UserInfo UserInfo { get; set; }
     }
+    
+    public abstract class AttachmentQuery
+    { }
+    
+    public class DownloadAttachment : AttachmentQuery
+    {
+        public string? Id { get; set; }
+        public UserInfo UserInfo { get; set; }
+    }
 
     public class AttachmentInfo
     {
         public string? Id { get; set; }
         public required string ApplicationId { get; set; }
-        public required IFormFile File { get; set; }
+        public required S3File File { get; set; }
         public DocumentType DocumentType { get; set; }
     }
 
@@ -237,7 +248,7 @@ namespace EMCR.DRR.Managers.Intake
 
         //Project Plan - 4
         public IEnumerable<ProposedActivity>? ProposedActivities { get; set; }
-        public IEnumerable<VerificationMethod> VerificationMethods { get; set; }
+        public IEnumerable<FoundationalOrPreviousWork> FoundationalOrPreviousWorks { get; set; }
         public string? HowWasNeedIdentified { get; set; }
         public string? ProjectAlternateOptions { get; set; }
 
@@ -293,7 +304,7 @@ namespace EMCR.DRR.Managers.Intake
         public IEnumerable<CapacityRisk> CapacityRisks { get; set; }
         public string? CapacityRiskComments { get; set; }
         public bool? RiskTransferMigigated { get; set; }
-        public IEnumerable<TransferRisks> TransferRisks { get; set; }
+        public IEnumerable<IncreasedOrTransferred> IncreasedOrTransferred { get; set; }
         public string? TransferRisksComments { get; set; }
 
         //Budget - 10
@@ -392,7 +403,7 @@ namespace EMCR.DRR.Managers.Intake
         public required string Name { get; set; }
     }
 
-    public class VerificationMethod
+    public class FoundationalOrPreviousWork
     {
         public required string Name { get; set; }
     }
@@ -431,7 +442,7 @@ namespace EMCR.DRR.Managers.Intake
     {
         public required string Name { get; set; }
     }
-    
+
     public class CostConsideration
     {
         public required string Name { get; set; }
@@ -527,6 +538,12 @@ namespace EMCR.DRR.Managers.Intake
         Seismic,
         Tsunami,
         Other,
+    }
+
+    public enum IncreasedOrTransferred
+    {
+        Increased,
+        Transferred,
     }
 
     public enum ApplicationStatus
