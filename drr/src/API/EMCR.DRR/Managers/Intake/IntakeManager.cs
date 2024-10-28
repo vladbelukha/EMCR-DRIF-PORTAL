@@ -103,7 +103,6 @@ namespace EMCR.DRR.Managers.Intake
             application.SubmittedDate = DateTime.UtcNow;
             if (application.Submitter != null) application.Submitter.BCeId = cmd.UserInfo.UserId;
             //TODO - add field validations
-            application.Status = ApplicationStatus.Submitted;
 
             var id = (await applicationRepository.Manage(new SaveApplication { Application = application })).Id;
             return id;

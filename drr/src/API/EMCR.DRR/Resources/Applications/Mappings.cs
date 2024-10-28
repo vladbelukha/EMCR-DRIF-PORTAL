@@ -146,7 +146,7 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.drr_howcapacityrisksmitigated, opt => opt.MapFrom(src => src.CapacityRiskComments))
                 .ForMember(dest => dest.drr_isriskbeingincreasedortransferred, opt => opt.MapFrom(src => src.RiskTransferMigigated.HasValue ? src.RiskTransferMigigated.Value ? (int?)DRRTwoOptions.Yes : (int?)DRRTwoOptions.No : null))
                 .ForMember(dest => dest.drr_increasedortransferred, opt => opt.MapFrom(src => src.IncreasedOrTransferred.Count() > 0 ? string.Join(",", src.IncreasedOrTransferred.Select(t => (int?)Enum.Parse<IncreasedOrTransferredOptionSet>(t.ToString()))) : null))
-                .ForMember(dest => dest.drr_describeriskincreasedortransferred, opt => opt.MapFrom(src => src.TransferRisksComments))
+                .ForMember(dest => dest.drr_describeriskincreasedortransferred, opt => opt.MapFrom(src => src.IncreasedOrTransferredComments))
 
                 //Budget - 10
                 .ForMember(dest => dest.drr_eligibleamount, opt => opt.MapFrom(src => src.EligibleFundingRequest))
@@ -291,7 +291,7 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.CapacityRiskComments, opt => opt.MapFrom(src => src.drr_howcapacityrisksmitigated))
                 .ForMember(dest => dest.RiskTransferMigigated, opt => opt.MapFrom(src => src.drr_isriskbeingincreasedortransferred.HasValue ? src.drr_isriskbeingincreasedortransferred.Value == (int)DRRTwoOptions.Yes : (bool?)null))
                 .ForMember(dest => dest.IncreasedOrTransferred, opt => opt.MapFrom(src => !string.IsNullOrEmpty(src.drr_increasedortransferred) ? src.drr_increasedortransferred.Split(',', StringSplitOptions.None).Select(h => Enum.Parse<IncreasedOrTransferred>(((IncreasedOrTransferredOptionSet)int.Parse(h)).ToString()).ToString()) : null))
-                .ForMember(dest => dest.TransferRisksComments, opt => opt.MapFrom(src => src.drr_describeriskincreasedortransferred))
+                .ForMember(dest => dest.IncreasedOrTransferredComments, opt => opt.MapFrom(src => src.drr_describeriskincreasedortransferred))
                 //Budget - 10
                 .ForMember(dest => dest.EligibleFundingRequest, opt => opt.MapFrom(src => src.drr_eligibleamount))
                 .ForMember(dest => dest.YearOverYearFunding, opt => opt.MapFrom(src => src.drr_drr_application_drr_driffundingrequest_Application))
