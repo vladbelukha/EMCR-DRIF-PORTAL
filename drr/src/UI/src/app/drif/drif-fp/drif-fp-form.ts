@@ -342,7 +342,7 @@ export class ProjectRisksForm {
   increasedOrTransferred?: string[];
 
   @prop()
-  transferRisksComments?: string;
+  increasedOrTransferredComments?: string;
 
   constructor(values: ProjectRisksForm) {
     Object.assign(this, values);

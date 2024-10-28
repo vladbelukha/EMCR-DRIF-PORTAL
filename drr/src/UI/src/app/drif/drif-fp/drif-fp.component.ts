@@ -301,7 +301,8 @@ export class DrifFpComponent {
               sensitivityRiskMitigated: response.sensitivityRiskMitigated,
               sensitivityRisks: response.sensitivityRisks,
               increasedOrTransferred: response.increasedOrTransferred,
-              transferRisksComments: response.transferRisksComments,
+              increasedOrTransferredComments:
+                response.increasedOrTransferredComments,
             },
             budget: {
               haveOtherFunding: response.haveOtherFunding,
@@ -570,7 +571,7 @@ export class DrifFpComponent {
         .get('projectRisks.increasedOrTransferred')
         ?.addValidators(Validators.required);
       this.fullProposalForm
-        .get('projectRisks.transferRisksComments')
+        .get('projectRisks.increasedOrTransferredComments')
         ?.addValidators(Validators.required);
     }
   }

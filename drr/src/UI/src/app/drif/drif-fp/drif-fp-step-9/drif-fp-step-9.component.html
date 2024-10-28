@@ -98,9 +98,9 @@
     </mat-selection-list>
     <drr-textarea
       *ngIf="projectRisksForm.get('riskTransferMigigated')?.value === true"
-      [label]="t('transferRisksComments')"
+      [label]="t('increasedOrTransferredComments')"
       [maxlength]="2000"
-      [rxFormControl]="projectRisksForm.get('transferRisksComments')"
+      [rxFormControl]="projectRisksForm.get('increasedOrTransferredComments')"
     ></drr-textarea>
   </form>
 </div>

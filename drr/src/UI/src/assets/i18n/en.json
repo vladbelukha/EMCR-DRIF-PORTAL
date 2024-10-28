@@ -334,7 +334,7 @@
   "riskTransfer": "Risk Transfer",
   "riskTransferMigigated": "By completing this project, is risk being increased or transferred to any parties or to the environment?",
   "increasedOrTransferred": "If yes, is the risk being increased and/or transferred? (select all that apply)",
-  "transferRisksComments": "Describe the risk and provide an explanation as to how the risk will be mitigated, if applicable.",
+  "increasedOrTransferredComments": "Describe the risk and provide an explanation as to how the risk will be mitigated, if applicable.",
   "projectPlanDisclaimer": "Please ensure that any information in this section aligns with information submitted in other documents, e.g., Detailed Cost Estimate, Detailed Project Plan, Project Schedule.",
   "projectDescription": "Project Description",
   "projectDescriptionText": "Describe how the proposed project aligns with DRIF’s program goals (see Section 3: Project Eligibility in the DRIF Program Guide)",

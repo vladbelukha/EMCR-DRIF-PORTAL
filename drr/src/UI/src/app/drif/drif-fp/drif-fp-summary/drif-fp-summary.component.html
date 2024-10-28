@@ -943,9 +943,9 @@
         [translate]="false"
       ></drr-summary-item>
       <drr-summary-item
-        [label]="t('transferRisksComments')"
+        [label]="t('increasedOrTransferredComments')"
         [rxFormControl]="
-          fullProposalForm.get('projectRisks.transferRisksComments')
+          fullProposalForm.get('projectRisks.increasedOrTransferredComments')
         "
       ></drr-summary-item>
       }
@@ -1140,16 +1140,14 @@
           <drr-summary-item
             [label]="t('attachments.name')"
             [rxFormControl]="
-              getAttachmentByDocumentType('DetailedProjectWorkplan')?.get(
-                'name'
-              )
+              getAttachmentByDocumentType('DetailedProjectWorkplan').get('name')
             "
           >
           </drr-summary-item>
           <drr-summary-item
             [label]="t('attachments.comments')"
             [rxFormControl]="
-              getAttachmentByDocumentType('DetailedProjectWorkplan')?.get(
+              getAttachmentByDocumentType('DetailedProjectWorkplan').get(
                 'comments'
               )
             "
@@ -1165,14 +1163,14 @@
           <drr-summary-item
             [label]="t('attachments.name')"
             [rxFormControl]="
-              getAttachmentByDocumentType('ProjectSchedule')?.get('name')
+              getAttachmentByDocumentType('ProjectSchedule').get('name')
             "
           >
           </drr-summary-item>
           <drr-summary-item
             [label]="t('attachments.comments')"
             [rxFormControl]="
-              getAttachmentByDocumentType('ProjectSchedule')?.get('comments')
+              getAttachmentByDocumentType('ProjectSchedule').get('comments')
             "
           >
           </drr-summary-item>
@@ -1186,14 +1184,14 @@
           <drr-summary-item
             [label]="t('attachments.name')"
             [rxFormControl]="
-              getAttachmentByDocumentType('DetailedCostEstimate')?.get('name')
+              getAttachmentByDocumentType('DetailedCostEstimate').get('name')
             "
           >
           </drr-summary-item>
           <drr-summary-item
             [label]="t('attachments.comments')"
             [rxFormControl]="
-              getAttachmentByDocumentType('DetailedCostEstimate')?.get(
+              getAttachmentByDocumentType('DetailedCostEstimate').get(
                 'comments'
               )
             "
@@ -1207,14 +1205,14 @@
           <drr-summary-item
             [label]="t('attachments.name')"
             [rxFormControl]="
-              getAttachmentByDocumentType('SitePlan')?.get('name')
+              getAttachmentByDocumentType('SitePlan').get('name')
             "
           >
           </drr-summary-item>
           <drr-summary-item
             [label]="t('attachments.comments')"
             [rxFormControl]="
-              getAttachmentByDocumentType('SitePlan')?.get('comments')
+              getAttachmentByDocumentType('SitePlan').get('comments')
             "
           >
           </drr-summary-item>
@@ -1228,14 +1226,14 @@
           <drr-summary-item
             [label]="t('attachments.name')"
             [rxFormControl]="
-              getAttachmentByDocumentType('PreliminaryDesign')?.get('name')
+              getAttachmentByDocumentType('PreliminaryDesign').get('name')
             "
           >
           </drr-summary-item>
           <drr-summary-item
             [label]="t('attachments.comments')"
             [rxFormControl]="
-              getAttachmentByDocumentType('PreliminaryDesign')?.get('comments')
+              getAttachmentByDocumentType('PreliminaryDesign').get('comments')
             "
           >
           </drr-summary-item>
@@ -1255,14 +1253,14 @@
           <drr-summary-item
             [label]="t('attachments.name')"
             [rxFormControl]="
-              getAttachmentByDocumentType('Resolution')?.get('name')
+              getAttachmentByDocumentType('Resolution').get('name')
             "
           >
           </drr-summary-item>
           <drr-summary-item
             [label]="t('attachments.comments')"
             [rxFormControl]="
-              getAttachmentByDocumentType('Resolution')?.get('comments')
+              getAttachmentByDocumentType('Resolution').get('comments')
             "
           >
           </drr-summary-item>

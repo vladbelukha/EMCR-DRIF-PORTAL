@@ -66,7 +66,6 @@ export class DrifFpStep11Component {
           applicationId: this.applicationId,
           documentType: event.documentType,
           name: file.name,
-          comments: '',
         })
         .subscribe({
           next: (attachment) => {
@@ -104,7 +103,8 @@ export class DrifFpStep11Component {
   removeFile(fileId: string) {
     this.attachmentsService
       .attachmentDeleteAttachment(fileId, {
-        // TODO: this body is not needed
+        applicationId: this.applicationId,
+        id: fileId,
       })
       .subscribe({
         next: () => {

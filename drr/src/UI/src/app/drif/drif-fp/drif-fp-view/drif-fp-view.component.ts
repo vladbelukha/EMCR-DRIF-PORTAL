@@ -158,7 +158,8 @@ export class DrifFpViewComponent {
           sensitivityRiskMitigated: response.sensitivityRiskMitigated,
           sensitivityRisks: response.sensitivityRisks,
           increasedOrTransferred: response.increasedOrTransferred,
-          transferRisksComments: response.transferRisksComments,
+          increasedOrTransferredComments:
+            response.increasedOrTransferredComments,
         },
         budget: {
           haveOtherFunding: response.haveOtherFunding,

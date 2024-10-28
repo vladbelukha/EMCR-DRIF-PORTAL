@@ -111,6 +111,8 @@ export type DraftFpApplicationAllOf = {
   /** @nullable */
   increasedOrTransferred?: IncreasedOrTransferred[];
   /** @nullable */
+  increasedOrTransferredComments?: string;
+  /** @nullable */
   increasedResiliency?: string[];
   /** @nullable */
   increasedResiliencyComments?: string;
@@ -234,8 +236,6 @@ export type DraftFpApplicationAllOf = {
    * @nullable
    */
   totalProjectCost?: number;
-  /** @nullable */
-  transferRisksComments?: string;
   /** @nullable */
   units?: AreaUnits;
   /** @nullable */
