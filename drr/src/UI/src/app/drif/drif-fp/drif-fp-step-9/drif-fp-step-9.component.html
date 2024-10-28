@@ -83,14 +83,14 @@
     ></drr-radio-button>
     <mat-label
       *ngIf="projectRisksForm.get('riskTransferMigigated')?.value === true"
-      >{{ t("transferRisks") }}</mat-label
+      >{{ t("increasedOrTransferred") }}</mat-label
     >
     <mat-selection-list
       *ngIf="projectRisksForm.get('riskTransferMigigated')?.value === true"
       class="drr-single-input"
-      [formControl]="getFormControl('transferRisks')"
+      [formControl]="getFormControl('increasedOrTransferred')"
     >
-      @for (option of transferRisksOptions; track $index) {
+      @for (option of increasedOrTransferredOptions; track $index) {
       <mat-list-option [value]="option" togglePosition="before">{{
         t(option)
       }}</mat-list-option>

@@ -8,6 +8,7 @@ import type { ContactDetails } from './contactDetails';
 import type { Attachment } from './attachment';
 import type { EstimatedNumberOfPeopleFP } from './estimatedNumberOfPeopleFP';
 import type { YesNoOption } from './yesNoOption';
+import type { IncreasedOrTransferred } from './increasedOrTransferred';
 import type { InfrastructureImpacted } from './infrastructureImpacted';
 import type { FundingInformation } from './fundingInformation';
 import type { ProposedActivity } from './proposedActivity';
@@ -76,7 +77,7 @@ export type DraftFpApplicationAllOf = {
   /** @nullable */
   discrepancyComment?: string;
   /**
-   * @minimum 0
+   * @minimum -999999999.99
    * @maximum 999999999.99
    * @nullable
    */
@@ -94,6 +95,8 @@ export type DraftFpApplicationAllOf = {
   /** @nullable */
   firstNationsAuthorizedByPartners?: YesNoOption;
   /** @nullable */
+  foundationalOrPreviousWorks?: string[];
+  /** @nullable */
   futureCostReduction?: boolean;
   /** @nullable */
   haveAuthorityToDevelop?: boolean;
@@ -105,6 +108,8 @@ export type DraftFpApplicationAllOf = {
   id?: string;
   /** @nullable */
   incorporateFutureClimateConditions?: boolean;
+  /** @nullable */
+  increasedOrTransferred?: IncreasedOrTransferred[];
   /** @nullable */
   increasedResiliency?: string[];
   /** @nullable */
@@ -150,7 +155,7 @@ export type DraftFpApplicationAllOf = {
   /** @nullable */
   previousResponseComments?: string;
   /**
-   * @minimum 0
+   * @minimum -999999999.99
    * @maximum 999999999.99
    * @nullable
    */
@@ -192,7 +197,7 @@ export type DraftFpApplicationAllOf = {
   /** @nullable */
   relatedHazards?: Hazards[];
   /**
-   * @minimum 0
+   * @minimum -999999999.99
    * @maximum 999999999.99
    * @nullable
    */
@@ -218,25 +223,21 @@ export type DraftFpApplicationAllOf = {
   /** @nullable */
   submitter?: ContactDetails;
   /**
-   * @minimum 0
+   * @minimum -999999999.99
    * @maximum 999999999.99
    * @nullable
    */
   totalDrifFundingRequest?: number;
   /**
-   * @minimum 0
+   * @minimum -999999999.99
    * @maximum 999999999.99
    * @nullable
    */
   totalProjectCost?: number;
   /** @nullable */
-  transferRisks?: string[];
-  /** @nullable */
   transferRisksComments?: string;
   /** @nullable */
   units?: AreaUnits;
-  /** @nullable */
-  verificationMethods?: string[];
   /** @nullable */
   yearOverYearFunding?: YearOverYearFunding[];
 };

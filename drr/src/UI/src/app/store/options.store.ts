@@ -19,8 +19,8 @@ const initialState: OptionsState = {
   professionals: [],
   readinessRisks: [],
   sensitivityRisks: [],
-  standards: [],
-  verificationMethods: [],
+  standards: [],  
+  foundationalOrPreviousWorks: [],
   climateAssessmentToolOptions: [],
 };
 

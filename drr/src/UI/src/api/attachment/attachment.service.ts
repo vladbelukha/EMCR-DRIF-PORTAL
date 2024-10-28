@@ -22,7 +22,8 @@ import {
 } from 'rxjs'
 import type {
   ApplicationResult,
-  Attachment
+  Attachment,
+  AttachmentQueryResult
 } from '../../model'
 
 
@@ -62,20 +63,16 @@ export class AttachmentService {
       attachment,options
     );
   }
- attachmentDownloadAttachment<TData = ApplicationResult>(
-    id: string,
-    attachment: Attachment, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
+ attachmentDownloadAttachment<TData = AttachmentQueryResult>(
+    id: string, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
   ): Observable<TData>;
-    attachmentDownloadAttachment<TData = ApplicationResult>(
-    id: string,
-    attachment: Attachment, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
+    attachmentDownloadAttachment<TData = AttachmentQueryResult>(
+    id: string, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
   ): Observable<AngularHttpResponse<TData>>;
-    attachmentDownloadAttachment<TData = ApplicationResult>(
-    id: string,
-    attachment: Attachment, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
-  ): Observable<HttpEvent<TData>>;attachmentDownloadAttachment<TData = ApplicationResult>(
-    id: string,
-    attachment: Attachment, options?: HttpClientOptions
+    attachmentDownloadAttachment<TData = AttachmentQueryResult>(
+    id: string, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
+  ): Observable<HttpEvent<TData>>;attachmentDownloadAttachment<TData = AttachmentQueryResult>(
+    id: string, options?: HttpClientOptions
   ): Observable<TData>  {
     return this.http.get<TData>(
       `/api/attachment/${id}`,options
@@ -124,6 +121,6 @@ export class AttachmentService {
 };
 
 export type AttachmentUploadAttachmentClientResult = NonNullable<ApplicationResult>
-export type AttachmentDownloadAttachmentClientResult = NonNullable<ApplicationResult>
+export type AttachmentDownloadAttachmentClientResult = NonNullable<AttachmentQueryResult>
 export type AttachmentUpdateAttachmentClientResult = NonNullable<ApplicationResult>
 export type AttachmentDeleteAttachmentClientResult = NonNullable<ApplicationResult>

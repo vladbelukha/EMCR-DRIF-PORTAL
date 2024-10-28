@@ -236,7 +236,7 @@ export class DrifFpComponent {
               projectAlternateOptions: response.projectAlternateOptions,
               projectDescription: response.projectDescription,
               proposedActivities: response.proposedActivities,
-              verificationMethods: response.verificationMethods,
+              foundationalOrPreviousWorks: response.foundationalOrPreviousWorks,
               addressRisksAndHazards: response.addressRisksAndHazards,
               disasterRiskUnderstanding: response.disasterRiskUnderstanding,
               rationaleForFunding: response.rationaleForFunding,
@@ -300,7 +300,7 @@ export class DrifFpComponent {
               sensitivityRiskComments: response.sensitivityRiskComments,
               sensitivityRiskMitigated: response.sensitivityRiskMitigated,
               sensitivityRisks: response.sensitivityRisks,
-              transferRisks: response.transferRisks,
+              increasedOrTransferred: response.increasedOrTransferred,
               transferRisksComments: response.transferRisksComments,
             },
             budget: {
@@ -567,7 +567,7 @@ export class DrifFpComponent {
 
     if (response.riskTransferMigigated === true) {
       this.fullProposalForm
-        .get('projectRisks.transferRisks')
+        .get('projectRisks.increasedOrTransferred')
         ?.addValidators(Validators.required);
       this.fullProposalForm
         .get('projectRisks.transferRisksComments')

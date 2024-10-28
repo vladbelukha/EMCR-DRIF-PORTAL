@@ -436,7 +436,7 @@
       <drr-summary-item
         [label]="t('rationaleForSolutionText')"
         [rxFormControl]="
-          fullProposalForm.get('projectPlan.verificationMethods')
+          fullProposalForm.get('projectPlan.foundationalOrPreviousWorks')
         "
         controlType="array"
         [translate]="false"
@@ -444,7 +444,7 @@
       </drr-summary-item>
 
       <drr-summary-item
-        [label]="t('verificationMethodsComments')"
+        [label]="t('foundationalOrPreviousWorksComments')"
         [rxFormControl]="
           fullProposalForm.get('projectPlan.howWasNeedIdentified')
         "
@@ -935,8 +935,10 @@
       @if (fullProposalForm.get('projectRisks.riskTransferMigigated')?.value ===
       true) {
       <drr-summary-item
-        [label]="t('transferRisks')"
-        [rxFormControl]="fullProposalForm.get('projectRisks.transferRisks')"
+        [label]="t('increasedOrTransferred')"
+        [rxFormControl]="
+          fullProposalForm.get('projectRisks.increasedOrTransferred')
+        "
         controlType="array"
         [translate]="false"
       ></drr-summary-item>
@@ -1253,14 +1255,14 @@
           <drr-summary-item
             [label]="t('attachments.name')"
             [rxFormControl]="
-              getAttachmentByDocumentType('FirstNationsResolution')?.get('name')
+              getAttachmentByDocumentType('Resolution')?.get('name')
             "
           >
           </drr-summary-item>
           <drr-summary-item
             [label]="t('attachments.comments')"
             [rxFormControl]="
-              getAttachmentByDocumentType('FirstNationsResolution')?.get('comments')
+              getAttachmentByDocumentType('Resolution')?.get('comments')
             "
           >
           </drr-summary-item>

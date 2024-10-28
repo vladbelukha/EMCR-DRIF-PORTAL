@@ -9,9 +9,9 @@ import type { DocumentType } from './documentType';
 export interface Attachment {
   applicationId?: string;
   /** @nullable */
-  body?: string;
-  /** @nullable */
   comments?: string;
+  content?: string;
+  contentType?: string;
   documentType?: DocumentType;
   /** @nullable */
   haveResolution?: boolean;

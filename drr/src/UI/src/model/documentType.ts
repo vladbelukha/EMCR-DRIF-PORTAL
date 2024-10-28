@@ -15,7 +15,6 @@ export const DocumentType = {
   DetailedCostEstimate: 'DetailedCostEstimate',
   SitePlan: 'SitePlan',
   PreliminaryDesign: 'PreliminaryDesign',
-  FirstNationsResolution: 'FirstNationsResolution',
-  LocalGovernmentResolution: 'LocalGovernmentResolution',
+  Resolution: 'Resolution',
   OtherSupportingDocument: 'OtherSupportingDocument',
 } as const;

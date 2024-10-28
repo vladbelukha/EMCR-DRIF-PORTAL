@@ -50,7 +50,7 @@ export class DrifFpStep4Component {
 
   verificationMethodOptions = this.optionsStore
     .getOptions()
-    ?.verificationMethods?.();
+    ?.foundationalOrPreviousWorks?.();
 
   setEndDate(startDate: any) {
     if (!startDate) {
