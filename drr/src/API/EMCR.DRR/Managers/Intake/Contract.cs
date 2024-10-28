@@ -305,7 +305,7 @@ namespace EMCR.DRR.Managers.Intake
         public string? CapacityRiskComments { get; set; }
         public bool? RiskTransferMigigated { get; set; }
         public IEnumerable<IncreasedOrTransferred> IncreasedOrTransferred { get; set; }
-        public string? TransferRisksComments { get; set; }
+        public string? IncreasedOrTransferredComments { get; set; }
 
         //Budget - 10
         public decimal? EligibleFundingRequest { get; set; }

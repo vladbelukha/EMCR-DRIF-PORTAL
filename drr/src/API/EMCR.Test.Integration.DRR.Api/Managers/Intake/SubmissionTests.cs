@@ -564,7 +564,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
                         OtherDescription = "other funding reason"
                     },
                 },
-                RemainingAmount = 600,
+                RemainingAmount = 300,
                 IntendToSecureFunding = "Funding Reasons",
 
                 //Location Information - 4
@@ -687,12 +687,13 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             application.CapacityRiskComments = "capacity comments";
             application.RiskTransferMigigated = true;
             application.IncreasedOrTransferred = new[] { EMCR.DRR.Controllers.IncreasedOrTransferred.Increased };
-            application.TransferRisksComments = "transfer comments";
+            application.IncreasedOrTransferredComments = "transfer comments";
 
             //Budget - 10
-            application.TotalProjectCost = 5555;
-            application.YearOverYearFunding = new[] { new EMCR.DRR.Controllers.YearOverYearFunding { Amount = 100, Year = "2024/2025" } };
-            application.TotalDrifFundingRequest = 5000;
+            application.TotalProjectCost = 5000;
+            application.YearOverYearFunding = new[] { new EMCR.DRR.Controllers.YearOverYearFunding { Amount = 4400, Year = "2024/2025" } };
+            //application.TotalDrifFundingRequest = 5000;
+            //application.RemainingAmount = 4300;
             application.DiscrepancyComment = "discrepancy comment";
             //application.CostEffective = false;
             application.IntendToSecureFunding = "intend to secure funding";

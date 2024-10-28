@@ -42,7 +42,7 @@ namespace EMCR.DRR.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<ApplicationResult>> UploadAttachment([FromBody] Attachment attachment)
+        public async Task<ActionResult<ApplicationResult>> UploadAttachment([FromBody] FileData attachment)
         {
             await Task.CompletedTask;
             return Ok(new ApplicationResult { Id = "fileId" });
@@ -63,7 +63,7 @@ namespace EMCR.DRR.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<ApplicationResult>> DeleteAttachment([FromBody] Attachment attachment, string id)
+        public async Task<ActionResult<ApplicationResult>> DeleteAttachment([FromBody] DeleteAttachment attachment, string id)
         {
             await Task.CompletedTask;
             return Ok(new ApplicationResult { Id = "fileId" });

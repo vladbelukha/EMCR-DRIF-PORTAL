@@ -384,7 +384,7 @@ namespace EMCR.DRR.Controllers
         //[MandatoryIf("RiskTransferMigigated", true)]
         public IEnumerable<IncreasedOrTransferred>? IncreasedOrTransferred { get; set; }
         [MandatoryIf("RiskTransferMigigated", true)]
-        public string? TransferRisksComments { get; set; }
+        public string? IncreasedOrTransferredComments { get; set; }
 
         //Budget - 10
         [Range(ApplicationValidators.FUNDING_MIN_VAL, ApplicationValidators.FUNDING_MAX_VAL)]
