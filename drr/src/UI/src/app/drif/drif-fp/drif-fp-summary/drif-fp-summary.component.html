@@ -1282,11 +1282,11 @@
         }
       </div>
       <drr-summary-item
-        [label]="t('attachments.haveResolution')"
+        [label]="t('attachments.resolutionDocument')"
         [rxFormControl]="fullProposalForm.get('attachments.haveResolution')"
         controlType="radio"
       ></drr-summary-item>
-      @if (fullProposalForm.get('attachments.haveResolution')?.value === true) {
+      @if (gethaveResolutionDocument()) {
       <div>
         <mat-label class="drr-label">{{
           t("attachments.FirstNationsResolution")
@@ -1314,12 +1314,25 @@
         </div>
         }
       </div>
-      } @else {
-      {{ t("attachments.noResolutionDocument") }}
       }
       <mat-label class="drr-label">{{
         t("attachments.otherSupportingDocumentation")
       }}</mat-label>
+      <div
+        class="summary-row"
+        *ngFor="let attachment of getOtherAttachmentsArrayControls()"
+      >
+        <drr-summary-item
+          [label]="t('attachments.name')"
+          [rxFormControl]="attachment.get('name')"
+        >
+        </drr-summary-item>
+        <drr-summary-item
+          [label]="t('attachments.comments')"
+          [rxFormControl]="attachment.get('comments')"
+        >
+        </drr-summary-item>
+      </div>
     </mat-card-content>
   </mat-card>
 

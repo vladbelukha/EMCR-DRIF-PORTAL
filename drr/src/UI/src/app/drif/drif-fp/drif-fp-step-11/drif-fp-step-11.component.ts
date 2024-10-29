@@ -167,4 +167,9 @@ export class DrifFpStep11Component {
         control.value.documentType === DocumentType.OtherSupportingDocument
     );
   }
+
+  getOtherDocumentFormGroup(index: number) {
+    const otherForms = this.getOtherFormArray();
+    return otherForms[index] as IFormGroup<AttachmentForm>;
+  }
 }

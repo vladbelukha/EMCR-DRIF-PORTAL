@@ -76,28 +76,13 @@
       t("otherSupportingDocumentation")
     }}</mat-label>
 
-    <div
-      class="attachment"
+    <drr-attachment
       *ngFor="let otherDocumentControl of getOtherFormArray(); let i = index"
-    >
-      <drr-input
-        class="drr-single-input"
-        [label]="'File name'"
-        [rxFormControl]="otherDocumentControl.get('name')"
-      ></drr-input>
-      <drr-input
-        class="drr-single-input"
-        [label]="'Comments'"
-        [rxFormControl]="otherDocumentControl.get('comments')"
-      ></drr-input>
-      <button
-        mat-mini-fab
-        color="warn"
-        (click)="removeFile(otherDocumentControl?.get('id')?.value)"
-      >
-        <mat-icon>delete</mat-icon>
-      </button>
-    </div>
+      [label]="otherDocumentControl.get('name')?.value"
+      [attachmentForm]="getOtherDocumentFormGroup(i)"
+      (removeFile)="removeFile($event)"
+      (downloadFile)="downloadFile($event)"
+    ></drr-attachment>
 
     <mat-label>{{ t("supportingDocumentationOptionalText") }}</mat-label>
     <drr-file-upload
