@@ -103,6 +103,8 @@ export type DraftFpApplicationAllOf = {
   /** @nullable */
   haveOtherFunding?: boolean;
   /** @nullable */
+  haveResolution?: boolean;
+  /** @nullable */
   howWasNeedIdentified?: string;
   /** @nullable */
   id?: string;

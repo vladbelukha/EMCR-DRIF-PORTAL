@@ -10,8 +10,6 @@ export interface Attachment {
   /** @nullable */
   comments?: string;
   documentType?: DocumentType;
-  /** @nullable */
-  haveResolution?: boolean;
   id?: string;
   name?: string;
 }
