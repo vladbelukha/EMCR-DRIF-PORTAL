@@ -634,43 +634,43 @@ export class DrifFpComponent {
 
   initStep11(response: DraftFpApplication) {
     // TODO: mock data, remove after D365 integration
-    response.attachments = [
-      {
-        documentType: 'DetailedProjectWorkplan',
-        name: 'My Detailed Project Workplan',
-        comments: 'this a a very good plan, check page 3',
-      },
-      // {
-      //   documentType: 'ProjectSchedule',
-      //   name: 'My Project Schedule',
-      //   comments: 'this is a very tight schedule',
-      // },
-      {
-        documentType: 'SitePlan',
-        name: 'My Site Plan',
-        comments: 'this is a very good site plan',
-      },
-      {
-        documentType: 'PreliminaryDesign',
-        name: 'My Preliminary Design',
-        comments: 'this is a very good design',
-      },
-      // {
-      //   documentType: 'DetailedCostEstimate',
-      //   name: 'My Cost Estimate',
-      //   comments: 'it might be not so accurate, but still',
-      // },
-      {
-        documentType: 'OtherSupportingDocument',
-        name: 'My Other Document',
-        comments: 'this is a very good document',
-      },
-      {
-        documentType: 'OtherSupportingDocument',
-        name: 'My Other Document 2',
-        comments: 'this is a very good document too',
-      },
-    ];
+    // response.attachments = [
+    //   {
+    //     documentType: 'DetailedProjectWorkplan',
+    //     name: 'My Detailed Project Workplan',
+    //     comments: 'this a a very good plan, check page 3',
+    //   },
+    //   {
+    //     documentType: 'ProjectSchedule',
+    //     name: 'My Project Schedule',
+    //     comments: 'this is a very tight schedule',
+    //   },
+    //   {
+    //     documentType: 'SitePlan',
+    //     name: 'My Site Plan',
+    //     comments: 'this is a very good site plan',
+    //   },
+    //   {
+    //     documentType: 'PreliminaryDesign',
+    //     name: 'My Preliminary Design',
+    //     comments: 'this is a very good design',
+    //   },
+    //   {
+    //     documentType: 'DetailedCostEstimate',
+    //     name: 'My Cost Estimate',
+    //     comments: 'it might be not so accurate, but still',
+    //   },
+    //   {
+    //     documentType: 'OtherSupportingDocument',
+    //     name: 'My Other Document',
+    //     comments: 'this is a very good document',
+    //   },
+    //   {
+    //     documentType: 'OtherSupportingDocument',
+    //     name: 'My Other Document 2',
+    //     comments: 'this is a very good document too',
+    //   },
+    // ];
 
     const attachmentsArray = this.fullProposalForm.get(
       'attachments.attachments'
