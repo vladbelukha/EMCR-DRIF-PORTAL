@@ -655,11 +655,11 @@ export class DrifFpComponent {
         name: 'My Preliminary Design',
         comments: 'this is a very good design',
       },
-      {
-        documentType: 'DetailedCostEstimate',
-        name: 'My Cost Estimate',
-        comments: 'it might be not so accurate, but still',
-      },
+      // {
+      //   documentType: 'DetailedCostEstimate',
+      //   name: 'My Cost Estimate',
+      //   comments: 'it might be not so accurate, but still',
+      // },
       {
         documentType: 'OtherSupportingDocument',
         name: 'My Other Document',

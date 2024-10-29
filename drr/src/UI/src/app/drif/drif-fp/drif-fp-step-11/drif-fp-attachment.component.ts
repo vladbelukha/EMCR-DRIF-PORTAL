@@ -27,11 +27,6 @@ export interface FileUploadEvent {
   >
     <mat-label>{{ label }}</mat-label>
     @if (attachmentForm) {
-    <div>
-      <button mat-raised-button color="primary" (click)="onDownloadFile()">
-        {{ t('downloadFile') }}
-      </button>
-    </div>
     <div class="attachment">
       <drr-input
         class="drr-single-input"
@@ -43,6 +38,9 @@ export interface FileUploadEvent {
         [label]="t('comments')"
         [rxFormControl]="attachmentForm.get('comments')"
       ></drr-input>
+      <button mat-mini-fab color="primary" (click)="onDownloadFile()">
+        <mat-icon>download</mat-icon>
+      </button>
       <button mat-mini-fab color="warn" (click)="onRemoveFile()">
         <mat-icon>delete</mat-icon>
       </button>

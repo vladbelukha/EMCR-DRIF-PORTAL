@@ -16,7 +16,7 @@ import { NgxMaskPipe } from 'ngx-mask';
 import { DocumentType, YesNoOption } from '../../../../model';
 import { DrifEoiSummaryComponent } from '../../drif-eoi/drif-eoi-summary/drif-eoi-summary.component';
 import { SummaryItemComponent } from '../../summary-item/summary-item.component';
-import { AttachmentForm, DrifFpForm } from '../drif-fp-form';
+import { DrifFpForm } from '../drif-fp-form';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -84,10 +84,27 @@ export class DrifFpSummaryComponent {
       (control) => control.get('documentType')?.value === documentType
     ) as RxFormGroup;
 
+    // const emptyForm = this.formBuilder.formGroup(
+    //   AttachmentForm,
+    //   {}
+    // ) as RxFormGroup;
+    // if (
+    //   documentType === DocumentType.ProjectSchedule ||
+    //   documentType === DocumentType.SitePlan ||
+    //   documentType === DocumentType.PreliminaryDesign
+    // ) {
+    //   emptyForm.get('name')?.setValidators([]);
+    //   emptyForm.get('comments')?.setValidators([]);
+    //   emptyForm.updateValueAndValidity();
+    // }
+
+    return attahcment;
+  }
+
+  isAttachmentRequired(documentType: DocumentType) {
     return (
-      attahcment ??
-      // TODO: not sure if this is the correct way to handle this
-      (this.formBuilder.formGroup(AttachmentForm, {}) as RxFormGroup)
+      documentType === DocumentType.DetailedProjectWorkplan ||
+      documentType === DocumentType.DetailedCostEstimate
     );
   }
 
