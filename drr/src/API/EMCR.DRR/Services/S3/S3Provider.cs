@@ -118,7 +118,7 @@ namespace EMCR.DRR.API.Services.S3
             }).ToList();
 
         private static List<FileMetadata> GetMetadata(MetadataCollection mc) =>
-            mc.Keys.Where(key => key != "contentType" && key != "fileName")
+            mc.Keys.Where(key => key != "contenttype" && key != "fileName")
                 .Select(key => new FileMetadata { Key = key, Value = mc[key] })
                 .ToList();
 

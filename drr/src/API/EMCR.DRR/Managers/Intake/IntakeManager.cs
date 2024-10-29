@@ -272,7 +272,7 @@ namespace EMCR.DRR.Managers.Intake
 
         private string GetOrderBy(string? orderBy)
         {
-            if (string.IsNullOrEmpty(orderBy)) return "drr_name";
+            if (string.IsNullOrEmpty(orderBy)) return "drr_name desc";
             orderBy = orderBy.ToLower();
             var descending = false;
             if (orderBy.Contains(" desc"))
