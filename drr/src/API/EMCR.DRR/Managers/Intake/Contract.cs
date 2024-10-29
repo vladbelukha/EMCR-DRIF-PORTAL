@@ -321,6 +321,7 @@ namespace EMCR.DRR.Managers.Intake
         public string? CostConsiderationsComments { get; set; }
 
         //Attachments - 11
+        public bool? HaveResolution { get; set; }
 
         //Review & Declaration - 12
     }

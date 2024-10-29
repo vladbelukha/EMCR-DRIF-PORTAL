@@ -17,7 +17,6 @@ namespace EMCR.DRR.API.Model
         public required string Name { get; set; }
         public DocumentType DocumentType { get; set; }
         public string? Comments { get; set; }
-        public bool? HaveResolution { get; set; }
     }
 
     public class DeleteAttachment

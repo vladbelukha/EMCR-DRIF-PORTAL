@@ -60,7 +60,7 @@ namespace EMCR.DRR.Controllers
             try
             {
                 application.Id = id;
-                application.Status = SubmissionPortalStatus.UnderReview;
+                application.Status = SubmissionPortalStatus.Draft; //Need to set the status after final update save, so the manager will set it
                 application.AdditionalContacts = MapAdditionalContacts(application);
 
                 var drr_id = await intakeManager.Handle(new FpSubmitApplicationCommand { application = application, UserInfo = GetCurrentUser() });

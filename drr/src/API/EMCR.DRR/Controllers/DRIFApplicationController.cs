@@ -424,6 +424,7 @@ namespace EMCR.DRR.Controllers
         public string? CostConsiderationsComments { get; set; }
 
         //Attachments - 11
+        public bool? HaveResolution { get; set; }
         public IEnumerable<Attachment>? Attachments { get; set; }
 
         //Review & Declaration - 12
