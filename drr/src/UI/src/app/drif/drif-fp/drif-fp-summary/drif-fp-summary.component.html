@@ -1229,6 +1229,7 @@
       </div>
       <div>
         <mat-label class="drr-label">{{ t("attachments.SitePlan") }}</mat-label>
+        @if (getAttachmentByDocumentType('SitePlan')) {
         <div class="summary-row">
           <drr-summary-item
             [label]="t('attachments.name')"
@@ -1245,11 +1246,17 @@
           >
           </drr-summary-item>
         </div>
+        } @else {
+        <div [class.required]="isAttachmentRequired('SitePlan')">
+          ({{ isAttachmentRequired("SitePlan") ? "Required" : "Optional" }})
+        </div>
+        }
       </div>
       <div>
         <mat-label class="drr-label">{{
           t("attachments.PreliminaryDesign")
         }}</mat-label>
+        @if (getAttachmentByDocumentType('PreliminaryDesign')) {
         <div class="summary-row">
           <drr-summary-item
             [label]="t('attachments.name')"
@@ -1266,6 +1273,13 @@
           >
           </drr-summary-item>
         </div>
+        } @else {
+        <div [class.required]="isAttachmentRequired('PreliminaryDesign')">
+          ({{
+            isAttachmentRequired("PreliminaryDesign") ? "Required" : "Optional"
+          }})
+        </div>
+        }
       </div>
       <drr-summary-item
         [label]="t('attachments.haveResolution')"
@@ -1277,6 +1291,7 @@
         <mat-label class="drr-label">{{
           t("attachments.FirstNationsResolution")
         }}</mat-label>
+        @if (getAttachmentByDocumentType('Resolution')) {
         <div class="summary-row">
           <drr-summary-item
             [label]="t('attachments.name')"
@@ -1293,6 +1308,11 @@
           >
           </drr-summary-item>
         </div>
+        } @else {
+        <div [class.required]="isAttachmentRequired('Resolution')">
+          ({{ isAttachmentRequired("Resolution") ? "Required" : "Optional" }})
+        </div>
+        }
       </div>
       } @else {
       {{ t("attachments.noResolutionDocument") }}
