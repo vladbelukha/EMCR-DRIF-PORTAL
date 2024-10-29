@@ -8,6 +8,7 @@
       [attachmentForm]="getFormByDocumentType('DetailedProjectWorkplan')"
       (uploadFiles)="uploadFiles($event)"
       (removeFile)="removeFile($event)"
+      (downloadFile)="downloadFile($event)"
       [documentType]="'DetailedProjectWorkplan'"
     ></drr-attachment>
 
@@ -16,6 +17,7 @@
       [attachmentForm]="getFormByDocumentType('ProjectSchedule')"
       (uploadFiles)="uploadFiles($event)"
       (removeFile)="removeFile($event)"
+      (downloadFile)="downloadFile($event)"
       [documentType]="'ProjectSchedule'"
     ></drr-attachment>
 
@@ -24,6 +26,7 @@
       [attachmentForm]="getFormByDocumentType('DetailedCostEstimate')"
       (uploadFiles)="uploadFiles($event)"
       (removeFile)="removeFile($event)"
+      (downloadFile)="downloadFile($event)"
       [documentType]="'DetailedCostEstimate'"
     ></drr-attachment>
 
@@ -32,6 +35,7 @@
       [attachmentForm]="getFormByDocumentType('SitePlan')"
       (uploadFiles)="uploadFiles($event)"
       (removeFile)="removeFile($event)"
+      (downloadFile)="downloadFile($event)"
       [documentType]="'SitePlan'"
     ></drr-attachment>
 
@@ -40,6 +44,7 @@
       [attachmentForm]="getFormByDocumentType('PreliminaryDesign')"
       (uploadFiles)="uploadFiles($event)"
       (removeFile)="removeFile($event)"
+      (downloadFile)="downloadFile($event)"
       [documentType]="'PreliminaryDesign'"
     ></drr-attachment>
   </div>
@@ -54,11 +59,12 @@
 
   <drr-attachment
     *ngIf="attachmentsForm.get('haveResolution')?.value === true"
-    [label]="t('resolutionDocument')"
-    [attachmentForm]="getFormByDocumentType('FirstNationsResolution')"
+    [label]="t('resolutionDocument') + '*'"
+    [attachmentForm]="getFormByDocumentType('Resolution')"
     (uploadFiles)="uploadFiles($event)"
     (removeFile)="removeFile($event)"
-    [documentType]="'FirstNationsResolution'"
+    (downloadFile)="downloadFile($event)"
+    [documentType]="'Resolution'"
   ></drr-attachment>
 
   <p *ngIf="attachmentsForm.get('haveResolution')?.value === false">

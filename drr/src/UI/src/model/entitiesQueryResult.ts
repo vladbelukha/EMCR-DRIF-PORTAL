@@ -24,6 +24,8 @@ export interface EntitiesQueryResult {
   /** @nullable */
   fiscalYears?: string[];
   /** @nullable */
+  foundationalOrPreviousWorks?: string[];
+  /** @nullable */
   increasedResiliency?: string[];
   /** @nullable */
   professionals?: string[];
@@ -33,6 +35,4 @@ export interface EntitiesQueryResult {
   sensitivityRisks?: string[];
   /** @nullable */
   standards?: StandardInfo[];
-  /** @nullable */
-  verificationMethods?: string[];
 }

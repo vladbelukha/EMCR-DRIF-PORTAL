@@ -6,12 +6,10 @@
  */
 import type { DocumentType } from './documentType';
 
-export interface Attachment {
-  /** @nullable */
-  comments?: string;
+export interface FileData {
+  applicationId?: string;
+  content?: string;
+  contentType?: string;
   documentType?: DocumentType;
-  /** @nullable */
-  haveResolution?: boolean;
-  id?: string;
   name?: string;
 }

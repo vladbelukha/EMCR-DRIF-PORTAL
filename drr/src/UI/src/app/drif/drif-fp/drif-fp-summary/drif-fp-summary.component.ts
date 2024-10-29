@@ -8,11 +8,12 @@ import { UntilDestroy } from '@ngneat/until-destroy';
 import {
   IFormGroup,
   RxFormArray,
+  RxFormBuilder,
   RxFormControl,
   RxFormGroup,
 } from '@rxweb/reactive-form-validators';
 import { NgxMaskPipe } from 'ngx-mask';
-import { YesNoOption } from '../../../../model';
+import { DocumentType, YesNoOption } from '../../../../model';
 import { DrifEoiSummaryComponent } from '../../drif-eoi/drif-eoi-summary/drif-eoi-summary.component';
 import { SummaryItemComponent } from '../../summary-item/summary-item.component';
 import { DrifFpForm } from '../drif-fp-form';
@@ -36,6 +37,7 @@ import { DrifFpForm } from '../drif-fp-form';
 export class DrifFpSummaryComponent {
   translocoService = inject(TranslocoService);
   private _fullProposalForm?: IFormGroup<DrifFpForm>;
+  formBuilder = inject(RxFormBuilder);
 
   @Input()
   showSubmitterInfo = true;
@@ -72,6 +74,38 @@ export class DrifFpSummaryComponent {
 
   getRxFormArrayControls(groupName: string, controlName: string) {
     return (this.getGroup(groupName)?.get(controlName) as RxFormArray).controls;
+  }
+
+  getAttachmentByDocumentType(documentType: DocumentType) {
+    const attachmentsArray = this.fullProposalForm.get(
+      'attachments.attachments'
+    ) as RxFormArray;
+    const attahcment = attachmentsArray.controls.find(
+      (control) => control.get('documentType')?.value === documentType
+    ) as RxFormGroup;
+
+    // const emptyForm = this.formBuilder.formGroup(
+    //   AttachmentForm,
+    //   {}
+    // ) as RxFormGroup;
+    // if (
+    //   documentType === DocumentType.ProjectSchedule ||
+    //   documentType === DocumentType.SitePlan ||
+    //   documentType === DocumentType.PreliminaryDesign
+    // ) {
+    //   emptyForm.get('name')?.setValidators([]);
+    //   emptyForm.get('comments')?.setValidators([]);
+    //   emptyForm.updateValueAndValidity();
+    // }
+
+    return attahcment;
+  }
+
+  isAttachmentRequired(documentType: DocumentType) {
+    return (
+      documentType === DocumentType.DetailedProjectWorkplan ||
+      documentType === DocumentType.DetailedCostEstimate
+    );
   }
 
   convertRxFormControl(formControl: AbstractControl<any, any> | null) {

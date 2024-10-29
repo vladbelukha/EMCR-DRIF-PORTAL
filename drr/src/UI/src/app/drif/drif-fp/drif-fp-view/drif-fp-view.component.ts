@@ -98,7 +98,7 @@ export class DrifFpViewComponent {
           projectAlternateOptions: response.projectAlternateOptions,
           projectDescription: response.projectDescription,
           proposedActivities: response.proposedActivities,
-          verificationMethods: response.verificationMethods,
+          foundationalOrPreviousWorks: response.foundationalOrPreviousWorks,
           addressRisksAndHazards: response.addressRisksAndHazards,
           disasterRiskUnderstanding: response.disasterRiskUnderstanding,
           rationaleForFunding: response.rationaleForFunding,
@@ -157,8 +157,9 @@ export class DrifFpViewComponent {
           sensitivityRiskComments: response.sensitivityRiskComments,
           sensitivityRiskMitigated: response.sensitivityRiskMitigated,
           sensitivityRisks: response.sensitivityRisks,
-          transferRisks: response.transferRisks,
-          transferRisksComments: response.transferRisksComments,
+          increasedOrTransferred: response.increasedOrTransferred,
+          increasedOrTransferredComments:
+            response.increasedOrTransferredComments,
         },
         budget: {
           haveOtherFunding: response.haveOtherFunding,

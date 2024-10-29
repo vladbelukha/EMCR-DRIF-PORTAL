@@ -22,11 +22,6 @@ import {
   StringItem,
 } from '../drif-eoi/drif-eoi-form';
 
-export enum TransferRisks {
-  increased = 'Increased',
-  transferred = 'Transferred',
-}
-
 // TODO: temp before API provides the correct structure
 export class AttachmentForm implements Attachment {
   id?: string;
@@ -344,10 +339,10 @@ export class ProjectRisksForm {
   riskTransferMigigated?: boolean;
 
   @prop()
-  transferRisks?: string[];
+  increasedOrTransferred?: string[];
 
   @prop()
-  transferRisksComments?: string;
+  increasedOrTransferredComments?: string;
 
   constructor(values: ProjectRisksForm) {
     Object.assign(this, values);
@@ -439,7 +434,7 @@ export class ProjectPlanForm {
   @prop()
   @required()
   @minLength({ value: 1 })
-  verificationMethods?: string[];
+  foundationalOrPreviousWorks?: string[];
 
   @prop()
   @required()

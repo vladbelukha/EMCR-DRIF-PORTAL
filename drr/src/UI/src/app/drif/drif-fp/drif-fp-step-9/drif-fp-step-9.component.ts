@@ -12,11 +12,12 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { IFormGroup } from '@rxweb/reactive-form-validators';
 import { distinctUntilChanged } from 'rxjs';
+import { IncreasedOrTransferred } from '../../../../model';
 import { DrrChipAutocompleteComponent } from '../../../shared/controls/drr-chip-autocomplete/drr-chip-autocomplete.component';
 import { DrrRadioButtonComponent } from '../../../shared/controls/drr-radio-button/drr-radio-button.component';
 import { DrrTextareaComponent } from '../../../shared/controls/drr-textarea/drr-textarea.component';
 import { OptionsStore } from '../../../store/options.store';
-import { ProjectRisksForm, TransferRisks } from '../drif-fp-form';
+import { ProjectRisksForm } from '../drif-fp-form';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -46,7 +47,7 @@ export class DrifFpStep9Component {
   readinessRiskOptions = this.optionsStore.readinessRisks?.();
   sensitivityRiskOptions = this.optionsStore.sensitivityRisks?.();
   capacityRiskOptions = this.optionsStore.capacityRisks?.();
-  transferRisksOptions = Object.values(TransferRisks);
+  increasedOrTransferredOptions = Object.values(IncreasedOrTransferred);
 
   ngOnInit() {
     this.projectRisksForm
@@ -140,20 +141,22 @@ export class DrifFpStep9Component {
       .get('riskTransferMigigated')
       ?.valueChanges.pipe(distinctUntilChanged())
       .subscribe((value) => {
-        const transferRisksControl = this.projectRisksForm.get('transferRisks');
+        const increasedOrTransferredControl = this.projectRisksForm.get(
+          'increasedOrTransferred'
+        );
         const transferRiskCommentsControl = this.projectRisksForm.get(
           'transferRiskComments'
         );
         if (value === false) {
-          transferRisksControl?.reset();
-          transferRisksControl?.clearValidators();
+          increasedOrTransferredControl?.reset();
+          increasedOrTransferredControl?.clearValidators();
           transferRiskCommentsControl?.reset();
           transferRiskCommentsControl?.clearValidators();
         } else {
-          transferRisksControl?.addValidators(Validators.required);
+          increasedOrTransferredControl?.addValidators(Validators.required);
           transferRiskCommentsControl?.addValidators(Validators.required);
         }
-        transferRisksControl?.updateValueAndValidity();
+        increasedOrTransferredControl?.updateValueAndValidity();
         transferRiskCommentsControl?.updateValueAndValidity();
       });
   }

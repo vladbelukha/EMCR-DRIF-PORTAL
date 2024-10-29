@@ -100,11 +100,11 @@
     }}</mat-label>
     <drr-chip-autocomplete
       [label]="t('rationaleForSolutionText')"
-      [rxFormControl]="projectPlanForm.get('verificationMethods')"
+      [rxFormControl]="projectPlanForm.get('foundationalOrPreviousWorks')"
       [options]="verificationMethodOptions"
     ></drr-chip-autocomplete>
     <drr-textarea
-      [label]="t('verificationMethodsComments')"
+      [label]="t('foundationalOrPreviousWorksComments')"
       [maxlength]="2000"
       [rxFormControl]="projectPlanForm.get('howWasNeedIdentified')"
     ></drr-textarea>

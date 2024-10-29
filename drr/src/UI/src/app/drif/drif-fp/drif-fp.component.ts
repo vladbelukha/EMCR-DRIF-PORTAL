@@ -236,7 +236,7 @@ export class DrifFpComponent {
               projectAlternateOptions: response.projectAlternateOptions,
               projectDescription: response.projectDescription,
               proposedActivities: response.proposedActivities,
-              verificationMethods: response.verificationMethods,
+              foundationalOrPreviousWorks: response.foundationalOrPreviousWorks,
               addressRisksAndHazards: response.addressRisksAndHazards,
               disasterRiskUnderstanding: response.disasterRiskUnderstanding,
               rationaleForFunding: response.rationaleForFunding,
@@ -300,8 +300,9 @@ export class DrifFpComponent {
               sensitivityRiskComments: response.sensitivityRiskComments,
               sensitivityRiskMitigated: response.sensitivityRiskMitigated,
               sensitivityRisks: response.sensitivityRisks,
-              transferRisks: response.transferRisks,
-              transferRisksComments: response.transferRisksComments,
+              increasedOrTransferred: response.increasedOrTransferred,
+              increasedOrTransferredComments:
+                response.increasedOrTransferredComments,
             },
             budget: {
               haveOtherFunding: response.haveOtherFunding,
@@ -567,10 +568,10 @@ export class DrifFpComponent {
 
     if (response.riskTransferMigigated === true) {
       this.fullProposalForm
-        .get('projectRisks.transferRisks')
+        .get('projectRisks.increasedOrTransferred')
         ?.addValidators(Validators.required);
       this.fullProposalForm
-        .get('projectRisks.transferRisksComments')
+        .get('projectRisks.increasedOrTransferredComments')
         ?.addValidators(Validators.required);
     }
   }
@@ -632,6 +633,45 @@ export class DrifFpComponent {
   }
 
   initStep11(response: DraftFpApplication) {
+    // TODO: mock data, remove after D365 integration
+    // response.attachments = [
+    //   {
+    //     documentType: 'DetailedProjectWorkplan',
+    //     name: 'My Detailed Project Workplan',
+    //     comments: 'this a a very good plan, check page 3',
+    //   },
+    //   {
+    //     documentType: 'ProjectSchedule',
+    //     name: 'My Project Schedule',
+    //     comments: 'this is a very tight schedule',
+    //   },
+    //   {
+    //     documentType: 'SitePlan',
+    //     name: 'My Site Plan',
+    //     comments: 'this is a very good site plan',
+    //   },
+    //   {
+    //     documentType: 'PreliminaryDesign',
+    //     name: 'My Preliminary Design',
+    //     comments: 'this is a very good design',
+    //   },
+    //   {
+    //     documentType: 'DetailedCostEstimate',
+    //     name: 'My Cost Estimate',
+    //     comments: 'it might be not so accurate, but still',
+    //   },
+    //   {
+    //     documentType: 'OtherSupportingDocument',
+    //     name: 'My Other Document',
+    //     comments: 'this is a very good document',
+    //   },
+    //   {
+    //     documentType: 'OtherSupportingDocument',
+    //     name: 'My Other Document 2',
+    //     comments: 'this is a very good document too',
+    //   },
+    // ];
+
     const attachmentsArray = this.fullProposalForm.get(
       'attachments.attachments'
     ) as FormArray;

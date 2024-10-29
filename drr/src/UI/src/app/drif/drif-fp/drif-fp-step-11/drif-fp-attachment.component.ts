@@ -5,6 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { TranslocoModule } from '@ngneat/transloco';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { IFormGroup } from '@rxweb/reactive-form-validators';
 import { DocumentType } from '../../../../model';
@@ -20,21 +21,26 @@ export interface FileUploadEvent {
 @UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'drr-attachment',
-  template: ` <div class="attachment-container">
+  template: ` <div
+    class="attachment-container"
+    *transloco="let t; read: 'attachments'"
+  >
     <mat-label>{{ label }}</mat-label>
     @if (attachmentForm) {
-    <!-- TODO: download link -->
     <div class="attachment">
       <drr-input
         class="drr-single-input"
-        [label]="'File name'"
+        [label]="t('name')"
         [rxFormControl]="attachmentForm.get('name')"
       ></drr-input>
       <drr-input
         class="drr-single-input"
-        [label]="'Comments'"
+        [label]="t('comments')"
         [rxFormControl]="attachmentForm.get('comments')"
       ></drr-input>
+      <button mat-mini-fab color="primary" (click)="onDownloadFile()">
+        <mat-icon>download</mat-icon>
+      </button>
       <button mat-mini-fab color="warn" (click)="onRemoveFile()">
         <mat-icon>delete</mat-icon>
       </button>
@@ -66,6 +72,7 @@ export interface FileUploadEvent {
   standalone: true,
   imports: [
     CommonModule,
+    TranslocoModule,
     FormsModule,
     ReactiveFormsModule,
     MatFormFieldModule,
@@ -90,6 +97,9 @@ export class DrrAttahcmentComponent {
   @Output()
   removeFile: EventEmitter<string> = new EventEmitter<string>();
 
+  @Output()
+  downloadFile: EventEmitter<string> = new EventEmitter<string>();
+
   onUploadFiles(files: File[]) {
     this.uploadFiles.emit({
       files,
@@ -99,5 +109,9 @@ export class DrrAttahcmentComponent {
 
   onRemoveFile() {
     this.removeFile.emit(this.attachmentForm?.get('id')?.value);
+  }
+
+  onDownloadFile() {
+    this.downloadFile.emit(this.attachmentForm?.get('id')?.value);
   }
 }
