@@ -1315,7 +1315,7 @@ namespace EMCR.DRR.Resources.Applications
 
         private string GetOrderXML(ApplicationsQuery query)
         {
-            var orderString = "<order attribute='drr_name' />";
+            var orderString = "<order attribute='drr_name' descending='true' />";
             var orderBy = query.OrderBy;
 
             if (!string.IsNullOrEmpty(orderBy))
