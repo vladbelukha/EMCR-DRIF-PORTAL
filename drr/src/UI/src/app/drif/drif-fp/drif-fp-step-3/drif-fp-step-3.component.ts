@@ -1,6 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, Input } from '@angular/core';
-import { FormArray, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormArray,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -75,6 +80,23 @@ export class DrifFpStep3Component {
             this.addInfrastructureImpacted();
           }
         }
+      });
+
+    this.projectAreaForm
+      .get('relatedHazards')
+      ?.valueChanges.pipe(distinctUntilChanged())
+      .subscribe((hazards) => {
+        const otherHazardsDescriptionControl = this.projectAreaForm.get(
+          'otherHazardsDescription'
+        );
+        if (hazards?.includes('Other')) {
+          otherHazardsDescriptionControl?.addValidators(Validators.required);
+        } else {
+          otherHazardsDescriptionControl?.clearValidators();
+          otherHazardsDescriptionControl?.reset();
+        }
+
+        otherHazardsDescriptionControl?.updateValueAndValidity();
       });
   }
 
