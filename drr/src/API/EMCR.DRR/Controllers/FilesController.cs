@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Net.Mime;
 using System.Security.Claims;
 using AutoMapper;
 using EMCR.DRR.API.Services;
+using EMCR.DRR.API.Services.S3;
 using EMCR.DRR.Controllers;
 using EMCR.DRR.Managers.Intake;
 using Microsoft.AspNetCore.Authorization;
@@ -16,7 +16,7 @@ namespace EMCR.DRR.API.Controllers
     public class FilesController : ControllerBase
     {
         private readonly ILogger<AttachmentController> logger;
-        private readonly IIntakeManager intakeManager;
+        private readonly IS3Provider s3Provider;
         private readonly IMapper mapper;
         private readonly ErrorParser errorParser;
 
@@ -30,30 +30,32 @@ namespace EMCR.DRR.API.Controllers
         }
 #pragma warning restore CS8603 // Possible null reference return.
 
-        public FilesController(ILogger<AttachmentController> logger, IIntakeManager intakeManager, IMapper mapper)
+        public FilesController(ILogger<AttachmentController> logger, IS3Provider s3Provider, IMapper mapper)
         {
             this.logger = logger;
-            this.intakeManager = intakeManager;
+            this.s3Provider = s3Provider;
             this.mapper = mapper;
             this.errorParser = new ErrorParser();
         }
 
-        [HttpPost("{id}")]
+        [HttpPost("{fileId}")]
         public async Task<ActionResult<ApplicationResult>> UploadFile(
             [FromForm] UploadFileRequest request,
-        [FromRoute] Guid fileId,
-        [FromHeader(Name = "file-classification")] string? classification,
-        [FromHeader(Name = "file-tag")] string? tags,
-        [FromHeader(Name = "file-folder")] string? folder,
-        CancellationToken ct
+            [FromRoute] Guid fileId,
+            [FromHeader(Name = "file-classification")] string? classification,
+            [FromHeader(Name = "file-tag")] string? tags,
+            [FromHeader(Name = "file-folder")] string? folder
             )
         {
-            Console.WriteLine("UploadFile " + fileId);
-            Console.WriteLine(request.File.FileName);
             var bytes = await GetBytes(request.File);
-            Console.WriteLine(bytes.Length);
-            await Task.CompletedTask;
-            return Ok(new ApplicationResult { Id = "fileId" });
+            Console.WriteLine(request.File.FileName);
+            Console.WriteLine(classification);
+            Console.WriteLine(tags);
+            Console.WriteLine(folder);
+            var file = new S3File { FileName = request.File.FileName, Content = bytes, ContentType = request.File.ContentType };
+            var key = fileId.ToString();
+            await s3Provider.HandleCommand(new UploadFileCommand { Folder = folder, Key = key, File = file });
+            return Ok(new ApplicationResult { Id = key });
         }
 
 
