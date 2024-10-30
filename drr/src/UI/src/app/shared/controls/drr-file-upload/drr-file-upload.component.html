@@ -4,21 +4,23 @@
     dropZoneClassName="drr-drop-zone"
     [multiple]="multiple"
     *ngIf="useDropzone; else fileInputContainer"
+    [accept]="allowedExtensionsString"
   >
     <ng-template
       ngx-file-drop-content-tmp
       let-openFileSelector="openFileSelector"
     >
       <div style="display: flex; flex-direction: column; align-items: center">
-        <p style="color: black">{{ t("dropFilesHere") }}</p>
+        <span style="color: black">{{ t("dropFilesHere") }}</span>
+        <i style="color: black">{{ t("fileSizeLimit") }}</i>
         <button
-          style="margin-bottom: 1rem"
+          style="margin: 1rem 0"
           mat-raised-button
           color="primary"
           type="button"
           (click)="openFileSelector()"
         >
-          {{ t("browseFiles") }}
+          {{ t("attach") }}
         </button>
       </div>
     </ng-template>
@@ -37,7 +39,7 @@
       type="button"
       (click)="fileInput.click()"
     >
-      {{ t("browseFiles") }}
+      {{ t("attach") }}
     </button>
   </ng-template>
 </ng-container>

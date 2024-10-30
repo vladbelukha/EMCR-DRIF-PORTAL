@@ -76,6 +76,8 @@
       t("otherSupportingDocumentation")
     }}</mat-label>
 
+    <mat-label>{{ t("supportingDocumentationOptionalText") }}</mat-label>
+
     <drr-attachment
       *ngFor="let otherDocumentControl of getOtherFormArray(); let i = index"
       [label]="otherDocumentControl.get('name')?.value"
@@ -84,7 +86,6 @@
       (downloadFile)="downloadFile($event)"
     ></drr-attachment>
 
-    <mat-label>{{ t("supportingDocumentationOptionalText") }}</mat-label>
     <drr-file-upload
       (filesSelected)="uploadOtherFiles($event)"
     ></drr-file-upload>
