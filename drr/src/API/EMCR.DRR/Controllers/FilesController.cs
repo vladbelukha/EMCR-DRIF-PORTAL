@@ -1,4 +1,5 @@
-﻿using System.Net.Mime;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Net.Mime;
 using System.Security.Claims;
 using AutoMapper;
 using EMCR.DRR.API.Services;
@@ -38,11 +39,18 @@ namespace EMCR.DRR.API.Controllers
         }
 
         [HttpPost("{id}")]
-        public async Task<ActionResult<ApplicationResult>> UploadFile(IFormFile file, string id)
+        public async Task<ActionResult<ApplicationResult>> UploadFile(
+            [FromForm] UploadFileRequest request,
+        [FromRoute] Guid fileId,
+        [FromHeader(Name = "file-classification")] string? classification,
+        [FromHeader(Name = "file-tag")] string? tags,
+        [FromHeader(Name = "file-folder")] string? folder,
+        CancellationToken ct
+            )
         {
-            Console.WriteLine("UploadFile " + id);
-            Console.WriteLine(file.FileName);
-            var bytes = await GetBytes(file);
+            Console.WriteLine("UploadFile " + fileId);
+            Console.WriteLine(request.File.FileName);
+            var bytes = await GetBytes(request.File);
             Console.WriteLine(bytes.Length);
             await Task.CompletedTask;
             return Ok(new ApplicationResult { Id = "fileId" });
@@ -55,5 +63,13 @@ namespace EMCR.DRR.API.Controllers
             await formFile.CopyToAsync(memoryStream);
             return memoryStream.ToArray();
         }
+    }
+
+    public class UploadFileRequest
+    {
+        [Required(ErrorMessage = "Please add a file")]
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+        public IFormFile File { get; set; }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     }
 }
