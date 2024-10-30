@@ -84,21 +84,24 @@ export class DrifFpSummaryComponent {
       (control) => control.get('documentType')?.value === documentType
     ) as RxFormGroup;
 
-    // const emptyForm = this.formBuilder.formGroup(
-    //   AttachmentForm,
-    //   {}
-    // ) as RxFormGroup;
-    // if (
-    //   documentType === DocumentType.ProjectSchedule ||
-    //   documentType === DocumentType.SitePlan ||
-    //   documentType === DocumentType.PreliminaryDesign
-    // ) {
-    //   emptyForm.get('name')?.setValidators([]);
-    //   emptyForm.get('comments')?.setValidators([]);
-    //   emptyForm.updateValueAndValidity();
-    // }
-
     return attahcment;
+  }
+
+  getOtherAttachmentsArrayControls() {
+    const attachmentsArray = this.fullProposalForm.get(
+      'attachments.attachments'
+    ) as RxFormArray;
+    return attachmentsArray.controls.filter(
+      (control) =>
+        control.get('documentType')?.value ===
+        DocumentType.OtherSupportingDocument
+    );
+  }
+
+  gethaveResolutionDocument() {
+    return (
+      this.fullProposalForm.get('attachments.haveResolution')?.value === true
+    );
   }
 
   isAttachmentRequired(documentType: DocumentType) {

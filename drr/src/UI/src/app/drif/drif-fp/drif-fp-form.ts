@@ -1,4 +1,5 @@
 import {
+  maxLength,
   minLength,
   prop,
   propArray,
@@ -24,8 +25,10 @@ import {
 
 // TODO: temp before API provides the correct structure
 export class AttachmentForm implements Attachment {
+  @prop()
   id?: string;
 
+  // TODO: need this?
   applicationId?: string | undefined;
 
   @prop()
@@ -356,6 +359,7 @@ export class ProjectAreaForm {
 
   @prop()
   @required()
+  @maxLength({ value: 9 })
   area?: number;
 
   @prop()

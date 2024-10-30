@@ -53,19 +53,22 @@ export class DrifFpStep11Component {
 
   @Input() applicationId!: string;
 
-  uploadFiles(event: FileUploadEvent) {
-    event.files.forEach((file) => {
+  async uploadFiles(event: FileUploadEvent) {
+    event.files.forEach(async (file) => {
       if (file == null) {
         // TODO: show error
         return;
       }
 
+      const base64Content = await this.fileToBase64(file);
+
       this.attachmentsService
         .attachmentUploadAttachment({
-          // TODO: probably use FileData to match FileInfo model
           applicationId: this.applicationId,
           documentType: event.documentType,
           name: file.name,
+          contentType: file.type,
+          content: base64Content.split(',')[1],
         })
         .subscribe({
           next: (attachment) => {
@@ -90,6 +93,15 @@ export class DrifFpStep11Component {
             // TODO: show error
           },
         });
+    });
+  }
+
+  fileToBase64(file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = (error) => reject(error);
     });
   }
 
@@ -166,5 +178,10 @@ export class DrifFpStep11Component {
       (control) =>
         control.value.documentType === DocumentType.OtherSupportingDocument
     );
+  }
+
+  getOtherDocumentFormGroup(index: number) {
+    const otherForms = this.getOtherFormArray();
+    return otherForms[index] as IFormGroup<AttachmentForm>;
   }
 }

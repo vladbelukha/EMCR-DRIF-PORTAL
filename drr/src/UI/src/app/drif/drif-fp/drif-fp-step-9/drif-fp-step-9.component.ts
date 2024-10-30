@@ -147,14 +147,22 @@ export class DrifFpStep9Component {
         const transferRiskCommentsControl = this.projectRisksForm.get(
           'transferRiskComments'
         );
+        const increasedOrTransferredCommentsControl = this.projectRisksForm.get(
+          'increasedOrTransferredComments'
+        );
         if (value === false) {
           increasedOrTransferredControl?.reset();
           increasedOrTransferredControl?.clearValidators();
           transferRiskCommentsControl?.reset();
           transferRiskCommentsControl?.clearValidators();
+          increasedOrTransferredCommentsControl?.reset();
+          increasedOrTransferredCommentsControl?.clearValidators();
         } else {
           increasedOrTransferredControl?.addValidators(Validators.required);
           transferRiskCommentsControl?.addValidators(Validators.required);
+          increasedOrTransferredCommentsControl?.addValidators(
+            Validators.required
+          );
         }
         increasedOrTransferredControl?.updateValueAndValidity();
         transferRiskCommentsControl?.updateValueAndValidity();
