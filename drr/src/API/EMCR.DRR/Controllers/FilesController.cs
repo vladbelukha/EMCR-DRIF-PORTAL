@@ -87,15 +87,14 @@ namespace EMCR.DRR.API.Controllers
             return Ok(new ApplicationResult { Id = id });
         }
 
-
-        public static async Task<byte[]> GetBytes(IFormFile formFile)
+        private static async Task<byte[]> GetBytes(IFormFile formFile)
         {
             await using var memoryStream = new MemoryStream();
             await formFile.CopyToAsync(memoryStream);
             return memoryStream.ToArray();
         }
 
-        public static string GetStrFromTags(IEnumerable<Tag> tags)
+        private static string GetStrFromTags(IEnumerable<Tag> tags)
         {
             List<string> tagStrlist = new();
             foreach (Tag t in tags)
@@ -110,9 +109,7 @@ namespace EMCR.DRR.API.Controllers
     public class UploadFileRequest
     {
         [Required(ErrorMessage = "Please add a file")]
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-        public IFormFile File { get; set; }
-#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+        public required IFormFile File { get; set; }
     }
 
     public static class DrrHeaderNames

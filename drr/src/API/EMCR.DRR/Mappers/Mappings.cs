@@ -41,10 +41,10 @@ namespace EMCR.DRR.API.Mappers
                 ;
 
 
-            CreateMap<FileData, Managers.Intake.AttachmentInfo>()
-                .ForMember(dest => dest.Id, opt => opt.Ignore())
-                .ForMember(dest => dest.File, opt => opt.MapFrom(src => new S3File {  Content = src.Content, ContentType = src.ContentType, FileName = src.Name}))
-                ;
+            //CreateMap<FileData, Managers.Intake.AttachmentInfo>()
+            //    .ForMember(dest => dest.Id, opt => opt.Ignore())
+            //    .ForMember(dest => dest.File, opt => opt.MapFrom(src => new S3File {  Content = src.Content, ContentType = src.ContentType, FileName = src.Name}))
+            //    ;
         }
 
         private ApplicationType DRRApplicationTypeMapper(string type)

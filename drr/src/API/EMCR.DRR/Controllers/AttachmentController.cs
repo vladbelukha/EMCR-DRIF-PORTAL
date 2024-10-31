@@ -44,7 +44,14 @@ namespace EMCR.DRR.API.Controllers
         [HttpPost]
         public async Task<ActionResult<ApplicationResult>> UploadAttachment([FromBody] FileData attachment)
         {
-            var attachmentInfo = mapper.Map<AttachmentInfo>(attachment);
+            var bytes = await GetBytes(attachment.File);
+            var file = new S3File { FileName = attachment.File.FileName, Content = bytes, ContentType = attachment.File.ContentType };
+            var attachmentInfo = new AttachmentInfo
+            {
+                ApplicationId = attachment.ApplicationId,
+                File = file,
+                DocumentType = (Managers.Intake.DocumentType)attachment.DocumentType
+            };
             var ret = await intakeManager.Handle(new UploadAttachmentCommand { AttachmentInfo = attachmentInfo, UserInfo = GetCurrentUser() });
             return Ok(new ApplicationResult { Id = ret });
         }
@@ -68,6 +75,13 @@ namespace EMCR.DRR.API.Controllers
         {
             await Task.CompletedTask;
             return Ok(new ApplicationResult { Id = "fileId" });
+        }
+
+        private static async Task<byte[]> GetBytes(IFormFile formFile)
+        {
+            await using var memoryStream = new MemoryStream();
+            await formFile.CopyToAsync(memoryStream);
+            return memoryStream.ToArray();
         }
     }
 
