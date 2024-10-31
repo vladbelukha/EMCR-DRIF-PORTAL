@@ -46,6 +46,10 @@ namespace EMCR.DRR.API.Controllers
             [FromHeader(Name = "file-folder")] string? folder
             )
         {
+            Console.WriteLine("CRM - DownloadFile");
+            Console.WriteLine(id);
+            Console.WriteLine(folder);
+
             var res = (FileQueryResult)(await s3Provider.HandleQuery(new FileQuery { Key = id, Folder = folder }));
             var content = new MemoryStream(res.File.Content);
             var contentType = res.File.ContentType ?? "application/octet-stream";
