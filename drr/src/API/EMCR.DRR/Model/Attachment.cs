@@ -5,7 +5,9 @@ namespace EMCR.DRR.API.Model
     public class FileData
     {
         public required string ApplicationId { get; set; }
-        public required IFormFile File { get; set; }
+        public required string Name { get; set; }
+        public required string ContentType { get; set; }
+        public required byte[] Content { get; set; }
         public DocumentType DocumentType { get; set; }
     }
 
