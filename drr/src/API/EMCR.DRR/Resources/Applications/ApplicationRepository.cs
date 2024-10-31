@@ -120,13 +120,12 @@ namespace EMCR.DRR.Resources.Applications
             if (existingApplication == null) return true;
             return (!string.IsNullOrEmpty(existingApplication.drr_Primary_Proponent_Name.drr_bceidguid)) && existingApplication.drr_Primary_Proponent_Name.drr_bceidguid.Equals(businessId);
         }
-        
+
         public async Task<bool> CanAccessApplicationFromDocumentId(string id, string businessId)
         {
             var readCtx = dRRContextFactory.CreateReadOnly();
             var document = await readCtx.bcgov_documenturls.Expand(d => d.bcgov_Application).Where(a => a.bcgov_documenturlid == Guid.Parse(id)).SingleOrDefaultAsync();
-            var existingApplication = document.bcgov_Application;
-            await readCtx.LoadPropertyAsync(existingApplication, nameof(drr_application.drr_Primary_Proponent_Name));
+            var existingApplication = await readCtx.drr_applications.Expand(a => a.drr_Primary_Proponent_Name).Where(a => a.drr_applicationid == document.bcgov_Application.drr_applicationid).SingleOrDefaultAsync();
             if (existingApplication == null) return true;
             return (!string.IsNullOrEmpty(existingApplication.drr_Primary_Proponent_Name.drr_bceidguid)) && existingApplication.drr_Primary_Proponent_Name.drr_bceidguid.Equals(businessId);
         }
@@ -234,7 +233,7 @@ namespace EMCR.DRR.Resources.Applications
                 return new ManageApplicationCommandResult { Id = await Update(ctx, cmd.Application) };
             }
         }
-        
+
         public async Task<ManageApplicationCommandResult> HandleSubmitApplication(SubmitApplication cmd)
         {
             var ctx = dRRContextFactory.Create();
