@@ -44,14 +44,15 @@ namespace EMCR.DRR.API.Controllers
         [HttpPost]
         public async Task<ActionResult<ApplicationResult>> UploadAttachment([FromBody] FileData attachment)
         {
-            await Task.CompletedTask;
-            return Ok(new ApplicationResult { Id = "fileId" });
+            var attachmentInfo = mapper.Map<AttachmentInfo>(attachment);
+            var ret = await intakeManager.Handle(new UploadAttachmentCommand { AttachmentInfo = attachmentInfo, UserInfo = GetCurrentUser() });
+            return Ok(new ApplicationResult { Id = ret });
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<AttachmentQueryResult>> DownloadAttachment(string id)
         {
-            var file = (FileQueryResult)(await intakeManager.Handle(new DownloadAttachment { Id = id, UserInfo = GetCurrentUser() }));
+            var file = (FileQueryResult)await intakeManager.Handle(new DownloadAttachment { Id = id, UserInfo = GetCurrentUser() });
             return Ok(new AttachmentQueryResult { File = file.File });
         }
 

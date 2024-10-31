@@ -9,6 +9,7 @@ namespace EMCR.DRR.Resources.Applications
         Task<DeclarationQueryResult> Query(DeclarationQuery query);
         Task<EntitiesQueryResult> Query(EntitiesQuery query);
         Task<bool> CanAccessApplication(string id, string businessId);
+        Task<bool> CanAccessApplicationFromDocumentId(string id, string businessId);
         Task<ApplicationQueryResult> QueryList(ApplicationQuery query);
     }
 
@@ -37,6 +38,11 @@ namespace EMCR.DRR.Resources.Applications
         public int Count { get; set; } = 0;
         public string? OrderBy { get; set; }
         public FilterOptions? FilterOptions { get; set; }
+    }
+
+    public class ApplicationByDocumentIdQuery : ApplicationQuery
+    {
+        public required string DocumentId { get; set; }
     }
 
     public class FilterOptions

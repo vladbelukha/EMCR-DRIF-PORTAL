@@ -2,6 +2,7 @@
 using EMCR.DRR.API.Controllers;
 using EMCR.DRR.API.Model;
 using EMCR.DRR.API.Services;
+using EMCR.DRR.API.Services.S3;
 using EMCR.DRR.Controllers;
 
 namespace EMCR.DRR.API.Mappers
@@ -37,6 +38,12 @@ namespace EMCR.DRR.API.Mappers
 
             CreateMap<AccountDetails, ProfileDetails>()
                 .ReverseMap()
+                ;
+
+
+            CreateMap<FileData, Managers.Intake.AttachmentInfo>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.File, opt => opt.MapFrom(src => new S3File {  Content = src.Content, ContentType = src.ContentType, FileName = src.Name}))
                 ;
         }
 

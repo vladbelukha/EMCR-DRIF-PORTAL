@@ -1,5 +1,7 @@
-﻿using AutoMapper;
+﻿using System.Text;
+using AutoMapper;
 using EMCR.DRR.API.Model;
+using EMCR.DRR.API.Services.S3;
 using EMCR.DRR.Controllers;
 using EMCR.DRR.Dynamics;
 using EMCR.DRR.Managers.Intake;
@@ -476,6 +478,39 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
 
             var deletedApplication = (await manager.Handle(new DrrApplicationsQuery { Id = id, BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault();
             deletedApplication.ShouldBeNull();
+        }
+
+        [Test]
+        public async Task CanAddAttachment()
+        {
+            var userInfo = GetTestUserInfo();
+            //var userInfo = GetCRAFTUserInfo();
+
+            var eoi = mapper.Map<EoiApplication>(CreateNewTestEOIApplication());
+            eoi.Status = SubmissionPortalStatus.EligibleInvited;
+            eoi.AuthorizedRepresentativeStatement = true;
+            eoi.FOIPPAConfirmation = true;
+            eoi.InformationAccuracyStatement = true;
+
+            var eoiId = await manager.Handle(new EoiSubmitApplicationCommand { application = eoi, UserInfo = userInfo });
+            eoiId.ShouldNotBeEmpty();
+
+            var screenerQuestions = CreateScreenerQuestions();
+            screenerQuestions.FirstNationsAuthorizedByPartners = EMCR.DRR.Managers.Intake.YesNoOption.NotApplicable;
+            screenerQuestions.LocalGovernmentAuthorizedByPartners = EMCR.DRR.Managers.Intake.YesNoOption.NotApplicable;
+            screenerQuestions.EngagedWithFirstNationsOccurred = false;
+
+            var fpId = await manager.Handle(new CreateFpFromEoiCommand { EoiId = eoiId, UserInfo = userInfo, ScreenerQuestions = screenerQuestions });
+            fpId.ShouldNotBeEmpty();
+
+            var body = DateTime.Now.ToString();
+            var fileName = "test.txt";
+            byte[] bytes = Encoding.ASCII.GetBytes(body);
+            var file = new S3File { FileName = fileName, Content = bytes, ContentType = "text/plain", };
+
+            var documentId = await manager.Handle(new UploadAttachmentCommand { AttachmentInfo = new AttachmentInfo { ApplicationId = fpId, File = file, DocumentType = EMCR.DRR.Managers.Intake.DocumentType.SitePlan }, UserInfo = GetTestUserInfo() });
+            var fullProposal = (await manager.Handle(new DrrApplicationsQuery { Id = fpId, BusinessId = userInfo.BusinessId })).Items.SingleOrDefault();
+            fullProposal.Attachments.Count().ShouldBe(1);
         }
 
 #pragma warning restore CS8604 // Possible null reference argument.

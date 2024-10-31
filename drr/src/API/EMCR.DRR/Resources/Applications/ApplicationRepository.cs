@@ -48,6 +48,7 @@ namespace EMCR.DRR.Resources.Applications
             return query switch
             {
                 ApplicationsQuery q => await HandleQueryApplication(q),
+                ApplicationByDocumentIdQuery q => await HandleQueryApplicationByDocumentId(q),
                 _ => throw new NotSupportedException($"{query.GetType().Name} is not supported")
             };
         }
@@ -116,6 +117,16 @@ namespace EMCR.DRR.Resources.Applications
         {
             var readCtx = dRRContextFactory.CreateReadOnly();
             var existingApplication = await readCtx.drr_applications.Expand(a => a.drr_Primary_Proponent_Name).Where(a => a.drr_name == id).SingleOrDefaultAsync();
+            if (existingApplication == null) return true;
+            return (!string.IsNullOrEmpty(existingApplication.drr_Primary_Proponent_Name.drr_bceidguid)) && existingApplication.drr_Primary_Proponent_Name.drr_bceidguid.Equals(businessId);
+        }
+        
+        public async Task<bool> CanAccessApplicationFromDocumentId(string id, string businessId)
+        {
+            var readCtx = dRRContextFactory.CreateReadOnly();
+            var document = await readCtx.bcgov_documenturls.Expand(d => d.bcgov_Application).Where(a => a.bcgov_documenturlid == Guid.Parse(id)).SingleOrDefaultAsync();
+            var existingApplication = document.bcgov_Application;
+            await readCtx.LoadPropertyAsync(existingApplication, nameof(drr_application.drr_Primary_Proponent_Name));
             if (existingApplication == null) return true;
             return (!string.IsNullOrEmpty(existingApplication.drr_Primary_Proponent_Name.drr_bceidguid)) && existingApplication.drr_Primary_Proponent_Name.drr_bceidguid.Equals(businessId);
         }
@@ -199,6 +210,16 @@ namespace EMCR.DRR.Resources.Applications
 
             await Parallel.ForEachAsync(results, ct, async (a, ct) => await ParallelLoadApplicationAsync(readCtx, partnerProponentsOnly, a, ct));
             return new ApplicationQueryResult { Items = mapper.Map<IEnumerable<Application>>(results), Length = length };
+        }
+
+        private async Task<ApplicationQueryResult> HandleQueryApplicationByDocumentId(ApplicationByDocumentIdQuery query)
+        {
+            var ct = new CancellationTokenSource().Token;
+            var readCtx = dRRContextFactory.CreateReadOnly();
+
+            var documentQuery = readCtx.bcgov_documenturls.Expand(d => d.bcgov_Application).Where(d => d.bcgov_documenturlid == Guid.Parse(query.DocumentId));
+            var results = (await documentQuery.GetAllPagesAsync(ct)).Select(d => d.bcgov_Application).ToList();
+            return new ApplicationQueryResult { Items = mapper.Map<IEnumerable<Application>>(results), Length = results.Count };
         }
 
         public async Task<ManageApplicationCommandResult> HandleSaveApplication(SaveApplication cmd)
@@ -1098,6 +1119,7 @@ namespace EMCR.DRR.Resources.Applications
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_drr_application_drr_climateassessmenttoolitem_Application), ct),
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_drr_application_drr_costconsiderationitem_Application), ct),
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_drr_application_drr_driffundingrequest_Application), ct),
+                    ctx.LoadPropertyAsync(application, nameof(drr_application.bcgov_drr_application_bcgov_documenturl_Application), ct),
                 }).ToList();
             }
 
