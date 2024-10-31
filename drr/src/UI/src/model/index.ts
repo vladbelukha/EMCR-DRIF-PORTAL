@@ -32,6 +32,7 @@ export * from './estimatedNumberOfPeople';
 export * from './estimatedNumberOfPeopleFP';
 export * from './fileData';
 export * from './fileMetadata';
+export * from './filesUploadFileBody';
 export * from './fpApplication';
 export * from './fpApplicationAllOf';
 export * from './fundingInformation';

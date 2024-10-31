@@ -8,9 +8,7 @@ import type { FileMetadata } from './fileMetadata';
 
 export interface S3File {
   content?: string;
-  /** @nullable */
   contentType?: string;
-  /** @nullable */
   fileName?: string;
   metadata?: FileMetadata[];
 }
