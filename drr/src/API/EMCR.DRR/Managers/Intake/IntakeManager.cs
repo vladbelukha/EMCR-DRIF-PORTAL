@@ -183,7 +183,7 @@ namespace EMCR.DRR.Managers.Intake
             if (application == null) throw new NotFoundException("Application not found");
             if (application.Status != ApplicationStatus.DraftProponent && application.Status != ApplicationStatus.DraftStaff) throw new BusinessValidationException("Can only edit attachments when application is in Draft");
 
-            var documentRes = (await documentRepository.Manage(new CreateDocument { ApplicationId = cmd.AttachmentInfo.ApplicationId, Document = new Document { Name = cmd.AttachmentInfo.File.FileName, DocumentType = cmd.AttachmentInfo.DocumentType } }));
+            var documentRes = (await documentRepository.Manage(new CreateDocument { ApplicationId = cmd.AttachmentInfo.ApplicationId, Document = new Document { Name = cmd.AttachmentInfo.File.FileName, DocumentType = cmd.AttachmentInfo.DocumentType, Size = GetFileSize(cmd.AttachmentInfo.File.Content) } }));
             await s3Provider.HandleCommand(new UploadFileCommand { Key = documentRes.Id, File = cmd.AttachmentInfo.File, Folder = $"drr_application/{documentRes.ApplicationId}" });
             return documentRes.Id;
         }
@@ -208,6 +208,20 @@ namespace EMCR.DRR.Managers.Intake
         {
             var res = await applicationRepository.Query(new Resources.Applications.EntitiesQuery());
             return mapper.Map<EntitiesQueryResult>(res);
+        }
+
+        private string GetFileSize(byte[] file)
+        {
+            float bytes = file.Length;
+            if (bytes < 1024) return $"{bytes.ToString("0.00")} B";
+            bytes = bytes / 1024f;
+            if (bytes < 1024) return $"{bytes.ToString("0.00")} KB";
+            bytes = bytes / 1024f;
+            if (bytes < 1024) return $"{bytes.ToString("0.00")} MB";
+            bytes = bytes / 1024f;
+            if (bytes < 1024) return $"{bytes.ToString("0.00")} GB";
+            bytes = bytes / 1024f;
+            return $"{bytes.ToString("0.00")} TB";
         }
 
         private async Task<bool> CanAccessApplication(string? id, string? businessId)

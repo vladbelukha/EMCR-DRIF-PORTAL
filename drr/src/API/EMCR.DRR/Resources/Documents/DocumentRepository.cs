@@ -47,6 +47,10 @@ namespace EMCR.DRR.API.Resources.Documents
             var bcGovDocument = mapper.Map<bcgov_documenturl>(cmd.Document);
             bcGovDocument.bcgov_documenturlid = Guid.NewGuid();
             var application = await ctx.drr_applications.Where(a => a.drr_name == cmd.ApplicationId).SingleOrDefaultAsync();
+            bcGovDocument.bcgov_url = $"drr_application/{application.drr_applicationid}";
+            bcGovDocument.bcgov_origincode = (int?)OriginOptionSet.Web;
+            bcGovDocument.bcgov_filesize = cmd.Document.Size;
+            bcGovDocument.bcgov_receiveddate = DateTime.UtcNow;
             ctx.AddTobcgov_documenturls(bcGovDocument);
             ctx.AddLink(application, nameof(application.bcgov_drr_application_bcgov_documenturl_Application), bcGovDocument);
             ctx.SetLink(bcGovDocument, nameof(bcGovDocument.bcgov_Application), application);
