@@ -39,6 +39,7 @@ namespace EMCR.DRR.API.Resources.Documents
     public class Document
     {
         public required string Name { get; set; }
+        public required string Size { get; set; }
         public DocumentType DocumentType { get; set; }
     }
 
@@ -51,5 +52,12 @@ namespace EMCR.DRR.API.Resources.Documents
         PreliminaryDesign = 172580004,
         Resolution = 172580005,
         OtherSupportingDocument = 172580006
+    }
+
+    public enum OriginOptionSet
+    {
+        Web = 931490000,
+        Email = 931490001,
+        UserUpload = 931490002,
     }
 }

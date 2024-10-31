@@ -13,6 +13,7 @@ namespace EMCR.DRR.API.Resources.Cases
                 .ReverseMap()
                 .ValidateMemberList(MemberList.Destination)
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.bcgov_filename))
+                .ForMember(dest => dest.Size, opt => opt.MapFrom(src => src.bcgov_filesize))
                 .ForMember(dest => dest.DocumentType, opt => opt.Ignore())
                 ;
         }
