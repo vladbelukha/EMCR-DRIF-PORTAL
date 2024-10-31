@@ -128,7 +128,7 @@ namespace EMCR.DRR.Managers.Intake
     
     public class DownloadAttachment : AttachmentQuery
     {
-        public string? Id { get; set; }
+        public required string Id { get; set; }
         public UserInfo UserInfo { get; set; }
     }
 

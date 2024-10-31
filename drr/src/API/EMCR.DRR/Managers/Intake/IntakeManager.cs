@@ -2,6 +2,7 @@
 using AutoMapper;
 using EMCR.DRR.API.Model;
 using EMCR.DRR.API.Resources.Cases;
+using EMCR.DRR.API.Resources.Documents;
 using EMCR.DRR.API.Services;
 using EMCR.DRR.API.Services.S3;
 using EMCR.DRR.Resources.Applications;
@@ -12,13 +13,15 @@ namespace EMCR.DRR.Managers.Intake
     {
         private readonly IMapper mapper;
         private readonly IApplicationRepository applicationRepository;
+        private readonly IDocumentRepository documentRepository;
         private readonly ICaseRepository caseRepository;
         private readonly IS3Provider s3Provider;
 
-        public IntakeManager(IMapper mapper, IApplicationRepository applicationRepository, ICaseRepository caseRepository, IS3Provider s3Provider)
+        public IntakeManager(IMapper mapper, IApplicationRepository applicationRepository, IDocumentRepository documentRepository, ICaseRepository caseRepository, IS3Provider s3Provider)
         {
             this.mapper = mapper;
             this.applicationRepository = applicationRepository;
+            this.documentRepository = documentRepository;
             this.caseRepository = caseRepository;
             this.s3Provider = s3Provider;
         }
@@ -180,24 +183,18 @@ namespace EMCR.DRR.Managers.Intake
             if (application == null) throw new NotFoundException("Application not found");
             if (application.Status != ApplicationStatus.DraftProponent && application.Status != ApplicationStatus.DraftStaff) throw new BusinessValidationException("Can only edit attachments when application is in Draft");
 
-            var key = cmd.AttachmentInfo.Id ?? Guid.NewGuid().ToString();
-            //var file = new EMCR.DRR.API.Services.S3.File
-            //{
-
-            //}
-            //var id = (await s3Provider.HandleCommand(new UploadFileCommand { Key = key,  })
-            //return id;
-            return key;
+            var documentRes = (await documentRepository.Manage(new CreateDocument { ApplicationId = cmd.AttachmentInfo.ApplicationId, Document = new Document { Name = cmd.AttachmentInfo.File.FileName, DocumentType = cmd.AttachmentInfo.DocumentType } }));
+            await s3Provider.HandleCommand(new UploadFileCommand { Key = documentRes.Id, File = cmd.AttachmentInfo.File, Folder = $"drr_application/{documentRes.ApplicationId}" });
+            return documentRes.Id;
         }
 
         public async Task<FileQueryResult> Handle(DownloadAttachment cmd)
         {
-            //var canAccess = await CanAccessApplication(cmd.AttachmentInfo.ApplicationId, cmd.UserInfo.BusinessId);
-            //if (!canAccess) throw new ForbiddenException("Not allowed to access this application.");
-            //var application = (await applicationRepository.Query(new ApplicationsQuery { Id = cmd.AttachmentInfo.ApplicationId })).Items.SingleOrDefault();
-            //if (application == null) throw new NotFoundException("Application not found");
+            var canAccess = await CanAccessApplicationFromDocumentId(cmd.Id, cmd.UserInfo.BusinessId);
+            if (!canAccess) throw new ForbiddenException("Not allowed to access this application.");
+            var applicationId = (await documentRepository.Query(new DocumentQuery { Id = cmd.Id })).ApplicationId;
 
-            var res = await s3Provider.HandleQuery(new FileQuery { Key = "Test_PDF.pdf" });
+            var res = await s3Provider.HandleQuery(new FileQuery { Key = cmd.Id, Folder = $"drr_application/{applicationId}" });
             return (FileQueryResult)res;
         }
 
@@ -218,6 +215,13 @@ namespace EMCR.DRR.Managers.Intake
             if (string.IsNullOrEmpty(businessId)) throw new ArgumentNullException("Missing user's BusinessId");
             if (string.IsNullOrEmpty(id)) return true;
             return await applicationRepository.CanAccessApplication(id, businessId);
+        }
+
+        private async Task<bool> CanAccessApplicationFromDocumentId(string? id, string? businessId)
+        {
+            if (string.IsNullOrEmpty(businessId)) throw new ArgumentNullException("Missing user's BusinessId");
+            if (string.IsNullOrEmpty(id)) return true;
+            return await applicationRepository.CanAccessApplicationFromDocumentId(id, businessId);
         }
 
         private FilterOptions ParseFilter(string? filter)
