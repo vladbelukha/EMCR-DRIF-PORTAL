@@ -162,6 +162,7 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.drr_explaincostconsiderations, opt => opt.MapFrom(src => src.CostConsiderationsComments))
 
                 //Attachments - 11
+                .ForMember(dest => dest.bcgov_drr_application_bcgov_documenturl_Application, opt => opt.MapFrom(src => src.Attachments))
                 //HaveResolution
 
                 //Review & Declaration - 12
@@ -308,6 +309,7 @@ namespace EMCR.DRR.Resources.Applications
 
                 //Attachments
                 .ForMember(dest => dest.HaveResolution, opt => opt.Ignore())
+                .ForMember(dest => dest.Attachments, opt => opt.MapFrom(src => src.bcgov_drr_application_bcgov_documenturl_Application))
             ;
 
 
@@ -480,6 +482,17 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.Year, opt => opt.MapFrom(src => src.drr_FiscalYear.drr_name))
                 .ForMember(dest => dest.Amount, opt => opt.MapFrom(src => src.drr_drifprogramfundingrequest))
                 ;
+
+            CreateMap<BcGovDocument, bcgov_documenturl>(MemberList.None)
+                .ForMember(dest => dest.bcgov_documenturlid, opt => opt.MapFrom(src => Guid.Parse(src.Id)))
+                .ForMember(dest => dest.bcgov_filename, opt => opt.MapFrom(src => src.Name))
+                .ReverseMap()
+                .ValidateMemberList(MemberList.Destination)
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.bcgov_documenturlid.ToString()))
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.bcgov_filename))
+                .ForMember(dest => dest.DocumentType, opt => opt.MapFrom(src => DocumentType.OtherSupportingDocument))
+                .ForMember(dest => dest.Comments, opt => opt.Ignore())
+            ;
         }
 
         private int? DRRCategorySelectedMapper(StandardInfo? standardInfo)

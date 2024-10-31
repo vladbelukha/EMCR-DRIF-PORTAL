@@ -142,15 +142,13 @@ namespace EMCR.DRR.Managers.Intake
 
     public enum DocumentType
     {
-        ProponentEligibilitySupportingDocument,
-        ProjectEligibilitySupportingDocument,
-        ProjectWorkplan,
+        DetailedProjectWorkplan,
         ProjectSchedule,
+        DetailedCostEstimate,
         SitePlan,
         PreliminaryDesign,
-        ProjectDetailsSupportingDocument,
-        CostEstimate,
-        BudgetSupportingDocument,
+        Resolution,
+        OtherSupportingDocument
     }
 
     public class Application
@@ -322,6 +320,7 @@ namespace EMCR.DRR.Managers.Intake
 
         //Attachments - 11
         public bool? HaveResolution { get; set; }
+        public IEnumerable<BcGovDocument>? Attachments { get; set; }
 
         //Review & Declaration - 12
     }
@@ -477,6 +476,14 @@ namespace EMCR.DRR.Managers.Intake
         public bool? IncorporateFutureClimateConditions { get; set; }
         public bool? MeetsRegulatoryRequirements { get; set; }
         public bool? MeetsEligibilityRequirements { get; set; }
+    }
+
+    public class BcGovDocument
+    {
+        public required string Id { get; set; }
+        public required string Name { get; set; }
+        public DocumentType DocumentType { get; set; }
+        public string? Comments { get; set; }
     }
 
     public enum ProponentType

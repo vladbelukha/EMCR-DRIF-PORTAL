@@ -184,6 +184,10 @@ namespace EMCR.DRR.Managers.Intake
             CreateMap<Resources.Applications.EntitiesQueryResult, EntitiesQueryResult>()
                 .ReverseMap()
                 ;
+
+            CreateMap<Attachment, BcGovDocument>()
+                .ReverseMap()
+                ;
         }
 
         private IEnumerable<ContactDetails> DRRAdditionalContactMapper(ContactDetails? contact1, ContactDetails? contact2)
