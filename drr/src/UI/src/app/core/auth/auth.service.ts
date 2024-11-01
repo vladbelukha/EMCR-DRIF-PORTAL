@@ -91,9 +91,9 @@ export class AuthService {
 
     await this.oauthService
       .loadDiscoveryDocumentAndLogin()
-      .then((isLoggedIn) => {
+      .then(async (isLoggedIn) => {
         if (isLoggedIn) {
-          this.setProfile();
+          await this.setProfile();
 
           let redirectState = JSON.parse(
             this.oauthService.state

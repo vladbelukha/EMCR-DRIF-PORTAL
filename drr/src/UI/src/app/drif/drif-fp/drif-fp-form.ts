@@ -1,5 +1,4 @@
 import {
-  maxLength,
   minLength,
   prop,
   propArray,
@@ -359,7 +358,6 @@ export class ProjectAreaForm {
 
   @prop()
   @required()
-  @maxLength({ value: 9 })
   area?: number;
 
   @prop()
