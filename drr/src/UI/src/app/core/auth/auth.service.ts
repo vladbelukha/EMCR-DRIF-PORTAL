@@ -93,18 +93,24 @@ export class AuthService {
       .loadDiscoveryDocumentAndLogin()
       .then(async (isLoggedIn) => {
         if (isLoggedIn) {
-          await this.setProfile();
-
           let redirectState = JSON.parse(
             this.oauthService.state
               ? atob(decodeURIComponent(this.oauthService.state))
               : '{}'
           );
-          if (
-            redirectState.originalURL &&
-            redirectState.originalURL != window.location.href
-          )
-            window.location.href = redirectState.originalURL;
+          if (redirectState.originalURL) {
+            const originalURL = new URL(redirectState.originalURL);
+            const currentURL = new URL(window.location.href);
+
+            if (
+              originalURL.origin + originalURL.pathname !==
+              currentURL.origin + currentURL.pathname
+            ) {
+              window.location.href = redirectState.originalURL;
+            }
+          }
+
+          await this.setProfile();
         }
       });
   }
