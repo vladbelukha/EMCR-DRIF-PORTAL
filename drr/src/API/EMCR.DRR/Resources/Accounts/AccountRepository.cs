@@ -1,18 +1,21 @@
 ﻿using AutoMapper;
 using EMCR.DRR.Dynamics;
 using Microsoft.Dynamics.CRM;
+using System.Threading.Tasks;
 
 namespace EMCR.DRR.API.Resources.Accounts
 {
     public class AccountRepository : IAccountRepository
     {
+        private readonly ILogger<AccountRepository> logger;
         private readonly IDRRContextFactory dRRContextFactory;
         private readonly IMapper mapper;
 
-        public AccountRepository(IDRRContextFactory dRRContextFactory, IMapper mapper)
+        public AccountRepository(IDRRContextFactory dRRContextFactory, IMapper mapper, ILogger<AccountRepository> logger)
         {
             this.dRRContextFactory = dRRContextFactory;
             this.mapper = mapper;
+            this.logger = logger;
         }
 
         public async Task<ManageAccountCommandResult> Manage(ManageAccountCommand cmd)
@@ -28,8 +31,8 @@ namespace EMCR.DRR.API.Resources.Accounts
         {
             var ctx = dRRContextFactory.Create();
             var account = mapper.Map<account>(cmd.Account);
-            var existingAccount = await ctx.accounts.Where(a => a.drr_bceidguid == account.drr_bceidguid).SingleOrDefaultAsync();
-            if (existingAccount == null)
+            var existingAccounts = await ctx.accounts.Where(a => a.drr_bceidguid == account.drr_bceidguid).ToListAsync();
+            if (existingAccounts == null || !existingAccounts.Any())
             {
                 account.accountid = Guid.NewGuid();
                 ctx.AddToaccounts(account);
@@ -37,7 +40,12 @@ namespace EMCR.DRR.API.Resources.Accounts
             }
             else
             {
-                account.accountid = existingAccount.accountid;
+                if (existingAccounts.Count > 1)
+                {
+                    logger.LogWarning($"More than one account exists with the BCeID: {account.drr_bceidguid}");
+                }
+
+                account.accountid = existingAccounts.First().accountid;
             }
 
 #pragma warning disable CS8601 // Possible null reference assignment.

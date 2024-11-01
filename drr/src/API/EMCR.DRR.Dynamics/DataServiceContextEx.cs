@@ -46,6 +46,9 @@ namespace EMCR.DRR.Dynamics
 
 #pragma warning disable IDE0022 // Use block body for methods
 
+        public static async Task<List<T>?> ToListAsync<T>(this IQueryable<T> query, CancellationToken ct = default) =>
+           (await ((DataServiceQuery<T>)query).ExecuteAsync(ct)).ToList();
+
         public static async Task<T> SingleOrDefaultAsync<T>(this IQueryable<T> query, CancellationToken? ct = null)
             where T : crmbaseentity =>
             (await ((DataServiceQuery<T>)query).ExecuteAsync(ct ?? CancellationToken.None)).SingleOrDefault();

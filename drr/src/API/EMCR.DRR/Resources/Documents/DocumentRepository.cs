@@ -51,6 +51,7 @@ namespace EMCR.DRR.API.Resources.Documents
             bcGovDocument.bcgov_origincode = (int?)OriginOptionSet.Web;
             bcGovDocument.bcgov_filesize = cmd.Document.Size;
             bcGovDocument.bcgov_receiveddate = DateTime.UtcNow;
+            //Set Document Type
             ctx.AddTobcgov_documenturls(bcGovDocument);
             ctx.AddLink(application, nameof(application.bcgov_drr_application_bcgov_documenturl_Application), bcGovDocument);
             ctx.SetLink(bcGovDocument, nameof(bcGovDocument.bcgov_Application), application);

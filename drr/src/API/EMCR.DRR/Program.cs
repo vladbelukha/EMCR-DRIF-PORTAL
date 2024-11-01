@@ -18,6 +18,7 @@ using Microsoft.Net.Http.Headers;
 using NSwag;
 using NSwag.AspNetCore;
 using NSwag.Generation.Processors.Security;
+using Serilog;
 using Xrm.Tools.WebAPI;
 using Xrm.Tools.WebAPI.Requests;
 
@@ -25,6 +26,9 @@ var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 var configuration = builder.Configuration;
 
+#pragma warning disable CS8604 // Possible null reference argument.
+builder.Host.UseSerilog((ctx, services, config) => Logging.ConfigureSerilog(ctx, services, config, configuration.GetValue("APP_NAME", string.Empty)));
+#pragma warning restore CS8604 // Possible null reference argument.
 services.AddControllers().AddJsonOptions(x =>
 {
     x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());

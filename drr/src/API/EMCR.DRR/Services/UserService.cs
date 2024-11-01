@@ -67,17 +67,15 @@ public class UserService(IDistributedCache cache, IHttpContextAccessor httpConte
         var cacheKey = $"account:{businessId}";
         var path = GetPathClaim(sourcePrincipal);
 
-        //Immediately after login 2 requests from the front end come in at the same time. So close together that using the cache to prevent duplicates is failing
-        //So add a slight delay to any requests that don't match the profile endpoint to give this a chance to set the cache and prevent creating 2 accounts
-        if (!path.Contains("profile"))
+        //Immediately after login 2 requests from the front end come in at the same time. Only try to create an account for the profile request to prevent duplicates
+        if (path.Contains("profile"))
         {
-            System.Threading.Thread.Sleep(300);
-        }
-        var didCheck = await cache.Get<bool>(cacheKey);
-        if (!didCheck)
-        {
-            await cache.Set<bool>(cacheKey, true, TimeSpan.FromMinutes(10));
-            await accountRepository.Manage(new SaveAccountIfNotExists { Account = new Account { BCeIDBusinessId = GetCurrentBusinessId(sourcePrincipal), Name = GetCurrentBusinessName(sourcePrincipal) } });
+            var didCheck = await cache.Get<bool>(cacheKey);
+            if (!didCheck)
+            {
+                await cache.Set<bool>(cacheKey, true, TimeSpan.FromMinutes(10));
+                await accountRepository.Manage(new SaveAccountIfNotExists { Account = new Account { BCeIDBusinessId = GetCurrentBusinessId(sourcePrincipal), Name = GetCurrentBusinessName(sourcePrincipal) } });
+            }
         }
 
         return new AccountDetails
