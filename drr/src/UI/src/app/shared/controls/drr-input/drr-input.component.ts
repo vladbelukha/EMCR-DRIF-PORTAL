@@ -54,7 +54,7 @@ export class DrrInputComponent {
   }
 
   get getMaxLength() {
-    if (this.type === 'tel' || this.type === 'number') {
+    if (this.type === 'tel') {
       return null;
     }
 
@@ -82,7 +82,7 @@ export class DrrInputComponent {
 
   getCount(): number {
     const inputValue = this.rxFormControl?.value ?? '';
-    return inputValue.length;
+    return inputValue.toString().length;
   }
 
   getMandatoryMark() {
