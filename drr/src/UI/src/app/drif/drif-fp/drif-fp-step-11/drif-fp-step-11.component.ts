@@ -79,15 +79,22 @@ export class DrifFpStep11Component {
               documentType: event.documentType,
             } as AttachmentForm;
 
-            const fileForm = this.formBuilder.formGroup(
-              AttachmentForm,
-              projectPlanFormData
-            ) as RxFormGroup;
-
             const attachmentsArray = this.attachmentsForm.get(
               'attachments'
             ) as FormArray;
-            attachmentsArray.push(fileForm);
+
+            const mathcingAttachment = attachmentsArray.controls.find(
+              (control) => control.value.documentType === event.documentType
+            );
+            if (mathcingAttachment) {
+              mathcingAttachment.patchValue(projectPlanFormData);
+            } else {
+              const fileForm = this.formBuilder.formGroup(
+                AttachmentForm,
+                projectPlanFormData
+              ) as RxFormGroup;
+              attachmentsArray.push(fileForm);
+            }
           },
           error: () => {
             // TODO: show error

@@ -25,18 +25,13 @@ export interface FileUploadEvent {
     class="attachment-container"
     *transloco="let t; read: 'attachments'"
   >
-    <mat-label>{{ label }}</mat-label>
-    @if (attachmentForm) {
+    <mat-label [class.required]="isRequired()">{{ label }}</mat-label>
+    @if (attachmentForm?.get('id')?.value) {
     <div class="attachment">
       <drr-input
         class="drr-single-input"
-        [label]="t('name')"
-        [rxFormControl]="attachmentForm.get('name')"
-      ></drr-input>
-      <drr-input
-        class="drr-single-input"
         [label]="t('comments')"
-        [rxFormControl]="attachmentForm.get('comments')"
+        [rxFormControl]="attachmentForm?.get('comments')"
       ></drr-input>
       <button mat-mini-fab color="primary" (click)="onDownloadFile()">
         <mat-icon>download</mat-icon>
@@ -63,9 +58,13 @@ export interface FileUploadEvent {
       .attachment {
         display: flex;
         flex-direction: row;
-        justify-content: space-between;
+        justify-content: flex-start;
         align-items: baseline;
         gap: 1rem;
+      }
+
+      .required {
+        color: red;
       }
     `,
   ],
@@ -113,5 +112,9 @@ export class DrrAttahcmentComponent {
 
   onDownloadFile() {
     this.downloadFile.emit(this.attachmentForm?.get('id')?.value);
+  }
+
+  isRequired() {
+    return this.attachmentForm?.invalid && this.attachmentForm?.touched;
   }
 }

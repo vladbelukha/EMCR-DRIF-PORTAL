@@ -27,9 +27,6 @@ export class AttachmentForm implements Attachment {
   @prop()
   id?: string;
 
-  // TODO: need this?
-  applicationId?: string | undefined;
-
   @prop()
   @required()
   name?: string;
@@ -40,8 +37,6 @@ export class AttachmentForm implements Attachment {
 
   @prop()
   documentType?: DocumentType | undefined;
-
-  body?: string | undefined; // TODO: should not be in model
 
   constructor(values: AttachmentForm) {
     Object.assign(this, values);
@@ -537,7 +532,14 @@ export class ProjectOutcomesForm {
 
 export class AttachmentsForm {
   @propArray(AttachmentForm)
-  attachments?: AttachmentForm[] = [];
+  attachments?: AttachmentForm[] = [
+    {
+      documentType: DocumentType.DetailedProjectWorkplan,
+    },
+    {
+      documentType: DocumentType.DetailedCostEstimate,
+    },
+  ];
 
   @prop()
   @required()
