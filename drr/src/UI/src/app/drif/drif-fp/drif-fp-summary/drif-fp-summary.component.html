@@ -1332,6 +1332,14 @@
           [rxFormControl]="attachment.get('comments')"
         >
         </drr-summary-item>
+        <button
+          style="align-self: center"
+          mat-button
+          color="primary"
+          (click)="onDownloadFile(attachment.get('id')?.value)"
+        >
+          Download
+        </button>
       </div>
     </mat-card-content>
   </mat-card>

@@ -31,7 +31,12 @@ import { DrifFpStep1Component } from './drif-fp-step-1/drif-fp-step-1.component'
 
 import { distinctUntilChanged } from 'rxjs/operators';
 import { DrifapplicationService } from '../../../api/drifapplication/drifapplication.service';
-import { DraftFpApplication, FpApplication, YesNoOption } from '../../../model';
+import {
+  DocumentType,
+  DraftFpApplication,
+  FpApplication,
+  YesNoOption,
+} from '../../../model';
 import {
   ContactDetailsForm,
   FundingInformationItemForm,
@@ -476,14 +481,18 @@ export class DrifFpComponent {
         .get('isCategorySelected')
         ?.valueChanges.pipe(distinctUntilChanged())
         .subscribe((value) => {
+          const standardsControl = standardInfoForm.get('standards');
           if (value === false) {
-            standardInfoForm.get('standards')?.setValue([], {
+            standardsControl?.setValue([], {
               emitEvent: false,
             });
-            standardInfoForm.get('standards')?.disable();
+            standardsControl?.disable();
+            standardsControl?.clearValidators();
           } else {
-            standardInfoForm.get('standards')?.enable();
+            standardsControl?.enable();
+            standardsControl?.setValidators(Validators.required);
           }
+          standardsControl?.updateValueAndValidity();
         });
 
       standardsFormArray?.push(standardInfoForm, { emitEvent: false });
@@ -684,6 +693,26 @@ export class DrifFpComponent {
     ) as FormArray;
 
     response.attachments?.forEach((attachment) => {
+      if (attachment.documentType === DocumentType.DetailedProjectWorkplan) {
+        attachmentsArray.controls
+          .find(
+            (control) =>
+              control.value.documentType ===
+              DocumentType.DetailedProjectWorkplan
+          )
+          ?.patchValue(attachment, { emitEvent: false });
+      }
+      if (attachment.documentType === DocumentType.DetailedCostEstimate) {
+        attachmentsArray.controls
+          .find(
+            (control) =>
+              control.value.documentType === DocumentType.DetailedCostEstimate
+          )
+          ?.patchValue(attachment, { emitEvent: false });
+      }
+
+      // TODO: handle resolution doc ?
+
       attachmentsArray?.push(
         this.formBuilder.formGroup(new AttachmentForm(attachment)),
         { emitEvent: false }
@@ -721,6 +750,12 @@ export class DrifFpComponent {
   getFormValue() {
     const fpForm = this.fullProposalForm.getRawValue() as DrifFpForm;
 
+    // filter out empty attachment forms
+    const attachmentsForm = { ...fpForm.attachments };
+    attachmentsForm.attachments = attachmentsForm.attachments?.filter(
+      (attachment: AttachmentForm) => attachment.id
+    );
+
     const fpApp = {
       ...fpForm.proponentAndProjectInformation,
       ...fpForm.ownershipAndAuthorization,
@@ -732,7 +767,7 @@ export class DrifFpComponent {
       ...fpForm.projectOutcomes,
       ...fpForm.projectRisks,
       ...fpForm.budget,
-      ...fpForm.attachments,
+      ...attachmentsForm,
       ...fpForm.declarations,
     } as FpApplication;
 

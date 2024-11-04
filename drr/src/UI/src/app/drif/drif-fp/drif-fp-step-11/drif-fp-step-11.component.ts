@@ -12,12 +12,12 @@ import {
   RxFormBuilder,
   RxFormGroup,
 } from '@rxweb/reactive-form-validators';
-import { saveAs } from 'file-saver';
 import { AttachmentService } from '../../../../api/attachment/attachment.service';
 import { DocumentType } from '../../../../model';
 import { DrrFileUploadComponent } from '../../../shared/controls/drr-file-upload/drr-file-upload.component';
 import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
 import { DrrRadioButtonComponent } from '../../../shared/controls/drr-radio-button/drr-radio-button.component';
+import { FileService } from '../../../shared/services/file.service';
 import { AttachmentForm, AttachmentsForm } from '../drif-fp-form';
 import {
   DrrAttahcmentComponent,
@@ -48,6 +48,7 @@ import {
 export class DrifFpStep11Component {
   formBuilder = inject(RxFormBuilder);
   attachmentsService = inject(AttachmentService);
+  fileService = inject(FileService);
 
   @Input() attachmentsForm!: IFormGroup<AttachmentsForm>;
 
@@ -79,15 +80,22 @@ export class DrifFpStep11Component {
               documentType: event.documentType,
             } as AttachmentForm;
 
-            const fileForm = this.formBuilder.formGroup(
-              AttachmentForm,
-              projectPlanFormData
-            ) as RxFormGroup;
-
             const attachmentsArray = this.attachmentsForm.get(
               'attachments'
             ) as FormArray;
-            attachmentsArray.push(fileForm);
+
+            const mathcingAttachment = attachmentsArray.controls.find(
+              (control) => control.value.documentType === event.documentType
+            );
+            if (mathcingAttachment) {
+              mathcingAttachment.patchValue(projectPlanFormData);
+            } else {
+              const fileForm = this.formBuilder.formGroup(
+                AttachmentForm,
+                projectPlanFormData
+              ) as RxFormGroup;
+              attachmentsArray.push(fileForm);
+            }
           },
           error: () => {
             // TODO: show error
@@ -136,27 +144,7 @@ export class DrifFpStep11Component {
   }
 
   downloadFile(fileId: string) {
-    this.attachmentsService.attachmentDownloadAttachment(fileId).subscribe({
-      next: (response) => {
-        if (response.file == null) {
-          return;
-        }
-        const byteArray = this.base64ToByteArray(response.file.content!);
-        const blob = new Blob([byteArray], { type: response.file.contentType });
-        saveAs(blob, response.file.fileName);
-      },
-      error: () => {},
-    });
-  }
-
-  base64ToByteArray(base64: string): Uint8Array {
-    const binaryString = window.atob(base64);
-    const len = binaryString.length;
-    const bytes = new Uint8Array(len);
-    for (let i = 0; i < len; i++) {
-      bytes[i] = binaryString.charCodeAt(i);
-    }
-    return bytes;
+    this.fileService.downloadFile(fileId);
   }
 
   getFormByDocumentType(documentType: DocumentType) {

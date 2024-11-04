@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, Input } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy } from '@ngneat/until-destroy';
@@ -14,6 +16,7 @@ import {
 } from '@rxweb/reactive-form-validators';
 import { NgxMaskPipe } from 'ngx-mask';
 import { DocumentType, YesNoOption } from '../../../../model';
+import { FileService } from '../../../shared/services/file.service';
 import { DrifEoiSummaryComponent } from '../../drif-eoi/drif-eoi-summary/drif-eoi-summary.component';
 import { SummaryItemComponent } from '../../summary-item/summary-item.component';
 import { DrifFpForm } from '../drif-fp-form';
@@ -27,6 +30,8 @@ import { DrifFpForm } from '../drif-fp-form';
     SummaryItemComponent,
     MatCardModule,
     MatInputModule,
+    MatButtonModule,
+    MatIconModule,
     TranslocoModule,
     NgxMaskPipe,
     DrifEoiSummaryComponent,
@@ -36,8 +41,9 @@ import { DrifFpForm } from '../drif-fp-form';
 })
 export class DrifFpSummaryComponent {
   translocoService = inject(TranslocoService);
-  private _fullProposalForm?: IFormGroup<DrifFpForm>;
   formBuilder = inject(RxFormBuilder);
+  fileService = inject(FileService);
+  private _fullProposalForm?: IFormGroup<DrifFpForm>;
 
   @Input()
   showSubmitterInfo = true;
@@ -150,5 +156,9 @@ export class DrifFpSummaryComponent {
       : this.translocoService.translate(
           this.fullProposalForm.get('budget.previousResponse')?.value
         );
+  }
+
+  onDownloadFile(fileId: string) {
+    this.fileService.downloadFile(fileId);
   }
 }

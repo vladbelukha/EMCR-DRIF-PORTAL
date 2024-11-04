@@ -1,7 +1,7 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { AsyncPipe, CommonModule } from '@angular/common';
-import { Component, inject, Input } from '@angular/core';
+import { Component, ElementRef, inject, Input, ViewChild } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MatAutocompleteModule,
@@ -75,7 +75,9 @@ export class DrrChipAutocompleteComponent {
   separatorKeysCodes: number[] = [ENTER, COMMA];
   currentInputControl = new FormControl('');
 
-  // selectedOptions = signal<string[]>([]);
+  @ViewChild('currentInput', { static: true })
+  currentInputElement!: ElementRef<HTMLInputElement>;
+
   filteredOptions?: Observable<string[]>;
 
   isMobile = false;
@@ -109,7 +111,7 @@ export class DrrChipAutocompleteComponent {
     }
 
     event.chipInput!.clear();
-    this.currentInputControl.setValue(null);
+    this.currentInputControl.setValue('');
 
     this.rxFormControl.setValue([...this.rxFormControl.value, value], {
       emitEvent: false,
@@ -124,6 +126,7 @@ export class DrrChipAutocompleteComponent {
 
   optionSelected(event: MatAutocompleteSelectedEvent) {
     this.currentInputControl.setValue('');
+    this.currentInputElement.nativeElement.value = '';
 
     let value = event.option.viewValue;
     if (value.includes('Press Enter to add')) {
