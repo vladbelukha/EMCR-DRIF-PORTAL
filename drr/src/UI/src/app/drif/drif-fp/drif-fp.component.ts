@@ -481,14 +481,18 @@ export class DrifFpComponent {
         .get('isCategorySelected')
         ?.valueChanges.pipe(distinctUntilChanged())
         .subscribe((value) => {
+          const standardsControl = standardInfoForm.get('standards');
           if (value === false) {
-            standardInfoForm.get('standards')?.setValue([], {
+            standardsControl?.setValue([], {
               emitEvent: false,
             });
-            standardInfoForm.get('standards')?.disable();
+            standardsControl?.disable();
+            standardsControl?.clearValidators();
           } else {
-            standardInfoForm.get('standards')?.enable();
+            standardsControl?.enable();
+            standardsControl?.setValidators(Validators.required);
           }
+          standardsControl?.updateValueAndValidity();
         });
 
       standardsFormArray?.push(standardInfoForm, { emitEvent: false });
