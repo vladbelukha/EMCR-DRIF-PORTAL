@@ -38,7 +38,7 @@
         [id]="'projectContact_title'"
         [label]="t('title')"
         [rxFormControl]="proponentInformationForm.get('projectContact.title')"
-        [maxlength]="40"
+        [maxlength]="100"
       ></drr-input>
       <drr-input
         [id]="'projectContact_department'"
@@ -59,7 +59,7 @@
         [id]="'projectContact_email'"
         [label]="t('email')"
         [rxFormControl]="proponentInformationForm.get('projectContact.email')"
-        [maxlength]="40"
+        [maxlength]="100"
         [type]="'email'"
       ></drr-input>
     </div>
@@ -90,7 +90,7 @@
             [id]="'projectContact_title_' + i"
             [label]="t('title')"
             [rxFormControl]="projectContact.get('title')"
-            [maxlength]="40"
+            [maxlength]="100"
           ></drr-input>
           <drr-input
             [id]="'projectContact_department_' + i"
@@ -110,7 +110,7 @@
             [id]="'projectContact_email_' + i"
             [label]="t('email')"
             [rxFormControl]="projectContact.get('email')"
-            [maxlength]="40"
+            [maxlength]="100"
             [type]="'email'"
           ></drr-input>
 
