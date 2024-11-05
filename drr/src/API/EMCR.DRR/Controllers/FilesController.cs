@@ -69,7 +69,7 @@ namespace EMCR.DRR.API.Controllers
 
 
         [HttpPost("{id}")]
-        [RequestSizeLimit(250_000_000)]
+        [RequestSizeLimit(263_192_576)] //251MB
         public async Task<ActionResult<ApplicationResult>> UploadFile(
             [FromForm] UploadFileRequest request,
             [FromRoute] string id,

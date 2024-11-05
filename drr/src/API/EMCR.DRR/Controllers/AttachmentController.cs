@@ -42,7 +42,7 @@ namespace EMCR.DRR.API.Controllers
         }
 
         [HttpPost]
-        [RequestSizeLimit(250_000_000)]
+        [RequestSizeLimit(263_192_576)] //251MB
         public async Task<ActionResult<ApplicationResult>> UploadAttachment([FromBody] FileData attachment)
         {
             var attachmentInfo = mapper.Map<AttachmentInfo>(attachment);
