@@ -24,7 +24,7 @@
         [id]="'submitter_title'"
         [label]="t('title')"
         [rxFormControl]="declarationsForm.get('submitter.title')"
-        [maxlength]="40"
+        [maxlength]="100"
       ></drr-input>
       <drr-input
         [id]="'submitter_department'"
@@ -43,7 +43,7 @@
         [id]="'submitter_email'"
         [label]="t('email')"
         [rxFormControl]="declarationsForm.get('submitter.email')"
-        [maxlength]="40"
+        [maxlength]="100"
         [type]="'email'"
       ></drr-input>
     </div>
