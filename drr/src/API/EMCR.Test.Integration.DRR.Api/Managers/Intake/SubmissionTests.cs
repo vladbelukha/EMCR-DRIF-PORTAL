@@ -504,13 +504,19 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             fpId.ShouldNotBeEmpty();
 
             var body = DateTime.Now.ToString();
-            var fileName = "test.txt";
+            var fileName = "autotest.txt";
             byte[] bytes = Encoding.ASCII.GetBytes(body);
             var file = new S3File { FileName = fileName, Content = bytes, ContentType = "text/plain", };
 
             var documentId = await manager.Handle(new UploadAttachmentCommand { AttachmentInfo = new AttachmentInfo { ApplicationId = fpId, File = file, DocumentType = EMCR.DRR.Managers.Intake.DocumentType.SitePlan }, UserInfo = GetTestUserInfo() });
-            var fullProposal = (await manager.Handle(new DrrApplicationsQuery { Id = fpId, BusinessId = userInfo.BusinessId })).Items.SingleOrDefault();
+            var fullProposal = mapper.Map<DraftFpApplication>((await manager.Handle(new DrrApplicationsQuery { Id = fpId, BusinessId = userInfo.BusinessId })).Items.SingleOrDefault());
             fullProposal.Attachments.Count().ShouldBe(1);
+            fullProposal.Attachments.First().Comments = "site plan comments";
+
+            await manager.Handle(new FpSaveApplicationCommand { application = mapper.Map<FpApplication>(fullProposal), UserInfo = GetTestUserInfo() });
+
+            var updatedFp = (await manager.Handle(new DrrApplicationsQuery { Id = fpId, BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault();
+            updatedFp.Attachments.First().Comments.ShouldBe("site plan comments");
         }
 
 #pragma warning restore CS8604 // Possible null reference argument.

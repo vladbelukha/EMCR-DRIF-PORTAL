@@ -1,4 +1,5 @@
-﻿using EMCR.DRR.API.Services.S3;
+﻿using System.ComponentModel;
+using EMCR.DRR.API.Services.S3;
 using EMCR.DRR.Controllers;
 
 namespace EMCR.DRR.Managers.Intake
@@ -122,10 +123,10 @@ namespace EMCR.DRR.Managers.Intake
         public AttachmentInfo AttachmentInfo { get; set; }
         public UserInfo UserInfo { get; set; }
     }
-    
+
     public abstract class AttachmentQuery
     { }
-    
+
     public class DownloadAttachment : AttachmentQuery
     {
         public required string Id { get; set; }
@@ -142,13 +143,20 @@ namespace EMCR.DRR.Managers.Intake
 
     public enum DocumentType
     {
+        [Description("Detailed Project Workplan")]
         DetailedProjectWorkplan,
+        [Description("Project Schedule")]
         ProjectSchedule,
+        [Description("Detailed Cost Estimate")]
         DetailedCostEstimate,
+        [Description("Site Plan")]
         SitePlan,
+        [Description("Preliminary Design")]
         PreliminaryDesign,
+        [Description("Council/Board Resolution")]
         Resolution,
-        OtherSupportingDocument
+        [Description("Other Supporting Documentation")]
+        OtherSupportingDocument,
     }
 
     public class Application

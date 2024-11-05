@@ -79,10 +79,6 @@ namespace EMCR.DRR.API.Controllers
             )
         {
             var bytes = await GetBytes(request.File);
-            Console.WriteLine(request.File.FileName);
-            Console.WriteLine(classification);
-            Console.WriteLine(tags);
-            Console.WriteLine(folder);
             var file = new S3File { FileName = request.File.FileName, Content = bytes, ContentType = request.File.ContentType };
             await s3Provider.HandleCommand(new UploadFileCommand { Folder = folder, Key = id, File = file });
             return Ok(new ApplicationResult { Id = id });

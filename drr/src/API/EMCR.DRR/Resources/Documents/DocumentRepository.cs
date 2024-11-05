@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using EMCR.DRR.Dynamics;
+using EMCR.DRR.Managers.Intake;
+using EMCR.Utilities.Extensions;
 using Microsoft.Dynamics.CRM;
 
 namespace EMCR.DRR.API.Resources.Documents
@@ -55,6 +57,9 @@ namespace EMCR.DRR.API.Resources.Documents
             ctx.AddTobcgov_documenturls(bcGovDocument);
             ctx.AddLink(application, nameof(application.bcgov_drr_application_bcgov_documenturl_Application), bcGovDocument);
             ctx.SetLink(bcGovDocument, nameof(bcGovDocument.bcgov_Application), application);
+            var documentType = await ctx.bcgov_documenttypes.Where(t => t.bcgov_name == cmd.Document.DocumentType.ToDescriptionString()).SingleOrDefaultAsync();
+            if (documentType == null) documentType = await ctx.bcgov_documenttypes.Where(t => t.bcgov_name == DocumentType.OtherSupportingDocument.ToDescriptionString()).SingleOrDefaultAsync();
+            ctx.SetLink(bcGovDocument, nameof(bcGovDocument.bcgov_DocumentType), documentType);
             await ctx.SaveChangesAsync();
 
             return new ManageDocumentCommandResult { Id = bcGovDocument.bcgov_documenturlid.ToString(), ApplicationId = application.drr_applicationid.ToString() };
