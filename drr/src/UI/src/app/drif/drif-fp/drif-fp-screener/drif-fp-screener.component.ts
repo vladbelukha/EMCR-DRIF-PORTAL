@@ -60,7 +60,7 @@ export class DrifFpScreenerComponent {
     { value: YesNoOption.No, label: 'No' },
     {
       value: YesNoOption.NotApplicable,
-      label: 'Not Applicable (if applying for foundational project)',
+      label: 'Not applicable (if not applying for foundational project)',
     },
   ];
 
