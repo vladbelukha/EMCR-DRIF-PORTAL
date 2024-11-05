@@ -297,6 +297,7 @@ namespace EMCR.DRR.Resources.Applications
                 ctx.LoadPropertyAsync(currentApplication, nameof(drr_application.drr_drr_application_drr_resiliencyitem_Application)),
                 ctx.LoadPropertyAsync(currentApplication, nameof(drr_application.drr_drr_application_drr_climateassessmenttoolitem_Application)),
                 ctx.LoadPropertyAsync(currentApplication, nameof(drr_application.drr_drr_application_drr_costconsiderationitem_Application)),
+                ctx.LoadPropertyAsync(currentApplication, nameof(drr_application.bcgov_drr_application_bcgov_documenturl_Application)),
             };
 
             await Task.WhenAll(loadTasks);
@@ -309,6 +310,13 @@ namespace EMCR.DRR.Resources.Applications
 
             var drrApplication = mapper.Map<drr_application>(application);
             drrApplication.drr_applicationid = currentApplication.drr_applicationid;
+            foreach (var doc in drrApplication.bcgov_drr_application_bcgov_documenturl_Application)
+            {
+                var curr = currentApplication.bcgov_drr_application_bcgov_documenturl_Application.SingleOrDefault(d => d.bcgov_documenturlid == doc.bcgov_documenturlid);
+                if (curr != null) curr.bcgov_documentcomments = doc.bcgov_documentcomments;
+            }
+
+            drrApplication.bcgov_drr_application_bcgov_documenturl_Application = currentApplication.bcgov_drr_application_bcgov_documenturl_Application;
 
             ctx.AttachTo(nameof(ctx.drr_applications), drrApplication);
             ctx.UpdateObject(drrApplication);
@@ -474,7 +482,7 @@ namespace EMCR.DRR.Resources.Applications
                 professionalsMasterListTask,
                 resiliencyMasterListTask,
                 climateAssessmentToolsMasterListTask,
-                costConsiderationsMasterListTask
+                costConsiderationsMasterListTask,
             ]);
 
             var standardsMasterList = standardsMasterListTask.Result;
@@ -508,6 +516,7 @@ namespace EMCR.DRR.Resources.Applications
             AddClimateAssessmentTools(ctx, drrApplication, climateAssessmentToolsMasterList);
             AddCostConsiderations(ctx, drrApplication, costConsiderationsMasterList);
             AddYearOverYearFunding(ctx, drrApplication, fiscalYearsMasterList);
+            UpdateDocuments(ctx, drrApplication);
 
             SetApplicationType(ctx, drrApplication, application.ApplicationTypeName);
             SetProgram(ctx, drrApplication, application.ProgramName);
@@ -1064,6 +1073,18 @@ namespace EMCR.DRR.Resources.Applications
             }
         }
 
+        private static void UpdateDocuments(DRRContext drrContext, drr_application application)
+        {
+            foreach (var doc in application.bcgov_drr_application_bcgov_documenturl_Application)
+            {
+                if (doc != null)
+                {
+                    drrContext.AttachTo(nameof(drrContext.bcgov_documenturls), doc);
+                    drrContext.UpdateObject(doc);
+                }
+            }
+        }
+
         private static void SetApplicationType(DRRContext drrContext, drr_application application, string ApplicationTypeName)
         {
             var applicationType = drrContext.drr_applicationtypes.Where(type => type.drr_name == ApplicationTypeName).SingleOrDefault();
@@ -1141,6 +1162,7 @@ namespace EMCR.DRR.Resources.Applications
                 ParallelLoadResiliencies(ctx, application, ct),
                 ParallelLoadClimateAssessmentTools(ctx, application, ct),
                 ParallelLoadCostConsiderations(ctx, application, ct),
+                ParallelLoadDocumentTypes(ctx, application, ct),
                 ]);
         }
 
@@ -1268,6 +1290,15 @@ namespace EMCR.DRR.Resources.Applications
                 {
                     ctx.AttachTo(nameof(DRRContext.drr_costconsiderationitems), item);
                     await ctx.LoadPropertyAsync(item, nameof(drr_costconsiderationitem.drr_CostConsideration), ct);
+                });
+        }
+
+        private static async Task ParallelLoadDocumentTypes(DRRContext ctx, drr_application application, CancellationToken ct)
+        {
+            await application.bcgov_drr_application_bcgov_documenturl_Application.ForEachAsync(5, async doc =>
+                {
+                    ctx.AttachTo(nameof(DRRContext.bcgov_documenturls), doc);
+                    await ctx.LoadPropertyAsync(doc, nameof(bcgov_documenturl.bcgov_DocumentType), ct);
                 });
         }
 

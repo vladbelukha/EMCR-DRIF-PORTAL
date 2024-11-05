@@ -1,5 +1,7 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
 using EMCR.DRR.Managers.Intake;
+using EMCR.Utilities.Extensions;
 using Microsoft.Dynamics.CRM;
 
 namespace EMCR.DRR.Resources.Applications
@@ -486,12 +488,14 @@ namespace EMCR.DRR.Resources.Applications
             CreateMap<BcGovDocument, bcgov_documenturl>(MemberList.None)
                 .ForMember(dest => dest.bcgov_documenturlid, opt => opt.MapFrom(src => Guid.Parse(src.Id)))
                 .ForMember(dest => dest.bcgov_filename, opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest => dest.bcgov_DocumentType, opt => opt.MapFrom(src => new bcgov_documenttype { bcgov_name = src.DocumentType.ToDescriptionString() }))
+                .ForMember(dest => dest.bcgov_documentcomments, opt => opt.MapFrom(src => src.Comments))
                 .ReverseMap()
                 .ValidateMemberList(MemberList.Destination)
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.bcgov_documenturlid.ToString()))
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.bcgov_filename))
-                .ForMember(dest => dest.DocumentType, opt => opt.MapFrom(src => DocumentType.OtherSupportingDocument))
-                .ForMember(dest => dest.Comments, opt => opt.Ignore())
+                .ForMember(dest => dest.DocumentType, opt => opt.MapFrom(src => IEnumEx.GetValueFromDescription<DocumentType>(src.bcgov_DocumentType.bcgov_name)))
+                .ForMember(dest => dest.Comments, opt => opt.MapFrom(src => src.bcgov_documentcomments))
             ;
         }
 
