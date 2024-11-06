@@ -112,6 +112,7 @@ namespace EMCR.DRR.Controllers
     public static class ApplicationValidators
     {
         public const int CONTACT_MAX_LENGTH = 40;
+        public const int CONTACT_EMAIL_TITLE_MAX_LENGTH = 100;
         public const int ACCOUNT_MAX_LENGTH = 100;
         public const double FUNDING_MAX_VAL = 999999999.99;
         public const double FUNDING_MIN_VAL = -999999999.99;
@@ -480,13 +481,13 @@ namespace EMCR.DRR.Controllers
         public string? FirstName { get; set; }
         [StringLength(ApplicationValidators.CONTACT_MAX_LENGTH)]
         public string? LastName { get; set; }
-        [StringLength(ApplicationValidators.CONTACT_MAX_LENGTH)]
+        [StringLength(ApplicationValidators.CONTACT_EMAIL_TITLE_MAX_LENGTH)]
         public string? Title { get; set; }
         [StringLength(ApplicationValidators.CONTACT_MAX_LENGTH)]
         public string? Department { get; set; }
         //[RegularExpression("^\\d\\d\\d-\\d\\d\\d-\\d\\d\\d\\d$", ErrorMessage = "Phone number must be of the format '000-000-0000'")]
         public string? Phone { get; set; }
-        [StringLength(ApplicationValidators.CONTACT_MAX_LENGTH)]
+        [StringLength(ApplicationValidators.CONTACT_EMAIL_TITLE_MAX_LENGTH)]
         public string? Email { get; set; }
     }
 
