@@ -8,6 +8,8 @@ using EMCR.DRR.Controllers;
 using EMCR.DRR.Managers.Intake;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace EMCR.DRR.API.Controllers
 {
@@ -40,6 +42,29 @@ namespace EMCR.DRR.API.Controllers
             this.mapper = mapper;
             this.errorParser = new ErrorParser();
         }
+
+//        [HttpPost("{id}/upload-stream-multipartreader")]
+//        [ProducesResponseType(StatusCodes.Status201Created)]
+//        [ProducesResponseType(StatusCodes.Status415UnsupportedMediaType)]
+//        [MultipartFormData]
+//        [DisableFormValueModelBinding]
+//        public async Task<IActionResult> Upload(string id)
+//        {
+//#pragma warning disable CS8601 // Possible null reference assignment.
+//            var attachmentInfo = new AttachmentInfoStream
+//            {
+//                ApplicationId = id,
+//                FileStream = new S3FileStream
+//                {
+//                    ContentType = Request.ContentType,
+//                    FileContentStream = HttpContext.Request.Body,
+//                    FileName = "test"
+//                }
+//            };
+//#pragma warning restore CS8601 // Possible null reference assignment.
+//            var ret = await intakeManager.Handle(new UploadAttachmentStreamCommand { AttachmentInfo = attachmentInfo, UserInfo = GetCurrentUser() });
+//            return Ok(new ApplicationResult { Id = ret });
+//        }
 
         [HttpPost]
         [RequestSizeLimit(263_192_576)] //251MB
@@ -75,5 +100,37 @@ namespace EMCR.DRR.API.Controllers
     public class AttachmentQueryResult
     {
         public required S3File File { get; set; }
+    }
+
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
+    public class DisableFormValueModelBindingAttribute : Attribute, IResourceFilter
+    {
+        public void OnResourceExecuting(ResourceExecutingContext context)
+        {
+            var factories = context.ValueProviderFactories;
+            factories.RemoveType<FormValueProviderFactory>();
+            factories.RemoveType<FormFileValueProviderFactory>();
+            factories.RemoveType<JQueryFormValueProviderFactory>();
+        }
+        public void OnResourceExecuted(ResourceExecutedContext context)
+        {
+        }
+    }
+
+    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class)]
+    public class MultipartFormDataAttribute : ActionFilterAttribute
+    {
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            var request = context.HttpContext.Request;
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+            if (request.HasFormContentType
+                && request.ContentType.StartsWith("multipart/form-data", StringComparison.OrdinalIgnoreCase))
+            {
+                return;
+            }
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
+            context.Result = new StatusCodeResult(StatusCodes.Status415UnsupportedMediaType);
+        }
     }
 }

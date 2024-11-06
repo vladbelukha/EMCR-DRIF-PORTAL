@@ -510,13 +510,16 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
 
             var documentId = await manager.Handle(new UploadAttachmentCommand { AttachmentInfo = new AttachmentInfo { ApplicationId = fpId, File = file, DocumentType = EMCR.DRR.Managers.Intake.DocumentType.SitePlan }, UserInfo = GetTestUserInfo() });
             var fullProposal = mapper.Map<DraftFpApplication>((await manager.Handle(new DrrApplicationsQuery { Id = fpId, BusinessId = userInfo.BusinessId })).Items.SingleOrDefault());
+            fullProposal.HaveResolution = true;
             fullProposal.Attachments.Count().ShouldBe(1);
+            fullProposal.Attachments.First().DocumentType.ShouldBe(EMCR.DRR.API.Model.DocumentType.SitePlan);
             fullProposal.Attachments.First().Comments = "site plan comments";
 
             await manager.Handle(new FpSaveApplicationCommand { application = mapper.Map<FpApplication>(fullProposal), UserInfo = GetTestUserInfo() });
 
             var updatedFp = (await manager.Handle(new DrrApplicationsQuery { Id = fpId, BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault();
             updatedFp.Attachments.First().Comments.ShouldBe("site plan comments");
+            updatedFp.HaveResolution.ShouldBe(true);
         }
 
 #pragma warning restore CS8604 // Possible null reference argument.

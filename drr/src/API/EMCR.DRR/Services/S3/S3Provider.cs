@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using System.Threading;
+using System.Web;
 using Amazon.Runtime;
 using Amazon.S3;
 using Amazon.S3.Model;
@@ -22,6 +23,7 @@ namespace EMCR.DRR.API.Services.S3
             return cmd switch
             {
                 UploadFileCommand c => await UploadStorageItem(c, ct),
+                UploadFileStreamCommand c => await UploadStorageItemStream(c, ct),
                 _ => throw new NotSupportedException($"{cmd.GetType().Name} is not supported")
             };
         }
@@ -47,6 +49,34 @@ namespace EMCR.DRR.API.Services.S3
                 Key = key,
                 ContentType = cmd.File.ContentType,
                 InputStream = new MemoryStream(file.Content),
+                BucketName = bucketName,
+                TagSet = GetTagSet(cmd.FileTag?.Tags ?? []),
+            };
+            request.Metadata.Add("contenttype", file.ContentType);
+            request.Metadata.Add("filename", HttpUtility.HtmlEncode(file.FileName));
+            if (file.Metadata != null)
+            {
+                foreach (FileMetadata md in file.Metadata)
+                    request.Metadata.Add(md.Key, md.Value);
+            }
+
+            var response = await _amazonS3Client.PutObjectAsync(request, cancellationToken);
+            response.EnsureSuccess();
+
+            return cmd.Key;
+        }
+
+        private async Task<string> UploadStorageItemStream(UploadFileStreamCommand cmd, CancellationToken cancellationToken)
+        {
+            S3FileStream file = cmd.FileStream;
+            var folder = cmd.Folder == null ? "" : $"{cmd.Folder}/";
+            var key = $"{folder}{cmd.Key}";
+
+            var request = new PutObjectRequest
+            {
+                Key = key,
+                ContentType = cmd.FileStream.ContentType,
+                InputStream = file.FileContentStream,
                 BucketName = bucketName,
                 TagSet = GetTagSet(cmd.FileTag?.Tags ?? []),
             };

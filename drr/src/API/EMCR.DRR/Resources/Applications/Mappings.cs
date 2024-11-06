@@ -164,6 +164,7 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.drr_explaincostconsiderations, opt => opt.MapFrom(src => src.CostConsiderationsComments))
 
                 //Attachments - 11
+                .ForMember(dest => dest.drr_hasresolution, opt => opt.MapFrom(src => src.HaveResolution.HasValue ? src.HaveResolution.Value ? (int?)DRRTwoOptions.Yes : (int?)DRRTwoOptions.No : null))
                 .ForMember(dest => dest.bcgov_drr_application_bcgov_documenturl_Application, opt => opt.MapFrom(src => src.Attachments))
                 //HaveResolution
 
@@ -310,7 +311,7 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.CostConsiderationsComments, opt => opt.MapFrom(src => src.drr_explaincostconsiderations))
 
                 //Attachments
-                .ForMember(dest => dest.HaveResolution, opt => opt.Ignore())
+                .ForMember(dest => dest.HaveResolution, opt => opt.MapFrom(src => src.drr_hasresolution.HasValue ? src.drr_hasresolution.Value == (int)DRRTwoOptions.Yes : (bool?)null))
                 .ForMember(dest => dest.Attachments, opt => opt.MapFrom(src => src.bcgov_drr_application_bcgov_documenturl_Application))
             ;
 
