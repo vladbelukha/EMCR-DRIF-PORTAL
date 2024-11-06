@@ -323,6 +323,7 @@ export class DrifFpComponent {
               previousResponse: response.previousResponse,
               previousResponseComments: response.previousResponseComments,
               previousResponseCost: response.previousResponseCost,
+              intendToSecureFunding: response.intendToSecureFunding,
             },
             attachments: {
               haveResolution: response.haveResolution,
