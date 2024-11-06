@@ -325,7 +325,7 @@ export class DrifFpComponent {
               previousResponseCost: response.previousResponseCost,
             },
             attachments: {
-              // haveResolution: response.haveResolution,
+              haveResolution: response.haveResolution,
             },
             declarations: {
               submitter: response.submitter,
@@ -642,52 +642,6 @@ export class DrifFpComponent {
   }
 
   initStep11(response: DraftFpApplication) {
-    // TODO: mock data, remove after D365 integration
-    // response.attachments = [
-    //   {
-    //     id: '1',
-    //     documentType: 'DetailedProjectWorkplan',
-    //     name: 'My Detailed Project Workplan',
-    //     comments: 'this a a very good plan, check page 3',
-    //   },
-    //   {
-    //     id: '2',
-    //     documentType: 'ProjectSchedule',
-    //     name: 'My Project Schedule',
-    //     comments: 'this is a very tight schedule',
-    //   },
-    //   {
-    //     id: '3',
-    //     documentType: 'SitePlan',
-    //     name: 'My Site Plan',
-    //     comments: 'this is a very good site plan',
-    //   },
-    //   {
-    //     id: '4',
-    //     documentType: 'PreliminaryDesign',
-    //     name: 'My Preliminary Design',
-    //     comments: 'this is a very good design',
-    //   },
-    //   {
-    //     id: '5',
-    //     documentType: 'DetailedCostEstimate',
-    //     name: 'My Cost Estimate',
-    //     comments: 'it might be not so accurate, but still',
-    //   },
-    //   {
-    //     id: '6',
-    //     documentType: 'OtherSupportingDocument',
-    //     name: 'My Other Document',
-    //     comments: 'this is a very good document',
-    //   },
-    //   {
-    //     id: '7',
-    //     documentType: 'OtherSupportingDocument',
-    //     name: 'My Other Document 2',
-    //     comments: 'this is a very good document too',
-    //   },
-    // ];
-
     const attachmentsArray = this.fullProposalForm.get(
       'attachments.attachments'
     ) as FormArray;
@@ -755,6 +709,7 @@ export class DrifFpComponent {
     attachmentsForm.attachments = attachmentsForm.attachments?.filter(
       (attachment: AttachmentForm) => attachment.id
     );
+    attachmentsForm.haveResolution = fpForm.attachments?.haveResolution;
 
     const fpApp = {
       ...fpForm.proponentAndProjectInformation,
