@@ -47,7 +47,8 @@
     "supportingDocumentationOptionalText": "If you have other documents that are relevant, attach them here. For each document, add a comment to explain why you are attaching it and whether there are particular parts of the document we should look at.",
     "name": "File name",
     "comments": "Comments",
-    "downloadFile": "Download file"
+    "download": "Download",
+    "delete": "Delete"
   },
   "fpOwnership": "Land Ownership",
   "fpOwnershipQuestion": "Will the project will be in BC on land that the proponent has legal access to either through ownership, right of way, or other at the time the Shared Cost Agreement is signed?",
