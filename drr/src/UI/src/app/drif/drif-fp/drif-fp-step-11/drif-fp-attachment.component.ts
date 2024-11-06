@@ -11,6 +11,7 @@ import { IFormGroup } from '@rxweb/reactive-form-validators';
 import { DocumentType } from '../../../../model';
 import { DrrFileUploadComponent } from '../../../shared/controls/drr-file-upload/drr-file-upload.component';
 import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
+import { DrrTextareaComponent } from '../../../shared/controls/drr-textarea/drr-textarea.component';
 import { AttachmentForm } from '../drif-fp-form';
 
 export interface FileUploadEvent {
@@ -25,20 +26,28 @@ export interface FileUploadEvent {
     class="attachment-container"
     *transloco="let t; read: 'attachments'"
   >
-    <mat-label [class.required]="isRequired()">{{ label }}</mat-label>
     @if (attachmentForm?.get('id')?.value) {
     <div class="attachment">
-      <drr-input
-        class="drr-single-input"
-        [label]="t('comments')"
-        [rxFormControl]="attachmentForm?.get('comments')"
-      ></drr-input>
-      <button mat-mini-fab color="primary" (click)="onDownloadFile()">
-        <mat-icon>download</mat-icon>
-      </button>
-      <button mat-mini-fab color="warn" (click)="onRemoveFile()">
-        <mat-icon>delete</mat-icon>
-      </button>
+      <div class="attachment__label">
+        <mat-label [class.required]="isRequired()">{{
+          label ?? attachmentForm?.get('name')?.value
+        }}</mat-label>
+        <div class="attachment__label__actions">
+          <button mat-stroked-button color="primary" (click)="onDownloadFile()">
+            {{ t('download') }}
+          </button>
+          <button mat-stroked-button color="warn" (click)="onRemoveFile()">
+            {{ t('delete') }}
+          </button>
+        </div>
+      </div>
+      <div class="attachment__comments">
+        <drr-textarea
+          [label]="t('comments')"
+          [rxFormControl]="attachmentForm?.get('comments')"
+          [maxlength]="2000"
+        ></drr-textarea>
+      </div>
     </div>
     } @else {
     <drr-file-upload
@@ -57,10 +66,28 @@ export interface FileUploadEvent {
 
       .attachment {
         display: flex;
-        flex-direction: row;
-        justify-content: flex-start;
-        align-items: baseline;
+        flex-direction: column;
         gap: 1rem;
+
+        &__label {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+          gap: 1rem;
+
+          &__actions {
+            display: flex;
+            flex-direction: row;
+            gap: 1rem;
+          }
+        }
+
+        &__comments {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+        }
       }
 
       .required {
@@ -79,6 +106,7 @@ export interface FileUploadEvent {
     MatIconModule,
     MatButtonModule,
     DrrInputComponent,
+    DrrTextareaComponent,
     DrrFileUploadComponent,
   ],
 })

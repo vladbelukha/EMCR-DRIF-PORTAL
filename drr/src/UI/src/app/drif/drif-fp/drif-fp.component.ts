@@ -655,6 +655,7 @@ export class DrifFpComponent {
               DocumentType.DetailedProjectWorkplan
           )
           ?.patchValue(attachment, { emitEvent: false });
+        return;
       }
       if (attachment.documentType === DocumentType.DetailedCostEstimate) {
         attachmentsArray.controls
@@ -663,6 +664,7 @@ export class DrifFpComponent {
               control.value.documentType === DocumentType.DetailedCostEstimate
           )
           ?.patchValue(attachment, { emitEvent: false });
+        return;
       }
 
       // TODO: handle resolution doc ?
