@@ -18,6 +18,12 @@
         public FileTag? FileTag { get; set; }
     }
 
+    public class UploadFileStreamCommand : StorageCommand
+    {
+        public required S3FileStream FileStream { get; set; }
+        public FileTag? FileTag { get; set; }
+    }
+
     public abstract class StorageQuery
     {
         public string Key { get; set; } = null!;
@@ -41,6 +47,14 @@
     public class S3File
     {
         public byte[] Content { get; set; } = [];
+        public required string ContentType { get; set; }
+        public required string FileName { get; set; }
+        public IEnumerable<FileMetadata> Metadata { get; set; } = Array.Empty<FileMetadata>();
+    }
+
+    public class S3FileStream
+    {
+        public Stream? FileContentStream { get; set; }
         public required string ContentType { get; set; }
         public required string FileName { get; set; }
         public IEnumerable<FileMetadata> Metadata { get; set; } = Array.Empty<FileMetadata>();

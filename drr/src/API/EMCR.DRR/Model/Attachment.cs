@@ -1,4 +1,6 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
+using EMCR.DRR.Controllers;
 
 namespace EMCR.DRR.API.Model
 {
@@ -16,6 +18,7 @@ namespace EMCR.DRR.API.Model
         public required string Id { get; set; }
         public required string Name { get; set; }
         public DocumentType DocumentType { get; set; }
+        [StringLength(ApplicationValidators.COMMENTS_MAX_LENGTH)]
         public string? Comments { get; set; }
     }
 

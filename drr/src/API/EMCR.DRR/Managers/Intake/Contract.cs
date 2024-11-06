@@ -124,6 +124,12 @@ namespace EMCR.DRR.Managers.Intake
         public UserInfo UserInfo { get; set; }
     }
 
+    public class UploadAttachmentStreamCommand : IntakeCommand
+    {
+        public AttachmentInfoStream AttachmentInfo { get; set; }
+        public UserInfo UserInfo { get; set; }
+    }
+
     public abstract class AttachmentQuery
     { }
 
@@ -138,6 +144,14 @@ namespace EMCR.DRR.Managers.Intake
         public string? Id { get; set; }
         public required string ApplicationId { get; set; }
         public required S3File File { get; set; }
+        public DocumentType DocumentType { get; set; }
+    }
+    
+    public class AttachmentInfoStream
+    {
+        public string? Id { get; set; }
+        public required string ApplicationId { get; set; }
+        public required S3FileStream FileStream { get; set; }
         public DocumentType DocumentType { get; set; }
     }
 
