@@ -249,7 +249,6 @@ export class BudgetForm {
   costConsiderationsApplied?: boolean;
 
   @prop()
-  @required()
   @minLength({ value: 1 })
   costConsiderations?: string[];
 

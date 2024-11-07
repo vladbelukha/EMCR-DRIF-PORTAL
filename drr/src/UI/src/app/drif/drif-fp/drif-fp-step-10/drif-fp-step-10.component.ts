@@ -165,11 +165,14 @@ export class DrifFpStep10Component {
             break;
           case YesNoOption.NotApplicable:
             previousResponseCost?.clearValidators();
+            previousResponseCost?.reset();
             previousResponseComments?.setValidators(Validators.required);
             break;
           case YesNoOption.No:
             previousResponseCost?.clearValidators();
+            previousResponseCost?.reset();
             previousResponseComments?.clearValidators();
+            previousResponseComments?.reset();
             break;
 
           default:
@@ -184,22 +187,22 @@ export class DrifFpStep10Component {
       .get('costConsiderationsApplied')
       ?.valueChanges.pipe(distinctUntilChanged())
       .subscribe((value) => {
+        const costConsiderations = this.budgetForm.get('costConsiderations');
+        const costConsiderationsComments = this.budgetForm.get(
+          'costConsiderationsComments'
+        );
         if (value) {
-          this.budgetForm
-            .get('costConsiderations')
-            ?.setValidators(Validators.required);
-          this.budgetForm
-            .get('costConsiderationsComments')
-            ?.setValidators(Validators.required);
+          costConsiderations?.setValidators(Validators.required);
+          costConsiderationsComments?.setValidators(Validators.required);
         } else {
-          this.budgetForm.get('costConsiderations')?.clearValidators();
-          this.budgetForm.get('costConsiderationsComments')?.clearValidators();
+          costConsiderations?.clearValidators();
+          costConsiderations?.reset();
+          costConsiderationsComments?.clearValidators();
+          costConsiderationsComments?.reset();
         }
 
-        this.budgetForm.get('costConsiderations')?.updateValueAndValidity();
-        this.budgetForm
-          .get('costConsiderationsComments')
-          ?.updateValueAndValidity();
+        costConsiderations?.updateValueAndValidity();
+        costConsiderationsComments?.updateValueAndValidity();
       });
   }
 
