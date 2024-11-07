@@ -36,6 +36,11 @@ namespace EMCR.DRR.API.Resources.Documents
         public required Document Document { get; set; }
     }
 
+    public class DeleteDocument : ManageDocumentCommand
+    {
+        public required string Id { get; set; }
+    }
+
     public class Document
     {
         public required string Name { get; set; }

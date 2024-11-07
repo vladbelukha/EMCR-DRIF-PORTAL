@@ -124,6 +124,12 @@ namespace EMCR.DRR.Managers.Intake
         public UserInfo UserInfo { get; set; }
     }
 
+    public class DeleteAttachmentCommand : IntakeCommand
+    {
+        public required string Id { get; set; }
+        public UserInfo UserInfo { get; set; }
+    }
+
     public class UploadAttachmentStreamCommand : IntakeCommand
     {
         public AttachmentInfoStream AttachmentInfo { get; set; }
@@ -146,7 +152,7 @@ namespace EMCR.DRR.Managers.Intake
         public required S3File File { get; set; }
         public DocumentType DocumentType { get; set; }
     }
-    
+
     public class AttachmentInfoStream
     {
         public string? Id { get; set; }
