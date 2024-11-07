@@ -640,6 +640,21 @@ export class DrifFpComponent {
       default:
         break;
     }
+
+    const costConsiderations = this.fullProposalForm.get(
+      'budget.costConsiderations'
+    );
+    const costConsiderationsComments = this.fullProposalForm.get(
+      'budget.costConsiderationsComments'
+    );
+
+    if (response.costConsiderationsApplied === true) {
+      costConsiderations?.setValidators(Validators.required);
+      costConsiderationsComments?.setValidators(Validators.required);
+    } else {
+      costConsiderations?.clearValidators();
+      costConsiderationsComments?.clearValidators();
+    }
   }
 
   initStep11(response: DraftFpApplication) {
