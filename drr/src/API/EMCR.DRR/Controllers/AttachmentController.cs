@@ -82,18 +82,11 @@ namespace EMCR.DRR.API.Controllers
             return Ok(new AttachmentQueryResult { File = file.File });
         }
 
-        [HttpPost("{id}")]
-        public async Task<ActionResult<ApplicationResult>> UpdateAttachment([FromBody] Attachment attachment, string id)
-        {
-            await Task.CompletedTask;
-            return Ok(new ApplicationResult { Id = "fileId" });
-        }
-
         [HttpDelete("{id}")]
         public async Task<ActionResult<ApplicationResult>> DeleteAttachment([FromBody] DeleteAttachment attachment, string id)
         {
-            await Task.CompletedTask;
-            return Ok(new ApplicationResult { Id = "fileId" });
+            await intakeManager.Handle(new DeleteAttachmentCommand { Id = id, UserInfo = GetCurrentUser() });
+            return Ok(new ApplicationResult { Id = id });
         }
     }
 

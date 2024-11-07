@@ -22,6 +22,7 @@ namespace EMCR.DRR.API.Resources.Documents
             return cmd switch
             {
                 CreateDocument c => await Handle(c),
+                DeleteDocument c => await Handle(c),
                 _ => throw new NotSupportedException($"{cmd.GetType().Name} is not supported")
             };
         }
@@ -63,6 +64,18 @@ namespace EMCR.DRR.API.Resources.Documents
             await ctx.SaveChangesAsync();
 
             return new ManageDocumentCommandResult { Id = bcGovDocument.bcgov_documenturlid.ToString(), ApplicationId = application.drr_applicationid.ToString() };
+        }
+
+        public async Task<ManageDocumentCommandResult> Handle(DeleteDocument cmd)
+        {
+            var ctx = dRRContextFactory.Create();
+
+            var document = await ctx.bcgov_documenturls.Where(d => d.bcgov_documenturlid == Guid.Parse(cmd.Id)).SingleOrDefaultAsync();
+            if (document != null) ctx.DeleteObject(document);
+
+            await ctx.SaveChangesAsync();
+
+            return new ManageDocumentCommandResult { Id = cmd.Id, ApplicationId = document?._bcgov_application_value.ToString() };
         }
     }
 #pragma warning restore CS8601 // Possible null reference assignment.

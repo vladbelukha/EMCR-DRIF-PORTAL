@@ -56,6 +56,7 @@ namespace EMCR.DRR.Managers.Intake
                 WithdrawApplicationCommand c => await Handle(c),
                 DeleteApplicationCommand c => await Handle(c),
                 UploadAttachmentCommand c => await Handle(c),
+                DeleteAttachmentCommand c => await Handle(c),
                 _ => throw new NotSupportedException($"{cmd.GetType().Name} is not supported")
             };
         }
@@ -185,6 +186,14 @@ namespace EMCR.DRR.Managers.Intake
 
             var documentRes = (await documentRepository.Manage(new CreateDocument { ApplicationId = cmd.AttachmentInfo.ApplicationId, Document = new Document { Name = cmd.AttachmentInfo.File.FileName, DocumentType = cmd.AttachmentInfo.DocumentType, Size = GetFileSize(cmd.AttachmentInfo.File.Content) } }));
             await s3Provider.HandleCommand(new UploadFileCommand { Key = documentRes.Id, File = cmd.AttachmentInfo.File, Folder = $"drr_application/{documentRes.ApplicationId}" });
+            return documentRes.Id;
+        }
+
+        public async Task<string> Handle(DeleteAttachmentCommand cmd)
+        {
+            var canAccess = await CanAccessApplicationFromDocumentId(cmd.Id, cmd.UserInfo.BusinessId);
+            if (!canAccess) throw new ForbiddenException("Not allowed to access this application.");
+            var documentRes = await documentRepository.Manage(new DeleteDocument { Id = cmd.Id });
             return documentRes.Id;
         }
 
