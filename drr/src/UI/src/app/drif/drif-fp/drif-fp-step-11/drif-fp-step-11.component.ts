@@ -73,7 +73,7 @@ export class DrifFpStep11Component {
         })
         .subscribe({
           next: (attachment) => {
-            const projectPlanFormData = {
+            const attachmentFormData = {
               name: file.name,
               comments: '',
               id: attachment.id,
@@ -84,17 +84,20 @@ export class DrifFpStep11Component {
               'attachments'
             ) as FormArray;
 
+            // if other supporting document, add a new form
+            if (event.documentType === DocumentType.OtherSupportingDocument) {
+              this.addAttachmentForm(attachmentFormData);
+              return;
+            }
+
+            // if it's a mandatory document, update the existing form if it pre-exists
             const mathcingAttachment = attachmentsArray.controls.find(
               (control) => control.value.documentType === event.documentType
             );
             if (mathcingAttachment) {
-              mathcingAttachment.patchValue(projectPlanFormData);
+              mathcingAttachment.patchValue(attachmentFormData);
             } else {
-              const fileForm = this.formBuilder.formGroup(
-                AttachmentForm,
-                projectPlanFormData
-              ) as RxFormGroup;
-              attachmentsArray.push(fileForm);
+              this.addAttachmentForm(attachmentFormData);
             }
           },
           error: () => {
@@ -104,7 +107,19 @@ export class DrifFpStep11Component {
     });
   }
 
-  fileToBase64(file: File): Promise<string> {
+  private addAttachmentForm(attachmentForm: AttachmentForm) {
+    const attachmentsArray = this.attachmentsForm.get(
+      'attachments'
+    ) as FormArray;
+
+    const fileForm = this.formBuilder.formGroup(
+      AttachmentForm,
+      attachmentForm
+    ) as RxFormGroup;
+    attachmentsArray.push(fileForm);
+  }
+
+  private fileToBase64(file: File): Promise<string> {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
