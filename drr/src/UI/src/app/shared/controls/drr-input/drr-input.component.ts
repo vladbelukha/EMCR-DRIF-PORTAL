@@ -140,7 +140,8 @@ export class DrrInputComponent {
       // but allow decimal point to be moved around
       if (
         this.maxlength
-          ? this.getCount() >= Number(this.maxlength) && inputValue !== '.'
+          ? this.getCount() + inputValue.length > Number(this.maxlength) &&
+            inputValue !== '.'
           : false
       ) {
         event.preventDefault();
