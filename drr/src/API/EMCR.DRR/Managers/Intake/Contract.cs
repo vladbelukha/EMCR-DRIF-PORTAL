@@ -150,7 +150,7 @@ namespace EMCR.DRR.Managers.Intake
         public string? Id { get; set; }
         public required string ApplicationId { get; set; }
         public required S3File File { get; set; }
-        public DocumentType DocumentType { get; set; }
+        public DocumentType DocumentType { get; set; } = DocumentType.OtherSupportingDocument;
     }
 
     public class AttachmentInfoStream
@@ -158,7 +158,7 @@ namespace EMCR.DRR.Managers.Intake
         public string? Id { get; set; }
         public required string ApplicationId { get; set; }
         public required S3FileStream FileStream { get; set; }
-        public DocumentType DocumentType { get; set; }
+        public DocumentType DocumentType { get; set; } = DocumentType.OtherSupportingDocument;
     }
 
     public enum DocumentType
