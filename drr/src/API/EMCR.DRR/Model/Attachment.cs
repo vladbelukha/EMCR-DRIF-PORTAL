@@ -17,7 +17,7 @@ namespace EMCR.DRR.API.Model
     {
         public required string Id { get; set; }
         public required string Name { get; set; }
-        public DocumentType DocumentType { get; set; }
+        public DocumentType DocumentType { get; set; } = DocumentType.OtherSupportingDocument;
         [StringLength(ApplicationValidators.COMMENTS_MAX_LENGTH)]
         public string? Comments { get; set; }
     }

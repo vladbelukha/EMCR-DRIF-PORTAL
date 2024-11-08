@@ -560,6 +560,41 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             updatedFp.Attachments.Count().ShouldBe(0);
         }
 
+        [Test]
+        public async Task AddAttachment_NoDocumentType_DefaultsToOther()
+        {
+            var userInfo = GetTestUserInfo();
+            //var userInfo = GetCRAFTUserInfo();
+
+            var eoi = mapper.Map<EoiApplication>(CreateNewTestEOIApplication());
+            eoi.Status = SubmissionPortalStatus.EligibleInvited;
+            eoi.AuthorizedRepresentativeStatement = true;
+            eoi.FOIPPAConfirmation = true;
+            eoi.InformationAccuracyStatement = true;
+
+            var eoiId = await manager.Handle(new EoiSubmitApplicationCommand { application = eoi, UserInfo = userInfo });
+            eoiId.ShouldNotBeEmpty();
+
+            var screenerQuestions = CreateScreenerQuestions();
+            screenerQuestions.FirstNationsAuthorizedByPartners = EMCR.DRR.Managers.Intake.YesNoOption.NotApplicable;
+            screenerQuestions.LocalGovernmentAuthorizedByPartners = EMCR.DRR.Managers.Intake.YesNoOption.NotApplicable;
+            screenerQuestions.EngagedWithFirstNationsOccurred = false;
+
+            var fpId = await manager.Handle(new CreateFpFromEoiCommand { EoiId = eoiId, UserInfo = userInfo, ScreenerQuestions = screenerQuestions });
+            fpId.ShouldNotBeEmpty();
+
+            var body = DateTime.Now.ToString();
+            var fileName = "autotest.txt";
+            byte[] bytes = Encoding.ASCII.GetBytes(body);
+            var file = new S3File { FileName = fileName, Content = bytes, ContentType = "text/plain", };
+
+            var documentId = await manager.Handle(new UploadAttachmentCommand { AttachmentInfo = new AttachmentInfo { ApplicationId = fpId, File = file }, UserInfo = GetTestUserInfo() });
+            var fullProposal = mapper.Map<DraftFpApplication>((await manager.Handle(new DrrApplicationsQuery { Id = fpId, BusinessId = userInfo.BusinessId })).Items.SingleOrDefault());
+            fullProposal.HaveResolution = true;
+            fullProposal.Attachments.Count().ShouldBe(1);
+            fullProposal.Attachments.First().DocumentType.ShouldBe(EMCR.DRR.API.Model.DocumentType.OtherSupportingDocument);
+        }
+
 #pragma warning restore CS8604 // Possible null reference argument.
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
 #pragma warning restore CS8619 // Nullability of reference types in value doesn't match target type.

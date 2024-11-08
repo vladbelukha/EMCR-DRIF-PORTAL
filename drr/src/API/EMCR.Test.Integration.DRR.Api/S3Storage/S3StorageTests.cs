@@ -7,7 +7,7 @@ namespace EMCR.Tests.Integration.DRR.Api.S3Storage
 {
     public class S3StorageTests
     {
-        private string TestPrefix = "autotest-dev";
+        //private string TestPrefix = "autotest-dev";
 
         [Test]
         public async Task CanUploadFileToS3()

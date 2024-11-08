@@ -10,7 +10,7 @@ namespace EMCR.Tests.Integration.DRR.Resources
     {
         private string TestPrefix = "autotest-dev";
         private string TestBusinessId = "autotest-dev-business-bceid";
-        private string TestUserId = "autotest-dev-user-bceid";
+        //private string TestUserId = "autotest-dev-user-bceid";
         private readonly IApplicationRepository applicationRepository;
         private readonly ICaseRepository caseRepository;
 
