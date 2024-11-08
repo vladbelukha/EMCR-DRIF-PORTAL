@@ -391,16 +391,20 @@ namespace EMCR.DRR.Controllers
         //Budget - 10
         [Range(ApplicationValidators.FUNDING_MIN_VAL, ApplicationValidators.FUNDING_MAX_VAL)]
         [CurrencyNotNegativeForSubmission]
+        [Mandatory]
         public decimal? TotalProjectCost { get; set; }
         [Range(ApplicationValidators.FUNDING_MIN_VAL, ApplicationValidators.FUNDING_MAX_VAL)]
         [CurrencyNotNegativeForSubmission]
+        [Mandatory]
         public decimal? EligibleFundingRequest { get; set; }
         [Range(ApplicationValidators.FUNDING_MIN_VAL, ApplicationValidators.FUNDING_MAX_VAL)]
         [CurrencyNotNegativeForSubmission]
+        [Mandatory]
         public decimal? RemainingAmount { get; set; }
         public IEnumerable<YearOverYearFunding>? YearOverYearFunding { get; set; }
         [Range(ApplicationValidators.FUNDING_MIN_VAL, ApplicationValidators.FUNDING_MAX_VAL)]
         [CurrencyNotNegativeForSubmission]
+        [Mandatory]
         public decimal? TotalDrifFundingRequest { get; set; }
         public string? DiscrepancyComment { get; set; }
         [Mandatory]
@@ -679,7 +683,7 @@ namespace EMCR.DRR.Controllers
             if ((model.GetType() != typeof(DraftEoiApplication) && model.GetType() != typeof(DraftFpApplication)))
             {
                 var propertyInfo = validationContext.ObjectType.GetProperty(validationContext.MemberName);
-                if (value == null) return new ValidationResult($"{propertyInfo.Name} is required");
+                if (value == null) return ValidationResult.Success;
                 decimal dec = Convert.ToDecimal(value);
                 if (dec < 0) return new ValidationResult($"{propertyInfo.Name} cannot be negative");
             }
