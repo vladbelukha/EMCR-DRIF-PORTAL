@@ -7,6 +7,7 @@ using EMCR.DRR.API.Services.S3;
 using EMCR.DRR.Controllers;
 using EMCR.DRR.Managers.Intake;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.Timeouts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -68,6 +69,7 @@ namespace EMCR.DRR.API.Controllers
 
         [HttpPost]
         [RequestSizeLimit(263_192_576)] //251MB
+        // [RequestTimeout(milliseconds: 10)]
         public async Task<ActionResult<ApplicationResult>> UploadAttachment([FromBody] FileData attachment)
         {
             var attachmentInfo = mapper.Map<AttachmentInfo>(attachment);
