@@ -9,6 +9,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectChange } from '@angular/material/select';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
@@ -28,6 +29,7 @@ import { FundingInformationItemForm } from '../drif-eoi/drif-eoi-form';
     CommonModule,
     MatIconModule,
     MatButtonModule,
+    MatDividerModule,
     DrrCurrencyInputComponent,
     DrrInputComponent,
     DrrSelectComponent,

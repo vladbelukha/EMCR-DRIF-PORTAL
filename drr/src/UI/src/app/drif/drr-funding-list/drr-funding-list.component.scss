@@ -1,37 +1,29 @@
 .funding-sources-container {
   margin-top: 10px;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
   gap: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill);
+  grid-auto-flow: column;
+  justify-content: flex-start;
   align-items: baseline;
 }
 
-.other-grants-input {
-  min-width: 212px;
+.grants-input {
+  width: 20vw;
+}
+
+.grants-input-description {
+  width: 25vw;
 }
 
 @media (max-width: 768px) {
   .funding-sources-container {
-    flex-wrap: wrap;
-    align-items: center;
+    display: flex;
+    flex-direction: column;
   }
 
-  drr-select.other-grants-input {
-    width: calc(100% - 64px);
-  }
-
-  .funding-sources-container:has(drr-input.other-grants-input) {
-    mat-form-field.other-grants-input {
-      width: 100%;
-    }
-
-    drr-input.other-grants-input {
-      width: calc(100% - 64px);
-    }
-
-    drr-select.other-grants-input {
-      width: 100%;
-    }
+  .grants-input,
+  .grants-input-description {
+    width: 100%;
   }
 }
