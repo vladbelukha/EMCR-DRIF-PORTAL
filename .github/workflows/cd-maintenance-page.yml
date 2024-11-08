@@ -1,0 +1,53 @@
+name: cd-maintenance-page
+
+on:
+  workflow_dispatch:
+    branches:
+      - main
+      - release/1.1.0
+      - develop
+
+env:
+  IMAGE_NAME: drr-maintenance-page
+  IMAGE_ID: ${{ secrets.OCP4_REGISTRY }}/${{ secrets.OCP4_NAMESPACE }}
+  IMAGE_TAG: latest
+  WORKING_DIRECTORY: ./drr/src/maintenance-page/src
+  INDEX_FILE: index.html
+  INDEX_PROD_FILE: index-prod.html
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set working directory
+        id: MaintenanceDir
+        run: |
+              echo "::set-output name=Maintenance_INDEX_FILE::index-prod.html"
+      - uses: actions/checkout@v3
+
+      - name: Log into registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ secrets.OCP4_REGISTRY }}
+          username: ${{ secrets.OCP4_USERNAME }}
+          password: ${{ secrets.OCP4_PASSWORD }}
+
+      - name: Set the index page according to the environment
+        working-directory: ${{env.WORKING_DIRECTORY}}
+        run: |
+          cd html
+          ls -ltr
+          mv ${{env.INDEX_PROD_FILE}} ${{env.INDEX_FILE}}
+          ls -ltr
+      - name: Build Image
+        working-directory: ${{env.WORKING_DIRECTORY}}
+        run: |
+          docker build -t ${{env.IMAGE_NAME}} .
+      - name: Tag Image
+        run: |
+          docker tag ${{env.IMAGE_NAME}} ${{env.IMAGE_ID}}/${{env.IMAGE_NAME}}:${{env.IMAGE_TAG}}
+          #docker tag from_image to_image_tag
+      - name: Docker Push
+        run: |
+          docker push ${{env.IMAGE_ID}}/${{env.IMAGE_NAME}}:${{env.IMAGE_TAG}}
