@@ -46,7 +46,7 @@ export class DrifFpSummaryComponent {
   private _fullProposalForm?: IFormGroup<DrifFpForm>;
 
   @Input()
-  showSubmitterInfo = true;
+  isReadOnlyView = true;
 
   @Input()
   set fullProposalForm(DrifFpForm: IFormGroup<DrifFpForm>) {
