@@ -1137,7 +1137,7 @@
           t("attachments.DetailedProjectWorkplan")
         }}</mat-label>
         @if (getAttachmentByDocumentType('DetailedProjectWorkplan')) {
-        <div class="summary-row">
+        <div class="summary-row attachment">
           <drr-summary-item
             [label]="t('attachments.name')"
             [rxFormControl]="
@@ -1154,6 +1154,20 @@
             "
           >
           </drr-summary-item>
+          <button
+            *ngIf="isReadOnlyView"
+            style="align-self: center"
+            mat-button
+            color="primary"
+            (click)="
+              onDownloadFile(
+                getAttachmentByDocumentType('DetailedProjectWorkplan').get('id')
+                  ?.value
+              )
+            "
+          >
+            Download
+          </button>
         </div>
         } @else {
         <div [class.required]="isAttachmentRequired('DetailedProjectWorkplan')">
@@ -1170,7 +1184,7 @@
           t("attachments.ProjectSchedule")
         }}</mat-label>
         @if (getAttachmentByDocumentType('ProjectSchedule')) {
-        <div class="summary-row">
+        <div class="summary-row attachment">
           <drr-summary-item
             [label]="t('attachments.name')"
             [rxFormControl]="
@@ -1185,6 +1199,19 @@
             "
           >
           </drr-summary-item>
+          <button
+            *ngIf="isReadOnlyView"
+            style="align-self: center"
+            mat-button
+            color="primary"
+            (click)="
+              onDownloadFile(
+                getAttachmentByDocumentType('ProjectSchedule').get('id')?.value
+              )
+            "
+          >
+            Download
+          </button>
         </div>
         } @else {
         <div [class.required]="isAttachmentRequired('ProjectSchedule')">
@@ -1199,7 +1226,7 @@
           t("attachments.DetailedCostEstimate")
         }}</mat-label>
         @if (getAttachmentByDocumentType('DetailedCostEstimate')) {
-        <div class="summary-row">
+        <div class="summary-row attachment">
           <drr-summary-item
             [label]="t('attachments.name')"
             [rxFormControl]="
@@ -1216,6 +1243,20 @@
             "
           >
           </drr-summary-item>
+          <button
+            *ngIf="isReadOnlyView"
+            style="align-self: center"
+            mat-button
+            color="primary"
+            (click)="
+              onDownloadFile(
+                getAttachmentByDocumentType('DetailedCostEstimate').get('id')
+                  ?.value
+              )
+            "
+          >
+            Download
+          </button>
         </div>
         } @else {
         <div [class.required]="isAttachmentRequired('DetailedCostEstimate')">
@@ -1230,7 +1271,7 @@
       <div>
         <mat-label class="drr-label">{{ t("attachments.SitePlan") }}</mat-label>
         @if (getAttachmentByDocumentType('SitePlan')) {
-        <div class="summary-row">
+        <div class="summary-row attachment">
           <drr-summary-item
             [label]="t('attachments.name')"
             [rxFormControl]="
@@ -1245,6 +1286,19 @@
             "
           >
           </drr-summary-item>
+          <button
+            *ngIf="isReadOnlyView"
+            style="align-self: center"
+            mat-button
+            color="primary"
+            (click)="
+              onDownloadFile(
+                getAttachmentByDocumentType('SitePlan').get('id')?.value
+              )
+            "
+          >
+            Download
+          </button>
         </div>
         } @else {
         <div [class.required]="isAttachmentRequired('SitePlan')">
@@ -1257,7 +1311,7 @@
           t("attachments.PreliminaryDesign")
         }}</mat-label>
         @if (getAttachmentByDocumentType('PreliminaryDesign')) {
-        <div class="summary-row">
+        <div class="summary-row attachment">
           <drr-summary-item
             [label]="t('attachments.name')"
             [rxFormControl]="
@@ -1272,6 +1326,20 @@
             "
           >
           </drr-summary-item>
+          <button
+            *ngIf="isReadOnlyView"
+            style="align-self: center"
+            mat-button
+            color="primary"
+            (click)="
+              onDownloadFile(
+                getAttachmentByDocumentType('PreliminaryDesign').get('id')
+                  ?.value
+              )
+            "
+          >
+            Download
+          </button>
         </div>
         } @else {
         <div [class.required]="isAttachmentRequired('PreliminaryDesign')">
@@ -1282,17 +1350,17 @@
         }
       </div>
       <drr-summary-item
-        [label]="t('attachments.resolutionDocument')"
+        [label]="t('attachments.haveResolutionSummary')"
         [rxFormControl]="fullProposalForm.get('attachments.haveResolution')"
         controlType="radio"
       ></drr-summary-item>
       @if (gethaveResolutionDocument()) {
       <div>
         <mat-label class="drr-label">{{
-          t("attachments.FirstNationsResolution")
+          t("attachments.resolutionDocument")
         }}</mat-label>
         @if (getAttachmentByDocumentType('Resolution')) {
-        <div class="summary-row">
+        <div class="summary-row attachment">
           <drr-summary-item
             [label]="t('attachments.name')"
             [rxFormControl]="
@@ -1307,6 +1375,19 @@
             "
           >
           </drr-summary-item>
+          <button
+            *ngIf="isReadOnlyView"
+            style="align-self: center"
+            mat-button
+            color="primary"
+            (click)="
+              onDownloadFile(
+                getAttachmentByDocumentType('Resolution').get('id')?.value
+              )
+            "
+          >
+            Download
+          </button>
         </div>
         } @else {
         <div [class.required]="isAttachmentRequired('Resolution')">
@@ -1333,6 +1414,7 @@
         >
         </drr-summary-item>
         <button
+          *ngIf="isReadOnlyView"
           style="align-self: center"
           mat-button
           color="primary"
@@ -1344,7 +1426,7 @@
     </mat-card-content>
   </mat-card>
 
-  <mat-card *ngIf="showSubmitterInfo">
+  <mat-card *ngIf="isReadOnlyView">
     <mat-card-header>
       <mat-card-title>{{ t("steps.fp.step12") }}</mat-card-title>
       <mat-card-subtitle>Step 12</mat-card-subtitle>

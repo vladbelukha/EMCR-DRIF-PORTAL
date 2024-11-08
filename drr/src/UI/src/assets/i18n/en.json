@@ -41,6 +41,7 @@
     "firstNationResolution": "For First Nations Proponent: provide a resolution from the band council or council/board, or the appropriate authorization/endorsement as determined by the eligible proponent’s governance structure Council Resolution and/or Band Council Resolution.",
     "localGovernmentResolution": "For local government proponent: provide a resolution from the council/board.",
     "haveResolution": "Is this document available to attach to this form now?",
+    "haveResolutionSummary": "Is resolution document available to attach to this form now?",
     "resolutionDocument": "Resolution Document",
     "noResolutionDocument": "Document must be submitted when available to EMCR.DisasterMitigation@gov.bc.ca.",
     "otherSupportingDocumentation": "Other Supporting Documentation",
