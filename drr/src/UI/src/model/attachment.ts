@@ -7,7 +7,11 @@
 import type { DocumentType } from './documentType';
 
 export interface Attachment {
-  /** @nullable */
+  /**
+   * @minLength 0
+   * @maxLength 100
+   * @nullable
+   */
   comments?: string;
   documentType?: DocumentType;
   id?: string;

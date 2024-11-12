@@ -22,7 +22,6 @@ import {
 } from 'rxjs'
 import type {
   ApplicationResult,
-  Attachment,
   AttachmentQueryResult,
   DeleteAttachment,
   FileData
@@ -80,26 +79,6 @@ export class AttachmentService {
       `/api/attachment/${id}`,options
     );
   }
- attachmentUpdateAttachment<TData = ApplicationResult>(
-    id: string,
-    attachment: Attachment, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
-  ): Observable<TData>;
-    attachmentUpdateAttachment<TData = ApplicationResult>(
-    id: string,
-    attachment: Attachment, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
-  ): Observable<AngularHttpResponse<TData>>;
-    attachmentUpdateAttachment<TData = ApplicationResult>(
-    id: string,
-    attachment: Attachment, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
-  ): Observable<HttpEvent<TData>>;attachmentUpdateAttachment<TData = ApplicationResult>(
-    id: string,
-    attachment: Attachment, options?: HttpClientOptions
-  ): Observable<TData>  {
-    return this.http.post<TData>(
-      `/api/attachment/${id}`,
-      attachment,options
-    );
-  }
  attachmentDeleteAttachment<TData = ApplicationResult>(
     id: string,
     deleteAttachment: DeleteAttachment, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
@@ -124,5 +103,4 @@ export class AttachmentService {
 
 export type AttachmentUploadAttachmentClientResult = NonNullable<ApplicationResult>
 export type AttachmentDownloadAttachmentClientResult = NonNullable<AttachmentQueryResult>
-export type AttachmentUpdateAttachmentClientResult = NonNullable<ApplicationResult>
 export type AttachmentDeleteAttachmentClientResult = NonNullable<ApplicationResult>

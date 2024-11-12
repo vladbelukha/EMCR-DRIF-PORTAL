@@ -14,7 +14,7 @@ export interface ContactDetails {
   department?: string;
   /**
    * @minLength 0
-   * @maxLength 40
+   * @maxLength 100
    * @nullable
    */
   email?: string;
@@ -34,7 +34,7 @@ export interface ContactDetails {
   phone?: string;
   /**
    * @minLength 0
-   * @maxLength 40
+   * @maxLength 100
    * @nullable
    */
   title?: string;

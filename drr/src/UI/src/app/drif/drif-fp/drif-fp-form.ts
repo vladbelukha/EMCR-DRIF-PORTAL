@@ -1,5 +1,7 @@
 import {
+  maxNumber,
   minLength,
+  minNumber,
   prop,
   propArray,
   propObject,
@@ -191,6 +193,7 @@ export class YearOverYearFundingForm {
 
   @prop()
   @required()
+  @maxNumber({ value: 999999999 })
   amount?: number;
 
   constructor(values: YearOverYearFundingForm) {
@@ -215,6 +218,8 @@ export class BudgetForm {
 
   @prop()
   @required()
+  @maxNumber({ value: 999999999 })
+  @minNumber({ value: -999999999 })
   totalDrifFundingRequest?: number;
 
   @prop()

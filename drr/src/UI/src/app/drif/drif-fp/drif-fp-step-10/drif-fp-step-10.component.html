@@ -39,6 +39,7 @@
         <drr-currency-input
           [label]="t('amount')"
           [rxFormControl]="funding.get('amount')"
+          [max]="1000000000"
         ></drr-currency-input>
         @if (i > 0) {
         <button mat-mini-fab color="warn" (click)="removeYear(i)">
@@ -58,10 +59,16 @@
       </button>
     </div>
 
-    <p>
+    <p [style.color]="isTotalDrifFundingRequestInvalid() ? 'red' : 'initial'">
       Your updated DRIF program funding request is:
       {{ budgetForm.get("totalDrifFundingRequest")?.value | currency }}
     </p>
+    @if (isTotalDrifFundingRequestInvalid()) {
+    <p style="color: red">
+      This value must be less than
+      {{ "1000000000" | currency : "" : "symbol" : "1.0-0" }}
+    </p>
+    }
 
     <div *ngIf="showDiscrepancyComment()" style="margin-top: 1rem">
       <drr-textarea
@@ -87,10 +94,16 @@
       [rxFormControl]="budgetForm.get('totalProjectCost')"
     ></drr-currency-input>
 
-    <p>
+    <p [style.color]="isTotalDrifFundingRequestInvalid() ? 'red' : 'initial'">
       Your updated DRIF program funding request is:
       {{ budgetForm.get("totalDrifFundingRequest")?.value | currency }}
     </p>
+    @if (isTotalDrifFundingRequestInvalid()) {
+    <p style="color: red">
+      This value must be less than
+      {{ "1000000000" | currency : "" : "symbol" : "1.0-0" }}
+    </p>
+    }
 
     <mat-label class="drr-label" style="margin-top: 1rem">{{
       t("otherFunding")
