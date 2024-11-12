@@ -290,6 +290,7 @@
   "fiscalYear": "Fiscal Year",
   "addYear": "Add Year",
   "totalDrifFundingRequest": "Total DRIF Program Funding Request",
+  "totalDrifFundingRequestInvalid": "Total DRIF Program Funding Request exceeds the maximum allowable amount.",
   "discrepancyComment": "Your updated DRIF program funding request is different from the eligible amount in your EOI. Explain what has changed.",
   "authorizationOrEndorsement": "Authorization Or Endorsement",
   "authorizationOrEndorsementQuestion": "Has this project proposal been duly authorized or endorsed by all partnering proponents, as applicable*:",

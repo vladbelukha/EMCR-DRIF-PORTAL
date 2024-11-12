@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
@@ -36,6 +37,7 @@ import { BudgetForm, YearOverYearFundingForm } from '../drif-fp-form';
     MatIconModule,
     MatButtonModule,
     MatDividerModule,
+    MatFormFieldModule,
     TranslocoModule,
     FormsModule,
     ReactiveFormsModule,
@@ -211,6 +213,12 @@ export class DrifFpStep10Component {
       this.budgetForm.get('totalDrifFundingRequest')?.value !==
       this.budgetForm.get('eligibleFundingRequest')?.value
     );
+  }
+
+  isTotalDrifFundingRequestInvalid() {
+    return this.budgetForm.get('totalDrifFundingRequest')?.errors?.[
+      'maxNumber'
+    ];
   }
 
   calculateRemainingAmount() {
