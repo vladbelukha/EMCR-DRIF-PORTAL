@@ -24,6 +24,11 @@
         public FileTag? FileTag { get; set; }
     }
 
+    public class UpdateTagsCommand : StorageCommand
+    {
+        public FileTag? FileTag { get; set; }
+    }
+
     public abstract class StorageQuery
     {
         public string Key { get; set; } = null!;

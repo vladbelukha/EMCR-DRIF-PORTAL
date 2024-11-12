@@ -26,5 +26,31 @@ namespace EMCR.Tests.Integration.DRR.Api.S3Storage
             var uploadedFile = await storageProvider.HandleQuery(new FileQuery { Key = fileName, Folder = "autotest-dev" });
             uploadedFile.ShouldNotBeNull().ShouldBeOfType<FileQueryResult>();
         }
+
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+        [Test]
+        public async Task CanUpdateTags()
+        {
+            var host = Application.Host;
+            var storageProvider = host.Services.GetRequiredService<IS3Provider>();
+
+            var body = DateTime.Now.ToString();
+            var fileName = "test-tags.txt";
+            byte[] bytes = Encoding.ASCII.GetBytes(body);
+            var file = new S3File { FileName = fileName, Content = bytes, ContentType = "text/plain", };
+
+            var ret = await storageProvider.HandleCommand(new UploadFileCommand { Folder = "autotest-dev", Key = fileName, File = file });
+            ret.ShouldBe(fileName);
+
+            var uploadedFile = (FileQueryResult)await storageProvider.HandleQuery(new FileQuery { Key = fileName, Folder = "autotest-dev" });
+            uploadedFile.ShouldNotBeNull().ShouldBeOfType<FileQueryResult>();
+            uploadedFile.FileTag.Tags.ShouldBeEmpty();
+
+            await storageProvider.HandleCommand(new UpdateTagsCommand { Key = fileName, Folder = "autotest-dev", FileTag = new FileTag { Tags = new[] { new Tag { Key = "Deleted", Value = "true" } } } });
+
+            var taggedFile = (FileQueryResult)await storageProvider.HandleQuery(new FileQuery { Key = fileName, Folder = "autotest-dev" });
+            taggedFile.FileTag.Tags.ShouldHaveSingleItem().Key.ShouldBe("Deleted");
+        }
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
     }
 }

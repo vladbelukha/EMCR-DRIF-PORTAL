@@ -25,6 +25,7 @@ namespace EMCR.DRR.API.Controllers
         private string GetCurrentBusinessId() => User.FindFirstValue("bceid_business_guid");
         private string GetCurrentBusinessName() => User.FindFirstValue("bceid_business_name");
         private string GetCurrentUserId() => User.FindFirstValue("bceid_user_guid");
+        private FileTag GetDeletedFileTag() => new FileTag { Tags = new[] { new Tag { Key = "Deleted", Value = "true" } } };
         private UserInfo GetCurrentUser()
         {
             return new UserInfo { BusinessId = GetCurrentBusinessId(), BusinessName = GetCurrentBusinessName(), UserId = GetCurrentUserId() };
@@ -81,6 +82,16 @@ namespace EMCR.DRR.API.Controllers
             var bytes = await GetBytes(request.File);
             var file = new S3File { FileName = request.File.FileName, Content = bytes, ContentType = request.File.ContentType };
             await s3Provider.HandleCommand(new UploadFileCommand { Folder = folder, Key = id, File = file });
+            return Ok(new ApplicationResult { Id = id });
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<ApplicationResult>> DeleteFile(
+            [FromRoute] string id,
+            [FromHeader(Name = "file-folder")] string? folder
+            )
+        {
+            await s3Provider.HandleCommand(new UpdateTagsCommand { Key = id, Folder = folder, FileTag = GetDeletedFileTag() });
             return Ok(new ApplicationResult { Id = id });
         }
 

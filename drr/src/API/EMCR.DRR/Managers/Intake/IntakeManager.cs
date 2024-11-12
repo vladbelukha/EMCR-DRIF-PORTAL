@@ -17,6 +17,8 @@ namespace EMCR.DRR.Managers.Intake
         private readonly ICaseRepository caseRepository;
         private readonly IS3Provider s3Provider;
 
+        private FileTag GetDeletedFileTag() => new FileTag { Tags = new[] { new Tag { Key = "Deleted", Value = "true" } } };
+
         public IntakeManager(IMapper mapper, IApplicationRepository applicationRepository, IDocumentRepository documentRepository, ICaseRepository caseRepository, IS3Provider s3Provider)
         {
             this.mapper = mapper;
@@ -183,6 +185,10 @@ namespace EMCR.DRR.Managers.Intake
             var application = (await applicationRepository.Query(new ApplicationsQuery { Id = cmd.AttachmentInfo.ApplicationId })).Items.SingleOrDefault();
             if (application == null) throw new NotFoundException("Application not found");
             if (application.Status != ApplicationStatus.DraftProponent && application.Status != ApplicationStatus.DraftStaff) throw new BusinessValidationException("Can only edit attachments when application is in Draft");
+            if (cmd.AttachmentInfo.DocumentType != DocumentType.OtherSupportingDocument && application.Attachments != null && application.Attachments.Any(a => a.DocumentType == cmd.AttachmentInfo.DocumentType))
+            {
+                throw new BusinessValidationException("A document with this type already exists");
+            }
 
             var documentRes = (await documentRepository.Manage(new CreateDocument { ApplicationId = cmd.AttachmentInfo.ApplicationId, Document = new Document { Name = cmd.AttachmentInfo.File.FileName, DocumentType = cmd.AttachmentInfo.DocumentType, Size = GetFileSize(cmd.AttachmentInfo.File.Content) } }));
             await s3Provider.HandleCommand(new UploadFileCommand { Key = documentRes.Id, File = cmd.AttachmentInfo.File, Folder = $"drr_application/{documentRes.ApplicationId}" });
@@ -194,6 +200,7 @@ namespace EMCR.DRR.Managers.Intake
             var canAccess = await CanAccessApplicationFromDocumentId(cmd.Id, cmd.UserInfo.BusinessId);
             if (!canAccess) throw new ForbiddenException("Not allowed to access this application.");
             var documentRes = await documentRepository.Manage(new DeleteDocument { Id = cmd.Id });
+            await s3Provider.HandleCommand(new UpdateTagsCommand { Key = cmd.Id, Folder = $"drr_application/{documentRes.ApplicationId}", FileTag = GetDeletedFileTag() });
             return documentRes.Id;
         }
 
