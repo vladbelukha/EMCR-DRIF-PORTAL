@@ -24,6 +24,7 @@ namespace EMCR.DRR.API.Services.S3
             {
                 UploadFileCommand c => await UploadStorageItem(c, ct),
                 UploadFileStreamCommand c => await UploadStorageItemStream(c, ct),
+                UpdateTagsCommand c => await UpdateTags(c, ct),
                 _ => throw new NotSupportedException($"{cmd.GetType().Name} is not supported")
             };
         }
@@ -137,6 +138,24 @@ namespace EMCR.DRR.API.Services.S3
                     Tags = GetTags(tagResponse.Tagging).AsEnumerable()
                 }
             };
+        }
+
+        private async Task<string> UpdateTags(UpdateTagsCommand cmd, CancellationToken cancellationToken)
+        {
+            var folder = cmd.Folder == null ? "" : $"{cmd.Folder}/";
+            var key = $"{folder}{cmd.Key}";
+
+            var request = new PutObjectTaggingRequest
+            {
+                Key = key,
+                BucketName = bucketName,
+                Tagging = new Tagging { TagSet = GetTagSet(cmd.FileTag?.Tags ?? []) }
+            };
+
+            var response = await _amazonS3Client.PutObjectTaggingAsync(request, cancellationToken);
+            response.EnsureSuccess();
+
+            return cmd.Key;
         }
 
         private static List<Amazon.S3.Model.Tag> GetTagSet(IEnumerable<Tag> tags)
