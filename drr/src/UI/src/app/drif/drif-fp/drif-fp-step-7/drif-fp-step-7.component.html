@@ -9,6 +9,7 @@
       "
     ></drr-radio-button>
 
+    @if (standardsVisible) {
     <mat-label style="margin: 1rem 0">
       {{ t("standardsAcceptableHint") }}
     </mat-label>
@@ -32,6 +33,7 @@
         ></drr-chip-autocomplete>
       </div>
     </div>
+    }
 
     <drr-textarea
       [label]="t('standardsComments')"
