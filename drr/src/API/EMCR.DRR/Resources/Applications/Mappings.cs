@@ -157,7 +157,8 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.drr_totaldrifprogramfundingrequest, opt => opt.MapFrom(src => src.TotalDrifFundingRequest))
                 .ForMember(dest => dest.drr_explaindiscrepancy, opt => opt.MapFrom(src => src.DiscrepancyComment))
                 .ForMember(dest => dest.drr_costeffectiveness, opt => opt.MapFrom(src => src.CostEffectiveComments))
-                .ForMember(dest => dest.drr_pastresponsecostprojectdesignedtomitigate, opt => opt.MapFrom(src => src.PreviousResponse.HasValue ? (int?)Enum.Parse<DRRYesNoNotApplicable>(src.PreviousResponse.Value.ToString()) : null))
+                .ForMember(dest => dest.drr_pastresponsecostprojectdesignedtomitigate, opt => opt.MapFrom(src => src.PreviousResponse.HasValue ? src.PreviousResponse == YesNoOption.No ? (int?)DRRYesNoNotApplicable.No : (int?)DRRYesNoNotApplicable.Yes : null))
+                .ForMember(dest => dest.drr_costunknown, opt => opt.MapFrom(src => src.PreviousResponse.HasValue && src.PreviousResponse == YesNoOption.NotApplicable ? (int?)DRRTwoOptions.Yes : null))
                 .ForMember(dest => dest.drr_cost, opt => opt.MapFrom(src => src.PreviousResponseCost))
                 .ForMember(dest => dest.drr_stepstakentobecosteffective, opt => opt.MapFrom(src => src.PreviousResponseComments))
                 .ForMember(dest => dest.drr_costconsiderationsapply, opt => opt.MapFrom(src => src.CostConsiderationsApplied.HasValue ? src.CostConsiderationsApplied.Value ? (int?)DRRTwoOptions.Yes : (int?)DRRTwoOptions.No : null))
@@ -167,7 +168,6 @@ namespace EMCR.DRR.Resources.Applications
                 //Attachments - 11
                 .ForMember(dest => dest.drr_hasresolution, opt => opt.MapFrom(src => src.HaveResolution.HasValue ? src.HaveResolution.Value ? (int?)DRRTwoOptions.Yes : (int?)DRRTwoOptions.No : null))
                 .ForMember(dest => dest.bcgov_drr_application_bcgov_documenturl_Application, opt => opt.MapFrom(src => src.Attachments))
-                //HaveResolution
 
                 //Review & Declaration - 12
 
@@ -244,28 +244,28 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.IsInfrastructureImpacted, opt => opt.MapFrom(src => src.drr_criticalinfrastructurewillormaybeimpacted.HasValue ? src.drr_criticalinfrastructurewillormaybeimpacted.Value == (int)DRRTwoOptions.Yes : (bool?)null))
                 .ForMember(dest => dest.EstimatedPeopleImpactedFP, opt => opt.MapFrom(src => src.drr_estimatednumberofpeopleimpactedfp.HasValue ? (int?)Enum.Parse<EstimatedNumberOfPeopleFP>(((EstimatedNumberOfPeopleFPOptionSet)src.drr_estimatednumberofpeopleimpactedfp).ToString()) : null))
                 //Project Plan - 4
-                .ForMember(dest => dest.ProposedActivities, opt => opt.MapFrom(src => src.drr_drr_application_drr_proposedactivity_Application.Where(c => c.statecode == (int)EntityState.Active)))
-                .ForMember(dest => dest.FoundationalOrPreviousWorks, opt => opt.MapFrom(src => src.drr_drr_application_drr_foundationalorpreviousworkitem_Application.Where(c => c.statecode == (int)EntityState.Active)))
+                .ForMember(dest => dest.ProposedActivities, opt => opt.MapFrom(src => src.drr_drr_application_drr_proposedactivity_Application))
+                .ForMember(dest => dest.FoundationalOrPreviousWorks, opt => opt.MapFrom(src => src.drr_drr_application_drr_foundationalorpreviousworkitem_Application))
                 .ForMember(dest => dest.HowWasNeedIdentified, opt => opt.MapFrom(src => src.drr_howwastheneedfortheprojectidentified))
                 .ForMember(dest => dest.ProjectAlternateOptions, opt => opt.MapFrom(src => src.drr_extentalternateprojectoptionsconsidered))
                 //Project Engagement - 5
                 .ForMember(dest => dest.EngagedWithFirstNationsOccurred, opt => opt.MapFrom(src => src.drr_meaningfullyengagedwithlocalfirstnations.HasValue ? src.drr_meaningfullyengagedwithlocalfirstnations.Value == (int)DRRTwoOptions.Yes : (bool?)null))
                 .ForMember(dest => dest.EngagedWithFirstNationsComments, opt => opt.MapFrom(src => src.drr_describeengagementfirstnations))
                 .ForMember(dest => dest.OtherEngagement, opt => opt.MapFrom(src => src.drr_effectivelyengagedwithothers.HasValue ? (int?)Enum.Parse<YesNoOption>(((DRRYesNoNotApplicable)src.drr_effectivelyengagedwithothers).ToString()) : null))
-                .ForMember(dest => dest.AffectedParties, opt => opt.MapFrom(src => src.drr_drr_application_drr_impactedoraffectedpartyitem_Application.Where(c => c.statecode == (int)EntityState.Active)))
+                .ForMember(dest => dest.AffectedParties, opt => opt.MapFrom(src => src.drr_drr_application_drr_impactedoraffectedpartyitem_Application))
                 .ForMember(dest => dest.OtherEngagementComments, opt => opt.MapFrom(src => src.drr_describeengagementimpactedaffectedparties))
                 .ForMember(dest => dest.CollaborationComments, opt => opt.MapFrom(src => src.drr_howprojectcontributetocollaboration))
                 //Climate Adaptation - 6
                 .ForMember(dest => dest.IncorporateFutureClimateConditions, opt => opt.MapFrom(src => src.drr_doesprojectconsiderclimatechange.HasValue ? src.drr_doesprojectconsiderclimatechange.Value == (int)DRRTwoOptions.Yes : (bool?)null))
                 .ForMember(dest => dest.ClimateAssessment, opt => opt.MapFrom(src => src.drr_hasprojectusedclimatechangeassessmenttool.HasValue ? src.drr_hasprojectusedclimatechangeassessmenttool.Value == (int)DRRTwoOptions.Yes : (bool?)null))
-                .ForMember(dest => dest.ClimateAssessmentTools, opt => opt.MapFrom(src => src.drr_drr_application_drr_climateassessmenttoolitem_Application.Where(c => c.statecode == (int)EntityState.Active)))
+                .ForMember(dest => dest.ClimateAssessmentTools, opt => opt.MapFrom(src => src.drr_drr_application_drr_climateassessmenttoolitem_Application))
                 .ForMember(dest => dest.ClimateAssessmentComments, opt => opt.MapFrom(src => src.drr_howtoolsusedtobenefitproject))
                 //Permits Regulations & Standards - 7
                 .ForMember(dest => dest.StandardsAcceptable, opt => opt.MapFrom(src => src.drr_acceptableprovincialstandards.HasValue ? (int?)Enum.Parse<YesNoOption>(((DRRYesNoNotApplicable)src.drr_acceptableprovincialstandards).ToString()) : null))
-                .ForMember(dest => dest.Standards, opt => opt.MapFrom(src => DRRStandardInfoMapper(src, src.drr_drr_application_drr_provincialstandarditem_Application.Where(c => c.statecode == (int)EntityState.Active))))
+                .ForMember(dest => dest.Standards, opt => opt.MapFrom(src => DRRStandardInfoMapper(src, src.drr_drr_application_drr_provincialstandarditem_Application)))
                 .ForMember(dest => dest.StandardsComments, opt => opt.MapFrom(src => src.drr_commentsacceptableprovincialstandards))
                 .ForMember(dest => dest.ProfessionalGuidance, opt => opt.MapFrom(src => src.drr_guidanceofqualifiedprofessional.HasValue ? src.drr_guidanceofqualifiedprofessional.Value == (int)DRRTwoOptions.Yes : (bool?)null))
-                .ForMember(dest => dest.Professionals, opt => opt.MapFrom(src => src.drr_drr_application_drr_qualifiedprofessionalitem_Application.Where(c => c.statecode == (int)EntityState.Active)))
+                .ForMember(dest => dest.Professionals, opt => opt.MapFrom(src => src.drr_drr_application_drr_qualifiedprofessionalitem_Application))
                 .ForMember(dest => dest.ProfessionalGuidanceComments, opt => opt.MapFrom(src => src.drr_qualifiedprofessionalcomments))
                 .ForMember(dest => dest.MeetsRegulatoryRequirements, opt => opt.MapFrom(src => src.drr_requiredagencydiscussionsandapprovals.HasValue ? src.drr_requiredagencydiscussionsandapprovals.Value == (int)DRRTwoOptions.Yes : (bool?)null))
                 .ForMember(dest => dest.MeetsRegulatoryComments, opt => opt.MapFrom(src => src.drr_commentsrequiredagencydiscussionsapproval))
@@ -275,45 +275,45 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.PublicBenefit, opt => opt.MapFrom(src => src.drr_projectforbroadpublicuseorbenefit.HasValue ? src.drr_projectforbroadpublicuseorbenefit.Value == (int)DRRTwoOptions.Yes : (bool?)null))
                 .ForMember(dest => dest.PublicBenefitComments, opt => opt.MapFrom(src => src.drr_projectforbroadpublicuseorbenefitcomments))
                 .ForMember(dest => dest.FutureCostReduction, opt => opt.MapFrom(src => src.drr_willthisprojectreducecosts.HasValue ? src.drr_willthisprojectreducecosts.Value == (int)DRRTwoOptions.Yes : (bool?)null))
-                .ForMember(dest => dest.CostReductions, opt => opt.MapFrom(src => src.drr_drr_application_drr_costreductionitem_Application.Where(c => c.statecode == (int)EntityState.Active)))
+                .ForMember(dest => dest.CostReductions, opt => opt.MapFrom(src => src.drr_drr_application_drr_costreductionitem_Application))
                 .ForMember(dest => dest.CostReductionComments, opt => opt.MapFrom(src => src.drr_explainhowcostswillbereduced))
                 .ForMember(dest => dest.ProduceCoBenefits, opt => opt.MapFrom(src => src.drr_willthisprojectproducecobenefits.HasValue ? src.drr_willthisprojectproducecobenefits.Value == (int)DRRTwoOptions.Yes : (bool?)null))
-                .ForMember(dest => dest.CoBenefits, opt => opt.MapFrom(src => src.drr_drr_application_drr_cobenefititem_Application.Where(c => c.statecode == (int)EntityState.Active)))
+                .ForMember(dest => dest.CoBenefits, opt => opt.MapFrom(src => src.drr_drr_application_drr_cobenefititem_Application))
                 .ForMember(dest => dest.CoBenefitComments, opt => opt.MapFrom(src => src.drr_howwilltheprojectproducecobenefits))
-                .ForMember(dest => dest.IncreasedResiliency, opt => opt.MapFrom(src => src.drr_drr_application_drr_resiliencyitem_Application.Where(c => c.statecode == (int)EntityState.Active)))
+                .ForMember(dest => dest.IncreasedResiliency, opt => opt.MapFrom(src => src.drr_drr_application_drr_resiliencyitem_Application))
                 .ForMember(dest => dest.IncreasedResiliencyComments, opt => opt.MapFrom(src => src.drr_resiliencycomments))
                 //Project Risks - 9
                 .ForMember(dest => dest.ComplexityRiskMitigated, opt => opt.MapFrom(src => src.drr_projectcomplexityrisksmitigated.HasValue ? src.drr_projectcomplexityrisksmitigated.Value == (int)DRRTwoOptions.Yes : (bool?)null))
-                .ForMember(dest => dest.ComplexityRisks, opt => opt.MapFrom(src => src.drr_drr_application_drr_projectcomplexityriskitem_Application.Where(c => c.statecode == (int)EntityState.Active)))
+                .ForMember(dest => dest.ComplexityRisks, opt => opt.MapFrom(src => src.drr_drr_application_drr_projectcomplexityriskitem_Application))
                 .ForMember(dest => dest.ComplexityRiskComments, opt => opt.MapFrom(src => src.drr_howprojectcomplexityrisksmitigated))
                 .ForMember(dest => dest.ReadinessRiskMitigated, opt => opt.MapFrom(src => src.drr_projectreadinessrisksmitigated.HasValue ? src.drr_projectreadinessrisksmitigated.Value == (int)DRRTwoOptions.Yes : (bool?)null))
-                .ForMember(dest => dest.ReadinessRisks, opt => opt.MapFrom(src => src.drr_drr_application_drr_projectreadinessriskitem_Application.Where(c => c.statecode == (int)EntityState.Active)))
+                .ForMember(dest => dest.ReadinessRisks, opt => opt.MapFrom(src => src.drr_drr_application_drr_projectreadinessriskitem_Application))
                 .ForMember(dest => dest.ReadinessRiskComments, opt => opt.MapFrom(src => src.drr_howprojectreadinessrisksmitigated))
                 .ForMember(dest => dest.SensitivityRiskMitigated, opt => opt.MapFrom(src => src.drr_projectsensitivityrisksmitigated.HasValue ? src.drr_projectsensitivityrisksmitigated.Value == (int)DRRTwoOptions.Yes : (bool?)null))
-                .ForMember(dest => dest.SensitivityRisks, opt => opt.MapFrom(src => src.drr_drr_application_drr_projectsensitivityriskitem_Application.Where(c => c.statecode == (int)EntityState.Active)))
+                .ForMember(dest => dest.SensitivityRisks, opt => opt.MapFrom(src => src.drr_drr_application_drr_projectsensitivityriskitem_Application))
                 .ForMember(dest => dest.SensitivityRiskComments, opt => opt.MapFrom(src => src.drr_howprojectsensitivityrisksmitigated))
                 .ForMember(dest => dest.CapacityRiskMitigated, opt => opt.MapFrom(src => src.drr_projectcapacityrisksmitigated.HasValue ? src.drr_projectcapacityrisksmitigated.Value == (int)DRRTwoOptions.Yes : (bool?)null))
-                .ForMember(dest => dest.CapacityRisks, opt => opt.MapFrom(src => src.drr_drr_application_drr_projectcapacitychallengeitem_Application.Where(c => c.statecode == (int)EntityState.Active)))
+                .ForMember(dest => dest.CapacityRisks, opt => opt.MapFrom(src => src.drr_drr_application_drr_projectcapacitychallengeitem_Application))
                 .ForMember(dest => dest.CapacityRiskComments, opt => opt.MapFrom(src => src.drr_howcapacityrisksmitigated))
                 .ForMember(dest => dest.RiskTransferMigigated, opt => opt.MapFrom(src => src.drr_isriskbeingincreasedortransferred.HasValue ? src.drr_isriskbeingincreasedortransferred.Value == (int)DRRTwoOptions.Yes : (bool?)null))
                 .ForMember(dest => dest.IncreasedOrTransferred, opt => opt.MapFrom(src => !string.IsNullOrEmpty(src.drr_increasedortransferred) ? src.drr_increasedortransferred.Split(',', StringSplitOptions.None).Select(h => Enum.Parse<IncreasedOrTransferred>(((IncreasedOrTransferredOptionSet)int.Parse(h)).ToString()).ToString()) : null))
                 .ForMember(dest => dest.IncreasedOrTransferredComments, opt => opt.MapFrom(src => src.drr_describeriskincreasedortransferred))
                 //Budget - 10
                 .ForMember(dest => dest.EligibleFundingRequest, opt => opt.MapFrom(src => src.drr_eligibleamount))
-                .ForMember(dest => dest.YearOverYearFunding, opt => opt.MapFrom(src => src.drr_drr_application_drr_driffundingrequest_Application.Where(c => c.statecode == (int)EntityState.Active)))
+                .ForMember(dest => dest.YearOverYearFunding, opt => opt.MapFrom(src => src.drr_drr_application_drr_driffundingrequest_Application))
                 .ForMember(dest => dest.TotalDrifFundingRequest, opt => opt.MapFrom(src => src.drr_totaldrifprogramfundingrequest))
                 .ForMember(dest => dest.DiscrepancyComment, opt => opt.MapFrom(src => src.drr_explaindiscrepancy))
                 .ForMember(dest => dest.CostEffectiveComments, opt => opt.MapFrom(src => src.drr_costeffectiveness))
-                .ForMember(dest => dest.PreviousResponse, opt => opt.MapFrom(src => src.drr_pastresponsecostprojectdesignedtomitigate.HasValue ? (int?)Enum.Parse<YesNoOption>(((DRRYesNoNotApplicable)src.drr_pastresponsecostprojectdesignedtomitigate).ToString()) : null))
+                .ForMember(dest => dest.PreviousResponse, opt => opt.MapFrom(src => src.drr_pastresponsecostprojectdesignedtomitigate.HasValue ? PreviousResponseCostMapper(src) : null))
                 .ForMember(dest => dest.PreviousResponseCost, opt => opt.MapFrom(src => src.drr_cost))
                 .ForMember(dest => dest.PreviousResponseComments, opt => opt.MapFrom(src => src.drr_stepstakentobecosteffective))
                 .ForMember(dest => dest.CostConsiderationsApplied, opt => opt.MapFrom(src => src.drr_costconsiderationsapply.HasValue ? src.drr_costconsiderationsapply.Value == (int)DRRTwoOptions.Yes : (bool?)null))
-                .ForMember(dest => dest.CostConsiderations, opt => opt.MapFrom(src => src.drr_drr_application_drr_costconsiderationitem_Application.Where(c => c.statecode == (int)EntityState.Active)))
+                .ForMember(dest => dest.CostConsiderations, opt => opt.MapFrom(src => src.drr_drr_application_drr_costconsiderationitem_Application))
                 .ForMember(dest => dest.CostConsiderationsComments, opt => opt.MapFrom(src => src.drr_explaincostconsiderations))
 
                 //Attachments
                 .ForMember(dest => dest.HaveResolution, opt => opt.MapFrom(src => src.drr_hasresolution.HasValue ? src.drr_hasresolution.Value == (int)DRRTwoOptions.Yes : (bool?)null))
-                .ForMember(dest => dest.Attachments, opt => opt.MapFrom(src => src.bcgov_drr_application_bcgov_documenturl_Application.Where(c => c.statecode == (int)EntityState.Active)))
+                .ForMember(dest => dest.Attachments, opt => opt.MapFrom(src => src.bcgov_drr_application_bcgov_documenturl_Application))
             ;
 
 
@@ -378,7 +378,7 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.drr_QualifiedProfessional, opt => opt.MapFrom(src => new drr_qualifiedprofessional { drr_name = src.Name }))
                 .ReverseMap()
                 .ValidateMemberList(MemberList.Destination)
-                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => string.IsNullOrEmpty(src.drr_qualifiedprofessionalcomments) ? src.drr_QualifiedProfessional.drr_name : src.drr_qualifiedprofessionalcomments))
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.drr_QualifiedProfessional.drr_name != "Other" || string.IsNullOrEmpty(src.drr_qualifiedprofessionalcomments) ? src.drr_QualifiedProfessional.drr_name : src.drr_qualifiedprofessionalcomments))
             ;
 
             CreateMap<ProposedActivity, drr_proposedactivity>(MemberList.None)
@@ -398,84 +398,84 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.drr_ProvincialStandard, opt => opt.MapFrom(src => new drr_provincialstandard { drr_name = src.Name }))
                 .ReverseMap()
                 .ValidateMemberList(MemberList.Destination)
-                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => string.IsNullOrEmpty(src.drr_provincialstandarditemcomments) ? src.drr_ProvincialStandard.drr_name : src.drr_provincialstandarditemcomments))
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.drr_ProvincialStandard.drr_name != "Other" || string.IsNullOrEmpty(src.drr_provincialstandarditemcomments) ? src.drr_ProvincialStandard.drr_name : src.drr_provincialstandarditemcomments))
             ;
 
             CreateMap<AffectedParty, drr_impactedoraffectedpartyitem>(MemberList.None)
                .ForMember(dest => dest.drr_ImpactedorAffectedParty, opt => opt.MapFrom(src => new drr_impactedoraffectedparty { drr_name = src.Name }))
                .ReverseMap()
                .ValidateMemberList(MemberList.Destination)
-               .ForMember(dest => dest.Name, opt => opt.MapFrom(src => string.IsNullOrEmpty(src.drr_impactedoraffectedpartycomments) ? src.drr_ImpactedorAffectedParty.drr_name : src.drr_impactedoraffectedpartycomments))
+               .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.drr_ImpactedorAffectedParty.drr_name != "Other" || string.IsNullOrEmpty(src.drr_impactedoraffectedpartycomments) ? src.drr_ImpactedorAffectedParty.drr_name : src.drr_impactedoraffectedpartycomments))
             ;
 
             CreateMap<FoundationalOrPreviousWork, drr_foundationalorpreviousworkitem>(MemberList.None)
                .ForMember(dest => dest.drr_FoundationalorPreviousWork, opt => opt.MapFrom(src => new drr_foundationalorpreviouswork { drr_name = src.Name }))
                .ReverseMap()
                .ValidateMemberList(MemberList.Destination)
-               .ForMember(dest => dest.Name, opt => opt.MapFrom(src => string.IsNullOrEmpty(src.drr_foundationalorpreviousworkcomments) ? src.drr_FoundationalorPreviousWork.drr_name : src.drr_foundationalorpreviousworkcomments))
+               .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.drr_FoundationalorPreviousWork.drr_name != "Other" || string.IsNullOrEmpty(src.drr_foundationalorpreviousworkcomments) ? src.drr_FoundationalorPreviousWork.drr_name : src.drr_foundationalorpreviousworkcomments))
             ;
 
             CreateMap<CostReduction, drr_costreductionitem>(MemberList.None)
                .ForMember(dest => dest.drr_CostReduction, opt => opt.MapFrom(src => new drr_costreduction { drr_name = src.Name }))
                .ReverseMap()
                .ValidateMemberList(MemberList.Destination)
-               .ForMember(dest => dest.Name, opt => opt.MapFrom(src => string.IsNullOrEmpty(src.drr_costreductionitemcomments) ? src.drr_CostReduction.drr_name : src.drr_costreductionitemcomments))
+               .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.drr_CostReduction.drr_name != "Other" || string.IsNullOrEmpty(src.drr_costreductionitemcomments) ? src.drr_CostReduction.drr_name : src.drr_costreductionitemcomments))
             ;
 
             CreateMap<CoBenefit, drr_cobenefititem>(MemberList.None)
                .ForMember(dest => dest.drr_CoBenefit, opt => opt.MapFrom(src => new drr_cobenefit { drr_name = src.Name }))
                .ReverseMap()
                .ValidateMemberList(MemberList.Destination)
-               .ForMember(dest => dest.Name, opt => opt.MapFrom(src => string.IsNullOrEmpty(src.drr_cobenefitcomments) ? src.drr_CoBenefit.drr_name : src.drr_cobenefitcomments))
+               .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.drr_CoBenefit.drr_name != "Other" || string.IsNullOrEmpty(src.drr_cobenefitcomments) ? src.drr_CoBenefit.drr_name : src.drr_cobenefitcomments))
             ;
 
             CreateMap<ComplexityRisk, drr_projectcomplexityriskitem>(MemberList.None)
                .ForMember(dest => dest.drr_ProjectComplexityRisk, opt => opt.MapFrom(src => new drr_projectcomplexityrisk { drr_name = src.Name }))
                .ReverseMap()
                .ValidateMemberList(MemberList.Destination)
-               .ForMember(dest => dest.Name, opt => opt.MapFrom(src => string.IsNullOrEmpty(src.drr_projectcomplexityriskitemcomments) ? src.drr_ProjectComplexityRisk.drr_name : src.drr_projectcomplexityriskitemcomments))
+               .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.drr_ProjectComplexityRisk.drr_name != "Other" || string.IsNullOrEmpty(src.drr_projectcomplexityriskitemcomments) ? src.drr_ProjectComplexityRisk.drr_name : src.drr_projectcomplexityriskitemcomments))
             ;
 
             CreateMap<ReadinessRisk, drr_projectreadinessriskitem>(MemberList.None)
                .ForMember(dest => dest.drr_ProjectReadinessRisk, opt => opt.MapFrom(src => new drr_projectreadinessrisk { drr_name = src.Name }))
                .ReverseMap()
                .ValidateMemberList(MemberList.Destination)
-               .ForMember(dest => dest.Name, opt => opt.MapFrom(src => string.IsNullOrEmpty(src.drr_projectreadinessriskcomments) ? src.drr_ProjectReadinessRisk.drr_name : src.drr_projectreadinessriskcomments))
+               .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.drr_ProjectReadinessRisk.drr_name != "Other" || string.IsNullOrEmpty(src.drr_projectreadinessriskcomments) ? src.drr_ProjectReadinessRisk.drr_name : src.drr_projectreadinessriskcomments))
             ;
 
             CreateMap<SensitivityRisk, drr_projectsensitivityriskitem>(MemberList.None)
               .ForMember(dest => dest.drr_ProjectSensitivityRisk, opt => opt.MapFrom(src => new drr_projectsensitivityrisk { drr_name = src.Name }))
               .ReverseMap()
               .ValidateMemberList(MemberList.Destination)
-              .ForMember(dest => dest.Name, opt => opt.MapFrom(src => string.IsNullOrEmpty(src.drr_projectsensitivityriskcomments) ? src.drr_ProjectSensitivityRisk.drr_name : src.drr_projectsensitivityriskcomments))
+              .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.drr_ProjectSensitivityRisk.drr_name != "Other" || string.IsNullOrEmpty(src.drr_projectsensitivityriskcomments) ? src.drr_ProjectSensitivityRisk.drr_name : src.drr_projectsensitivityriskcomments))
             ;
 
             CreateMap<CapacityRisk, drr_projectcapacitychallengeitem>(MemberList.None)
               .ForMember(dest => dest.drr_ProjectCapacityChallenge, opt => opt.MapFrom(src => new drr_projectcapacitychallenge { drr_name = src.Name }))
               .ReverseMap()
               .ValidateMemberList(MemberList.Destination)
-              .ForMember(dest => dest.Name, opt => opt.MapFrom(src => string.IsNullOrEmpty(src.drr_projectcapacitychallengecomments) ? src.drr_ProjectCapacityChallenge.drr_name : src.drr_projectcapacitychallengecomments))
+              .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.drr_ProjectCapacityChallenge.drr_name != "Other" || string.IsNullOrEmpty(src.drr_projectcapacitychallengecomments) ? src.drr_ProjectCapacityChallenge.drr_name : src.drr_projectcapacitychallengecomments))
             ;
 
             CreateMap<ClimateAssessmentToolsInfo, drr_climateassessmenttoolitem>(MemberList.None)
               .ForMember(dest => dest.drr_ClimateAssessmentTool, opt => opt.MapFrom(src => new drr_climateassessmenttool { drr_name = src.Name }))
               .ReverseMap()
               .ValidateMemberList(MemberList.Destination)
-              .ForMember(dest => dest.Name, opt => opt.MapFrom(src => string.IsNullOrEmpty(src.drr_climateassessmmenttoolcomments) ? src.drr_ClimateAssessmentTool.drr_name : src.drr_climateassessmmenttoolcomments))
+              .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.drr_ClimateAssessmentTool.drr_name != "Other" || string.IsNullOrEmpty(src.drr_climateassessmmenttoolcomments) ? src.drr_ClimateAssessmentTool.drr_name : src.drr_climateassessmmenttoolcomments))
             ;
 
             CreateMap<IncreasedResiliency, drr_resiliencyitem>(MemberList.None)
               .ForMember(dest => dest.drr_Resiliency, opt => opt.MapFrom(src => new drr_resiliency { drr_name = src.Name }))
               .ReverseMap()
               .ValidateMemberList(MemberList.Destination)
-              .ForMember(dest => dest.Name, opt => opt.MapFrom(src => string.IsNullOrEmpty(src.drr_resiliencycomments) ? src.drr_Resiliency.drr_name : src.drr_resiliencycomments))
+              .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.drr_Resiliency.drr_name != "Other" || string.IsNullOrEmpty(src.drr_resiliencycomments) ? src.drr_Resiliency.drr_name : src.drr_resiliencycomments))
             ;
 
             CreateMap<CostConsideration, drr_costconsiderationitem>(MemberList.None)
               .ForMember(dest => dest.drr_CostConsideration, opt => opt.MapFrom(src => new drr_costconsideration { drr_name = src.Name }))
               .ReverseMap()
               .ValidateMemberList(MemberList.Destination)
-              .ForMember(dest => dest.Name, opt => opt.MapFrom(src => string.IsNullOrEmpty(src.drr_costconsiderationcomments) ? src.drr_CostConsideration.drr_name : src.drr_costconsiderationcomments))
+              .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.drr_CostConsideration.drr_name != "Other" || string.IsNullOrEmpty(src.drr_costconsiderationcomments) ? src.drr_CostConsideration.drr_name : src.drr_costconsiderationcomments))
             ;
 
             CreateMap<YearOverYearFunding, drr_driffundingrequest>(MemberList.None)
@@ -499,6 +499,16 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.DocumentType, opt => opt.MapFrom(src => IEnumEx.GetValueFromDescription<DocumentType>(src.bcgov_DocumentType != null ? src.bcgov_DocumentType.bcgov_name : DocumentType.OtherSupportingDocument.ToDescriptionString())))
                 .ForMember(dest => dest.Comments, opt => opt.MapFrom(src => src.bcgov_documentcomments))
             ;
+        }
+
+        private YesNoOption? PreviousResponseCostMapper(drr_application application)
+        {
+            if (application.drr_pastresponsecostprojectdesignedtomitigate == (int)DRRYesNoNotApplicable.Yes)
+            {
+                if (application.drr_costunknown == (int)DRRTwoOptions.Yes) return YesNoOption.NotApplicable;
+                else return YesNoOption.Yes;
+            }
+            return YesNoOption.No;
         }
 
         private int? DRRCategorySelectedMapper(StandardInfo? standardInfo)
@@ -532,7 +542,7 @@ namespace EMCR.DRR.Resources.Applications
 
             foreach (var category in categories)
             {
-                var standards = standardItems.Where(i => i.drr_ProvincialStandardCategory.drr_name == category).Select(i => new ProvincialStandard { Name = string.IsNullOrEmpty(i.drr_provincialstandarditemcomments) ? i.drr_ProvincialStandard.drr_name : i.drr_provincialstandarditemcomments }).ToList();
+                var standards = standardItems.Where(i => i.drr_ProvincialStandardCategory.drr_name == category).Select(i => new ProvincialStandard { Name = i.drr_ProvincialStandard.drr_name != "Other" || string.IsNullOrEmpty(i.drr_provincialstandarditemcomments) ? i.drr_ProvincialStandard.drr_name : i.drr_provincialstandarditemcomments }).ToList();
                 ret.Add(new StandardInfo
                 {
                     IsCategorySelected = GetBoolFromCategory(application, category),
