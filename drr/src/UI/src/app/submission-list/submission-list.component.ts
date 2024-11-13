@@ -287,7 +287,11 @@ export class SubmissionListComponent {
           title: this.translocoService.translate(
             'submission-list.withdrawTitle'
           ),
-          text: this.translocoService.translate('submission-list.withdrawText'),
+          text: this.translocoService.translate(
+            submission.applicationType === ApplicationType.EOI
+              ? 'submission-list.withdrawTextEoi'
+              : 'submission-list.withdrawTextFp'
+          ),
         },
       })
       .afterClosed()
