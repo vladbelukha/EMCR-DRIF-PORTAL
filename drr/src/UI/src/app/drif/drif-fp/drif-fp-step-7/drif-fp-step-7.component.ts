@@ -65,6 +65,8 @@ export class DrifFpStep7Component {
     { value: YesNoOption.NotApplicable, label: 'Not Applicable' },
   ];
 
+  standardsVisible = true;
+
   ngOnInit() {
     this.permitsRegulationsAndStandardsForm
       .get('professionalGuidance')
@@ -111,6 +113,24 @@ export class DrifFpStep7Component {
           meetsEligibilityCommentsControl?.addValidators(Validators.required);
         }
         meetsEligibilityCommentsControl?.updateValueAndValidity();
+      });
+
+    this.permitsRegulationsAndStandardsForm
+      .get('standardsAcceptable')
+      ?.valueChanges.pipe(distinctUntilChanged())
+      .subscribe((value) => {
+        const standardsControl = this.permitsRegulationsAndStandardsForm.get(
+          'standards'
+        ) as FormArray;
+        if (value === YesNoOption.NotApplicable) {
+          standardsControl.controls.forEach((control) => {
+            control.get('standards')?.reset();
+            control.get('isCategorySelected')?.reset();
+          });
+          this.standardsVisible = false;
+        } else {
+          this.standardsVisible = true;
+        }
       });
   }
 
