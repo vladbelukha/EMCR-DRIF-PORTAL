@@ -810,7 +810,7 @@ export class DrifFpComponent {
         next: (response) => {
           this.hotToast.close();
           this.hotToast.success(
-            `Your submission has been received. \nID #: ${response.id}`
+            `Your submission has been received. \nID #: ${response.id}.`
           );
 
           this.router.navigate(['/submissions']);
