@@ -7,7 +7,6 @@ using EMCR.DRR.API.Services.S3;
 using EMCR.DRR.Controllers;
 using EMCR.DRR.Managers.Intake;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.Timeouts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -44,37 +43,49 @@ namespace EMCR.DRR.API.Controllers
             this.errorParser = new ErrorParser();
         }
 
-//        [HttpPost("{id}/upload-stream-multipartreader")]
-//        [ProducesResponseType(StatusCodes.Status201Created)]
-//        [ProducesResponseType(StatusCodes.Status415UnsupportedMediaType)]
-//        [MultipartFormData]
-//        [DisableFormValueModelBinding]
-//        public async Task<IActionResult> Upload(string id)
-//        {
-//#pragma warning disable CS8601 // Possible null reference assignment.
-//            var attachmentInfo = new AttachmentInfoStream
-//            {
-//                ApplicationId = id,
-//                FileStream = new S3FileStream
-//                {
-//                    ContentType = Request.ContentType,
-//                    FileContentStream = HttpContext.Request.Body,
-//                    FileName = "test"
-//                }
-//            };
-//#pragma warning restore CS8601 // Possible null reference assignment.
-//            var ret = await intakeManager.Handle(new UploadAttachmentStreamCommand { AttachmentInfo = attachmentInfo, UserInfo = GetCurrentUser() });
-//            return Ok(new ApplicationResult { Id = ret });
-//        }
+        //--------TEST Upload stream for larger file sizes - may get removed
+        //        [HttpPost("{id}/upload-stream-multipartreader")]
+        //        [ProducesResponseType(StatusCodes.Status201Created)]
+        //        [ProducesResponseType(StatusCodes.Status415UnsupportedMediaType)]
+        //        [MultipartFormData]
+        //        [DisableFormValueModelBinding]
+        //        public async Task<IActionResult> Upload(string id)
+        //        {
+        //#pragma warning disable CS8601 // Possible null reference assignment.
+        //            var attachmentInfo = new AttachmentInfoStream
+        //            {
+        //                ApplicationId = id,
+        //                FileStream = new S3FileStream
+        //                {
+        //                    ContentType = Request.ContentType,
+        //                    FileContentStream = HttpContext.Request.Body,
+        //                    FileName = "test"
+        //                }
+        //            };
+        //#pragma warning restore CS8601 // Possible null reference assignment.
+        //            var ret = await intakeManager.Handle(new UploadAttachmentStreamCommand { AttachmentInfo = attachmentInfo, UserInfo = GetCurrentUser() });
+        //            return Ok(new ApplicationResult { Id = ret });
+        //        }
 
         [HttpPost]
-        [RequestSizeLimit(263_192_576)] //251MB
-        // [RequestTimeout(milliseconds: 10)]
+        [RequestSizeLimit(75_000_000)] //Payload is larger than the actualy content length - this is large enough to handle 50MB file
         public async Task<ActionResult<ApplicationResult>> UploadAttachment([FromBody] FileData attachment)
         {
-            var attachmentInfo = mapper.Map<AttachmentInfo>(attachment);
-            var ret = await intakeManager.Handle(new UploadAttachmentCommand { AttachmentInfo = attachmentInfo, UserInfo = GetCurrentUser() });
-            return Ok(new ApplicationResult { Id = ret });
+            try
+            {
+                var contentSize = attachment.Content.Length;
+                if (contentSize >= (51 * 1024 * 1024))
+                {
+                    throw new ContentTooLargeException("File size exceeds 50MB limit");
+                }
+                var attachmentInfo = mapper.Map<AttachmentInfo>(attachment);
+                var ret = await intakeManager.Handle(new UploadAttachmentCommand { AttachmentInfo = attachmentInfo, UserInfo = GetCurrentUser() });
+                return Ok(new ApplicationResult { Id = ret });
+            }
+            catch (Exception e)
+            {
+                return errorParser.Parse(e, logger);
+            }
         }
 
         [HttpGet("{id}")]

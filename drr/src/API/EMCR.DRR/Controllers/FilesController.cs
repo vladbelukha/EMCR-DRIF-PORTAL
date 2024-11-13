@@ -70,7 +70,7 @@ namespace EMCR.DRR.API.Controllers
 
 
         [HttpPost("{id}")]
-        [RequestSizeLimit(263_192_576)] //251MB
+        [RequestSizeLimit(75_000_000)] //Payload may be larger than the actualy content length - this is large enough to handle 50MB file
         public async Task<ActionResult<ApplicationResult>> UploadFile(
             [FromForm] UploadFileRequest request,
             [FromRoute] string id,
@@ -79,10 +79,23 @@ namespace EMCR.DRR.API.Controllers
             [FromHeader(Name = "file-folder")] string? folder
             )
         {
-            var bytes = await GetBytes(request.File);
-            var file = new S3File { FileName = request.File.FileName, Content = bytes, ContentType = request.File.ContentType };
-            await s3Provider.HandleCommand(new UploadFileCommand { Folder = folder, Key = id, File = file });
-            return Ok(new ApplicationResult { Id = id });
+            try
+            {
+                var bytes = await GetBytes(request.File);
+                var contentSize = bytes.Length;
+                if (contentSize >= (51 * 1024 * 1024))
+                {
+                    throw new ContentTooLargeException("File size exceeds 50MB limit");
+                }
+
+                var file = new S3File { FileName = request.File.FileName, Content = bytes, ContentType = request.File.ContentType };
+                await s3Provider.HandleCommand(new UploadFileCommand { Folder = folder, Key = id, File = file });
+                return Ok(new ApplicationResult { Id = id });
+            }
+            catch (Exception e)
+            {
+                return errorParser.Parse(e, logger);
+            }
         }
 
         [HttpDelete("{id}")]
