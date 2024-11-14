@@ -180,7 +180,8 @@ export class DrifFpViewComponent {
           previousResponseCost: response.previousResponseCost,
         },
         attachments: {
-          // TODO: attachments: response.attachments,
+          attachments: response.attachments,
+          haveResolution: response.haveResolution,
         },
         declarations: {
           submitter: response.submitter,
