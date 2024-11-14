@@ -26,6 +26,7 @@ namespace EMCR.DRR.API.Controllers
         private string GetCurrentBusinessName() => User.FindFirstValue("bceid_business_name");
         private string GetCurrentUserId() => User.FindFirstValue("bceid_user_guid");
         private FileTag GetDeletedFileTag() => new FileTag { Tags = new[] { new Tag { Key = "Deleted", Value = "true" } } };
+        private FileTag GetReactivatedFileTag() => new FileTag { Tags = new[] { new Tag { Key = "Deleted", Value = "false" } } };
         private UserInfo GetCurrentUser()
         {
             return new UserInfo { BusinessId = GetCurrentBusinessId(), BusinessName = GetCurrentBusinessName(), UserId = GetCurrentUserId() };
@@ -105,6 +106,16 @@ namespace EMCR.DRR.API.Controllers
             )
         {
             await s3Provider.HandleCommand(new UpdateTagsCommand { Key = id, Folder = folder, FileTag = GetDeletedFileTag() });
+            return Ok(new ApplicationResult { Id = id });
+        }
+
+        [HttpPost("{id}/reactivate")]
+        public async Task<ActionResult<ApplicationResult>> ReactivateFile(
+            [FromRoute] string id,
+            [FromHeader(Name = "file-folder")] string? folder
+            )
+        {
+            await s3Provider.HandleCommand(new UpdateTagsCommand { Key = id, Folder = folder, FileTag = GetReactivatedFileTag() });
             return Ok(new ApplicationResult { Id = id });
         }
 
