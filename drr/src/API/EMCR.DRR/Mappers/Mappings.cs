@@ -54,9 +54,9 @@ namespace EMCR.DRR.API.Mappers
             switch (applicationType)
             {
                 case ApplicationType.EOI:
-                    return application.Status == Managers.Intake.ApplicationStatus.Submitted && application.EligibleFundingRequest.HasValue ? application.EligibleFundingRequest.ToString() : application.FundingRequest.ToString();
+                    return application.Status == Managers.Intake.ApplicationStatus.Submitted ? application.EligibleFundingRequest.ToString() : application.FundingRequest.ToString();
                 case ApplicationType.FP:
-                    return application.Status == Managers.Intake.ApplicationStatus.Submitted && application.EligibleAmountForFP.HasValue ? application.EligibleAmountForFP.ToString() : application.TotalDrifFundingRequest.ToString();
+                    return application.Status == Managers.Intake.ApplicationStatus.Submitted ? application.EligibleAmountForFP.ToString() : application.TotalDrifFundingRequest.ToString();
                 default:
                     return application.EligibleFundingRequest.ToString();
             }
