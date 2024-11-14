@@ -23,7 +23,7 @@ namespace EMCR.DRR.API.Mappers
             CreateMap<Managers.Intake.Application, Submission>()
                 .ForMember(dest => dest.ApplicationType, opt => opt.MapFrom(src => DRRApplicationTypeMapper(src.ApplicationTypeName)))
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => DRRApplicationStatusMapper(src.Status)))
-                .ForMember(dest => dest.FundingRequest, opt => opt.MapFrom(src => src.EligibleFundingRequest.ToString()))
+                .ForMember(dest => dest.FundingRequest, opt => opt.MapFrom(src => FundingRequestMapper(src)))
                 .ForMember(dest => dest.ModifiedDate, opt => opt.MapFrom(src => src.ModifiedOn))
                 .ForMember(dest => dest.ExistingFpId, opt => opt.MapFrom(src => src.FpId))
                 .ForMember(dest => dest.PartneringProponents, opt => opt.MapFrom(src => src.PartneringProponents.Select(p => p.Name)))
@@ -46,6 +46,22 @@ namespace EMCR.DRR.API.Mappers
                 .ForMember(dest => dest.File, opt => opt.MapFrom(src => new S3File { Content = src.Content, ContentType = src.ContentType, FileName = src.Name }))
                 ;
         }
+
+#pragma warning disable CS8603 // Possible null reference return.
+        private string FundingRequestMapper(Managers.Intake.Application application)
+        {
+            var applicationType = DRRApplicationTypeMapper(application.ApplicationTypeName);
+            switch (applicationType)
+            {
+                case ApplicationType.EOI:
+                    return application.Status == Managers.Intake.ApplicationStatus.Submitted && application.EligibleFundingRequest.HasValue ? application.EligibleFundingRequest.ToString() : application.FundingRequest.ToString();
+                case ApplicationType.FP:
+                    return application.Status == Managers.Intake.ApplicationStatus.Submitted && application.EligibleAmountForFP.HasValue ? application.EligibleAmountForFP.ToString() : application.TotalDrifFundingRequest.ToString();
+                default:
+                    return application.EligibleFundingRequest.ToString();
+            }
+        }
+#pragma warning restore CS8603 // Possible null reference return.
 
         private ApplicationType DRRApplicationTypeMapper(string type)
         {

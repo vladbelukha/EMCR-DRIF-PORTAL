@@ -300,6 +300,7 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.IncreasedOrTransferredComments, opt => opt.MapFrom(src => src.drr_describeriskincreasedortransferred))
                 //Budget - 10
                 .ForMember(dest => dest.EligibleFundingRequest, opt => opt.MapFrom(src => src.drr_eligibleamount))
+                .ForMember(dest => dest.EligibleAmountForFP, opt => opt.MapFrom(src => src.drr_eligibleamountfullproposal))
                 .ForMember(dest => dest.YearOverYearFunding, opt => opt.MapFrom(src => src.drr_drr_application_drr_driffundingrequest_Application))
                 .ForMember(dest => dest.TotalDrifFundingRequest, opt => opt.MapFrom(src => src.drr_totaldrifprogramfundingrequest))
                 .ForMember(dest => dest.DiscrepancyComment, opt => opt.MapFrom(src => src.drr_explaindiscrepancy))

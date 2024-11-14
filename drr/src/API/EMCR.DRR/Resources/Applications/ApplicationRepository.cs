@@ -148,6 +148,8 @@ namespace EMCR.DRR.Resources.Applications
                         <attribute name='drr_projecttitle' />
                         <attribute name='statuscode' />
                         <attribute name='drr_eligibleamount' />
+                        <attribute name='drr_totaldrifprogramfundingrequest' />
+                        <attribute name='drr_eligibleamountfullproposal' />
                         <attribute name='modifiedon' />
                         <attribute name='drr_submitteddate' />
                         <attribute name='drr_fundingstream' />

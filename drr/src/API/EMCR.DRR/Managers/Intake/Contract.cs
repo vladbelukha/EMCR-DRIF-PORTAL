@@ -335,6 +335,7 @@ namespace EMCR.DRR.Managers.Intake
 
         //Budget - 10
         public decimal? EligibleFundingRequest { get; set; }
+        public decimal? EligibleAmountForFP { get; set; }
         public IEnumerable<YearOverYearFunding> YearOverYearFunding { get; set; }
         public decimal? TotalDrifFundingRequest { get; set; }
         public string? DiscrepancyComment { get; set; }
