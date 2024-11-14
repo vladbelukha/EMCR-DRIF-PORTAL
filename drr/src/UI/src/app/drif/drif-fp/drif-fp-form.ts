@@ -6,6 +6,7 @@ import {
   propArray,
   propObject,
   required,
+  requiredTrue,
 } from '@rxweb/reactive-form-validators';
 import {
   Attachment,
@@ -561,10 +562,12 @@ export class DeclarationsForm {
 
   @prop()
   @required()
+  @requiredTrue()
   authorizedRepresentativeStatement?: boolean;
 
   @prop()
   @required()
+  @requiredTrue()
   informationAccuracyStatement?: boolean;
 
   constructor(values: DeclarationsForm) {

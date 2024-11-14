@@ -78,7 +78,7 @@ export class DrifFpStep6Component {
           climateAssessmentCommentsControl?.clearValidators();
         }
         climateAssessmentToolsControl?.updateValueAndValidity();
-        climateAssessmentCommentsControl?.updateValueAndValidity;
+        climateAssessmentCommentsControl?.updateValueAndValidity();
       });
   }
 }
