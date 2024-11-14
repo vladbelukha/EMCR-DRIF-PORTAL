@@ -118,6 +118,9 @@ export class DrifFpViewComponent {
           incorporateFutureClimateConditions:
             response.incorporateFutureClimateConditions,
           climateAdaptation: response.climateAdaptation,
+          climateAssessment: response.climateAssessment,
+          climateAssessmentComments: response.climateAssessmentComments,
+          climateAssessmentTools: response.climateAssessmentTools,
         },
         permitsRegulationsAndStandards: {
           meetsRegulatoryRequirements: response.meetsRegulatoryRequirements,
@@ -177,7 +180,8 @@ export class DrifFpViewComponent {
           previousResponseCost: response.previousResponseCost,
         },
         attachments: {
-          // TODO: attachments: response.attachments,
+          attachments: response.attachments,
+          haveResolution: response.haveResolution,
         },
         declarations: {
           submitter: response.submitter,

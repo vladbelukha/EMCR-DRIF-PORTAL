@@ -159,7 +159,7 @@
       </drr-summary-item>
 
       <drr-summary-item
-        [label]="t('projectTitle')"
+        [label]="t('projectTitleText')"
         [rxFormControl]="
           fullProposalForm.get('proponentAndProjectInformation.projectTitle')
         "
@@ -167,7 +167,7 @@
       </drr-summary-item>
 
       <drr-summary-item
-        [label]="t('projectType')"
+        [label]="t('projectTypeText')"
         [rxFormControl]="
           fullProposalForm.get('proponentAndProjectInformation.mainDeliverable')
         "
@@ -763,7 +763,7 @@
       >
       </drr-summary-item>
       <drr-summary-item
-        [label]="t('futureCostReduction')"
+        [label]="t('costReduction')"
         [rxFormControl]="
           fullProposalForm.get('projectOutcomes.futureCostReduction')
         "
@@ -859,7 +859,7 @@
       ></drr-summary-item
       >}
       <drr-summary-item
-        [label]="t('projectReadiness')"
+        [label]="t('readinessRiskMitigated')"
         [rxFormControl]="
           fullProposalForm.get('projectRisks.readinessRiskMitigated')
         "
@@ -882,7 +882,7 @@
       }
 
       <drr-summary-item
-        [label]="t('projectSensitivity')"
+        [label]="t('sensitivityRiskMitigated')"
         [rxFormControl]="
           fullProposalForm.get('projectRisks.sensitivityRiskMitigated')
         "
@@ -1076,7 +1076,7 @@
       ></drr-summary-item>
 
       <drr-summary-item
-        [label]="t('previousResponse')"
+        [label]="t('previousResponseQuestion')"
         [rxFormControl]="fullProposalForm.get('budget.previousResponse')"
         [value]="getPreviousResponseValue()"
         controlType="radio"
@@ -1396,32 +1396,37 @@
         }
       </div>
       }
-      <mat-label class="drr-label">{{
-        t("attachments.otherSupportingDocumentation")
-      }}</mat-label>
-      <div
-        class="summary-row"
-        *ngFor="let attachment of getOtherAttachmentsArrayControls()"
-      >
-        <drr-summary-item
-          [label]="t('attachments.name')"
-          [rxFormControl]="attachment.get('name')"
+      <div style="display: flex; flex-direction: column">
+        <mat-label class="drr-label">{{
+          t("attachments.otherSupportingDocumentation")
+        }}</mat-label>
+        @if (getOtherAttachmentsArrayControls().length == 0) {
+        <mat-label>(Optional)</mat-label>
+        }
+        <div
+          class="summary-row"
+          *ngFor="let attachment of getOtherAttachmentsArrayControls()"
         >
-        </drr-summary-item>
-        <drr-summary-item
-          [label]="t('attachments.comments')"
-          [rxFormControl]="attachment.get('comments')"
-        >
-        </drr-summary-item>
-        <button
-          *ngIf="isReadOnlyView"
-          style="align-self: center"
-          mat-button
-          color="primary"
-          (click)="onDownloadFile(attachment.get('id')?.value)"
-        >
-          Download
-        </button>
+          <drr-summary-item
+            [label]="t('attachments.name')"
+            [rxFormControl]="attachment.get('name')"
+          >
+          </drr-summary-item>
+          <drr-summary-item
+            [label]="t('attachments.comments')"
+            [rxFormControl]="attachment.get('comments')"
+          >
+          </drr-summary-item>
+          <button
+            *ngIf="isReadOnlyView"
+            style="align-self: center"
+            mat-button
+            color="primary"
+            (click)="onDownloadFile(attachment.get('id')?.value)"
+          >
+            Download
+          </button>
+        </div>
       </div>
     </mat-card-content>
   </mat-card>
@@ -1476,7 +1481,7 @@
           <drr-summary-item
             [label]="t('phone')"
             [rxFormControl]="
-              fullProposalForm.get('declaration.submitter.phone')
+              fullProposalForm.get('declarations.submitter.phone')
             "
             controlType="phone"
           >
@@ -1485,7 +1490,7 @@
           <drr-summary-item
             [label]="t('email')"
             [rxFormControl]="
-              fullProposalForm.get('declaration.submitter.email')
+              fullProposalForm.get('declarations.submitter.email')
             "
           >
           </drr-summary-item>

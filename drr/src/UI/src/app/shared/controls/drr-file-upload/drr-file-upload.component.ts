@@ -78,7 +78,7 @@ export class DrrFileUploadComponent {
     files.forEach((file) => {
       if (file.size > 262144000) {
         this.hotToast.error(
-          `Please review your files. File ${file.name} size exceeds 250MB`
+          `Please review your files. File ${file.name} size exceeds 50MB`
         );
         return;
       }
