@@ -11,6 +11,7 @@ namespace EMCR.DRR.Dynamics
         private readonly DRRContextOptions options;
         private readonly ISecurityTokenProvider tokenProvider;
         private string? authToken;
+        private string[] SetPropertyExemptions = new[] { "drr_cost", "drr_estimatedsizeofprojectarea", "drr_anticipatedprojectstartdate", "drr_anticipatedprojectenddate", "drr_hazards", "drr_increasedortransferred" };
 
         public DynamicsODataClientHandler(IOptions<DRRContextOptions> options, ISecurityTokenProvider tokenProvider)
         {
@@ -26,8 +27,10 @@ namespace EMCR.DRR.Dynamics
             client.EntityParameterSendOption = EntityParameterSendOption.SendOnlySetProperties;
             client.Configurations.RequestPipeline.OnEntryStarting((arg) =>
             {
-                // do not send reference properties and null values to Dynamics
-                arg.Entry.Properties = arg.Entry.Properties.Where((prop) => !prop.Name.StartsWith('_') && prop.Value != null);
+                // do not send reference properties and null values to Dynamics - added some exception fields where we do want to allow null for purposes of clearing that field in crm
+                arg.Entry.Properties = arg.Entry.Properties.Where((prop) =>
+                !prop.Name.StartsWith('_') &&
+                (prop.Value != null || SetPropertyExemptions.Contains(prop.Name)));
             });
             client.BuildingRequest += Client_BuildingRequest;
             client.SendingRequest2 += Client_SendingRequest2;

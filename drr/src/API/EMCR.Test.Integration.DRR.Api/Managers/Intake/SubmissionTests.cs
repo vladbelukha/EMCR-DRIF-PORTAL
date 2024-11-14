@@ -370,6 +370,63 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
         }
 
         [Test]
+        public async Task UpdateFp_EmptyFields_ValuesAreCleared()
+        {
+            var eoi = mapper.Map<EoiApplication>(CreateNewTestEOIApplication());
+            eoi.Status = SubmissionPortalStatus.EligibleInvited;
+            eoi.AuthorizedRepresentativeStatement = true;
+            eoi.FOIPPAConfirmation = true;
+            eoi.InformationAccuracyStatement = true;
+
+            var eoiId = await manager.Handle(new EoiSubmitApplicationCommand { application = eoi, UserInfo = GetTestUserInfo() });
+            eoiId.ShouldNotBeEmpty();
+
+            var fpId = await manager.Handle(new CreateFpFromEoiCommand { EoiId = eoiId, UserInfo = GetTestUserInfo(), ScreenerQuestions = CreateScreenerQuestions() });
+            fpId.ShouldNotBeEmpty();
+
+            var fullProposal = (await manager.Handle(new DrrApplicationsQuery { Id = fpId, BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault();
+            fullProposal.Id.ShouldBe(fpId);
+            fullProposal.EoiId.ShouldBe(eoiId);
+            fullProposal.HowWasNeedIdentified.ShouldBe(eoi.RationaleForSolution);
+
+            var fpToUpdate = FillInFullProposal(mapper.Map<DraftFpApplication>(fullProposal));
+            await manager.Handle(new FpSaveApplicationCommand { application = mapper.Map<FpApplication>(fpToUpdate), UserInfo = GetTestUserInfo() });
+
+            var updatedFp = (await manager.Handle(new DrrApplicationsQuery { Id = fpId, BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault();
+            updatedFp.RegionalProject.ShouldBe(true);
+            updatedFp.IsInfrastructureImpacted.ShouldBe(true);
+            updatedFp.EstimatedPeopleImpactedFP.ShouldBe(EMCR.DRR.Managers.Intake.EstimatedNumberOfPeopleFP.FiveHundredToOneK);
+            updatedFp.Standards.ShouldContain(s => s.Category == "Other");
+            updatedFp.Standards.Single(s => s.Category == "Other").IsCategorySelected.ShouldBe(true);
+            updatedFp.Professionals.ShouldContain(p => p.Name == "professional1");
+            updatedFp.LocalGovernmentAuthorizedByPartners.ShouldBe(EMCR.DRR.Managers.Intake.YesNoOption.NotApplicable);
+            ((int)updatedFp.OperationAndMaintenance).ShouldBe((int)fpToUpdate.OperationAndMaintenance);
+            updatedFp.ClimateAssessmentTools.ShouldNotBeEmpty();
+            updatedFp.ClimateAssessmentComments.ShouldBe("climate assessment comments");
+            updatedFp.IncreasedOrTransferred.ShouldNotBeEmpty();
+            updatedFp.IntendToSecureFunding.ShouldBe(fpToUpdate.IntendToSecureFunding);
+
+            var fpToUpdate2 = ClearFullProposal(mapper.Map<DraftFpApplication>(updatedFp));
+            await manager.Handle(new FpSaveApplicationCommand { application = mapper.Map<FpApplication>(fpToUpdate2), UserInfo = GetTestUserInfo() });
+
+            var twiceUpdatedFp = (await manager.Handle(new DrrApplicationsQuery { Id = fpId, BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault();
+
+            var ret = mapper.Map<DraftFpApplication>(twiceUpdatedFp);
+            ret.Area.ShouldBeNull();
+            ret.StartDate.ShouldBeNull();
+            ret.EndDate.ShouldBeNull();
+            ret.Standards.ShouldAllBe(s => s.Standards.Count() == 0);
+            ret.RelatedHazards.ShouldBeEmpty();
+            ret.Professionals.ShouldBeEmpty();
+            ret.ClimateAssessmentTools.ShouldBeEmpty();
+            ret.ClimateAssessmentComments.ShouldBeNull();
+            ret.IncreasedOrTransferred.ShouldBeEmpty();
+            ret.IntendToSecureFunding.ShouldBeNull();
+            ret.PreviousResponseCost.ShouldBeNull();
+            ret.PreviousResponseComments.ShouldBeNull();
+        }
+
+        [Test]
         public async Task UpdateFP_ListsUpdateCorrectly()
         {
             var eoi = mapper.Map<EoiApplication>(CreateNewTestEOIApplication());
@@ -852,6 +909,111 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             application.CostConsiderationsApplied = true;
             application.CostConsiderations = new[] { "cost consideration 1", "cost consideration 2" };
             application.CostConsiderationsComments = "cost consideration comments";
+
+            return application;
+        }
+
+        private DraftFpApplication ClearFullProposal(DraftFpApplication application)
+        {
+            //Proponent & Project Information - 1
+            application.RegionalProject = null;
+            application.RegionalProjectComments = string.Empty;
+            application.MainDeliverable = string.Empty;
+
+            //Ownership & Authorization - 2
+            application.HaveAuthorityToDevelop = null;
+            application.OperationAndMaintenance = null;
+            application.OperationAndMaintenanceComments = string.Empty;
+            application.FirstNationsAuthorizedByPartners = null;
+            application.LocalGovernmentAuthorizedByPartners = null;
+            application.AuthorizationOrEndorsementComments = string.Empty;
+
+            //Project Area - 3
+            application.Area = null;
+            application.Units = null;
+            application.RelatedHazards = Array.Empty<EMCR.DRR.Controllers.Hazards>();
+            application.AreaDescription = string.Empty;
+            application.IsInfrastructureImpacted = null;
+            application.EstimatedPeopleImpactedFP = null;
+            application.InfrastructureImpacted = Array.Empty<InfrastructureImpacted>();
+
+            //Project Plan - 4
+            application.StartDate = null;
+            application.EndDate = null;
+            application.ProposedActivities = Array.Empty<EMCR.DRR.Controllers.ProposedActivity>();
+            application.FoundationalOrPreviousWorks = Array.Empty<string>();
+            application.HowWasNeedIdentified = string.Empty;
+            application.ProjectAlternateOptions = string.Empty;
+
+            //Project Engagement - 5
+            application.EngagedWithFirstNationsComments = string.Empty;
+            application.OtherEngagement = null;
+            application.AffectedParties = Array.Empty<string>();
+            application.OtherEngagementComments = string.Empty;
+            application.CollaborationComments = string.Empty;
+
+            //Climate Adaptation - 6
+            application.IncorporateFutureClimateConditions = null;
+            application.ClimateAssessment = null;
+            application.ClimateAssessmentTools = Array.Empty<string>();
+            application.ClimateAssessmentComments = string.Empty;
+
+            //Permits Regulations & Standards - 7
+            application.StandardsAcceptable = null;
+            application.Standards = Array.Empty<EMCR.DRR.Controllers.StandardInfo>();
+            application.StandardsComments = string.Empty;
+            application.ProfessionalGuidance = null;
+            application.Professionals = Array.Empty<string>();
+            application.ProfessionalGuidanceComments = string.Empty;
+            application.MeetsRegulatoryRequirements = null;
+            application.MeetsRegulatoryComments = string.Empty;
+            application.MeetsEligibilityRequirements = null;
+            application.MeetsEligibilityComments = string.Empty;
+
+            //Project Outcomes - 8
+            application.PublicBenefit = null;
+            application.PublicBenefitComments = string.Empty;
+            application.FutureCostReduction = null;
+            application.CostReductions = Array.Empty<string>();
+            application.CostReductionComments = string.Empty;
+            application.ProduceCoBenefits = null;
+            application.CoBenefits = Array.Empty<string>();
+            application.CoBenefitComments = string.Empty;
+            application.IncreasedResiliency = Array.Empty<string>();
+            application.IncreasedResiliencyComments = string.Empty;
+
+            //Project Risks - 9
+            application.ComplexityRiskMitigated = null;
+            application.ComplexityRisks = Array.Empty<string>();
+            application.ComplexityRiskComments = string.Empty;
+            application.ReadinessRiskMitigated = null;
+            application.ReadinessRisks = Array.Empty<string>();
+            application.ReadinessRiskComments = string.Empty;
+            application.SensitivityRiskMitigated = null;
+            application.SensitivityRisks = Array.Empty<string>();
+            application.SensitivityRiskComments = string.Empty;
+            application.CapacityRiskMitigated = null;
+            application.CapacityRisks = Array.Empty<string>();
+            application.CapacityRiskComments = string.Empty;
+            application.RiskTransferMigigated = null;
+            application.IncreasedOrTransferred = Array.Empty<EMCR.DRR.Controllers.IncreasedOrTransferred>();
+            application.IncreasedOrTransferredComments = string.Empty;
+
+            //Budget - 10
+            application.TotalProjectCost = null;
+            application.YearOverYearFunding = Array.Empty<EMCR.DRR.Controllers.YearOverYearFunding>();
+            //application.TotalDrifFundingRequest = 5000;
+            //application.RemainingAmount = 4300;
+            application.DiscrepancyComment = string.Empty;
+            //application.CostEffective = false;
+            application.IntendToSecureFunding = string.Empty;
+            application.CostEffectiveComments = string.Empty;
+            application.PreviousResponse = null;
+            application.PreviousResponseCost = null;
+            application.PreviousResponseComments = string.Empty;
+            application.CostConsiderationsApplied = true;
+            application.CostConsiderations = Array.Empty<string>();
+            application.CostConsiderationsComments = string.Empty;
 
             return application;
         }
