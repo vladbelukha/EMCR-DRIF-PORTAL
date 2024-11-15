@@ -26,6 +26,7 @@
     ></drr-radio-button>
     <drr-chip-autocomplete
       [label]="t('affectedParties')"
+      [placeholder]="t('autocompletePlaceholder')"
       [rxFormControl]="projectEngagementForm.get('affectedParties')"
       [options]="affectedParties"
     ></drr-chip-autocomplete>

@@ -8,7 +8,7 @@
     <drr-chip-autocomplete
       *ngIf="projectRisksForm.get('complexityRiskMitigated')?.value === true"
       [label]="t('complexityRisks')"
-      [placeholder]="t('complexityRisksPlaceholder')"
+      [placeholder]="t('autocompletePlaceholder')"
       [options]="complexityRiskOptions"
       [rxFormControl]="projectRisksForm.get('complexityRisks')"
     ></drr-chip-autocomplete>
@@ -27,7 +27,7 @@
     <drr-chip-autocomplete
       *ngIf="projectRisksForm.get('readinessRiskMitigated')?.value === true"
       [label]="t('readinessRisks')"
-      [placeholder]="t('readinessRisksPlaceholder')"
+      [placeholder]="t('autocompletePlaceholder')"
       [options]="readinessRiskOptions"
       [rxFormControl]="projectRisksForm.get('readinessRisks')"
     ></drr-chip-autocomplete>
@@ -46,7 +46,7 @@
     <drr-chip-autocomplete
       *ngIf="projectRisksForm.get('sensitivityRiskMitigated')?.value === true"
       [label]="t('sensitivityRisks')"
-      [placeholder]="t('sensitivityRisksPlaceholder')"
+      [placeholder]="t('autocompletePlaceholder')"
       [options]="sensitivityRiskOptions"
       [rxFormControl]="projectRisksForm.get('sensitivityRisks')"
     ></drr-chip-autocomplete>
@@ -65,7 +65,7 @@
     <drr-chip-autocomplete
       *ngIf="projectRisksForm.get('capacityRiskMitigated')?.value === true"
       [label]="t('capacityRisks')"
-      [placeholder]="t('capacityRisksPlaceholder')"
+      [placeholder]="t('autocompletePlaceholder')"
       [options]="capacityRiskOptions"
       [rxFormControl]="projectRisksForm.get('capacityRisks')"
     ></drr-chip-autocomplete>

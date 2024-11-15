@@ -27,7 +27,7 @@
 
         <drr-chip-autocomplete
           [label]="control.value.category + ' standards'"
-          [placeholder]="t('standardsPlaceholder')"
+          [placeholder]="t('autocompletePlaceholder')"
           [options]="getStandardsOptions(control.value.category)"
           [rxFormControl]="control.get('standards')"
         ></drr-chip-autocomplete>
@@ -52,8 +52,12 @@
     ></drr-radio-button>
 
     <drr-chip-autocomplete
+      *ngIf="
+        permitsRegulationsAndStandardsForm.get('professionalGuidance')
+          ?.value === true
+      "
       [label]="t('professionals')"
-      [placeholder]="t('professionalsPlaceholder')"
+      [placeholder]="t('autocompletePlaceholder')"
       [options]="professionalOptions"
       [rxFormControl]="permitsRegulationsAndStandardsForm.get('professionals')"
     ></drr-chip-autocomplete>

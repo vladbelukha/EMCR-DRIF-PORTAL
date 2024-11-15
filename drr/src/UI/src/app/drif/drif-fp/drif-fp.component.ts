@@ -445,6 +445,13 @@ export class DrifFpComponent {
   }
 
   initStep6(response: DraftFpApplication) {
+    if (response.incorporateFutureClimateConditions === true) {
+      this.fullProposalForm
+        .get('climateAdaptation')
+        ?.get('climateAdaptation')
+        ?.addValidators(Validators.required);
+    }
+
     if (response.climateAssessment === true) {
       this.fullProposalForm
         .get('climateAdaptation')
