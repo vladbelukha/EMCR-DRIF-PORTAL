@@ -19,7 +19,7 @@
     @if (projectOutcomesForm.get('futureCostReduction')?.value === true) {
     <drr-chip-autocomplete
       [label]="t('costReductions')"
-      [placeholder]="t('costReductionsPlaceholder')"
+      [placeholder]="t('autocompletePlaceholder')"
       [options]="costReductionOptions"
       [rxFormControl]="projectOutcomesForm.get('costReductions')"
     ></drr-chip-autocomplete>
@@ -38,7 +38,7 @@
     @if (projectOutcomesForm.get('produceCoBenefits')?.value === true) {
     <drr-chip-autocomplete
       [label]="t('coBenefits')"
-      [placeholder]="t('coBenefitsPlaceholder')"
+      [placeholder]="t('autocompletePlaceholder')"
       [options]="coBenefitsOptions"
       [rxFormControl]="projectOutcomesForm.get('coBenefits')"
     ></drr-chip-autocomplete>
@@ -52,7 +52,7 @@
     <mat-label class="drr-label">{{ t("resiliency") }}</mat-label>
     <drr-chip-autocomplete
       [label]="t('increasedResiliency')"
-      [placeholder]="t('increasedResiliencyPlaceholder')"
+      [placeholder]="t('autocompletePlaceholder')"
       [options]="resiliencyOptions"
       [rxFormControl]="projectOutcomesForm.get('increasedResiliency')"
     ></drr-chip-autocomplete>

@@ -183,6 +183,7 @@
     <drr-chip-autocomplete
       *ngIf="budgetForm.get('costConsiderationsApplied')?.value === true"
       [label]="t('costConsiderationsQuestions')"
+      [placeholder]="t('autocompletePlaceholder')"
       [rxFormControl]="budgetForm.get('costConsiderations')"
       [options]="costConsiderationsOptions"
     ></drr-chip-autocomplete>

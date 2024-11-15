@@ -23,6 +23,7 @@
     <drr-chip-autocomplete
       *ngIf="climateAdaptationForm.get('climateAssessment')?.value === true"
       [label]="t('climateAssessmentToolsText')"
+      [placeholder]="t('autocompletePlaceholder')"
       [rxFormControl]="climateAdaptationForm.get('climateAssessmentTools')"
       [options]="climateAssessmentToolOptions"
     ></drr-chip-autocomplete>
