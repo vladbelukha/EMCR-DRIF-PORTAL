@@ -52,6 +52,10 @@
     ></drr-radio-button>
 
     <drr-chip-autocomplete
+      *ngIf="
+        permitsRegulationsAndStandardsForm.get('professionalGuidance')
+          ?.value === true
+      "
       [label]="t('professionals')"
       [placeholder]="t('autocompletePlaceholder')"
       [options]="professionalOptions"
