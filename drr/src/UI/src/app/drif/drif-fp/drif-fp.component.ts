@@ -26,6 +26,7 @@ import {
   IFormGroup,
   RxFormBuilder,
   RxFormGroup,
+  RxwebValidators,
 } from '@rxweb/reactive-form-validators';
 import { DrifFpStep1Component } from './drif-fp-step-1/drif-fp-step-1.component';
 
@@ -505,6 +506,14 @@ export class DrifFpComponent {
 
       standardsFormArray?.push(standardInfoForm, { emitEvent: false });
     });
+
+    if (response.standardsAcceptable === 'Yes') {
+      const standardsValidControl = this.fullProposalForm.get(
+        'permitsRegulationsAndStandards.standardsValid'
+      );
+      standardsValidControl?.addValidators(RxwebValidators.requiredTrue());
+      standardsValidControl?.updateValueAndValidity();
+    }
 
     if (response.professionalGuidance === true) {
       this.fullProposalForm

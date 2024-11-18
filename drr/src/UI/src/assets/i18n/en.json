@@ -307,6 +307,7 @@
   "professionalGuidanceComments": "Please provide context below",
   "standardsAcceptable": "Acceptable Provincial Standards",
   "standardsAcceptableQuestion": "Will the project be completed to acceptable provincial guidelines and standards? This may include guidelines, standards, and assessments related to various factors, such as archeology, the environment, finances, and so on.",
+  "standardsAcceptableError": "Please select at least one category",
   "standardsAcceptableHint": "If applicable, select the categories and types of provincial guidelines and standard that apply",
   "standards": "List Provincial Standards relevant to the Project",
   "standardsComments": "Please provide context below",
