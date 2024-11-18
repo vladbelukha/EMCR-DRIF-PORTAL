@@ -4,7 +4,7 @@ metadata:
   name: {{ .Values.env }}-drr-landing
   labels:
     app: {{ .Values.env }}-{{ .Values.app }}
-    role: {{ .Values.role }}
+    role: {{ .Values.landingRole }}
     env: {{ .Values.env }}
     app.kubernetes.io/part-of: {{ .Values.env }}
 spec:
@@ -16,3 +16,22 @@ spec:
       name: 2015-tcp
   selector:
     name: {{ .Values.env }}-drr-landing
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.env }}-drr-maintenance
+  labels:
+    app: {{ .Values.env }}-{{ .Values.app }}
+    role: {{ .Values.maintenanceRole }}
+    env: {{ .Values.env }}
+    app.kubernetes.io/part-of: {{ .Values.env }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: {{ .Values.service.targetPort }}
+      protocol: TCP
+      name: 2015-tcp
+  selector:
+    name: {{ .Values.env }}-drr-maintenance
