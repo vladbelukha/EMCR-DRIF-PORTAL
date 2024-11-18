@@ -4,7 +4,7 @@
 kind: Route
 apiVersion: route.openshift.io/v1
 metadata:
-  name: {{ $.name }}-{{ $host.host }}-route
+  name: {{ $host.name }}-route
   labels: {{ $.labels | nindent 4 }}
   annotations:
     haproxy.router.openshift.io/hsts_header: max-age=31536000;includeSubDomains;preload
