@@ -7,7 +7,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
-import { MatListModule } from '@angular/material/list';
 import { TranslocoModule } from '@ngneat/transloco';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { IFormGroup } from '@rxweb/reactive-form-validators';
@@ -15,6 +14,10 @@ import { distinctUntilChanged } from 'rxjs';
 import { IncreasedOrTransferred } from '../../../../model';
 import { DrrChipAutocompleteComponent } from '../../../shared/controls/drr-chip-autocomplete/drr-chip-autocomplete.component';
 import { DrrRadioButtonComponent } from '../../../shared/controls/drr-radio-button/drr-radio-button.component';
+import {
+  DrrSelectComponent,
+  DrrSelectOption,
+} from '../../../shared/controls/drr-select/drr-select.component';
 import { DrrTextareaComponent } from '../../../shared/controls/drr-textarea/drr-textarea.component';
 import { OptionsStore } from '../../../store/options.store';
 import { ProjectRisksForm } from '../drif-fp-form';
@@ -32,7 +35,7 @@ import { ProjectRisksForm } from '../drif-fp-form';
     DrrRadioButtonComponent,
     FormsModule,
     ReactiveFormsModule,
-    MatListModule,
+    DrrSelectComponent,
   ],
   templateUrl: './drif-fp-step-9.component.html',
   styleUrl: './drif-fp-step-9.component.scss',
@@ -47,7 +50,16 @@ export class DrifFpStep9Component {
   readinessRiskOptions = this.optionsStore.readinessRisks?.();
   sensitivityRiskOptions = this.optionsStore.sensitivityRisks?.();
   capacityRiskOptions = this.optionsStore.capacityRisks?.();
-  increasedOrTransferredOptions = Object.values(IncreasedOrTransferred);
+  increasedOrTransferredOptions: DrrSelectOption[] = [
+    {
+      value: IncreasedOrTransferred.Increased,
+      label: IncreasedOrTransferred.Increased,
+    },
+    {
+      value: IncreasedOrTransferred.Transferred,
+      label: IncreasedOrTransferred.Transferred,
+    },
+  ];
 
   ngOnInit() {
     this.projectRisksForm
@@ -144,28 +156,22 @@ export class DrifFpStep9Component {
         const increasedOrTransferredControl = this.projectRisksForm.get(
           'increasedOrTransferred'
         );
-        const transferRiskCommentsControl = this.projectRisksForm.get(
-          'transferRiskComments'
-        );
         const increasedOrTransferredCommentsControl = this.projectRisksForm.get(
           'increasedOrTransferredComments'
         );
         if (value === false) {
           increasedOrTransferredControl?.reset();
           increasedOrTransferredControl?.clearValidators();
-          transferRiskCommentsControl?.reset();
-          transferRiskCommentsControl?.clearValidators();
           increasedOrTransferredCommentsControl?.reset();
           increasedOrTransferredCommentsControl?.clearValidators();
         } else {
           increasedOrTransferredControl?.addValidators(Validators.required);
-          transferRiskCommentsControl?.addValidators(Validators.required);
           increasedOrTransferredCommentsControl?.addValidators(
             Validators.required
           );
         }
         increasedOrTransferredControl?.updateValueAndValidity();
-        transferRiskCommentsControl?.updateValueAndValidity();
+        increasedOrTransferredCommentsControl?.updateValueAndValidity();
       });
   }
 

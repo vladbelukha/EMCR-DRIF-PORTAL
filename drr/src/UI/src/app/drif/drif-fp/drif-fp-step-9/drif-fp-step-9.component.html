@@ -81,21 +81,16 @@
       [label]="t('riskTransferMigigated')"
       [rxFormControl]="projectRisksForm.get('riskTransferMigigated')"
     ></drr-radio-button>
-    <mat-label
-      *ngIf="projectRisksForm.get('riskTransferMigigated')?.value === true"
-      >{{ t("increasedOrTransferred") }}</mat-label
-    >
-    <mat-selection-list
+
+    <drr-select
       *ngIf="projectRisksForm.get('riskTransferMigigated')?.value === true"
       class="drr-single-input"
-      [formControl]="getFormControl('increasedOrTransferred')"
-    >
-      @for (option of increasedOrTransferredOptions; track $index) {
-      <mat-list-option [value]="option" togglePosition="before">{{
-        t(option)
-      }}</mat-list-option>
-      }
-    </mat-selection-list>
+      [label]="t('increasedOrTransferred')"
+      [rxFormControl]="projectRisksForm.get('increasedOrTransferred')"
+      [options]="increasedOrTransferredOptions"
+      [isMultiple]="true"
+    ></drr-select>
+
     <drr-textarea
       *ngIf="projectRisksForm.get('riskTransferMigigated')?.value === true"
       [label]="t('increasedOrTransferredComments')"
