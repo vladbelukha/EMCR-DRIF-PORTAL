@@ -76,6 +76,11 @@ export class DrifFpStep11Component {
 
           if (resolutionForm && resolutionForm.value.id) {
             this.removeFile(resolutionForm.value.id);
+          } else {
+            const resolutionIndex = attachmentsFormArray.controls.findIndex(
+              (c) => c.value.documentType === DocumentType.Resolution
+            );
+            attachmentsFormArray.removeAt(resolutionIndex);
           }
         }
       });
@@ -177,13 +182,15 @@ export class DrifFpStep11Component {
             (control) => control.value.id === fileId
           );
 
+          const documentType = attachmentsArray.controls[fileIndex].value
+            .documentType as DocumentType;
+
           attachmentsArray.removeAt(fileIndex);
 
           // if it's a mandatory document add empty form again to enforce validation
-          const documentType = attachmentsArray.controls[fileIndex].value
-            .documentType as DocumentType;
           if (
-            documentType === DocumentType.Resolution ||
+            (documentType === DocumentType.Resolution &&
+              this.attachmentsForm.get('haveResolution')?.value === true) ||
             documentType === DocumentType.DetailedProjectWorkplan ||
             documentType === DocumentType.DetailedCostEstimate
           ) {
