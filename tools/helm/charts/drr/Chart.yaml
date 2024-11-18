@@ -1,0 +1,6 @@
+apiVersion: v2
+name: DRR
+description: A Helm chart for DRR
+type: application
+version: 1.0.1
+appVersion: "1.1.0"

@@ -4,15 +4,18 @@
 
 app: drr
 env: dev
-role: landing
+landingRole: landing
+maintenanceRole: maintenance
 service:
   type: ClusterIP
   port: 2015
   targetPort: 2015
 landingHostTmp: drr-landing.apps.silver.devops.bcgov
+maintenanceHostTmp: drr-maintenance.apps.silver.devops.bcgov
 replicas: 1
 cpuLimit: 50m
 memoryLimit: 256Mi
 cpuRequest: 25m
 memoryRequest: 128Mi
-imageRepository: image-registry.openshift-image-registry.svc:5000/f0d514-tools/drr-landing-page
+landingImageRepository: image-registry.openshift-image-registry.svc:5000/f0d514-tools/drr-landing-page
+maintenanceImageRepository: image-registry.openshift-image-registry.svc:5000/f0d514-tools/drr-maintenance-page

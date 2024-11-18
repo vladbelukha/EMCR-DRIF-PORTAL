@@ -25,9 +25,9 @@ import {
   StringItem,
 } from '../drif-eoi/drif-eoi-form';
 
-// TODO: temp before API provides the correct structure
 export class AttachmentForm implements Attachment {
   @prop()
+  @required()
   id?: string;
 
   @prop()
@@ -171,6 +171,11 @@ export class PermitsRegulationsAndStandardsForm {
 
   @propArray(StandardInfoForm)
   standards?: StandardInfoForm[] = [];
+
+  // not used by form directly, but used to determine if the form is valid
+  // as there's not way to validate the array of standards selection and make form invalid
+  @prop()
+  standardsValid?: boolean | undefined;
 
   @prop()
   standardsComments?: string;

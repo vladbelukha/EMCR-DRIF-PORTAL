@@ -49,7 +49,8 @@
     "name": "File name",
     "comments": "Comments",
     "download": "Download",
-    "delete": "Delete"
+    "delete": "Delete",
+    "required": "This attachment is required"
   },
   "fpOwnership": "Land Ownership",
   "fpOwnershipQuestion": "Will the project will be in BC on land that the proponent has legal access to either through ownership, right of way, or other at the time the Shared Cost Agreement is signed?",
@@ -307,6 +308,7 @@
   "professionalGuidanceComments": "Please provide context below",
   "standardsAcceptable": "Acceptable Provincial Standards",
   "standardsAcceptableQuestion": "Will the project be completed to acceptable provincial guidelines and standards? This may include guidelines, standards, and assessments related to various factors, such as archeology, the environment, finances, and so on.",
+  "standardsAcceptableError": "Please select at least one category",
   "standardsAcceptableHint": "If applicable, select the categories and types of provincial guidelines and standard that apply",
   "standards": "List Provincial Standards relevant to the Project",
   "standardsComments": "Please provide context below",

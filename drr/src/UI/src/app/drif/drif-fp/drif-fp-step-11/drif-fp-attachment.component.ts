@@ -29,9 +29,7 @@ export interface FileUploadEvent {
     @if (attachmentForm?.get('id')?.value) {
     <div class="attachment">
       <div class="attachment__label">
-        <mat-label [class.required]="isRequired()">{{
-          label ?? attachmentForm?.get('name')?.value
-        }}</mat-label>
+        <mat-label>{{ label ?? attachmentForm?.get('name')?.value }}</mat-label>
         <div class="attachment__label__actions">
           <button mat-stroked-button color="primary" (click)="onDownloadFile()">
             {{ t('download') }}
@@ -50,6 +48,9 @@ export interface FileUploadEvent {
       </div>
     </div>
     } @else {
+    <mat-hint class="required" *ngIf="isRequired()">{{
+      t('required')
+    }}</mat-hint>
     <drr-file-upload
       (filesSelected)="onUploadFiles($event)"
       [multiple]="false"
