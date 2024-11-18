@@ -648,6 +648,9 @@ export class DrifFpComponent {
         break;
     }
 
+    previousResponseCost?.updateValueAndValidity();
+    previousResponseComments?.updateValueAndValidity();
+
     const costConsiderations = this.fullProposalForm.get(
       'budget.costConsiderations'
     );
@@ -662,6 +665,9 @@ export class DrifFpComponent {
       costConsiderations?.clearValidators();
       costConsiderationsComments?.clearValidators();
     }
+
+    costConsiderations?.updateValueAndValidity();
+    costConsiderationsComments?.updateValueAndValidity();
   }
 
   initStep11(response: DraftFpApplication) {
