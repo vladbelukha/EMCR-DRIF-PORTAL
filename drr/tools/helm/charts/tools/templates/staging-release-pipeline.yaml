@@ -1,0 +1,26 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: staging-release-pipeline
+
+spec:
+  params:
+    - name: sourceImageTag
+      description: 'Source Image Tag'
+      default: 'test-sup'  
+  tasks:
+    {{- range $key, $value := .Values.images }}
+    - name: staging-{{ $key }}
+      params:
+        - name: imageName
+          value: {{ $key }}
+        - name: fromTag
+          value: $(params.sourceImageTag)
+        - name: toTag
+          value: stage
+        - name: referencePolicy
+          value: source
+      taskRef:
+        kind: Task
+        name: promote-image-task
+    {{- end }}

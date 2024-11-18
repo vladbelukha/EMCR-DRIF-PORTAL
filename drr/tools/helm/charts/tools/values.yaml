@@ -1,0 +1,5 @@
+images:
+  drr-api:
+    image: drr-api
+  drr-ui:
+    image: drr-ui
