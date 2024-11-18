@@ -49,7 +49,8 @@
     "name": "File name",
     "comments": "Comments",
     "download": "Download",
-    "delete": "Delete"
+    "delete": "Delete",
+    "required": "This attachment is required"
   },
   "fpOwnership": "Land Ownership",
   "fpOwnershipQuestion": "Will the project will be in BC on land that the proponent has legal access to either through ownership, right of way, or other at the time the Shared Cost Agreement is signed?",

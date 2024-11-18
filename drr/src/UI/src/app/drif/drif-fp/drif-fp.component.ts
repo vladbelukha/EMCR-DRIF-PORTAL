@@ -684,6 +684,15 @@ export class DrifFpComponent {
       'attachments.attachments'
     ) as FormArray;
 
+    if (response.haveResolution === true) {
+      attachmentsArray?.push(
+        this.formBuilder.formGroup(
+          new AttachmentForm({ documentType: DocumentType.Resolution })
+        ),
+        { emitEvent: false }
+      );
+    }
+
     response.attachments?.forEach((attachment) => {
       if (attachment.documentType === DocumentType.DetailedProjectWorkplan) {
         attachmentsArray.controls
@@ -705,7 +714,14 @@ export class DrifFpComponent {
         return;
       }
 
-      // TODO: handle resolution doc ?
+      if (attachment.documentType === DocumentType.Resolution) {
+        attachmentsArray.controls
+          .find(
+            (control) => control.value.documentType === DocumentType.Resolution
+          )
+          ?.patchValue(attachment, { emitEvent: false });
+        return;
+      }
 
       attachmentsArray?.push(
         this.formBuilder.formGroup(new AttachmentForm(attachment)),

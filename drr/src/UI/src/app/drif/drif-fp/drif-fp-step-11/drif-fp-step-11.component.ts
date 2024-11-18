@@ -12,6 +12,7 @@ import {
   RxFormBuilder,
   RxFormGroup,
 } from '@rxweb/reactive-form-validators';
+import { distinctUntilChanged } from 'rxjs';
 import { AttachmentService } from '../../../../api/attachment/attachment.service';
 import { DocumentType } from '../../../../model';
 import { DrrFileUploadComponent } from '../../../shared/controls/drr-file-upload/drr-file-upload.component';
@@ -53,6 +54,32 @@ export class DrifFpStep11Component {
   @Input() attachmentsForm!: IFormGroup<AttachmentsForm>;
 
   @Input() applicationId!: string;
+
+  ngOnInit() {
+    this.attachmentsForm
+      .get('haveResolution')
+      ?.valueChanges.pipe(distinctUntilChanged())
+      .subscribe((value) => {
+        const attachmentsFormArray = this.attachmentsForm.get(
+          'attachments'
+        ) as FormArray;
+        if (value === true) {
+          attachmentsFormArray.push(
+            this.formBuilder.formGroup(AttachmentForm, {
+              documentType: DocumentType.Resolution,
+            })
+          );
+        } else {
+          const resolutionForm = attachmentsFormArray.controls.find(
+            (control) => control.value.documentType === DocumentType.Resolution
+          );
+
+          if (resolutionForm && resolutionForm.value.id) {
+            this.removeFile(resolutionForm.value.id);
+          }
+        }
+      });
+  }
 
   async uploadFiles(event: FileUploadEvent) {
     event.files.forEach(async (file) => {
@@ -151,6 +178,21 @@ export class DrifFpStep11Component {
           );
 
           attachmentsArray.removeAt(fileIndex);
+
+          // if it's a mandatory document add empty form again to enforce validation
+          const documentType = attachmentsArray.controls[fileIndex].value
+            .documentType as DocumentType;
+          if (
+            documentType === DocumentType.Resolution ||
+            documentType === DocumentType.DetailedProjectWorkplan ||
+            documentType === DocumentType.DetailedCostEstimate
+          ) {
+            attachmentsArray.push(
+              this.formBuilder.formGroup(AttachmentForm, {
+                documentType,
+              })
+            );
+          }
         },
         error: () => {
           // TODO: show error

@@ -25,9 +25,9 @@ import {
   StringItem,
 } from '../drif-eoi/drif-eoi-form';
 
-// TODO: temp before API provides the correct structure
 export class AttachmentForm implements Attachment {
   @prop()
+  @required()
   id?: string;
 
   @prop()
