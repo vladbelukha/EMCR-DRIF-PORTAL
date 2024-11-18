@@ -13,7 +13,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslocoModule } from '@ngneat/transloco';
 import { UntilDestroy } from '@ngneat/until-destroy';
-import { IFormGroup } from '@rxweb/reactive-form-validators';
+import { IFormGroup, RxwebValidators } from '@rxweb/reactive-form-validators';
 import { distinctUntilChanged } from 'rxjs';
 import { YesNoOption } from '../../../../model';
 import { DrrChipAutocompleteComponent } from '../../../shared/controls/drr-chip-autocomplete/drr-chip-autocomplete.component';
@@ -23,7 +23,10 @@ import {
 } from '../../../shared/controls/drr-radio-button/drr-radio-button.component';
 import { DrrTextareaComponent } from '../../../shared/controls/drr-textarea/drr-textarea.component';
 import { OptionsStore } from '../../../store/options.store';
-import { PermitsRegulationsAndStandardsForm } from '../drif-fp-form';
+import {
+  PermitsRegulationsAndStandardsForm,
+  StandardInfoForm,
+} from '../drif-fp-form';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -115,23 +118,69 @@ export class DrifFpStep7Component {
         meetsEligibilityCommentsControl?.updateValueAndValidity();
       });
 
+    const standardsValidControl =
+      this.permitsRegulationsAndStandardsForm.get('standardsValid');
+
     this.permitsRegulationsAndStandardsForm
       .get('standardsAcceptable')
       ?.valueChanges.pipe(distinctUntilChanged())
       .subscribe((value) => {
+        console.log('standardsAcceptable value changed');
         const standardsControl = this.permitsRegulationsAndStandardsForm.get(
           'standards'
         ) as FormArray;
-        if (value === YesNoOption.NotApplicable) {
-          standardsControl.controls.forEach((control) => {
-            control.get('standards')?.reset();
-            control.get('isCategorySelected')?.reset();
-          });
-          this.standardsVisible = false;
-        } else {
-          this.standardsVisible = true;
+
+        switch (value) {
+          case YesNoOption.Yes:
+            this.standardsVisible = true;
+            standardsValidControl?.addValidators(
+              RxwebValidators.requiredTrue()
+            );
+            break;
+          case YesNoOption.No:
+            this.standardsVisible = true;
+            standardsValidControl?.reset();
+            standardsValidControl?.clearValidators();
+            break;
+          case YesNoOption.NotApplicable:
+            standardsControl.controls.forEach((control) => {
+              control.get('standards')?.reset();
+              control.get('isCategorySelected')?.reset();
+            });
+            this.standardsVisible = false;
+            standardsValidControl?.reset();
+            standardsValidControl?.clearValidators();
+            break;
+
+          default:
+            break;
         }
+
+        standardsValidControl?.updateValueAndValidity();
       });
+
+    this.permitsRegulationsAndStandardsForm
+      .get('standards')
+      ?.valueChanges.pipe(distinctUntilChanged())
+      .subscribe((value) => {
+        console.log('standards array value changed');
+        const standardsValidControl =
+          this.permitsRegulationsAndStandardsForm.get('standardsValid');
+        const isStandardsValid = value.some(
+          (s: StandardInfoForm) => s.isCategorySelected
+        );
+
+        standardsValidControl?.patchValue(isStandardsValid);
+        standardsValidControl?.markAllAsTouched();
+      });
+  }
+
+  showStandardsRequiredTrueError() {
+    const standardsControl =
+      this.permitsRegulationsAndStandardsForm.get('standards');
+    const standardsValidControl =
+      this.permitsRegulationsAndStandardsForm.get('standardsValid');
+    return standardsControl?.touched && standardsValidControl?.errors;
   }
 
   getStandardsInfoArrayControls() {
