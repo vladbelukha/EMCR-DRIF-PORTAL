@@ -177,7 +177,7 @@ export class DrifEoiViewComponent {
     this.router.navigate([
       '/drif-fp-screener',
       this.id,
-      this.eoiApplicationForm?.value?.projectInformation?.fundingStream,
+      this.eoiApplicationForm?.value?.projectInformation?.projectTitle,
     ]);
   }
 
