@@ -252,3 +252,8 @@ h6 {
     width: 100%;
   }
 }
+
+.mdc-button:focus {
+  outline: 3px solid #003366;
+  outline-offset: 0.125rem;
+}
