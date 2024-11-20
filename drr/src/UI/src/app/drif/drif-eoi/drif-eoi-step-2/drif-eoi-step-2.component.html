@@ -62,8 +62,8 @@
         [id]="'endDate'"
         [label]="t('endDate')"
         [rxFormControl]="projectInformationForm.get('endDate')"
-        [min]="projectInformationForm.get('startDate')?.value"
-        [minErrorLabel]="t('minEndDateError')"
+        [min]="getNextDayAfterStartDate()"
+        [minErrorLabel]="t('minEndDateAfterError')"
       ></drr-datepicker>
     </div>
   </form>

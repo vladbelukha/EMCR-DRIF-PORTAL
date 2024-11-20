@@ -86,6 +86,16 @@ export class DrifEoiStep2Component {
       });
   }
 
+  getNextDayAfterStartDate() {
+    const startDate = this.projectInformationForm.get('startDate')?.value;
+    if (startDate) {
+      const nextDay = new Date(startDate);
+      nextDay.setDate(nextDay.getDate() + 1);
+      return nextDay;
+    }
+    return this.minStartDate;
+  }
+
   getFormArray(formArrayName: string) {
     return this.projectInformationForm.get(formArrayName) as FormArray;
   }
