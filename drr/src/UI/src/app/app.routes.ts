@@ -28,12 +28,12 @@ export const routes: Routes = [
     ],
   },
   {
-    path: 'drif-fp-screener/:eoiId/:fundingStream/:projectTitle',
+    path: 'drif-fp-screener/:eoiId/:projectTitle',
     component: DrifFpScreenerComponent,
     canActivate: [AuthenticationGuard],
   },
   {
-    path: 'drif-fp-instructions/:eoiId/:fundingStream/:projectTitle',
+    path: 'drif-fp-instructions/:eoiId/:projectTitle',
     component: DrifFpInstructionsComponent,
     canActivate: [AuthenticationGuard],
   },
