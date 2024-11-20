@@ -284,7 +284,7 @@
   "supportingDocumentationOptionalText": "Attach supporting documentation (optional)",
   "supportingDocumentationRequiredText": "Attach supporting documentation (required)",
   "dropFilesHere": "Drop files here or click to upload.",
-  "fileSizeLimit": "File size limit is 250MB.",
+  "fileSizeLimit": "File size limit is 50MB.",
   "attach": "Attach",
   "totalProjectCost": "Total Project Cost",
   "estimatedDrifFunding": "Estimated DRIF Program Funding Request (from EOI)",

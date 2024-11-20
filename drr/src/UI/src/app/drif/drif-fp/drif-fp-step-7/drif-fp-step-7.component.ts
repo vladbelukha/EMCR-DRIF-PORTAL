@@ -124,8 +124,7 @@ export class DrifFpStep7Component {
     this.permitsRegulationsAndStandardsForm
       .get('standardsAcceptable')
       ?.valueChanges.pipe(distinctUntilChanged())
-      .subscribe((value) => {
-        console.log('standardsAcceptable value changed');
+      .subscribe((value) => {        
         const standardsControl = this.permitsRegulationsAndStandardsForm.get(
           'standards'
         ) as FormArray;
@@ -163,7 +162,7 @@ export class DrifFpStep7Component {
       .get('standards')
       ?.valueChanges.pipe(distinctUntilChanged())
       .subscribe((value) => {
-        console.log('standards array value changed');
+        
         const standardsValidControl =
           this.permitsRegulationsAndStandardsForm.get('standardsValid');
         const isStandardsValid = value.some(
