@@ -134,14 +134,15 @@ namespace EMCR.DRR.Resources.Applications
         {
             var filterString = GetFilterXML(query);
             var orderString = GetOrderXML(query);
-            var orderByStatus = !string.IsNullOrEmpty(query.OrderBy) && query.OrderBy.Contains("statuscode");
+            var customOrder = !string.IsNullOrEmpty(query.OrderBy) && (query.OrderBy.Contains("statuscode") || query.OrderBy.Contains("drr_eligibleamount"));
 
             //If not order by status then perform paging in the query
-            var fetchString = orderByStatus ? "<fetch>" : $"<fetch count='{query.Count}' page='{query.Page}'>";
+            var fetchString = customOrder ? "<fetch>" : $"<fetch count='{query.Count}' page='{query.Page}'>";
             var fetchXML = @$"{fetchString}
                       <entity name='drr_application'>
                         <attribute name='drr_applicationid' />
                         <attribute name='drr_name' />
+                        <attribute name='drr_applicationtype' />
                         <attribute name='drr_applicationtypename' />
                         <attribute name='drr_programname' />
                         <attribute name='drr_fullproposalapplication' />
@@ -150,6 +151,7 @@ namespace EMCR.DRR.Resources.Applications
                         <attribute name='drr_eligibleamount' />
                         <attribute name='drr_totaldrifprogramfundingrequest' />
                         <attribute name='drr_eligibleamountfullproposal' />
+                        <attribute name='drr_estimateddriffundingprogramrequest' />
                         <attribute name='modifiedon' />
                         <attribute name='drr_submitteddate' />
                         <attribute name='drr_fundingstream' />
@@ -171,7 +173,7 @@ namespace EMCR.DRR.Resources.Applications
             //So sorting by CRM status gives the wrong order in portal
             //So in that case, we query the full results to a small performance penalty, then do a custom sort and skip/take ourselves
             //Hack workaround to save as much performance as we can when we can
-            if (!string.IsNullOrEmpty(query.OrderBy) && orderByStatus)
+            if (!string.IsNullOrEmpty(query.OrderBy) && customOrder)
             {
                 results = SortAndPageResults(results, query);
             }
@@ -1406,6 +1408,9 @@ namespace EMCR.DRR.Resources.Applications
             return orderString;
         }
 
+#pragma warning disable CS8603 // Possible null reference return.
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+#pragma warning disable CS8604 // Possible null reference argument.
         private static object GetPropertyValueForSort(object src, string propName)
         {
 
@@ -1421,16 +1426,45 @@ namespace EMCR.DRR.Resources.Applications
             else
             {
                 var prop = src.GetType().GetProperty(propName);
-#pragma warning disable CS8603 // Possible null reference return.
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-#pragma warning disable CS8604 // Possible null reference argument.
                 if (propName == "statuscode") return GetSortedStatuses(prop.GetValue(src, null).ToString());
-#pragma warning restore CS8604 // Possible null reference argument.
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
+                if (propName == "drr_eligibleamount") return GetSortedByFundingRequest((drr_application)src);
                 return prop != null ? prop.GetValue(src, null) : null;
-#pragma warning restore CS8603 // Possible null reference return.
             }
         }
+#pragma warning restore CS8604 // Possible null reference argument.
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
+#pragma warning restore CS8603 // Possible null reference return.
+
+#pragma warning disable CS8629 // Nullable value type may be null.
+        private static decimal GetSortedByFundingRequest(drr_application application)
+        {
+            var EOI_ID = Guid.Parse("8b1250bc-84fe-ee11-b84b-00505683fbf4");
+            var FP_ID = Guid.Parse("7b592f56-7c4f-ef11-b851-00505683fbf4");
+            var applicationType = application._drr_applicationtype_value;
+            decimal ret = 0;
+            if (applicationType == EOI_ID)
+            {
+                ret = application.statuscode == (int)ApplicationStatusOptionSet.Submitted ?
+                    application.drr_eligibleamount.HasValue ? (decimal)application.drr_eligibleamount : -1 :
+                    application.drr_estimateddriffundingprogramrequest.HasValue ?
+                    (decimal)application.drr_estimateddriffundingprogramrequest : -1;
+            }
+            else if (applicationType == FP_ID)
+            {
+                ret = application.statuscode == (int)ApplicationStatusOptionSet.FPSubmitted ?
+                    application.drr_eligibleamountfullproposal.HasValue ? (decimal)application.drr_eligibleamountfullproposal : -1 :
+                    application.drr_totaldrifprogramfundingrequest.HasValue ?
+                    (decimal)application.drr_totaldrifprogramfundingrequest : -1;
+            }
+            else
+            {
+                //SHOULD NEVER HAPPEN
+                ret = -1;
+            }
+            return ret;
+        }
+#pragma warning restore CS8629 // Nullable value type may be null.
+
 
         //return value is ordered alphabetically for what SubmissionPortalStatus will be 
         private static int GetSortedStatuses(string status)

@@ -43,7 +43,6 @@ namespace EMCR.DRR.Controllers
             this.errorParser = new ErrorParser();
         }
 
-
         [HttpGet]
         public async Task<ActionResult<SubmissionResponse>> Get([FromQuery] QueryOptions? options)
         {
@@ -439,7 +438,8 @@ namespace EMCR.DRR.Controllers
 
     public class FpApplication : DraftFpApplication
     {
-
+        public bool? AuthorizedRepresentativeStatement { get; set; }
+        public bool? InformationAccuracyStatement { get; set; }
     }
 
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.

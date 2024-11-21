@@ -78,28 +78,35 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
         [Test]
         public async Task CanSubmitFPApplication()
         {
+            var userInfo = GetTestUserInfo();
+            //var userInfo = GetCRAFTUserInfo();
+
             var eoi = mapper.Map<EoiApplication>(CreateNewTestEOIApplication());
             eoi.Status = SubmissionPortalStatus.EligibleInvited;
             eoi.AuthorizedRepresentativeStatement = true;
             eoi.FOIPPAConfirmation = true;
             eoi.InformationAccuracyStatement = true;
 
-            var eoiId = await manager.Handle(new EoiSubmitApplicationCommand { application = eoi, UserInfo = GetTestUserInfo() });
+            var eoiId = await manager.Handle(new EoiSubmitApplicationCommand { application = eoi, UserInfo = userInfo });
             eoiId.ShouldNotBeEmpty();
 
-            var fpId = await manager.Handle(new CreateFpFromEoiCommand { EoiId = eoiId, UserInfo = GetTestUserInfo(), ScreenerQuestions = CreateScreenerQuestions() });
+            var fpId = await manager.Handle(new CreateFpFromEoiCommand { EoiId = eoiId, UserInfo = userInfo, ScreenerQuestions = CreateScreenerQuestions() });
             fpId.ShouldNotBeEmpty();
 
-            var fullProposal = (await manager.Handle(new DrrApplicationsQuery { Id = fpId, BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault();
+            var fullProposal = (await manager.Handle(new DrrApplicationsQuery { Id = fpId, BusinessId = userInfo.BusinessId })).Items.SingleOrDefault();
             fullProposal.Id.ShouldBe(fpId);
             fullProposal.EoiId.ShouldBe(eoiId);
 
-            var fpToUpdate = FillInFullProposal(mapper.Map<DraftFpApplication>(fullProposal));
-            fpToUpdate.Submitter = eoi.Submitter;
-            await manager.Handle(new FpSubmitApplicationCommand { application = mapper.Map<FpApplication>(fpToUpdate), UserInfo = GetTestUserInfo() });
+            var fpToSubmit = mapper.Map<FpApplication>(FillInFullProposal(mapper.Map<DraftFpApplication>(fullProposal)));
+            fpToSubmit.Submitter = eoi.Submitter;
+            fpToSubmit.AuthorizedRepresentativeStatement = true;
+            fpToSubmit.InformationAccuracyStatement = true;
+            await manager.Handle(new FpSubmitApplicationCommand { application = fpToSubmit, UserInfo = userInfo });
 
-            var updatedFp = (await manager.Handle(new DrrApplicationsQuery { Id = fpId, BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault();
-            updatedFp.Status.ShouldBe(ApplicationStatus.Submitted);
+            var submittedFP = (await manager.Handle(new DrrApplicationsQuery { Id = fpId, BusinessId = userInfo.BusinessId })).Items.SingleOrDefault();
+            submittedFP.Status.ShouldBe(ApplicationStatus.Submitted);
+            submittedFP.AuthorizedRepresentativeStatement.ShouldBe(true);
+            submittedFP.InformationAccuracyStatement.ShouldBe(true);
         }
 
         [Test]
@@ -129,7 +136,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
         [Test]
         public async Task QueryApplications_CanSortResults()
         {
-            var queryOptions = new QueryOptions { OrderBy = "status desc" };
+            var queryOptions = new QueryOptions { OrderBy = "fundingrequest desc" };
             var queryRes = await manager.Handle(new DrrApplicationsQuery { BusinessId = GetTestUserInfo().BusinessId, QueryOptions = queryOptions });
             var applications = queryRes.Items;
             var submissions = mapper.Map<IEnumerable<Submission>>(applications);
@@ -773,8 +780,8 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
                 IntendToSecureFunding = "Funding Reasons",
 
                 //Location Information - 4
-                OwnershipDeclaration = true,
-                OwnershipDescription = "owned",
+                OwnershipDeclaration = false,
+                OwnershipDescription = "ownership description",
                 LocationDescription = "location description",
 
                 //Project Detail - 5
@@ -895,10 +902,11 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             application.IncreasedOrTransferredComments = "transfer comments";
 
             //Budget - 10
-            application.TotalProjectCost = 5000;
-            application.YearOverYearFunding = new[] { new EMCR.DRR.Controllers.YearOverYearFunding { Amount = 4400, Year = "2024/2025" } };
-            //application.TotalDrifFundingRequest = 5000;
-            //application.RemainingAmount = 4300;
+            application.TotalProjectCost = 1000;
+            application.YearOverYearFunding = new[] { new EMCR.DRR.Controllers.YearOverYearFunding { Amount = 400, Year = "2024/2025" } };
+            application.EligibleFundingRequest = 400;
+            application.TotalDrifFundingRequest = 400;
+            application.RemainingAmount = 0;
             application.DiscrepancyComment = "discrepancy comment";
             //application.CostEffective = false;
             application.IntendToSecureFunding = "intend to secure funding";
@@ -906,7 +914,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             application.PreviousResponse = EMCR.DRR.Controllers.YesNoOption.No;
             application.PreviousResponseCost = 1200;
             application.PreviousResponseComments = "previous response comments";
-            application.CostConsiderationsApplied = true;
+            application.CostConsiderationsApplied = false;
             application.CostConsiderations = new[] { "cost consideration 1", "cost consideration 2" };
             application.CostConsiderationsComments = "cost consideration comments";
 
