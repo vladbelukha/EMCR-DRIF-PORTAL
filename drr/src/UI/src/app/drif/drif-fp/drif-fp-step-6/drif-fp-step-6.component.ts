@@ -52,6 +52,7 @@ export class DrifFpStep6Component {
           this.climateAdaptationForm
             .get('climateAdaptation')
             ?.clearValidators();
+          this.climateAdaptationForm.get('climateAdaptation')?.reset();
         }
         this.climateAdaptationForm
           .get('climateAdaptation')

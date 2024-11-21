@@ -9,6 +9,10 @@
     ></drr-radio-button>
 
     <drr-textarea
+      *ngIf="
+        climateAdaptationForm.get('incorporateFutureClimateConditions')
+          ?.value === true
+      "
       [id]="'climateAdaptation'"
       [label]="t('climateAdaptationText')"
       [rxFormControl]="climateAdaptationForm.get('climateAdaptation')"
