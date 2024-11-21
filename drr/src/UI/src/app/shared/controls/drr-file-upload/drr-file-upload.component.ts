@@ -52,31 +52,37 @@ export class DrrFileUploadComponent {
   ];
   allowedExtensionsString = this.allowedExtensions.join(', ');
 
-  filesDropped(files: NgxFileDropEntry[]) {
-    const filesToEmit: File[] = [];
-    files.map((file) => {
-      const fileEntry = file.fileEntry as FileSystemFileEntry;
-      fileEntry.file((file: File) => {
-        filesToEmit.push(file);
-      });
-    });
+  async filesDropped(files: NgxFileDropEntry[]) {
+    const filesToEmit: File[] = await Promise.all(
+      files.map((file) =>
+        this.getFileFromEntry(file.fileEntry as FileSystemFileEntry)
+      )
+    );
 
     this.onFilesSelected(filesToEmit);
   }
 
-  filesSelectedFromInput(event: any) {
-    const filesToEmit: File[] = [];
-    [...event.target.files].map((file: File) => {
-      filesToEmit.push(file);
-    });
-
+  async filesSelectedFromInput(event: any) {
+    const filesToEmit: File[] = [...event.target.files];
     this.onFilesSelected(filesToEmit);
+  }
+
+  private getFileFromEntry(fileEntry: FileSystemFileEntry): Promise<File> {
+    return new Promise((resolve, reject) => {
+      fileEntry.file((file: File) => resolve(file), reject);
+    });
   }
 
   onFilesSelected(files: File[]) {
+    // if not multiple, only take the first file
+    if (!this.multiple) {
+      files.splice(1);
+    }
+
     const validFiles: File[] = [];
     files.forEach((file) => {
-      if (file.size > 262144000) {
+      // check if file size is less than 50MB
+      if (file.size > 50 * 1024 * 1024) {
         this.hotToast.error(
           `Please review your files. File ${file.name} size exceeds 50MB`
         );

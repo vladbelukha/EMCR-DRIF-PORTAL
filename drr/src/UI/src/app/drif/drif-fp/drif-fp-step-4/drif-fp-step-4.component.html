@@ -20,8 +20,8 @@
       <drr-datepicker
         [label]="t('endDate')"
         [rxFormControl]="projectPlanForm.get('endDate')"
-        [min]="projectPlanForm.get('startDate')?.value"
-        [minErrorLabel]="t('minEndDateError')"
+        [min]="getNextDayAfterStartDate()"
+        [minErrorLabel]="t('minEndDateAfterError')"
       ></drr-datepicker>
     </div>
 
@@ -65,7 +65,7 @@
           [label]="t('endDate')"
           [rxFormControl]="activity.get('endDate')"
           [min]="activity.get('startDate')?.value"
-          [minErrorLabel]="t('minEndDateError')"
+          [minErrorLabel]="t('minEndDateNotBeforeError')"
         ></drr-datepicker>
         <drr-input
           style="width: 25vw"

@@ -23,13 +23,11 @@ export class DrifFpInstructionsComponent {
   appService = inject(DrifapplicationService);
 
   eoiId?: string;
-  fundingStream?: string;
   projectTitle?: string;
   screenerQuestions?: ScreenerQuestions;
 
   ngOnInit() {
     this.eoiId = this.route.snapshot.params['eoiId'];
-    this.fundingStream = this.route.snapshot.params['fundingStream'];
     this.projectTitle = this.route.snapshot.params['projectTitle'];
     const queryParams = this.route.snapshot.queryParams;
     this.screenerQuestions = {

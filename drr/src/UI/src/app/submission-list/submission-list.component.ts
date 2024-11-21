@@ -329,7 +329,6 @@ export class SubmissionListComponent {
     this.router.navigate([
       '/drif-fp-screener',
       submission.id,
-      submission.fundingStream,
       submission.projectTitle,
     ]);
   }

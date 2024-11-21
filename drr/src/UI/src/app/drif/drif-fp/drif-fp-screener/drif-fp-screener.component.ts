@@ -50,7 +50,6 @@ export class DrifFpScreenerComponent {
   route = inject(ActivatedRoute);
 
   eoiId?: string;
-  fundingStream?: string;
   projectTitle?: string;
 
   screenerForm = this.formBuilder.formGroup(ScreenerQuestionsForm);
@@ -78,7 +77,6 @@ export class DrifFpScreenerComponent {
 
   ngOnInit() {
     this.eoiId = this.route.snapshot.params['eoiId'];
-    this.fundingStream = this.route.snapshot.params['fundingStream'];
     this.projectTitle = this.route.snapshot.params['projectTitle'];
   }
 
@@ -98,7 +96,6 @@ export class DrifFpScreenerComponent {
     this.router.navigate([
       '/drif-fp-instructions',
       this.eoiId,
-      this.fundingStream,
       this.projectTitle,
     ]);
   }
@@ -110,12 +107,7 @@ export class DrifFpScreenerComponent {
   continue() {
     const screenerAnswers = this.screenerForm.value;
     this.router.navigate(
-      [
-        '/drif-fp-instructions',
-        this.eoiId,
-        this.fundingStream,
-        this.projectTitle,
-      ],
+      ['/drif-fp-instructions', this.eoiId, this.projectTitle],
       {
         queryParams: {
           ...screenerAnswers,
