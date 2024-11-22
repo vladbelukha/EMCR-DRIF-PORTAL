@@ -12,6 +12,8 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IFormGroup, RxFormBuilder } from '@rxweb/reactive-form-validators';
 import { DrifapplicationService } from '../../../../api/drifapplication/drifapplication.service';
+import { DocumentType } from '../../../../model';
+import { DraftFpApplication } from '../../../../model/draftFpApplication';
 import { OptionsStore } from '../../../store/options.store';
 import {
   ContactDetailsForm,
@@ -19,6 +21,7 @@ import {
   StringItem,
 } from '../../drif-eoi/drif-eoi-form';
 import {
+  AttachmentForm,
   DrifFpForm,
   ImpactedInfrastructureForm,
   ProposedActivityForm,
@@ -180,13 +183,13 @@ export class DrifFpViewComponent {
           previousResponseCost: response.previousResponseCost,
         },
         attachments: {
-          attachments: response.attachments,
           haveResolution: response.haveResolution,
         },
         declarations: {
           submitter: response.submitter,
         },
       };
+
       this.fullProposalForm.patchValue(formData, { emitEvent: false });
       const partneringProponentsArray = this.fullProposalForm
         .get('proponentAndProjectInformation')
@@ -293,6 +296,59 @@ export class DrifFpViewComponent {
         const standardInfoForm = this.formBuilder.formGroup(standardInfo);
         standardsFormArray?.push(standardInfoForm, { emitEvent: false });
       });
+
+      this.initStep11(response);
+    });
+  }
+
+  initStep11(response: DraftFpApplication) {
+    const attachmentsArray = this.fullProposalForm.get(
+      'attachments.attachments'
+    ) as FormArray;
+
+    if (response.haveResolution === true) {
+      attachmentsArray?.push(
+        this.formBuilder.formGroup(
+          new AttachmentForm({ documentType: DocumentType.Resolution })
+        ),
+        { emitEvent: false }
+      );
+    }
+
+    response.attachments?.forEach((attachment) => {
+      if (attachment.documentType === DocumentType.DetailedProjectWorkplan) {
+        attachmentsArray.controls
+          .find(
+            (control) =>
+              control.value.documentType ===
+              DocumentType.DetailedProjectWorkplan
+          )
+          ?.patchValue(attachment, { emitEvent: false });
+        return;
+      }
+      if (attachment.documentType === DocumentType.DetailedCostEstimate) {
+        attachmentsArray.controls
+          .find(
+            (control) =>
+              control.value.documentType === DocumentType.DetailedCostEstimate
+          )
+          ?.patchValue(attachment, { emitEvent: false });
+        return;
+      }
+
+      if (attachment.documentType === DocumentType.Resolution) {
+        attachmentsArray.controls
+          .find(
+            (control) => control.value.documentType === DocumentType.Resolution
+          )
+          ?.patchValue(attachment, { emitEvent: false });
+        return;
+      }
+
+      attachmentsArray?.push(
+        this.formBuilder.formGroup(new AttachmentForm(attachment)),
+        { emitEvent: false }
+      );
     });
   }
 
