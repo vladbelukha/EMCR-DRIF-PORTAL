@@ -12,6 +12,11 @@ on:
       - "drr/src/API/**"
       - ".github/workflows/cd-drr-api.yml"
 
+  pull_request:
+    paths:
+      - "drr/src/API/**"
+      - ".github/workflows/cd-drr-api.yml"
+
 env:
   IMAGE_NAME: drr-api
   IMAGE_ID: ${{ secrets.OCP4_REGISTRY }}/${{ secrets.OCP4_NAMESPACE }}/drr-api

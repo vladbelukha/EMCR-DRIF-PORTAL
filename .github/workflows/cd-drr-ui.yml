@@ -8,7 +8,12 @@ on:
       - develop
       - "release/**"
 
-    paths:    
+    paths:
+      - "drr/src/UI/**"
+      - ".github/workflows/cd-drr-ui.yml"
+
+  pull_request:
+    paths:
       - "drr/src/UI/**"
       - ".github/workflows/cd-drr-ui.yml"
 
