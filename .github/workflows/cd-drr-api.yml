@@ -12,11 +12,6 @@ on:
       - "drr/src/API/**"
       - ".github/workflows/cd-drr-api.yml"
 
-  pull_request:
-    paths:
-      - "drr/src/API/**"
-      - ".github/workflows/cd-drr-api.yml"
-
 env:
   IMAGE_NAME: drr-api
   IMAGE_ID: ${{ secrets.OCP4_REGISTRY }}/${{ secrets.OCP4_NAMESPACE }}/drr-api
@@ -25,7 +20,7 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push'
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
 
     steps:
       - uses: actions/checkout@v4

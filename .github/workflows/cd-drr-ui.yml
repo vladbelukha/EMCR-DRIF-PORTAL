@@ -12,11 +12,6 @@ on:
       - "drr/src/UI/**"
       - ".github/workflows/cd-drr-ui.yml"
 
-  pull_request:
-    paths:
-      - "drr/src/UI/**"
-      - ".github/workflows/cd-drr-ui.yml"
-
 env:
   IMAGE_NAME: drr-ui
   IMAGE_ID: ${{ secrets.OCP4_REGISTRY }}/${{ secrets.OCP4_NAMESPACE }}/drr-ui
