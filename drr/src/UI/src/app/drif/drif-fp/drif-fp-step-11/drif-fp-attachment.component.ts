@@ -63,6 +63,8 @@ export interface FileUploadEvent {
         display: flex;
         flex-direction: column;
         gap: 1rem;
+        // max-width: 50%;
+        // justify-content: flex-start;
       }
 
       .attachment {
