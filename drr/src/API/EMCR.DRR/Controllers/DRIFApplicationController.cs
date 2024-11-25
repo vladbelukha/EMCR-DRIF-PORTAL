@@ -395,7 +395,6 @@ namespace EMCR.DRR.Controllers
         public decimal? TotalProjectCost { get; set; }
         [Range(ApplicationValidators.FUNDING_MIN_VAL, ApplicationValidators.FUNDING_MAX_VAL)]
         [CurrencyNotNegativeForSubmission]
-        [Mandatory]
         public decimal? EligibleFundingRequest { get; set; }
         [Range(ApplicationValidators.FUNDING_MIN_VAL, ApplicationValidators.FUNDING_MAX_VAL)]
         [CurrencyNotNegativeForSubmission]
