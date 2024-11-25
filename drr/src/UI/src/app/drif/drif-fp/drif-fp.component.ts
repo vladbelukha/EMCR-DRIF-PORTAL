@@ -47,6 +47,7 @@ import {
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { HotToastService } from '@ngxpert/hot-toast';
 import { OptionsStore } from '../../store/options.store';
+import { ProfileStore } from '../../store/profile.store';
 import {
   AttachmentForm,
   DrifFpForm,
@@ -113,6 +114,7 @@ export class DrifFpComponent {
   appService = inject(DrifapplicationService);
   hotToast = inject(HotToastService);
   optionsStore = inject(OptionsStore);
+  profileStore = inject(ProfileStore);
 
   stepperOrientation: StepperOrientation = 'vertical';
 
@@ -202,6 +204,12 @@ export class DrifFpComponent {
     return new Promise((resolve, reject) => {
       this.appService.dRIFApplicationGetFP(this.id!).subscribe({
         next: (response) => {
+          const profileData = this.profileStore.getProfile();
+
+          const resetSubmitter =
+            profileData.firstName?.() != response.submitter?.firstName ||
+            profileData.lastName?.() != response.submitter?.lastName;
+
           const formData: DrifFpForm = {
             eoiId: response.eoiId,
             proponentAndProjectInformation: {
@@ -330,7 +338,16 @@ export class DrifFpComponent {
               haveResolution: response.haveResolution,
             },
             declarations: {
-              submitter: response.submitter,
+              submitter: !resetSubmitter
+                ? response.submitter
+                : {
+                    firstName: profileData.firstName?.(),
+                    lastName: profileData.lastName?.(),
+                    title: profileData.title?.() ?? '',
+                    department: profileData.department?.() ?? '',
+                    phone: profileData.phone?.() ?? '',
+                    email: profileData.email?.() ?? '',
+                  },
             },
           };
 
