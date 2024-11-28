@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { HotToastService } from '@ngxpert/hot-toast';
 import { NgxFileDropEntry, NgxFileDropModule } from 'ngx-file-drop';
@@ -17,12 +17,16 @@ import { NgxFileDropEntry, NgxFileDropModule } from 'ngx-file-drop';
 })
 export class DrrFileUploadComponent {
   hotToast = inject(HotToastService);
+  translocoService = inject(TranslocoService);
 
   @Input()
   multiple = true;
 
   @Input()
   useDropzone = true;
+
+  @Input()
+  attachButtonLabel = this.translocoService.translate('attach');
 
   @Output()
   filesSelected: EventEmitter<File[]> = new EventEmitter<File[]>();

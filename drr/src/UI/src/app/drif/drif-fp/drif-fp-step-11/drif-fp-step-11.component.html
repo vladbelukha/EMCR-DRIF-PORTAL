@@ -1,7 +1,20 @@
 <ng-container *transloco="let t; read: 'attachments'">
-  <mat-label class="drr-label">{{ t("requiredAttachments") }}</mat-label>
+  <div>
+    <i
+      >{{ t("disclaimer") }}
+      <a href="mailto:EMCR.DisasterMitigation@gov.bc.ca"
+        >EMCR.DisasterMitigation&#64;gov.bc.ca</a
+      >.</i
+    >
+  </div>
+  <mat-label class="drr-label" style="display: block; margin-top: 1rem">{{
+    t("requiredAttachments")
+  }}</mat-label>
+  <div style="margin-top: 1rem">
+    <i>{{ t("useCommentsText") }}</i>
+  </div>
   <div
-    style="margin-top: 2rem; display: flex; flex-direction: column; gap: 1rem"
+    style="margin-top: 1rem; display: flex; flex-direction: column; gap: 1rem"
   >
     <mat-label>{{ t("DetailedProjectWorkplan") + "*" }}</mat-label>
     <drr-attachment
@@ -88,6 +101,7 @@
 
     <drr-file-upload
       (filesSelected)="uploadOtherFiles($event)"
+      [attachButtonLabel]="t('attachAdditionalAttachment')"
     ></drr-file-upload>
   </div>
 </ng-container>

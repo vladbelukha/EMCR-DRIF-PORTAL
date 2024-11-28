@@ -32,7 +32,9 @@
     }
   },
   "attachments": {
+    "disclaimer": "Note: You cannot attach files that are larger than 50 MB. If you need to provde files that are larger than 50 MB, contact us at",
     "requiredAttachments": "Required Attachments",
+    "useCommentsText": "Use the comments field beside each attachment to add any relevant comments.",
     "DetailedProjectWorkplan": "Detailed project workplan",
     "ProjectSchedule": "Project schedule, unless the schedule is included as part of the detailed project workplan",
     "DetailedCostEstimate": "Detailed cost estimate",
@@ -50,7 +52,8 @@
     "comments": "Comments",
     "download": "Download",
     "delete": "Delete",
-    "required": "This attachment is required"
+    "required": "This attachment is required",
+    "attachAdditionalAttachment": "Add additional attachment"
   },
   "fpOwnership": "Land Ownership",
   "fpOwnershipQuestion": "Will the project will be in BC on land that the proponent has legal access to either through ownership, right of way, or other at the time the Shared Cost Agreement is signed?",
@@ -285,7 +288,7 @@
   "supportingDocumentationOptionalText": "Attach supporting documentation (optional)",
   "supportingDocumentationRequiredText": "Attach supporting documentation (required)",
   "dropFilesHere": "Drop files here or click to upload.",
-  "fileSizeLimit": "File size limit is 50MB.",
+  "fileSizeLimit": "File size limit is 50 MB.",
   "attach": "Attach",
   "totalProjectCost": "Total Project Cost",
   "estimatedDrifFunding": "Estimated DRIF Program Funding Request (from EOI)",
