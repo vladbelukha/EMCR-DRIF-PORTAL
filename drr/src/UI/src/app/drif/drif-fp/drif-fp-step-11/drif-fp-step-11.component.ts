@@ -232,6 +232,10 @@ export class DrifFpStep11Component {
     );
   }
 
+  getOtherFormArrayCount() {
+    return this.getOtherFormArray().length;
+  }
+
   getOtherDocumentFormGroup(index: number) {
     const otherForms = this.getOtherFormArray();
     return otherForms[index] as IFormGroup<AttachmentForm>;
