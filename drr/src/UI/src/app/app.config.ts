@@ -59,6 +59,7 @@ export const appConfig: ApplicationConfig = {
     provideHotToastConfig({
       autoClose: false,
       dismissible: true,
+      // TODO: check if there a property to autoclose the toast when next toast is shown
     }),
     DrifapplicationService,
     provideHttpClient(),

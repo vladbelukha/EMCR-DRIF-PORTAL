@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, Input } from '@angular/core';
 import { FormArray, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -16,7 +17,6 @@ import { distinctUntilChanged } from 'rxjs';
 import { AttachmentService } from '../../../../api/attachment/attachment.service';
 import { DocumentType } from '../../../../model';
 import { DrrFileUploadComponent } from '../../../shared/controls/drr-file-upload/drr-file-upload.component';
-import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
 import { DrrRadioButtonComponent } from '../../../shared/controls/drr-radio-button/drr-radio-button.component';
 import { FileService } from '../../../shared/services/file.service';
 import { AttachmentForm, AttachmentsForm } from '../drif-fp-form';
@@ -38,7 +38,7 @@ import {
     MatInputModule,
     MatIconModule,
     MatButtonModule,
-    DrrInputComponent,
+    MatDividerModule,
     DrrFileUploadComponent,
     DrrRadioButtonComponent,
     DrrAttahcmentComponent,

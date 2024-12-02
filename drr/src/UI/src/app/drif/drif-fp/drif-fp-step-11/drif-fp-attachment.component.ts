@@ -10,7 +10,6 @@ import { UntilDestroy } from '@ngneat/until-destroy';
 import { IFormGroup } from '@rxweb/reactive-form-validators';
 import { DocumentType } from '../../../../model';
 import { DrrFileUploadComponent } from '../../../shared/controls/drr-file-upload/drr-file-upload.component';
-import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
 import { DrrTextareaComponent } from '../../../shared/controls/drr-textarea/drr-textarea.component';
 import { AttachmentForm } from '../drif-fp-form';
 
@@ -26,10 +25,19 @@ export interface FileUploadEvent {
     class="attachment-container"
     *transloco="let t; read: 'attachments'"
   >
+    <div style="margin-top: 0.5rem;">
+      <mat-label class="drr-label">{{ title }}</mat-label>
+      <br />
+      <mat-label style="display: block; margin-top: 1rem;">{{
+        subtitle
+      }}</mat-label>
+    </div>
     @if (attachmentForm?.get('id')?.value) {
     <div class="attachment">
       <div class="attachment__label">
-        <mat-label>{{ label ?? attachmentForm?.get('name')?.value }}</mat-label>
+        <mat-label>{{
+          filename ?? attachmentForm?.get('name')?.value
+        }}</mat-label>
         <div class="attachment__label__actions">
           <button mat-stroked-button color="primary" (click)="onDownloadFile()">
             {{ t('download') }}
@@ -60,11 +68,9 @@ export interface FileUploadEvent {
   styles: [
     `
       .attachment-container {
-        display: flex;
-        flex-direction: column;
+        display: grid;
         gap: 1rem;
-        // max-width: 50%;
-        // justify-content: flex-start;
+        grid-template-columns: 1fr 2fr;
       }
 
       .attachment {
@@ -96,6 +102,12 @@ export interface FileUploadEvent {
       .required {
         color: red;
       }
+
+      @media (max-width: 768px) {
+        .attachment-container {
+          grid-template-columns: 1fr;
+        }
+      }
     `,
   ],
   standalone: true,
@@ -108,13 +120,16 @@ export interface FileUploadEvent {
     MatInputModule,
     MatIconModule,
     MatButtonModule,
-    DrrInputComponent,
     DrrTextareaComponent,
     DrrFileUploadComponent,
   ],
 })
 export class DrrAttahcmentComponent {
-  @Input() label?: string;
+  @Input() title?: string;
+
+  @Input() subtitle?: string;
+
+  @Input() filename?: string;
 
   @Input() attachmentForm?: IFormGroup<AttachmentForm>;
 

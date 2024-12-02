@@ -1,10 +1,23 @@
 <ng-container *transloco="let t; read: 'attachments'">
-  <mat-label class="drr-label">{{ t("requiredAttachments") }}</mat-label>
+  <div>
+    <i
+      >{{ t("disclaimer") }}
+      <a href="mailto:EMCR.DisasterMitigation@gov.bc.ca"
+        >EMCR.DisasterMitigation&#64;gov.bc.ca</a
+      >.</i
+    >
+  </div>
+  <mat-label class="drr-label" style="display: block; margin-top: 1rem">{{
+    t("requiredAttachments")
+  }}</mat-label>
+  <div style="margin-top: 1rem">
+    <i>{{ t("requiredAttachmentsText") }}</i>
+  </div>
   <div
-    style="margin-top: 2rem; display: flex; flex-direction: column; gap: 1rem"
+    style="margin-top: 1rem; display: flex; flex-direction: column; gap: 1rem"
   >
-    <mat-label>{{ t("DetailedProjectWorkplan") + "*" }}</mat-label>
     <drr-attachment
+      [title]="t('DetailedProjectWorkplan') + '*'"
       [attachmentForm]="getFormByDocumentType('DetailedProjectWorkplan')"
       (uploadFiles)="uploadFiles($event)"
       (removeFile)="removeFile($event)"
@@ -12,8 +25,10 @@
       [documentType]="'DetailedProjectWorkplan'"
     ></drr-attachment>
 
-    <mat-label>{{ t("ProjectSchedule") }}</mat-label>
+    <mat-divider class="extra-space"></mat-divider>
+
     <drr-attachment
+      [title]="t('ProjectSchedule')"
       [attachmentForm]="getFormByDocumentType('ProjectSchedule')"
       (uploadFiles)="uploadFiles($event)"
       (removeFile)="removeFile($event)"
@@ -21,8 +36,10 @@
       [documentType]="'ProjectSchedule'"
     ></drr-attachment>
 
-    <mat-label>{{ t("DetailedCostEstimate") + "*" }}</mat-label>
+    <mat-divider class="extra-space"></mat-divider>
+
     <drr-attachment
+      [title]="t('DetailedCostEstimate') + '*'"
       [attachmentForm]="getFormByDocumentType('DetailedCostEstimate')"
       (uploadFiles)="uploadFiles($event)"
       (removeFile)="removeFile($event)"
@@ -30,8 +47,10 @@
       [documentType]="'DetailedCostEstimate'"
     ></drr-attachment>
 
-    <mat-label>{{ t("SitePlan") }}</mat-label>
+    <mat-divider class="extra-space"></mat-divider>
+
     <drr-attachment
+      [title]="t('SitePlan')"
       [attachmentForm]="getFormByDocumentType('SitePlan')"
       (uploadFiles)="uploadFiles($event)"
       (removeFile)="removeFile($event)"
@@ -39,27 +58,33 @@
       [documentType]="'SitePlan'"
     ></drr-attachment>
 
-    <mat-label>{{ t("PreliminaryDesign") }}</mat-label>
+    <mat-divider class="extra-space"></mat-divider>
+
     <drr-attachment
+      [title]="t('PreliminaryDesign')"
       [attachmentForm]="getFormByDocumentType('PreliminaryDesign')"
       (uploadFiles)="uploadFiles($event)"
       (removeFile)="removeFile($event)"
       (downloadFile)="downloadFile($event)"
       [documentType]="'PreliminaryDesign'"
     ></drr-attachment>
+
+    <mat-divider class="extra-space"></mat-divider>
   </div>
-  <div style="margin-top: 2rem">
+
+  <mat-label class="drr-label">{{ t("resolution") }}</mat-label>
+  <div style="margin-top: 1rem; margin-left: 2rem">
     <p>{{ t("firstNationResolution") }}</p>
     <p>{{ t("localGovernmentResolution") }}</p>
+    <drr-radio-button
+      [label]="t('haveResolution')"
+      [rxFormControl]="attachmentsForm.get('haveResolution')"
+    ></drr-radio-button>
   </div>
-  <drr-radio-button
-    [label]="t('haveResolution')"
-    [rxFormControl]="attachmentsForm.get('haveResolution')"
-  ></drr-radio-button>
 
   <div *ngIf="attachmentsForm.get('haveResolution')?.value === true">
-    <mat-label>{{ t("resolutionDocument") + "*" }}</mat-label>
     <drr-attachment
+      [title]="t('resolutionDocument') + '*'"
       [attachmentForm]="getFormByDocumentType('Resolution')"
       (uploadFiles)="uploadFiles($event)"
       (removeFile)="removeFile($event)"
@@ -72,22 +97,24 @@
     {{ t("noResolutionDocument") }}
   </p>
 
+  <mat-divider class="extra-space"></mat-divider>
+
   <div class="other-attachments-container">
-    <mat-label class="drr-label" style="margin-top: 2rem">{{
-      t("otherSupportingDocumentation")
-    }}</mat-label>
-
-    <mat-label>{{ t("supportingDocumentationOptionalText") }}</mat-label>
-
     <drr-attachment
       *ngFor="let otherDocumentControl of getOtherFormArray(); let i = index"
+      [title]="i == 0 ? t('otherSupportingDocumentation') : ''"
+      [subtitle]="i == 0 ? t('supportingDocumentationOptionalText') : ''"
       [attachmentForm]="getOtherDocumentFormGroup(i)"
       (removeFile)="removeFile($event)"
       (downloadFile)="downloadFile($event)"
     ></drr-attachment>
 
-    <drr-file-upload
-      (filesSelected)="uploadOtherFiles($event)"
-    ></drr-file-upload>
+    <div class="other-attachments-upload">
+      <mat-label>{{ t("attachAdditionalAttachment") }}</mat-label>
+      <drr-file-upload
+        (filesSelected)="uploadOtherFiles($event)"
+        [attachButtonLabel]="t('attachAdditionalAttachment')"
+      ></drr-file-upload>
+    </div>
   </div>
 </ng-container>

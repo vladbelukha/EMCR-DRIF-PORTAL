@@ -273,6 +273,7 @@ export class EOIApplicationComponent {
     setTimeout(() => {
       this.eoiApplicationForm.valueChanges
         .pipe(
+          // TODO: possible place to check if change comes from declarations
           distinctUntilChanged((a, b) => {
             return JSON.stringify(a) == JSON.stringify(b);
           })

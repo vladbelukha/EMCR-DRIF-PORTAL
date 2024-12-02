@@ -10,4 +10,23 @@
     align-items: baseline;
     gap: 1rem;
   }
+
+  .other-attachments-upload {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .other-attachments-container {
+    .other-attachments-upload {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+.extra-space {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 }
