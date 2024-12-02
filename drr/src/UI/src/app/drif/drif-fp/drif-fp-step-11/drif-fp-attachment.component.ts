@@ -31,6 +31,9 @@ export interface FileUploadEvent {
       <mat-label style="display: block; margin-top: 1rem;">{{
         subtitle
       }}</mat-label>
+      <mat-hint class="required" *ngIf="isRequired()">{{
+        t('required')
+      }}</mat-hint>
     </div>
     @if (attachmentForm?.get('id')?.value) {
     <div class="attachment">
@@ -56,9 +59,6 @@ export interface FileUploadEvent {
       </div>
     </div>
     } @else {
-    <mat-hint class="required" *ngIf="isRequired()">{{
-      t('required')
-    }}</mat-hint>
     <drr-file-upload
       (filesSelected)="onUploadFiles($event)"
       [multiple]="false"
@@ -161,6 +161,8 @@ export class DrrAttahcmentComponent {
   }
 
   isRequired() {
-    return this.attachmentForm?.invalid && this.attachmentForm?.touched;
+    return (
+      this.attachmentForm?.get('id')?.invalid && this.attachmentForm?.touched
+    );
   }
 }

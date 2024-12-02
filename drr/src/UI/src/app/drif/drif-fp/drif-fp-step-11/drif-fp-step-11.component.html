@@ -110,7 +110,19 @@
     ></drr-attachment>
 
     <div class="other-attachments-upload">
+      @if (getOtherFormArrayCount() == 0) {
+      <div>
+        <mat-label class="drr-label">
+          {{ t("otherSupportingDocumentation") }}
+        </mat-label>
+        <br />
+        <mat-label style="display: block; margin-top: 1rem">{{
+          t("supportingDocumentationOptionalText")
+        }}</mat-label>
+      </div>
+      } @else {
       <mat-label>{{ t("attachAdditionalAttachment") }}</mat-label>
+      }
       <drr-file-upload
         (filesSelected)="uploadOtherFiles($event)"
         [attachButtonLabel]="t('attachAdditionalAttachment')"
