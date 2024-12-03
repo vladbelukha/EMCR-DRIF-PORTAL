@@ -1,3 +1,4 @@
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -119,6 +120,7 @@ export class SubmissionListComponent {
   formbuilder = inject(RxFormBuilder);
   translocoService = inject(TranslocoService);
   matDialog = inject(MatDialog);
+  breakpointObserver = inject(BreakpointObserver);
 
   programTypeOptions = Object.values(ProgramType).map((value) => ({
     value,
@@ -170,7 +172,15 @@ export class SubmissionListComponent {
     direction: 'desc',
   };
 
+  isMobile = false;
+
   ngOnInit() {
+    this.breakpointObserver
+      .observe('(min-width: 768px)')
+      .subscribe(({ matches }) => {
+        this.isMobile = !matches;
+      });
+
     this.load();
 
     this.filterForm.valueChanges.pipe(distinctUntilChanged()).subscribe(() => {
