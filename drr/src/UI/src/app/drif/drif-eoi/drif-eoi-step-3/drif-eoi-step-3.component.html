@@ -31,35 +31,40 @@
     ></drr-funding-list>
     }
 
-    <mat-label
-      *ngIf="getRemainingAmount() !== null"
-      class="drr-label"
-      style="margin-top: 10px"
-      >{{
-        getRemainingAmount() > 0
-          ? t("missingFundsLabel")
-          : t("excessFundingLabel")
-      }}</mat-label
+    <div
+      *ngIf="showRemainingAmount()"
+      style="display: flex; flex-direction: column"
     >
-    <mat-label
-      *ngIf="getRemainingAmount() !== null"
-      [style.color]="getRemainingAmount() < 0 ? 'red' : 'initial'"
-      >{{ getRemainingAmountAbs() | currency }}</mat-label
-    >
-    <mat-hint *ngIf="getRemainingAmount() < 0" style="color: red">{{
-      t("excessFundingTextEoi")
-    }}</mat-hint>
-    <mat-hint *ngIf="getRemainingAmount() == 0">{{
-      t("noExcessFundingText")
-    }}</mat-hint>
+      <mat-label
+        *ngIf="getRemainingAmount() !== null"
+        class="drr-label"
+        style="margin-top: 10px"
+        >{{
+          getRemainingAmount() > 0
+            ? t("missingFundsLabel")
+            : t("excessFundingLabel")
+        }}</mat-label
+      >
+      <mat-label
+        *ngIf="getRemainingAmount() !== null"
+        [style.color]="getRemainingAmount() < 0 ? 'red' : 'initial'"
+        >{{ getRemainingAmountAbs() | currency }}</mat-label
+      >
+      <mat-hint *ngIf="getRemainingAmount() < 0" style="color: red">{{
+        t("excessFundingTextEoi")
+      }}</mat-hint>
+      <mat-hint *ngIf="getRemainingAmount() == 0">{{
+        t("noExcessFundingText")
+      }}</mat-hint>
 
-    <drr-textarea
-      *ngIf="getRemainingAmount() > 0"
-      style="margin-top: 10px"
-      [id]="'intendToSecureFunding'"
-      [label]="t('intendToSecureFunding')"
-      [maxlength]="2000"
-      [rxFormControl]="fundingInformationForm.get('intendToSecureFunding')"
-    ></drr-textarea>
+      <drr-textarea
+        *ngIf="getRemainingAmount() > 0"
+        style="margin-top: 10px"
+        [id]="'intendToSecureFunding'"
+        [label]="t('intendToSecureFunding')"
+        [maxlength]="2000"
+        [rxFormControl]="fundingInformationForm.get('intendToSecureFunding')"
+      ></drr-textarea>
+    </div>
   </form>
 </div>

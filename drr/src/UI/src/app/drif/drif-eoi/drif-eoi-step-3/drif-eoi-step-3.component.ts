@@ -158,6 +158,19 @@ export class DrifEoiStep3Component {
     this.getFormArray('otherFunding').removeAt(index);
   }
 
+  showRemainingAmount() {
+    const fundingRequestValue =
+      this.fundingInformationForm.get('fundingRequest')?.value;
+    const estimatedTotalValue =
+      this.fundingInformationForm.get('estimatedTotal')?.value;
+
+    if (fundingRequestValue === 0 || estimatedTotalValue === 0) {
+      return true;
+    }
+
+    return !!fundingRequestValue && !!estimatedTotalValue;
+  }
+
   getRemainingAmount() {
     return this.fundingInformationForm.get('remainingAmount')?.value;
   }
