@@ -185,7 +185,7 @@ export class DrifFpViewComponent {
         attachments: {
           haveResolution: response.haveResolution,
         },
-        declarations: {
+        declaration: {
           submitter: response.submitter,
         },
       };

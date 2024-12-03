@@ -32,7 +32,7 @@ import {
   RxFormBuilder,
   RxFormGroup,
 } from '@rxweb/reactive-form-validators';
-import { distinctUntilChanged } from 'rxjs/operators';
+import { distinctUntilChanged, pairwise } from 'rxjs/operators';
 import { DrifapplicationService } from '../../../api/drifapplication/drifapplication.service';
 import {
   ApplicationResult,
@@ -273,12 +273,36 @@ export class EOIApplicationComponent {
     setTimeout(() => {
       this.eoiApplicationForm.valueChanges
         .pipe(
-          // TODO: possible place to check if change comes from declarations
+          pairwise(),
           distinctUntilChanged((a, b) => {
-            return JSON.stringify(a) == JSON.stringify(b);
+            // compare objects but ignore declaration changes
+            delete a[1].declaration.authorizedRepresentativeStatement;
+            delete a[1].declaration.informationAccuracyStatement;
+            delete b[1].declaration.authorizedRepresentativeStatement;
+            delete b[1].declaration.informationAccuracyStatement;
+
+            return JSON.stringify(a[1]) === JSON.stringify(b[1]);
           })
         )
-        .subscribe(() => {
+        .subscribe(([prev, curr]) => {
+          if (
+            prev.declaration.authorizedRepresentativeStatement !==
+              curr.declaration.authorizedRepresentativeStatement ||
+            prev.declaration.informationAccuracyStatement !==
+              curr.declaration.informationAccuracyStatement
+          ) {
+            return;
+          }
+
+          this.eoiApplicationForm
+            .get('declaration')
+            ?.get('authorizedRepresentativeStatement')
+            ?.reset();
+          this.eoiApplicationForm
+            .get('declaration')
+            ?.get('informationAccuracyStatement')
+            ?.reset();
+
           this.formChanged = true;
           this.resetAutoSaveTimer();
         });
