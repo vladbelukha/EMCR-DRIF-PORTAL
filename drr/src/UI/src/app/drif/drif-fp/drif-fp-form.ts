@@ -560,7 +560,7 @@ export class AttachmentsForm {
   }
 }
 
-export class DeclarationsForm {
+export class DeclarationForm {
   @required()
   @propObject(ContactDetailsForm)
   submitter?: ContactDetailsForm = new ContactDetailsForm({});
@@ -575,7 +575,7 @@ export class DeclarationsForm {
   @requiredTrue()
   informationAccuracyStatement?: boolean;
 
-  constructor(values: DeclarationsForm) {
+  constructor(values: DeclarationForm) {
     Object.assign(this, values);
   }
 }
@@ -617,8 +617,8 @@ export class DrifFpForm {
   @propObject(AttachmentsForm)
   attachments?: AttachmentsForm = new AttachmentsForm({});
 
-  @propObject(DeclarationsForm)
-  declarations?: DeclarationsForm = new DeclarationsForm({});
+  @propObject(DeclarationForm)
+  declaration?: DeclarationForm = new DeclarationForm({});
 
   @prop()
   eoiId?: string;

@@ -1439,9 +1439,7 @@
     <mat-card-content>
       <div
         [class.required]="
-          !objectHasValues(
-            fullProposalForm.get('declarations.submitter')?.value
-          )
+          !objectHasValues(fullProposalForm.get('declaration.submitter')?.value)
         "
       >
         <mat-label class="drr-label">{{ t("submitter") }}</mat-label>
@@ -1449,7 +1447,7 @@
           <drr-summary-item
             [label]="t('firstName')"
             [rxFormControl]="
-              fullProposalForm.get('declarations.submitter.firstName')
+              fullProposalForm.get('declaration.submitter.firstName')
             "
           >
           </drr-summary-item>
@@ -1457,7 +1455,7 @@
           <drr-summary-item
             [label]="t('lastName')"
             [rxFormControl]="
-              fullProposalForm.get('declarations.submitter.lastName')
+              fullProposalForm.get('declaration.submitter.lastName')
             "
           >
           </drr-summary-item>
@@ -1465,7 +1463,7 @@
           <drr-summary-item
             [label]="t('title')"
             [rxFormControl]="
-              fullProposalForm.get('declarations.submitter.title')
+              fullProposalForm.get('declaration.submitter.title')
             "
           >
           </drr-summary-item>
@@ -1473,7 +1471,7 @@
           <drr-summary-item
             [label]="t('department')"
             [rxFormControl]="
-              fullProposalForm.get('declarations.submitter.department')
+              fullProposalForm.get('declaration.submitter.department')
             "
           >
           </drr-summary-item>
@@ -1481,7 +1479,7 @@
           <drr-summary-item
             [label]="t('phone')"
             [rxFormControl]="
-              fullProposalForm.get('declarations.submitter.phone')
+              fullProposalForm.get('declaration.submitter.phone')
             "
             controlType="phone"
           >
@@ -1490,7 +1488,7 @@
           <drr-summary-item
             [label]="t('email')"
             [rxFormControl]="
-              fullProposalForm.get('declarations.submitter.email')
+              fullProposalForm.get('declaration.submitter.email')
             "
           >
           </drr-summary-item>

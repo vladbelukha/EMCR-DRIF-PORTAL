@@ -10,7 +10,7 @@ import { DrifapplicationService } from '../../../../api/drifapplication/drifappl
 import { ApplicationType, DeclarationType } from '../../../../model';
 import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
 import { ProfileStore } from '../../../store/profile.store';
-import { DeclarationsForm, DrifFpForm } from '../drif-fp-form';
+import { DeclarationForm, DrifFpForm } from '../drif-fp-form';
 import { DrifFpSummaryComponent } from '../drif-fp-summary/drif-fp-summary.component';
 
 @UntilDestroy({ checkProperties: true })
@@ -37,10 +37,10 @@ export class DrifFpStep12Component {
   @Input()
   fullProposalForm!: IFormGroup<DrifFpForm>;
 
-  get declarationsForm(): IFormGroup<DeclarationsForm> {
+  get declarationForm(): IFormGroup<DeclarationForm> {
     return this.fullProposalForm.get(
-      'declarations'
-    ) as IFormGroup<DeclarationsForm>;
+      'declaration'
+    ) as IFormGroup<DeclarationForm>;
   }
 
   authorizedRepresentativeText?: string;
@@ -64,7 +64,7 @@ export class DrifFpStep12Component {
 
     const profileData = this.profileStore.getProfile();
 
-    const submitterForm = this.declarationsForm.get('submitter');
+    const submitterForm = this.declarationForm.get('submitter');
     if (profileData.firstName?.()) {
       submitterForm
         ?.get('firstName')

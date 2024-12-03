@@ -5,44 +5,44 @@
   >
   </drif-fp-summary>
 
-  <form [formGroup]="declarationsForm">
+  <form [formGroup]="declarationForm">
     <mat-label class="drr-label">{{ t("submitter") }}</mat-label>
     <div class="contacts-container">
       <drr-input
         [id]="'submitter_firstName'"
         [label]="t('firstName')"
-        [rxFormControl]="declarationsForm.get('submitter.firstName')"
+        [rxFormControl]="declarationForm.get('submitter.firstName')"
         [maxlength]="40"
       ></drr-input>
       <drr-input
         [id]="'submitter_lastName'"
         [label]="t('lastName')"
-        [rxFormControl]="declarationsForm.get('submitter.lastName')"
+        [rxFormControl]="declarationForm.get('submitter.lastName')"
         [maxlength]="40"
       ></drr-input>
       <drr-input
         [id]="'submitter_title'"
         [label]="t('title')"
-        [rxFormControl]="declarationsForm.get('submitter.title')"
+        [rxFormControl]="declarationForm.get('submitter.title')"
         [maxlength]="100"
       ></drr-input>
       <drr-input
         [id]="'submitter_department'"
         [label]="t('department')"
-        [rxFormControl]="declarationsForm.get('submitter.department')"
+        [rxFormControl]="declarationForm.get('submitter.department')"
         [maxlength]="40"
       ></drr-input>
       <drr-input
         [id]="'submitter_phone'"
         [label]="t('phone')"
-        [rxFormControl]="declarationsForm.get('submitter.phone')"
+        [rxFormControl]="declarationForm.get('submitter.phone')"
         [maxlength]="10"
         [type]="'tel'"
       ></drr-input>
       <drr-input
         [id]="'submitter_email'"
         [label]="t('email')"
-        [rxFormControl]="declarationsForm.get('submitter.email')"
+        [rxFormControl]="declarationForm.get('submitter.email')"
         [maxlength]="100"
         [type]="'email'"
       ></drr-input>
@@ -60,8 +60,8 @@
     </mat-checkbox>
     <mat-error
       *ngIf="
-        declarationsForm.get('authorizedRepresentativeStatement')?.touched &&
-        declarationsForm
+        declarationForm.get('authorizedRepresentativeStatement')?.touched &&
+        declarationForm
           .get('authorizedRepresentativeStatement')
           ?.hasError('requiredTrue')
       "
@@ -81,8 +81,8 @@
     </mat-checkbox>
     <mat-error
       *ngIf="
-        declarationsForm.get('informationAccuracyStatement')?.touched &&
-        declarationsForm
+        declarationForm.get('informationAccuracyStatement')?.touched &&
+        declarationForm
           .get('informationAccuracyStatement')
           ?.hasError('requiredTrue')
       "
