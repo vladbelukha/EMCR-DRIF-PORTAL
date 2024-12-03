@@ -45,6 +45,90 @@
       </button>
     </div>
   </div>
+  @if (isMobile) { @for (submission of submissions; track submission.id) {
+  <div class="submission-card">
+    <div class="submission-card__header">
+      <div>
+        <span>{{ t("applicationId") }}</span
+        >: {{ submission.id }}
+      </div>
+      <div>
+        <span>{{ t("programType") }}</span
+        >: {{ submission.programType }}
+      </div>
+      <div>
+        <span>{{ t("applicationType") }}</span
+        >: {{ submission.applicationType }}
+      </div>
+      <div>
+        <span>{{ t("status") }}</span
+        >: {{ submission.status }}
+      </div>
+      <div>
+        <span>{{ t("projectTitle") }}</span
+        >: {{ submission.projectTitle }}
+      </div>
+      <div>
+        <span>{{ t("fundingRequest") }}</span>
+        : {{ submission.fundingRequest | currency }}
+      </div>
+      <div>
+        <span>{{ t("modifiedDate") }}</span>
+        :
+        {{ submission.modifiedDate | date : "yyyy-MM-dd" }}
+      </div>
+      <div>
+        <span>{{ t("submittedDate") }}</span>
+        :
+        {{ submission.submittedDate | date : "yyyy-MM-dd" }}
+      </div>
+      <div>
+        <span>{{ t("partneringProponents") }}</span>
+        :
+      </div>
+      <div
+        style="overflow: hidden; text-overflow: ellipsis; width: 100%"
+        *ngFor="let proponent of submission.partneringProponents"
+      >
+        {{ proponent }}
+      </div>
+      <div style="margin-top: 1rem; display: flex; gap: 1rem">
+        <button
+          *ngIf="submission.actions?.includes('Edit')"
+          mat-stroked-button
+          color="primary"
+          (click)="onViewFormClick(submission, $event)"
+        >
+          {{ t("edit") }}
+        </button>
+        <button
+          *ngIf="submission.actions?.includes('Delete')"
+          mat-stroked-button
+          color="warn"
+          (click)="onDeleteClick(submission, $event)"
+        >
+          {{ t("delete") }}
+        </button>
+        <button
+          *ngIf="submission.actions?.includes('Withdraw')"
+          mat-stroked-button
+          color="primary"
+          (click)="onWithdrawClick(submission, $event)"
+        >
+          {{ t("withdraw") }}
+        </button>
+        <button
+          *ngIf="submission.actions?.includes('CreateFP')"
+          mat-raised-button
+          color="primary"
+          (click)="createFullProposal(submission, $event)"
+        >
+          {{ t("createFP") }}
+        </button>
+      </div>
+    </div>
+  </div>
+  } } @else {
   <div class="submissions-table">
     <table
       *ngIf="submissionListDataSource.data.length > 0; else noDataTemplate"
@@ -197,6 +281,7 @@
     >
     </mat-paginator>
   </div>
+
   <ng-template #noDataTemplate>
     <div *ngIf="submissions && !filterApplied" class="no-data">
       <p>{{ t("noSubmissionsYet") }}</p>
@@ -205,4 +290,5 @@
       <p>{{ t("noSubmissionsFound") }}</p>
     </div>
   </ng-template>
+  }
 </div>
