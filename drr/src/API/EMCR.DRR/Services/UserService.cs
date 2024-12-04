@@ -2,8 +2,7 @@
 using System.Text.Json;
 using BCeIDService;
 using EMCR.DRR.API.Resources.Accounts;
-using EMCR.Utilities;
-using Microsoft.Extensions.Caching.Distributed;
+using EMCR.Utilities.Caching;
 
 namespace EMCR.DRR.API.Services;
 
@@ -17,7 +16,7 @@ public interface IUserService
     Task<AccountDetails> GetAccountDetails(ClaimsPrincipal sourcePrincipal);
 }
 
-public class UserService(IDistributedCache cache, IHttpContextAccessor httpContext, IConfiguration configuration, IAccountRepository accountRepository) : IUserService
+public class UserService(ICache cache, IHttpContextAccessor httpContext, IConfiguration configuration, IAccountRepository accountRepository) : IUserService
 {
     private ClaimsPrincipal? currentPrincipal => httpContext.HttpContext?.User;
     private static string GetCurrentBusinessName(ClaimsPrincipal principal) => principal.FindFirstValue("bceid_business_name");
