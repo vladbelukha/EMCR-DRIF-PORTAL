@@ -30,7 +30,7 @@ import {
 } from '@rxweb/reactive-form-validators';
 import { DrifFpStep1Component } from './drif-fp-step-1/drif-fp-step-1.component';
 
-import { distinctUntilChanged, pairwise } from 'rxjs/operators';
+import { distinctUntilChanged, pairwise, startWith } from 'rxjs/operators';
 import { DrifapplicationService } from '../../../api/drifapplication/drifapplication.service';
 import {
   DocumentType,
@@ -184,6 +184,7 @@ export class DrifFpComponent {
       setTimeout(() => {
         this.fullProposalForm.valueChanges
           .pipe(
+            startWith(this.fullProposalForm.value),
             pairwise(),
             distinctUntilChanged((a, b) => {
               // compare objects but ignore declaration changes

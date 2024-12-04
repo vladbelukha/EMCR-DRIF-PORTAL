@@ -32,7 +32,7 @@ import {
   RxFormBuilder,
   RxFormGroup,
 } from '@rxweb/reactive-form-validators';
-import { distinctUntilChanged, pairwise } from 'rxjs/operators';
+import { distinctUntilChanged, pairwise, startWith } from 'rxjs/operators';
 import { DrifapplicationService } from '../../../api/drifapplication/drifapplication.service';
 import {
   ApplicationResult,
@@ -273,6 +273,7 @@ export class EOIApplicationComponent {
     setTimeout(() => {
       this.eoiApplicationForm.valueChanges
         .pipe(
+          startWith(this.eoiApplicationForm.getRawValue()),
           pairwise(),
           distinctUntilChanged((a, b) => {
             // compare objects but ignore declaration changes
