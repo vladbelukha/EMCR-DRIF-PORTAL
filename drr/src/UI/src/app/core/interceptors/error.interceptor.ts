@@ -17,17 +17,9 @@ export const ErrorInterceptor = (
   return next(req).pipe(
     catchError((err) => {
       switch (err.status) {
-        // case 401:
-        //   hotToast.error(
-        //     'You are not authenticated. Please try logging in again.'
-        //   );
-        //   break;
         case 403:
           router.navigate(['/']);
-          hotToast.error(
-            'You do not have permission to access this resource.',
-            { autoClose: true, duration: 5000 }
-          );
+          hotToast.error('You do not have permission to access this resource.');
           break;
         default:
           break;

@@ -396,6 +396,7 @@ export class DrifFpComponent {
         },
         error: (error) => {
           reject();
+          this.hotToast.close();
           this.hotToast.error('Failed to load application');
         },
       });
@@ -843,10 +844,7 @@ export class DrifFpComponent {
           this.lastSavedAt = new Date();
 
           this.hotToast.close();
-          this.hotToast.success('Application saved successfully', {
-            duration: 5000,
-            autoClose: true,
-          });
+          this.hotToast.success('Application saved successfully');
 
           this.formChanged = false;
           this.resetAutoSaveTimer();

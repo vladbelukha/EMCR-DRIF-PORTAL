@@ -87,6 +87,7 @@ export class DrrFileUploadComponent {
     files.forEach((file) => {
       // check if file size is less than 50MB
       if (file.size > 50 * 1024 * 1024) {
+        this.hotToast.close();
         this.hotToast.error(
           `Please review your files. File ${file.name} size exceeds 50MB`
         );
@@ -95,6 +96,7 @@ export class DrrFileUploadComponent {
 
       const fileExtension = file.name.split('.').pop();
       if (!this.allowedExtensions.includes(fileExtension!)) {
+        this.hotToast.close();
         this.hotToast.error(
           `Please review your files. File type .${fileExtension} is not supported`
         );

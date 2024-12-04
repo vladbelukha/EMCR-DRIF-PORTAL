@@ -461,10 +461,7 @@ export class EOIApplicationComponent {
     this.lastSavedAt = new Date();
 
     this.hotToast.close();
-    this.hotToast.success('Form saved successfully', {
-      duration: 5000,
-      autoClose: true,
-    });
+    this.hotToast.success('Form saved successfully');
 
     this.formChanged = false;
 
