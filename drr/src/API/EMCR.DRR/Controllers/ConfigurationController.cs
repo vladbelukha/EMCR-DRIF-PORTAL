@@ -1,5 +1,6 @@
 ﻿using EMCR.DRR.API.Services;
 using EMCR.DRR.Managers.Intake;
+using EMCR.Utilities.Caching;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,18 +12,22 @@ namespace EMCR.DRR.API.Controllers
     [ApiController]
     [Route("api/[controller]")]
     [AllowAnonymous]
+    [ResponseCache(Duration = cacheDuration)]
     public class ConfigurationController : ControllerBase
     {
         private readonly ILogger<ConfigurationController> logger;
         private readonly IConfiguration configuration;
         private readonly IIntakeManager intakeManager;
+        private readonly ICache cache;
         private readonly ErrorParser errorParser;
+        private const int cacheDuration = 60 * 1; //1 minute
 
-        public ConfigurationController(ILogger<ConfigurationController> logger, IConfiguration configuration, IIntakeManager intakeManager)
+        public ConfigurationController(ILogger<ConfigurationController> logger, IConfiguration configuration, IIntakeManager intakeManager, ICache cache)
         {
             this.logger = logger;
             this.configuration = configuration;
             this.intakeManager = intakeManager;
+            this.cache = cache;
             errorParser = new ErrorParser();
         }
 
@@ -59,7 +64,11 @@ namespace EMCR.DRR.API.Controllers
         {
             try
             {
-                var res = await intakeManager.Handle(new EntitiesQuery());
+                var res = await cache.GetOrSet(
+                "entities",
+                async () => (await intakeManager.Handle(new EntitiesQuery())),
+                TimeSpan.FromMinutes(60));
+
                 return Ok(res);
             }
             catch (Exception e)

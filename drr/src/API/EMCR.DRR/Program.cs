@@ -7,9 +7,13 @@ using EMCR.DRR.Controllers;
 using EMCR.DRR.Dynamics;
 using EMCR.DRR.Managers.Intake;
 using EMCR.DRR.Resources.Applications;
-using EMCR.Utilities;
+using EMCR.Utilities.Caching;
+using Medallion.Threading;
+using Medallion.Threading.Redis;
+using Medallion.Threading.WaitHandles;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
@@ -19,6 +23,7 @@ using NSwag;
 using NSwag.AspNetCore;
 using NSwag.Generation.Processors.Security;
 using Serilog;
+using StackExchange.Redis;
 using Xrm.Tools.WebAPI;
 using Xrm.Tools.WebAPI.Requests;
 
@@ -71,8 +76,38 @@ services.AddCors(opts => opts.AddDefaultPolicy(policy =>
     //    policy.SetIsOriginAllowedToAllowWildcardSubdomains().WithOrigins(corsOrigins);
     //}
 }));
-services.AddCache(string.Empty)
-    .AddDRRDynamics(builder.Configuration);
+var redisConnectionString = configuration.GetValue("REDIS_CONNECTIONSTRING", string.Empty);
+var appName = configuration.GetValue("APP_NAME", "drr-api");
+#pragma warning disable CS8604 // Possible null reference argument.
+if (!string.IsNullOrEmpty(redisConnectionString))
+{
+    Console.WriteLine("Configuring Redis cache");
+    services.AddStackExchangeRedisCache(options =>
+    {
+        options.Configuration = redisConnectionString;
+    });
+    services.AddDataProtection()
+        .SetApplicationName(appName)
+        .PersistKeysToStackExchangeRedis(ConnectionMultiplexer.Connect(redisConnectionString), $"{appName}-data-protection-keys");
+
+    services.AddSingleton<IDistributedSemaphoreProvider>(new RedisDistributedSynchronizationProvider(ConnectionMultiplexer.Connect(redisConnectionString).GetDatabase()));
+}
+else
+{
+    Console.WriteLine("Configuring in-memory cache");
+    var dataProtectionPath = configuration.GetValue("KEY_RING_PATH", string.Empty);
+    services.AddDistributedMemoryCache();
+    var dpBuilder = services.AddDataProtection()
+        .SetApplicationName(appName);
+
+    if (!string.IsNullOrEmpty(dataProtectionPath)) dpBuilder.PersistKeysToFileSystem(new DirectoryInfo(dataProtectionPath));
+
+    services.AddSingleton<IDistributedSemaphoreProvider>(new WaitHandleDistributedSynchronizationProvider());
+}
+#pragma warning restore CS8604 // Possible null reference argument.
+
+services.ConfigureCache();
+services.AddDRRDynamics(builder.Configuration);
 
 var defaultScheme = "Bearer_OR_SSO";
 
@@ -196,7 +231,7 @@ services.Configure<OpenApiDocumentMiddlewareSettings>(options =>
     };
 });
 
-services.Configure<SwaggerUi3Settings>(options =>
+services.Configure<SwaggerUiSettings>(options =>
 {
     options.Path = "/api/openapi";
     options.DocumentTitle = "DRR API Documentation";
@@ -214,7 +249,7 @@ services.AddOpenApiDocument(document =>
     });
 
     document.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("bearer token"));
-    document.GenerateAbstractProperties = true;
+    //document.GenerateAbstractProperties = true;
 });
 
 services.AddHealthChecks()
@@ -230,7 +265,7 @@ app.MapHealthChecks("/hc/live", new HealthCheckOptions() { Predicate = check => 
 if (!app.Environment.IsProduction())
 {
     app.UseOpenApi();
-    app.UseSwaggerUi3();
+    app.UseSwaggerUi();
 }
 
 app.UseHttpsRedirection();
