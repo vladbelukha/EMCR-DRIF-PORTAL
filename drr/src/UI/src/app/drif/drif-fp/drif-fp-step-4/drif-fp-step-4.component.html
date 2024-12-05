@@ -37,16 +37,10 @@
     <mat-label class="drr-label">{{ t("proposedActivities") }}</mat-label>
     <mat-label>{{ t("proposedActivitiesText") }}</mat-label>
     <span style="display: flex; align-items: center">
-      <i>
-        Populate the information and table below with DRIF program project
-        activities. Please use the drop down menu for the Activity column. Add
-        additional lines to the table as needed. End Dates will be considered
-        milestones for your project. If you have questions around which
-        activities to include, please contact
-        <a href="mailto:EMCR.DisasterMitigation@gov.bc.ca"
-          >EMCR.DisasterMitigation&#64;gov.bc.ca</a
-        >.
-      </i>
+      <mat-icon style="font-size: 1.5rem" [inline]="true" color="primary"
+        >info</mat-icon
+      >
+      <i style="margin-left: 1rem">{{ t("proposedActivitiesDisclaimer") }}</i>
     </span>
     <div class="proposed-activity-container">
       <div
@@ -56,59 +50,38 @@
           let i = index
         "
       >
-        <mat-card class="activity-card">
-          <mat-card-header>
-            <mat-card-subtitle
-              >{{ t("activity") }} {{ i + 1 }}</mat-card-subtitle
-            >
-          </mat-card-header>
-          <mat-card-content>
-            <div style="display: flex; gap: 1rem">
-              <drr-select
-                class="drr-single-input"
-                [label]="t('activityName')"
-                [rxFormControl]="activity.get('name')"
-                [options]="activityOptions"
-              ></drr-select>
-              <drr-datepicker
-                [label]="t('activityStartDate')"
-                [rxFormControl]="activity.get('startDate')"
-                [min]="minStartDate"
-                [minErrorLabel]="t('minStartDateError')"
-              ></drr-datepicker>
-              <drr-datepicker
-                [label]="t('activityEndDate')"
-                [rxFormControl]="activity.get('endDate')"
-                [min]="activity.get('startDate')?.value"
-                [minErrorLabel]="t('minEndDateNotBeforeError')"
-              ></drr-datepicker>
-            </div>
-            <div style="display: flex; gap: 1rem">
-              <drr-input
-                class="drr-single-input"
-                [label]="t('tasks')"
-                [rxFormControl]="activity.get('tasks')"
-                [maxlength]="200"
-              ></drr-input>
-              <drr-input
-                class="drr-single-input"
-                [label]="t('deliverables')"
-                [rxFormControl]="activity.get('deliverables')"
-                [maxlength]="200"
-              ></drr-input>
-            </div>
-
-            <button
-              *ngIf="i > 0"
-              mat-mini-fab
-              color="warn"
-              (click)="removeActivity(i)"
-              type="button"
-            >
-              <mat-icon>delete</mat-icon>
-            </button>
-          </mat-card-content>
-        </mat-card>
+        <drr-input
+          [label]="t('activityName')"
+          [rxFormControl]="activity.get('name')"
+          [maxlength]="100"
+        ></drr-input>
+        <drr-datepicker
+          [label]="t('startDate')"
+          [rxFormControl]="activity.get('startDate')"
+          [min]="minStartDate"
+          [minErrorLabel]="t('minStartDateError')"
+        ></drr-datepicker>
+        <drr-datepicker
+          [label]="t('endDate')"
+          [rxFormControl]="activity.get('endDate')"
+          [min]="activity.get('startDate')?.value"
+          [minErrorLabel]="t('minEndDateNotBeforeError')"
+        ></drr-datepicker>
+        <drr-input
+          style="width: 25vw"
+          [label]="t('relatedMilestone')"
+          [rxFormControl]="activity.get('relatedMilestone')"
+          [maxlength]="100"
+        ></drr-input>
+        <button
+          *ngIf="i > 0"
+          mat-mini-fab
+          color="warn"
+          (click)="removeActivity(i)"
+          type="button"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
       </div>
 
       <button
