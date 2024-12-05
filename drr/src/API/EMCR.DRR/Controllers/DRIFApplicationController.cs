@@ -448,7 +448,8 @@ namespace EMCR.DRR.Controllers
         public string? Name { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
-        public string? RelatedMilestone { get; set; }
+        public string? Tasks { get; set; }
+        public string? Deliverables { get; set; }
     }
 
     public class YearOverYearFunding

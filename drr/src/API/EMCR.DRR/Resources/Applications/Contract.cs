@@ -71,6 +71,7 @@ namespace EMCR.DRR.Resources.Applications
         public IEnumerable<string>? Professionals { get; set; } = Array.Empty<string>();
         public IEnumerable<string>? IncreasedResiliency { get; set; } = Array.Empty<string>();
         public IEnumerable<string>? ClimateAssessmentToolOptions { get; set; } = Array.Empty<string>();
+        public IEnumerable<string>? ProjectActivities { get; set; } = Array.Empty<string>();
     }
 
     public class DeclarationQuery

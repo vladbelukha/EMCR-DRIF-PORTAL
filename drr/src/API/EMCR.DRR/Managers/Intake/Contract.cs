@@ -40,6 +40,7 @@ namespace EMCR.DRR.Managers.Intake
         public IEnumerable<string>? Professionals { get; set; } = Array.Empty<string>();
         public IEnumerable<string>? IncreasedResiliency { get; set; } = Array.Empty<string>();
         public IEnumerable<string>? ClimateAssessmentToolOptions { get; set; } = Array.Empty<string>();
+        public IEnumerable<string>? ProjectActivities { get; set; } = Array.Empty<string>();
     }
 
     public class DeclarationInfo
@@ -488,7 +489,8 @@ namespace EMCR.DRR.Managers.Intake
         public string? Name { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
-        public string? RelatedMilestone { get; set; }
+        public string? Tasks { get; set; }
+        public string? Deliverables { get; set; }
     }
 
     public class ScreenerQuestions
