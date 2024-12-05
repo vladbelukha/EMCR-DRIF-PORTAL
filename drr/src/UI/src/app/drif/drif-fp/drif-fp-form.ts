@@ -166,6 +166,9 @@ export class PermitsRegulationsAndStandardsForm {
   professionalGuidanceComments?: string;
 
   @prop()
+  knowledgeHolders?: string;
+
+  @prop()
   @required()
   standardsAcceptable?: YesNoOption;
 

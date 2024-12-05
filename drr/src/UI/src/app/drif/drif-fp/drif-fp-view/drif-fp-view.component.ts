@@ -134,6 +134,7 @@ export class DrifFpViewComponent {
           professionals: response.professionals,
           professionalGuidanceComments: response.professionalGuidanceComments,
           professionalGuidance: response.professionalGuidance,
+          // TODO: knowledgeHolders: response.knowledgeHolders,
           meetsEligibilityComments: response.meetsEligibilityComments,
           meetsEligibilityRequirements: response.meetsEligibilityRequirements,
         },

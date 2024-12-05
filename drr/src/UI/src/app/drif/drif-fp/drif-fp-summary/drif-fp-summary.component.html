@@ -678,6 +678,8 @@
           )
         "
         controlType="radio"
+        [value]="getProfessionalGuidanceAnswer()"
+        [translate]="false"
       >
       </drr-summary-item>
 
@@ -696,6 +698,16 @@
         [rxFormControl]="
           fullProposalForm.get(
             'permitsRegulationsAndStandards.professionalGuidanceComments'
+          )
+        "
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('knowledgeHolders')"
+        [rxFormControl]="
+          fullProposalForm.get(
+            'permitsRegulationsAndStandards.knowledgeHolders'
           )
         "
       >

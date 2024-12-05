@@ -310,6 +310,7 @@ export class DrifFpComponent {
               professionals: response.professionals,
               professionalGuidanceComments:
                 response.professionalGuidanceComments,
+              // TODO: knowledgeHolders: response.knowledgeHolders,
               professionalGuidance: response.professionalGuidance,
               meetsEligibilityComments: response.meetsEligibilityComments,
               meetsEligibilityRequirements:

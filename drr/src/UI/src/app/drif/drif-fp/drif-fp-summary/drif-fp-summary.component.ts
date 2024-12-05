@@ -161,4 +161,21 @@ export class DrifFpSummaryComponent {
   onDownloadFile(fileId: string) {
     this.fileService.downloadFile(fileId);
   }
+
+  getProfessionalGuidanceAnswer() {
+    const professionalGuidance = this.fullProposalForm.get(
+      'permitsRegulationsAndStandards.professionalGuidance'
+    )?.value;
+
+    switch (professionalGuidance) {
+      case true:
+        return this.translocoService.translate(YesNoOption.Yes);
+
+      case false:
+        return this.translocoService.translate(YesNoOption.NotApplicable);
+
+      default:
+        return professionalGuidance;
+    }
+  }
 }

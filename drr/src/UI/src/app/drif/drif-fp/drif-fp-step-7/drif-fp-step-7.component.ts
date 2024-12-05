@@ -1,4 +1,4 @@
-import { AsyncPipe, CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component, inject, Input } from '@angular/core';
 import {
   FormArray,
@@ -21,6 +21,10 @@ import {
   DrrRadioButtonComponent,
   RadioOption,
 } from '../../../shared/controls/drr-radio-button/drr-radio-button.component';
+import {
+  DrrSelectComponent,
+  DrrSelectOption,
+} from '../../../shared/controls/drr-select/drr-select.component';
 import { DrrTextareaComponent } from '../../../shared/controls/drr-textarea/drr-textarea.component';
 import { OptionsStore } from '../../../store/options.store';
 import {
@@ -42,7 +46,7 @@ import {
     FormsModule,
     ReactiveFormsModule,
     MatAutocompleteModule,
-    AsyncPipe,
+    DrrSelectComponent,
     DrrChipAutocompleteComponent,
     DrrRadioButtonComponent,
     DrrTextareaComponent,
@@ -56,12 +60,24 @@ export class DrifFpStep7Component {
   @Input()
   permitsRegulationsAndStandardsForm!: IFormGroup<PermitsRegulationsAndStandardsForm>;
 
+  professionalGuidanceOptions: RadioOption[] = [
+    { value: true, label: 'Yes' },
+    { value: false, label: 'Not Applicable' },
+  ];
+
   categories = this.optionsStore
     .getOptions()
     ?.standards?.()
     ?.map((s) => s.category);
 
-  professionalOptions = this.optionsStore.getOptions()?.professionals?.();
+  professionalOptions: DrrSelectOption[] =
+    this.optionsStore
+      .getOptions()
+      ?.professionals?.()
+      ?.map((p) => ({
+        value: p,
+        label: p,
+      })) ?? [];
   standardsAcceptableOptions: RadioOption[] = [
     { value: YesNoOption.Yes, label: 'Yes' },
     { value: YesNoOption.No, label: 'No' },
@@ -124,7 +140,7 @@ export class DrifFpStep7Component {
     this.permitsRegulationsAndStandardsForm
       .get('standardsAcceptable')
       ?.valueChanges.pipe(distinctUntilChanged())
-      .subscribe((value) => {        
+      .subscribe((value) => {
         const standardsControl = this.permitsRegulationsAndStandardsForm.get(
           'standards'
         ) as FormArray;
@@ -162,7 +178,6 @@ export class DrifFpStep7Component {
       .get('standards')
       ?.valueChanges.pipe(distinctUntilChanged())
       .subscribe((value) => {
-        
         const standardsValidControl =
           this.permitsRegulationsAndStandardsForm.get('standardsValid');
         const isStandardsValid = value.some(
