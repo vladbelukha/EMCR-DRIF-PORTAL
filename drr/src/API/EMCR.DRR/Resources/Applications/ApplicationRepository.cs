@@ -82,6 +82,7 @@ namespace EMCR.DRR.Resources.Applications
             var qualifiedProfessionals = (await readCtx.drr_qualifiedprofessionals.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").OrderBy(d => d.drr_name).GetAllPagesAsync()).Select(d => d.drr_name).ToList();
             var resiliencies = (await readCtx.drr_resiliencies.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").OrderBy(d => d.drr_name).GetAllPagesAsync()).Select(d => d.drr_name).ToList();
             var climateAssessmentToolOptions = (await readCtx.drr_climateassessmenttools.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").OrderBy(d => d.drr_name).GetAllPagesAsync()).Select(d => d.drr_name).ToList();
+            var projectActivities = (await readCtx.drr_projectactivities.Where(d => d.statecode == (int)EntityState.Active && d.drr_name != "Other").OrderBy(d => d.drr_name).GetAllPagesAsync()).Select(d => d.drr_name).ToList();
 
             var standards = new List<Controllers.StandardInfo>();
             foreach (var category in standardCategories)
@@ -110,6 +111,7 @@ namespace EMCR.DRR.Resources.Applications
                 Professionals = qualifiedProfessionals,
                 IncreasedResiliency = resiliencies,
                 ClimateAssessmentToolOptions = climateAssessmentToolOptions,
+                ProjectActivities = projectActivities
             };
         }
 

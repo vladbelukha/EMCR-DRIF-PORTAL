@@ -5,7 +5,7 @@ metadata:
   name: {{ $name }}-config
   labels: {{ include "standard.labels" . | nindent 4 }}
 data:
-  REDIS_NODES: "{{ $name }}-0.{{ $name }}-svc,{{ $name }}-1.{{ $name }}-svc,{{ $name }}-2.{{ $name }}-svc"
+  REDIS_NODES: "{{ $name }}-0.{{ $name }}-svc"
   redis.conf: |
     appendonly no
     masteruser default
