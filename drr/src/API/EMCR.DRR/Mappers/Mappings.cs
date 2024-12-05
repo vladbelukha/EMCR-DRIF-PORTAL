@@ -18,6 +18,8 @@ namespace EMCR.DRR.API.Mappers
                 ;
 
             CreateMap<DraftFpApplication, FpApplication>()
+                .ForMember(dest => dest.AuthorizedRepresentativeStatement, opt => opt.Ignore())
+                .ForMember(dest => dest.InformationAccuracyStatement, opt => opt.Ignore())
                 ;
 
             CreateMap<Managers.Intake.Application, Submission>()
