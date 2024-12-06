@@ -743,6 +743,23 @@
         controlType="radio"
       >
       </drr-summary-item>
+
+      <div>
+        <mat-label class="drr-label">{{ t("permits") }}</mat-label>
+        <div
+          class="summary-row"
+          *ngFor="
+            let permit of getFormArray(
+              'permitsRegulationsAndStandards',
+              'permits'
+            );
+            let i = index
+          "
+        >
+          <mat-label>{{ permit }}</mat-label>
+        </div>
+      </div>
+
       <drr-summary-item
         [label]="t('meetsEligibilityComments')"
         [rxFormControl]="

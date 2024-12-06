@@ -579,6 +579,19 @@ export class DrifFpComponent {
         .get('permitsRegulationsAndStandards.meetsEligibilityComments')
         ?.addValidators(Validators.required);
     }
+
+    // const permitsArray = this.fullProposalForm.get(
+    //   'permitsRegulationsAndStandards.permits'
+    // ) as FormArray;
+    // if (response.permits?.length! > 0) {
+    //   permitsArray.clear({ emitEvent: false });
+    // }
+    // response.permits?.forEach((permit) => {
+    //   permitsArray?.push(
+    //     this.formBuilder.formGroup(new StringItem({ value: permit })),
+    //     { emitEvent: false }
+    //   );
+    // });
   }
 
   initStep8(response: DraftFpApplication) {

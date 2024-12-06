@@ -107,7 +107,47 @@
       "
     ></drr-radio-button>
 
+    <mat-label class="drr-label" style="margin-top: 2rem">{{
+      t("permits")
+    }}</mat-label>
+
+    <div>
+      <div
+        class="permit-container"
+        *ngFor="let permit of getPermitsFormArray().controls; let i = index"
+      >
+        <drr-input
+          class="drr-single-input"
+          [id]="'permit_' + i"
+          [label]="t('permitLabel')"
+          [rxFormControl]="permit.get('value')"
+          [maxlength]="100"
+        ></drr-input>
+        <button
+          *ngIf="i > 0"
+          mat-mini-fab
+          color="warn"
+          (click)="removePermit(i)"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+
+      <button
+        style="margin-top: 1rem"
+        [style.padding]="isMobile ? '24px 16px' : ''"
+        mat-stroked-button
+        type="button"
+        color="primary"
+        (click)="addPermit()"
+      >
+        <mat-icon>add</mat-icon>
+        {{ t("addPermit") }}
+      </button>
+    </div>
+
     <drr-textarea
+      style="margin-top: 1rem"
       [label]="t('meetsEligibilityComments')"
       [maxlength]="2000"
       [rxFormControl]="
