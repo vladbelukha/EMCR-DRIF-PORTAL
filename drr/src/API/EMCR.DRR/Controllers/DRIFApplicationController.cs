@@ -326,6 +326,7 @@ namespace EMCR.DRR.Controllers
         [MandatoryIf("ProfessionalGuidance", true)]
         public IEnumerable<string>? Professionals { get; set; }
         public string? ProfessionalGuidanceComments { get; set; }
+        public string? KnowledgeHolders { get; set; }
         [Mandatory]
         public bool? MeetsRegulatoryRequirements { get; set; }
         [MandatoryIf("MeetsRegulatoryRequirements", true)]
