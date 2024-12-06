@@ -155,6 +155,8 @@ export type DraftFpApplicationAllOf = {
   ownershipDescription?: string;
   partneringProponents?: string[];
   /** @nullable */
+  permits?: string[];
+  /** @nullable */
   previousResponse?: YesNoOption;
   /** @nullable */
   previousResponseComments?: string;
