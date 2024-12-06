@@ -104,6 +104,7 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.drr_howtoolsusedtobenefitproject, opt => opt.MapFrom(src => src.ClimateAssessmentComments))
 
                 //Permits Regulations & Standards - 7
+                .ForMember(dest => dest.drr_drr_application_drr_permitslicensesandauthorizations_Application, opt => opt.MapFrom(src => src.Permits))
                 .ForMember(dest => dest.drr_archaeology, opt => opt.MapFrom(src => DRRCategorySelectedMapper(src.Standards.SingleOrDefault(s => s.Category == ArchaeologyCategoryName))))
                 .ForMember(dest => dest.drr_environmentmappingandlandscape, opt => opt.MapFrom(src => DRRCategorySelectedMapper(src.Standards.SingleOrDefault(s => s.Category == EnvironmentMappingCategoryName))))
                 .ForMember(dest => dest.drr_environmentseismic, opt => opt.MapFrom(src => DRRCategorySelectedMapper(src.Standards.SingleOrDefault(s => s.Category == EnvironmentSeismicCategoryName))))
@@ -261,6 +262,7 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.ClimateAssessmentTools, opt => opt.MapFrom(src => src.drr_drr_application_drr_climateassessmenttoolitem_Application))
                 .ForMember(dest => dest.ClimateAssessmentComments, opt => opt.MapFrom(src => src.drr_howtoolsusedtobenefitproject))
                 //Permits Regulations & Standards - 7
+                .ForMember(dest => dest.Permits, opt => opt.MapFrom(src => src.drr_drr_application_drr_permitslicensesandauthorizations_Application))
                 .ForMember(dest => dest.StandardsAcceptable, opt => opt.MapFrom(src => src.drr_acceptableprovincialstandards.HasValue ? (int?)Enum.Parse<YesNoOption>(((DRRYesNoNotApplicable)src.drr_acceptableprovincialstandards).ToString()) : null))
                 .ForMember(dest => dest.Standards, opt => opt.MapFrom(src => DRRStandardInfoMapper(src, src.drr_drr_application_drr_provincialstandarditem_Application)))
                 .ForMember(dest => dest.StandardsComments, opt => opt.MapFrom(src => src.drr_commentsacceptableprovincialstandards))
@@ -361,6 +363,13 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.name))
             ;
 
+            CreateMap<Permit, drr_permitslicensesandauthorizations>(MemberList.None)
+                .ForMember(dest => dest.drr_name, opt => opt.MapFrom(src => src.Name))
+                .ReverseMap()
+                .ValidateMemberList(MemberList.Destination)
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.drr_name))
+            ;
+
             CreateMap<CriticalInfrastructure, drr_criticalinfrastructureimpacted>(MemberList.None)
                 .ForMember(dest => dest.drr_name, opt => opt.MapFrom(src => src.Name))
                 .ForMember(dest => dest.drr_impacttothatinfrastructure, opt => opt.MapFrom(src => src.Impact))
@@ -384,16 +393,18 @@ namespace EMCR.DRR.Resources.Applications
 
             CreateMap<ProposedActivity, drr_proposedactivity>(MemberList.None)
                 .ForMember(dest => dest.drr_name, opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest => dest.drr_Activity, opt => opt.MapFrom(src => new drr_projectactivity { drr_name = src.Name }))
                 .ForMember(dest => dest.drr_anticipatedstartdate, opt => opt.MapFrom(src => src.StartDate.HasValue ? src.StartDate.Value.ToUniversalTime() : (DateTimeOffset?)null))
                 .ForMember(dest => dest.drr_anticipatedenddate, opt => opt.MapFrom(src => src.EndDate.HasValue ? src.EndDate.Value.ToUniversalTime() : (DateTimeOffset?)null))
                 .ForMember(dest => dest.drr_relatedtasks, opt => opt.MapFrom(src => src.Tasks))
-                .ForMember(dest => dest.drr_relatedmilestone, opt => opt.MapFrom(src => src.Deliverables))
+                .ForMember(dest => dest.drr_deliverablesproducts, opt => opt.MapFrom(src => src.Deliverables))
+                .ForMember(dest => dest.drr_activitynumber, opt => opt.MapFrom(src => src.ActivityNumber))
                 .ReverseMap()
                 .ValidateMemberList(MemberList.Destination)
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.drr_name))
                 .ForMember(dest => dest.StartDate, opt => opt.MapFrom(src => src.drr_anticipatedstartdate.HasValue ? src.drr_anticipatedstartdate.Value.UtcDateTime : (DateTime?)null))
                 .ForMember(dest => dest.EndDate, opt => opt.MapFrom(src => src.drr_anticipatedenddate.HasValue ? src.drr_anticipatedenddate.Value.UtcDateTime : (DateTime?)null))
-                .ForMember(dest => dest.Deliverables, opt => opt.MapFrom(src => src.drr_relatedmilestone))
+                .ForMember(dest => dest.Deliverables, opt => opt.MapFrom(src => src.drr_deliverablesproducts))
                 .ForMember(dest => dest.Tasks, opt => opt.MapFrom(src => src.drr_relatedtasks))
             ;
 

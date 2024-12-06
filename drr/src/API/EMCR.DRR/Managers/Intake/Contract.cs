@@ -294,6 +294,7 @@ namespace EMCR.DRR.Managers.Intake
         public string? ClimateAssessmentComments { get; set; }
 
         //Permits Regulations & Standards - 7
+        public IEnumerable<Permit> Permits { get; set; }
         public YesNoOption? StandardsAcceptable { get; set; }
         public IEnumerable<StandardInfo> Standards { get; set; }
         public string? StandardsComments { get; set; }
@@ -394,6 +395,11 @@ namespace EMCR.DRR.Managers.Intake
     {
         public required string Name { get; set; }
     }
+    
+    public class Permit
+    {
+        public required string Name { get; set; }
+    }
 
     public class CriticalInfrastructure
     {
@@ -491,6 +497,7 @@ namespace EMCR.DRR.Managers.Intake
         public DateTime? EndDate { get; set; }
         public string? Tasks { get; set; }
         public string? Deliverables { get; set; }
+        public int? ActivityNumber { get; set; }
     }
 
     public class ScreenerQuestions

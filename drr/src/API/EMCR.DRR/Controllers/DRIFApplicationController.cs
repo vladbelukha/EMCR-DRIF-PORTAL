@@ -317,6 +317,7 @@ namespace EMCR.DRR.Controllers
         public string? ClimateAssessmentComments { get; set; }
 
         //Permits Regulations & Standards - 7
+        public IEnumerable<string>? Permits { get; set; }
         public YesNoOption? StandardsAcceptable { get; set; }
         public IEnumerable<StandardInfo>? Standards { get; set; }
         public string? StandardsComments { get; set; }

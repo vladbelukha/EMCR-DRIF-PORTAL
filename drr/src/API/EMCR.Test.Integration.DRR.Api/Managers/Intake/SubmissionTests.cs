@@ -359,6 +359,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             var ret = mapper.Map<DraftFpApplication>(updatedFp);
             ret.FoundationalOrPreviousWorks.ShouldContain("autotest-verification-method");
             ret.AffectedParties.ShouldContain("party 1");
+            ret.Permits.ShouldContain("permit 1");
             ret.ClimateAssessmentTools.ShouldContain("tool 1");
             ret.Professionals.ShouldContain("professional1");
             ret.CostReductions.ShouldContain("cost reduction 1");
@@ -838,7 +839,8 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             //Project Plan - 4
             application.ProposedActivities = new[]
             {
-                new EMCR.DRR.Controllers.ProposedActivity {StartDate = DateTime.UtcNow, EndDate = DateTime.UtcNow.AddDays(5), Name = "autotest-proposed-activity-name", Deliverables = "some deliverable", Tasks = "some tasks" }
+                new EMCR.DRR.Controllers.ProposedActivity {StartDate = DateTime.UtcNow, EndDate = DateTime.UtcNow.AddDays(5), Name = "autotest-proposed-activity-name", Deliverables = "some deliverable", Tasks = "some tasks" },
+                new EMCR.DRR.Controllers.ProposedActivity {StartDate = DateTime.UtcNow, EndDate = DateTime.UtcNow.AddDays(5), Name = "Mapping", Deliverables = "mapping deliverable", Tasks = "mapping tasks" },
             };
             application.FoundationalOrPreviousWorks = new[] { "autotest-verification-method" };
             application.HowWasNeedIdentified = "need identified";
@@ -858,13 +860,14 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             application.ClimateAssessmentComments = "climate assessment comments";
 
             //Permits Regulations & Standards - 7
+            application.Permits = new[] { "permit 1", "permit 2" };
             application.StandardsAcceptable = EMCR.DRR.Controllers.YesNoOption.NotApplicable;
             application.Standards = new[] {
                 new EMCR.DRR.Controllers.StandardInfo { IsCategorySelected = true, Category = "Environment - Water (includes Rivers, Flooding, etc.)", Standards = new [] { "BC Water Sustainability Act", "Water Survey Canada", "other water env standard" } },
                 new EMCR.DRR.Controllers.StandardInfo { IsCategorySelected = true, Category = "Other", Standards = new [] { "other_standard1"} },
             };
             application.StandardsComments = "standards comments";
-            application.ProfessionalGuidance = false;
+            application.ProfessionalGuidance = true;
             application.Professionals = new[] { "professional1", "professional2" };
             application.ProfessionalGuidanceComments = "professional guidance comments";
             application.MeetsRegulatoryRequirements = false;
