@@ -690,6 +690,11 @@
       </drr-summary-item>
 
       <drr-summary-item
+        *ngIf="
+          fullProposalForm.get(
+            'permitsRegulationsAndStandards.professionalGuidance'
+          )?.value === true
+        "
         [label]="t('professionals')"
         [rxFormControl]="
           fullProposalForm.get('permitsRegulationsAndStandards.professionals')
@@ -750,7 +755,13 @@
       >
       </drr-summary-item>
 
-      <div>
+      <div
+        *ngIf="
+          fullProposalForm.get(
+            'permitsRegulationsAndStandards.meetsEligibilityRequirements'
+          )?.value === true
+        "
+      >
         <mat-label class="drr-label">{{ t("permits") }}</mat-label>
         <div
           class="summary-row"
