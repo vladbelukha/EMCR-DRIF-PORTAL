@@ -201,7 +201,7 @@ export class DrifFpStep7Component {
       });
 
     this.permitsRegulationsAndStandardsForm
-      .get('permits')
+      .get('permitsArray')
       ?.valueChanges.pipe(distinctUntilChanged())
       .subscribe((permits: StringItem[]) => {
         this.permitsRegulationsAndStandardsForm.get('permits')?.patchValue(
@@ -245,7 +245,9 @@ export class DrifFpStep7Component {
   }
 
   getPermitsFormArray() {
-    return this.permitsRegulationsAndStandardsForm.get('permits') as FormArray;
+    return this.permitsRegulationsAndStandardsForm.get(
+      'permitsArray'
+    ) as FormArray;
   }
 
   addPermit() {

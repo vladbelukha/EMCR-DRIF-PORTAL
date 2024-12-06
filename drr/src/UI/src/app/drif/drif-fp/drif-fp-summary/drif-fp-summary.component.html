@@ -424,6 +424,18 @@
             controlType="date"
           >
           </drr-summary-item>
+
+          <drr-summary-item
+            [label]="t('tasks')"
+            [rxFormControl]="control.get('tasks')"
+          >
+          </drr-summary-item>
+
+          <drr-summary-item
+            [label]="t('deliverables')"
+            [rxFormControl]="control.get('deliverables')"
+          >
+          </drr-summary-item>
         </div>
       </div>
 

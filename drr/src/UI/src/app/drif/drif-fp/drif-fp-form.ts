@@ -187,8 +187,11 @@ export class PermitsRegulationsAndStandardsForm {
   @required()
   meetsRegulatoryRequirements?: boolean;
 
+  @prop()
+  permits?: string[] = [];
+
   @propArray(StringItem)
-  permits?: StringItem[] = [{ value: '' }];
+  permitsArray?: StringItem[] = [{ value: '' }];
 
   @prop()
   meetsRegulatoryComments?: string;
