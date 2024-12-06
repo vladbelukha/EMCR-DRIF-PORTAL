@@ -134,14 +134,17 @@ export class DrifFpStep7Component {
       .get('meetsEligibilityRequirements')
       ?.valueChanges.pipe(distinctUntilChanged())
       .subscribe((value) => {
+        const permitsArray = this.getPermitsFormArray();
         const meetsEligibilityCommentsControl =
           this.permitsRegulationsAndStandardsForm.get(
             'meetsEligibilityComments'
           );
         if (value === false) {
           meetsEligibilityCommentsControl?.clearValidators();
+          permitsArray.clear();
         } else {
           meetsEligibilityCommentsControl?.addValidators(Validators.required);
+          this.addPermit();
         }
         meetsEligibilityCommentsControl?.updateValueAndValidity();
       });

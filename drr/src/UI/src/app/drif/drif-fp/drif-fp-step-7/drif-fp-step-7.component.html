@@ -107,11 +107,15 @@
       "
     ></drr-radio-button>
 
-    <mat-label class="drr-label" style="margin-top: 2rem">{{
-      t("permits")
-    }}</mat-label>
-
-    <div>
+    <div
+      *ngIf="
+        permitsRegulationsAndStandardsForm.get('meetsEligibilityRequirements')
+          ?.value === true
+      "
+    >
+      <mat-label class="drr-label" style="margin-top: 2rem">{{
+        t("permits")
+      }}</mat-label>
       <div
         class="permit-container"
         *ngFor="let permit of getPermitsFormArray().controls; let i = index"
@@ -121,7 +125,7 @@
           [id]="'permit_' + i"
           [label]="t('permitLabel')"
           [rxFormControl]="permit.get('value')"
-          [maxlength]="100"
+          [maxlength]="200"
         ></drr-input>
         <button
           *ngIf="i > 0"
