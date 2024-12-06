@@ -125,6 +125,8 @@ export type DraftFpApplicationAllOf = {
   /** @nullable */
   isInfrastructureImpacted?: boolean;
   /** @nullable */
+  knowledgeHolders?: string;
+  /** @nullable */
   localGovernmentAuthorizedByPartners?: YesNoOption;
   /** @nullable */
   locationDescription?: string;
