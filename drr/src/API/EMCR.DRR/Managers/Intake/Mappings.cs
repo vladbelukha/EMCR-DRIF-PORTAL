@@ -44,6 +44,17 @@ namespace EMCR.DRR.Managers.Intake
                 .ForMember(dest => dest.ApplicationTypeName, opt => opt.MapFrom(src => "Full Proposal"))
                 .ForMember(dest => dest.ProgramName, opt => opt.MapFrom(src => "DRIF"))
                 .ForMember(dest => dest.EstimatedTotal, opt => opt.MapFrom(src => src.TotalProjectCost))
+                .AfterMap((_, dest) =>
+                {
+                    int i = 1;
+                    if (dest.ProposedActivities != null)
+                    {
+                        foreach (var activity in dest.ProposedActivities)
+                        {
+                            activity.ActivityNumber = i++;
+                        }
+                    }
+                })
                 .ReverseMap()
                 .ForMember(dest => dest.AdditionalContacts, opt => opt.MapFrom(src => DRRAdditionalContactMapper(src.AdditionalContact1, src.AdditionalContact2)))
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => DRRApplicationStatusMapper(src.Status)))
@@ -71,6 +82,17 @@ namespace EMCR.DRR.Managers.Intake
                 .ForMember(dest => dest.ApplicationTypeName, opt => opt.MapFrom(src => "Full Proposal"))
                 .ForMember(dest => dest.ProgramName, opt => opt.MapFrom(src => "DRIF"))
                 .ForMember(dest => dest.EstimatedTotal, opt => opt.MapFrom(src => src.TotalProjectCost))
+                .AfterMap((_, dest) =>
+                {
+                    int i = 1;
+                    if (dest.ProposedActivities != null)
+                    {
+                        foreach (var activity in dest.ProposedActivities)
+                        {
+                            activity.ActivityNumber = i++;
+                        }
+                    }
+                })
                 .ReverseMap()
                 .ForMember(dest => dest.AdditionalContacts, opt => opt.MapFrom(src => DRRAdditionalContactMapper(src.AdditionalContact1, src.AdditionalContact2)))
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => DRRApplicationStatusMapper(src.Status)))
@@ -180,6 +202,7 @@ namespace EMCR.DRR.Managers.Intake
                ;
 
             CreateMap<Controllers.ProposedActivity, ProposedActivity>()
+                .ForMember(dest => dest.ActivityNumber, opt => opt.Ignore())
                 .ReverseMap()
                 ;
 
