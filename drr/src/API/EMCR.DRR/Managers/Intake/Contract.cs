@@ -491,6 +491,7 @@ namespace EMCR.DRR.Managers.Intake
         public DateTime? EndDate { get; set; }
         public string? Tasks { get; set; }
         public string? Deliverables { get; set; }
+        public int? ActivityNumber { get; set; }
     }
 
     public class ScreenerQuestions

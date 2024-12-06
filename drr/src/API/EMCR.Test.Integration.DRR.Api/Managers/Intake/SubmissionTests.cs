@@ -838,7 +838,8 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             //Project Plan - 4
             application.ProposedActivities = new[]
             {
-                new EMCR.DRR.Controllers.ProposedActivity {StartDate = DateTime.UtcNow, EndDate = DateTime.UtcNow.AddDays(5), Name = "autotest-proposed-activity-name", Deliverables = "some deliverable", Tasks = "some tasks" }
+                new EMCR.DRR.Controllers.ProposedActivity {StartDate = DateTime.UtcNow, EndDate = DateTime.UtcNow.AddDays(5), Name = "autotest-proposed-activity-name", Deliverables = "some deliverable", Tasks = "some tasks" },
+                new EMCR.DRR.Controllers.ProposedActivity {StartDate = DateTime.UtcNow, EndDate = DateTime.UtcNow.AddDays(5), Name = "Mapping", Deliverables = "mapping deliverable", Tasks = "mapping tasks" },
             };
             application.FoundationalOrPreviousWorks = new[] { "autotest-verification-method" };
             application.HowWasNeedIdentified = "need identified";
@@ -864,7 +865,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
                 new EMCR.DRR.Controllers.StandardInfo { IsCategorySelected = true, Category = "Other", Standards = new [] { "other_standard1"} },
             };
             application.StandardsComments = "standards comments";
-            application.ProfessionalGuidance = false;
+            application.ProfessionalGuidance = true;
             application.Professionals = new[] { "professional1", "professional2" };
             application.ProfessionalGuidanceComments = "professional guidance comments";
             application.MeetsRegulatoryRequirements = false;
