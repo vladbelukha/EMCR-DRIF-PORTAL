@@ -421,7 +421,10 @@ export class ProposedActivityForm {
   endDate?: string;
 
   @prop()
-  relatedMilestone?: string;
+  tasks?: string;
+
+  @prop()
+  deliverables?: string;
 
   constructor(values: ProposedActivityForm) {
     Object.assign(this, values);

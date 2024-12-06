@@ -19,9 +19,10 @@ const initialState: OptionsState = {
   professionals: [],
   readinessRisks: [],
   sensitivityRisks: [],
-  standards: [],  
+  standards: [],
   foundationalOrPreviousWorks: [],
   climateAssessmentToolOptions: [],
+  projectActivities: [],
 };
 
 export const OptionsStore = signalStore(
