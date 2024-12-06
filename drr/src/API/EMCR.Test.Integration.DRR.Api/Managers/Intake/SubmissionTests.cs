@@ -870,6 +870,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             application.ProfessionalGuidance = true;
             application.Professionals = new[] { "professional1", "professional2" };
             application.ProfessionalGuidanceComments = "professional guidance comments";
+            application.KnowledgeHolders = "knowledge holders";
             application.MeetsRegulatoryRequirements = false;
             application.MeetsRegulatoryComments = "regulations comments";
             application.MeetsEligibilityRequirements = false;
@@ -976,6 +977,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             application.ProfessionalGuidance = null;
             application.Professionals = Array.Empty<string>();
             application.ProfessionalGuidanceComments = string.Empty;
+            application.KnowledgeHolders = string.Empty;
             application.MeetsRegulatoryRequirements = null;
             application.MeetsRegulatoryComments = string.Empty;
             application.MeetsEligibilityRequirements = null;

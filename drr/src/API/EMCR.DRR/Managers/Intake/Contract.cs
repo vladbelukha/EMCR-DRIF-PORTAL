@@ -301,6 +301,7 @@ namespace EMCR.DRR.Managers.Intake
         public bool? ProfessionalGuidance { get; set; }
         public IEnumerable<ProfessionalInfo> Professionals { get; set; } //Missing list in CRM
         public string? ProfessionalGuidanceComments { get; set; }
+        public string? KnowledgeHolders { get; set; }
         public bool? MeetsRegulatoryRequirements { get; set; }
         public string? MeetsRegulatoryComments { get; set; }
         public bool? MeetsEligibilityRequirements { get; set; }
