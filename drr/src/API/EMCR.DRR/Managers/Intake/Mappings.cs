@@ -73,6 +73,7 @@ namespace EMCR.DRR.Managers.Intake
                 .ForMember(dest => dest.CostConsiderations, opt => opt.MapFrom(src => src.CostConsiderations.Select(p => p.Name)))
                 .ForMember(dest => dest.TotalProjectCost, opt => opt.MapFrom(src => src.EstimatedTotal))
                 .ForMember(dest => dest.EligibleFundingRequest, opt => opt.MapFrom(src => src.EligibleAmountForFP))
+                .ForMember(dest => dest.Permits, opt => opt.MapFrom(src => src.Permits.Select(p => p.Name)))
                 ;
 
             CreateMap<DraftFpApplication, Application>(MemberList.None)
@@ -111,6 +112,7 @@ namespace EMCR.DRR.Managers.Intake
                 .ForMember(dest => dest.CostConsiderations, opt => opt.MapFrom(src => src.CostConsiderations.Select(p => p.Name)))
                 .ForMember(dest => dest.TotalProjectCost, opt => opt.MapFrom(src => src.EstimatedTotal))
                 .ForMember(dest => dest.EligibleFundingRequest, opt => opt.MapFrom(src => src.EligibleAmountForFP))
+                .ForMember(dest => dest.Permits, opt => opt.MapFrom(src => src.Permits.Select(p => p.Name)))
                 ;
 
             CreateMap<Controllers.FundingInformation, FundingInformation>()
@@ -198,6 +200,10 @@ namespace EMCR.DRR.Managers.Intake
                ;
 
             CreateMap<string, CostConsideration>()
+               .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src))
+               ;
+
+            CreateMap<string, Permit>()
                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src))
                ;
 

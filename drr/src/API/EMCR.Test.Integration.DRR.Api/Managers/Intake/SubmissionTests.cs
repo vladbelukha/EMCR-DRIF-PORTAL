@@ -359,6 +359,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             var ret = mapper.Map<DraftFpApplication>(updatedFp);
             ret.FoundationalOrPreviousWorks.ShouldContain("autotest-verification-method");
             ret.AffectedParties.ShouldContain("party 1");
+            ret.Permits.ShouldContain("permit 1");
             ret.ClimateAssessmentTools.ShouldContain("tool 1");
             ret.Professionals.ShouldContain("professional1");
             ret.CostReductions.ShouldContain("cost reduction 1");
@@ -859,6 +860,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             application.ClimateAssessmentComments = "climate assessment comments";
 
             //Permits Regulations & Standards - 7
+            application.Permits = new[] { "permit 1", "permit 2" };
             application.StandardsAcceptable = EMCR.DRR.Controllers.YesNoOption.NotApplicable;
             application.Standards = new[] {
                 new EMCR.DRR.Controllers.StandardInfo { IsCategorySelected = true, Category = "Environment - Water (includes Rivers, Flooding, etc.)", Standards = new [] { "BC Water Sustainability Act", "Water Survey Canada", "other water env standard" } },

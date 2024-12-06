@@ -294,6 +294,7 @@ namespace EMCR.DRR.Managers.Intake
         public string? ClimateAssessmentComments { get; set; }
 
         //Permits Regulations & Standards - 7
+        public IEnumerable<Permit> Permits { get; set; }
         public YesNoOption? StandardsAcceptable { get; set; }
         public IEnumerable<StandardInfo> Standards { get; set; }
         public string? StandardsComments { get; set; }
@@ -391,6 +392,11 @@ namespace EMCR.DRR.Managers.Intake
     }
 
     public class PartneringProponent
+    {
+        public required string Name { get; set; }
+    }
+    
+    public class Permit
     {
         public required string Name { get; set; }
     }
