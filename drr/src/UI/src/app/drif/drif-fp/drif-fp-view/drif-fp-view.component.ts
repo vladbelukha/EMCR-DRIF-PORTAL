@@ -69,6 +69,7 @@ export class DrifFpViewComponent {
           mainDeliverable: response.mainDeliverable,
           regionalProject: response.regionalProject,
           regionalProjectComments: response.regionalProjectComments,
+          partneringProponents: response.partneringProponents,
         },
         ownershipAndAuthorization: {
           ownershipDeclaration: response.ownershipDeclaration,
@@ -134,8 +135,9 @@ export class DrifFpViewComponent {
           professionals: response.professionals,
           professionalGuidanceComments: response.professionalGuidanceComments,
           professionalGuidance: response.professionalGuidance,
-          // TODO: knowledgeHolders: response.knowledgeHolders,
+          knowledgeHolders: response.knowledgeHolders,
           meetsEligibilityComments: response.meetsEligibilityComments,
+          permits: response.permits,
           meetsEligibilityRequirements: response.meetsEligibilityRequirements,
         },
         projectOutcomes: {
@@ -204,6 +206,7 @@ export class DrifFpViewComponent {
           { emitEvent: false }
         );
       });
+
       const additionalContactsArray = this.fullProposalForm
         .get('proponentAndProjectInformation')
         ?.get('additionalContacts') as FormArray;
