@@ -2,16 +2,20 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, Input } from '@angular/core';
 import { FormArray, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { IFormGroup, RxFormBuilder } from '@rxweb/reactive-form-validators';
 import { DrrChipAutocompleteComponent } from '../../../shared/controls/drr-chip-autocomplete/drr-chip-autocomplete.component';
 import { DrrDatepickerComponent } from '../../../shared/controls/drr-datepicker/drr-datepicker.component';
 import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
-import { DrrSelectComponent } from '../../../shared/controls/drr-select/drr-select.component';
+import {
+  DrrSelectComponent,
+  DrrSelectOption,
+} from '../../../shared/controls/drr-select/drr-select.component';
 import { DrrTextareaComponent } from '../../../shared/controls/drr-textarea/drr-textarea.component';
 import { OptionsStore } from '../../../store/options.store';
 import { ProjectPlanForm, ProposedActivityForm } from '../drif-fp-form';
@@ -29,6 +33,7 @@ import { ProjectPlanForm, ProposedActivityForm } from '../drif-fp-form';
     MatInputModule,
     MatIconModule,
     MatButtonModule,
+    MatCardModule,
     TranslocoModule,
     DrrInputComponent,
     DrrSelectComponent,
@@ -42,6 +47,16 @@ import { ProjectPlanForm, ProposedActivityForm } from '../drif-fp-form';
 export class DrifFpStep4Component {
   formBuilder = inject(RxFormBuilder);
   optionsStore = inject(OptionsStore);
+  translocoService = inject(TranslocoService);
+
+  activityOptions: DrrSelectOption[] =
+    this.optionsStore
+      .getOptions()
+      ?.projectActivities?.()
+      ?.map((a) => ({
+        value: a,
+        label: a,
+      })) ?? [];
 
   @Input() projectPlanForm!: IFormGroup<ProjectPlanForm>;
 

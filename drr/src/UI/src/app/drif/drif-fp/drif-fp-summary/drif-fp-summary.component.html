@@ -397,7 +397,7 @@
       <div>
         <mat-label class="drr-label">{{ t("proposedActivities") }}</mat-label>
         <div
-          class="summary-row"
+          class="summary-grid-row"
           *ngFor="
             let control of getRxFormArrayControls(
               'projectPlan',
@@ -426,8 +426,14 @@
           </drr-summary-item>
 
           <drr-summary-item
-            [label]="t('relatedMilestone')"
-            [rxFormControl]="control.get('relatedMilestone')"
+            [label]="t('tasks')"
+            [rxFormControl]="control.get('tasks')"
+          >
+          </drr-summary-item>
+
+          <drr-summary-item
+            [label]="t('deliverables')"
+            [rxFormControl]="control.get('deliverables')"
           >
           </drr-summary-item>
         </div>
@@ -678,10 +684,17 @@
           )
         "
         controlType="radio"
+        [value]="getProfessionalGuidanceAnswer()"
+        [translate]="false"
       >
       </drr-summary-item>
 
       <drr-summary-item
+        *ngIf="
+          fullProposalForm.get(
+            'permitsRegulationsAndStandards.professionalGuidance'
+          )?.value === true
+        "
         [label]="t('professionals')"
         [rxFormControl]="
           fullProposalForm.get('permitsRegulationsAndStandards.professionals')
@@ -696,6 +709,16 @@
         [rxFormControl]="
           fullProposalForm.get(
             'permitsRegulationsAndStandards.professionalGuidanceComments'
+          )
+        "
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('knowledgeHolders')"
+        [rxFormControl]="
+          fullProposalForm.get(
+            'permitsRegulationsAndStandards.knowledgeHolders'
           )
         "
       >
@@ -731,6 +754,29 @@
         controlType="radio"
       >
       </drr-summary-item>
+
+      <div
+        *ngIf="
+          fullProposalForm.get(
+            'permitsRegulationsAndStandards.meetsEligibilityRequirements'
+          )?.value === true
+        "
+      >
+        <mat-label class="drr-label">{{ t("permits") }}</mat-label>
+        <div
+          class="summary-row"
+          *ngFor="
+            let permit of getFormArray(
+              'permitsRegulationsAndStandards',
+              'permits'
+            );
+            let i = index
+          "
+        >
+          <mat-label>{{ permit }}</mat-label>
+        </div>
+      </div>
+
       <drr-summary-item
         [label]="t('meetsEligibilityComments')"
         [rxFormControl]="
