@@ -82,11 +82,10 @@ export class DrifFpStep7Component {
     ?.standards?.()
     ?.map((s) => s.category);
 
-  private _professionalOptions?: string[] = this.optionsStore
-    .getOptions()
-    ?.professionals?.();
+  private _professionalOptionsSignal =
+    this.optionsStore.getOptions!().professionals;
   get professionalOptions(): DrrSelectOption[] | undefined {
-    return this._professionalOptions?.map((p) => ({
+    return this._professionalOptionsSignal?.()?.map((p) => ({
       value: p,
       label: p,
     }));
