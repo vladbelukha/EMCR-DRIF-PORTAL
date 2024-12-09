@@ -47,7 +47,7 @@ export class DrrSelectComponent {
   @Input() isMultiple = false;
   @Input() label = '';
   @Input() id = '';
-  @Input() options: DrrSelectOption[] = [];
+  @Input() options?: DrrSelectOption[] = [];
 
   @Output()
   selectionChange = new EventEmitter<MatSelectChange>();
