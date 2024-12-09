@@ -84,6 +84,8 @@ export const appConfig: ApplicationConfig = {
           await appConfigurationService.loadConfiguration();
           await authService.init();
           await appConfigurationService.loadOptions();
+
+          return Promise.resolve();
         },
       multi: true,
     },
