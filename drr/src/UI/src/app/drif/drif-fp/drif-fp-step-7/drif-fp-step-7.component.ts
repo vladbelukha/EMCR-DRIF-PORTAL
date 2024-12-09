@@ -82,13 +82,16 @@ export class DrifFpStep7Component {
     ?.standards?.()
     ?.map((s) => s.category);
 
-  professionalOptions?: DrrSelectOption[] = this.optionsStore
+  private _professionalOptions?: string[] = this.optionsStore
     .getOptions()
-    ?.professionals?.()
-    ?.map((p) => ({
+    ?.professionals?.();
+  get professionalOptions(): DrrSelectOption[] | undefined {
+    return this._professionalOptions?.map((p) => ({
       value: p,
       label: p,
     }));
+  }
+
   standardsAcceptableOptions: RadioOption[] = [
     { value: YesNoOption.Yes, label: 'Yes' },
     { value: YesNoOption.No, label: 'No' },
