@@ -49,14 +49,13 @@ export class DrifFpStep4Component {
   optionsStore = inject(OptionsStore);
   translocoService = inject(TranslocoService);
 
-  activityOptions: DrrSelectOption[] =
-    this.optionsStore
-      .getOptions()
-      ?.projectActivities?.()
-      ?.map((a) => ({
-        value: a,
-        label: a,
-      })) ?? [];
+  activityOptions?: DrrSelectOption[] = this.optionsStore
+    .getOptions()
+    ?.projectActivities?.()
+    ?.map((a) => ({
+      value: a,
+      label: a,
+    }));
 
   @Input() projectPlanForm!: IFormGroup<ProjectPlanForm>;
 
