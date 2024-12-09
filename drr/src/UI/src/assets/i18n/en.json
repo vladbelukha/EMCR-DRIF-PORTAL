@@ -266,7 +266,7 @@
     "apply": "Apply",
     "createFP": "Create Full Proposal",
     "withdrawTitle": "Withdraw Submission",
-    "withdrawTextEoi": "This will withdraw your EOI from consideration for funding. Once withdrawn, you will not be able to recover this EOI. However, you can start a new EOI at any time. Are you sure you want to continue?",
+    "withdrawTextEoi": "This will withdraw your EOI from consideration for funding. Are you sure you want to continue?",
     "withdrawTextFp": "This will withdraw your Full Proposal from consideration for funding. Once withdrawn, you will not be able to recover this submission or start a new Full Proposal for this project. Are you sure you want to continue?",
     "deleteTitle": "Delete Draft",
     "deleteText": " This will delete your draft. You will not be able to view or recover a deleted draft. Are you sure you want to continue?"
