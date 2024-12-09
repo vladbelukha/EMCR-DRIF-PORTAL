@@ -49,11 +49,10 @@ export class DrifFpStep4Component {
   optionsStore = inject(OptionsStore);
   translocoService = inject(TranslocoService);
 
-  private _activityOptions?: string[] = this.optionsStore
-    .getOptions()
-    ?.projectActivities?.();
+  private _activityOptionsSignal =
+    this.optionsStore.getOptions!().projectActivities!;
   get activityOptions(): DrrSelectOption[] | undefined {
-    return this._activityOptions?.map((a) => ({
+    return this._activityOptionsSignal()?.map((a) => ({
       value: a,
       label: a,
     }));
