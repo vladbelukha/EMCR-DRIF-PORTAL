@@ -194,11 +194,11 @@ export class DrifFpStep11Component {
             documentType === DocumentType.DetailedProjectWorkplan ||
             documentType === DocumentType.DetailedCostEstimate
           ) {
-            attachmentsArray.push(
-              this.formBuilder.formGroup(AttachmentForm, {
-                documentType,
-              })
-            );
+            const attachmentForm = this.formBuilder.formGroup(AttachmentForm, {
+              documentType,
+            });
+            attachmentForm.markAllAsTouched();
+            attachmentsArray.push(attachmentForm);
           }
         },
         error: () => {
