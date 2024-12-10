@@ -31,12 +31,12 @@ namespace EMCR.DRR.API.Model
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum DocumentType
     {
-        DetailedProjectWorkplan,
-        ProjectSchedule,
-        DetailedCostEstimate,
-        SitePlan,
-        PreliminaryDesign,
-        Resolution,
         OtherSupportingDocument,
+        Resolution,
+        DetailedCostEstimate,
+        DetailedProjectWorkplan,
+        PreliminaryDesign,
+        ProjectSchedule,
+        SitePlan,
     }
 }

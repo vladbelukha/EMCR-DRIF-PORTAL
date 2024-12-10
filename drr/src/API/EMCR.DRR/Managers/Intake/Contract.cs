@@ -164,20 +164,24 @@ namespace EMCR.DRR.Managers.Intake
 
     public enum DocumentType
     {
-        [Description("Detailed Project Workplan")]
-        DetailedProjectWorkplan,
-        [Description("Project Schedule")]
-        ProjectSchedule,
-        [Description("Detailed Cost Estimate")]
-        DetailedCostEstimate,
-        [Description("Site Plan")]
-        SitePlan,
-        [Description("Preliminary Design")]
-        PreliminaryDesign,
-        [Description("Council/Board Resolution")]
-        Resolution,
         [Description("Other Supporting Documentation")]
         OtherSupportingDocument,
+        [Description("Council/Board Resolution")]
+        Resolution,
+        [Description("Detailed Cost Estimate")]
+        DetailedCostEstimate,
+        [Description("Detailed Project Workplan")]
+        DetailedProjectWorkplan,
+        [Description("Funding Approval")]
+        FundingApproval,
+        [Description("Preliminary Design")]
+        PreliminaryDesign,
+        [Description("Project Schedule")]
+        ProjectSchedule,
+        [Description("Site Plan")]
+        SitePlan,
+        [Description("SME Feedback")]
+        SMEFeedback,
     }
 
     public class Application
