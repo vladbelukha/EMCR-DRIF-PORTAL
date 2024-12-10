@@ -13,7 +13,9 @@
     <mat-label style="margin: 1rem 0">
       {{ t("standardsAcceptableHint") }}
     </mat-label>
-    <mat-error *ngIf="showStandardsRequiredTrueError()">{{ t("standardsAcceptableError") }}</mat-error>
+    <mat-error *ngIf="showStandardsRequiredTrueError()">{{
+      t("standardsAcceptableError")
+    }}</mat-error>
 
     <div formArrayName="standards">
       <div
@@ -53,13 +55,14 @@
       [options]="professionalGuidanceOptions"
     ></drr-radio-button>
 
+    <mat-label>{{ t("professionals") }}*</mat-label>
     <drr-select
+      [label]="'Qualified Professionals'"
       class="drr-single-input"
       *ngIf="
         permitsRegulationsAndStandardsForm.get('professionalGuidance')
           ?.value === true
       "
-      [label]="t('professionals')"
       [rxFormControl]="permitsRegulationsAndStandardsForm.get('professionals')"
       [options]="professionalOptions"
       [isMultiple]="true"
