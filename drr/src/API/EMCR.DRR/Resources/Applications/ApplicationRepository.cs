@@ -1378,6 +1378,8 @@ namespace EMCR.DRR.Resources.Applications
                     ctx.AttachTo(nameof(DRRContext.bcgov_documenturls), doc);
                     await ctx.LoadPropertyAsync(doc, nameof(bcgov_documenturl.bcgov_DocumentType), ct);
                 });
+
+            application.bcgov_drr_application_bcgov_documenturl_Application = new System.Collections.ObjectModel.Collection<bcgov_documenturl>(application.bcgov_drr_application_bcgov_documenturl_Application.Where(d => d.bcgov_DocumentType.bcgov_isportalaccessible.HasValue && d.bcgov_DocumentType.bcgov_isportalaccessible == (int)DRRTwoOptions.Yes).ToList());
         }
 
         private List<drr_application> SortAndPageResults(List<drr_application> applications, ApplicationsQuery query)
