@@ -6,6 +6,7 @@ using EMCR.DRR.API.Resources.Documents;
 using EMCR.DRR.API.Services;
 using EMCR.DRR.API.Services.S3;
 using EMCR.DRR.Resources.Applications;
+using EMCR.Utilities.Extensions;
 
 namespace EMCR.DRR.Managers.Intake
 {
@@ -187,7 +188,7 @@ namespace EMCR.DRR.Managers.Intake
             if (application.Status != ApplicationStatus.DraftProponent && application.Status != ApplicationStatus.DraftStaff) throw new BusinessValidationException("Can only edit attachments when application is in Draft");
             if (cmd.AttachmentInfo.DocumentType != DocumentType.OtherSupportingDocument && application.Attachments != null && application.Attachments.Any(a => a.DocumentType == cmd.AttachmentInfo.DocumentType))
             {
-                throw new BusinessValidationException("A document with this type already exists");
+                throw new BusinessValidationException($"A document with type {cmd.AttachmentInfo.DocumentType.ToDescriptionString()} already exists on the application {cmd.AttachmentInfo.ApplicationId}");
             }
 
             var documentRes = (await documentRepository.Manage(new CreateDocument { ApplicationId = cmd.AttachmentInfo.ApplicationId, Document = new Document { Name = cmd.AttachmentInfo.File.FileName, DocumentType = cmd.AttachmentInfo.DocumentType, Size = GetFileSize(cmd.AttachmentInfo.File.Content) } }));

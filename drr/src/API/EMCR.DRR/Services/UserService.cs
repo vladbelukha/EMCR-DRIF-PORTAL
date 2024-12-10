@@ -69,11 +69,11 @@ public class UserService(ICache cache, IHttpContextAccessor httpContext, IConfig
         //Immediately after login 2 requests from the front end come in at the same time. Only try to create an account for the profile request to prevent duplicates
         if (path.Contains("profile"))
         {
-            var didCheck = await cache.Get<bool>(cacheKey);
-            if (!didCheck)
+            var cacheVal = Guid.NewGuid().ToString();
+            var didCheck = await cache.GetOrSet(cacheKey, async () => await Task.FromResult(cacheVal), TimeSpan.FromMinutes(10));
+            if (didCheck == cacheVal)
             {
-                await cache.Set<bool>(cacheKey, true, TimeSpan.FromMinutes(10));
-                await accountRepository.Manage(new SaveAccountIfNotExists { Account = new Account { BCeIDBusinessId = GetCurrentBusinessId(sourcePrincipal), Name = GetCurrentBusinessName(sourcePrincipal) } });
+                await accountRepository.Manage(new SaveAccountIfNotExists { Account = new Account { BCeIDBusinessId = GetCurrentBusinessId(sourcePrincipal), Name = GetCurrentBusinessName(sourcePrincipal), City = accountDetails.account.business.address.city.value } });
             }
         }
 
