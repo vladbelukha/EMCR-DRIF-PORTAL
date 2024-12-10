@@ -11,7 +11,6 @@ import { NgxFileDropEntry, NgxFileDropModule } from 'ngx-file-drop';
   selector: 'drr-file-upload',
   standalone: true,
   imports: [CommonModule, MatButtonModule, NgxFileDropModule, TranslocoModule],
-  providers: [HotToastService],
   templateUrl: './drr-file-upload.component.html',
   styleUrl: './drr-file-upload.component.scss',
 })
