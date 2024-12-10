@@ -36,7 +36,8 @@ namespace EMCR.Tests.Integration.DRR.Resources
             return new Account
             {
                 BCeIDBusinessId = $"{uniqueSignature}-business_bceid",
-                Name = $"{uniqueSignature}-account_name"
+                Name = $"{uniqueSignature}-account_name",
+                City = $"{uniqueSignature}-account_city",
             };
         }
     }
