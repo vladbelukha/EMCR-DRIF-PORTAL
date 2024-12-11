@@ -10,12 +10,8 @@
     [min]="min"
   />
   <mat-hint>YYYY-MM-DD</mat-hint>
-  <mat-error *ngIf="rxFormControl.hasError('matDatepickerMin')">
-    {{ minErrorLabel }}
-  </mat-error>
-  <mat-error *ngIf="rxFormControl.hasError('matDatepickerParse')">
-    {{ t("matDatepickerParseError") }}
-  </mat-error>
+  <mat-error *ngIf="rxFormControl.hasError('matDatepickerMin')">{{ minErrorLabel }}</mat-error>
+  <mat-error *ngIf="rxFormControl.hasError('matDatepickerParse')">{{ t("matDatepickerParseError") }}</mat-error>
   <mat-datepicker-toggle
     matIconSuffix
     [for]="date_picker"

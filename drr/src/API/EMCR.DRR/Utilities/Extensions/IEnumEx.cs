@@ -37,8 +37,11 @@ namespace EMCR.Utilities.Extensions
                 }
             }
 
-            throw new ArgumentException("Not found.", nameof(description));
+            //throw new ArgumentException("Not found.", nameof(description));
             // Or return default(T);
+#pragma warning disable CS8603 // Possible null reference return.
+            return default(T);
+#pragma warning restore CS8603 // Possible null reference return.
         }
     }
 #pragma warning restore CS8602 // Dereference of a possibly null reference.

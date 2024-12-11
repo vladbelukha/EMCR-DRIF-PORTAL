@@ -45,6 +45,17 @@ namespace EMCR.DRR.API.Resources.Accounts
                     logger.LogWarning($"More than one account exists with the BCeID: {account.drr_bceidguid}");
                 }
 
+                if (existingAccounts.Count == 1)
+                {
+                    var existingAccount = existingAccounts.First();
+                    if (string.IsNullOrEmpty(existingAccount.address1_city))
+                    {
+                        existingAccount.address1_city = cmd.Account.City;
+                        ctx.UpdateObject(existingAccount);
+                        await ctx.SaveChangesAsync();
+                    }
+                }
+
                 account.accountid = existingAccounts.First().accountid;
             }
 

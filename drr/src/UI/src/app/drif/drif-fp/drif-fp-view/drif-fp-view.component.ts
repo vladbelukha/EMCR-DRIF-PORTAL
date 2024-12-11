@@ -69,6 +69,7 @@ export class DrifFpViewComponent {
           mainDeliverable: response.mainDeliverable,
           regionalProject: response.regionalProject,
           regionalProjectComments: response.regionalProjectComments,
+          partneringProponents: response.partneringProponents,
         },
         ownershipAndAuthorization: {
           ownershipDeclaration: response.ownershipDeclaration,
@@ -134,7 +135,9 @@ export class DrifFpViewComponent {
           professionals: response.professionals,
           professionalGuidanceComments: response.professionalGuidanceComments,
           professionalGuidance: response.professionalGuidance,
+          knowledgeHolders: response.knowledgeHolders,
           meetsEligibilityComments: response.meetsEligibilityComments,
+          permits: response.permits,
           meetsEligibilityRequirements: response.meetsEligibilityRequirements,
         },
         projectOutcomes: {
@@ -203,6 +206,7 @@ export class DrifFpViewComponent {
           { emitEvent: false }
         );
       });
+
       const additionalContactsArray = this.fullProposalForm
         .get('proponentAndProjectInformation')
         ?.get('additionalContacts') as FormArray;
@@ -297,6 +301,19 @@ export class DrifFpViewComponent {
         standardsFormArray?.push(standardInfoForm, { emitEvent: false });
       });
 
+      const permitsArray = this.fullProposalForm.get(
+        'permitsRegulationsAndStandards.permits'
+      ) as FormArray;
+      if (response.permits?.length! > 0) {
+        permitsArray.clear({ emitEvent: false });
+      }
+      response.permits?.forEach((permit) => {
+        permitsArray?.push(
+          this.formBuilder.formGroup(new StringItem({ value: permit })),
+          { emitEvent: false }
+        );
+      });
+
       this.initStep11(response);
     });
   }
@@ -316,16 +333,6 @@ export class DrifFpViewComponent {
     }
 
     response.attachments?.forEach((attachment) => {
-      if (attachment.documentType === DocumentType.DetailedProjectWorkplan) {
-        attachmentsArray.controls
-          .find(
-            (control) =>
-              control.value.documentType ===
-              DocumentType.DetailedProjectWorkplan
-          )
-          ?.patchValue(attachment, { emitEvent: false });
-        return;
-      }
       if (attachment.documentType === DocumentType.DetailedCostEstimate) {
         attachmentsArray.controls
           .find(

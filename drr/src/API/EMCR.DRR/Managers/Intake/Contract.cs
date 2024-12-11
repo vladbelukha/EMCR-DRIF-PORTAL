@@ -164,20 +164,20 @@ namespace EMCR.DRR.Managers.Intake
 
     public enum DocumentType
     {
-        [Description("Detailed Project Workplan")]
-        DetailedProjectWorkplan,
-        [Description("Project Schedule")]
-        ProjectSchedule,
-        [Description("Detailed Cost Estimate")]
-        DetailedCostEstimate,
-        [Description("Site Plan")]
-        SitePlan,
-        [Description("Preliminary Design")]
-        PreliminaryDesign,
-        [Description("Council/Board Resolution")]
-        Resolution,
         [Description("Other Supporting Documentation")]
         OtherSupportingDocument,
+        [Description("Council/Board Resolution")]
+        Resolution,
+        [Description("Detailed Cost Estimate")]
+        DetailedCostEstimate,
+        [Description("Funding Approval")]
+        FundingApproval,
+        [Description("Preliminary Design")]
+        PreliminaryDesign,
+        [Description("Site Plan")]
+        SitePlan,
+        [Description("SME Feedback")]
+        SMEFeedback,
     }
 
     public class Application
@@ -294,12 +294,14 @@ namespace EMCR.DRR.Managers.Intake
         public string? ClimateAssessmentComments { get; set; }
 
         //Permits Regulations & Standards - 7
+        public IEnumerable<Permit> Permits { get; set; }
         public YesNoOption? StandardsAcceptable { get; set; }
         public IEnumerable<StandardInfo> Standards { get; set; }
         public string? StandardsComments { get; set; }
         public bool? ProfessionalGuidance { get; set; }
         public IEnumerable<ProfessionalInfo> Professionals { get; set; } //Missing list in CRM
         public string? ProfessionalGuidanceComments { get; set; }
+        public string? KnowledgeHolders { get; set; }
         public bool? MeetsRegulatoryRequirements { get; set; }
         public string? MeetsRegulatoryComments { get; set; }
         public bool? MeetsEligibilityRequirements { get; set; }
@@ -391,6 +393,11 @@ namespace EMCR.DRR.Managers.Intake
     }
 
     public class PartneringProponent
+    {
+        public required string Name { get; set; }
+    }
+    
+    public class Permit
     {
         public required string Name { get; set; }
     }
@@ -491,6 +498,7 @@ namespace EMCR.DRR.Managers.Intake
         public DateTime? EndDate { get; set; }
         public string? Tasks { get; set; }
         public string? Deliverables { get; set; }
+        public int? ActivityNumber { get; set; }
     }
 
     public class ScreenerQuestions

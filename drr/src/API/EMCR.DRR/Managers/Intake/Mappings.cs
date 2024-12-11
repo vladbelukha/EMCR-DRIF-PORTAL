@@ -44,6 +44,17 @@ namespace EMCR.DRR.Managers.Intake
                 .ForMember(dest => dest.ApplicationTypeName, opt => opt.MapFrom(src => "Full Proposal"))
                 .ForMember(dest => dest.ProgramName, opt => opt.MapFrom(src => "DRIF"))
                 .ForMember(dest => dest.EstimatedTotal, opt => opt.MapFrom(src => src.TotalProjectCost))
+                .AfterMap((_, dest) =>
+                {
+                    int i = 1;
+                    if (dest.ProposedActivities != null)
+                    {
+                        foreach (var activity in dest.ProposedActivities)
+                        {
+                            activity.ActivityNumber = i++;
+                        }
+                    }
+                })
                 .ReverseMap()
                 .ForMember(dest => dest.AdditionalContacts, opt => opt.MapFrom(src => DRRAdditionalContactMapper(src.AdditionalContact1, src.AdditionalContact2)))
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => DRRApplicationStatusMapper(src.Status)))
@@ -62,6 +73,7 @@ namespace EMCR.DRR.Managers.Intake
                 .ForMember(dest => dest.CostConsiderations, opt => opt.MapFrom(src => src.CostConsiderations.Select(p => p.Name)))
                 .ForMember(dest => dest.TotalProjectCost, opt => opt.MapFrom(src => src.EstimatedTotal))
                 .ForMember(dest => dest.EligibleFundingRequest, opt => opt.MapFrom(src => src.EligibleAmountForFP))
+                .ForMember(dest => dest.Permits, opt => opt.MapFrom(src => src.Permits.Select(p => p.Name)))
                 ;
 
             CreateMap<DraftFpApplication, Application>(MemberList.None)
@@ -71,6 +83,17 @@ namespace EMCR.DRR.Managers.Intake
                 .ForMember(dest => dest.ApplicationTypeName, opt => opt.MapFrom(src => "Full Proposal"))
                 .ForMember(dest => dest.ProgramName, opt => opt.MapFrom(src => "DRIF"))
                 .ForMember(dest => dest.EstimatedTotal, opt => opt.MapFrom(src => src.TotalProjectCost))
+                .AfterMap((_, dest) =>
+                {
+                    int i = 1;
+                    if (dest.ProposedActivities != null)
+                    {
+                        foreach (var activity in dest.ProposedActivities)
+                        {
+                            activity.ActivityNumber = i++;
+                        }
+                    }
+                })
                 .ReverseMap()
                 .ForMember(dest => dest.AdditionalContacts, opt => opt.MapFrom(src => DRRAdditionalContactMapper(src.AdditionalContact1, src.AdditionalContact2)))
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => DRRApplicationStatusMapper(src.Status)))
@@ -89,6 +112,7 @@ namespace EMCR.DRR.Managers.Intake
                 .ForMember(dest => dest.CostConsiderations, opt => opt.MapFrom(src => src.CostConsiderations.Select(p => p.Name)))
                 .ForMember(dest => dest.TotalProjectCost, opt => opt.MapFrom(src => src.EstimatedTotal))
                 .ForMember(dest => dest.EligibleFundingRequest, opt => opt.MapFrom(src => src.EligibleAmountForFP))
+                .ForMember(dest => dest.Permits, opt => opt.MapFrom(src => src.Permits.Select(p => p.Name)))
                 ;
 
             CreateMap<Controllers.FundingInformation, FundingInformation>()
@@ -179,7 +203,12 @@ namespace EMCR.DRR.Managers.Intake
                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src))
                ;
 
+            CreateMap<string, Permit>()
+               .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src))
+               ;
+
             CreateMap<Controllers.ProposedActivity, ProposedActivity>()
+                .ForMember(dest => dest.ActivityNumber, opt => opt.Ignore())
                 .ReverseMap()
                 ;
 

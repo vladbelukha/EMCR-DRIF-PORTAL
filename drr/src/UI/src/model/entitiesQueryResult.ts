@@ -30,6 +30,8 @@ export interface EntitiesQueryResult {
   /** @nullable */
   professionals?: string[];
   /** @nullable */
+  projectActivities?: string[];
+  /** @nullable */
   readinessRisks?: string[];
   /** @nullable */
   sensitivityRisks?: string[];

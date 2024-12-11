@@ -166,6 +166,9 @@ export class PermitsRegulationsAndStandardsForm {
   professionalGuidanceComments?: string;
 
   @prop()
+  knowledgeHolders?: string;
+
+  @prop()
   @required()
   standardsAcceptable?: YesNoOption;
 
@@ -183,6 +186,12 @@ export class PermitsRegulationsAndStandardsForm {
   @prop()
   @required()
   meetsRegulatoryRequirements?: boolean;
+
+  @prop()
+  permits?: string[] = [];
+
+  @propArray(StringItem)
+  permitsArray?: StringItem[] = [{ value: '' }];
 
   @prop()
   meetsRegulatoryComments?: string;
@@ -415,7 +424,10 @@ export class ProposedActivityForm {
   endDate?: string;
 
   @prop()
-  relatedMilestone?: string;
+  tasks?: string;
+
+  @prop()
+  deliverables?: string;
 
   constructor(values: ProposedActivityForm) {
     Object.assign(this, values);
@@ -543,9 +555,6 @@ export class ProjectOutcomesForm {
 export class AttachmentsForm {
   @propArray(AttachmentForm)
   attachments?: AttachmentForm[] = [
-    {
-      documentType: DocumentType.DetailedProjectWorkplan,
-    },
     {
       documentType: DocumentType.DetailedCostEstimate,
     },

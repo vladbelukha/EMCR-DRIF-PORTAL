@@ -19,7 +19,5 @@
   <mat-hint *ngIf="maxlength && isFocused" align="end"
     >{{ getCount() }} / {{ maxlength }}</mat-hint
   >
-  <mat-error *ngIf="rxFormControl.hasError('email')">
-    {{ t("emailError") }}
-  </mat-error>
+  <mat-error *ngIf="rxFormControl.hasError('email')">{{ t("emailError") }}</mat-error>
 </mat-form-field>

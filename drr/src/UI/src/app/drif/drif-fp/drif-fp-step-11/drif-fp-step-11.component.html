@@ -17,28 +17,6 @@
     style="margin-top: 1rem; display: flex; flex-direction: column; gap: 1rem"
   >
     <drr-attachment
-      [title]="t('DetailedProjectWorkplan') + '*'"
-      [attachmentForm]="getFormByDocumentType('DetailedProjectWorkplan')"
-      (uploadFiles)="uploadFiles($event)"
-      (removeFile)="removeFile($event)"
-      (downloadFile)="downloadFile($event)"
-      [documentType]="'DetailedProjectWorkplan'"
-    ></drr-attachment>
-
-    <mat-divider class="extra-space"></mat-divider>
-
-    <drr-attachment
-      [title]="t('ProjectSchedule')"
-      [attachmentForm]="getFormByDocumentType('ProjectSchedule')"
-      (uploadFiles)="uploadFiles($event)"
-      (removeFile)="removeFile($event)"
-      (downloadFile)="downloadFile($event)"
-      [documentType]="'ProjectSchedule'"
-    ></drr-attachment>
-
-    <mat-divider class="extra-space"></mat-divider>
-
-    <drr-attachment
       [title]="t('DetailedCostEstimate') + '*'"
       [attachmentForm]="getFormByDocumentType('DetailedCostEstimate')"
       (uploadFiles)="uploadFiles($event)"

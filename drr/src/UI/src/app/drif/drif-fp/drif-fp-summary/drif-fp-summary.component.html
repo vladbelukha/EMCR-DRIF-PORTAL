@@ -397,7 +397,7 @@
       <div>
         <mat-label class="drr-label">{{ t("proposedActivities") }}</mat-label>
         <div
-          class="summary-row"
+          class="summary-grid-row"
           *ngFor="
             let control of getRxFormArrayControls(
               'projectPlan',
@@ -426,8 +426,14 @@
           </drr-summary-item>
 
           <drr-summary-item
-            [label]="t('relatedMilestone')"
-            [rxFormControl]="control.get('relatedMilestone')"
+            [label]="t('tasks')"
+            [rxFormControl]="control.get('tasks')"
+          >
+          </drr-summary-item>
+
+          <drr-summary-item
+            [label]="t('deliverables')"
+            [rxFormControl]="control.get('deliverables')"
           >
           </drr-summary-item>
         </div>
@@ -678,10 +684,17 @@
           )
         "
         controlType="radio"
+        [value]="getProfessionalGuidanceAnswer()"
+        [translate]="false"
       >
       </drr-summary-item>
 
       <drr-summary-item
+        *ngIf="
+          fullProposalForm.get(
+            'permitsRegulationsAndStandards.professionalGuidance'
+          )?.value === true
+        "
         [label]="t('professionals')"
         [rxFormControl]="
           fullProposalForm.get('permitsRegulationsAndStandards.professionals')
@@ -696,6 +709,16 @@
         [rxFormControl]="
           fullProposalForm.get(
             'permitsRegulationsAndStandards.professionalGuidanceComments'
+          )
+        "
+      >
+      </drr-summary-item>
+
+      <drr-summary-item
+        [label]="t('knowledgeHolders')"
+        [rxFormControl]="
+          fullProposalForm.get(
+            'permitsRegulationsAndStandards.knowledgeHolders'
           )
         "
       >
@@ -731,6 +754,29 @@
         controlType="radio"
       >
       </drr-summary-item>
+
+      <div
+        *ngIf="
+          fullProposalForm.get(
+            'permitsRegulationsAndStandards.meetsEligibilityRequirements'
+          )?.value === true
+        "
+      >
+        <mat-label class="drr-label">{{ t("permits") }}</mat-label>
+        <div
+          class="summary-row"
+          *ngFor="
+            let permit of getFormArray(
+              'permitsRegulationsAndStandards',
+              'permits'
+            );
+            let i = index
+          "
+        >
+          <mat-label>{{ permit }}</mat-label>
+        </div>
+      </div>
+
       <drr-summary-item
         [label]="t('meetsEligibilityComments')"
         [rxFormControl]="
@@ -1132,95 +1178,6 @@
       <mat-card-subtitle>Step 11</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-      <div>
-        <mat-label class="drr-label">{{
-          t("attachments.DetailedProjectWorkplan")
-        }}</mat-label>
-        @if (getAttachmentByDocumentType('DetailedProjectWorkplan')) {
-        <div class="summary-row attachment">
-          <drr-summary-item
-            [label]="t('attachments.name')"
-            [rxFormControl]="
-              getAttachmentByDocumentType('DetailedProjectWorkplan').get('name')
-            "
-          >
-          </drr-summary-item>
-          <drr-summary-item
-            [label]="t('attachments.comments')"
-            [rxFormControl]="
-              getAttachmentByDocumentType('DetailedProjectWorkplan').get(
-                'comments'
-              )
-            "
-          >
-          </drr-summary-item>
-          <button
-            *ngIf="isReadOnlyView"
-            style="align-self: center"
-            mat-button
-            color="primary"
-            (click)="
-              onDownloadFile(
-                getAttachmentByDocumentType('DetailedProjectWorkplan').get('id')
-                  ?.value
-              )
-            "
-          >
-            Download
-          </button>
-        </div>
-        } @else {
-        <div [class.required]="isAttachmentRequired('DetailedProjectWorkplan')">
-          ({{
-            isAttachmentRequired("DetailedProjectWorkplan")
-              ? "Required"
-              : "Optional"
-          }})
-        </div>
-        }
-      </div>
-      <div>
-        <mat-label class="drr-label">{{
-          t("attachments.ProjectSchedule")
-        }}</mat-label>
-        @if (getAttachmentByDocumentType('ProjectSchedule')) {
-        <div class="summary-row attachment">
-          <drr-summary-item
-            [label]="t('attachments.name')"
-            [rxFormControl]="
-              getAttachmentByDocumentType('ProjectSchedule').get('name')
-            "
-          >
-          </drr-summary-item>
-          <drr-summary-item
-            [label]="t('attachments.comments')"
-            [rxFormControl]="
-              getAttachmentByDocumentType('ProjectSchedule').get('comments')
-            "
-          >
-          </drr-summary-item>
-          <button
-            *ngIf="isReadOnlyView"
-            style="align-self: center"
-            mat-button
-            color="primary"
-            (click)="
-              onDownloadFile(
-                getAttachmentByDocumentType('ProjectSchedule').get('id')?.value
-              )
-            "
-          >
-            Download
-          </button>
-        </div>
-        } @else {
-        <div [class.required]="isAttachmentRequired('ProjectSchedule')">
-          ({{
-            isAttachmentRequired("ProjectSchedule") ? "Required" : "Optional"
-          }})
-        </div>
-        }
-      </div>
       <div>
         <mat-label class="drr-label">{{
           t("attachments.DetailedCostEstimate")

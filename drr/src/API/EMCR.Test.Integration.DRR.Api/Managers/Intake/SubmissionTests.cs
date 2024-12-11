@@ -93,6 +93,14 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             var fpId = await manager.Handle(new CreateFpFromEoiCommand { EoiId = eoiId, UserInfo = userInfo, ScreenerQuestions = CreateScreenerQuestions() });
             fpId.ShouldNotBeEmpty();
 
+            var body = DateTime.Now.ToString();
+            byte[] bytes = Encoding.ASCII.GetBytes(body);
+            var projectWorkplanFile = new S3File { FileName = "autotest-dpw.txt", Content = bytes, ContentType = "text/plain", };
+            var costEstimateFile = new S3File { FileName = "autotest-dce.txt", Content = bytes, ContentType = "text/plain", };
+
+            //await manager.Handle(new UploadAttachmentCommand { AttachmentInfo = new AttachmentInfo { ApplicationId = fpId, File = projectWorkplanFile, DocumentType = EMCR.DRR.Managers.Intake.DocumentType.DetailedProjectWorkplan }, UserInfo = GetTestUserInfo() });
+            await manager.Handle(new UploadAttachmentCommand { AttachmentInfo = new AttachmentInfo { ApplicationId = fpId, File = costEstimateFile, DocumentType = EMCR.DRR.Managers.Intake.DocumentType.DetailedCostEstimate }, UserInfo = GetTestUserInfo() });
+
             var fullProposal = (await manager.Handle(new DrrApplicationsQuery { Id = fpId, BusinessId = userInfo.BusinessId })).Items.SingleOrDefault();
             fullProposal.Id.ShouldBe(fpId);
             fullProposal.EoiId.ShouldBe(eoiId);
@@ -359,6 +367,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             var ret = mapper.Map<DraftFpApplication>(updatedFp);
             ret.FoundationalOrPreviousWorks.ShouldContain("autotest-verification-method");
             ret.AffectedParties.ShouldContain("party 1");
+            ret.Permits.ShouldContain("permit 1");
             ret.ClimateAssessmentTools.ShouldContain("tool 1");
             ret.Professionals.ShouldContain("professional1");
             ret.CostReductions.ShouldContain("cost reduction 1");
@@ -838,7 +847,8 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             //Project Plan - 4
             application.ProposedActivities = new[]
             {
-                new EMCR.DRR.Controllers.ProposedActivity {StartDate = DateTime.UtcNow, EndDate = DateTime.UtcNow.AddDays(5), Name = "autotest-proposed-activity-name", Deliverables = "some deliverable", Tasks = "some tasks" }
+                new EMCR.DRR.Controllers.ProposedActivity {StartDate = DateTime.UtcNow, EndDate = DateTime.UtcNow.AddDays(5), Name = "autotest-proposed-activity-name", Deliverables = "some deliverable", Tasks = "some tasks" },
+                new EMCR.DRR.Controllers.ProposedActivity {StartDate = DateTime.UtcNow, EndDate = DateTime.UtcNow.AddDays(5), Name = "Mapping", Deliverables = "mapping deliverable", Tasks = "mapping tasks" },
             };
             application.FoundationalOrPreviousWorks = new[] { "autotest-verification-method" };
             application.HowWasNeedIdentified = "need identified";
@@ -858,15 +868,17 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             application.ClimateAssessmentComments = "climate assessment comments";
 
             //Permits Regulations & Standards - 7
+            application.Permits = new[] { "permit 1", "permit 2" };
             application.StandardsAcceptable = EMCR.DRR.Controllers.YesNoOption.NotApplicable;
             application.Standards = new[] {
                 new EMCR.DRR.Controllers.StandardInfo { IsCategorySelected = true, Category = "Environment - Water (includes Rivers, Flooding, etc.)", Standards = new [] { "BC Water Sustainability Act", "Water Survey Canada", "other water env standard" } },
                 new EMCR.DRR.Controllers.StandardInfo { IsCategorySelected = true, Category = "Other", Standards = new [] { "other_standard1"} },
             };
             application.StandardsComments = "standards comments";
-            application.ProfessionalGuidance = false;
+            application.ProfessionalGuidance = true;
             application.Professionals = new[] { "professional1", "professional2" };
             application.ProfessionalGuidanceComments = "professional guidance comments";
+            application.KnowledgeHolders = "knowledge holders";
             application.MeetsRegulatoryRequirements = false;
             application.MeetsRegulatoryComments = "regulations comments";
             application.MeetsEligibilityRequirements = false;
@@ -973,6 +985,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             application.ProfessionalGuidance = null;
             application.Professionals = Array.Empty<string>();
             application.ProfessionalGuidanceComments = string.Empty;
+            application.KnowledgeHolders = string.Empty;
             application.MeetsRegulatoryRequirements = null;
             application.MeetsRegulatoryComments = string.Empty;
             application.MeetsEligibilityRequirements = null;

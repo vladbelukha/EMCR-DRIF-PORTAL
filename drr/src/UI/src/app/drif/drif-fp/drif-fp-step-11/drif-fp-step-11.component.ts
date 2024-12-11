@@ -191,14 +191,13 @@ export class DrifFpStep11Component {
           if (
             (documentType === DocumentType.Resolution &&
               this.attachmentsForm.get('haveResolution')?.value === true) ||
-            documentType === DocumentType.DetailedProjectWorkplan ||
             documentType === DocumentType.DetailedCostEstimate
           ) {
-            attachmentsArray.push(
-              this.formBuilder.formGroup(AttachmentForm, {
-                documentType,
-              })
-            );
+            const attachmentForm = this.formBuilder.formGroup(AttachmentForm, {
+              documentType,
+            });
+            attachmentForm.markAllAsTouched();
+            attachmentsArray.push(attachmentForm);
           }
         },
         error: () => {

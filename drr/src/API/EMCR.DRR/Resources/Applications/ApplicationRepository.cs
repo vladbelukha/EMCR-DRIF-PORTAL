@@ -303,6 +303,7 @@ namespace EMCR.DRR.Resources.Applications
                 ctx.LoadPropertyAsync(currentApplication, nameof(drr_application.drr_drr_application_drr_resiliencyitem_Application)),
                 ctx.LoadPropertyAsync(currentApplication, nameof(drr_application.drr_drr_application_drr_climateassessmenttoolitem_Application)),
                 ctx.LoadPropertyAsync(currentApplication, nameof(drr_application.drr_drr_application_drr_costconsiderationitem_Application)),
+                ctx.LoadPropertyAsync(currentApplication, nameof(drr_application.drr_drr_application_drr_permitslicensesandauthorizations_Application)),
                 ctx.LoadPropertyAsync(currentApplication, nameof(drr_application.bcgov_drr_application_bcgov_documenturl_Application)),
             };
 
@@ -437,6 +438,11 @@ namespace EMCR.DRR.Resources.Applications
                 ctx.AttachTo(nameof(ctx.drr_driffundingrequests), funding);
                 ctx.DeleteObject(funding);
             }
+            foreach (var permit in drrApplication.drr_drr_application_drr_permitslicensesandauthorizations_Application)
+            {
+                ctx.AttachTo(nameof(ctx.drr_permitslicensesandauthorizationses), permit);
+                ctx.DeleteObject(permit);
+            }
         }
 
         private async Task<string> SaveApplication(DRRContext ctx, drr_application drrApplication, Application application)
@@ -457,6 +463,7 @@ namespace EMCR.DRR.Resources.Applications
             AddFundinSources(ctx, drrApplication);
             AddInfrastructureImpacted(ctx, drrApplication);
 
+            var projectActivityMasterListTask = LoadProjectActivityList(ctx, drrApplication);
             var standardsMasterListTask = LoadStandardsMasterList(ctx, drrApplication);
             var categoryMasterListTask = LoadCategoryMasterList(ctx, drrApplication);
             var affectedPartiesMasterListTask = LoadAffectedPartiesMasterList(ctx, drrApplication);
@@ -474,6 +481,7 @@ namespace EMCR.DRR.Resources.Applications
             var costConsiderationsMasterListTask = LoadCostConsiderationsMasterList(ctx, drrApplication);
 
             await Task.WhenAll([
+                projectActivityMasterListTask,
                 standardsMasterListTask,
                 categoryMasterListTask,
                 affectedPartiesMasterListTask,
@@ -491,6 +499,7 @@ namespace EMCR.DRR.Resources.Applications
                 costConsiderationsMasterListTask,
             ]);
 
+            var projectActivityMasterList = projectActivityMasterListTask.Result;
             var standardsMasterList = standardsMasterListTask.Result;
             var categoryMasterList = categoryMasterListTask.Result;
             var affectedPartiesMasterList = affectedPartiesMasterListTask.Result;
@@ -507,9 +516,9 @@ namespace EMCR.DRR.Resources.Applications
             var climateAssessmentToolsMasterList = climateAssessmentToolsMasterListTask.Result;
             var costConsiderationsMasterList = costConsiderationsMasterListTask.Result;
 
+            AddProposedActivities(ctx, drrApplication, projectActivityMasterList);
             AddProvincialStandards(ctx, drrApplication, standardsMasterList, categoryMasterList);
             AddQualifiedProfessionals(ctx, drrApplication, professionalsMasterList);
-            AddProposedActivities(ctx, drrApplication);
             AddFoundationOrPreviousWorks(ctx, drrApplication, foundationalMasterList);
             AddAffectedParties(ctx, drrApplication, affectedPartiesMasterList);
             AddCostReductions(ctx, drrApplication, costReductionsMasterList);
@@ -522,6 +531,7 @@ namespace EMCR.DRR.Resources.Applications
             AddClimateAssessmentTools(ctx, drrApplication, climateAssessmentToolsMasterList);
             AddCostConsiderations(ctx, drrApplication, costConsiderationsMasterList);
             AddYearOverYearFunding(ctx, drrApplication, fiscalYearsMasterList);
+            AddPermits(ctx, drrApplication);
             UpdateDocuments(ctx, drrApplication);
 
             SetApplicationType(ctx, drrApplication, application.ApplicationTypeName);
@@ -531,7 +541,7 @@ namespace EMCR.DRR.Resources.Applications
             var partnerAccounts = mapper.Map<IEnumerable<account>>(application.PartneringProponents);
             foreach (var account in partnerAccounts)
             {
-                ctx.AddToaccounts(account);
+                if (account != null) ctx.AddToaccounts(account);
             }
 
             await ctx.SaveChangesAsync();
@@ -546,6 +556,13 @@ namespace EMCR.DRR.Resources.Applications
 
             ctx.DetachAll();
             return drrApplicationNumber;
+        }
+
+        private async Task<List<drr_projectactivity>> LoadProjectActivityList(DRRContext ctx, drr_application drrApplication)
+        {
+            return drrApplication.drr_drr_application_drr_proposedactivity_Application.Count > 0 ?
+                (await ctx.drr_projectactivities.GetAllPagesAsync()).ToList() :
+                new List<drr_projectactivity>();
         }
 
         private async Task<List<drr_provincialstandard>> LoadStandardsMasterList(DRRContext ctx, drr_application drrApplication)
@@ -719,14 +736,17 @@ namespace EMCR.DRR.Resources.Applications
             var connectionRole = drrContext.connectionroles.Where(r => r.name == "Partner").SingleOrDefault();
             foreach (var account in partnerAccounts)
             {
-                var connection = new connection
+                if (account != null)
                 {
-                    name = account.name,
-                };
-                drrContext.AddToconnections(connection);
-                drrContext.SetLink(connection, nameof(connection.record2roleid), connectionRole);
-                drrContext.SetLink(connection, nameof(connection.record2id_account), account);
-                drrContext.SetLink(connection, nameof(connection.record1id_drr_application), application);
+                    var connection = new connection
+                    {
+                        name = account.name,
+                    };
+                    drrContext.AddToconnections(connection);
+                    drrContext.SetLink(connection, nameof(connection.record2roleid), connectionRole);
+                    drrContext.SetLink(connection, nameof(connection.record2id_account), account);
+                    drrContext.SetLink(connection, nameof(connection.record1id_drr_application), application);
+                }
             }
         }
 
@@ -778,15 +798,23 @@ namespace EMCR.DRR.Resources.Applications
             }
         }
 
-        private static void AddProposedActivities(DRRContext drrContext, drr_application application)
+        private static void AddProposedActivities(DRRContext drrContext, drr_application application, List<drr_projectactivity> projectActivityMasterList)
         {
             foreach (var activity in application.drr_drr_application_drr_proposedactivity_Application)
             {
                 if (activity != null && !string.IsNullOrEmpty(activity.drr_name))
                 {
+                    var masterVal = projectActivityMasterList.FirstOrDefault(s => s.drr_name == activity.drr_Activity?.drr_name);
+                    if (masterVal == null)
+                    {
+                        masterVal = projectActivityMasterList.FirstOrDefault(s => s.drr_name == "Other");
+                    }
+                    activity.drr_Activity = masterVal;
+
                     drrContext.AddTodrr_proposedactivities(activity);
                     drrContext.AddLink(application, nameof(application.drr_drr_application_drr_proposedactivity_Application), activity);
                     drrContext.SetLink(activity, nameof(activity.drr_Application), application);
+                    drrContext.SetLink(activity, nameof(activity.drr_Activity), masterVal);
                 }
             }
         }
@@ -1079,6 +1107,19 @@ namespace EMCR.DRR.Resources.Applications
             }
         }
 
+        private static void AddPermits(DRRContext drrContext, drr_application application)
+        {
+            foreach (var permit in application.drr_drr_application_drr_permitslicensesandauthorizations_Application)
+            {
+                if (permit != null && !string.IsNullOrEmpty(permit.drr_name))
+                {
+                    drrContext.AddTodrr_permitslicensesandauthorizationses(permit);
+                    drrContext.AddLink(application, nameof(application.drr_drr_application_drr_permitslicensesandauthorizations_Application), permit);
+                    drrContext.SetLink(permit, nameof(permit.drr_Application), application);
+                }
+            }
+        }
+
         private static void UpdateDocuments(DRRContext drrContext, drr_application application)
         {
             foreach (var doc in application.bcgov_drr_application_bcgov_documenturl_Application)
@@ -1145,6 +1186,7 @@ namespace EMCR.DRR.Resources.Applications
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_drr_application_drr_climateassessmenttoolitem_Application), ct),
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_drr_application_drr_costconsiderationitem_Application), ct),
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_drr_application_drr_driffundingrequest_Application), ct),
+                    ctx.LoadPropertyAsync(application, nameof(drr_application.drr_drr_application_drr_permitslicensesandauthorizations_Application), ct),
                     ctx.LoadPropertyAsync(application, nameof(drr_application.bcgov_drr_application_bcgov_documenturl_Application), ct),
                 }).ToList();
             }
@@ -1156,7 +1198,7 @@ namespace EMCR.DRR.Resources.Applications
             application.drr_application_fundingsource_Application = new System.Collections.ObjectModel.Collection<drr_fundingsource>(application.drr_application_fundingsource_Application.Where(c => c.statecode == (int)EntityState.Active).ToList());
             application.drr_drr_application_drr_criticalinfrastructureimpacted_Application = new System.Collections.ObjectModel.Collection<drr_criticalinfrastructureimpacted>(application.drr_drr_application_drr_criticalinfrastructureimpacted_Application.Where(c => c.statecode == (int)EntityState.Active).ToList());
             application.drr_drr_application_drr_qualifiedprofessionalitem_Application = new System.Collections.ObjectModel.Collection<drr_qualifiedprofessionalitem>(application.drr_drr_application_drr_qualifiedprofessionalitem_Application.Where(c => c.statecode == (int)EntityState.Active).ToList());
-            application.drr_drr_application_drr_proposedactivity_Application = new System.Collections.ObjectModel.Collection<drr_proposedactivity>(application.drr_drr_application_drr_proposedactivity_Application.Where(c => c.statecode == (int)EntityState.Active).ToList());
+            application.drr_drr_application_drr_proposedactivity_Application = new System.Collections.ObjectModel.Collection<drr_proposedactivity>(application.drr_drr_application_drr_proposedactivity_Application.Where(c => c.statecode == (int)EntityState.Active).OrderBy(c => c.drr_activitynumber).ToList());
             application.drr_drr_application_drr_provincialstandarditem_Application = new System.Collections.ObjectModel.Collection<drr_provincialstandarditem>(application.drr_drr_application_drr_provincialstandarditem_Application.Where(c => c.statecode == (int)EntityState.Active).ToList());
             application.drr_drr_application_drr_impactedoraffectedpartyitem_Application = new System.Collections.ObjectModel.Collection<drr_impactedoraffectedpartyitem>(application.drr_drr_application_drr_impactedoraffectedpartyitem_Application.Where(c => c.statecode == (int)EntityState.Active).ToList());
             application.drr_drr_application_drr_foundationalorpreviousworkitem_Application = new System.Collections.ObjectModel.Collection<drr_foundationalorpreviousworkitem>(application.drr_drr_application_drr_foundationalorpreviousworkitem_Application.Where(c => c.statecode == (int)EntityState.Active).ToList());
@@ -1170,9 +1212,11 @@ namespace EMCR.DRR.Resources.Applications
             application.drr_drr_application_drr_climateassessmenttoolitem_Application = new System.Collections.ObjectModel.Collection<drr_climateassessmenttoolitem>(application.drr_drr_application_drr_climateassessmenttoolitem_Application.Where(c => c.statecode == (int)EntityState.Active).ToList());
             application.drr_drr_application_drr_costconsiderationitem_Application = new System.Collections.ObjectModel.Collection<drr_costconsiderationitem>(application.drr_drr_application_drr_costconsiderationitem_Application.Where(c => c.statecode == (int)EntityState.Active).ToList());
             application.drr_drr_application_drr_driffundingrequest_Application = new System.Collections.ObjectModel.Collection<drr_driffundingrequest>(application.drr_drr_application_drr_driffundingrequest_Application.Where(c => c.statecode == (int)EntityState.Active).ToList());
+            application.drr_drr_application_drr_permitslicensesandauthorizations_Application = new System.Collections.ObjectModel.Collection<drr_permitslicensesandauthorizations>(application.drr_drr_application_drr_permitslicensesandauthorizations_Application.Where(c => c.statecode == (int)EntityState.Active).ToList());
             application.bcgov_drr_application_bcgov_documenturl_Application = new System.Collections.ObjectModel.Collection<bcgov_documenturl>(application.bcgov_drr_application_bcgov_documenturl_Application.Where(c => c.statecode == (int)EntityState.Active).ToList());
 
             await Task.WhenAll([
+                ParallelLoadProposedActivities(ctx, application, ct),
                 ParallelLoadProvincialStandards(ctx, application, ct),
                 ParallelLoadFundingRequests(ctx, application, ct),
                 ParallelLoadQualifiedProfessionals(ctx, application, ct),
@@ -1189,6 +1233,15 @@ namespace EMCR.DRR.Resources.Applications
                 ParallelLoadCostConsiderations(ctx, application, ct),
                 ParallelLoadDocumentTypes(ctx, application, ct),
                 ]);
+        }
+
+        private static async Task ParallelLoadProposedActivities(DRRContext ctx, drr_application application, CancellationToken ct)
+        {
+            await application.drr_drr_application_drr_proposedactivity_Application.ForEachAsync(5, async a =>
+            {
+                ctx.AttachTo(nameof(DRRContext.drr_proposedactivities), a);
+                await ctx.LoadPropertyAsync(a, nameof(drr_proposedactivity.drr_Activity), ct);
+            });
         }
 
         private static async Task ParallelLoadProvincialStandards(DRRContext ctx, drr_application application, CancellationToken ct)
@@ -1325,6 +1378,8 @@ namespace EMCR.DRR.Resources.Applications
                     ctx.AttachTo(nameof(DRRContext.bcgov_documenturls), doc);
                     await ctx.LoadPropertyAsync(doc, nameof(bcgov_documenturl.bcgov_DocumentType), ct);
                 });
+
+            application.bcgov_drr_application_bcgov_documenturl_Application = new System.Collections.ObjectModel.Collection<bcgov_documenturl>(application.bcgov_drr_application_bcgov_documenturl_Application.Where(d => d.bcgov_DocumentType.bcgov_isportalaccessible.HasValue && d.bcgov_DocumentType.bcgov_isportalaccessible == (int)DRRTwoOptions.Yes).ToList());
         }
 
         private List<drr_application> SortAndPageResults(List<drr_application> applications, ApplicationsQuery query)

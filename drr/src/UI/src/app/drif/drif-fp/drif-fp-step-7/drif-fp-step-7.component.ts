@@ -1,4 +1,4 @@
-import { AsyncPipe, CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component, inject, Input } from '@angular/core';
 import {
   FormArray,
@@ -7,22 +7,33 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslocoModule } from '@ngneat/transloco';
 import { UntilDestroy } from '@ngneat/until-destroy';
-import { IFormGroup, RxwebValidators } from '@rxweb/reactive-form-validators';
+import {
+  IFormGroup,
+  RxFormBuilder,
+  RxwebValidators,
+} from '@rxweb/reactive-form-validators';
 import { distinctUntilChanged } from 'rxjs';
 import { YesNoOption } from '../../../../model';
 import { DrrChipAutocompleteComponent } from '../../../shared/controls/drr-chip-autocomplete/drr-chip-autocomplete.component';
+import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
 import {
   DrrRadioButtonComponent,
   RadioOption,
 } from '../../../shared/controls/drr-radio-button/drr-radio-button.component';
+import {
+  DrrSelectComponent,
+  DrrSelectOption,
+} from '../../../shared/controls/drr-select/drr-select.component';
 import { DrrTextareaComponent } from '../../../shared/controls/drr-textarea/drr-textarea.component';
 import { OptionsStore } from '../../../store/options.store';
+import { StringItem } from '../../drif-eoi/drif-eoi-form';
 import {
   PermitsRegulationsAndStandardsForm,
   StandardInfoForm,
@@ -39,10 +50,12 @@ import {
     TranslocoModule,
     MatFormFieldModule,
     MatCheckboxModule,
+    MatButtonModule,
     FormsModule,
     ReactiveFormsModule,
     MatAutocompleteModule,
-    AsyncPipe,
+    DrrInputComponent,
+    DrrSelectComponent,
     DrrChipAutocompleteComponent,
     DrrRadioButtonComponent,
     DrrTextareaComponent,
@@ -52,16 +65,32 @@ import {
 })
 export class DrifFpStep7Component {
   optionsStore = inject(OptionsStore);
+  formBuilder = inject(RxFormBuilder);
+
+  isMobile = false;
 
   @Input()
   permitsRegulationsAndStandardsForm!: IFormGroup<PermitsRegulationsAndStandardsForm>;
+
+  professionalGuidanceOptions: RadioOption[] = [
+    { value: true, label: 'Yes' },
+    { value: false, label: 'Not Applicable' },
+  ];
 
   categories = this.optionsStore
     .getOptions()
     ?.standards?.()
     ?.map((s) => s.category);
 
-  professionalOptions = this.optionsStore.getOptions()?.professionals?.();
+  private _professionalOptionsSignal =
+    this.optionsStore.getOptions!().professionals;
+  get professionalOptions(): DrrSelectOption[] | undefined {
+    return this._professionalOptionsSignal?.()?.map((p) => ({
+      value: p,
+      label: p,
+    }));
+  }
+
   standardsAcceptableOptions: RadioOption[] = [
     { value: YesNoOption.Yes, label: 'Yes' },
     { value: YesNoOption.No, label: 'No' },
@@ -106,14 +135,17 @@ export class DrifFpStep7Component {
       .get('meetsEligibilityRequirements')
       ?.valueChanges.pipe(distinctUntilChanged())
       .subscribe((value) => {
+        const permitsArray = this.getPermitsFormArray();
         const meetsEligibilityCommentsControl =
           this.permitsRegulationsAndStandardsForm.get(
             'meetsEligibilityComments'
           );
         if (value === false) {
           meetsEligibilityCommentsControl?.clearValidators();
+          permitsArray.clear();
         } else {
           meetsEligibilityCommentsControl?.addValidators(Validators.required);
+          this.addPermit();
         }
         meetsEligibilityCommentsControl?.updateValueAndValidity();
       });
@@ -124,7 +156,7 @@ export class DrifFpStep7Component {
     this.permitsRegulationsAndStandardsForm
       .get('standardsAcceptable')
       ?.valueChanges.pipe(distinctUntilChanged())
-      .subscribe((value) => {        
+      .subscribe((value) => {
         const standardsControl = this.permitsRegulationsAndStandardsForm.get(
           'standards'
         ) as FormArray;
@@ -162,7 +194,6 @@ export class DrifFpStep7Component {
       .get('standards')
       ?.valueChanges.pipe(distinctUntilChanged())
       .subscribe((value) => {
-        
         const standardsValidControl =
           this.permitsRegulationsAndStandardsForm.get('standardsValid');
         const isStandardsValid = value.some(
@@ -171,6 +202,16 @@ export class DrifFpStep7Component {
 
         standardsValidControl?.patchValue(isStandardsValid);
         standardsValidControl?.markAllAsTouched();
+      });
+
+    this.permitsRegulationsAndStandardsForm
+      .get('permitsArray')
+      ?.valueChanges.pipe(distinctUntilChanged())
+      .subscribe((permits: StringItem[]) => {
+        this.permitsRegulationsAndStandardsForm.get('permits')?.patchValue(
+          permits.map((permit) => permit.value),
+          { emitEvent: false }
+        );
       });
   }
 
@@ -205,5 +246,21 @@ export class DrifFpStep7Component {
       .getOptions()
       ?.standards?.()
       ?.find((s) => s.category === category)?.standards;
+  }
+
+  getPermitsFormArray() {
+    return this.permitsRegulationsAndStandardsForm.get(
+      'permitsArray'
+    ) as FormArray;
+  }
+
+  addPermit() {
+    const permitsArray = this.getPermitsFormArray();
+    permitsArray.push(this.formBuilder.formGroup(StringItem));
+  }
+
+  removePermit(index: number) {
+    const permitsArray = this.getPermitsFormArray();
+    permitsArray.removeAt(index);
   }
 }

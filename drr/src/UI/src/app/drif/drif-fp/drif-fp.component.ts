@@ -310,6 +310,7 @@ export class DrifFpComponent {
               professionals: response.professionals,
               professionalGuidanceComments:
                 response.professionalGuidanceComments,
+              knowledgeHolders: response.knowledgeHolders,
               professionalGuidance: response.professionalGuidance,
               meetsEligibilityComments: response.meetsEligibilityComments,
               meetsEligibilityRequirements:
@@ -578,6 +579,19 @@ export class DrifFpComponent {
         .get('permitsRegulationsAndStandards.meetsEligibilityComments')
         ?.addValidators(Validators.required);
     }
+
+    const permitsArray = this.fullProposalForm.get(
+      'permitsRegulationsAndStandards.permitsArray'
+    ) as FormArray;
+    if (response.permits?.length! > 0) {
+      permitsArray.clear({ emitEvent: false });
+    }
+    response.permits?.forEach((permit) => {
+      permitsArray?.push(
+        this.formBuilder.formGroup(new StringItem({ value: permit })),
+        { emitEvent: false }
+      );
+    });
   }
 
   initStep8(response: DraftFpApplication) {
@@ -739,16 +753,6 @@ export class DrifFpComponent {
     }
 
     response.attachments?.forEach((attachment) => {
-      if (attachment.documentType === DocumentType.DetailedProjectWorkplan) {
-        attachmentsArray.controls
-          .find(
-            (control) =>
-              control.value.documentType ===
-              DocumentType.DetailedProjectWorkplan
-          )
-          ?.patchValue(attachment, { emitEvent: false });
-        return;
-      }
       if (attachment.documentType === DocumentType.DetailedCostEstimate) {
         attachmentsArray.controls
           .find(

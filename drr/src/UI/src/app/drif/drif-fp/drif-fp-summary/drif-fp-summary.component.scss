@@ -38,6 +38,13 @@
   }
 }
 
+.summary-grid-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-left: 1rem;
+}
+
 .attachment {
   margin-top: 1rem;
 }
