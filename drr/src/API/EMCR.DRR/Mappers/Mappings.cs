@@ -55,12 +55,10 @@ namespace EMCR.DRR.API.Mappers
             var applicationType = DRRApplicationTypeMapper(application.ApplicationTypeName);
             switch (applicationType)
             {
-                case ApplicationType.EOI:
-                    var eoiHasBeenSubmitted = application.Status == Managers.Intake.ApplicationStatus.Submitted;
-                    return eoiHasBeenSubmitted ? application.EligibleFundingRequest.ToString() : application.FundingRequest.ToString();
-                case ApplicationType.FP:
-                    var fpHasBeenSubmitted = application.Status == Managers.Intake.ApplicationStatus.FPSubmitted;
-                    return fpHasBeenSubmitted ? application.EligibleAmountForFP.ToString() : application.TotalDrifFundingRequest.ToString();
+                case ApplicationType.EOI: //always return drr_estimateddriffundingprogramrequest
+                    return application.FundingRequest.ToString();
+                case ApplicationType.FP: //always return drr_totaldrifprogramfundingrequest
+                    return application.TotalDrifFundingRequest.ToString();
                 default:
                     return application.EligibleFundingRequest.ToString();
             }
