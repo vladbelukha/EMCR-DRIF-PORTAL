@@ -556,9 +556,6 @@ export class AttachmentsForm {
   @propArray(AttachmentForm)
   attachments?: AttachmentForm[] = [
     {
-      documentType: DocumentType.DetailedProjectWorkplan,
-    },
-    {
       documentType: DocumentType.DetailedCostEstimate,
     },
   ];

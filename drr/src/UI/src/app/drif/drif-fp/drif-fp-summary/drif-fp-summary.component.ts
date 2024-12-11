@@ -111,10 +111,7 @@ export class DrifFpSummaryComponent {
   }
 
   isAttachmentRequired(documentType: DocumentType) {
-    return (
-      documentType === DocumentType.DetailedProjectWorkplan ||
-      documentType === DocumentType.DetailedCostEstimate
-    );
+    return documentType === DocumentType.DetailedCostEstimate;
   }
 
   convertRxFormControl(formControl: AbstractControl<any, any> | null) {
