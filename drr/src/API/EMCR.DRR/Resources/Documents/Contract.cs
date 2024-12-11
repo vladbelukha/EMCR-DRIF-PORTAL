@@ -50,8 +50,6 @@ namespace EMCR.DRR.API.Resources.Documents
 
     public enum DocumentTypeOptionSet
     {
-        DetailedProjectWorkplan = 172580000,
-        ProjectSchedule = 172580001,
         DetailedCostEstimate = 172580002,
         SitePlan = 172580003,
         PreliminaryDesign = 172580004,
