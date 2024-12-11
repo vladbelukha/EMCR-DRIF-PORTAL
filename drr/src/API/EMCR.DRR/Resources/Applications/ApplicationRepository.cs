@@ -1501,16 +1501,14 @@ namespace EMCR.DRR.Resources.Applications
             decimal ret = 0;
             if (applicationType == EOI_ID)
             {
-                ret = application.statuscode == (int)ApplicationStatusOptionSet.Submitted ?
-                    application.drr_eligibleamount.HasValue ? (decimal)application.drr_eligibleamount : -1 :
-                    application.drr_estimateddriffundingprogramrequest.HasValue ?
+                //drr_estimateddriffundingprogramrequest
+                ret = application.drr_estimateddriffundingprogramrequest.HasValue ?
                     (decimal)application.drr_estimateddriffundingprogramrequest : -1;
             }
             else if (applicationType == FP_ID)
             {
-                ret = application.statuscode == (int)ApplicationStatusOptionSet.FPSubmitted ?
-                    application.drr_eligibleamountfullproposal.HasValue ? (decimal)application.drr_eligibleamountfullproposal : -1 :
-                    application.drr_totaldrifprogramfundingrequest.HasValue ?
+                //drr_totaldrifprogramfundingrequest
+                ret = application.drr_totaldrifprogramfundingrequest.HasValue ?
                     (decimal)application.drr_totaldrifprogramfundingrequest : -1;
             }
             else
