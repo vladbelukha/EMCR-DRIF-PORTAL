@@ -170,14 +170,10 @@ namespace EMCR.DRR.Managers.Intake
         Resolution,
         [Description("Detailed Cost Estimate")]
         DetailedCostEstimate,
-        [Description("Detailed Project Workplan")]
-        DetailedProjectWorkplan,
         [Description("Funding Approval")]
         FundingApproval,
         [Description("Preliminary Design")]
         PreliminaryDesign,
-        [Description("Project Schedule")]
-        ProjectSchedule,
         [Description("Site Plan")]
         SitePlan,
         [Description("SME Feedback")]

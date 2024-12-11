@@ -34,9 +34,7 @@ namespace EMCR.DRR.API.Model
         OtherSupportingDocument,
         Resolution,
         DetailedCostEstimate,
-        DetailedProjectWorkplan,
         PreliminaryDesign,
-        ProjectSchedule,
         SitePlan,
     }
 }
