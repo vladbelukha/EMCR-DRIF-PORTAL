@@ -114,7 +114,7 @@ namespace EMCR.DRR.Controllers
         public const int CONTACT_MAX_LENGTH = 40;
         public const int CONTACT_EMAIL_TITLE_MAX_LENGTH = 100;
         public const int ACCOUNT_MAX_LENGTH = 100;
-        public const int COMMENTS_MAX_LENGTH = 100;
+        public const int COMMENTS_MAX_LENGTH = 2000;
         public const double FUNDING_MAX_VAL = 999999999.99;
         public const double FUNDING_MIN_VAL = -999999999.99;
     }
