@@ -333,16 +333,6 @@ export class DrifFpViewComponent {
     }
 
     response.attachments?.forEach((attachment) => {
-      if (attachment.documentType === DocumentType.DetailedProjectWorkplan) {
-        attachmentsArray.controls
-          .find(
-            (control) =>
-              control.value.documentType ===
-              DocumentType.DetailedProjectWorkplan
-          )
-          ?.patchValue(attachment, { emitEvent: false });
-        return;
-      }
       if (attachment.documentType === DocumentType.DetailedCostEstimate) {
         attachmentsArray.controls
           .find(
