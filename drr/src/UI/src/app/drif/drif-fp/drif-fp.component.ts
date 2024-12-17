@@ -863,6 +863,18 @@ export class DrifFpComponent {
       });
   }
 
+  onlyExceessFundingInvalid() {
+    // check if the only invalid control is remaining amount
+    const budgetForm = this.getFormGroup('budget');
+    const invalidControls = Object.keys(budgetForm?.controls).filter(
+      (key) => budgetForm?.get(key)?.invalid
+    );
+
+    return (
+      invalidControls.length === 1 && invalidControls[0] === 'remainingAmount'
+    );
+  }
+
   submit() {
     this.fullProposalForm.markAllAsTouched();
     this.stepper.steps.forEach((step) => step._markAsInteracted());
@@ -872,6 +884,16 @@ export class DrifFpComponent {
       const invalidSteps = Object.keys(this.fullProposalForm.controls)
         .filter((key) => this.fullProposalForm.get(key)?.invalid)
         .map((key) => this.formToStepMap[key]);
+
+      if (
+        invalidSteps.length === 1 &&
+        invalidSteps[0] === 'Step 10' &&
+        this.fullProposalForm.get('budget.remainingAmount')?.value! < 0
+      ) {
+        this.hotToast.close();
+        this.hotToast.error('Cannot submit with excess funding.');
+        return;
+      }
 
       const lastStep = invalidSteps.pop();
 
