@@ -97,7 +97,6 @@ import { DrifFpStep9Component } from './drif-fp-step-9/drif-fp-step-9.component'
   ],
   providers: [
     RxFormBuilder,
-    HotToastService,
     {
       provide: STEPPER_GLOBAL_OPTIONS,
       useValue: { showError: true },
@@ -583,7 +582,10 @@ export class DrifFpComponent {
     const permitsArray = this.fullProposalForm.get(
       'permitsRegulationsAndStandards.permitsArray'
     ) as FormArray;
-    if (response.permits?.length! > 0) {
+    if (
+      response.permits?.length! > 0 ||
+      response.meetsEligibilityRequirements === false
+    ) {
       permitsArray.clear({ emitEvent: false });
     }
     response.permits?.forEach((permit) => {

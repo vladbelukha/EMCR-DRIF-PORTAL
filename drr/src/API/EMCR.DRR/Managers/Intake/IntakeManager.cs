@@ -173,7 +173,7 @@ namespace EMCR.DRR.Managers.Intake
             if (!canAccess) throw new ForbiddenException("Not allowed to access this application.");
             var application = (await applicationRepository.Query(new ApplicationsQuery { Id = cmd.Id })).Items.SingleOrDefault();
             if (application == null) throw new NotFoundException("Application not found");
-            if (application.Status != ApplicationStatus.DraftProponent && application.Status != ApplicationStatus.DraftStaff) throw new BusinessValidationException("Application can only be deleted if it is in Draft");
+            if (!ApplicationInEditableStatus(application)) throw new BusinessValidationException("Application can only be deleted if it is in Draft");
             if (!application.ApplicationTypeName.Equals("EOI")) throw new BusinessValidationException("Only EOI applications can be deleted");
             var id = (await applicationRepository.Manage(new DeleteApplication { Id = cmd.Id })).Id;
             return id;
@@ -185,14 +185,16 @@ namespace EMCR.DRR.Managers.Intake
             if (!canAccess) throw new ForbiddenException("Not allowed to access this application.");
             var application = (await applicationRepository.Query(new ApplicationsQuery { Id = cmd.AttachmentInfo.ApplicationId })).Items.SingleOrDefault();
             if (application == null) throw new NotFoundException("Application not found");
-            if (application.Status != ApplicationStatus.DraftProponent && application.Status != ApplicationStatus.DraftStaff) throw new BusinessValidationException("Can only edit attachments when application is in Draft");
+            if (!ApplicationInEditableStatus(application)) throw new BusinessValidationException("Can only edit attachments when application is in Draft");
             if (cmd.AttachmentInfo.DocumentType != DocumentType.OtherSupportingDocument && application.Attachments != null && application.Attachments.Any(a => a.DocumentType == cmd.AttachmentInfo.DocumentType))
             {
                 throw new BusinessValidationException($"A document with type {cmd.AttachmentInfo.DocumentType.ToDescriptionString()} already exists on the application {cmd.AttachmentInfo.ApplicationId}");
             }
 
-            var documentRes = (await documentRepository.Manage(new CreateDocument { ApplicationId = cmd.AttachmentInfo.ApplicationId, Document = new Document { Name = cmd.AttachmentInfo.File.FileName, DocumentType = cmd.AttachmentInfo.DocumentType, Size = GetFileSize(cmd.AttachmentInfo.File.Content) } }));
-            await s3Provider.HandleCommand(new UploadFileCommand { Key = documentRes.Id, File = cmd.AttachmentInfo.File, Folder = $"drr_application/{documentRes.ApplicationId}" });
+            var newDocId = Guid.NewGuid().ToString();
+
+            await s3Provider.HandleCommand(new UploadFileCommand { Key = newDocId, File = cmd.AttachmentInfo.File, Folder = $"drr_application/{application.CrmId}" });
+            var documentRes = (await documentRepository.Manage(new CreateDocument { NewDocId = newDocId, ApplicationId = cmd.AttachmentInfo.ApplicationId, Document = new Document { Name = cmd.AttachmentInfo.File.FileName, DocumentType = cmd.AttachmentInfo.DocumentType, Size = GetFileSize(cmd.AttachmentInfo.File.Content) } }));
             return documentRes.Id;
         }
 
@@ -239,6 +241,11 @@ namespace EMCR.DRR.Managers.Intake
             if (bytes < 1024) return $"{bytes.ToString("0.00")} GB";
             bytes = bytes / 1024f;
             return $"{bytes.ToString("0.00")} TB";
+        }
+
+        private bool ApplicationInEditableStatus(Application application)
+        {
+            return application.Status == ApplicationStatus.DraftProponent || application.Status == ApplicationStatus.DraftStaff || application.Status == ApplicationStatus.Withdrawn;
         }
 
         private async Task<bool> CanAccessApplication(string? id, string? businessId)
