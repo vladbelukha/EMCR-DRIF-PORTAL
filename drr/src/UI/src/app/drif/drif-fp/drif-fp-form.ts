@@ -225,7 +225,7 @@ export class BudgetForm {
   totalProjectCost?: number;
 
   @prop()
-  @required()
+  @minNumber({ value: 0 }) 
   remainingAmount?: number;
 
   @propArray(YearOverYearFundingForm)

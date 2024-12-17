@@ -87,7 +87,9 @@
     <mat-step
       [label]="t('steps.eoi.step3')"
       [stepControl]="getFormGroup('fundingInformation')"
-      [errorMessage]="t('stepError')"
+      [errorMessage]="
+        t(onlyExceessFundingInvalid() ? 'excessFundingError' : 'stepError')
+      "
     >
       <drif-eoi-step-3
         [fundingInformationForm]="getFormGroup('fundingInformation')"

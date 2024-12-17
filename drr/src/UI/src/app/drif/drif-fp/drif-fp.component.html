@@ -273,7 +273,9 @@
       <mat-step
         [label]="t('steps.fp.step10')"
         [stepControl]="getFormGroup('budget')"
-        [errorMessage]="t('stepError')"
+        [errorMessage]="
+          t(onlyExceessFundingInvalid() ? 'excessFundingError' : 'stepError')
+        "
       >
         <drif-fp-step-10
           [budgetForm]="getFormGroup('budget')"
