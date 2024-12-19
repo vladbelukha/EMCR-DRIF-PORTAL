@@ -6,6 +6,7 @@ import { DrifFpInstructionsComponent } from './drif/drif-fp/drif-fp-instructions
 import { DrifFpScreenerComponent } from './drif/drif-fp/drif-fp-screener/drif-fp-screener.component';
 import { DrifFpViewComponent } from './drif/drif-fp/drif-fp-view/drif-fp-view.component';
 import { DrifFpComponent } from './drif/drif-fp/drif-fp.component';
+import { DrifProjectComponent } from './drif/drif-project/drif-project.component';
 import { SubmissionListComponent } from './submission-list/submission-list.component';
 
 export const routes: Routes = [
@@ -50,6 +51,11 @@ export const routes: Routes = [
   {
     path: 'fp-submission-details/:id',
     component: DrifFpViewComponent,
+    canActivate: [AuthenticationGuard],
+  },
+  {
+    path: 'drif-prj/:id',
+    component: DrifProjectComponent,
     canActivate: [AuthenticationGuard],
   },
 ];
