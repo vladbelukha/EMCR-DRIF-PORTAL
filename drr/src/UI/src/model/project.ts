@@ -13,10 +13,20 @@ export interface Project {
   programType: ProgramType;
   projectStatus: string;
   contacts: ContactDetails[];
+  interimReports: InterimReport[];
   claims: Claim[];
-  reports: Report[];
+  progressReports: ProgressReport[];
   forecast: Forecast[];
   attachments: Attachment[];
+}
+
+export interface InterimReport {
+  id: string;
+  reportDate: string;
+  reportStatus: string;
+  claim: Claim;
+  report: ProgressReport;
+  forecast: Forecast;
 }
 
 export interface Claim {
@@ -27,7 +37,7 @@ export interface Claim {
   claimStatus: string;
 }
 
-export interface Report {
+export interface ProgressReport {
   id: string;
   reportType: string;
   reportDate: string;

@@ -1,12 +1,27 @@
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
+import { TranslocoModule } from '@ngneat/transloco';
 import { Attachment, FundingStream, ProgramType } from '../../../model';
-import { Claim, Forecast, Project, Report } from '../../../model/project';
+import {
+  Claim,
+  Forecast,
+  InterimReport,
+  ProgressReport,
+  Project,
+} from '../../../model/project';
 import { DrrInputComponent } from '../../shared/controls/drr-input/drr-input.component';
 
 @Component({
@@ -18,10 +33,22 @@ import { DrrInputComponent } from '../../shared/controls/drr-input/drr-input.com
     MatInputModule,
     MatButtonModule,
     MatTableModule,
+    MatIconModule,
     DrrInputComponent,
+    TranslocoModule,
   ],
   templateUrl: './drif-project.component.html',
   styleUrl: './drif-project.component.scss',
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed,void', style({ height: '0px', minHeight: '0' })),
+      state('expanded', style({ height: '*' })),
+      transition(
+        'expanded <=> collapsed',
+        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
+      ),
+    ]),
+  ],
 })
 export class DrifProjectComponent {
   route = inject(ActivatedRoute);
@@ -30,8 +57,14 @@ export class DrifProjectComponent {
 
   project?: Project;
 
+  expandedInterimReport?: InterimReport | null;
+
+  interimReportsDataSource = new MatTableDataSource<InterimReport>([]);
+  interimReportsColumns = ['id', 'reportDate', 'reportStatus'];
+  interimReportsColumnsWithExpand = [...this.interimReportsColumns, 'expand'];
+
   claimsDataSource = new MatTableDataSource<Claim>([]);
-  reportsDataSource = new MatTableDataSource<Report>([]);
+  progressReportsDataSource = new MatTableDataSource<ProgressReport>([]);
   forecastsDataSource = new MatTableDataSource<Forecast>([]);
   attachmentsDataSource = new MatTableDataSource<Attachment>([]);
 
@@ -42,7 +75,7 @@ export class DrifProjectComponent {
 
     // TODO: set mock project
     this.project = {
-      id: '1',
+      id: 'DRIF-PRJ-0001',
       projectTitle: 'Water Treatment Plant',
       proponentName: 'City of Richmond',
       fundingStream: FundingStream.Stream1,
@@ -59,14 +92,113 @@ export class DrifProjectComponent {
           phone: '123-456-7890',
         },
       ],
-      claims: [],
-      reports: [],
-      forecast: [],
+      claims: [
+        {
+          id: 'DRIF-PRJ-CL-0001',
+          claimType: 'Claim 1',
+          claimDate: '2021-01-01',
+          claimAmount: 1000,
+          claimStatus: 'Pending',
+        },
+        {
+          id: 'DRIF-PRJ-CL-0002',
+          claimType: 'Claim 2',
+          claimDate: '2021-02-01',
+          claimAmount: 2000,
+          claimStatus: 'Review',
+        },
+      ],
+      interimReports: [
+        {
+          id: 'DRIF-PRJ-IR-0001',
+          reportDate: '2021-01-01',
+          reportStatus: 'Pending',
+          claim: {
+            id: 'DRIF-PRJ-CL-0001',
+            claimType: 'Claim 1',
+            claimDate: '2021-01-01',
+            claimAmount: 1000,
+            claimStatus: 'Pending',
+          },
+          report: {
+            id: 'DRI-PRJ-IR-0001',
+            reportType: 'Report 1',
+            reportDate: '2021-01-01',
+            reportStatus: 'Pending',
+          },
+
+          forecast: {
+            id: 'DRIF-PRJ-FC-0001',
+            forecastType: 'Forecast 1',
+            forecastDate: '2021-01-01',
+            forecastAmount: 1000,
+            forecastStatus: 'Pending',
+          },
+        },
+        {
+          id: 'DRIF-PRJ-IR-0002',
+          reportDate: '2021-02-01',
+          reportStatus: 'Review',
+          claim: {
+            id: 'DRIF-PRJ-CL-0002',
+            claimType: 'Claim 2',
+            claimDate: '2021-02-01',
+            claimAmount: 2000,
+            claimStatus: 'Review',
+          },
+          report: {
+            id: 'DRI-PRJ-IR-0002',
+            reportType: 'Report 2',
+            reportDate: '2021-02-01',
+            reportStatus: 'Review',
+          },
+
+          forecast: {
+            id: 'DRIF-PRJ-FC-0002',
+            forecastType: 'Forecast 2',
+            forecastDate: '2021-02-01',
+            forecastAmount: 2000,
+            forecastStatus: 'Review',
+          },
+        },
+      ],
+      progressReports: [
+        {
+          id: 'DRIF-PRJ-PR-0001',
+          reportType: 'Report 1',
+          reportDate: '2021-01-01',
+          reportStatus: 'Pending',
+        },
+        {
+          id: 'DRIF-PRJ-PR-0002',
+          reportType: 'Report 2',
+          reportDate: '2021-02-01',
+          reportStatus: 'Review',
+        },
+      ],
+      forecast: [
+        {
+          id: 'DRIF-PRJ-FC-0001',
+          forecastType: 'Forecast 1',
+          forecastDate: '2021-01-01',
+          forecastAmount: 1000,
+          forecastStatus: 'Pending',
+        },
+        {
+          id: 'DRIF-PRJ-FC-0002',
+          forecastType: 'Forecast 2',
+          forecastDate: '2021-02-01',
+          forecastAmount: 2000,
+          forecastStatus: 'Review',
+        },
+      ],
       attachments: [],
     };
 
+    this.interimReportsDataSource.data = this.project.interimReports;
+
     this.claimsDataSource.data = this.project.claims;
-    this.reportsDataSource.data = this.project.reports;
+    this.progressReportsDataSource.data = this.project.progressReports;
     this.forecastsDataSource.data = this.project.forecast;
     this.attachmentsDataSource.data = this.project.attachments;
   }

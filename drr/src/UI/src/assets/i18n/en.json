@@ -441,5 +441,12 @@
     "meetsEligibilityRequirements": "Will the project be eligible for required permits, authorizations, and regulatory approvals?",
     "allAnswersPositive": "Everything appears to be in order. You can now fill out your Full Proposal.",
     "hasNegativeAnswers": "It appears that you may be missing a few things. You’re welcome to proceed with filling out your Full Proposal, but you may find that you don’t have all of the information required. Even so, you can save your Full Proposal at any point and come back to it later when you do have the information you need."
+  },
+  "project": {
+    "id": "ID",
+    "status": "Status",
+    "reportStatus": "Report Status",
+    "reportDate": "Report Date",
+    "amount": "Amount"
   }
 }
