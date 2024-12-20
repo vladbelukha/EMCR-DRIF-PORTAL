@@ -6,6 +6,9 @@ import { DrifFpInstructionsComponent } from './drif/drif-fp/drif-fp-instructions
 import { DrifFpScreenerComponent } from './drif/drif-fp/drif-fp-screener/drif-fp-screener.component';
 import { DrifFpViewComponent } from './drif/drif-fp/drif-fp-view/drif-fp-view.component';
 import { DrifFpComponent } from './drif/drif-fp/drif-fp.component';
+import { DrifClaimComponent } from './drif/drif-project/drif-claim/drif-claim.component';
+import { DrifForecastComponent } from './drif/drif-project/drif-forecast/drif-forecast.component';
+import { DrifProgressReportComponent } from './drif/drif-project/drif-progress-report/drif-progress-report.component';
 import { DrifProjectComponent } from './drif/drif-project/drif-project.component';
 import { SubmissionListComponent } from './submission-list/submission-list.component';
 
@@ -54,8 +57,38 @@ export const routes: Routes = [
     canActivate: [AuthenticationGuard],
   },
   {
-    path: 'drif-prj/:id',
+    path: 'drif-prj/:projectId',
     component: DrifProjectComponent,
+    canActivate: [AuthenticationGuard],
+  },
+  {
+    path: 'drif-prj/:projectId/progress-report/create',
+    component: DrifProgressReportComponent,
+    canActivate: [AuthenticationGuard],
+  },
+  {
+    path: 'drif-prj/:projectId/progress-report/:reportId',
+    component: DrifProgressReportComponent,
+    canActivate: [AuthenticationGuard],
+  },
+  {
+    path: 'drif-prj/:projectId/claim/create',
+    component: DrifClaimComponent,
+    canActivate: [AuthenticationGuard],
+  },
+  {
+    path: 'drif-prj/:projectId/claim/:claimId',
+    component: DrifClaimComponent,
+    canActivate: [AuthenticationGuard],
+  },
+  {
+    path: 'drif-prj/:projectId/forecast/create',
+    component: DrifForecastComponent,
+    canActivate: [AuthenticationGuard],
+  },
+  {
+    path: 'drif-prj/:projectId/forecast/:forecastId',
+    component: DrifForecastComponent,
     canActivate: [AuthenticationGuard],
   },
 ];
