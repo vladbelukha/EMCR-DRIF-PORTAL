@@ -72,28 +72,9 @@ export class DrifProjectComponent {
   interimReportsColumnsWithExpand = [...this.interimReportsColumns, 'expand'];
 
   claimsDataSource = new MatTableDataSource<Claim>([]);
-  claimsColumns = [
-    'id',
-    'claimType',
-    'claimDate',
-    'claimAmount',
-    'claimStatus',
-  ];
-
   progressReportsDataSource = new MatTableDataSource<ProgressReport>([]);
-  progressReportsColumns = ['id', 'reportType', 'reportDate', 'reportStatus'];
-
   forecastsDataSource = new MatTableDataSource<Forecast>([]);
-  forecastsColumns = [
-    'id',
-    'forecastType',
-    'forecastDate',
-    'forecastAmount',
-    'forecastStatus',
-  ];
-
   attachmentsDataSource = new MatTableDataSource<Attachment>([]);
-  attachmentsColumns = ['id', 'fileName', 'fileType', 'fileSize', 'uploadDate'];
 
   ngOnInit() {
     this.id = this.route.snapshot.params['id'];
