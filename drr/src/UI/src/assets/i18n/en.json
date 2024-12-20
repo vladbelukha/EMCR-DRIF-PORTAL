@@ -447,6 +447,7 @@
     "status": "Status",
     "reportStatus": "Report Status",
     "reportDate": "Report Date",
-    "amount": "Amount"
+    "amount": "Amount",
+    "addInterimReport": "Add New Report"
   }
 }

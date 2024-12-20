@@ -7,10 +7,15 @@ import { ProgramType } from './programType';
 export interface Project {
   id: string;
   projectTitle: string;
+  contractNumber: string;
   proponentName: string;
   fundingStream: FundingStream;
   projectNumber?: string;
   programType: ProgramType;
+  reportingScheduleType: ReportingScheduleType;
+  fundingAmount: number;
+  startDate: string;
+  endDate: string;
   projectStatus: string;
   contacts: ContactDetails[];
   interimReports: InterimReport[];
@@ -18,6 +23,11 @@ export interface Project {
   progressReports: ProgressReport[];
   forecast: Forecast[];
   attachments: Attachment[];
+}
+
+export enum ReportingScheduleType {
+  Quarterly = 'Quarterly',
+  Monthly = 'Monthly',
 }
 
 export interface InterimReport {

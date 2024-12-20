@@ -4,6 +4,15 @@
   gap: 1rem;
   padding: 1rem;
 
+  .drif-project-details {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    padding: 1rem;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+
   mat-card table {
     padding: 1rem;
   }

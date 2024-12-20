@@ -4,17 +4,29 @@
       <mat-card-title>{{ project?.projectTitle }}</mat-card-title>
       <mat-card-subtitle>{{ project?.proponentName }}</mat-card-subtitle>
     </mat-card-header>
-    <mat-card-content>
-      <p><strong>Project Number:</strong> {{ project?.projectNumber }}</p>
-      <p><strong>Funding Stream:</strong> {{ project?.fundingStream }}</p>
-      <p><strong>Program Type:</strong> {{ project?.programType }}</p>
-      <p><strong>Status:</strong> {{ project?.projectStatus }}</p>
+    <mat-card-content class="drif-project-details">
+      <div>
+        <p><strong>Project Number:</strong> {{ project?.projectNumber }}</p>
+        <p><strong>Funding Stream:</strong> {{ project?.fundingStream }}</p>
+        <p><strong>Program Type:</strong> {{ project?.programType }}</p>
+        <p><strong>Status:</strong> {{ project?.projectStatus }}</p>
+      </div>
+      <div>
+        <p><strong>Start Date:</strong> {{ project?.startDate }}</p>
+        <p><strong>End Date:</strong> {{ project?.endDate }}</p>
+        <p><strong>Funding Amount</strong> {{ project?.fundingAmount }}</p>
+      </div>
     </mat-card-content>
   </mat-card>
 
   <mat-card>
     <mat-card-header>
-      <mat-card-title>Interim Reports</mat-card-title>
+      <mat-card-title-group>
+        <mat-card-title>Interim Reports</mat-card-title>
+        <button mat-raised-button color="primary" (click)="addInterimReport()">
+          {{ t("addInterimReport") }}
+        </button>
+      </mat-card-title-group>
     </mat-card-header>
     <table
       mat-table

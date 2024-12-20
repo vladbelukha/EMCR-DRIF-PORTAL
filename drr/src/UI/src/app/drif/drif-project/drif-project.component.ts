@@ -21,6 +21,7 @@ import {
   InterimReport,
   ProgressReport,
   Project,
+  ReportingScheduleType,
 } from '../../../model/project';
 import { DrrInputComponent } from '../../shared/controls/drr-input/drr-input.component';
 
@@ -82,6 +83,11 @@ export class DrifProjectComponent {
       programType: ProgramType.DRIF,
       projectNumber: 'PRJ-123',
       projectStatus: 'Active',
+      contractNumber: 'CON-123',
+      reportingScheduleType: ReportingScheduleType.Quarterly,
+      startDate: '2021-01-01',
+      endDate: '2022-01-01',
+      fundingAmount: 1000000,
       contacts: [
         {
           firstName: 'John',
@@ -202,4 +208,6 @@ export class DrifProjectComponent {
     this.forecastsDataSource.data = this.project.forecast;
     this.attachmentsDataSource.data = this.project.attachments;
   }
+
+  addInterimReport() {}
 }
