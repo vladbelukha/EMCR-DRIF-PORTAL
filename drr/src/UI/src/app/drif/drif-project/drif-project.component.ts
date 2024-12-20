@@ -14,7 +14,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
-import { Attachment, FundingStream, ProgramType } from '../../../model';
+import {
+  Attachment,
+  ContactDetails,
+  FundingStream,
+  ProgramType,
+} from '../../../model';
 import {
   Claim,
   Forecast,
@@ -60,6 +65,8 @@ export class DrifProjectComponent {
 
   expandedInterimReport?: InterimReport | null;
 
+  projectContactsDataSource = new MatTableDataSource<ContactDetails>([]);
+
   interimReportsDataSource = new MatTableDataSource<InterimReport>([]);
   interimReportsColumns = ['id', 'reportDate', 'reportStatus'];
   interimReportsColumnsWithExpand = [...this.interimReportsColumns, 'expand'];
@@ -94,8 +101,16 @@ export class DrifProjectComponent {
           lastName: 'Doe',
           title: 'Manager',
           department: 'Public Works',
-          email: 'jd@mail.com',
-          phone: '123-456-7890',
+          email: 'john@mail.com',
+          phone: '1111111111',
+        },
+        {
+          firstName: 'Jane',
+          lastName: 'Doe',
+          title: 'Manager',
+          department: 'Public Works',
+          email: 'jane@mail.com',
+          phone: '2222222222',
         },
       ],
       claims: [
@@ -201,6 +216,8 @@ export class DrifProjectComponent {
       attachments: [],
     };
 
+    this.projectContactsDataSource.data = this.project.contacts;
+
     this.interimReportsDataSource.data = this.project.interimReports;
 
     this.claimsDataSource.data = this.project.claims;
@@ -210,4 +227,6 @@ export class DrifProjectComponent {
   }
 
   addInterimReport() {}
+
+  addProjectContact() {}
 }

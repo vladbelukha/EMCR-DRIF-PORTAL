@@ -448,6 +448,7 @@
     "reportStatus": "Report Status",
     "reportDate": "Report Date",
     "amount": "Amount",
-    "addInterimReport": "Add New Report"
+    "addInterimReport": "Add New Report",
+    "addProjectContact": "Add Project Contact"
   }
 }
