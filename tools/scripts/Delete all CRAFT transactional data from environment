@@ -4,9 +4,9 @@
 
 -- Application Child entities
 --
-delete from account -- all?
-delete from connection  -- all?
-delete from contact -- all?
+delete from account --proponent
+delete from connection  --partnering proponents
+delete from contact --proponent contacts
 delete from drr_applicationstatushistory
 delete from drr_climateassessmenttoolitem
 delete from drr_cobenefititem
@@ -33,11 +33,11 @@ delete from drr_qualifiedprofessionalitem
 delete from drr_resiliencyitem
 delete from drr_smereview
 delete from drr_smereviewitem
-delete from bcgov_documenturl
+delete from bcgov_documenturl --attachments
 
 -- Application Related entities
 --
-delete from incident
+delete from incident --cases
 
 -- Application entity
 --
