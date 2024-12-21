@@ -12,7 +12,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
 import {
   Attachment,
@@ -35,6 +35,7 @@ import { DrrInputComponent } from '../../shared/controls/drr-input/drr-input.com
   standalone: true,
   imports: [
     CommonModule,
+    RouterModule,
     MatCardModule,
     MatInputModule,
     MatButtonModule,
@@ -58,8 +59,9 @@ import { DrrInputComponent } from '../../shared/controls/drr-input/drr-input.com
 })
 export class DrifProjectComponent {
   route = inject(ActivatedRoute);
+  router = inject(Router);
 
-  id?: string;
+  projectId?: string;
 
   project?: Project;
 
@@ -68,8 +70,8 @@ export class DrifProjectComponent {
   projectContactsDataSource = new MatTableDataSource<ContactDetails>([]);
 
   interimReportsDataSource = new MatTableDataSource<InterimReport>([]);
-  interimReportsColumns = ['id', 'reportDate', 'reportStatus'];
-  interimReportsColumnsWithExpand = [...this.interimReportsColumns, 'expand'];
+  
+  
 
   claimsDataSource = new MatTableDataSource<Claim>([]);
   progressReportsDataSource = new MatTableDataSource<ProgressReport>([]);
@@ -77,13 +79,13 @@ export class DrifProjectComponent {
   attachmentsDataSource = new MatTableDataSource<Attachment>([]);
 
   ngOnInit() {
-    this.id = this.route.snapshot.params['id'];
+    this.projectId = this.route.snapshot.params['projectId'];
 
     // TODO: get project by id
 
     // TODO: set mock project
     this.project = {
-      id: 'DRIF-PRJ-0001',
+      id: '0001',
       projectTitle: 'Water Treatment Plant',
       proponentName: 'City of Richmond',
       fundingStream: FundingStream.Stream1,
@@ -115,14 +117,14 @@ export class DrifProjectComponent {
       ],
       claims: [
         {
-          id: 'DRIF-PRJ-CL-0001',
+          id: 'CL-0001',
           claimType: 'Claim 1',
           claimDate: '2021-01-01',
           claimAmount: 1000,
           claimStatus: 'Pending',
         },
         {
-          id: 'DRIF-PRJ-CL-0002',
+          id: 'CL-0002',
           claimType: 'Claim 2',
           claimDate: '2021-02-01',
           claimAmount: 2000,
@@ -131,25 +133,25 @@ export class DrifProjectComponent {
       ],
       interimReports: [
         {
-          id: 'DRIF-PRJ-IR-0001',
+          id: 'IR-0001',
           reportDate: '2021-01-01',
           reportStatus: 'Pending',
           claim: {
-            id: 'DRIF-PRJ-CL-0001',
+            id: 'CL-0001',
             claimType: 'Claim 1',
             claimDate: '2021-01-01',
             claimAmount: 1000,
             claimStatus: 'Pending',
           },
           report: {
-            id: 'DRI-PRJ-IR-0001',
+            id: 'IR-0001',
             reportType: 'Report 1',
             reportDate: '2021-01-01',
             reportStatus: 'Pending',
           },
 
           forecast: {
-            id: 'DRIF-PRJ-FC-0001',
+            id: 'FC-0001',
             forecastType: 'Forecast 1',
             forecastDate: '2021-01-01',
             forecastAmount: 1000,
@@ -157,25 +159,25 @@ export class DrifProjectComponent {
           },
         },
         {
-          id: 'DRIF-PRJ-IR-0002',
+          id: 'IR-0002',
           reportDate: '2021-02-01',
           reportStatus: 'Review',
           claim: {
-            id: 'DRIF-PRJ-CL-0002',
+            id: 'CL-0002',
             claimType: 'Claim 2',
             claimDate: '2021-02-01',
             claimAmount: 2000,
             claimStatus: 'Review',
           },
           report: {
-            id: 'DRI-PRJ-IR-0002',
+            id: 'IR-0002',
             reportType: 'Report 2',
             reportDate: '2021-02-01',
             reportStatus: 'Review',
           },
 
           forecast: {
-            id: 'DRIF-PRJ-FC-0002',
+            id: 'FC-0002',
             forecastType: 'Forecast 2',
             forecastDate: '2021-02-01',
             forecastAmount: 2000,
@@ -185,13 +187,13 @@ export class DrifProjectComponent {
       ],
       progressReports: [
         {
-          id: 'DRIF-PRJ-PR-0001',
+          id: 'PR-0001',
           reportType: 'Report 1',
           reportDate: '2021-01-01',
           reportStatus: 'Pending',
         },
         {
-          id: 'DRIF-PRJ-PR-0002',
+          id: 'PR-0002',
           reportType: 'Report 2',
           reportDate: '2021-02-01',
           reportStatus: 'Review',
@@ -199,14 +201,14 @@ export class DrifProjectComponent {
       ],
       forecast: [
         {
-          id: 'DRIF-PRJ-FC-0001',
+          id: 'FC-0001',
           forecastType: 'Forecast 1',
           forecastDate: '2021-01-01',
           forecastAmount: 1000,
           forecastStatus: 'Pending',
         },
         {
-          id: 'DRIF-PRJ-FC-0002',
+          id: 'FC-0002',
           forecastType: 'Forecast 2',
           forecastDate: '2021-02-01',
           forecastAmount: 2000,
@@ -229,4 +231,10 @@ export class DrifProjectComponent {
   addInterimReport() {}
 
   addProjectContact() {}
+
+  viewClaimClick(claim: Claim, event: Event) {
+    event.stopPropagation();
+
+    this.router.navigate(['drif-prj', this.projectId, 'claims', claim.id]);
+  }
 }
