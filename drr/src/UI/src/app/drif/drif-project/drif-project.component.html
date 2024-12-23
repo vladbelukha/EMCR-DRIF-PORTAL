@@ -1,8 +1,13 @@
 <div class="drif-project-container" *transloco="let t; read: 'project'">
   <mat-card>
     <mat-card-header>
-      <mat-card-title>{{ project?.projectTitle }}</mat-card-title>
-      <mat-card-subtitle>{{ project?.proponentName }}</mat-card-subtitle>
+      <mat-card-title-group>
+        <mat-card-title>{{ project?.projectTitle }}</mat-card-title>
+        <mat-chip>
+          {{ project?.status }}
+        </mat-chip>
+        <mat-card-subtitle>{{ project?.proponentName }}</mat-card-subtitle>
+      </mat-card-title-group>
     </mat-card-header>
     <mat-card-content class="drif-project-details">
       <div>
@@ -16,7 +21,7 @@
         <p><strong>Funding Amount</strong> {{ project?.fundingAmount }}</p>
       </div>
       <div>
-        <p><strong>Status:</strong> {{ project?.projectStatus }}</p>
+        <p><strong>Pending tasks:</strong> {{ project?.status }}</p>
       </div>
     </mat-card-content>
   </mat-card>
@@ -59,10 +64,10 @@
             <th mat-header-cell *matHeaderCellDef>Date</th>
             <td mat-cell *matCellDef="let element">{{ element.reportDate }}</td>
           </ng-container>
-          <ng-container matColumnDef="reportStatus">
+          <ng-container matColumnDef="status">
             <th mat-header-cell *matHeaderCellDef>Status</th>
             <td mat-cell *matCellDef="let element">
-              {{ element.reportStatus }}
+              {{ element.status }}
             </td>
           </ng-container>
 
@@ -125,7 +130,7 @@
                       </div>
                       <div>{{ element.claim.claimType }}</div>
                       <div>{{ element.claim.claimDate }}</div>
-                      <div>{{ element.claim.claimStatus }}</div>
+                      <div>{{ element.claim.status }}</div>
                       <div>{{ element.claim.claimAmount }}</div>
                     </div>
                   </div>
@@ -151,7 +156,7 @@
                       </div>
                       <div>{{ element.report.reportType }}</div>
                       <div>{{ element.report.reportDate }}</div>
-                      <div>{{ element.report.reportStatus }}</div>
+                      <div>{{ element.report.status }}</div>
                     </div>
                   </div>
 
@@ -177,7 +182,7 @@
                       </div>
                       <div>{{ element.forecast.forecastType }}</div>
                       <div>{{ element.forecast.forecastDate }}</div>
-                      <div>{{ element.forecast.forecastStatus }}</div>
+                      <div>{{ element.forecast.status }}</div>
                       <div>{{ element.forecast.forecastAmount }}</div>
                     </div>
                   </div>
@@ -188,13 +193,13 @@
 
           <tr
             mat-header-row
-            *matHeaderRowDef="['id', 'reportDate', 'reportStatus', 'expand']"
+            *matHeaderRowDef="['id', 'reportDate', 'status', 'expand']"
           ></tr>
           <tr
             mat-row
             *matRowDef="
               let element;
-              columns: ['id', 'reportDate', 'reportStatus', 'expand']
+              columns: ['id', 'reportDate', 'status', 'expand']
             "
             class="interim-element-row"
             [class.interim-expanded-row]="expandedInterimReport === element"
@@ -237,9 +242,9 @@
             <th mat-header-cell *matHeaderCellDef>Amount</th>
             <td mat-cell *matCellDef="let claim">{{ claim.claimAmount }}</td>
           </ng-container>
-          <ng-container matColumnDef="claimStatus">
+          <ng-container matColumnDef="status">
             <th mat-header-cell *matHeaderCellDef>Status</th>
-            <td mat-cell *matCellDef="let claim">{{ claim.claimStatus }}</td>
+            <td mat-cell *matCellDef="let claim">{{ claim.status }}</td>
           </ng-container>
           <tr
             mat-header-row
@@ -248,20 +253,14 @@
               'claimType',
               'claimDate',
               'claimAmount',
-              'claimStatus'
+              'status'
             ]"
           ></tr>
           <tr
             mat-row
             *matRowDef="
               let row;
-              columns: [
-                'id',
-                'claimType',
-                'claimDate',
-                'claimAmount',
-                'claimStatus'
-              ]
+              columns: ['id', 'claimType', 'claimDate', 'claimAmount', 'status']
             "
           ></tr>
         </table>
@@ -295,24 +294,19 @@
             <th mat-header-cell *matHeaderCellDef>Date</th>
             <td mat-cell *matCellDef="let report">{{ report.reportDate }}</td>
           </ng-container>
-          <ng-container matColumnDef="reportStatus">
+          <ng-container matColumnDef="status">
             <th mat-header-cell *matHeaderCellDef>Status</th>
-            <td mat-cell *matCellDef="let report">{{ report.reportStatus }}</td>
+            <td mat-cell *matCellDef="let report">{{ report.status }}</td>
           </ng-container>
           <tr
             mat-header-row
-            *matHeaderRowDef="[
-              'id',
-              'reportType',
-              'reportDate',
-              'reportStatus'
-            ]"
+            *matHeaderRowDef="['id', 'reportType', 'reportDate', 'status']"
           ></tr>
           <tr
             mat-row
             *matRowDef="
               let row;
-              columns: ['id', 'reportType', 'reportDate', 'reportStatus']
+              columns: ['id', 'reportType', 'reportDate', 'status']
             "
           ></tr>
         </table>
@@ -356,10 +350,10 @@
               {{ forecast.forecastAmount }}
             </td>
           </ng-container>
-          <ng-container matColumnDef="forecastStatus">
+          <ng-container matColumnDef="status">
             <th mat-header-cell *matHeaderCellDef>Status</th>
             <td mat-cell *matCellDef="let forecast">
-              {{ forecast.forecastStatus }}
+              {{ forecast.status }}
             </td>
           </ng-container>
           <tr
@@ -369,7 +363,7 @@
               'forecastType',
               'forecastDate',
               'forecastAmount',
-              'forecastStatus'
+              'status'
             ]"
           ></tr>
           <tr
@@ -381,14 +375,14 @@
                 'forecastType',
                 'forecastDate',
                 'forecastAmount',
-                'forecastStatus'
+                'status'
               ]
             "
           ></tr>
         </table>
       </mat-card>
     </mat-tab>
-    <mat-tab label="Forecast">
+    <mat-tab label="Attachments">
       <mat-card>
         <mat-card-header>
           <mat-card-title>Attachments</mat-card-title>

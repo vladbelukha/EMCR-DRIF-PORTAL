@@ -16,13 +16,18 @@ export interface Project {
   fundingAmount: number;
   startDate: string;
   endDate: string;
-  projectStatus: string;
+  status: ProjectStatus;
   contacts: ContactDetails[];
   interimReports: InterimReport[];
   claims: Claim[];
   progressReports: ProgressReport[];
   forecast: Forecast[];
   attachments: Attachment[];
+}
+
+export enum ProjectStatus {
+  Active = 'Active',
+  Inactive = 'Inactive',
 }
 
 export enum ReportingScheduleType {
@@ -33,10 +38,18 @@ export enum ReportingScheduleType {
 export interface InterimReport {
   id: string;
   reportDate: string;
-  reportStatus: string;
+  description?: string;
+  status: InterimReportStatus;
   claim: Claim;
   report: ProgressReport;
   forecast: Forecast;
+}
+
+export enum InterimReportStatus {
+  Pending = 'Pending',
+  Review = 'Review',
+  Approved = 'Approved',
+  Rejected = 'Rejected',
 }
 
 export interface Claim {
@@ -44,14 +57,28 @@ export interface Claim {
   claimType: string;
   claimDate: string;
   claimAmount: number;
-  claimStatus: string;
+  status: ClaimStatus;
+}
+
+export enum ClaimStatus {
+  Pending = 'Pending',
+  Review = 'Review',
+  Approved = 'Approved',
+  Rejected = 'Rejected',
 }
 
 export interface ProgressReport {
   id: string;
   reportType: string;
   reportDate: string;
-  reportStatus: string;
+  status: ProgressReportStatus;
+}
+
+export enum ProgressReportStatus {
+  Pending = 'Pending',
+  Review = 'Review',
+  Approved = 'Approved',
+  Rejected = 'Rejected',
 }
 
 export interface Forecast {
@@ -59,5 +86,12 @@ export interface Forecast {
   forecastType: string;
   forecastDate: string;
   forecastAmount: number;
-  forecastStatus: string;
+  status: ForecastStatus;
+}
+
+export enum ForecastStatus {
+  Pending = 'Pending',
+  Review = 'Review',
+  Approved = 'Approved',
+  Rejected = 'Rejected',
 }

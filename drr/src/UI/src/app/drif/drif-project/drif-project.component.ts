@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -23,10 +24,15 @@ import {
 } from '../../../model';
 import {
   Claim,
+  ClaimStatus,
   Forecast,
+  ForecastStatus,
   InterimReport,
+  InterimReportStatus,
   ProgressReport,
+  ProgressReportStatus,
   Project,
+  ProjectStatus,
   ReportingScheduleType,
 } from '../../../model/project';
 import { DrrInputComponent } from '../../shared/controls/drr-input/drr-input.component';
@@ -42,6 +48,7 @@ import { DrrInputComponent } from '../../shared/controls/drr-input/drr-input.com
     MatButtonModule,
     MatTableModule,
     MatIconModule,
+    MatChipsModule,
     MatTabsModule,
     DrrInputComponent,
     TranslocoModule,
@@ -91,7 +98,7 @@ export class DrifProjectComponent {
       fundingStream: FundingStream.Stream1,
       programType: ProgramType.DRIF,
       projectNumber: 'PRJ-123',
-      projectStatus: 'Active',
+      status: ProjectStatus.Active,
       contractNumber: 'CON-123',
       reportingScheduleType: ReportingScheduleType.Quarterly,
       startDate: '2021-01-01',
@@ -121,59 +128,58 @@ export class DrifProjectComponent {
           claimType: 'Claim 1',
           claimDate: '2021-01-01',
           claimAmount: 1000,
-          claimStatus: 'Pending',
+          status: ClaimStatus.Pending,
         },
         {
           id: 'CL-0002',
           claimType: 'Claim 2',
           claimDate: '2021-02-01',
           claimAmount: 2000,
-          claimStatus: 'Review',
+          status: ClaimStatus.Review,
         },
       ],
       interimReports: [
         {
           id: 'IR-0001',
           reportDate: '2021-01-01',
-          reportStatus: 'Pending',
+          status: InterimReportStatus.Pending,
           claim: {
             id: 'CL-0001',
             claimType: 'Claim 1',
             claimDate: '2021-01-01',
             claimAmount: 1000,
-            claimStatus: 'Pending',
+            status: ClaimStatus.Pending,
           },
           report: {
             id: 'IR-0001',
             reportType: 'Report 1',
             reportDate: '2021-01-01',
-            reportStatus: 'Pending',
+            status: ProgressReportStatus.Pending,
           },
-
           forecast: {
             id: 'FC-0001',
             forecastType: 'Forecast 1',
             forecastDate: '2021-01-01',
             forecastAmount: 1000,
-            forecastStatus: 'Pending',
+            status: ForecastStatus.Pending,
           },
         },
         {
           id: 'IR-0002',
           reportDate: '2021-02-01',
-          reportStatus: 'Review',
+          status: InterimReportStatus.Review,
           claim: {
             id: 'CL-0002',
             claimType: 'Claim 2',
             claimDate: '2021-02-01',
             claimAmount: 2000,
-            claimStatus: 'Review',
+            status: ClaimStatus.Review,
           },
           report: {
             id: 'IR-0002',
             reportType: 'Report 2',
             reportDate: '2021-02-01',
-            reportStatus: 'Review',
+            status: ProgressReportStatus.Review,
           },
 
           forecast: {
@@ -181,7 +187,7 @@ export class DrifProjectComponent {
             forecastType: 'Forecast 2',
             forecastDate: '2021-02-01',
             forecastAmount: 2000,
-            forecastStatus: 'Review',
+            status: ForecastStatus.Review,
           },
         },
       ],
@@ -190,13 +196,13 @@ export class DrifProjectComponent {
           id: 'PR-0001',
           reportType: 'Report 1',
           reportDate: '2021-01-01',
-          reportStatus: 'Pending',
+          status: ProgressReportStatus.Pending,
         },
         {
           id: 'PR-0002',
           reportType: 'Report 2',
           reportDate: '2021-02-01',
-          reportStatus: 'Review',
+          status: ProgressReportStatus.Review,
         },
       ],
       forecast: [
@@ -205,14 +211,14 @@ export class DrifProjectComponent {
           forecastType: 'Forecast 1',
           forecastDate: '2021-01-01',
           forecastAmount: 1000,
-          forecastStatus: 'Pending',
+          status: ForecastStatus.Pending,
         },
         {
           id: 'FC-0002',
           forecastType: 'Forecast 2',
           forecastDate: '2021-02-01',
           forecastAmount: 2000,
-          forecastStatus: 'Review',
+          status: ForecastStatus.Review,
         },
       ],
       attachments: [],

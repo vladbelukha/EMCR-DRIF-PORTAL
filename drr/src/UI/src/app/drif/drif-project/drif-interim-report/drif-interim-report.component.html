@@ -1,7 +1,107 @@
-@if (reportId) {
+<!-- @if (reportId) {
 <p>Project ID: {{ projectId }}</p>
 <p>Interim Report ID: {{ reportId }}</p>
 } @else {
 <p>Project ID: {{ projectId }}</p>
 <p>Create new interim report</p>
-}
+} -->
+
+<div style="display: flex; flex-direction: column; gap: 1rem; padding: 1rem">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title-group>
+        <mat-card-title>Interim Report</mat-card-title>
+        <mat-chip [ngClass]="getStatusColorClass(interimReport?.status)">
+          {{ interimReport?.status }}
+        </mat-chip>
+        <mat-card-subtitle>{{ interimReport?.id }}</mat-card-subtitle>
+      </mat-card-title-group>
+    </mat-card-header>
+    <mat-card-content>
+      <p>Report Date: {{ interimReport?.reportDate }}</p>
+      <p>Report Description: {{ interimReport?.description }}</p>
+    </mat-card-content>
+    <mat-card-actions align="end" style="display: flex; gap: 1rem">
+      <button mat-raised-button color="primary" (click)="editInterimReport()">
+        Edit
+      </button>
+      <button mat-button color="warn" (click)="deleteInterimReport()">
+        Delete
+      </button>
+    </mat-card-actions>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title-group>
+        <mat-card-title>Claim</mat-card-title>
+        <mat-chip [ngClass]="getStatusColorClass(interimReport?.claim?.status)">
+          {{ interimReport?.claim?.status }}</mat-chip
+        >
+        <mat-card-subtitle>{{ interimReport?.claim?.id }}</mat-card-subtitle>
+      </mat-card-title-group>
+    </mat-card-header>
+    <mat-card-content>
+      <p>Claim Type: {{ interimReport?.claim?.claimType }}</p>
+      <p>Claim Amount: {{ interimReport?.claim?.claimAmount }}</p>
+      <p>Claim Date: {{ interimReport?.claim?.claimDate }}</p>
+    </mat-card-content>
+    <mat-card-actions align="end" style="display: flex; gap: 1rem">
+      <button mat-raised-button color="primary" (click)="editClaim()">
+        Edit
+      </button>
+      <button mat-button color="warn" (click)="deleteClaim()">Delete</button>
+    </mat-card-actions>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title-group>
+        <mat-card-title>Progress Report</mat-card-title>
+        <mat-chip
+          [ngClass]="getStatusColorClass(interimReport?.report?.status)"
+        >
+          {{ interimReport?.report?.status }}
+        </mat-chip>
+        <mat-card-subtitle>{{ interimReport?.report?.id }}</mat-card-subtitle>
+      </mat-card-title-group>
+    </mat-card-header>
+    <mat-card-content>
+      <p>Progress Date: {{ interimReport?.report?.reportDate }}</p>
+      <p>Progress Type: {{ interimReport?.report?.reportType }}</p>
+    </mat-card-content>
+    <mat-card-actions align="end" style="display: flex; gap: 1rem">
+      <button mat-raised-button color="primary" (click)="editProgressReport()">
+        Edit
+      </button>
+      <button mat-button color="warn" (click)="deleteProgressReport()">
+        Delete
+      </button>
+    </mat-card-actions>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title-group>
+        <mat-card-title>Forecast</mat-card-title>
+        <mat-chip
+          [ngClass]="getStatusColorClass(interimReport?.forecast?.status)"
+        >
+          {{ interimReport?.forecast?.status }}
+        </mat-chip>
+        <mat-card-subtitle>{{ interimReport?.forecast?.id }}</mat-card-subtitle>
+      </mat-card-title-group>
+    </mat-card-header>
+    <mat-card-content>
+      <p>Forecast Date: {{ interimReport?.forecast?.forecastDate }}</p>
+      <p>Forecast Amount: {{ interimReport?.forecast?.forecastAmount }}</p>
+      <p>Forecast Type: {{ interimReport?.forecast?.forecastType }}</p>
+    </mat-card-content>
+    <mat-card-actions align="end" style="display: flex; gap: 1rem">
+      <button mat-raised-button color="primary" (click)="editForecast()">
+        Edit
+      </button>
+      <button mat-button color="warn" (click)="deleteForecast()">Delete</button>
+    </mat-card-actions>
+  </mat-card>
+</div>
