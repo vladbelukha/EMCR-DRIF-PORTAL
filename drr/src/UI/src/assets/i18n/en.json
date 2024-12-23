@@ -450,5 +450,6 @@
     "amount": "Amount",
     "addInterimReport": "Add New Report",
     "addProjectContact": "Add Project Contact"
-  }
+  },
+  "interimReport": "Interim Report"
 }

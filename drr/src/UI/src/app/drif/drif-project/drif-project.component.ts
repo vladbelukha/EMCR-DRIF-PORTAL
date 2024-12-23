@@ -234,7 +234,16 @@ export class DrifProjectComponent {
     this.attachmentsDataSource.data = this.project.attachments;
   }
 
-  addInterimReport() {}
+  addInterimReport() {
+    // TODO: create report prior to navigating?
+
+    this.router.navigate([
+      'drif-prj',
+      this.projectId,
+      'interim-reports',
+      'create',
+    ]);
+  }
 
   addProjectContact() {}
 
