@@ -12,6 +12,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatTabsModule } from '@angular/material/tabs';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
 import {
@@ -41,6 +42,7 @@ import { DrrInputComponent } from '../../shared/controls/drr-input/drr-input.com
     MatButtonModule,
     MatTableModule,
     MatIconModule,
+    MatTabsModule,
     DrrInputComponent,
     TranslocoModule,
   ],
@@ -70,8 +72,6 @@ export class DrifProjectComponent {
   projectContactsDataSource = new MatTableDataSource<ContactDetails>([]);
 
   interimReportsDataSource = new MatTableDataSource<InterimReport>([]);
-  
-  
 
   claimsDataSource = new MatTableDataSource<Claim>([]);
   progressReportsDataSource = new MatTableDataSource<ProgressReport>([]);
