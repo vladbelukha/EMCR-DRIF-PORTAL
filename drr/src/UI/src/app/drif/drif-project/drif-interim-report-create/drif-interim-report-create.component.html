@@ -43,9 +43,33 @@
     #stepper
   >
     <mat-step label="Instructions">
-      <div class="drr-stepper-actions">
+      <div>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras a
+          suscipit lectus. Sed molestie dolor nec tortor hendrerit consequat. In
+          at mauris vel lorem molestie rutrum. Curabitur dictum ligula id
+          fermentum ultrices. In vel tortor volutpat, ultrices ipsum vel,
+          lacinia eros. Curabitur quis lectus et ipsum sagittis semper et
+          commodo turpis. Curabitur viverra felis vel consectetur fringilla.
+          Nunc eu egestas magna, eget tincidunt ex. Integer accumsan, velit eget
+          faucibus ornare, enim risus accumsan dui, congue luctus dui eros sed
+          nunc. Vestibulum et blandit libero. Fusce nec mauris interdum, cursus
+          nibh ut, tristique leo. Nullam rhoncus, lectus ac euismod semper,
+          massa lacus elementum ipsum, vel mollis lacus sem in ante. Mauris a
+          dignissim nunc. Duis mollis facilisis odio, nec interdum enim
+          malesuada sed. Fusce congue tristique fermentum.
+        </p>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras a
+          suscipit lectus. Sed molestie dolor nec tortor hendrerit consequat. In
+          at mauris vel lorem molestie rutrum. Curabitur dictum ligula id
+          fermentum ultrices. In vel tortor volutpat, ultrices ipsum vel,
+          lacinia eros.
+        </p>
+      </div>
+      <div class="drr-stepper-action">
         <button
-          id="next2"
+          id="next1"
           mat-flat-button
           color="primary"
           matStepperNext
@@ -53,9 +77,10 @@
         >
           {{ t("next") }}
         </button>
-      </div></mat-step
-    >
-    <mat-step label="Workplan Report">
+      </div>
+    </mat-step>
+    <mat-step label="Interim Report Details">
+      <div>this is where the form will go</div>
       <div class="drr-stepper-actions">
         <button mat-stroked-button color="primary" matStepperPrevious>
           {{ t("back") }}
@@ -71,7 +96,7 @@
         </button>
       </div></mat-step
     >
-    <mat-step label="Even Information">
+    <!-- <mat-step label="Even Information">
       <div class="drr-stepper-actions">
         <button mat-stroked-button color="primary" matStepperPrevious>
           {{ t("back") }}
@@ -134,7 +159,7 @@
           {{ t("next") }}
         </button>
       </div></mat-step
-    >
+    > -->
     <mat-step label="Attachments">
       <div class="drr-stepper-actions">
         <button mat-stroked-button color="primary" matStepperPrevious>
