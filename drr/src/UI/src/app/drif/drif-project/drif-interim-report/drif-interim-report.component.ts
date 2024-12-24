@@ -35,7 +35,7 @@ export class DrifInterimReportComponent {
 
     this.interimReport = {
       id: 'IR-0001',
-      reportDate: '2021-01-01',
+      dueDate: '2021-01-01',
       status: InterimReportStatus.Pending,
       description: 'Description 1',
       claim: {

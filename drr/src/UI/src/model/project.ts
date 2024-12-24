@@ -16,6 +16,8 @@ export interface Project {
   fundingAmount: number;
   startDate: string;
   endDate: string;
+  eoiId: string;
+  fpId: string;
   status: ProjectStatus;
   contacts: ContactDetails[];
   interimReports: InterimReport[];
@@ -37,7 +39,7 @@ export enum ReportingScheduleType {
 
 export interface InterimReport {
   id: string;
-  reportDate: string;
+  dueDate: string;
   description?: string;
   status: InterimReportStatus;
   claim: Claim;

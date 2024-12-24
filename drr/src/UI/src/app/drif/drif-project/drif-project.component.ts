@@ -79,6 +79,7 @@ export class DrifProjectComponent {
   projectContactsDataSource = new MatTableDataSource<ContactDetails>([]);
 
   interimReportsDataSource = new MatTableDataSource<InterimReport>([]);
+  pastReportsDataSource = new MatTableDataSource<InterimReport>([]);
 
   claimsDataSource = new MatTableDataSource<Claim>([]);
   progressReportsDataSource = new MatTableDataSource<ProgressReport>([]);
@@ -104,6 +105,8 @@ export class DrifProjectComponent {
       startDate: '2021-01-01',
       endDate: '2022-01-01',
       fundingAmount: 1000000,
+      eoiId: 'EOI-123',
+      fpId: 'FP-123',
       contacts: [
         {
           firstName: 'John',
@@ -141,7 +144,7 @@ export class DrifProjectComponent {
       interimReports: [
         {
           id: 'IR-0001',
-          reportDate: '2021-01-01',
+          dueDate: '2021-01-01',
           status: InterimReportStatus.Pending,
           claim: {
             id: 'CL-0001',
@@ -166,7 +169,7 @@ export class DrifProjectComponent {
         },
         {
           id: 'IR-0002',
-          reportDate: '2021-02-01',
+          dueDate: '2021-02-01',
           status: InterimReportStatus.Review,
           claim: {
             id: 'CL-0002',
@@ -188,6 +191,81 @@ export class DrifProjectComponent {
             forecastDate: '2021-02-01',
             forecastAmount: 2000,
             status: ForecastStatus.Review,
+          },
+        },
+        {
+          id: 'IR-0003',
+          dueDate: '2021-03-01',
+          status: InterimReportStatus.Approved,
+          claim: {
+            id: 'CL-0003',
+            claimType: 'Claim 3',
+            claimDate: '2021-03-01',
+            claimAmount: 3000,
+            status: ClaimStatus.Approved,
+          },
+          report: {
+            id: 'IR-0003',
+            reportType: 'Report 3',
+            reportDate: '2021-03-01',
+            status: ProgressReportStatus.Approved,
+          },
+          forecast: {
+            id: 'FC-0003',
+            forecastType: 'Forecast 3',
+            forecastDate: '2021-03-01',
+            forecastAmount: 3000,
+            status: ForecastStatus.Approved,
+          },
+        },
+        {
+          id: 'IR-0004',
+          dueDate: '2021-04-01',
+          status: InterimReportStatus.Rejected,
+          claim: {
+            id: 'CL-0004',
+            claimType: 'Claim 4',
+            claimDate: '2021-04-01',
+            claimAmount: 4000,
+            status: ClaimStatus.Rejected,
+          },
+          report: {
+            id: 'IR-0004',
+            reportType: 'Report 4',
+            reportDate: '2021-04-01',
+            status: ProgressReportStatus.Rejected,
+          },
+          forecast: {
+            id: 'FC-0004',
+            forecastType: 'Forecast 4',
+            forecastDate: '2021-04-01',
+            forecastAmount: 4000,
+            status: ForecastStatus.Rejected,
+          },
+        },
+        {
+          id: 'IR-0005',
+          dueDate: '2021-05-01',
+          status: InterimReportStatus.Rejected,
+          claim: {
+            id: 'CL-0005',
+            claimType: 'Claim 5',
+            claimDate: '2021-05-01',
+            claimAmount: 5000,
+            status: ClaimStatus.Pending,
+          },
+          report: {
+            id: 'IR-0005',
+            reportType: 'Report 5',
+            reportDate: '2021-05-01',
+            status: ProgressReportStatus.Pending,
+          },
+          forecast: {
+            id: 'FC-0005',
+            forecastType: 'Forecast 5',
+            forecastDate: '2021-05-01',
+            forecastAmount: 5000,
+            status: ForecastStatus.Pending,
           },
         },
       ],
@@ -226,7 +304,16 @@ export class DrifProjectComponent {
 
     this.projectContactsDataSource.data = this.project.contacts;
 
-    this.interimReportsDataSource.data = this.project.interimReports;
+    this.interimReportsDataSource.data = this.project.interimReports.filter(
+      (report) =>
+        report.status !== InterimReportStatus.Approved &&
+        report.status !== InterimReportStatus.Rejected
+    );
+    this.pastReportsDataSource.data = this.project.interimReports.filter(
+      (report) =>
+        report.status === InterimReportStatus.Approved ||
+        report.status === InterimReportStatus.Rejected
+    );
 
     this.claimsDataSource.data = this.project.claims;
     this.progressReportsDataSource.data = this.project.progressReports;
