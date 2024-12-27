@@ -9,13 +9,13 @@ import {
 } from '@angular/material/stepper';
 import { TranslocoModule } from '@ngneat/transloco';
 import { RxFormBuilder } from '@rxweb/reactive-form-validators';
-import { DrrDatepickerComponent } from '../../../shared/controls/drr-datepicker/drr-datepicker.component';
+import { DrrDatepickerComponent } from '../../../../shared/controls/drr-datepicker/drr-datepicker.component';
 import {
   DrrRadioButtonComponent,
   RadioOption,
-} from '../../../shared/controls/drr-radio-button/drr-radio-button.component';
-import { DrrSelectComponent } from '../../../shared/controls/drr-select/drr-select.component';
-import { DrrTextareaComponent } from "../../../shared/controls/drr-textarea/drr-textarea.component";
+} from '../../../../shared/controls/drr-radio-button/drr-radio-button.component';
+import { DrrSelectComponent } from '../../../../shared/controls/drr-select/drr-select.component';
+import { DrrTextareaComponent } from '../../../../shared/controls/drr-textarea/drr-textarea.component';
 
 @Component({
   selector: 'drr-drif-progress-report-create',
@@ -30,8 +30,8 @@ import { DrrTextareaComponent } from "../../../shared/controls/drr-textarea/drr-
     DrrDatepickerComponent,
     DrrSelectComponent,
     DrrRadioButtonComponent,
-    DrrTextareaComponent
-],
+    DrrTextareaComponent,
+  ],
   templateUrl: './drif-progress-report-create.component.html',
   styleUrl: './drif-progress-report-create.component.scss',
   providers: [RxFormBuilder],
