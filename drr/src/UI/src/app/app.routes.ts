@@ -10,6 +10,7 @@ import { DrifClaimComponent } from './drif/drif-project/drif-claim/drif-claim.co
 import { DrifForecastComponent } from './drif/drif-project/drif-forecast/drif-forecast.component';
 import { DrifInterimReportCreateComponent } from './drif/drif-project/drif-interim-report-create/drif-interim-report-create.component';
 import { DrifInterimReportComponent } from './drif/drif-project/drif-interim-report/drif-interim-report.component';
+import { DrifProgressReportCreateComponent } from './drif/drif-project/drif-progress-report-create/drif-progress-report-create.component';
 import { DrifProgressReportComponent } from './drif/drif-project/drif-progress-report/drif-progress-report.component';
 import { DrifProjectComponent } from './drif/drif-project/drif-project.component';
 import { SubmissionListComponent } from './submission-list/submission-list.component';
@@ -73,9 +74,10 @@ export const routes: Routes = [
     component: DrifInterimReportComponent,
     canActivate: [AuthenticationGuard],
   },
+  // TODO: probably need 'drif-prj/:projectId/interim-reports/:reportId/progress-reposts/create' route
   {
     path: 'drif-prj/:projectId/progress-reports/create',
-    component: DrifProgressReportComponent,
+    component: DrifProgressReportCreateComponent,
     canActivate: [AuthenticationGuard],
   },
   {

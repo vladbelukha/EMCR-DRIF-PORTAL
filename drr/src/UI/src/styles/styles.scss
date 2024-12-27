@@ -260,6 +260,12 @@ h6 {
 
 .app-stepper-container {
   margin: 1rem;
+
+  .app-stepper {
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 .app-stepper-header {
