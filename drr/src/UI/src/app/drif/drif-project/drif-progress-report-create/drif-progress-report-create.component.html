@@ -121,6 +121,106 @@
             [rxFormControl]="form.get('firstNationEngagementProgressComment')"
           ></drr-textarea>
         </div>
+        <mat-label class="drr-label"> Design Start / Finish</mat-label>
+        <div>
+          <div style="display: flex; gap: 1rem">
+            <drr-radio-button
+              class="drr-single-input"
+              label="Status"
+              [options]="progressReportOptions"
+              [rxFormControl]="form.get('designProgress')"
+            ></drr-radio-button>
+            <drr-datepicker
+              class="drr-single-input"
+              label="Report Date"
+              [rxFormControl]="form.get('designProgressDate')"
+            ></drr-datepicker>
+          </div>
+          <drr-textarea
+            label="Comments"
+            [rxFormControl]="form.get('designProgressComment')"
+          ></drr-textarea>
+        </div>
+        <mat-label class="drr-label"> Construction Tender Start / Finish</mat-label>
+        <div>
+          <div style="display: flex; gap: 1rem">
+            <drr-radio-button
+              class="drr-single-input"
+              label="Status"
+              [options]="progressReportOptions"
+              [rxFormControl]="form.get('constructionTenderProgress')"
+            ></drr-radio-button>
+            <drr-datepicker
+              class="drr-single-input"
+              label="Report Date"
+              [rxFormControl]="form.get('constructionTenderProgressDate')"
+            ></drr-datepicker>
+          </div>
+          <drr-textarea
+            label="Comments"
+            [rxFormControl]="form.get('constructionTenderProgressComment')"
+          ></drr-textarea>
+        </div>
+        <mat-label class="drr-label"> Construction Contract Start / Finish</mat-label>
+        <div>
+          <div style="display: flex; gap: 1rem">
+            <drr-radio-button
+              class="drr-single-input"
+              label="Status"
+              [options]="progressReportOptions"
+              [rxFormControl]="form.get('constractionContractProgress')"
+            ></drr-radio-button>
+            <drr-datepicker
+              class="drr-single-input"
+              label="Report Date"
+              [rxFormControl]="form.get('constractionContractProgressDate')"
+            ></drr-datepicker>
+          </div>
+          <drr-textarea
+            label="Comments"
+            [rxFormControl]="form.get('constractionContractProgressComment')"
+          ></drr-textarea>
+        </div>
+        <mat-label class="drr-label"> Permit to Construct Start / Finish</mat-label>
+        <div>
+          <div style="display: flex; gap: 1rem">
+            <drr-radio-button
+              class="drr-single-input"
+              label="Status"
+              [options]="progressReportOptions"
+              [rxFormControl]="form.get('permitToConstructProgress')"
+            ></drr-radio-button>
+            <drr-datepicker
+              class="drr-single-input"
+              label="Report Date"
+              [rxFormControl]="form.get('permitToConstructProgressDate')"
+            ></drr-datepicker>
+          </div>
+          <drr-textarea
+            label="Comments"
+            [rxFormControl]="form.get('permitToConstructProgressComment')"
+          ></drr-textarea>
+        </div>
+        <mat-label class="drr-label"> Construction Start / Finish</mat-label>
+        <div>
+          <div style="display: flex; gap: 1rem">
+            <drr-radio-button
+              class="drr-single-input"
+              label="Status"
+              [options]="progressReportOptions"
+              [rxFormControl]="form.get('constructionProgress')"
+            ></drr-radio-button>
+            <drr-datepicker
+              class="drr-single-input"
+              label="Report Date"
+              [rxFormControl]="form.get('constructionProgressDate')"
+            ></drr-datepicker>
+          </div>
+          <drr-textarea
+            label="Comments"
+            [rxFormControl]="form.get('constructionProgressComment')"
+          ></drr-textarea>
+        </div>
       </div>
       <div class="drr-stepper-actions">
         <button mat-stroked-button color="primary" matStepperPrevious>
