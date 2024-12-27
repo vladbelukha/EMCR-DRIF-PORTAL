@@ -80,7 +80,71 @@
       </div>
     </mat-step>
     <mat-step label="Interim Report Details">
-      <div>this is where the form will go</div>
+      <div style="display: flex; flex-direction: column; gap: 1rem">
+        <mat-label class="drr-label"> Select report period </mat-label>
+        <drr-datepicker
+          class="drr-single-input"
+          label="Report Date"
+          [rxFormControl]="form.get('reportDate')"
+        ></drr-datepicker>
+        <mat-label class="drr-label"> Select report type </mat-label>
+        <drr-select
+          class="drr-single-input"
+          label="Report Type"
+          [rxFormControl]="form.get('reportType')"
+          [options]="reportTypeOptions"
+        ></drr-select>
+        <ng-container [ngSwitch]="form.get('reportType')?.value">
+          <div *ngSwitchCase="'interim'">
+            <mat-label class="drr-label"
+              >You're about to create an interim report</mat-label
+            >
+            <p>
+              <i>
+                An interim report is a report that is submitted in the middle of
+                the project cycle. It is used to provide an update on the
+                project progress and to request additional funding if needed.
+              </i>
+            </p>
+          </div>
+          <div *ngSwitchCase="'offCycle'">
+            <mat-label class="drr-label"
+              >You're about to create an off-cycle report</mat-label
+            >
+            <p>
+              <i>
+                An off-cycle report is a report that is submitted outside of the
+                regular reporting schedule. It is used to provide an update on
+                the project progress and to request additional funding if
+                needed.
+              </i>
+            </p>
+          </div>
+          <div *ngSwitchCase="'final'">
+            <mat-label class="drr-label"
+              >You're about to create a final report</mat-label
+            >
+            <p>
+              <i>
+                A final report is a report that is submitted at the end of the
+                project cycle. It is used to provide a summary of the project
+                outcomes and to request final payment.
+              </i>
+            </p>
+          </div>
+          <div *ngSwitchCase="'skip'">
+            <mat-label class="drr-label"
+              >You're about to skip the interim report</mat-label
+            >
+            <p>
+              <i>
+                You've chosen to skip the report creation. This means that you
+                will not be able to submit a report for this period.
+              </i>
+            </p>
+          </div>
+        </ng-container>
+      </div>
       <div class="drr-stepper-actions">
         <button mat-stroked-button color="primary" matStepperPrevious>
           {{ t("back") }}
