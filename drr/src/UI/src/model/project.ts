@@ -47,6 +47,13 @@ export interface InterimReport {
   forecast: Forecast;
 }
 
+export enum WorkplanProgressType {
+  NotStarted = 'Not Started',
+  InProgress = 'In Progress',
+  Completed = 'Completed',
+  NotApplicable = 'Not Applicable',
+}
+
 export enum InterimReportStatus {
   Pending = 'Pending',
   Review = 'Review',

@@ -8,14 +8,20 @@ import {
   StepperOrientation,
 } from '@angular/material/stepper';
 import { TranslocoModule } from '@ngneat/transloco';
-import { RxFormBuilder } from '@rxweb/reactive-form-validators';
+import { IFormGroup, RxFormBuilder } from '@rxweb/reactive-form-validators';
+import { YesNoOption } from '../../../../../model';
 import { DrrDatepickerComponent } from '../../../../shared/controls/drr-datepicker/drr-datepicker.component';
+import { DrrInputComponent } from '../../../../shared/controls/drr-input/drr-input.component';
 import {
   DrrRadioButtonComponent,
   RadioOption,
 } from '../../../../shared/controls/drr-radio-button/drr-radio-button.component';
-import { DrrSelectComponent } from '../../../../shared/controls/drr-select/drr-select.component';
+import {
+  DrrSelectComponent,
+  DrrSelectOption,
+} from '../../../../shared/controls/drr-select/drr-select.component';
 import { DrrTextareaComponent } from '../../../../shared/controls/drr-textarea/drr-textarea.component';
+import { ProgressReportForm } from '../drif-progress-report-form';
 
 @Component({
   selector: 'drr-drif-progress-report-create',
@@ -28,6 +34,7 @@ import { DrrTextareaComponent } from '../../../../shared/controls/drr-textarea/d
     MatInputModule,
     TranslocoModule,
     DrrDatepickerComponent,
+    DrrInputComponent,
     DrrSelectComponent,
     DrrRadioButtonComponent,
     DrrTextareaComponent,
@@ -57,32 +64,27 @@ export class DrifProgressReportCreateComponent {
       value: 'notApplicable',
     },
   ];
+  yesNoNaOptions = Object.values(YesNoOption).map((value) => ({
+    label: value, // TODO: translate
+    value,
+  }));
+
+  yesNoOptions: DrrSelectOption[] = [
+    {
+      label: 'Yes',
+      value: 'yes',
+    },
+    {
+      label: 'No',
+      value: 'no',
+    },
+  ];
 
   stepperOrientation: StepperOrientation = 'horizontal';
 
-  form = this.formBuilder.group({
-    projectProgress: [null],
-    projectProgressComment: [null],
-    projectProgressDate: [null],
-    firstNationEngagementProgress: [null],
-    firstNationEngagementProgressComment: [null],
-    firstNationEngagementProgressDate: [null],
-    designProgress: [null],
-    designProgressComment: [null],
-    designProgressDate: [null],
-    constructionTenderProgress: [null],
-    constructionTenderProgressComment: [null],
-    constructionTenderProgressDate: [null],
-    constractionContractProgress: [null],
-    constractionContractProgressComment: [null],
-    constractionContractProgressDate: [null],
-    permitToConstructProgress: [null],
-    permitToConstructProgressComment: [null],
-    permitToConstructProgressDate: [null],
-    constructionProgress: [null],
-    constructionProgressComment: [null],
-    constructionProgressDate: [null],
-  });
+  progressReportForm = this.formBuilder.formGroup(
+    ProgressReportForm
+  ) as IFormGroup<ProgressReportForm>;
 
   stepperSelectionChange(event: any) {}
 

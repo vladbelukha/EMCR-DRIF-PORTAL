@@ -86,17 +86,17 @@
               class="drr-single-input"
               label="Status"
               [options]="progressReportOptions"
-              [rxFormControl]="form.get('projectProgress')"
+              [rxFormControl]="progressReportForm.get('projectProgress')"
             ></drr-radio-button>
             <drr-datepicker
               class="drr-single-input"
               label="Report Date"
-              [rxFormControl]="form.get('projectProgressDate')"
+              [rxFormControl]="progressReportForm.get('projectProgressDate')"
             ></drr-datepicker>
           </div>
           <drr-textarea
             label="Comments"
-            [rxFormControl]="form.get('projectProgressComment')"
+            [rxFormControl]="progressReportForm.get('projectProgressComment')"
           ></drr-textarea>
         </div>
         <mat-label class="drr-label">
@@ -108,17 +108,23 @@
               class="drr-single-input"
               label="Status"
               [options]="progressReportOptions"
-              [rxFormControl]="form.get('firstNationEngagementProgress')"
+              [rxFormControl]="
+                progressReportForm.get('firstNationEngagementProgress')
+              "
             ></drr-radio-button>
             <drr-datepicker
               class="drr-single-input"
               label="Report Date"
-              [rxFormControl]="form.get('firstNationEngagementProgressDate')"
+              [rxFormControl]="
+                progressReportForm.get('firstNationEngagementProgressDate')
+              "
             ></drr-datepicker>
           </div>
           <drr-textarea
             label="Comments"
-            [rxFormControl]="form.get('firstNationEngagementProgressComment')"
+            [rxFormControl]="
+              progressReportForm.get('firstNationEngagementProgressComment')
+            "
           ></drr-textarea>
         </div>
         <mat-label class="drr-label"> Design Start / Finish</mat-label>
@@ -128,77 +134,101 @@
               class="drr-single-input"
               label="Status"
               [options]="progressReportOptions"
-              [rxFormControl]="form.get('designProgress')"
+              [rxFormControl]="progressReportForm.get('designProgress')"
             ></drr-radio-button>
             <drr-datepicker
               class="drr-single-input"
               label="Report Date"
-              [rxFormControl]="form.get('designProgressDate')"
+              [rxFormControl]="progressReportForm.get('designProgressDate')"
             ></drr-datepicker>
           </div>
           <drr-textarea
             label="Comments"
-            [rxFormControl]="form.get('designProgressComment')"
+            [rxFormControl]="progressReportForm.get('designProgressComment')"
           ></drr-textarea>
         </div>
-        <mat-label class="drr-label"> Construction Tender Start / Finish</mat-label>
+        <mat-label class="drr-label">
+          Construction Tender Start / Finish</mat-label
+        >
         <div>
           <div style="display: flex; gap: 1rem">
             <drr-radio-button
               class="drr-single-input"
               label="Status"
               [options]="progressReportOptions"
-              [rxFormControl]="form.get('constructionTenderProgress')"
+              [rxFormControl]="
+                progressReportForm.get('constructionTenderProgress')
+              "
             ></drr-radio-button>
             <drr-datepicker
               class="drr-single-input"
               label="Report Date"
-              [rxFormControl]="form.get('constructionTenderProgressDate')"
+              [rxFormControl]="
+                progressReportForm.get('constructionTenderProgressDate')
+              "
             ></drr-datepicker>
           </div>
           <drr-textarea
             label="Comments"
-            [rxFormControl]="form.get('constructionTenderProgressComment')"
+            [rxFormControl]="
+              progressReportForm.get('constructionTenderProgressComment')
+            "
           ></drr-textarea>
         </div>
-        <mat-label class="drr-label"> Construction Contract Start / Finish</mat-label>
+        <mat-label class="drr-label">
+          Construction Contract Start / Finish</mat-label
+        >
         <div>
           <div style="display: flex; gap: 1rem">
             <drr-radio-button
               class="drr-single-input"
               label="Status"
               [options]="progressReportOptions"
-              [rxFormControl]="form.get('constractionContractProgress')"
+              [rxFormControl]="
+                progressReportForm.get('constractionContractProgress')
+              "
             ></drr-radio-button>
             <drr-datepicker
               class="drr-single-input"
               label="Report Date"
-              [rxFormControl]="form.get('constractionContractProgressDate')"
+              [rxFormControl]="
+                progressReportForm.get('constractionContractProgressDate')
+              "
             ></drr-datepicker>
           </div>
           <drr-textarea
             label="Comments"
-            [rxFormControl]="form.get('constractionContractProgressComment')"
+            [rxFormControl]="
+              progressReportForm.get('constractionContractProgressComment')
+            "
           ></drr-textarea>
         </div>
-        <mat-label class="drr-label"> Permit to Construct Start / Finish</mat-label>
+        <mat-label class="drr-label">
+          Permit to Construct Start / Finish</mat-label
+        >
         <div>
           <div style="display: flex; gap: 1rem">
             <drr-radio-button
               class="drr-single-input"
               label="Status"
               [options]="progressReportOptions"
-              [rxFormControl]="form.get('permitToConstructProgress')"
+              [rxFormControl]="
+                progressReportForm.get('permitToConstructProgress')
+              "
             ></drr-radio-button>
             <drr-datepicker
               class="drr-single-input"
               label="Report Date"
-              [rxFormControl]="form.get('permitToConstructProgressDate')"
+              [rxFormControl]="
+                progressReportForm.get('permitToConstructProgressDate')
+              "
             ></drr-datepicker>
           </div>
           <drr-textarea
             label="Comments"
-            [rxFormControl]="form.get('permitToConstructProgressComment')"
+            [rxFormControl]="
+              progressReportForm.get('permitToConstructProgressComment')
+            "
           ></drr-textarea>
         </div>
         <mat-label class="drr-label"> Construction Start / Finish</mat-label>
@@ -208,19 +238,89 @@
               class="drr-single-input"
               label="Status"
               [options]="progressReportOptions"
-              [rxFormControl]="form.get('constructionProgress')"
+              [rxFormControl]="progressReportForm.get('constructionProgress')"
             ></drr-radio-button>
             <drr-datepicker
               class="drr-single-input"
               label="Report Date"
-              [rxFormControl]="form.get('constructionProgressDate')"
+              [rxFormControl]="
+                progressReportForm.get('constructionProgressDate')
+              "
             ></drr-datepicker>
           </div>
           <drr-textarea
             label="Comments"
-            [rxFormControl]="form.get('constructionProgressComment')"
+            [rxFormControl]="
+              progressReportForm.get('constructionProgressComment')
+            "
           ></drr-textarea>
         </div>
+        <mat-label class="drr-label">
+          Percentage of Project Complete as of report date
+        </mat-label>
+        <drr-input
+          class="drr-single-input"
+          label="Percentage"
+          [rxFormControl]="
+            progressReportForm.get('projectCompletionPercentage')
+          "
+        ></drr-input>
+
+        <mat-label class="drr-label"> Community Media Announcements</mat-label>
+        <drr-radio-button
+          class="drr-single-input"
+          label="Please select below"
+          [options]="yesNoNaOptions"
+          [rxFormControl]="progressReportForm.get('communityMedia')"
+        ></drr-radio-button>
+        <drr-datepicker
+          class="drr-single-input"
+          label="Date of Announcement"
+          [rxFormControl]="progressReportForm.get('communityMediaDate')"
+        ></drr-datepicker>
+        <drr-textarea
+          label="Comments"
+          [rxFormControl]="progressReportForm.get('communityMediaComment')"
+        ></drr-textarea>
+        <mat-label class="drr-label"> Provincial Media Announcements</mat-label>
+        <drr-radio-button
+          class="drr-single-input"
+          label="Please select below"
+          [options]="yesNoNaOptions"
+          [rxFormControl]="progressReportForm.get('provincialMedia')"
+        ></drr-radio-button>
+        <drr-datepicker
+          class="drr-single-input"
+          label="Date of Announcement"
+          [rxFormControl]="progressReportForm.get('provincialMediaDate')"
+        ></drr-datepicker>
+        <drr-textarea
+          label="Comments"
+          [rxFormControl]="progressReportForm.get('provincialMediaComment')"
+        ></drr-textarea>
+        <mat-label class="drr-label"> Works Completed </mat-label>
+        <drr-textarea
+          label="Please provide a bulleted list of works completed since the last project report"
+          [rxFormControl]="progressReportForm.get('worksCompleted')"
+        ></drr-textarea>
+        <mat-label class="drr-label"> Outstanding Issues </mat-label>
+        <drr-textarea
+          label="Please provide any details on any outstanding issues"
+          [rxFormControl]="progressReportForm.get('outstandingIssues')"
+        ></drr-textarea>
+        <mat-label class="drr-label"> Changes to Funding Srouces </mat-label>
+        <drr-select
+          class="drr-single-input"
+          label="Have there been changes to other funding sources in the last quarter?"
+          [rxFormControl]="progressReportForm.get('fundingSourceChanged')"
+          [options]="yesNoOptions"
+        ></drr-select>
+        <drr-textarea
+          label="Please provide details on any changes to other funding sources"
+          [rxFormControl]="
+            progressReportForm.get('fundingSourceChangedComment')
+          "
+        ></drr-textarea>
       </div>
       <div class="drr-stepper-actions">
         <button mat-stroked-button color="primary" matStepperPrevious>
