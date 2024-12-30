@@ -1,8 +1,12 @@
-import { prop } from '@rxweb/reactive-form-validators';
+import { prop, propObject } from '@rxweb/reactive-form-validators';
 import { YesNoOption } from '../../../../model';
-import { WorkplanProgressType } from '../../../../model/project';
+import {
+  EventProgressType,
+  WorkplanProgressType,
+} from '../../../../model/project';
+import { ContactDetailsForm } from '../../drif-eoi/drif-eoi-form';
 
-export class ProgressReportForm {
+export class WorkplanForm {
   @prop()
   projectProgress?: WorkplanProgressType;
 
@@ -100,4 +104,51 @@ export class ProgressReportForm {
 
   @prop()
   fundingSourcesChangedComment?: string;
+
+  constructor(values: WorkplanForm) {
+    Object.assign(this, values);
+  }
+}
+
+export class EventForm {
+  @prop()
+  groundBreaking?: EventProgressType;
+
+  @prop()
+  groundBreakingDate?: string;
+
+  @prop()
+  ribbonCutting?: EventProgressType;
+
+  @prop()
+  ribbonCuttingDate?: string;
+
+  @prop()
+  communityEngagement?: EventProgressType;
+
+  @prop()
+  communityEngagementDate?: string;
+
+  // TODO: other events
+
+  @prop()
+  eventContact?: ContactDetailsForm;
+
+  @prop()
+  provincialRepresentativeRequest?: YesNoOption;
+
+  @prop()
+  provincialRepresentativeRequestComment?: string;
+
+  constructor(values: EventForm) {
+    Object.assign(this, values);
+  }
+}
+
+export class ProgressReportForm {
+  @propObject(WorkplanForm)
+  workplan?: WorkplanForm = new WorkplanForm({});
+
+  @propObject(EventForm)
+  event?: EventForm = new EventForm({});
 }

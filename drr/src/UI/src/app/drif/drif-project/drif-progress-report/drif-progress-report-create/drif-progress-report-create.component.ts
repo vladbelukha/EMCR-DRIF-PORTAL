@@ -10,6 +10,10 @@ import {
 import { TranslocoModule } from '@ngneat/transloco';
 import { IFormGroup, RxFormBuilder } from '@rxweb/reactive-form-validators';
 import { YesNoOption } from '../../../../../model';
+import {
+  EventProgressType,
+  WorkplanProgressType,
+} from '../../../../../model/project';
 import { DrrDatepickerComponent } from '../../../../shared/controls/drr-datepicker/drr-datepicker.component';
 import { DrrInputComponent } from '../../../../shared/controls/drr-input/drr-input.component';
 import {
@@ -21,7 +25,11 @@ import {
   DrrSelectOption,
 } from '../../../../shared/controls/drr-select/drr-select.component';
 import { DrrTextareaComponent } from '../../../../shared/controls/drr-textarea/drr-textarea.component';
-import { ProgressReportForm } from '../drif-progress-report-form';
+import {
+  EventForm,
+  ProgressReportForm,
+  WorkplanForm,
+} from '../drif-progress-report-form';
 
 @Component({
   selector: 'drr-drif-progress-report-create',
@@ -46,24 +54,13 @@ import { ProgressReportForm } from '../drif-progress-report-form';
 export class DrifProgressReportCreateComponent {
   formBuilder = inject(RxFormBuilder);
 
-  progressReportOptions: RadioOption[] = [
-    {
-      label: 'Not Started',
-      value: 'notStarted',
-    },
-    {
-      label: 'In Progress',
-      value: 'inProgress',
-    },
-    {
-      label: 'Completed',
-      value: 'completed',
-    },
-    {
-      label: 'Not Applicable',
-      value: 'notApplicable',
-    },
-  ];
+  progressReportOptions: RadioOption[] = Object.values(
+    WorkplanProgressType
+  ).map((value) => ({
+    label: value,
+    value,
+  }));
+
   yesNoNaOptions = Object.values(YesNoOption).map((value) => ({
     label: value, // TODO: translate
     value,
@@ -80,11 +77,26 @@ export class DrifProgressReportCreateComponent {
     },
   ];
 
+  eventProgressOptions: RadioOption[] = Object.values(EventProgressType).map(
+    (value) => ({
+      label: value,
+      value,
+    })
+  );
+
   stepperOrientation: StepperOrientation = 'horizontal';
 
   progressReportForm = this.formBuilder.formGroup(
     ProgressReportForm
   ) as IFormGroup<ProgressReportForm>;
+
+  get workplanForm(): IFormGroup<WorkplanForm> | null {
+    return this.progressReportForm.get('workplan') as IFormGroup<WorkplanForm>;
+  }
+
+  get eventForm(): IFormGroup<EventForm> | null {
+    return this.progressReportForm.get('event') as IFormGroup<EventForm>;
+  }
 
   stepperSelectionChange(event: any) {}
 

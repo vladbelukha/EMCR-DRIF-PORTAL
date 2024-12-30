@@ -54,6 +54,14 @@ export enum WorkplanProgressType {
   NotApplicable = 'Not Applicable',
 }
 
+export enum EventProgressType {
+  NotPlanned = 'Not Planned',
+  PlannedDateUnknown = 'Planned Date Unknown',
+  PlannedDateKnown = 'Planned Date Known',
+  AlreadyOccurred = 'Already Occurred',
+  Unknown = 'Unknown',
+}
+
 export enum InterimReportStatus {
   Pending = 'Pending',
   Review = 'Review',
