@@ -6,6 +6,7 @@ import { DrifFpInstructionsComponent } from './drif/drif-fp/drif-fp-instructions
 import { DrifFpScreenerComponent } from './drif/drif-fp/drif-fp-screener/drif-fp-screener.component';
 import { DrifFpViewComponent } from './drif/drif-fp/drif-fp-view/drif-fp-view.component';
 import { DrifFpComponent } from './drif/drif-fp/drif-fp.component';
+import { DrifClaimCreateComponent } from './drif/drif-project/drif-claim/drif-claim-create/drif-claim-create.component';
 import { DrifClaimComponent } from './drif/drif-project/drif-claim/drif-claim.component';
 import { DrifForecastComponent } from './drif/drif-project/drif-forecast/drif-forecast.component';
 import { DrifInterimReportCreateComponent } from './drif/drif-project/drif-interim-report/drif-interim-report-create/drif-interim-report-create.component';
@@ -87,7 +88,7 @@ export const routes: Routes = [
   },
   {
     path: 'drif-prj/:projectId/claims/create',
-    component: DrifClaimComponent,
+    component: DrifClaimCreateComponent,
     canActivate: [AuthenticationGuard],
   },
   {
