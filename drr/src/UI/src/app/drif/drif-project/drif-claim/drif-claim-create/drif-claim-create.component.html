@@ -42,7 +42,29 @@
   >
     <mat-step label="Instructions"> </mat-step>
     <mat-step label="Expenditures">
-      <div style="display: flex; flex-direction: column; gap: 1rem">
+      <div
+        style="display: flex; flex-direction: column; gap: 1rem; padding: 1rem"
+      >
+        <div style="align-self: center">invoice summary table goes here</div>
+        <button
+          style="align-self: flex-end"
+          (click)="addInvoice()"
+          mat-stroked-button
+          type="button"
+          color="primary"
+        >
+          <mat-icon>add</mat-icon>
+          {{ t("addInvoice") }}
+        </button>
+      </div>
+      <div
+        style="
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+          justify-content: flex-start;
+        "
+      >
         <div
           *ngFor="let invoice of getInvoiceFormArray().controls; let i = index"
         >
@@ -125,6 +147,17 @@
                 ></drr-currency-input>
               </div>
             </mat-card-content>
+            <mat-card-actions [align]="'end'">
+              <button
+                *ngIf="i > 0"
+                mat-stroked-button
+                color="warn"
+                (click)="removeInvoice(i)"
+                type="button"
+              >
+                {{ t("delete") }}
+              </button>
+            </mat-card-actions>
           </mat-card>
         </div>
       </div>

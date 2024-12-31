@@ -71,4 +71,12 @@ export class DrifClaimCreateComponent {
   goBack() {}
 
   save() {}
+
+  addInvoice() {
+    this.getInvoiceFormArray().push(this.formBuilder.formGroup(InvoiceForm));
+  }
+
+  removeInvoice(index: number) {
+    this.getInvoiceFormArray().removeAt(index);
+  }
 }
