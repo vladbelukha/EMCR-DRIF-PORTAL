@@ -11,10 +11,14 @@ import {
 } from '@angular/material/stepper';
 import { TranslocoModule } from '@ngneat/transloco';
 import { IFormGroup, RxFormBuilder } from '@rxweb/reactive-form-validators';
+import { DrrCurrencyInputComponent } from '../../../../shared/controls/drr-currency-input/drr-currency-input.component';
 import { DrrDatepickerComponent } from '../../../../shared/controls/drr-datepicker/drr-datepicker.component';
 import { DrrInputComponent } from '../../../../shared/controls/drr-input/drr-input.component';
 import { DrrRadioButtonComponent } from '../../../../shared/controls/drr-radio-button/drr-radio-button.component';
-import { DrrSelectComponent } from '../../../../shared/controls/drr-select/drr-select.component';
+import {
+  DrrSelectComponent,
+  DrrSelectOption,
+} from '../../../../shared/controls/drr-select/drr-select.component';
 import { DrrTextareaComponent } from '../../../../shared/controls/drr-textarea/drr-textarea.component';
 import { ClaimForm, InvoiceForm } from '../drif-claim-form';
 
@@ -34,6 +38,7 @@ import { ClaimForm, InvoiceForm } from '../drif-claim-form';
     DrrSelectComponent,
     DrrRadioButtonComponent,
     DrrTextareaComponent,
+    DrrCurrencyInputComponent,
   ],
   templateUrl: './drif-claim-create.component.html',
   styleUrl: './drif-claim-create.component.scss',
@@ -43,6 +48,11 @@ export class DrifClaimCreateComponent {
   formBuilder = inject(RxFormBuilder);
 
   claimForm = this.formBuilder.formGroup(ClaimForm) as IFormGroup<ClaimForm>;
+
+  claimCategoryOptions: DrrSelectOption[] = [
+    { label: 'Option 1', value: 'option1' },
+    { label: 'Option 2', value: 'option2' },
+  ];
 
   getInvoiceFormArray() {
     return this.claimForm.get('invoices') as FormArray;

@@ -82,6 +82,47 @@
                     [rxFormControl]="invoice.get('paymentDate')"
                   ></drr-datepicker>
                 </div>
+                <div style="display: flex; gap: 1rem">
+                  <drr-input
+                    class="drr-single-input"
+                    [label]="t('supplierName')"
+                    [rxFormControl]="invoice.get('supplierName')"
+                  ></drr-input>
+                  <drr-select
+                    class="drr-single-input"
+                    [label]="t('claimCategory')"
+                    [rxFormControl]="invoice.get('claimCategory')"
+                    [options]="claimCategoryOptions"
+                  ></drr-select>
+                </div>
+                <drr-textarea
+                  [label]="t('description')"
+                  [rxFormControl]="invoice.get('description')"
+                  [maxlength]="2000"
+                ></drr-textarea>
+                <div style="display: flex; gap: 1rem">
+                  <drr-currency-input
+                    [label]="t('grossAmount')"
+                    [rxFormControl]="invoice.get('grossAmount')"
+                  ></drr-currency-input>
+                  <drr-currency-input
+                    [label]="t('taxRebate')"
+                    [rxFormControl]="invoice.get('taxRebate')"
+                  ></drr-currency-input>
+                  <drr-currency-input
+                    [label]="t('pstPaid')"
+                    [rxFormControl]="invoice.get('pstPaid')"
+                  ></drr-currency-input>
+                  <drr-currency-input
+                    [label]="t('gstPaid')"
+                    [rxFormControl]="invoice.get('gstPaid')"
+                  ></drr-currency-input>
+                </div>
+                <drr-currency-input
+                  class="drr-single-input"
+                  [label]="t('claimAmount')"
+                  [rxFormControl]="invoice.get('claimAmount')"
+                ></drr-currency-input>
               </div>
             </mat-card-content>
           </mat-card>
