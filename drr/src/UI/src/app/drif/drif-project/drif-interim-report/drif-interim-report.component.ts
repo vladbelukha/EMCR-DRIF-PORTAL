@@ -3,7 +3,7 @@ import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import {
   ClaimStatus,
   ForecastStatus,
@@ -15,7 +15,13 @@ import {
 @Component({
   selector: 'drr-drif-interim-report',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatChipsModule, MatButtonModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    MatCardModule,
+    MatChipsModule,
+    MatButtonModule,
+  ],
   templateUrl: './drif-interim-report.component.html',
   styleUrl: './drif-interim-report.component.scss',
 })
@@ -52,13 +58,14 @@ export class DrifInterimReportComponent {
         status: ProgressReportStatus.Approved,
       },
 
-      forecast: {
-        id: 'FC-0001',
-        forecastType: 'Forecast 1',
-        forecastDate: '2021-01-01',
-        forecastAmount: 1000,
-        status: ForecastStatus.Rejected,
-      },
+      forecast: undefined,
+      // {
+      //   id: 'FC-0001',
+      //   forecastType: 'Forecast 1',
+      //   forecastDate: '2021-01-01',
+      //   forecastAmount: 1000,
+      //   status: ForecastStatus.Rejected,
+      // },
     };
   }
 
@@ -100,6 +107,8 @@ export class DrifInterimReportComponent {
   editProgressReport() {}
 
   deleteProgressReport() {}
+
+  createForecast() {}
 
   editForecast() {}
 

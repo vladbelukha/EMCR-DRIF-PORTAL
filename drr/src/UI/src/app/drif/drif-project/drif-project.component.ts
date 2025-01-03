@@ -10,6 +10,7 @@ import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -50,6 +51,7 @@ import { DrrInputComponent } from '../../shared/controls/drr-input/drr-input.com
     MatIconModule,
     MatChipsModule,
     MatTabsModule,
+    MatDividerModule,
     DrrInputComponent,
     TranslocoModule,
   ],
@@ -154,7 +156,7 @@ export class DrifProjectComponent {
             status: ClaimStatus.Pending,
           },
           report: {
-            id: 'IR-0001',
+            id: 'PR-0001',
             reportType: 'Report 1',
             reportDate: '2021-01-01',
             status: ProgressReportStatus.Pending,
@@ -339,4 +341,16 @@ export class DrifProjectComponent {
 
     this.router.navigate(['drif-prj', this.projectId, 'claims', claim.id]);
   }
+
+  editClaim() {}
+
+  deleteClaim() {}
+
+  editProgressReport() {}
+
+  deleteProgressReport() {}
+
+  editForecast() {}
+
+  deleteForecast() {}
 }

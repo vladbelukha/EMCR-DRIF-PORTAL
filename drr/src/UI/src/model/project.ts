@@ -42,9 +42,9 @@ export interface InterimReport {
   dueDate: string;
   description?: string;
   status: InterimReportStatus;
-  claim: Claim;
-  report: ProgressReport;
-  forecast: Forecast;
+  claim?: Claim;
+  report?: ProgressReport;
+  forecast?: Forecast;
 }
 
 export enum WorkplanProgressType {
