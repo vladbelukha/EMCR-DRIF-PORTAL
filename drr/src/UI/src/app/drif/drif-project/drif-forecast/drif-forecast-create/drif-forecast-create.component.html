@@ -72,7 +72,53 @@
       </div>
     </mat-step>
     <mat-step label="Budget Forecast Report">
-      <div></div>
+      <div>
+        <div>
+          <!-- <div>
+            <span>Fiscal Year</span>
+            <span>Original Forecast</span>
+            <span>Projected Expenditure</span>
+            <span>Claims Paid</span>
+            <span>Claims Submitted Not Paid</span>
+            <span>Remaining Claims</span>
+          </div> -->
+          <div
+            *ngFor="
+              let yearForecast of getYearForecastFormArray().controls;
+              let i = index
+            "
+            class="drr-forecast-row"
+          >
+            <drr-input
+              label="Fiscal Year"
+              [rxFormControl]="yearForecast.get('fiscalYear')"
+            ></drr-input>
+            <drr-input
+              label="Original Forecast"
+              [rxFormControl]="yearForecast.get('originalForecast')"
+            ></drr-input>
+            <drr-input
+              label="Projected Expenditure"
+              [rxFormControl]="yearForecast.get('projectedExpenditure')"
+            >
+            </drr-input>
+            <drr-input
+              label="Paid Claims"
+              [rxFormControl]="yearForecast.get('paidClaimsAmount')"
+            ></drr-input>
+            <drr-input
+              label="Outstanding Claims"
+              [rxFormControl]="yearForecast.get('outstandingClaimsAmount')"
+            ></drr-input>
+            <drr-input
+              label="Remaining Claims"
+              [rxFormControl]="yearForecast.get('remainingClaimsAmount')"
+            ></drr-input>
+          </div>
+        </div>
+        <div>total</div>
+        <div>variance</div>
+      </div>
       <div class="drr-stepper-actions">
         <button mat-stroked-button color="primary" matStepperPrevious>
           {{ t("back") }}

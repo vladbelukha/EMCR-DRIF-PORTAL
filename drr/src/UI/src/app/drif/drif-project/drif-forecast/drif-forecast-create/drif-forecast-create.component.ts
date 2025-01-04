@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { FormArray } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -9,12 +10,14 @@ import {
   StepperOrientation,
 } from '@angular/material/stepper';
 import { TranslocoModule } from '@ngneat/transloco';
+import { IFormGroup, RxFormBuilder } from '@rxweb/reactive-form-validators';
 import { DrrCurrencyInputComponent } from '../../../../shared/controls/drr-currency-input/drr-currency-input.component';
 import { DrrDatepickerComponent } from '../../../../shared/controls/drr-datepicker/drr-datepicker.component';
 import { DrrInputComponent } from '../../../../shared/controls/drr-input/drr-input.component';
 import { DrrRadioButtonComponent } from '../../../../shared/controls/drr-radio-button/drr-radio-button.component';
 import { DrrSelectComponent } from '../../../../shared/controls/drr-select/drr-select.component';
 import { DrrTextareaComponent } from '../../../../shared/controls/drr-textarea/drr-textarea.component';
+import { ForecastForm, YearForecastForm } from '../drif-forecast-form';
 
 @Component({
   selector: 'drr-drif-forecast-create',
@@ -36,9 +39,30 @@ import { DrrTextareaComponent } from '../../../../shared/controls/drr-textarea/d
   ],
   templateUrl: './drif-forecast-create.component.html',
   styleUrl: './drif-forecast-create.component.scss',
+  providers: [RxFormBuilder],
 })
 export class DrifForecastCreateComponent {
+  formBuilder = inject(RxFormBuilder);
+
   stepperOrientation: StepperOrientation = 'horizontal';
+
+  forecastForm = this.formBuilder.formGroup(
+    ForecastForm
+  ) as IFormGroup<ForecastForm>;
+
+  ngOnInit() {
+    // TODO: temp add init values
+    this.getYearForecastFormArray().controls.push(
+      this.formBuilder.formGroup(YearForecastForm)
+    );
+    this.getYearForecastFormArray().controls.push(
+      this.formBuilder.formGroup(YearForecastForm)
+    );
+  }
+
+  getYearForecastFormArray() {
+    return this.forecastForm.get('yearForecasts') as FormArray;
+  }
 
   stepperSelectionChange(event: any) {}
 
