@@ -30,6 +30,8 @@ import {
   ForecastStatus,
   InterimReport,
   InterimReportStatus,
+  PaymentCondition,
+  PaymentConditionStatus,
   ProgressReport,
   ProgressReportStatus,
   Project,
@@ -76,6 +78,8 @@ export class DrifProjectComponent {
 
   project?: Project;
 
+  conditionsDataSource = new MatTableDataSource<PaymentCondition>([]);
+
   expandedInterimReport?: InterimReport | null;
 
   projectContactsDataSource = new MatTableDataSource<ContactDetails>([]);
@@ -104,6 +108,26 @@ export class DrifProjectComponent {
       status: ProjectStatus.Active,
       contractNumber: 'CON-123',
       reportingScheduleType: ReportingScheduleType.Quarterly,
+      conditions: [
+        {
+          id: 'PC-0001',
+          conditionName: 'Permits',
+          limit: 25,
+          status: PaymentConditionStatus.NotMet,
+        },
+        {
+          id: 'PC-0002',
+          conditionName: 'Construction start',
+          limit: 50,
+          status: PaymentConditionStatus.NotMet,
+        },
+        {
+          id: 'PC-0003',
+          conditionName: 'Final Report',
+          limit: 90,
+          status: PaymentConditionStatus.NotMet,
+        },
+      ],
       startDate: '2021-01-01',
       endDate: '2022-01-01',
       fundingAmount: 1000000,
@@ -303,6 +327,8 @@ export class DrifProjectComponent {
       ],
       attachments: [],
     };
+
+    this.conditionsDataSource.data = this.project.conditions;
 
     this.projectContactsDataSource.data = this.project.contacts;
 

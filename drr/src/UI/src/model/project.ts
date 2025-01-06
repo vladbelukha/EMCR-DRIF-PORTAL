@@ -13,6 +13,7 @@ export interface Project {
   projectNumber?: string;
   programType: ProgramType;
   reportingScheduleType: ReportingScheduleType;
+  conditions: PaymentCondition[];
   fundingAmount: number;
   startDate: string;
   endDate: string;
@@ -30,6 +31,19 @@ export interface Project {
 export enum ProjectStatus {
   Active = 'Active',
   Inactive = 'Inactive',
+}
+
+export interface PaymentCondition {
+  id: string;
+  conditionName: string;
+  limit: number;
+  status: PaymentConditionStatus;
+  dateMet?: string;
+}
+
+export enum PaymentConditionStatus {
+  Met = 'Met',
+  NotMet = 'Not Met',
 }
 
 export enum ReportingScheduleType {

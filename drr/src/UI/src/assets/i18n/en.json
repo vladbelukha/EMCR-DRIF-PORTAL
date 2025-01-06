@@ -159,9 +159,7 @@
   "required": "Required",
   "fundingStream": "Funding Stream",
   "Stream1": "Stream 1: Foundational and Non-Structural (up to $400,000 per proponent)",
-  "shortStream1": "Stream 1",
   "Stream2": "Stream 2: Structural (up to $5M per proponent, maximum $15M)",
-  "shortStream2": "Stream 2",
   "Fed": "Federal",
   "Prov": "Provincial",
   "FedProv": "Federal/Provincial",
@@ -451,7 +449,9 @@
     "startNextReport": "Add New Report",
     "addProjectContact": "Add Project Contact",
     "requestOffcycleReport": "Request Off-cycle Report",
-    "startFinalReport": "Start Final Report"
+    "startFinalReport": "Start Final Report",
+    "Stream1": "Non-Structural",
+    "Stream2": "Structural"
   },
   "interimReport": "Interim Report"
 }

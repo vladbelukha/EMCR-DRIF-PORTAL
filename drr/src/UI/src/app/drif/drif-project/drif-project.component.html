@@ -10,22 +10,78 @@
       </mat-card-title-group>
     </mat-card-header>
     <mat-card-content class="drif-project-details">
-      <div>
-        <p><strong>Project Number:</strong> {{ project?.projectNumber }}</p>
-        <p><strong>Funding Stream:</strong> {{ project?.fundingStream }}</p>
-        <p><strong>Program Type:</strong> {{ project?.programType }}</p>
+      <div
+        style="
+          display: flex;
+          flex-direction: column;
+          align-self: start;
+          gap: 2rem;
+        "
+      >
+        <div>
+          <p><strong>Project Number:</strong> {{ project?.projectNumber }}</p>
+          <p>
+            <strong>Funding Stream:</strong> {{ t(project!.fundingStream) }}
+          </p>
+          <p><strong>Program Type:</strong> {{ project?.programType }}</p>
+          <p>
+            <strong>Reporting Schedule:</strong>
+            {{ project?.reportingScheduleType }}
+          </p>
+        </div>
+        <div>
+          <p>
+            <strong>EOI:</strong><a href=""> {{ project?.eoiId }} </a>
+          </p>
+          <p>
+            <strong>Full Proposal:</strong><a href=""> {{ project?.fpId }} </a>
+          </p>
+        </div>
       </div>
-      <div>
+      <div style="align-self: start">
         <p><strong>Start Date:</strong> {{ project?.startDate }}</p>
         <p><strong>End Date:</strong> {{ project?.endDate }}</p>
-        <p><strong>Funding Amount</strong> {{ project?.fundingAmount }}</p>
       </div>
+      <div style="align-self: start"></div>
       <div>
-        <p>
-          <strong>EOI:</strong><a href=""> {{ project?.eoiId }} </a>
-        </p>
-        <p>
-          <strong>Full Proposal:</strong><a href=""> {{ project?.fpId }} </a>
+        <table
+          mat-table
+          [dataSource]="conditionsDataSource"
+          multiTemplateDataRows
+        >
+          <ng-container matColumnDef="conditionName">
+            <th mat-header-cell *matHeaderCellDef>Condition</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.conditionName }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="limit">
+            <th mat-header-cell *matHeaderCellDef>Limit</th>
+            <td mat-cell *matCellDef="let element">{{ element.limit }}%</td>
+          </ng-container>
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <td mat-cell *matCellDef="let element">{{ element.status }}</td>
+          </ng-container>
+          <ng-container matColumnDef="dateMet">
+            <th mat-header-cell *matHeaderCellDef>Date Met</th>
+            <td mat-cell *matCellDef="let element">{{ element.dateMet }}</td>
+          </ng-container>
+          <tr
+            mat-header-row
+            *matHeaderRowDef="['conditionName', 'limit', 'status', 'dateMet']"
+          ></tr>
+          <tr
+            mat-row
+            *matRowDef="
+              let row;
+              columns: ['conditionName', 'limit', 'status', 'dateMet']
+            "
+          ></tr>
+        </table>
+        <p style="text-align: end">
+          <strong>Funding Amount</strong>
+          {{ project?.fundingAmount | currency : "" : "symbol" : "1.0-0" }}
         </p>
       </div>
     </mat-card-content>
