@@ -7,13 +7,15 @@ import {
   MatStepperModule,
   StepperOrientation,
 } from '@angular/material/stepper';
-import { TranslocoModule } from '@ngneat/transloco';
-import { RxFormBuilder } from '@rxweb/reactive-form-validators';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { IFormGroup, RxFormBuilder } from '@rxweb/reactive-form-validators';
+import { InterimReportType, ReportQuarter } from '../../../../../model/project';
 import { DrrDatepickerComponent } from '../../../../shared/controls/drr-datepicker/drr-datepicker.component';
 import {
   DrrSelectComponent,
   DrrSelectOption,
 } from '../../../../shared/controls/drr-select/drr-select.component';
+import { InterimReportForm } from '../drif-interim-report-form';
 
 @Component({
   selector: 'drr-drif-interim-report-create',
@@ -34,25 +36,44 @@ import {
 })
 export class DrifInterimReportCreateComponent {
   formBuilder = inject(RxFormBuilder);
+  translocoService = inject(TranslocoService);
 
   stepperOrientation: StepperOrientation = 'horizontal';
 
-  // TODO: replace with a form
-  form = this.formBuilder.group({
-    reportType: [null],
-    reportDate: [new Date()],
-    reportDueDate: [new Date()],
-  });
+  interimReportForm = this.formBuilder.formGroup(
+    InterimReportForm
+  ) as IFormGroup<InterimReportForm>;
 
-  reportTypeOptions?: DrrSelectOption[] = [
-    { value: 'interim', label: 'Interim Report' },
-    { value: 'offCycle', label: 'Request Off-cycle payment' },
-    { value: 'final', label: 'Final' },
-    { value: 'skip', label: 'Request to skip report' },
+  yearOptions?: DrrSelectOption[] = [
+    { value: '2021', label: '2021' },
+    { value: '2022', label: '2022' },
+    { value: '2023', label: '2023' },
   ];
 
+  quarterOptions?: DrrSelectOption[] = Object.keys(ReportQuarter).map(
+    (value) => {
+      return {
+        value,
+        label: this.translocoService.translate(
+          `project.reportQuarter.${value}`
+        ),
+      };
+    }
+  );
+
+  reportTypeOptions?: DrrSelectOption[] = Object.keys(InterimReportType).map(
+    (value) => {
+      return {
+        value,
+        label: this.translocoService.translate(
+          `project.interimReportType.${value}`
+        ),
+      };
+    }
+  );
+
   ngOnInit() {
-    this.form.get('reportType')?.valueChanges.subscribe((value) => {
+    this.interimReportForm.get('type')?.valueChanges.subscribe((value) => {
       console.log('reportTypeControl value changed', value);
     });
   }

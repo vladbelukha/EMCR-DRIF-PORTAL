@@ -50,6 +50,9 @@ export class DrifInterimReportComponent {
         claimDate: '2021-01-01',
         claimAmount: 1000,
         status: ClaimStatus.Review,
+        invoiceCount: 5,
+        earliestInvoice: '2021-03-21',
+        latestInvoice: '2022-11-15',
       },
       report: {
         id: 'PR-0001',
@@ -66,7 +69,7 @@ export class DrifInterimReportComponent {
       //   forecastAmount: 1000,
       //   status: ForecastStatus.Rejected,
       // },
-    };
+    } as InterimReport;
   }
 
   getStatusColorClass(status?: string) {

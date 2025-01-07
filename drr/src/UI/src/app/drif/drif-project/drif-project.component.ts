@@ -30,6 +30,7 @@ import {
   ForecastStatus,
   InterimReport,
   InterimReportStatus,
+  InterimReportType,
   PaymentCondition,
   PaymentConditionStatus,
   ProgressReport,
@@ -171,6 +172,7 @@ export class DrifProjectComponent {
         {
           id: 'IR-0001',
           dueDate: '2021-01-01',
+          type: InterimReportType.Interim,
           status: InterimReportStatus.Pending,
           claim: {
             id: 'CL-0001',
@@ -196,6 +198,7 @@ export class DrifProjectComponent {
         {
           id: 'IR-0002',
           dueDate: '2021-02-01',
+          type: InterimReportType.Interim,
           status: InterimReportStatus.Review,
           claim: {
             id: 'CL-0002',
@@ -222,6 +225,7 @@ export class DrifProjectComponent {
         {
           id: 'IR-0003',
           dueDate: '2021-03-01',
+          type: InterimReportType.Interim,
           status: InterimReportStatus.Approved,
           claim: {
             id: 'CL-0003',
@@ -247,6 +251,7 @@ export class DrifProjectComponent {
         {
           id: 'IR-0004',
           dueDate: '2021-04-01',
+          type: InterimReportType.Interim,
           status: InterimReportStatus.Rejected,
           claim: {
             id: 'CL-0004',
@@ -272,6 +277,7 @@ export class DrifProjectComponent {
         {
           id: 'IR-0005',
           dueDate: '2021-05-01',
+          type: InterimReportType.Interim,
           status: InterimReportStatus.Rejected,
           claim: {
             id: 'CL-0005',
@@ -353,7 +359,7 @@ export class DrifProjectComponent {
     // TODO: create report prior to navigating?
 
     this.router.navigate([
-      'drif-prj',
+      'drif-projects',
       this.projectId,
       'interim-reports',
       'create',
@@ -365,7 +371,7 @@ export class DrifProjectComponent {
   viewClaimClick(claim: Claim, event: Event) {
     event.stopPropagation();
 
-    this.router.navigate(['drif-prj', this.projectId, 'claims', claim.id]);
+    this.router.navigate(['drif-projects', this.projectId, 'claims', claim.id]);
   }
 
   editClaim() {}

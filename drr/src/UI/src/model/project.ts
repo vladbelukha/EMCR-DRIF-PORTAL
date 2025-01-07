@@ -51,10 +51,25 @@ export enum ReportingScheduleType {
   Monthly = 'Monthly',
 }
 
+export enum ReportQuarter {
+  Q1 = 'Q1',
+  Q2 = 'Q2',
+  Q3 = 'Q3',
+  Q4 = 'Q4',
+}
+
+export enum InterimReportType {
+  Interim = 'Interim Report',
+  OffCycle = 'Request Off-cycle payment',
+  Final = 'Final',
+  Skip = 'Request to skip report',
+}
+
 export interface InterimReport {
   id: string;
   dueDate: string;
   description?: string;
+  type: InterimReportType;
   status: InterimReportStatus;
   claim?: Claim;
   report?: ProgressReport;
@@ -89,6 +104,9 @@ export interface Claim {
   claimDate: string;
   claimAmount: number;
   status: ClaimStatus;
+  earliestInvoice?: string;
+  latestInvoice?: string;
+  invoiceCount?: number;
 }
 
 export enum ClaimStatus {

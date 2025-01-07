@@ -113,7 +113,7 @@
               <td mat-cell *matCellDef="let element">
                 <a
                   [routerLink]="[
-                    '/drif-prj',
+                    '/drif-projects',
                     projectId,
                     'interim-reports',
                     element.id
@@ -179,7 +179,7 @@
                           Claim ID:
                           <a
                             [routerLink]="[
-                              '/drif-prj',
+                              '/drif-projects',
                               projectId,
                               'claims',
                               element.claim.id
@@ -214,7 +214,7 @@
                           Report ID:
                           <a
                             [routerLink]="[
-                              '/drif-prj',
+                              '/drif-projects',
                               projectId,
                               'progress-reports',
                               element.report.id
@@ -248,7 +248,7 @@
                           Forecast ID:
                           <a
                             [routerLink]="[
-                              '/drif-prj',
+                              '/drif-projects',
                               projectId,
                               'forecasts',
                               element.forecast.id
@@ -323,7 +323,7 @@
             <td mat-cell *matCellDef="let report">
               <a
                 [routerLink]="[
-                  '/drif-prj',
+                  '/drif-projects',
                   projectId,
                   'interim-reports',
                   report.id
@@ -360,7 +360,7 @@
           <ng-container matColumnDef="id">
             <th mat-header-cell *matHeaderCellDef>ID</th>
             <td mat-cell *matCellDef="let claim">
-              <a [routerLink]="['/drif-prj', projectId, 'claims', claim.id]">{{
+              <a [routerLink]="['/drif-projects', projectId, 'claims', claim.id]">{{
                 claim.id
               }}</a>
             </td>
@@ -412,7 +412,7 @@
             <td mat-cell *matCellDef="let report">
               <a
                 [routerLink]="[
-                  '/drif-prj',
+                  '/drif-projects',
                   projectId,
                   'progress-reports',
                   report.id
@@ -458,7 +458,7 @@
             <td mat-cell *matCellDef="let forecast">
               <a
                 [routerLink]="[
-                  '/drif-prj',
+                  '/drif-projects',
                   projectId,
                   'forecasts',
                   forecast.id
