@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using EMCR.DRR.API.Model;
 using EMCR.DRR.API.Services.S3;
 using EMCR.DRR.Controllers;
 
@@ -9,7 +10,8 @@ namespace EMCR.DRR.Managers.Intake
         Task<DeclarationQueryResult> Handle(DeclarationQuery query);
         Task<EntitiesQueryResult> Handle(EntitiesQuery query);
         Task<string> Handle(IntakeCommand cmd);
-        Task<IntakeQueryResponse> Handle(IntakeQuery cmd);
+        Task<ApplicationQueryResponse> Handle(ApplicationQuery cmd);
+        Task<ProjectsQueryResponse> Handle(ProjectQuery cmd);
         Task<StorageQueryResults> Handle(AttachmentQuery cmd);
     }
 
@@ -56,20 +58,36 @@ namespace EMCR.DRR.Managers.Intake
         AccuracyOfInformation
     }
 
-    public class IntakeQueryResponse
+    public class ApplicationQueryResponse
     {
         public required IEnumerable<Application> Items { get; set; }
         public int Length { get; set; }
     }
 
-    public class DrrApplicationsQuery : IntakeQuery
+    public class DrrApplicationsQuery : ApplicationQuery
     {
         public string? Id { get; set; }
         public string? BusinessId { get; set; }
         public QueryOptions? QueryOptions { get; set; }
     }
 
-    public abstract class IntakeQuery
+    public abstract class ApplicationQuery
+    { }
+
+    public class ProjectsQueryResponse
+    {
+        public required IEnumerable<Project> Items { get; set; }
+        public int Length { get; set; }
+    }
+
+    public class DrrProjectsQuery : ProjectQuery
+    {
+        public string? Id { get; set; }
+        public string? BusinessId { get; set; }
+        public QueryOptions? QueryOptions { get; set; }
+    }
+
+    public abstract class ProjectQuery
     { }
 
     public abstract class IntakeCommand
@@ -78,13 +96,13 @@ namespace EMCR.DRR.Managers.Intake
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     public class EoiSaveApplicationCommand : IntakeCommand
     {
-        public EoiApplication application { get; set; } = null!;
+        public EoiApplication Application { get; set; } = null!;
         public UserInfo UserInfo { get; set; }
     }
 
     public class EoiSubmitApplicationCommand : IntakeCommand
     {
-        public EoiApplication application { get; set; } = null!;
+        public EoiApplication Application { get; set; } = null!;
         public UserInfo UserInfo { get; set; }
     }
 
@@ -97,13 +115,13 @@ namespace EMCR.DRR.Managers.Intake
 
     public class FpSaveApplicationCommand : IntakeCommand
     {
-        public FpApplication application { get; set; } = null!;
+        public FpApplication Application { get; set; } = null!;
         public UserInfo UserInfo { get; set; }
     }
 
     public class FpSubmitApplicationCommand : IntakeCommand
     {
-        public FpApplication application { get; set; } = null!;
+        public FpApplication Application { get; set; } = null!;
         public UserInfo UserInfo { get; set; }
     }
 
@@ -134,6 +152,18 @@ namespace EMCR.DRR.Managers.Intake
     public class UploadAttachmentStreamCommand : IntakeCommand
     {
         public AttachmentInfoStream AttachmentInfo { get; set; }
+        public UserInfo UserInfo { get; set; }
+    }
+
+    public class SaveProjectCommand : IntakeCommand
+    {
+        public DrrProject Project { get; set; } = null!;
+        public UserInfo UserInfo { get; set; }
+    }
+
+    public class SubmitProjectCommand : IntakeCommand
+    {
+        public DrrProject Project { get; set; } = null!;
         public UserInfo UserInfo { get; set; }
     }
 
@@ -357,6 +387,31 @@ namespace EMCR.DRR.Managers.Intake
 
         //Review & Declaration - 12
     }
+
+    public class Project
+    {
+        public string? Id { get; set; }
+        public string? EoiId { get; set; }
+        public string? FpId { get; set; }
+        public string? ProjectTitle { get; set; }
+        public string? ContractNumber { get; set; }
+        public string? ProponentName { get; set; }
+        public FundingStream? FundingStream { get; set; }
+        public string? ProjectNumber { get; set; }
+        public ProgramType? ProgramType { get; set; }
+        public ReportingScheduleType? ReportingScheduleType { get; set; }
+        public decimal? FundingAmount { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
+        public ProjectStatus Status { get; set; }
+        public PaymentCondition[]? Conditions { get; set; }
+        public ContactDetails[]? Contacts { get; set; }
+        public InterimReport[]? InterimReports { get; set; }
+        public ProjectClaim[]? Claims { get; set; }
+        public ProgressReport[]? ProgressReports { get; set; }
+        public Forecast[]? Forecast { get; set; }
+        public Attachment[]? Attachments { get; set; }
+    }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
     public class UserInfo
@@ -524,6 +579,120 @@ namespace EMCR.DRR.Managers.Intake
         public required string Name { get; set; }
         public DocumentType DocumentType { get; set; }
         public string? Comments { get; set; }
+    }
+
+    public class PaymentCondition
+    {
+        public string? Id { get; set; }
+        public string? ConditionName { get; set; }
+        public decimal? Limit { get; set; }
+        public PaymentConditionStatus? Status { get; set; }
+        public DateTime? DateMet { get; set; }
+    }
+
+    public class InterimReport
+    {
+        public string? Id { get; set; }
+        public DateTime? DueDate { get; set; }
+        public string? Description { get; set; }
+        public InterimReportStatus? Status { get; set; }
+        public ProjectClaim? Claim { get; set; }
+        public ProgressReport? Report { get; set; }
+        public Forecast? Forecast { get; set; }
+    }
+
+    public class ProjectClaim
+    {
+        public string? Id { get; set; }
+        public string? ClaimType { get; set; }
+        public DateTime? ClaimDate { get; set; }
+        public decimal? ClaimAmount { get; set; }
+        public ClaimStatus? Status { get; set; }
+    }
+
+    public class ProgressReport
+    {
+        public string? Id { get; set; }
+        public string? ReportType { get; set; }
+        public DateTime? ReportDate { get; set; }
+        public ProgressReportStatus? Status { get; set; }
+    }
+
+    public class Forecast
+    {
+        public string? Id { get; set; }
+        public string? ForecastType { get; set; }
+        public DateTime? ForecastDate { get; set; }
+        public decimal? ForecastAmount { get; set; }
+        public ForecastStatus? Status { get; set; }
+    }
+
+    public enum ProjectStatus
+    {
+        InProgress,
+        Completed,
+        Inactive
+    }
+
+    public enum ReportingScheduleType
+    {
+        Quarterly,
+        Monthly
+    }
+
+    public enum PaymentConditionStatus
+    {
+        Met,
+        NotMet
+    }
+
+    public enum WorkplanProgressType
+    {
+        NotStarted,
+        InProgress,
+        Completed,
+        NotApplicable
+    }
+
+    public enum EventProgressType
+    {
+        NotPlanned,
+        PlannedDateUnknown,
+        PlannedDateKnown,
+        AlreadyOccurred,
+        Unknown,
+    }
+
+    public enum InterimReportStatus
+    {
+        Pending,
+        Review,
+        Approved,
+        Rejected,
+    }
+
+    public enum ClaimStatus
+    {
+        Pending,
+        Review,
+        Approved,
+        Rejected,
+    }
+
+    public enum ProgressReportStatus
+    {
+        Pending,
+        Review,
+        Approved,
+        Rejected,
+    }
+
+    public enum ForecastStatus
+    {
+        Pending,
+        Review,
+        Approved,
+        Rejected,
     }
 
     public enum ProponentType

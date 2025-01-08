@@ -29,7 +29,7 @@ namespace EMCR.DRR.Controllers
                 application.Status = SubmissionPortalStatus.Draft;
                 application.AdditionalContacts = MapAdditionalContacts(application);
 
-                var id = await intakeManager.Handle(new EoiSaveApplicationCommand { application = mapper.Map<EoiApplication>(application), UserInfo = GetCurrentUser() });
+                var id = await intakeManager.Handle(new EoiSaveApplicationCommand { Application = mapper.Map<EoiApplication>(application), UserInfo = GetCurrentUser() });
                 return Ok(new ApplicationResult { Id = id });
             }
             catch (Exception e)
@@ -47,7 +47,7 @@ namespace EMCR.DRR.Controllers
                 application.Status = SubmissionPortalStatus.Draft;
                 application.AdditionalContacts = MapAdditionalContacts(application);
 
-                var drr_id = await intakeManager.Handle(new EoiSaveApplicationCommand { application = mapper.Map<EoiApplication>(application), UserInfo = GetCurrentUser() });
+                var drr_id = await intakeManager.Handle(new EoiSaveApplicationCommand { Application = mapper.Map<EoiApplication>(application), UserInfo = GetCurrentUser() });
                 return Ok(new ApplicationResult { Id = drr_id });
             }
             catch (Exception e)
@@ -64,7 +64,7 @@ namespace EMCR.DRR.Controllers
                 application.Status = SubmissionPortalStatus.UnderReview;
                 application.AdditionalContacts = MapAdditionalContacts(application);
 
-                var drr_id = await intakeManager.Handle(new EoiSubmitApplicationCommand { application = application, UserInfo = GetCurrentUser() });
+                var drr_id = await intakeManager.Handle(new EoiSubmitApplicationCommand { Application = application, UserInfo = GetCurrentUser() });
                 return Ok(new ApplicationResult { Id = drr_id });
             }
             catch (Exception e)
@@ -82,7 +82,7 @@ namespace EMCR.DRR.Controllers
                 application.Status = SubmissionPortalStatus.UnderReview;
                 application.AdditionalContacts = MapAdditionalContacts(application);
 
-                var drr_id = await intakeManager.Handle(new EoiSubmitApplicationCommand { application = application, UserInfo = GetCurrentUser() });
+                var drr_id = await intakeManager.Handle(new EoiSubmitApplicationCommand { Application = application, UserInfo = GetCurrentUser() });
                 return Ok(new ApplicationResult { Id = drr_id });
             }
             catch (Exception e)

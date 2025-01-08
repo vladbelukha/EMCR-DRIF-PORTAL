@@ -48,7 +48,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
         public async Task CanCreateEOIApplication()
         {
             var application = CreateNewTestEOIApplication();
-            var id = await manager.Handle(new EoiSaveApplicationCommand { application = mapper.Map<EoiApplication>(application), UserInfo = GetTestUserInfo() });
+            var id = await manager.Handle(new EoiSaveApplicationCommand { Application = mapper.Map<EoiApplication>(application), UserInfo = GetTestUserInfo() });
             id.ShouldNotBeEmpty();
         }
 
@@ -61,7 +61,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             application.FOIPPAConfirmation = true;
             application.InformationAccuracyStatement = true;
 
-            var id = await manager.Handle(new EoiSubmitApplicationCommand { application = application, UserInfo = GetTestUserInfo() });
+            var id = await manager.Handle(new EoiSubmitApplicationCommand { Application = application, UserInfo = GetTestUserInfo() });
             id.ShouldNotBeEmpty();
 
             var savedApplication = (await manager.Handle(new DrrApplicationsQuery { Id = id, BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault();
@@ -87,7 +87,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             eoi.FOIPPAConfirmation = true;
             eoi.InformationAccuracyStatement = true;
 
-            var eoiId = await manager.Handle(new EoiSubmitApplicationCommand { application = eoi, UserInfo = userInfo });
+            var eoiId = await manager.Handle(new EoiSubmitApplicationCommand { Application = eoi, UserInfo = userInfo });
             eoiId.ShouldNotBeEmpty();
 
             var fpId = await manager.Handle(new CreateFpFromEoiCommand { EoiId = eoiId, UserInfo = userInfo, ScreenerQuestions = CreateScreenerQuestions() });
@@ -109,7 +109,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             fpToSubmit.Submitter = eoi.Submitter;
             fpToSubmit.AuthorizedRepresentativeStatement = true;
             fpToSubmit.InformationAccuracyStatement = true;
-            await manager.Handle(new FpSubmitApplicationCommand { application = fpToSubmit, UserInfo = userInfo });
+            await manager.Handle(new FpSubmitApplicationCommand { Application = fpToSubmit, UserInfo = userInfo });
 
             var submittedFP = (await manager.Handle(new DrrApplicationsQuery { Id = fpId, BusinessId = userInfo.BusinessId })).Items.SingleOrDefault();
             submittedFP.Status.ShouldBe(ApplicationStatus.Submitted);
@@ -155,7 +155,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
         public async Task CanQueryApplications()
         {
             var application = CreateNewTestEOIApplication();
-            var id = await manager.Handle(new EoiSaveApplicationCommand { application = mapper.Map<EoiApplication>(application), UserInfo = GetTestUserInfo() });
+            var id = await manager.Handle(new EoiSaveApplicationCommand { Application = mapper.Map<EoiApplication>(application), UserInfo = GetTestUserInfo() });
             id.ShouldNotBeEmpty();
 
             var secondApplication = mapper.Map<EoiApplication>(CreateNewTestEOIApplication());
@@ -164,7 +164,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             secondApplication.FOIPPAConfirmation = true;
             secondApplication.InformationAccuracyStatement = true;
 
-            var secondId = await manager.Handle(new EoiSubmitApplicationCommand { application = secondApplication, UserInfo = GetTestUserInfo() });
+            var secondId = await manager.Handle(new EoiSubmitApplicationCommand { Application = secondApplication, UserInfo = GetTestUserInfo() });
             secondId.ShouldNotBeEmpty();
 
             var thirdApplication = mapper.Map<EoiApplication>(CreateNewTestEOIApplication());
@@ -173,7 +173,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             thirdApplication.FOIPPAConfirmation = true;
             thirdApplication.InformationAccuracyStatement = true;
 
-            var thirdId = await manager.Handle(new EoiSubmitApplicationCommand { application = thirdApplication, UserInfo = GetTestUserInfo() });
+            var thirdId = await manager.Handle(new EoiSubmitApplicationCommand { Application = thirdApplication, UserInfo = GetTestUserInfo() });
             thirdId.ShouldNotBeEmpty();
 
             var fpId = await manager.Handle(new CreateFpFromEoiCommand { EoiId = thirdId, UserInfo = GetTestUserInfo(), ScreenerQuestions = CreateScreenerQuestions() });
@@ -204,7 +204,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
                 BusinessName = $"{uniqueSignature}_business-name",
                 UserId = $"{uniqueSignature}_user-bceid"
             };
-            var id = await manager.Handle(new EoiSaveApplicationCommand { application = mapper.Map<EoiApplication>(application), UserInfo = userInfo });
+            var id = await manager.Handle(new EoiSaveApplicationCommand { Application = mapper.Map<EoiApplication>(application), UserInfo = userInfo });
             id.ShouldNotBeEmpty();
 
 
@@ -230,7 +230,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
                     null
             };
 
-            var id = await manager.Handle(new EoiSaveApplicationCommand { application = mapper.Map<EoiApplication>(application), UserInfo = GetTestUserInfo() });
+            var id = await manager.Handle(new EoiSaveApplicationCommand { Application = mapper.Map<EoiApplication>(application), UserInfo = GetTestUserInfo() });
             id.ShouldNotBeEmpty();
 
             var savedApplication = (await manager.Handle(new DrrApplicationsQuery { Id = id, BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault();
@@ -244,14 +244,14 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             var application = CreateNewTestEOIApplication();
             application.Status = SubmissionPortalStatus.UnderReview;
             application.ProjectTitle = "First Submission";
-            var id = await manager.Handle(new EoiSubmitApplicationCommand { application = mapper.Map<EoiApplication>(application), UserInfo = GetTestUserInfo() });
+            var id = await manager.Handle(new EoiSubmitApplicationCommand { Application = mapper.Map<EoiApplication>(application), UserInfo = GetTestUserInfo() });
             id.ShouldNotBeEmpty();
 
             var secondApplication = CreateNewTestEOIApplication();
             secondApplication.Status = SubmissionPortalStatus.UnderReview;
             secondApplication.ProjectTitle = "Second Submission";
             secondApplication.Submitter = application.Submitter;
-            var secondId = await manager.Handle(new EoiSubmitApplicationCommand { application = mapper.Map<EoiApplication>(secondApplication), UserInfo = GetTestUserInfo() });
+            var secondId = await manager.Handle(new EoiSubmitApplicationCommand { Application = mapper.Map<EoiApplication>(secondApplication), UserInfo = GetTestUserInfo() });
             secondId.ShouldNotBeEmpty();
 
             var host = Application.Host;
@@ -274,7 +274,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             eoi.FOIPPAConfirmation = true;
             eoi.InformationAccuracyStatement = true;
 
-            var eoiId = await manager.Handle(new EoiSubmitApplicationCommand { application = eoi, UserInfo = userInfo });
+            var eoiId = await manager.Handle(new EoiSubmitApplicationCommand { Application = eoi, UserInfo = userInfo });
             eoiId.ShouldNotBeEmpty();
 
             var screenerQuestions = CreateScreenerQuestions();
@@ -310,7 +310,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             eoi.FOIPPAConfirmation = true;
             eoi.InformationAccuracyStatement = true;
 
-            var eoiId = await manager.Handle(new EoiSubmitApplicationCommand { application = eoi, UserInfo = GetTestUserInfo() });
+            var eoiId = await manager.Handle(new EoiSubmitApplicationCommand { Application = eoi, UserInfo = GetTestUserInfo() });
             eoiId.ShouldNotBeEmpty();
 
             var screenerQuestions = CreateScreenerQuestions();
@@ -336,7 +336,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             eoi.FOIPPAConfirmation = true;
             eoi.InformationAccuracyStatement = true;
 
-            var eoiId = await manager.Handle(new EoiSubmitApplicationCommand { application = eoi, UserInfo = GetTestUserInfo() });
+            var eoiId = await manager.Handle(new EoiSubmitApplicationCommand { Application = eoi, UserInfo = GetTestUserInfo() });
             eoiId.ShouldNotBeEmpty();
 
             var fpId = await manager.Handle(new CreateFpFromEoiCommand { EoiId = eoiId, UserInfo = GetTestUserInfo(), ScreenerQuestions = CreateScreenerQuestions() });
@@ -348,7 +348,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             fullProposal.HowWasNeedIdentified.ShouldBe(eoi.RationaleForSolution);
 
             var fpToUpdate = FillInFullProposal(mapper.Map<DraftFpApplication>(fullProposal));
-            await manager.Handle(new FpSaveApplicationCommand { application = mapper.Map<FpApplication>(fpToUpdate), UserInfo = GetTestUserInfo() });
+            await manager.Handle(new FpSaveApplicationCommand { Application = mapper.Map<FpApplication>(fpToUpdate), UserInfo = GetTestUserInfo() });
 
             var updatedFp = (await manager.Handle(new DrrApplicationsQuery { Id = fpId, BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault();
             updatedFp.RegionalProject.ShouldBe(true);
@@ -394,7 +394,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             eoi.FOIPPAConfirmation = true;
             eoi.InformationAccuracyStatement = true;
 
-            var eoiId = await manager.Handle(new EoiSubmitApplicationCommand { application = eoi, UserInfo = GetTestUserInfo() });
+            var eoiId = await manager.Handle(new EoiSubmitApplicationCommand { Application = eoi, UserInfo = GetTestUserInfo() });
             eoiId.ShouldNotBeEmpty();
 
             var fpId = await manager.Handle(new CreateFpFromEoiCommand { EoiId = eoiId, UserInfo = GetTestUserInfo(), ScreenerQuestions = CreateScreenerQuestions() });
@@ -406,7 +406,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             fullProposal.HowWasNeedIdentified.ShouldBe(eoi.RationaleForSolution);
 
             var fpToUpdate = FillInFullProposal(mapper.Map<DraftFpApplication>(fullProposal));
-            await manager.Handle(new FpSaveApplicationCommand { application = mapper.Map<FpApplication>(fpToUpdate), UserInfo = GetTestUserInfo() });
+            await manager.Handle(new FpSaveApplicationCommand { Application = mapper.Map<FpApplication>(fpToUpdate), UserInfo = GetTestUserInfo() });
 
             var updatedFp = (await manager.Handle(new DrrApplicationsQuery { Id = fpId, BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault();
             updatedFp.RegionalProject.ShouldBe(true);
@@ -423,7 +423,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             updatedFp.IntendToSecureFunding.ShouldBe(fpToUpdate.IntendToSecureFunding);
 
             var fpToUpdate2 = ClearFullProposal(mapper.Map<DraftFpApplication>(updatedFp));
-            await manager.Handle(new FpSaveApplicationCommand { application = mapper.Map<FpApplication>(fpToUpdate2), UserInfo = GetTestUserInfo() });
+            await manager.Handle(new FpSaveApplicationCommand { Application = mapper.Map<FpApplication>(fpToUpdate2), UserInfo = GetTestUserInfo() });
 
             var twiceUpdatedFp = (await manager.Handle(new DrrApplicationsQuery { Id = fpId, BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault();
 
@@ -451,7 +451,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             eoi.FOIPPAConfirmation = true;
             eoi.InformationAccuracyStatement = true;
 
-            var eoiId = await manager.Handle(new EoiSubmitApplicationCommand { application = eoi, UserInfo = GetTestUserInfo() });
+            var eoiId = await manager.Handle(new EoiSubmitApplicationCommand { Application = eoi, UserInfo = GetTestUserInfo() });
             eoiId.ShouldNotBeEmpty();
 
             var fpId = await manager.Handle(new CreateFpFromEoiCommand { EoiId = eoiId, UserInfo = GetTestUserInfo(), ScreenerQuestions = CreateScreenerQuestions() });
@@ -462,7 +462,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             fullProposal.EoiId.ShouldBe(eoiId);
 
             var fpToUpdate = FillInFullProposal(mapper.Map<DraftFpApplication>(fullProposal));
-            await manager.Handle(new FpSaveApplicationCommand { application = mapper.Map<FpApplication>(fpToUpdate), UserInfo = GetTestUserInfo() });
+            await manager.Handle(new FpSaveApplicationCommand { Application = mapper.Map<FpApplication>(fpToUpdate), UserInfo = GetTestUserInfo() });
 
             var updatedFp = (await manager.Handle(new DrrApplicationsQuery { Id = fpId, BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault();
             updatedFp.RegionalProject.ShouldBe(true);
@@ -472,7 +472,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
 
             fpToUpdate = FillInFullProposal(mapper.Map<DraftFpApplication>(updatedFp));
 
-            await manager.Handle(new FpSaveApplicationCommand { application = mapper.Map<FpApplication>(fpToUpdate), UserInfo = GetTestUserInfo() });
+            await manager.Handle(new FpSaveApplicationCommand { Application = mapper.Map<FpApplication>(fpToUpdate), UserInfo = GetTestUserInfo() });
 
             var twiceUpdatedFp = (await manager.Handle(new DrrApplicationsQuery { Id = fpId, BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault();
 
@@ -499,7 +499,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             var application = mapper.Map<EoiApplication>(CreateNewTestEOIApplication());
             application.Status = SubmissionPortalStatus.Draft;
 
-            var id = await manager.Handle(new EoiSaveApplicationCommand { application = application, UserInfo = GetTestUserInfo() });
+            var id = await manager.Handle(new EoiSaveApplicationCommand { Application = application, UserInfo = GetTestUserInfo() });
             id.ShouldNotBeEmpty();
 
             Should.Throw<Exception>(() => manager.Handle(new WithdrawApplicationCommand { Id = id, UserInfo = GetTestUserInfo() }));
@@ -514,7 +514,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             application.FOIPPAConfirmation = true;
             application.InformationAccuracyStatement = true;
 
-            var id = await manager.Handle(new EoiSubmitApplicationCommand { application = application, UserInfo = GetTestUserInfo() });
+            var id = await manager.Handle(new EoiSubmitApplicationCommand { Application = application, UserInfo = GetTestUserInfo() });
             id.ShouldNotBeEmpty();
 
             await manager.Handle(new WithdrawApplicationCommand { Id = id, UserInfo = GetTestUserInfo() });
@@ -531,7 +531,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             application.FOIPPAConfirmation = true;
             application.InformationAccuracyStatement = true;
 
-            var id = await manager.Handle(new EoiSaveApplicationCommand { application = application, UserInfo = GetTestUserInfo() });
+            var id = await manager.Handle(new EoiSaveApplicationCommand { Application = application, UserInfo = GetTestUserInfo() });
             id.ShouldNotBeEmpty();
 
             Should.Throw<Exception>(() => manager.Handle(new DeleteApplicationCommand { Id = id, UserInfo = GetTestUserInfo() }));
@@ -543,7 +543,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             var application = mapper.Map<EoiApplication>(CreateNewTestEOIApplication());
             application.Status = SubmissionPortalStatus.Draft;
 
-            var id = await manager.Handle(new EoiSaveApplicationCommand { application = application, UserInfo = GetTestUserInfo() });
+            var id = await manager.Handle(new EoiSaveApplicationCommand { Application = application, UserInfo = GetTestUserInfo() });
             id.ShouldNotBeEmpty();
 
             var res = await manager.Handle(new DeleteApplicationCommand { Id = id, UserInfo = GetTestUserInfo() });
@@ -565,7 +565,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             eoi.FOIPPAConfirmation = true;
             eoi.InformationAccuracyStatement = true;
 
-            var eoiId = await manager.Handle(new EoiSubmitApplicationCommand { application = eoi, UserInfo = userInfo });
+            var eoiId = await manager.Handle(new EoiSubmitApplicationCommand { Application = eoi, UserInfo = userInfo });
             eoiId.ShouldNotBeEmpty();
 
             var screenerQuestions = CreateScreenerQuestions();
@@ -588,7 +588,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             fullProposal.Attachments.First().DocumentType.ShouldBe(EMCR.DRR.API.Model.DocumentType.SitePlan);
             fullProposal.Attachments.First().Comments = "site plan comments";
 
-            await manager.Handle(new FpSaveApplicationCommand { application = mapper.Map<FpApplication>(fullProposal), UserInfo = GetTestUserInfo() });
+            await manager.Handle(new FpSaveApplicationCommand { Application = mapper.Map<FpApplication>(fullProposal), UserInfo = GetTestUserInfo() });
 
             var updatedFp = (await manager.Handle(new DrrApplicationsQuery { Id = fpId, BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault();
             updatedFp.Attachments.First().Comments.ShouldBe("site plan comments");
@@ -607,7 +607,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             eoi.FOIPPAConfirmation = true;
             eoi.InformationAccuracyStatement = true;
 
-            var eoiId = await manager.Handle(new EoiSubmitApplicationCommand { application = eoi, UserInfo = userInfo });
+            var eoiId = await manager.Handle(new EoiSubmitApplicationCommand { Application = eoi, UserInfo = userInfo });
             eoiId.ShouldNotBeEmpty();
 
             var screenerQuestions = CreateScreenerQuestions();
@@ -645,7 +645,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             eoi.FOIPPAConfirmation = true;
             eoi.InformationAccuracyStatement = true;
 
-            var eoiId = await manager.Handle(new EoiSubmitApplicationCommand { application = eoi, UserInfo = userInfo });
+            var eoiId = await manager.Handle(new EoiSubmitApplicationCommand { Application = eoi, UserInfo = userInfo });
             eoiId.ShouldNotBeEmpty();
 
             var screenerQuestions = CreateScreenerQuestions();
@@ -679,7 +679,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             eoi.FOIPPAConfirmation = true;
             eoi.InformationAccuracyStatement = true;
 
-            var eoiId = await manager.Handle(new EoiSubmitApplicationCommand { application = eoi, UserInfo = userInfo });
+            var eoiId = await manager.Handle(new EoiSubmitApplicationCommand { Application = eoi, UserInfo = userInfo });
             eoiId.ShouldNotBeEmpty();
 
             var screenerQuestions = CreateScreenerQuestions();
