@@ -47,6 +47,11 @@ namespace EMCR.DRR.API.Mappers
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.File, opt => opt.MapFrom(src => new S3File { Content = src.Content, ContentType = src.ContentType, FileName = src.Name }))
                 ;
+
+            CreateMap<DraftDrrProject, DrrProject>()
+                ;
+
+            
         }
 
 #pragma warning disable CS8603 // Possible null reference return.
