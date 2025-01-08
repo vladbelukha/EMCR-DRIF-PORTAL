@@ -45,7 +45,7 @@ namespace EMCR.DRR.Controllers
                 application.Status = SubmissionPortalStatus.Draft;
                 application.AdditionalContacts = MapAdditionalContacts(application);
 
-                var drr_id = await intakeManager.Handle(new FpSaveApplicationCommand { application = mapper.Map<FpApplication>(application), UserInfo = GetCurrentUser() });
+                var drr_id = await intakeManager.Handle(new FpSaveApplicationCommand { Application = mapper.Map<FpApplication>(application), UserInfo = GetCurrentUser() });
                 return Ok(new ApplicationResult { Id = drr_id });
             }
             catch (Exception e)
@@ -63,7 +63,7 @@ namespace EMCR.DRR.Controllers
                 application.Status = SubmissionPortalStatus.Draft; //Need to set the status after final update save, so the manager will set it
                 application.AdditionalContacts = MapAdditionalContacts(application);
 
-                var drr_id = await intakeManager.Handle(new FpSubmitApplicationCommand { application = application, UserInfo = GetCurrentUser() });
+                var drr_id = await intakeManager.Handle(new FpSubmitApplicationCommand { Application = application, UserInfo = GetCurrentUser() });
                 return Ok(new ApplicationResult { Id = drr_id });
             }
             catch (Exception e)

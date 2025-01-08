@@ -3,6 +3,7 @@ using AutoMapper;
 using EMCR.DRR.API.Model;
 using EMCR.DRR.API.Resources.Cases;
 using EMCR.DRR.API.Resources.Documents;
+using EMCR.DRR.API.Resources.Projects;
 using EMCR.DRR.API.Services;
 using EMCR.DRR.API.Services.S3;
 using EMCR.DRR.Resources.Applications;
@@ -14,26 +15,37 @@ namespace EMCR.DRR.Managers.Intake
     {
         private readonly IMapper mapper;
         private readonly IApplicationRepository applicationRepository;
+        private readonly IProjectRepository projectRepository;
         private readonly IDocumentRepository documentRepository;
         private readonly ICaseRepository caseRepository;
         private readonly IS3Provider s3Provider;
 
         private FileTag GetDeletedFileTag() => new FileTag { Tags = new[] { new Tag { Key = "Deleted", Value = "true" } } };
 
-        public IntakeManager(IMapper mapper, IApplicationRepository applicationRepository, IDocumentRepository documentRepository, ICaseRepository caseRepository, IS3Provider s3Provider)
+        public IntakeManager(IMapper mapper, IApplicationRepository applicationRepository, IDocumentRepository documentRepository, ICaseRepository caseRepository, IProjectRepository projectRepository, IS3Provider s3Provider)
         {
             this.mapper = mapper;
             this.applicationRepository = applicationRepository;
             this.documentRepository = documentRepository;
             this.caseRepository = caseRepository;
+            this.projectRepository = projectRepository;
             this.s3Provider = s3Provider;
         }
 
-        public async Task<IntakeQueryResponse> Handle(IntakeQuery cmd)
+        public async Task<ApplicationQueryResponse> Handle(ApplicationQuery cmd)
         {
             return cmd switch
             {
                 DrrApplicationsQuery c => await Handle(c),
+                _ => throw new NotSupportedException($"{cmd.GetType().Name} is not supported")
+            };
+        }
+
+        public async Task<ProjectsQueryResponse> Handle(ProjectQuery cmd)
+        {
+            return cmd switch
+            {
+                DrrProjectsQuery c => await Handle(c),
                 _ => throw new NotSupportedException($"{cmd.GetType().Name} is not supported")
             };
         }
@@ -60,11 +72,13 @@ namespace EMCR.DRR.Managers.Intake
                 DeleteApplicationCommand c => await Handle(c),
                 UploadAttachmentCommand c => await Handle(c),
                 DeleteAttachmentCommand c => await Handle(c),
+                SaveProjectCommand c => await Handle(c),
+                SubmitProjectCommand c => await Handle(c),
                 _ => throw new NotSupportedException($"{cmd.GetType().Name} is not supported")
             };
         }
 
-        public async Task<IntakeQueryResponse> Handle(DrrApplicationsQuery q)
+        public async Task<ApplicationQueryResponse> Handle(DrrApplicationsQuery q)
         {
             if (!string.IsNullOrEmpty(q.Id))
             {
@@ -85,14 +99,37 @@ namespace EMCR.DRR.Managers.Intake
             var res = string.IsNullOrEmpty(q.Id) ? await applicationRepository.QueryList(new ApplicationsQuery { Id = q.Id, BusinessId = q.BusinessId, Page = page, Count = count, OrderBy = orderBy, FilterOptions = filterOptions }) :
             await applicationRepository.Query(new ApplicationsQuery { Id = q.Id, BusinessId = q.BusinessId, Page = page, Count = count, OrderBy = orderBy, FilterOptions = filterOptions });
 
-            return new IntakeQueryResponse { Items = res.Items, Length = res.Length };
+            return new ApplicationQueryResponse { Items = res.Items, Length = res.Length };
+        }
+
+        public async Task<ProjectsQueryResponse> Handle(DrrProjectsQuery q)
+        {
+            if (!string.IsNullOrEmpty(q.Id))
+            {
+                var canAccess = await CanAccessProject(q.Id, q.BusinessId);
+                if (!canAccess) throw new ForbiddenException("Not allowed to access this project.");
+            }
+            var page = 0;
+            var count = 0;
+            if (q.QueryOptions != null)
+            {
+                page = q.QueryOptions.Page + 1;
+                count = q.QueryOptions.PageSize;
+            }
+
+            var orderBy = GetOrderBy(q.QueryOptions?.OrderBy);
+            var filterOptions = ParseFilter(q.QueryOptions?.Filter);
+
+            var res = await projectRepository.Query(new ProjectsQuery { Id = q.Id, BusinessId = q.BusinessId, Page = page, Count = count, OrderBy = orderBy, FilterOptions = filterOptions });
+
+            return new ProjectsQueryResponse { Items = res.Items, Length = res.Length };
         }
 
         public async Task<string> Handle(EoiSaveApplicationCommand cmd)
         {
-            var canAccess = await CanAccessApplication(cmd.application.Id, cmd.UserInfo.BusinessId);
+            var canAccess = await CanAccessApplication(cmd.Application.Id, cmd.UserInfo.BusinessId);
             if (!canAccess) throw new ForbiddenException("Not allowed to access this application.");
-            var application = mapper.Map<Application>(cmd.application);
+            var application = mapper.Map<Application>(cmd.Application);
             application.BCeIDBusinessId = cmd.UserInfo.BusinessId;
             application.ProponentName = cmd.UserInfo.BusinessName;
             if (application.Submitter != null) application.Submitter.BCeId = cmd.UserInfo.UserId;
@@ -102,9 +139,9 @@ namespace EMCR.DRR.Managers.Intake
 
         public async Task<string> Handle(EoiSubmitApplicationCommand cmd)
         {
-            var canAccess = await CanAccessApplication(cmd.application.Id, cmd.UserInfo.BusinessId);
+            var canAccess = await CanAccessApplication(cmd.Application.Id, cmd.UserInfo.BusinessId);
             if (!canAccess) throw new ForbiddenException("Not allowed to access this application.");
-            var application = mapper.Map<Application>(cmd.application);
+            var application = mapper.Map<Application>(cmd.Application);
             application.BCeIDBusinessId = cmd.UserInfo.BusinessId;
             application.ProponentName = cmd.UserInfo.BusinessName;
             application.SubmittedDate = DateTime.UtcNow;
@@ -132,9 +169,9 @@ namespace EMCR.DRR.Managers.Intake
 
         public async Task<string> Handle(FpSaveApplicationCommand cmd)
         {
-            var canAccess = await CanAccessApplication(cmd.application.Id, cmd.UserInfo.BusinessId);
+            var canAccess = await CanAccessApplication(cmd.Application.Id, cmd.UserInfo.BusinessId);
             if (!canAccess) throw new ForbiddenException("Not allowed to access this application.");
-            var application = mapper.Map<Application>(cmd.application);
+            var application = mapper.Map<Application>(cmd.Application);
             application.BCeIDBusinessId = cmd.UserInfo.BusinessId;
             application.ProponentName = cmd.UserInfo.BusinessName;
             if (application.Submitter != null) application.Submitter.BCeId = cmd.UserInfo.UserId;
@@ -144,9 +181,9 @@ namespace EMCR.DRR.Managers.Intake
 
         public async Task<string> Handle(FpSubmitApplicationCommand cmd)
         {
-            var canAccess = await CanAccessApplication(cmd.application.Id, cmd.UserInfo.BusinessId);
+            var canAccess = await CanAccessApplication(cmd.Application.Id, cmd.UserInfo.BusinessId);
             if (!canAccess) throw new ForbiddenException("Not allowed to access this application.");
-            var application = mapper.Map<Application>(cmd.application);
+            var application = mapper.Map<Application>(cmd.Application);
             application.BCeIDBusinessId = cmd.UserInfo.BusinessId;
             application.ProponentName = cmd.UserInfo.BusinessName;
             if (application.Submitter != null) application.Submitter.BCeId = cmd.UserInfo.UserId;
@@ -207,6 +244,29 @@ namespace EMCR.DRR.Managers.Intake
             return documentRes.Id;
         }
 
+        public async Task<string> Handle(SaveProjectCommand cmd)
+        {
+            var canAccess = await CanAccessProject(cmd.Project.Id, cmd.UserInfo.BusinessId);
+            if (!canAccess) throw new ForbiddenException("Not allowed to access this application.");
+            var project = mapper.Map<Project>(cmd.Project);
+            project.ProponentName = cmd.UserInfo.BusinessName;
+            //var id = (await projectRepository.Manage(new SaveProject { Project = project })).Id;
+            var id = Guid.NewGuid().ToString();
+            return id;
+        }
+
+        public async Task<string> Handle(SubmitProjectCommand cmd)
+        {
+            var canAccess = await CanAccessProject(cmd.Project.Id, cmd.UserInfo.BusinessId);
+            if (!canAccess) throw new ForbiddenException("Not allowed to access this application.");
+            var project = mapper.Map<Project>(cmd.Project);
+            project.ProponentName = cmd.UserInfo.BusinessName;
+            //var id = (await projectRepository.Manage(new SaveProject { Project = project })).Id;
+            //await projectRepository.Manage(new SubmitProject { Id = id });
+            var id = Guid.NewGuid().ToString();
+            return id;
+        }
+
         public async Task<FileQueryResult> Handle(DownloadAttachment cmd)
         {
             var canAccess = await CanAccessApplicationFromDocumentId(cmd.Id, cmd.UserInfo.BusinessId);
@@ -260,6 +320,14 @@ namespace EMCR.DRR.Managers.Intake
             if (string.IsNullOrEmpty(businessId)) throw new ArgumentNullException("Missing user's BusinessId");
             if (string.IsNullOrEmpty(id)) return true;
             return await applicationRepository.CanAccessApplicationFromDocumentId(id, businessId);
+        }
+
+        private async Task<bool> CanAccessProject(string? id, string? businessId)
+        {
+            if (string.IsNullOrEmpty(businessId)) throw new ArgumentNullException("Missing user's BusinessId");
+            if (string.IsNullOrEmpty(id)) return true;
+            //return await projectRepository.CanAccessProject(id, businessId);
+            return await Task.FromResult(true);
         }
 
         private FilterOptions ParseFilter(string? filter)

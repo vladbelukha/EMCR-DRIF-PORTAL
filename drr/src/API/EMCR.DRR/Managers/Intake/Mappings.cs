@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using EMCR.DRR.API.Model;
-using EMCR.DRR.API.Services.S3;
 using EMCR.DRR.Controllers;
 
 namespace EMCR.DRR.Managers.Intake
@@ -113,6 +112,30 @@ namespace EMCR.DRR.Managers.Intake
                 .ForMember(dest => dest.TotalProjectCost, opt => opt.MapFrom(src => src.EstimatedTotal))
                 //.ForMember(dest => dest.EligibleFundingRequest, opt => opt.MapFrom(src => src.EligibleAmountForFP))
                 .ForMember(dest => dest.Permits, opt => opt.MapFrom(src => src.Permits.Select(p => p.Name)))
+                ;
+
+            CreateMap<DraftDrrProject, Project>(MemberList.None)
+                .ReverseMap()
+                ;
+
+            CreateMap<Controllers.PaymentCondition, PaymentCondition>()
+                .ReverseMap()
+                ;
+            
+            CreateMap<Controllers.ProjectClaim  , ProjectClaim  >()
+                .ReverseMap()
+                ;
+            
+            CreateMap<Controllers.ProgressReport, ProgressReport>()
+                .ReverseMap()
+                ;
+            
+            CreateMap<Controllers.Forecast, Forecast>()
+                .ReverseMap()
+                ;
+            
+            CreateMap<Controllers.InterimReport, InterimReport>()
+                .ReverseMap()
                 ;
 
             CreateMap<Controllers.FundingInformation, FundingInformation>()
