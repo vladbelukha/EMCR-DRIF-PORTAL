@@ -21,3 +21,4 @@ export * from './api/files/files.service';
 
 
 
+export * from './api/project/project.service';
