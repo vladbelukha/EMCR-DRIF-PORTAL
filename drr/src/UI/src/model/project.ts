@@ -22,10 +22,10 @@ export interface Project {
   status: ProjectStatus;
   contacts: ContactDetails[];
   interimReports: InterimReport[];
-  claims: Claim[];
-  progressReports: ProgressReport[];
-  forecast: Forecast[];
   attachments: Attachment[];
+  // claims: Claim[];
+  // progressReports: ProgressReport[];
+  // forecast: Forecast[];
 }
 
 export enum ProjectStatus {
@@ -143,4 +143,5 @@ export enum ForecastStatus {
   Review = 'Review',
   Approved = 'Approved',
   Rejected = 'Rejected',
+  Skipped = 'Skipped',
 }

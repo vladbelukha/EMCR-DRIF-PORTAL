@@ -152,22 +152,22 @@ export class DrifProjectComponent {
           phone: '2222222222',
         },
       ],
-      claims: [
-        {
-          id: 'CL-0001',
-          claimType: 'Claim 1',
-          claimDate: '2021-01-01',
-          claimAmount: 1000,
-          status: ClaimStatus.Pending,
-        },
-        {
-          id: 'CL-0002',
-          claimType: 'Claim 2',
-          claimDate: '2021-02-01',
-          claimAmount: 2000,
-          status: ClaimStatus.Review,
-        },
-      ],
+      // claims: [
+      //   {
+      //     id: 'CL-0001',
+      //     claimType: 'Claim 1',
+      //     claimDate: '2021-01-01',
+      //     claimAmount: 1000,
+      //     status: ClaimStatus.Pending,
+      //   },
+      //   {
+      //     id: 'CL-0002',
+      //     claimType: 'Claim 2',
+      //     claimDate: '2021-02-01',
+      //     claimAmount: 2000,
+      //     status: ClaimStatus.Review,
+      //   },
+      // ],
       interimReports: [
         {
           id: 'IR-0001',
@@ -301,36 +301,36 @@ export class DrifProjectComponent {
           },
         },
       ],
-      progressReports: [
-        {
-          id: 'PR-0001',
-          reportType: 'Report 1',
-          reportDate: '2021-01-01',
-          status: ProgressReportStatus.Pending,
-        },
-        {
-          id: 'PR-0002',
-          reportType: 'Report 2',
-          reportDate: '2021-02-01',
-          status: ProgressReportStatus.Review,
-        },
-      ],
-      forecast: [
-        {
-          id: 'FC-0001',
-          forecastType: 'Forecast 1',
-          forecastDate: '2021-01-01',
-          forecastAmount: 1000,
-          status: ForecastStatus.Pending,
-        },
-        {
-          id: 'FC-0002',
-          forecastType: 'Forecast 2',
-          forecastDate: '2021-02-01',
-          forecastAmount: 2000,
-          status: ForecastStatus.Review,
-        },
-      ],
+      // progressReports: [
+      //   {
+      //     id: 'PR-0001',
+      //     reportType: 'Report 1',
+      //     reportDate: '2021-01-01',
+      //     status: ProgressReportStatus.Pending,
+      //   },
+      //   {
+      //     id: 'PR-0002',
+      //     reportType: 'Report 2',
+      //     reportDate: '2021-02-01',
+      //     status: ProgressReportStatus.Review,
+      //   },
+      // ],
+      // forecast: [
+      //   {
+      //     id: 'FC-0001',
+      //     forecastType: 'Forecast 1',
+      //     forecastDate: '2021-01-01',
+      //     forecastAmount: 1000,
+      //     status: ForecastStatus.Pending,
+      //   },
+      //   {
+      //     id: 'FC-0002',
+      //     forecastType: 'Forecast 2',
+      //     forecastDate: '2021-02-01',
+      //     forecastAmount: 2000,
+      //     status: ForecastStatus.Review,
+      //   },
+      // ],
       attachments: [],
     };
 
@@ -349,9 +349,9 @@ export class DrifProjectComponent {
         report.status === InterimReportStatus.Rejected
     );
 
-    this.claimsDataSource.data = this.project.claims;
-    this.progressReportsDataSource.data = this.project.progressReports;
-    this.forecastsDataSource.data = this.project.forecast;
+    // this.claimsDataSource.data = this.project.claims;
+    // this.progressReportsDataSource.data = this.project.progressReports;
+    // this.forecastsDataSource.data = this.project.forecast;
     this.attachmentsDataSource.data = this.project.attachments;
   }
 

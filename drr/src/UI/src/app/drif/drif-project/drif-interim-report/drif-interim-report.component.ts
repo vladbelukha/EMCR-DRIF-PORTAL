@@ -3,6 +3,9 @@ import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import {
   ClaimStatus,
@@ -21,6 +24,9 @@ import {
     MatCardModule,
     MatChipsModule,
     MatButtonModule,
+    MatDividerModule,
+    MatMenuModule,
+    MatIconModule,
   ],
   templateUrl: './drif-interim-report.component.html',
   styleUrl: './drif-interim-report.component.scss',
@@ -61,7 +67,9 @@ export class DrifInterimReportComponent {
         status: ProgressReportStatus.Approved,
       },
 
-      forecast: undefined,
+      forecast: {
+        status: ForecastStatus.Skipped,
+      },
       // {
       //   id: 'FC-0001',
       //   forecastType: 'Forecast 1',
