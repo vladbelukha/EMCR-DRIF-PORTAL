@@ -132,6 +132,7 @@ namespace EMCR.DRR.Controllers
         public ProjectClaim[]? Claims { get; set; }
         public ProgressReport[]? ProgressReports { get; set; }
         public Forecast[]? Forecast { get; set; }
+        public ProjectEvent[]? Events { get; set; }
         public Attachment[]? Attachments { get; set; }
     }
 
@@ -150,6 +151,8 @@ namespace EMCR.DRR.Controllers
         public DateTime? DueDate { get; set; }
         public string? Description { get; set; }
         public InterimReportStatus? Status { get; set; }
+        public InterimProjectType? ProjectType { get; set; }
+        public PeriodType? PeriodType { get; set; }
         public ProjectClaim? Claim { get; set; }
         public ProgressReport? Report { get; set; }
         public Forecast? Forecast { get; set; }
@@ -169,7 +172,18 @@ namespace EMCR.DRR.Controllers
         public string? Id { get; set; }
         public string? ReportType { get; set; }
         public DateTime? ReportDate { get; set; }
+        public WorkplanActivity[]? WorkplanActivities { get; set; }
         public ProgressReportStatus? Status { get; set; }
+    }
+
+    public class ProjectEvent
+    {
+        public EventStatus? status { get; set; }
+    }
+
+    public class WorkplanActivity
+    {
+        public WorkplanProgress? Progress { get; set; }
     }
 
     public class Forecast
@@ -212,7 +226,7 @@ namespace EMCR.DRR.Controllers
     }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
-    public enum WorkplanProgressType
+    public enum WorkplanProgress
     {
         [Description("Not Started")]
         NotStarted,
@@ -228,15 +242,15 @@ namespace EMCR.DRR.Controllers
     }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
-    public enum EventProgressType
+    public enum EventStatus
     {
         [Description("Not Planned")]
         NotPlanned,
 
-        [Description("Planned Date Unknown")]
+        [Description("Planned, Date Unknown")]
         PlannedDateUnknown,
 
-        [Description("Planned Date Known")]
+        [Description("Planned, Date Known")]
         PlannedDateKnown,
 
         [Description("Already Occurred")]
@@ -249,33 +263,40 @@ namespace EMCR.DRR.Controllers
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum InterimReportStatus
     {
-        [Description("Pending")]
-        Pending,
-
-        [Description("Review")]
-        Review,
+        [Description("In Review")]
+        InReview,
 
         [Description("Approved")]
         Approved,
 
         [Description("Rejected")]
         Rejected,
+
+        [Description("Skipped")]
+        Skipped,
     }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
-    public enum ClaimStatus
+    public enum InterimProjectType
     {
-        [Description("Pending")]
-        Pending,
+        [Description("Foundational and Non-Structural")]
+        Stream1,
 
-        [Description("Review")]
-        Review,
+        [Description("Structural")]
+        Stream2
+    }
 
-        [Description("Approved")]
-        Approved,
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public enum PeriodType
+    {
+        [Description("Periodical")]
+        Periodical,
 
-        [Description("Rejected")]
-        Rejected,
+        [Description("Final")]
+        Final,
+
+        [Description("Interim")]
+        Interim,
     }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]

@@ -41,4 +41,60 @@ namespace EMCR.DRR.API.Resources.Projects
         Completed = 172580000,
         Inactive = 2,
     }
+
+    public enum ProjectReportStatusOptionSet
+    {
+        InReview = 1,
+        Approved = 172580000,
+        Rejected = 172580001,
+        Skipped = 172580002,
+        Inactive = 2,
+    }
+
+    public enum ProjectClaimStatusOptionSet
+    {
+        Approved = 1,
+        Rejected = 172580000,
+        Invalid = 172580001,
+        InProgress = 172580002,
+        Inactive = 2,
+    }
+
+    public enum ProjectProgressReportStatusOptionSet
+    {
+        Draft = 1,
+        Inactive = 2,
+    }
+
+    public enum PeriodTypeOptionSet
+    {
+        Periodical = 172580000,
+        Final = 172580001,
+        Interim = 172580002,
+    }
+
+    public enum WorkplanProgressOptionSet
+    {
+        NotStarted = 172580000,
+        InProgress = 172580001,
+        Completed = 172580002,
+        NotApplicable = 172580003
+    }
+
+    public enum EventTypeOptionSet
+    {
+        GroundBreaking = 172580000,
+        RibbonCuttingOpening = 172580001,
+        CommunityEngagement = 172580002,
+        Other = 172580003,
+    }
+
+    public enum EventStatusOptionSet
+    {
+        NotPlanned = 172580000,
+        PlannedDateUnknown = 172580001,
+        PlannedDateKnown= 172580002,
+        AlreadyOccurred= 172580003,
+        Unknown= 172580004,
+    }
 }
