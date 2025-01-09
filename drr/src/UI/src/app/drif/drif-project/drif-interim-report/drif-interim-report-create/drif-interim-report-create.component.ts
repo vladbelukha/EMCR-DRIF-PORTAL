@@ -9,7 +9,6 @@ import {
 } from '@angular/material/stepper';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { IFormGroup, RxFormBuilder } from '@rxweb/reactive-form-validators';
-import { InterimReportType, ReportQuarter } from '../../../../../model/project';
 import { DrrDatepickerComponent } from '../../../../shared/controls/drr-datepicker/drr-datepicker.component';
 import {
   DrrSelectComponent,
@@ -50,27 +49,29 @@ export class DrifInterimReportCreateComponent {
     { value: '2023', label: '2023' },
   ];
 
-  quarterOptions?: DrrSelectOption[] = Object.keys(ReportQuarter).map(
-    (value) => {
-      return {
-        value,
-        label: this.translocoService.translate(
-          `project.reportQuarter.${value}`
-        ),
-      };
-    }
-  );
+  quarterOptions?: DrrSelectOption[] = [];
+  // Object.keys(ReportQuarter).map(
+  //   (value) => {
+  //     return {
+  //       value,
+  //       label: this.translocoService.translate(
+  //         `project.reportQuarter.${value}`
+  //       ),
+  //     };
+  //   }
+  // );
 
-  reportTypeOptions?: DrrSelectOption[] = Object.keys(InterimReportType).map(
-    (value) => {
-      return {
-        value,
-        label: this.translocoService.translate(
-          `project.interimReportType.${value}`
-        ),
-      };
-    }
-  );
+  reportTypeOptions?: DrrSelectOption[] = [];
+  // Object.keys(InterimReportType).map(
+  //   (value) => {
+  //     return {
+  //       value,
+  //       label: this.translocoService.translate(
+  //         `project.interimReportType.${value}`
+  //       ),
+  //     };
+  //   }
+  // );
 
   ngOnInit() {
     this.interimReportForm.get('type')?.valueChanges.subscribe((value) => {

@@ -1,9 +1,8 @@
 import { prop } from '@rxweb/reactive-form-validators';
-import { InterimReportType, ReportQuarter } from '../../../../model/project';
 
 export class InterimReportForm {
   @prop()
-  type?: InterimReportType;
+  type?: string;
 
   @prop()
   date?: Date;
@@ -15,5 +14,5 @@ export class InterimReportForm {
   year?: number;
 
   @prop()
-  quarter?: ReportQuarter;
+  quarter?: string;
 }

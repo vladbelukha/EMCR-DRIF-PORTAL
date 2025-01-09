@@ -10,10 +10,7 @@ import {
 import { TranslocoModule } from '@ngneat/transloco';
 import { IFormGroup, RxFormBuilder } from '@rxweb/reactive-form-validators';
 import { YesNoOption } from '../../../../../model';
-import {
-  EventProgressType,
-  WorkplanProgressType,
-} from '../../../../../model/project';
+
 import { DrrDatepickerComponent } from '../../../../shared/controls/drr-datepicker/drr-datepicker.component';
 import { DrrInputComponent } from '../../../../shared/controls/drr-input/drr-input.component';
 import {
@@ -27,8 +24,10 @@ import {
 import { DrrTextareaComponent } from '../../../../shared/controls/drr-textarea/drr-textarea.component';
 import {
   EventForm,
+  EventProgressType,
   ProgressReportForm,
   WorkplanForm,
+  WorkplanProgressType,
 } from '../drif-progress-report-form';
 
 @Component({

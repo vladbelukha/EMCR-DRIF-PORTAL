@@ -13,7 +13,7 @@ import {
   InterimReport,
   InterimReportStatus,
   ProgressReportStatus,
-} from '../../../../model/project';
+} from '../../../../model';
 
 @Component({
   selector: 'drr-drif-interim-report',
@@ -68,7 +68,7 @@ export class DrifInterimReportComponent {
       },
 
       forecast: {
-        status: ForecastStatus.Skipped,
+        status: ForecastStatus.Pending,
       },
       // {
       //   id: 'FC-0001',

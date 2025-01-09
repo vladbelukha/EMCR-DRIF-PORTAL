@@ -1,10 +1,20 @@
 import { prop, propObject } from '@rxweb/reactive-form-validators';
 import { YesNoOption } from '../../../../model';
-import {
-  EventProgressType,
-  WorkplanProgressType,
-} from '../../../../model/project';
+
 import { ContactDetailsForm } from '../../drif-eoi/drif-eoi-form';
+
+export enum WorkplanProgressType {
+  NotStarted = 'Not Started',
+  InProgress = 'In Progress',
+  Completed = 'Completed',
+  NotApplicable = 'Not Applicable',
+}
+
+export enum EventProgressType {
+  NotStarted = 'Not Started',
+  InProgress = 'In Progress',
+  Completed = 'Completed',
+}
 
 export class WorkplanForm {
   @prop()
