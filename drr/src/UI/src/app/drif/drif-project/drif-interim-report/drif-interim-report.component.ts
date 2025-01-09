@@ -14,6 +14,7 @@ import {
   InterimReportStatus,
   ProgressReportStatus,
 } from '../../../../model';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @Component({
   selector: 'drr-drif-interim-report',
@@ -27,6 +28,7 @@ import {
     MatDividerModule,
     MatMenuModule,
     MatIconModule,
+    MatTabsModule
   ],
   templateUrl: './drif-interim-report.component.html',
   styleUrl: './drif-interim-report.component.scss',
