@@ -6,6 +6,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatTabsModule } from '@angular/material/tabs';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import {
   ClaimStatus,
@@ -14,7 +15,6 @@ import {
   InterimReportStatus,
   ProgressReportStatus,
 } from '../../../../model';
-import { MatTabsModule } from '@angular/material/tabs';
 
 @Component({
   selector: 'drr-drif-interim-report',
@@ -28,7 +28,7 @@ import { MatTabsModule } from '@angular/material/tabs';
     MatDividerModule,
     MatMenuModule,
     MatIconModule,
-    MatTabsModule
+    MatTabsModule,
   ],
   templateUrl: './drif-interim-report.component.html',
   styleUrl: './drif-interim-report.component.scss',
@@ -50,14 +50,14 @@ export class DrifInterimReportComponent {
     this.interimReport = {
       id: 'IR-0001',
       dueDate: '2021-01-01',
-      status: InterimReportStatus.Pending,
+      status: InterimReportStatus.InReview,
       description: 'Description 1',
       claim: {
         id: 'CL-0001',
         claimType: 'Claim 1',
         claimDate: '2021-01-01',
         claimAmount: 1000,
-        status: ClaimStatus.Review,
+        status: ClaimStatus.InProgress,
         invoiceCount: 5,
         earliestInvoice: '2021-03-21',
         latestInvoice: '2022-11-15',
@@ -84,13 +84,13 @@ export class DrifInterimReportComponent {
 
   getStatusColorClass(status?: string) {
     switch (status) {
-      case InterimReportStatus.Pending:
-      case ClaimStatus.Pending:
+      case InterimReportStatus.InReview:
+      case ClaimStatus.InProgress:
       case ProgressReportStatus.Pending:
       case ForecastStatus.Pending:
         return 'pending';
-      case InterimReportStatus.Review:
-      case ClaimStatus.Review:
+      case InterimReportStatus.InReview:
+      case ClaimStatus.InProgress:
       case ProgressReportStatus.Review:
       case ForecastStatus.Review:
         return 'review';

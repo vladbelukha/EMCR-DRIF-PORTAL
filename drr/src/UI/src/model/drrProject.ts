@@ -8,6 +8,7 @@ import type { Attachment } from './attachment';
 import type { ProjectClaim } from './projectClaim';
 import type { PaymentCondition } from './paymentCondition';
 import type { ContactDetails } from './contactDetails';
+import type { ProjectEvent } from './projectEvent';
 import type { Forecast } from './forecast';
 import type { FundingStream } from './fundingStream';
 import type { InterimReport } from './interimReport';
@@ -31,6 +32,8 @@ export interface DrrProject {
   endDate?: string;
   /** @nullable */
   eoiId?: string;
+  /** @nullable */
+  events?: ProjectEvent[];
   /** @nullable */
   forecast?: Forecast[];
   /** @nullable */

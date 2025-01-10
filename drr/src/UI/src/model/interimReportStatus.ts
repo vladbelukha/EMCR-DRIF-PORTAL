@@ -10,8 +10,8 @@ export type InterimReportStatus = typeof InterimReportStatus[keyof typeof Interi
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const InterimReportStatus = {
-  Pending: 'Pending',
-  Review: 'Review',
+  InReview: 'InReview',
   Approved: 'Approved',
   Rejected: 'Rejected',
+  Skipped: 'Skipped',
 } as const;

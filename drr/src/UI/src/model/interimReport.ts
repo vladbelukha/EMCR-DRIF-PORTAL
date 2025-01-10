@@ -6,6 +6,8 @@
  */
 import type { ProjectClaim } from './projectClaim';
 import type { Forecast } from './forecast';
+import type { PeriodType } from './periodType';
+import type { InterimProjectType } from './interimProjectType';
 import type { ProgressReport } from './progressReport';
 import type { InterimReportStatus } from './interimReportStatus';
 
@@ -20,6 +22,10 @@ export interface InterimReport {
   forecast?: Forecast;
   /** @nullable */
   id?: string;
+  /** @nullable */
+  periodType?: PeriodType;
+  /** @nullable */
+  projectType?: InterimProjectType;
   /** @nullable */
   report?: ProgressReport;
   /** @nullable */

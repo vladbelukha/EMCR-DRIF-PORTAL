@@ -5,14 +5,13 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type ClaimStatus = typeof ClaimStatus[keyof typeof ClaimStatus];
+export type WorkplanProgress = typeof WorkplanProgress[keyof typeof WorkplanProgress];
 
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ClaimStatus = {
-  Approved: 'Approved',
-  Rejected: 'Rejected',
-  Invalid: 'Invalid',
+export const WorkplanProgress = {
+  NotStarted: 'NotStarted',
   InProgress: 'InProgress',
-  Inactive: 'Inactive',
+  Completed: 'Completed',
+  NotApplicable: 'NotApplicable',
 } as const;
