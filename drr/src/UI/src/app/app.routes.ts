@@ -1,5 +1,7 @@
 import { Routes } from '@angular/router';
 import { AuthenticationGuard } from './core/guards/authentication.guard';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { SubmissionListComponent } from './dashboard/submission-list/submission-list.component';
 import { DrifEoiViewComponent } from './drif/drif-eoi/drif-eoi-view/drif-eoi-view.component';
 import { EOIApplicationComponent } from './drif/drif-eoi/drif-eoi.component';
 import { DrifFpInstructionsComponent } from './drif/drif-fp/drif-fp-instructions/drif-fp-instructions.component';
@@ -15,8 +17,6 @@ import { DrifInterimReportComponent } from './drif/drif-project/drif-interim-rep
 import { DrifProgressReportCreateComponent } from './drif/drif-project/drif-progress-report/drif-progress-report-create/drif-progress-report-create.component';
 import { DrifProgressReportComponent } from './drif/drif-project/drif-progress-report/drif-progress-report.component';
 import { DrifProjectComponent } from './drif/drif-project/drif-project.component';
-import { SubmissionListComponent } from './submission-list/submission-list.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
 
 export const routes: Routes = [
   { path: '', component: DashboardComponent },
