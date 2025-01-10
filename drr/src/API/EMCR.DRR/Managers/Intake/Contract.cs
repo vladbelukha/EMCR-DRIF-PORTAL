@@ -410,6 +410,7 @@ namespace EMCR.DRR.Managers.Intake
         public ProjectClaim[]? Claims { get; set; }
         public ProgressReport[]? ProgressReports { get; set; }
         public Forecast[]? Forecast { get; set; }
+        public ProjectEvent[]? Events { get; set; }
         public Attachment[]? Attachments { get; set; }
     }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
@@ -596,6 +597,8 @@ namespace EMCR.DRR.Managers.Intake
         public DateTime? DueDate { get; set; }
         public string? Description { get; set; }
         public InterimReportStatus? Status { get; set; }
+        public InterimProjectType? ProjectType { get; set; }
+        public PeriodType? PeriodType { get; set; }
         public ProjectClaim? Claim { get; set; }
         public ProgressReport? Report { get; set; }
         public Forecast? Forecast { get; set; }
@@ -615,7 +618,18 @@ namespace EMCR.DRR.Managers.Intake
         public string? Id { get; set; }
         public string? ReportType { get; set; }
         public DateTime? ReportDate { get; set; }
+        public WorkplanActivity[]? WorkplanActivities { get; set; }
         public ProgressReportStatus? Status { get; set; }
+    }
+
+    public class ProjectEvent
+    {
+        public EventStatus? Status { get; set; }
+    }
+
+    public class WorkplanActivity
+    {
+        public WorkplanProgress? Progress { get; set; }
     }
 
     public class Forecast
@@ -634,6 +648,19 @@ namespace EMCR.DRR.Managers.Intake
         Inactive
     }
 
+    public enum InterimProjectType
+    {
+        Stream1,
+        Stream2,
+    }
+
+    public enum PeriodType
+    {
+        Periodical,
+        Final,
+        Interim,
+    }
+
     public enum ReportingScheduleType
     {
         Quarterly,
@@ -646,7 +673,7 @@ namespace EMCR.DRR.Managers.Intake
         NotMet
     }
 
-    public enum WorkplanProgressType
+    public enum WorkplanProgress
     {
         NotStarted,
         InProgress,
@@ -654,7 +681,7 @@ namespace EMCR.DRR.Managers.Intake
         NotApplicable
     }
 
-    public enum EventProgressType
+    public enum EventStatus
     {
         NotPlanned,
         PlannedDateUnknown,
@@ -663,36 +690,44 @@ namespace EMCR.DRR.Managers.Intake
         Unknown,
     }
 
+    public enum EventType
+    {
+        GroundBreaking,
+        RibbonCuttingOpening,
+        CommunityEngagement,
+        Other,
+    }
+
     public enum InterimReportStatus
     {
-        Pending,
-        Review,
+        InReview,
         Approved,
         Rejected,
+        Skipped,
+        Inactive,
     }
 
     public enum ClaimStatus
     {
-        Pending,
-        Review,
         Approved,
         Rejected,
+        Invalid,
+        InProgress,
+        Inactive
     }
 
     public enum ProgressReportStatus
     {
-        Pending,
-        Review,
-        Approved,
-        Rejected,
+        Draft,
+        Inactive
     }
 
     public enum ForecastStatus
     {
-        Pending,
-        Review,
+        InReview,
         Approved,
         Rejected,
+        Skipped,
     }
 
     public enum ProponentType

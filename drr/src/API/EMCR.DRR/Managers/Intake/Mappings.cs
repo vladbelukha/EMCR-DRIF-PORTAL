@@ -138,6 +138,14 @@ namespace EMCR.DRR.Managers.Intake
                 .ReverseMap()
                 ;
 
+            CreateMap<Controllers.ProjectEvent, ProjectEvent>()
+                .ReverseMap()
+                ;
+
+            CreateMap<Controllers.WorkplanActivity, WorkplanActivity>()
+                .ReverseMap()
+                ;
+
             CreateMap<Controllers.FundingInformation, FundingInformation>()
                 .ReverseMap()
                 ;
