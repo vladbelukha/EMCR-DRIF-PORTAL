@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ActivatedRoute, RouterModule } from '@angular/router';
+import { IFormGroup, RxFormBuilder } from '@rxweb/reactive-form-validators';
 import {
   ClaimStatus,
   ForecastStatus,
@@ -15,6 +16,9 @@ import {
   InterimReportStatus,
   ProgressReportStatus,
 } from '../../../../model';
+import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
+import { InterimReportForm } from './drif-interim-report-form';
+import { DrrTextareaComponent } from "../../../shared/controls/drr-textarea/drr-textarea.component";
 
 @Component({
   selector: 'drr-drif-interim-report',
@@ -29,23 +33,39 @@ import {
     MatMenuModule,
     MatIconModule,
     MatTabsModule,
-  ],
+    DrrInputComponent,
+    DrrTextareaComponent
+],
+  providers: [RxFormBuilder],
   templateUrl: './drif-interim-report.component.html',
   styleUrl: './drif-interim-report.component.scss',
 })
 export class DrifInterimReportComponent {
   route = inject(ActivatedRoute);
+  formBuilder = inject(RxFormBuilder);
 
   projectId?: string;
   reportId?: string;
 
   interimReport?: InterimReport;
+  interimReportForm = this.formBuilder.formGroup(
+    InterimReportForm
+  ) as IFormGroup<InterimReportForm>;
 
   ngOnInit() {
     this.route.params.subscribe((params) => {
       this.projectId = params['projectId'];
       this.reportId = params['reportId'];
     });
+
+    this.interimReportForm.get('year')?.patchValue(2021);
+    this.interimReportForm.get('quarter')?.patchValue('Q1');
+    this.interimReportForm.get('createDate')?.patchValue('2021-01-01');
+    this.interimReportForm.get('dueDate')?.patchValue('2021-06-15');
+    this.interimReportForm
+      .get('description')
+      ?.patchValue('lorem ipsum dolor sit amet consectetur adipiscing elit');
+    this.interimReportForm.disable();
 
     this.interimReport = {
       id: 'IR-0001',

@@ -5,7 +5,7 @@ export class InterimReportForm {
   type?: string;
 
   @prop()
-  date?: Date;
+  createDate?: Date;
 
   @prop()
   dueDate?: Date;
@@ -15,4 +15,7 @@ export class InterimReportForm {
 
   @prop()
   quarter?: string;
+
+  @prop()
+  description?: string;
 }

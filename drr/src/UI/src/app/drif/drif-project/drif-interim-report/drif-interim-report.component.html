@@ -34,8 +34,33 @@
     </mat-card-header>
     <mat-card-content>
       <div style="display: flex; flex-direction: column; gap: 1rem">
-        <p>Report Date: {{ interimReport?.dueDate }}</p>
-        <p>Report Description: {{ interimReport?.description }}</p>
+        <div class="row">
+          <drr-input
+            label="Year"
+            [rxFormControl]="interimReportForm.get('year')"
+          ></drr-input>
+          <drr-input
+            label="Quarter"
+            [rxFormControl]="interimReportForm.get('quarter')"
+          ></drr-input>
+        </div>
+        <div class="row">
+          <drr-input
+            label="Report Date"
+            [rxFormControl]="interimReportForm.get('createDate')"
+          >
+          </drr-input>
+          <drr-input
+            label="Due Date"
+            [rxFormControl]="interimReportForm.get('dueDate')"
+          >
+          </drr-input>
+        </div>
+
+        <drr-textarea
+          label="Description"
+          [rxFormControl]="interimReportForm.get('description')"
+        ></drr-textarea>
       </div>
     </mat-card-content>
   </mat-card>
