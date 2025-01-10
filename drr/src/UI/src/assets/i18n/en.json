@@ -54,6 +54,8 @@
     "required": "This attachment is required",
     "attachAdditionalAttachment": "Add additional attachment"
   },
+  "DRIF": "DRIF",
+  "EOI": "EOI",
   "fpOwnership": "Land Ownership",
   "fpOwnershipQuestion": "Will the project will be in BC on land that the proponent has legal access to either through ownership, right of way, or other at the time the Shared Cost Agreement is signed?",
   "fpOwnershipComments": "If No, please provide context below",
@@ -226,11 +228,22 @@
   "delete": "Delete",
   "withdraw": "Withdraw",
   "autocompletePlaceholder": "Enter your own value or select from the list",
+  "dashboard": {
+    "projectsTitle": "Manage Projects",
+    "submissionsTitle": "Manage Submissions"
+  },
+  "project-list": {
+    "id": "ID #",
+    "projectTitle": "Project Title",
+    "startDate": "Start Date",
+    "endDate": "End Date"
+  },
   "submissionDetails": "Submission Details for {{id}}",
   "submission-list": {
     "noSubmissionsYet": "You don't have any submissions yet.",
     "noSubmissionsFound": "No submissions found for the selected filters.",
-    "title": "Manage Submissions",
+    "projectsTitle": "Manage Projects",
+    "submissionsTitle": "Manage Submissions",
     "filters": "Filters",
     "applicationId": "ID #",
     "programType": "Program Type",

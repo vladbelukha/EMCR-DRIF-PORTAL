@@ -16,9 +16,10 @@ import { DrifProgressReportCreateComponent } from './drif/drif-project/drif-prog
 import { DrifProgressReportComponent } from './drif/drif-project/drif-progress-report/drif-progress-report.component';
 import { DrifProjectComponent } from './drif/drif-project/drif-project.component';
 import { SubmissionListComponent } from './submission-list/submission-list.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 export const routes: Routes = [
-  { path: '', component: SubmissionListComponent },
+  { path: '', component: DashboardComponent },
   {
     path: 'submissions',
     component: SubmissionListComponent,

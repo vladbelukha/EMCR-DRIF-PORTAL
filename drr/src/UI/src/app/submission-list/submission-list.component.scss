@@ -1,16 +1,8 @@
-.submissions-container {
-  display: flex;
-  flex-direction: column;
-  margin: 1rem;
-}
-
 .submissions-header {
   display: flex;
   align-items: center;
-
-  button {
-    margin-left: auto;
-  }
+  justify-content: space-between;
+  margin-top: 1rem;
 }
 
 .submission-actions {

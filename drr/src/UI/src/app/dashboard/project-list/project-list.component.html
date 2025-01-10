@@ -1,0 +1,63 @@
+<div *transloco="let t; read: 'project-list'">
+  <div class="projects-filter">header</div>
+  <div class="project-table">
+    <table
+      *ngIf="projectListDataSource.data.length > 0; else noDataTemplate"
+      mat-table
+      [dataSource]="projectListDataSource"
+      matSort
+      (matSortChange)="onSortProjectTable($event)"
+      class="mat-elevation-z8"
+    >
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ t("id") }}
+        </th>
+        <td mat-cell *matCellDef="let element" style="white-space: nowrap">
+          <a [routerLink]="['/drif-projects', element.id]">
+            {{ element.id }}
+          </a>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="projectTitle">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ t("projectTitle") }}
+        </th>
+        <td mat-cell *matCellDef="let element" style="overflow-wrap: anywhere">
+          {{ element.projectTitle }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="startDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ t("startDate") }}
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.startDate | date : "yyyy-MM-dd" }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="endDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ t("endDate") }}
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.endDate | date : "yyyy-MM-dd" }}
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="projectColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: projectColumns"></tr>
+    </table>
+
+    <ng-template #noDataTemplate>
+      <!-- <div *ngIf="projects && !filterApplied" class="no-data">
+        <p>{{ t("noSubmissionsYet") }}</p>
+      </div>
+      <div *ngIf="projects && filterApplied" class="no-data">
+        <p>{{ t("noSubmissionsFound") }}</p>
+      </div> -->
+    </ng-template>
+  </div>
+</div>

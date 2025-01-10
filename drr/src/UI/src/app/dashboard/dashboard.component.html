@@ -1,0 +1,10 @@
+<div *transloco="let t; read: 'dashboard'" class="dashboard-container">
+  <mat-tab-group>
+    <mat-tab [label]="t('projectsTitle')">
+      <drr-project-list></drr-project-list>
+    </mat-tab>
+    <mat-tab [label]="t('submissionsTitle')">
+      <drr-submission-list></drr-submission-list>
+    </mat-tab>
+  </mat-tab-group>
+</div>

@@ -146,7 +146,6 @@ export class SubmissionListComponent {
   filterForm = this.formbuilder.formGroup(SubmissionFilter);
 
   submissions?: Submission[];
-
   submissionListColumns = [
     'id',
     'programType',
