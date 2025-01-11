@@ -1,5 +1,4 @@
-import { AbstractControl } from '@angular/forms';
-import { disable, prop, propArray } from '@rxweb/reactive-form-validators';
+import { prop, propArray } from '@rxweb/reactive-form-validators';
 
 export class YearForecastForm {
   @prop()
@@ -9,11 +8,6 @@ export class YearForecastForm {
   fiscalYear?: string;
 
   @prop()
-  @disable({
-    conditionalExpression: function (control: AbstractControl) {
-      return true;
-    },
-  })
   originalForecast?: number;
 
   @prop()

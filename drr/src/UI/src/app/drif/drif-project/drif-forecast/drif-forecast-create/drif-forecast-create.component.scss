@@ -1,6 +1,4 @@
-.drr-forecast-row {
-  display: grid;
-  width: 100%;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-  grid-gap: 1rem;
+.row {
+  display: flex;
+  gap: 1rem;
 }

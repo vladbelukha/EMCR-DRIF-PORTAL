@@ -53,11 +53,26 @@ export class DrifForecastCreateComponent {
   ngOnInit() {
     // TODO: temp add init values
     this.getYearForecastFormArray().controls.push(
-      this.formBuilder.formGroup(YearForecastForm)
+      this.formBuilder.formGroup(YearForecastForm, {
+        fiscalYear: 2021,
+        originalForecast: 1000,
+        projectedExpenditure: 900,
+        paidClaimsAmount: 800,
+        outstandingClaimsAmount: 100,
+        remainingClaimsAmount: 100,
+      })
     );
     this.getYearForecastFormArray().controls.push(
-      this.formBuilder.formGroup(YearForecastForm)
+      this.formBuilder.formGroup(YearForecastForm, {
+        fiscalYear: 2022,
+        originalForecast: 2000,
+        projectedExpenditure: 1900,
+        paidClaimsAmount: 1800,
+        outstandingClaimsAmount: 200,
+        remainingClaimsAmount: 200,
+      })
     );
+    this.getYearForecastFormArray().disable();
   }
 
   getYearForecastFormArray() {
