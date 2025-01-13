@@ -1,50 +1,49 @@
-<div *transloco="let t; read: 'submission-list'" class="submissions-container">
+<div *transloco="let t; read: 'submission-list'">
   <div class="submissions-header">
-    <h5 style="padding-left: 1rem">{{ t("title") }}</h5>
     <button mat-raised-button color="primary" (click)="onCreateFormClick()">
       <span>{{ t("startNewEOI") }}</span>
     </button>
+    <div *ngIf="submissions" class="submission-filter">
+      <div class="submission-filter__controls">
+        <p>{{ t("filters") }}:</p>
+        <drr-select
+          [label]="t('programType')"
+          [rxFormControl]="filterForm.get('programType')"
+          [options]="programTypeOptions"
+        ></drr-select>
+        <drr-select
+          [label]="t('applicationType')"
+          [rxFormControl]="filterForm.get('applicationType')"
+          [options]="applicationTypeOptions"
+        ></drr-select>
+        <drr-select
+          [label]="t('status')"
+          [rxFormControl]="filterForm.get('status')"
+          [options]="statusOptions"
+          [isMultiple]="true"
+        ></drr-select>
+      </div>
+      <div>
+        <button
+          *ngIf="filterApplied"
+          mat-stroked-button
+          color="primary"
+          (click)="clearFilters()"
+        >
+          {{ t("clear") }}
+        </button>
+        <button
+          *ngIf="!filterApplied"
+          mat-stroked-button
+          color="primary"
+          (click)="applyFilters()"
+        >
+          {{ t("apply") }}
+        </button>
+      </div>
+    </div>
   </div>
 
-  <div *ngIf="submissions" class="submission-filter">
-    <div class="submission-filter__controls">
-      <p>{{ t("filters") }}:</p>
-      <drr-select
-        [label]="t('programType')"
-        [rxFormControl]="filterForm.get('programType')"
-        [options]="programTypeOptions"
-      ></drr-select>
-      <drr-select
-        [label]="t('applicationType')"
-        [rxFormControl]="filterForm.get('applicationType')"
-        [options]="applicationTypeOptions"
-      ></drr-select>
-      <drr-select
-        [label]="t('status')"
-        [rxFormControl]="filterForm.get('status')"
-        [options]="statusOptions"
-        [isMultiple]="true"
-      ></drr-select>
-    </div>
-    <div>
-      <button
-        *ngIf="filterApplied"
-        mat-stroked-button
-        color="primary"
-        (click)="clearFilters()"
-      >
-        {{ t("clear") }}
-      </button>
-      <button
-        *ngIf="!filterApplied"
-        mat-stroked-button
-        color="primary"
-        (click)="applyFilters()"
-      >
-        {{ t("apply") }}
-      </button>
-    </div>
-  </div>
   @if (isMobile) { @for (submission of submissions; track submission.id) {
   <div class="submission-card">
     <div class="submission-card__header">
@@ -180,7 +179,9 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header>
           {{ t("status") }}
         </th>
-        <td mat-cell *matCellDef="let element">{{ t(element.status) }}</td>
+        <td mat-cell *matCellDef="let element">
+          {{ t(element.status) }}
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="fundingRequest">
@@ -263,7 +264,7 @@
             </button>
           </div>
           <!-- <button mat-raised-button color="warn">{{ t("delete") }}</button>
-        <button mat-raised-button color="accent">{{ t("withdraw") }}</button> -->
+            <button mat-raised-button color="accent">{{ t("withdraw") }}</button> -->
         </td>
       </ng-container>
 

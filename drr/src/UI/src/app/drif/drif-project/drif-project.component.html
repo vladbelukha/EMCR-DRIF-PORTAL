@@ -1,0 +1,642 @@
+<div class="drif-project-container" *transloco="let t; read: 'project'">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title-group>
+        <mat-card-title>{{ project?.projectTitle }}</mat-card-title>
+        <mat-chip>
+          {{ project?.status }}
+        </mat-chip>
+        <mat-card-subtitle>{{ project?.proponentName }}</mat-card-subtitle>
+      </mat-card-title-group>
+    </mat-card-header>
+    <mat-card-content class="drif-project-details">
+      <div
+        style="
+          display: flex;
+          flex-direction: column;
+          align-self: start;
+          gap: 2rem;
+        "
+      >
+        <div>
+          <p><strong>Project Number:</strong> {{ project?.projectNumber }}</p>
+          <p>
+            <strong>Funding Stream:</strong> {{ t(project!.fundingStream!) }}
+          </p>
+          <p><strong>Program Type:</strong> {{ project?.programType }}</p>
+          <p>
+            <strong>Reporting Schedule:</strong>
+            {{ project?.reportingScheduleType }}
+          </p>
+        </div>
+        <div>
+          <p>
+            <strong>EOI:</strong><a href=""> {{ project?.eoiId }} </a>
+          </p>
+          <p>
+            <strong>Full Proposal:</strong><a href=""> {{ project?.fpId }} </a>
+          </p>
+        </div>
+      </div>
+      <div style="align-self: start">
+        <p><strong>Start Date:</strong> {{ project?.startDate }}</p>
+        <p><strong>End Date:</strong> {{ project?.endDate }}</p>
+      </div>
+      <div style="align-self: start"></div>
+      <div>
+        <table
+          mat-table
+          [dataSource]="conditionsDataSource"
+          multiTemplateDataRows
+        >
+          <ng-container matColumnDef="conditionName">
+            <th mat-header-cell *matHeaderCellDef>Condition</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.conditionName }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="limit">
+            <th mat-header-cell *matHeaderCellDef>Limit</th>
+            <td mat-cell *matCellDef="let element">{{ element.limit }}%</td>
+          </ng-container>
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <td mat-cell *matCellDef="let element">{{ element.status }}</td>
+          </ng-container>
+          <ng-container matColumnDef="dateMet">
+            <th mat-header-cell *matHeaderCellDef>Date Met</th>
+            <td mat-cell *matCellDef="let element">{{ element.dateMet }}</td>
+          </ng-container>
+          <tr
+            mat-header-row
+            *matHeaderRowDef="['conditionName', 'limit', 'status', 'dateMet']"
+          ></tr>
+          <tr
+            mat-row
+            *matRowDef="
+              let row;
+              columns: ['conditionName', 'limit', 'status', 'dateMet']
+            "
+          ></tr>
+        </table>
+        <p style="text-align: end">
+          <strong>Funding Amount</strong>
+          {{ project?.fundingAmount | currency : "" : "symbol" : "1.0-0" }}
+        </p>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-tab-group>
+    <mat-tab label="Active Reports">
+      <div>
+        <!-- <mat-card-header>
+          <mat-card-title-group>
+            <mat-card-title>Interim Reports</mat-card-title>
+          </mat-card-title-group>
+        </mat-card-header> -->
+        <div
+          style="
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+            gap: 1rem;
+            padding: 1rem;
+          "
+        >
+          <table
+            mat-table
+            [dataSource]="interimReportsDataSource"
+            multiTemplateDataRows
+          >
+            <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef>ID</th>
+              <td mat-cell *matCellDef="let element">
+                <a
+                  [routerLink]="[
+                    '/drif-projects',
+                    projectId,
+                    'interim-reports',
+                    element.id
+                  ]"
+                  >{{ element.id }}</a
+                >
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="dueDate">
+              <th mat-header-cell *matHeaderCellDef>Due Date</th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.dueDate }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef>Status</th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.status }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="expand">
+              <th mat-header-cell *matHeaderCellDef aria-label="row actions">
+                &nbsp;
+              </th>
+              <td mat-cell *matCellDef="let element" style="text-align: right">
+                <button
+                  mat-icon-button
+                  aria-label="expand row"
+                  (click)="
+                    expandedInterimReport =
+                      expandedInterimReport === element ? null : element;
+                    $event.stopPropagation()
+                  "
+                >
+                  @if (expandedInterimReport === element) {
+                  <mat-icon>keyboard_arrow_up</mat-icon>
+                  } @else {
+                  <mat-icon>keyboard_arrow_down</mat-icon>
+                  }
+                </button>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="expandedDetail">
+              <td
+                mat-cell
+                *matCellDef="let element"
+                [attr.colspan]="4"
+                style="padding: 0"
+              >
+                <div
+                  class="interim-element-detail"
+                  [@detailExpand]="
+                    element == expandedInterimReport ? 'expanded' : 'collapsed'
+                  "
+                >
+                  <mat-card>
+                    <div class="interim-element-detail-container">
+                      <div class="interim-element-detail-container__info">
+                        <b>Claim</b>
+                        <div>
+                          Claim ID:
+                          <a
+                            [routerLink]="[
+                              '/drif-projects',
+                              projectId,
+                              'claims',
+                              element.claim.id
+                            ]"
+                            >{{ element.claim.id }}</a
+                          >
+                        </div>
+                        <div>Due Date: {{ element.claim.claimDate }}</div>
+                        <div>Status: {{ element.claim.status }}</div>
+                        <!-- <div>{{ element.claim.claimAmount }}</div> -->
+                      </div>
+                      <div class="interim-element-detail-container__actions">
+                        <button
+                          mat-raised-button
+                          color="primary"
+                          (click)="editClaim()"
+                        >
+                          Edit
+                        </button>
+                        <button mat-button color="warn" (click)="deleteClaim()">
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+
+                    <mat-divider></mat-divider>
+
+                    <div class="interim-element-detail-container">
+                      <div class="interim-element-detail-container__info">
+                        <b>Progress Report</b>
+                        <div>
+                          Report ID:
+                          <a
+                            [routerLink]="[
+                              '/drif-projects',
+                              projectId,
+                              'progress-reports',
+                              element.report.id
+                            ]"
+                            >{{ element.report.id }}</a
+                          >
+                        </div>
+                        <div>Due Date: {{ element.report.reportDate }}</div>
+                        <div>Status: {{ element.report.status }}</div>
+                      </div>
+                      <div class="interim-element-detail-container__actions">
+                        <button
+                          mat-raised-button
+                          color="primary"
+                          (click)="editClaim()"
+                        >
+                          Edit
+                        </button>
+                        <button mat-button color="warn" (click)="deleteClaim()">
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+
+                    <mat-divider></mat-divider>
+
+                    <div class="interim-element-detail-container">
+                      <div class="interim-element-detail-container__info">
+                        <b>Forecast</b>
+                        <div>
+                          Forecast ID:
+                          <a
+                            [routerLink]="[
+                              '/drif-projects',
+                              projectId,
+                              'forecasts',
+                              element.forecast.id
+                            ]"
+                            >{{ element.forecast.id }}</a
+                          >
+                        </div>
+                        <div>Due Date: {{ element.forecast.forecastDate }}</div>
+                        <div>Status: {{ element.forecast.status }}</div>
+                      </div>
+                      <div class="interim-element-detail-container__actions">
+                        <button
+                          mat-raised-button
+                          color="primary"
+                          (click)="editClaim()"
+                        >
+                          Edit
+                        </button>
+                        <button mat-button color="warn" (click)="deleteClaim()">
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  </mat-card>
+                </div>
+              </td>
+            </ng-container>
+
+            <tr
+              mat-header-row
+              *matHeaderRowDef="['id', 'dueDate', 'status', 'expand']"
+            ></tr>
+            <tr
+              mat-row
+              *matRowDef="
+                let element;
+                columns: ['id', 'dueDate', 'status', 'expand']
+              "
+              class="interim-element-row"
+              [class.interim-expanded-row]="expandedInterimReport === element"
+              (click)="
+                expandedInterimReport =
+                  expandedInterimReport === element ? null : element
+              "
+            ></tr>
+            <tr
+              mat-row
+              *matRowDef="let row; columns: ['expandedDetail']"
+              class="interim-detail-row"
+            ></tr>
+          </table>
+          <div style="display: flex; flex-direction: column; gap: 1rem">
+            <button
+              mat-raised-button
+              color="primary"
+              (click)="addInterimReport()"
+            >
+              {{ t("startNextReport") }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab label="Past Reports">
+      <mat-card>
+        <!-- <mat-card-header>
+          <mat-card-title>Past Reports</mat-card-title>
+        </mat-card-header> -->
+        <table mat-table [dataSource]="pastReportsDataSource">
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef>ID</th>
+            <td mat-cell *matCellDef="let report">
+              <a
+                [routerLink]="[
+                  '/drif-projects',
+                  projectId,
+                  'interim-reports',
+                  report.id
+                ]"
+                >{{ report.id }}</a
+              >
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="dueDate">
+            <th mat-header-cell *matHeaderCellDef>Due Date</th>
+            <td mat-cell *matCellDef="let report">{{ report.dueDate }}</td>
+          </ng-container>
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <td mat-cell *matCellDef="let report">{{ report.status }}</td>
+          </ng-container>
+          <tr
+            mat-header-row
+            *matHeaderRowDef="['id', 'dueDate', 'status']"
+          ></tr>
+          <tr
+            mat-row
+            *matRowDef="let row; columns: ['id', 'dueDate', 'status']"
+          ></tr>
+        </table>
+      </mat-card>
+    </mat-tab>
+    <!-- <mat-tab label="Claims">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Claims</mat-card-title>
+        </mat-card-header>
+        <table class="drr-table" mat-table [dataSource]="claimsDataSource">
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef>ID</th>
+            <td mat-cell *matCellDef="let claim">
+              <a [routerLink]="['/drif-projects', projectId, 'claims', claim.id]">{{
+                claim.id
+              }}</a>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="claimType">
+            <th mat-header-cell *matHeaderCellDef>Type</th>
+            <td mat-cell *matCellDef="let claim">{{ claim.claimType }}</td>
+          </ng-container>
+          <ng-container matColumnDef="claimDate">
+            <th mat-header-cell *matHeaderCellDef>Date</th>
+            <td mat-cell *matCellDef="let claim">{{ claim.claimDate }}</td>
+          </ng-container>
+          <ng-container matColumnDef="claimAmount">
+            <th mat-header-cell *matHeaderCellDef>Amount</th>
+            <td mat-cell *matCellDef="let claim">{{ claim.claimAmount }}</td>
+          </ng-container>
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <td mat-cell *matCellDef="let claim">{{ claim.status }}</td>
+          </ng-container>
+          <tr
+            mat-header-row
+            *matHeaderRowDef="[
+              'id',
+              'claimType',
+              'claimDate',
+              'claimAmount',
+              'status'
+            ]"
+          ></tr>
+          <tr
+            mat-row
+            *matRowDef="
+              let row;
+              columns: ['id', 'claimType', 'claimDate', 'claimAmount', 'status']
+            "
+          ></tr>
+        </table>
+      </mat-card>
+    </mat-tab>
+    <mat-tab label="Progress">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Progress Reports</mat-card-title>
+        </mat-card-header>
+        <table mat-table [dataSource]="progressReportsDataSource">
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef>ID</th>
+            <td mat-cell *matCellDef="let report">
+              <a
+                [routerLink]="[
+                  '/drif-projects',
+                  projectId,
+                  'progress-reports',
+                  report.id
+                ]"
+                >{{ report.id }}</a
+              >
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="reportType">
+            <th mat-header-cell *matHeaderCellDef>Type</th>
+            <td mat-cell *matCellDef="let report">{{ report.reportType }}</td>
+          </ng-container>
+          <ng-container matColumnDef="reportDate">
+            <th mat-header-cell *matHeaderCellDef>Date</th>
+            <td mat-cell *matCellDef="let report">{{ report.reportDate }}</td>
+          </ng-container>
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <td mat-cell *matCellDef="let report">{{ report.status }}</td>
+          </ng-container>
+          <tr
+            mat-header-row
+            *matHeaderRowDef="['id', 'reportType', 'reportDate', 'status']"
+          ></tr>
+          <tr
+            mat-row
+            *matRowDef="
+              let row;
+              columns: ['id', 'reportType', 'reportDate', 'status']
+            "
+          ></tr>
+        </table>
+      </mat-card>
+    </mat-tab>
+    <mat-tab label="Forecast">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Forecasts</mat-card-title>
+        </mat-card-header>
+        <table mat-table [dataSource]="forecastsDataSource">
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef>ID</th>
+            <td mat-cell *matCellDef="let forecast">
+              <a
+                [routerLink]="[
+                  '/drif-projects',
+                  projectId,
+                  'forecasts',
+                  forecast.id
+                ]"
+                >{{ forecast.id }}</a
+              >
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="forecastType">
+            <th mat-header-cell *matHeaderCellDef>Type</th>
+            <td mat-cell *matCellDef="let forecast">
+              {{ forecast.forecastType }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="forecastDate">
+            <th mat-header-cell *matHeaderCellDef>Date</th>
+            <td mat-cell *matCellDef="let forecast">
+              {{ forecast.forecastDate }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="forecastAmount">
+            <th mat-header-cell *matHeaderCellDef>Amount</th>
+            <td mat-cell *matCellDef="let forecast">
+              {{ forecast.forecastAmount }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <td mat-cell *matCellDef="let forecast">
+              {{ forecast.status }}
+            </td>
+          </ng-container>
+          <tr
+            mat-header-row
+            *matHeaderRowDef="[
+              'id',
+              'forecastType',
+              'forecastDate',
+              'forecastAmount',
+              'status'
+            ]"
+          ></tr>
+          <tr
+            mat-row
+            *matRowDef="
+              let row;
+              columns: [
+                'id',
+                'forecastType',
+                'forecastDate',
+                'forecastAmount',
+                'status'
+              ]
+            "
+          ></tr>
+        </table>
+      </mat-card>
+    </mat-tab> -->
+    <mat-tab label="Attachments">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Attachments</mat-card-title>
+        </mat-card-header>
+        <table mat-table [dataSource]="attachmentsDataSource">
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef>ID</th>
+            <td mat-cell *matCellDef="let attachment">{{ attachment.id }}</td>
+          </ng-container>
+          <ng-container matColumnDef="fileName">
+            <th mat-header-cell *matHeaderCellDef>File Name</th>
+            <td mat-cell *matCellDef="let attachment">
+              {{ attachment.fileName }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="fileType">
+            <th mat-header-cell *matHeaderCellDef>File Type</th>
+            <td mat-cell *matCellDef="let attachment">
+              {{ attachment.fileType }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="fileSize">
+            <th mat-header-cell *matHeaderCellDef>File Size</th>
+            <td mat-cell *matCellDef="let attachment">
+              {{ attachment.fileSize }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="uploadDate">
+            <th mat-header-cell *matHeaderCellDef>Upload Date</th>
+            <td mat-cell *matCellDef="let attachment">
+              {{ attachment.uploadDate }}
+            </td>
+          </ng-container>
+          <tr
+            mat-header-row
+            *matHeaderRowDef="[
+              'id',
+              'fileName',
+              'fileType',
+              'fileSize',
+              'uploadDate'
+            ]"
+          ></tr>
+          <tr
+            mat-row
+            *matRowDef="
+              let row;
+              columns: ['id', 'fileName', 'fileType', 'fileSize', 'uploadDate']
+            "
+          ></tr>
+        </table>
+      </mat-card>
+    </mat-tab>
+    <mat-tab label="Contacts">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title-group>
+            <mat-card-title>Project Contacts</mat-card-title>
+            <button
+              mat-raised-button
+              color="primary"
+              (click)="addProjectContact()"
+            >
+              {{ t("addProjectContact") }}
+            </button>
+          </mat-card-title-group>
+        </mat-card-header>
+        <table mat-table [dataSource]="projectContactsDataSource">
+          <ng-container matColumnDef="firstName">
+            <th mat-header-cell *matHeaderCellDef>First Name</th>
+            <td mat-cell *matCellDef="let contact">{{ contact.firstName }}</td>
+          </ng-container>
+          <ng-container matColumnDef="lastName">
+            <th mat-header-cell *matHeaderCellDef>Last Name</th>
+            <td mat-cell *matCellDef="let contact">{{ contact.lastName }}</td>
+          </ng-container>
+          <ng-container matColumnDef="title">
+            <th mat-header-cell *matHeaderCellDef>Title</th>
+            <td mat-cell *matCellDef="let contact">{{ contact.title }}</td>
+          </ng-container>
+          <ng-container matColumnDef="department">
+            <th mat-header-cell *matHeaderCellDef>Department</th>
+            <td mat-cell *matCellDef="let contact">{{ contact.department }}</td>
+          </ng-container>
+          <ng-container matColumnDef="phone">
+            <th mat-header-cell *matHeaderCellDef>Phone</th>
+            <td mat-cell *matCellDef="let contact">{{ contact.phone }}</td>
+          </ng-container>
+          <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef>Email</th>
+            <td mat-cell *matCellDef="let contact">{{ contact.email }}</td>
+          </ng-container>
+          <tr
+            mat-header-row
+            *matHeaderRowDef="[
+              'firstName',
+              'lastName',
+              'title',
+              'department',
+              'phone',
+              'email'
+            ]"
+          ></tr>
+          <tr
+            mat-row
+            *matRowDef="
+              let row;
+              columns: [
+                'firstName',
+                'lastName',
+                'title',
+                'department',
+                'phone',
+                'email'
+              ]
+            "
+          ></tr>
+        </table>
+      </mat-card>
+    </mat-tab>
+  </mat-tab-group>
+</div>

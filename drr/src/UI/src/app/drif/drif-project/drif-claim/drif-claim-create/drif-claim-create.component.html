@@ -1,0 +1,169 @@
+<div class="app-stepper-container" *transloco="let t">
+  <div class="app-stepper-header">
+    <div style="flex: 1">
+      <h5 style="font-size: 1.2rem; margin-bottom: 0.5rem">Create claim</h5>
+      <!-- <span>
+            {{ t("project") }}: {{ project?.name }} ({{ project?.id }})
+          </span> -->
+    </div>
+    <div>
+      <div class="header-actions">
+        <button mat-stroked-button color="primary" (click)="goBack()">
+          {{ t("exitForm") }}
+        </button>
+        <button mat-flat-button color="primary" (click)="save()">
+          <mat-icon>save</mat-icon>
+          Save
+        </button>
+      </div>
+      <!-- <div class="save-info">
+            <div style="display: flex; flex-direction: row; gap: 1rem">
+              <i *ngIf="autoSaveCountdown <= 30 && autoSaveCountdown > 0"
+                >Saving in {{ autoSaveCountdown }}
+                {{ autoSaveCountdown === 1 ? "second" : "seconds" }}...
+              </i>
+              <i
+                *ngIf="
+                  lastSavedAt && (autoSaveCountdown === 0 || autoSaveCountdown > 30)
+                "
+                >Saved at {{ lastSavedAt | date : "mediumTime" }}</i
+              >
+            </div>
+          </div> -->
+    </div>
+  </div>
+  <mat-stepper
+    class="app-stepper"
+    [linear]="false"
+    labelPosition="bottom"
+    (selectionChange)="stepperSelectionChange($event)"
+    [orientation]="stepperOrientation"
+    #stepper
+  >
+    <mat-step label="Instructions"> </mat-step>
+    <mat-step label="Expenditures">
+      <div
+        style="display: flex; flex-direction: column; gap: 1rem; padding: 1rem"
+      >
+        <div style="align-self: center">invoice summary table goes here</div>
+        <button
+          style="align-self: flex-end"
+          (click)="addInvoice()"
+          mat-stroked-button
+          type="button"
+          color="primary"
+        >
+          <mat-icon>add</mat-icon>
+          {{ t("addInvoice") }}
+        </button>
+      </div>
+      <div
+        style="
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+          justify-content: flex-start;
+        "
+      >
+        <div
+          *ngFor="let invoice of getInvoiceFormArray().controls; let i = index"
+        >
+          <mat-card>
+            <mat-card-header>
+              <mat-card-subtitle> Invoice {{ i + 1 }} </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="invoice-container">
+                <drr-input
+                  class="drr-single-input"
+                  [label]="t('invoiceNumber')"
+                  [rxFormControl]="invoice.get('invoiceNumber')"
+                  [maxlength]="200"
+                ></drr-input>
+                <div
+                  style="
+                    display: flex;
+                    justify-content: space-between;
+                    gap: 1rem;
+                  "
+                >
+                  <drr-datepicker
+                    [label]="t('invoiceDate')"
+                    [rxFormControl]="invoice.get('invoiceDate')"
+                  ></drr-datepicker>
+                  <drr-datepicker
+                    [label]="t('worksStartDate')"
+                    [rxFormControl]="invoice.get('startDate')"
+                  ></drr-datepicker>
+                  <drr-datepicker
+                    [label]="t('worksEndDate')"
+                    [rxFormControl]="invoice.get('endDate')"
+                  ></drr-datepicker>
+                  <drr-datepicker
+                    [label]="t('paymentDate')"
+                    [rxFormControl]="invoice.get('paymentDate')"
+                  ></drr-datepicker>
+                </div>
+                <div style="display: flex; gap: 1rem">
+                  <drr-input
+                    class="drr-single-input"
+                    [label]="t('supplierName')"
+                    [rxFormControl]="invoice.get('supplierName')"
+                  ></drr-input>
+                  <drr-select
+                    class="drr-single-input"
+                    [label]="t('claimCategory')"
+                    [rxFormControl]="invoice.get('claimCategory')"
+                    [options]="claimCategoryOptions"
+                  ></drr-select>
+                </div>
+                <drr-textarea
+                  [label]="t('description')"
+                  [rxFormControl]="invoice.get('description')"
+                  [maxlength]="2000"
+                ></drr-textarea>
+                <div style="display: flex; gap: 1rem">
+                  <drr-currency-input
+                    [label]="t('grossAmount')"
+                    [rxFormControl]="invoice.get('grossAmount')"
+                  ></drr-currency-input>
+                  <drr-currency-input
+                    [label]="t('taxRebate')"
+                    [rxFormControl]="invoice.get('taxRebate')"
+                  ></drr-currency-input>
+                  <drr-currency-input
+                    [label]="t('pstPaid')"
+                    [rxFormControl]="invoice.get('pstPaid')"
+                  ></drr-currency-input>
+                  <drr-currency-input
+                    [label]="t('gstPaid')"
+                    [rxFormControl]="invoice.get('gstPaid')"
+                  ></drr-currency-input>
+                </div>
+                <drr-currency-input
+                  class="drr-single-input"
+                  [label]="t('claimAmount')"
+                  [rxFormControl]="invoice.get('claimAmount')"
+                ></drr-currency-input>
+              </div>
+            </mat-card-content>
+            <mat-card-actions [align]="'end'">
+              <button
+                *ngIf="i > 0"
+                mat-stroked-button
+                color="warn"
+                (click)="removeInvoice(i)"
+                type="button"
+              >
+                {{ t("delete") }}
+              </button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+      </div>
+    </mat-step>
+    <mat-step label="Claim"> </mat-step>
+    <mat-step label="Attachments"> </mat-step>
+    <mat-step label="Review"> </mat-step>
+  </mat-stepper>
+</div>

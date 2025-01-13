@@ -24,14 +24,14 @@ import {
   IGridifyQuery,
 } from 'gridify-client';
 import { distinctUntilChanged } from 'rxjs';
-import { DrifapplicationService } from '../../api/drifapplication/drifapplication.service';
+import { DrifapplicationService } from '../../../api/drifapplication/drifapplication.service';
 import {
   ApplicationType,
   ProgramType,
   Submission,
   SubmissionPortalStatus,
-} from '../../model';
-import { DrrSelectComponent } from '../shared/controls/drr-select/drr-select.component';
+} from '../../../model';
+import { DrrSelectComponent } from '../../shared/controls/drr-select/drr-select.component';
 
 class SubmissionFilter {
   @prop()
@@ -146,7 +146,6 @@ export class SubmissionListComponent {
   filterForm = this.formbuilder.formGroup(SubmissionFilter);
 
   submissions?: Submission[];
-
   submissionListColumns = [
     'id',
     'programType',

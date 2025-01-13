@@ -1,15 +1,25 @@
 import { Routes } from '@angular/router';
 import { AuthenticationGuard } from './core/guards/authentication.guard';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { SubmissionListComponent } from './dashboard/submission-list/submission-list.component';
 import { DrifEoiViewComponent } from './drif/drif-eoi/drif-eoi-view/drif-eoi-view.component';
 import { EOIApplicationComponent } from './drif/drif-eoi/drif-eoi.component';
 import { DrifFpInstructionsComponent } from './drif/drif-fp/drif-fp-instructions/drif-fp-instructions.component';
 import { DrifFpScreenerComponent } from './drif/drif-fp/drif-fp-screener/drif-fp-screener.component';
 import { DrifFpViewComponent } from './drif/drif-fp/drif-fp-view/drif-fp-view.component';
 import { DrifFpComponent } from './drif/drif-fp/drif-fp.component';
-import { SubmissionListComponent } from './submission-list/submission-list.component';
+import { DrifClaimCreateComponent } from './drif/drif-project/drif-claim/drif-claim-create/drif-claim-create.component';
+import { DrifClaimComponent } from './drif/drif-project/drif-claim/drif-claim.component';
+import { DrifForecastCreateComponent } from './drif/drif-project/drif-forecast/drif-forecast-create/drif-forecast-create.component';
+import { DrifForecastComponent } from './drif/drif-project/drif-forecast/drif-forecast.component';
+import { DrifInterimReportCreateComponent } from './drif/drif-project/drif-interim-report/drif-interim-report-create/drif-interim-report-create.component';
+import { DrifInterimReportComponent } from './drif/drif-project/drif-interim-report/drif-interim-report.component';
+import { DrifProgressReportCreateComponent } from './drif/drif-project/drif-progress-report/drif-progress-report-create/drif-progress-report-create.component';
+import { DrifProgressReportComponent } from './drif/drif-project/drif-progress-report/drif-progress-report.component';
+import { DrifProjectComponent } from './drif/drif-project/drif-project.component';
 
 export const routes: Routes = [
-  { path: '', component: SubmissionListComponent },
+  { path: '', component: DashboardComponent },
   {
     path: 'submissions',
     component: SubmissionListComponent,
@@ -50,6 +60,52 @@ export const routes: Routes = [
   {
     path: 'fp-submission-details/:id',
     component: DrifFpViewComponent,
+    canActivate: [AuthenticationGuard],
+  },
+  {
+    path: 'drif-projects/:projectId',
+    component: DrifProjectComponent,
+    canActivate: [AuthenticationGuard],
+  },
+  {
+    path: 'drif-projects/:projectId/interim-reports/create',
+    component: DrifInterimReportCreateComponent,
+    canActivate: [AuthenticationGuard],
+  },
+  {
+    path: 'drif-projects/:projectId/interim-reports/:reportId',
+    component: DrifInterimReportComponent,
+    canActivate: [AuthenticationGuard],
+  },
+  // TODO: probably need 'drif-projects/:projectId/interim-reports/:reportId/progress-reposts/create' route
+  {
+    path: 'drif-projects/:projectId/progress-reports/create',
+    component: DrifProgressReportCreateComponent,
+    canActivate: [AuthenticationGuard],
+  },
+  {
+    path: 'drif-projects/:projectId/progress-reports/:reportId',
+    component: DrifProgressReportComponent,
+    canActivate: [AuthenticationGuard],
+  },
+  {
+    path: 'drif-projects/:projectId/claims/create',
+    component: DrifClaimCreateComponent,
+    canActivate: [AuthenticationGuard],
+  },
+  {
+    path: 'drif-projects/:projectId/claims/:claimId',
+    component: DrifClaimComponent,
+    canActivate: [AuthenticationGuard],
+  },
+  {
+    path: 'drif-projects/:projectId/interim-reports/:reportId/forecasts/create',
+    component: DrifForecastCreateComponent,
+    canActivate: [AuthenticationGuard],
+  },
+  {
+    path: 'drif-projects/:projectId/forecasts/:forecastId',
+    component: DrifForecastComponent,
     canActivate: [AuthenticationGuard],
   },
 ];

@@ -1,0 +1,154 @@
+<div class="app-stepper-container" *transloco="let t">
+  <div class="app-stepper-header">
+    <div style="flex: 1">
+      <h5 style="font-size: 1.2rem; margin-bottom: 0.5rem">Create forecast</h5>
+      <!-- <span>
+              {{ t("project") }}: {{ project?.name }} ({{ project?.id }})
+            </span> -->
+    </div>
+    <div>
+      <div class="header-actions">
+        <button mat-stroked-button color="primary" (click)="goBack()">
+          {{ t("exitForm") }}
+        </button>
+        <button mat-flat-button color="primary" (click)="save()">
+          <mat-icon>save</mat-icon>
+          Save
+        </button>
+      </div>
+      <!-- <div class="save-info">
+              <div style="display: flex; flex-direction: row; gap: 1rem">
+                <i *ngIf="autoSaveCountdown <= 30 && autoSaveCountdown > 0"
+                  >Saving in {{ autoSaveCountdown }}
+                  {{ autoSaveCountdown === 1 ? "second" : "seconds" }}...
+                </i>
+                <i
+                  *ngIf="
+                    lastSavedAt && (autoSaveCountdown === 0 || autoSaveCountdown > 30)
+                  "
+                  >Saved at {{ lastSavedAt | date : "mediumTime" }}</i
+                >
+              </div>
+            </div> -->
+    </div>
+  </div>
+  <mat-stepper
+    class="app-stepper"
+    [linear]="false"
+    labelPosition="bottom"
+    (selectionChange)="stepperSelectionChange($event)"
+    [orientation]="stepperOrientation"
+    #stepper
+  >
+    <mat-step label="Instructions">
+      <div>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras a
+          suscipit lectus. Sed molestie dolor nec tortor hendrerit consequat. In
+          at mauris vel lorem molestie rutrum. Curabitur dictum ligula id
+          fermentum ultrices. In vel tortor volutpat, ultrices ipsum vel,
+          lacinia eros. Curabitur quis lectus et ipsum sagittis semper et
+          commodo turpis. Curabitur viverra felis vel consectetur fringilla.
+          Nunc eu egestas magna, eget tincidunt ex. Integer accumsan, velit eget
+          faucibus ornare, enim risus accumsan dui, congue luctus dui eros sed
+          nunc. Vestibulum et blandit libero. Fusce nec mauris interdum, cursus
+          nibh ut, tristique leo. Nullam rhoncus, lectus ac euismod semper,
+          massa lacus elementum ipsum, vel mollis lacus sem in ante. Mauris a
+          dignissim nunc. Duis mollis facilisis odio, nec interdum enim
+          malesuada sed. Fusce congue tristique fermentum.
+        </p>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras a
+          suscipit lectus. Sed molestie dolor nec tortor hendrerit consequat. In
+          at mauris vel lorem molestie rutrum. Curabitur dictum ligula id
+          fermentum ultrices. In vel tortor volutpat, ultrices ipsum vel,
+          lacinia eros.
+        </p>
+      </div>
+      <div class="drr-stepper-action">
+        <button mat-flat-button color="primary" matStepperNext type="button">
+          {{ t("next") }}
+        </button>
+      </div>
+    </mat-step>
+    <mat-step label="Budget Forecast Report">
+      <div style="display: flex; flex-direction: column; gap: 1rem">
+        <div
+          *ngFor="
+            let yearForecast of getYearForecastFormArray().controls;
+            let i = index
+          "
+        >
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>Fiscal Year </mat-card-title>
+              <mat-card-subtitle>{{
+                yearForecast.get("fiscalYear")?.value
+              }}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="row" style="margin-top: 1rem">
+                <drr-input
+                  label="Paid Claims"
+                  [rxFormControl]="yearForecast.get('paidClaimsAmount')"
+                ></drr-input>
+                <drr-input
+                  label="Outstanding Claims"
+                  [rxFormControl]="yearForecast.get('outstandingClaimsAmount')"
+                ></drr-input>
+                <drr-input
+                  label="Remaining Claims"
+                  [rxFormControl]="yearForecast.get('remainingClaimsAmount')"
+                ></drr-input>
+              </div>
+              <div class="row">
+                <drr-input
+                  label="Original Forecast"
+                  [rxFormControl]="yearForecast.get('originalForecast')"
+                ></drr-input>
+                <drr-input
+                  label="Projected Expenditure"
+                  [rxFormControl]="yearForecast.get('projectedExpenditure')"
+                >
+                </drr-input>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+
+        <div>total</div>
+        <div>variance</div>
+      </div>
+      <div class="drr-stepper-actions">
+        <button mat-stroked-button color="primary" matStepperPrevious>
+          {{ t("back") }}
+        </button>
+        <button mat-flat-button color="primary" matStepperNext type="button">
+          {{ t("next") }}
+        </button>
+      </div>
+    </mat-step>
+    <mat-step label="Attachments">
+      <div></div>
+      <div class="drr-stepper-actions">
+        <button mat-stroked-button color="primary" matStepperPrevious>
+          {{ t("back") }}
+        </button>
+        <button mat-flat-button color="primary" matStepperNext type="button">
+          {{ t("next") }}
+        </button>
+      </div>
+    </mat-step>
+    <mat-step label="Review">
+      <div></div>
+      <div class="drr-stepper-actions">
+        <button mat-stroked-button color="primary" matStepperPrevious>
+          {{ t("back") }}
+        </button>
+        <button mat-flat-button color="primary" matStepperNext type="button">
+          {{ t("submit") }}
+        </button>
+      </div>
+    </mat-step>
+  </mat-stepper>
+</div>

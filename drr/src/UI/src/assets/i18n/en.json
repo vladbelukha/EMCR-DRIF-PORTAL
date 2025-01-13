@@ -54,6 +54,8 @@
     "required": "This attachment is required",
     "attachAdditionalAttachment": "Add additional attachment"
   },
+  "DRIF": "DRIF",
+  "EOI": "EOI",
   "fpOwnership": "Land Ownership",
   "fpOwnershipQuestion": "Will the project will be in BC on land that the proponent has legal access to either through ownership, right of way, or other at the time the Shared Cost Agreement is signed?",
   "fpOwnershipComments": "If No, please provide context below",
@@ -159,9 +161,7 @@
   "required": "Required",
   "fundingStream": "Funding Stream",
   "Stream1": "Stream 1: Foundational and Non-Structural (up to $400,000 per proponent)",
-  "shortStream1": "Stream 1",
   "Stream2": "Stream 2: Structural (up to $5M per proponent, maximum $15M)",
-  "shortStream2": "Stream 2",
   "Fed": "Federal",
   "Prov": "Provincial",
   "FedProv": "Federal/Provincial",
@@ -228,11 +228,22 @@
   "delete": "Delete",
   "withdraw": "Withdraw",
   "autocompletePlaceholder": "Enter your own value or select from the list",
+  "dashboard": {
+    "projectsTitle": "Manage Projects",
+    "submissionsTitle": "Manage Submissions"
+  },
+  "project-list": {
+    "id": "ID #",
+    "projectTitle": "Project Title",
+    "startDate": "Start Date",
+    "endDate": "End Date"
+  },
   "submissionDetails": "Submission Details for {{id}}",
   "submission-list": {
     "noSubmissionsYet": "You don't have any submissions yet.",
     "noSubmissionsFound": "No submissions found for the selected filters.",
-    "title": "Manage Submissions",
+    "projectsTitle": "Manage Projects",
+    "submissionsTitle": "Manage Submissions",
     "filters": "Filters",
     "applicationId": "ID #",
     "programType": "Program Type",
@@ -441,5 +452,31 @@
     "meetsEligibilityRequirements": "Will the project be eligible for required permits, authorizations, and regulatory approvals?",
     "allAnswersPositive": "Everything appears to be in order. You can now fill out your Full Proposal.",
     "hasNegativeAnswers": "It appears that you may be missing a few things. You’re welcome to proceed with filling out your Full Proposal, but you may find that you don’t have all of the information required. Even so, you can save your Full Proposal at any point and come back to it later when you do have the information you need."
-  }
+  },
+  "project": {
+    "id": "ID",
+    "status": "Status",
+    "reportStatus": "Report Status",
+    "reportDate": "Report Date",
+    "amount": "Amount",
+    "startNextReport": "Add New Report",
+    "addProjectContact": "Add Project Contact",
+    "requestOffcycleReport": "Request Off-cycle Report",
+    "startFinalReport": "Start Final Report",
+    "Stream1": "Non-Structural",
+    "Stream2": "Structural",
+    "interimReportType": {
+      "Interim": "Interim Report",
+      "Final": "Final Report",
+      "OffCycle": "Off-cycle Report",
+      "Skip": "Skip Report"
+    },
+    "reportQuarter": {
+      "Q1": "Q1 (January-March)",
+      "Q2": "Q2 (April-June)",
+      "Q3": "Q3 (July-September)",
+      "Q4": "Q4 (October-December)"
+    }
+  },
+  "interimReport": "Interim Report"
 }

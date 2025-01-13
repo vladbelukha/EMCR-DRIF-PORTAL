@@ -8,3 +8,12 @@
     white-space: normal;
   }
 }
+
+:host {
+  .drr-textarea
+    ::ng-deep
+    .mdc-text-field--outlined.mdc-text-field--disabled
+    .mdc-text-field__input {
+    color: var(--mdc-outlined-text-field-input-text-color);
+  }
+}
