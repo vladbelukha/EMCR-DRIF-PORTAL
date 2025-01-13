@@ -57,15 +57,18 @@ namespace EMCR.DRR.API.Resources.Projects
                 ctx.LoadPropertyAsync(project, nameof(drr_project.drr_drr_project_drr_projectreport_Project), ct),
                 ctx.LoadPropertyAsync(project, nameof(drr_project.drr_drr_project_drr_projectclaim_Project), ct),
                 ctx.LoadPropertyAsync(project, nameof(drr_project.drr_drr_project_drr_projectprogress_Project), ct),
-                ctx.LoadPropertyAsync(project, nameof(drr_project.drr_drr_project_drr_projectbudgetforecast_Project), ct),
-                ctx.LoadPropertyAsync(project, nameof(drr_project.drr_drr_project_drr_projectevent_Project), ct),
+                //ctx.LoadPropertyAsync(project, nameof(drr_project.drr_drr_project_drr_projectbudgetforecast_Project), ct),
+                //ctx.LoadPropertyAsync(project, nameof(drr_project.drr_drr_project_drr_projectevent_Project), ct),
             };
 
             await Task.WhenAll(loadTasks);
 
-            //await ctx.LoadPropertyAsync(project, nameof(drr_project.drr_Case.drr_EOIApplication), ct);
-
-            //project.drr_application_fundingsource_Application = new System.Collections.ObjectModel.Collection<drr_fundingsource>(project.drr_application_fundingsource_Application.Where(c => c.statecode == (int)EntityState.Active).ToList());
+            //For some reason when testing locally I get this error (though not when debugging... of course...):
+            //The SSL connection could not be established, see inner exception.
+            //----> System.IO.IOException : Unable to read data from the transport connection: An existing connection was forcibly closed by the remote host..----> System.Net.Sockets.SocketException : An existing connection was forcibly closed by the remote host.
+            //But if I load these separately down here, it works consistently...
+            await ctx.LoadPropertyAsync(project, nameof(drr_project.drr_drr_project_drr_projectbudgetforecast_Project), ct);
+            await ctx.LoadPropertyAsync(project, nameof(drr_project.drr_drr_project_drr_projectevent_Project), ct);
 
             await Task.WhenAll([
                 ParallelLoadWorkplanActivities(ctx, project, ct),
@@ -86,6 +89,7 @@ namespace EMCR.DRR.API.Resources.Projects
             var readCtx = dRRContextFactory.CreateReadOnly();
             var existingProject = await readCtx.drr_projects.Expand(a => a.drr_ProponentName).Where(a => a.drr_name == id).SingleOrDefaultAsync();
             if (existingProject == null) return true;
+            if (existingProject.drr_ProponentName == null) return false;
             return (!string.IsNullOrEmpty(existingProject.drr_ProponentName.drr_bceidguid)) && existingProject.drr_ProponentName.drr_bceidguid.Equals(businessId);
         }
     }

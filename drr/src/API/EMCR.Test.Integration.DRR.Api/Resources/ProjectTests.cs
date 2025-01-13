@@ -1,4 +1,5 @@
 ﻿using EMCR.DRR.API.Resources.Projects;
+using EMCR.DRR.API.Resources.Reports;
 using Microsoft.Extensions.DependencyInjection;
 using Shouldly;
 
@@ -11,11 +12,13 @@ namespace EMCR.Tests.Integration.DRR.Resources
         private string TestBusinessId = "autotest-dev-business-bceid";
         //private string TestUserId = "autotest-dev-user-bceid";
         private readonly IProjectRepository projectRepository;
+        private readonly IReportRepository reportRepository;
 
         public ProjectTests()
         {
             var host = Application.Host;
             projectRepository = host.Services.GetRequiredService<IProjectRepository>();
+            reportRepository = host.Services.GetRequiredService<IReportRepository>();
         }
 
         [Test]
@@ -23,6 +26,13 @@ namespace EMCR.Tests.Integration.DRR.Resources
         {
             var projects = (await projectRepository.Query(new ProjectsQuery { BusinessId = TestBusinessId })).Items;
             projects.ShouldNotBeEmpty();
+        }
+
+        [Test]
+        public async Task CanQueryReports()
+        {
+            var reports = (await reportRepository.Query(new ReportsQuery { BusinessId = TestBusinessId })).Items;
+            reports.ShouldNotBeEmpty();
         }
     }
 }

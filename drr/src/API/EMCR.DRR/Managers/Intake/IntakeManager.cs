@@ -4,6 +4,7 @@ using EMCR.DRR.API.Model;
 using EMCR.DRR.API.Resources.Cases;
 using EMCR.DRR.API.Resources.Documents;
 using EMCR.DRR.API.Resources.Projects;
+using EMCR.DRR.API.Resources.Reports;
 using EMCR.DRR.API.Services;
 using EMCR.DRR.API.Services.S3;
 using EMCR.DRR.Resources.Applications;
@@ -16,19 +17,21 @@ namespace EMCR.DRR.Managers.Intake
         private readonly IMapper mapper;
         private readonly IApplicationRepository applicationRepository;
         private readonly IProjectRepository projectRepository;
+        private readonly IReportRepository reportRepository;
         private readonly IDocumentRepository documentRepository;
         private readonly ICaseRepository caseRepository;
         private readonly IS3Provider s3Provider;
 
         private FileTag GetDeletedFileTag() => new FileTag { Tags = new[] { new Tag { Key = "Deleted", Value = "true" } } };
 
-        public IntakeManager(IMapper mapper, IApplicationRepository applicationRepository, IDocumentRepository documentRepository, ICaseRepository caseRepository, IProjectRepository projectRepository, IS3Provider s3Provider)
+        public IntakeManager(IMapper mapper, IApplicationRepository applicationRepository, IDocumentRepository documentRepository, ICaseRepository caseRepository, IProjectRepository projectRepository, IReportRepository reportRepository, IS3Provider s3Provider)
         {
             this.mapper = mapper;
             this.applicationRepository = applicationRepository;
             this.documentRepository = documentRepository;
             this.caseRepository = caseRepository;
             this.projectRepository = projectRepository;
+            this.reportRepository = reportRepository;
             this.s3Provider = s3Provider;
         }
 
@@ -46,6 +49,42 @@ namespace EMCR.DRR.Managers.Intake
             return cmd switch
             {
                 DrrProjectsQuery c => await Handle(c),
+                _ => throw new NotSupportedException($"{cmd.GetType().Name} is not supported")
+            };
+        }
+
+        public async Task<ReportsQueryResponse> Handle(ReportQuery cmd)
+        {
+            return cmd switch
+            {
+                DrrReportsQuery c => await Handle(c),
+                _ => throw new NotSupportedException($"{cmd.GetType().Name} is not supported")
+            };
+        }
+
+        public async Task<ClaimsQueryResponse> Handle(ClaimQuery cmd)
+        {
+            return cmd switch
+            {
+                DrrClaimsQuery c => await Handle(c),
+                _ => throw new NotSupportedException($"{cmd.GetType().Name} is not supported")
+            };
+        }
+
+        public async Task<ProgressReportsQueryResponse> Handle(ProgressReportQuery cmd)
+        {
+            return cmd switch
+            {
+                DrrProgressReportsQuery c => await Handle(c),
+                _ => throw new NotSupportedException($"{cmd.GetType().Name} is not supported")
+            };
+        }
+
+        public async Task<ForecastsQueryResponse> Handle(ForecastQuery cmd)
+        {
+            return cmd switch
+            {
+                DrrForecastsQuery c => await Handle(c),
                 _ => throw new NotSupportedException($"{cmd.GetType().Name} is not supported")
             };
         }
@@ -123,6 +162,54 @@ namespace EMCR.DRR.Managers.Intake
             var res = await projectRepository.Query(new ProjectsQuery { Id = q.Id, BusinessId = q.BusinessId, Page = page, Count = count, OrderBy = orderBy, FilterOptions = filterOptions });
 
             return new ProjectsQueryResponse { Items = res.Items, Length = res.Length };
+        }
+
+        public async Task<ReportsQueryResponse> Handle(DrrReportsQuery q)
+        {
+            if (!string.IsNullOrEmpty(q.Id))
+            {
+                var canAccess = await CanAccessClaim(q.Id, q.BusinessId);
+                if (!canAccess) throw new ForbiddenException("Not allowed to access this claim.");
+            }
+            var res = await reportRepository.Query(new ReportsQuery { Id = q.Id, BusinessId = q.BusinessId });
+
+            return new ReportsQueryResponse { Items = res.Items, Length = res.Length };
+        }
+
+        public async Task<ClaimsQueryResponse> Handle(DrrClaimsQuery q)
+        {
+            if (!string.IsNullOrEmpty(q.Id))
+            {
+                var canAccess = await CanAccessClaim(q.Id, q.BusinessId);
+                if (!canAccess) throw new ForbiddenException("Not allowed to access this claim.");
+            }
+            var res = await reportRepository.Query(new ClaimsQuery { Id = q.Id, BusinessId = q.BusinessId });
+
+            return new ClaimsQueryResponse { Items = res.Items, Length = res.Length };
+        }
+
+        public async Task<ProgressReportsQueryResponse> Handle(DrrProgressReportsQuery q)
+        {
+            if (!string.IsNullOrEmpty(q.Id))
+            {
+                var canAccess = await CanAccessClaim(q.Id, q.BusinessId);
+                if (!canAccess) throw new ForbiddenException("Not allowed to access this progress report.");
+            }
+            var res = await reportRepository.Query(new ProgressReportsQuery { Id = q.Id, BusinessId = q.BusinessId });
+
+            return new ProgressReportsQueryResponse { Items = res.Items, Length = res.Length };
+        }
+
+        public async Task<ForecastsQueryResponse> Handle(DrrForecastsQuery q)
+        {
+            if (!string.IsNullOrEmpty(q.Id))
+            {
+                var canAccess = await CanAccessClaim(q.Id, q.BusinessId);
+                if (!canAccess) throw new ForbiddenException("Not allowed to access this forecast.");
+            }
+            var res = await reportRepository.Query(new ForecastsQuery { Id = q.Id, BusinessId = q.BusinessId });
+
+            return new ForecastsQueryResponse { Items = res.Items, Length = res.Length };
         }
 
         public async Task<string> Handle(EoiSaveApplicationCommand cmd)
@@ -326,7 +413,38 @@ namespace EMCR.DRR.Managers.Intake
         {
             if (string.IsNullOrEmpty(businessId)) throw new ArgumentNullException("Missing user's BusinessId");
             if (string.IsNullOrEmpty(id)) return true;
-            //return await projectRepository.CanAccessProject(id, businessId);
+            return await projectRepository.CanAccessProject(id, businessId);
+        }
+
+        private async Task<bool> CanAccessReport(string? id, string? businessId)
+        {
+            if (string.IsNullOrEmpty(businessId)) throw new ArgumentNullException("Missing user's BusinessId");
+            if (string.IsNullOrEmpty(id)) return true;
+            //return await reportRepository.CanAccessReport(id, businessId);
+            return await Task.FromResult(true);
+        }
+
+        private async Task<bool> CanAccessClaim(string? id, string? businessId)
+        {
+            if (string.IsNullOrEmpty(businessId)) throw new ArgumentNullException("Missing user's BusinessId");
+            if (string.IsNullOrEmpty(id)) return true;
+            //return await reportRepository.CanAccessClaim(id, businessId);
+            return await Task.FromResult(true);
+        }
+
+        private async Task<bool> CanAccessProgressReport(string? id, string? businessId)
+        {
+            if (string.IsNullOrEmpty(businessId)) throw new ArgumentNullException("Missing user's BusinessId");
+            if (string.IsNullOrEmpty(id)) return true;
+            //return await reportRepository.CanAccessProgressReport(id, businessId);
+            return await Task.FromResult(true);
+        }
+
+        private async Task<bool> CanAccessForecast(string? id, string? businessId)
+        {
+            if (string.IsNullOrEmpty(businessId)) throw new ArgumentNullException("Missing user's BusinessId");
+            if (string.IsNullOrEmpty(id)) return true;
+            //return await reportRepository.CanAccessForecast(id, businessId);
             return await Task.FromResult(true);
         }
 
