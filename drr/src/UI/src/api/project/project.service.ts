@@ -21,8 +21,14 @@ import {
   Observable
 } from 'rxjs'
 import type {
+  ClaimDetails,
   DraftDrrProject,
   DrrProject,
+  ForecastDetails,
+  InterimReportDetails,
+  ProgressReportDetails,
+  ProjectGetForecastReportParams,
+  ProjectGetProgressReportParams,
   ProjectResponse,
   ProjectResult
 } from '../../model'
@@ -118,9 +124,113 @@ export class ProjectService {
       drrProject,options
     );
   }
+ projectGetInterimReport<TData = InterimReportDetails>(
+    projectId: string,
+    reportId: string, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
+  ): Observable<TData>;
+    projectGetInterimReport<TData = InterimReportDetails>(
+    projectId: string,
+    reportId: string, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
+  ): Observable<AngularHttpResponse<TData>>;
+    projectGetInterimReport<TData = InterimReportDetails>(
+    projectId: string,
+    reportId: string, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
+  ): Observable<HttpEvent<TData>>;projectGetInterimReport<TData = InterimReportDetails>(
+    projectId: string,
+    reportId: string, options?: HttpClientOptions
+  ): Observable<TData>  {
+    return this.http.get<TData>(
+      `/api/project/${projectId}/interim-reports/${reportId}`,options
+    );
+  }
+ projectGetClaim<TData = ClaimDetails>(
+    projectId: string,
+    reportId: string,
+    claimId: string, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
+  ): Observable<TData>;
+    projectGetClaim<TData = ClaimDetails>(
+    projectId: string,
+    reportId: string,
+    claimId: string, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
+  ): Observable<AngularHttpResponse<TData>>;
+    projectGetClaim<TData = ClaimDetails>(
+    projectId: string,
+    reportId: string,
+    claimId: string, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
+  ): Observable<HttpEvent<TData>>;projectGetClaim<TData = ClaimDetails>(
+    projectId: string,
+    reportId: string,
+    claimId: string, options?: HttpClientOptions
+  ): Observable<TData>  {
+    return this.http.get<TData>(
+      `/api/project/${projectId}/interim-reports/${reportId}/claims/${claimId}`,options
+    );
+  }
+ projectGetProgressReport<TData = ProgressReportDetails>(
+    projectId: string,
+    reportId: string,
+    progressId: string,
+    params?: ProjectGetProgressReportParams, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
+  ): Observable<TData>;
+    projectGetProgressReport<TData = ProgressReportDetails>(
+    projectId: string,
+    reportId: string,
+    progressId: string,
+    params?: ProjectGetProgressReportParams, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
+  ): Observable<AngularHttpResponse<TData>>;
+    projectGetProgressReport<TData = ProgressReportDetails>(
+    projectId: string,
+    reportId: string,
+    progressId: string,
+    params?: ProjectGetProgressReportParams, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
+  ): Observable<HttpEvent<TData>>;projectGetProgressReport<TData = ProgressReportDetails>(
+    projectId: string,
+    reportId: string,
+    progressId: string,
+    params?: ProjectGetProgressReportParams, options?: HttpClientOptions
+  ): Observable<TData>  {
+    return this.http.get<TData>(
+      `/api/project/${projectId}/interim-reports/${reportId}/progress-reports/${progressId}`,{
+    ...options,
+        params: {...params, ...options?.params},}
+    );
+  }
+ projectGetForecastReport<TData = ForecastDetails>(
+    projectId: string,
+    reportId: string,
+    forecastId: string,
+    params?: ProjectGetForecastReportParams, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
+  ): Observable<TData>;
+    projectGetForecastReport<TData = ForecastDetails>(
+    projectId: string,
+    reportId: string,
+    forecastId: string,
+    params?: ProjectGetForecastReportParams, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
+  ): Observable<AngularHttpResponse<TData>>;
+    projectGetForecastReport<TData = ForecastDetails>(
+    projectId: string,
+    reportId: string,
+    forecastId: string,
+    params?: ProjectGetForecastReportParams, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
+  ): Observable<HttpEvent<TData>>;projectGetForecastReport<TData = ForecastDetails>(
+    projectId: string,
+    reportId: string,
+    forecastId: string,
+    params?: ProjectGetForecastReportParams, options?: HttpClientOptions
+  ): Observable<TData>  {
+    return this.http.get<TData>(
+      `/api/project/${projectId}/interim-reports/${reportId}/forecasts/${forecastId}`,{
+    ...options,
+        params: {...params, ...options?.params},}
+    );
+  }
 };
 
 export type ProjectGetClientResult = NonNullable<ProjectResponse>
 export type ProjectGetProjectClientResult = NonNullable<DraftDrrProject>
 export type ProjectUpdateProjectClientResult = NonNullable<ProjectResult>
 export type ProjectSubmitProjectClientResult = NonNullable<ProjectResult>
+export type ProjectGetInterimReportClientResult = NonNullable<InterimReportDetails>
+export type ProjectGetClaimClientResult = NonNullable<ClaimDetails>
+export type ProjectGetProgressReportClientResult = NonNullable<ProgressReportDetails>
+export type ProjectGetForecastReportClientResult = NonNullable<ForecastDetails>
