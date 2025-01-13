@@ -8,6 +8,7 @@ using System.Security.Claims;
 using System.ComponentModel;
 using System.Text.Json.Serialization;
 using EMCR.DRR.API.Model;
+using Microsoft.Dynamics.CRM;
 
 namespace EMCR.DRR.Controllers
 {
@@ -103,6 +104,66 @@ namespace EMCR.DRR.Controllers
                 return errorParser.Parse(e, logger);
             }
         }
+
+        [HttpGet("{projectId}/interim-reports/{reportId}")]
+        public async Task<ActionResult<InterimReportDetails>> GetInterimReport(string projectId, string reportId)
+        {
+            try
+            {
+                var report = (await intakeManager.Handle(new DrrReportsQuery { Id = projectId, BusinessId = GetCurrentBusinessId() })).Items.FirstOrDefault();
+                if (report == null) return new NotFoundObjectResult(new ProblemDetails { Type = "NotFoundException", Title = "Not Found", Detail = "" });
+                return Ok(mapper.Map<InterimReportDetails>(report));
+            }
+            catch (Exception e)
+            {
+                return errorParser.Parse(e, logger);
+            }
+        }
+
+        [HttpGet("{projectId}/interim-reports/{reportId}/claims/{claimId}")]
+        public async Task<ActionResult<ClaimDetails>> GetClaim(string projectId, string reportId, string claimId)
+        {
+            try
+            {
+                var claim = (await intakeManager.Handle(new DrrClaimsQuery { Id = projectId, BusinessId = GetCurrentBusinessId() })).Items.FirstOrDefault();
+                if (claim == null) return new NotFoundObjectResult(new ProblemDetails { Type = "NotFoundException", Title = "Not Found", Detail = "" });
+                return Ok(mapper.Map<ClaimDetails>(claim));
+            }
+            catch (Exception e)
+            {
+                return errorParser.Parse(e, logger);
+            }
+        }
+
+        [HttpGet("{projectId}/interim-reports/{reportId}/progress-reports/{progressId}")]
+        public async Task<ActionResult<ProgressReportDetails>> GetProgressReport(string projectId, string reportId, string claimId)
+        {
+            try
+            {
+                var pr = (await intakeManager.Handle(new DrrProgressReportsQuery { Id = projectId, BusinessId = GetCurrentBusinessId() })).Items.FirstOrDefault();
+                if (pr == null) return new NotFoundObjectResult(new ProblemDetails { Type = "NotFoundException", Title = "Not Found", Detail = "" });
+                return Ok(mapper.Map<ProgressReportDetails>(pr));
+            }
+            catch (Exception e)
+            {
+                return errorParser.Parse(e, logger);
+            }
+        }
+
+        [HttpGet("{projectId}/interim-reports/{reportId}/forecasts/{forecastId}")]
+        public async Task<ActionResult<ForecastDetails>> GetForecastReport(string projectId, string reportId, string claimId)
+        {
+            try
+            {
+                var forecast = (await intakeManager.Handle(new DrrForecastsQuery { Id = projectId, BusinessId = GetCurrentBusinessId() })).Items.FirstOrDefault();
+                if (forecast == null) return new NotFoundObjectResult(new ProblemDetails { Type = "NotFoundException", Title = "Not Found", Detail = "" });
+                return Ok(mapper.Map<ForecastDetails>(forecast));
+            }
+            catch (Exception e)
+            {
+                return errorParser.Parse(e, logger);
+            }
+        }
     }
 
     public class DraftDrrProject : DrrProject
@@ -187,6 +248,46 @@ namespace EMCR.DRR.Controllers
     }
 
     public class Forecast
+    {
+        public string? Id { get; set; }
+        public string? ForecastType { get; set; }
+        public DateTime? ForecastDate { get; set; }
+        public decimal? ForecastAmount { get; set; }
+        public ForecastStatus? Status { get; set; }
+    }
+
+    public class InterimReportDetails
+    {
+        public string? Id { get; set; }
+        public DateTime? DueDate { get; set; }
+        public string? Description { get; set; }
+        public InterimReportStatus? Status { get; set; }
+        public InterimProjectType? ProjectType { get; set; }
+        public PeriodType? PeriodType { get; set; }
+        public ProjectClaim? Claim { get; set; }
+        public ProgressReport? Report { get; set; }
+        public Forecast? Forecast { get; set; }
+    }
+
+    public class ClaimDetails
+    {
+        public string? Id { get; set; }
+        public string? ClaimType { get; set; }
+        public DateTime? ClaimDate { get; set; }
+        public decimal? ClaimAmount { get; set; }
+        public ClaimStatus? Status { get; set; }
+    }
+
+    public class ProgressReportDetails
+    {
+        public string? Id { get; set; }
+        public string? ReportType { get; set; }
+        public DateTime? ReportDate { get; set; }
+        public WorkplanActivity[]? WorkplanActivities { get; set; }
+        public ProgressReportStatus? Status { get; set; }
+    }
+
+    public class ForecastDetails
     {
         public string? Id { get; set; }
         public string? ForecastType { get; set; }

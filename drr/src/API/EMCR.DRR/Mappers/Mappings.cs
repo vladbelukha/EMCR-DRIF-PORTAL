@@ -51,7 +51,17 @@ namespace EMCR.DRR.API.Mappers
             CreateMap<DraftDrrProject, DrrProject>()
                 ;
 
-            
+            CreateMap< Managers.Intake.InterimReportDetails, InterimReportDetails>()
+                ;
+
+            CreateMap<Managers.Intake.ClaimDetails, ClaimDetails>()
+                ;
+
+            CreateMap<Managers.Intake.ProgressReportDetails, ProgressReportDetails>()
+                ;
+
+            CreateMap<Managers.Intake.ForecastDetails, ForecastDetails>()
+                ;
         }
 
 #pragma warning disable CS8603 // Possible null reference return.

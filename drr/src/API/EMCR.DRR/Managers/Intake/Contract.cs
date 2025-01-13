@@ -12,6 +12,10 @@ namespace EMCR.DRR.Managers.Intake
         Task<string> Handle(IntakeCommand cmd);
         Task<ApplicationQueryResponse> Handle(ApplicationQuery cmd);
         Task<ProjectsQueryResponse> Handle(ProjectQuery cmd);
+        Task<ReportsQueryResponse> Handle(ReportQuery cmd);
+        Task<ClaimsQueryResponse> Handle(ClaimQuery cmd);
+        Task<ProgressReportsQueryResponse> Handle(ProgressReportQuery cmd);
+        Task<ForecastsQueryResponse> Handle(ForecastQuery cmd);
         Task<StorageQueryResults> Handle(AttachmentQuery cmd);
     }
 
@@ -88,6 +92,66 @@ namespace EMCR.DRR.Managers.Intake
     }
 
     public abstract class ProjectQuery
+    { }
+
+    public class ReportsQueryResponse
+    {
+        public required IEnumerable<InterimReportDetails> Items { get; set; }
+        public int Length { get; set; }
+    }
+
+    public class DrrReportsQuery : ReportQuery
+    {
+        public string? Id { get; set; }
+        public string? BusinessId { get; set; }
+    }
+
+    public abstract class ReportQuery
+    { }
+
+    public class ClaimsQueryResponse
+    {
+        public required IEnumerable<ClaimDetails> Items { get; set; }
+        public int Length { get; set; }
+    }
+
+    public class DrrClaimsQuery : ClaimQuery
+    {
+        public string? Id { get; set; }
+        public string? BusinessId { get; set; }
+    }
+
+    public abstract class ClaimQuery
+    { }
+
+    public class ProgressReportsQueryResponse
+    {
+        public required IEnumerable<ProgressReportDetails> Items { get; set; }
+        public int Length { get; set; }
+    }
+
+    public class DrrProgressReportsQuery : ProgressReportQuery
+    {
+        public string? Id { get; set; }
+        public string? BusinessId { get; set; }
+    }
+
+    public abstract class ProgressReportQuery
+    { }
+
+    public class ForecastsQueryResponse
+    {
+        public required IEnumerable<ForecastDetails> Items { get; set; }
+        public int Length { get; set; }
+    }
+
+    public class DrrForecastsQuery : ForecastQuery
+    {
+        public string? Id { get; set; }
+        public string? BusinessId { get; set; }
+    }
+
+    public abstract class ForecastQuery
     { }
 
     public abstract class IntakeCommand
@@ -633,6 +697,46 @@ namespace EMCR.DRR.Managers.Intake
     }
 
     public class Forecast
+    {
+        public string? Id { get; set; }
+        public string? ForecastType { get; set; }
+        public DateTime? ForecastDate { get; set; }
+        public decimal? ForecastAmount { get; set; }
+        public ForecastStatus? Status { get; set; }
+    }
+
+    public class InterimReportDetails
+    {
+        public string? Id { get; set; }
+        public DateTime? DueDate { get; set; }
+        public string? Description { get; set; }
+        public InterimReportStatus? Status { get; set; }
+        public InterimProjectType? ProjectType { get; set; }
+        public PeriodType? PeriodType { get; set; }
+        public ProjectClaim? Claim { get; set; }
+        public ProgressReport? Report { get; set; }
+        public Forecast? Forecast { get; set; }
+    }
+
+    public class ClaimDetails
+    {
+        public string? Id { get; set; }
+        public string? ClaimType { get; set; }
+        public DateTime? ClaimDate { get; set; }
+        public decimal? ClaimAmount { get; set; }
+        public ClaimStatus? Status { get; set; }
+    }
+
+    public class ProgressReportDetails
+    {
+        public string? Id { get; set; }
+        public string? ReportType { get; set; }
+        public DateTime? ReportDate { get; set; }
+        public WorkplanActivity[]? WorkplanActivities { get; set; }
+        public ProgressReportStatus? Status { get; set; }
+    }
+
+    public class ForecastDetails
     {
         public string? Id { get; set; }
         public string? ForecastType { get; set; }

@@ -44,10 +44,10 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
         [Test]
         public async Task QueryProjects_CanFilterByField()
         {
-            var queryOptions = new QueryOptions { Filter = "programType=DRIF,applicationType=FP,status=*UnderReview\\|EligiblePending" };
+            var queryOptions = new QueryOptions { Filter = "TESTprogramType=DRIF,applicationType=FP,status=*UnderReview\\|EligiblePending" };
             var queryRes = await manager.Handle(new DrrProjectsQuery { BusinessId = GetTestUserInfo().BusinessId, QueryOptions = queryOptions });
             var projects = mapper.Map<IEnumerable<DraftDrrProject>>(queryRes.Items);
-            //submissions.Count().ShouldBe(20);
+            //projects.Count().ShouldBeGreaterThan(1);
             projects.ShouldAllBe(s => s.ProgramType == ProgramType.DRIF);
         }
 
@@ -55,10 +55,42 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
         public async Task QueryProjects_CanFilterById()
         {
             var queryOptions = new QueryOptions { Filter = "programType=DRIF,applicationType=FP,status=*UnderReview\\|EligiblePending" };
-            var queryRes = await manager.Handle(new DrrProjectsQuery { Id = "DRIF-PRJ-1001", BusinessId = GetTestUserInfo().BusinessId, QueryOptions = queryOptions });
+            var queryRes = await manager.Handle(new DrrProjectsQuery { Id = "DRIF-PRJ-1012", BusinessId = GetCRAFTUserInfo().BusinessId, QueryOptions = queryOptions });
             var projects = mapper.Map<IEnumerable<DraftDrrProject>>(queryRes.Items);
             projects.Count().ShouldBe(1);
             projects.ShouldAllBe(s => s.ProgramType == ProgramType.DRIF);
+        }
+
+        [Test]
+        public async Task QueryReports_CanFilterById()
+        {
+            var queryRes = await manager.Handle(new DrrReportsQuery { Id = "DRIF-REP-1002", BusinessId = GetTestUserInfo().BusinessId });
+            var reports = mapper.Map<IEnumerable<EMCR.DRR.Controllers.InterimReportDetails>>(queryRes.Items);
+            reports.Count().ShouldBe(1);
+        }
+
+        [Test]
+        public async Task QueryClaims_CanFilterById()
+        {
+            var queryRes = await manager.Handle(new DrrClaimsQuery { Id = "DRIF-CLAIM-1000", BusinessId = GetTestUserInfo().BusinessId });
+            var claims = mapper.Map<IEnumerable<EMCR.DRR.Controllers.ClaimDetails>>(queryRes.Items);
+            claims.Count().ShouldBe(1);
+        }
+
+        [Test]
+        public async Task QueryProgressReports_CanFilterById()
+        {
+            var queryRes = await manager.Handle(new DrrProgressReportsQuery { Id = "DRIF-PR-1018", BusinessId = GetTestUserInfo().BusinessId });
+            var prs = mapper.Map<IEnumerable<EMCR.DRR.Controllers.ProgressReportDetails>>(queryRes.Items);
+            prs.Count().ShouldBe(1);
+        }
+
+        [Test]
+        public async Task QueryForecasts_CanFilterById()
+        {
+            var queryRes = await manager.Handle(new DrrForecastsQuery { Id = "DRIF-FORECAST-1001", BusinessId = GetTestUserInfo().BusinessId });
+            var forecasts = mapper.Map<IEnumerable<EMCR.DRR.Controllers.ForecastDetails>>(queryRes.Items);
+            forecasts.Count().ShouldBe(1);
         }
     }
 }
