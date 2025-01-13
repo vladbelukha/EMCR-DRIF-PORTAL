@@ -66,6 +66,16 @@ namespace EMCR.DRR.API.Resources.Projects
         Inactive = 2,
     }
 
+    public enum ForecastStatusOptionSet
+    {
+        NotStarted = 1,
+        Draft = 172580000,
+        Submitted = 172580001,
+        UpdateNeeded = 1172580002,
+        Approved = 172580003,
+        Inactive = 2,
+    }
+
     public enum PeriodTypeOptionSet
     {
         Periodical = 172580000,
