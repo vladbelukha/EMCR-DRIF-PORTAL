@@ -63,7 +63,7 @@ export class DrifFpInstructionsComponent {
   }
 
   goBack() {
-    this.router.navigate(['/submissions']);
+    this.router.navigate(['/dashboard']);
   }
 
   continue() {
