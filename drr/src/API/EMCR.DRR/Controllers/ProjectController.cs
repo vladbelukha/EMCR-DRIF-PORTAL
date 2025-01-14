@@ -110,7 +110,7 @@ namespace EMCR.DRR.Controllers
         {
             try
             {
-                var report = (await intakeManager.Handle(new DrrReportsQuery { Id = projectId, BusinessId = GetCurrentBusinessId() })).Items.FirstOrDefault();
+                var report = (await intakeManager.Handle(new DrrReportsQuery { Id = reportId, BusinessId = GetCurrentBusinessId() })).Items.FirstOrDefault();
                 if (report == null) return new NotFoundObjectResult(new ProblemDetails { Type = "NotFoundException", Title = "Not Found", Detail = "" });
                 return Ok(mapper.Map<InterimReportDetails>(report));
             }
@@ -125,7 +125,7 @@ namespace EMCR.DRR.Controllers
         {
             try
             {
-                var claim = (await intakeManager.Handle(new DrrClaimsQuery { Id = projectId, BusinessId = GetCurrentBusinessId() })).Items.FirstOrDefault();
+                var claim = (await intakeManager.Handle(new DrrClaimsQuery { Id = claimId, BusinessId = GetCurrentBusinessId() })).Items.FirstOrDefault();
                 if (claim == null) return new NotFoundObjectResult(new ProblemDetails { Type = "NotFoundException", Title = "Not Found", Detail = "" });
                 return Ok(mapper.Map<ClaimDetails>(claim));
             }
@@ -136,11 +136,11 @@ namespace EMCR.DRR.Controllers
         }
 
         [HttpGet("{projectId}/interim-reports/{reportId}/progress-reports/{progressId}")]
-        public async Task<ActionResult<ProgressReportDetails>> GetProgressReport(string projectId, string reportId, string claimId)
+        public async Task<ActionResult<ProgressReportDetails>> GetProgressReport(string projectId, string reportId, string progressId)
         {
             try
             {
-                var pr = (await intakeManager.Handle(new DrrProgressReportsQuery { Id = projectId, BusinessId = GetCurrentBusinessId() })).Items.FirstOrDefault();
+                var pr = (await intakeManager.Handle(new DrrProgressReportsQuery { Id = progressId, BusinessId = GetCurrentBusinessId() })).Items.FirstOrDefault();
                 if (pr == null) return new NotFoundObjectResult(new ProblemDetails { Type = "NotFoundException", Title = "Not Found", Detail = "" });
                 return Ok(mapper.Map<ProgressReportDetails>(pr));
             }
@@ -151,11 +151,11 @@ namespace EMCR.DRR.Controllers
         }
 
         [HttpGet("{projectId}/interim-reports/{reportId}/forecasts/{forecastId}")]
-        public async Task<ActionResult<ForecastDetails>> GetForecastReport(string projectId, string reportId, string claimId)
+        public async Task<ActionResult<ForecastDetails>> GetForecastReport(string projectId, string reportId, string forecastId)
         {
             try
             {
-                var forecast = (await intakeManager.Handle(new DrrForecastsQuery { Id = projectId, BusinessId = GetCurrentBusinessId() })).Items.FirstOrDefault();
+                var forecast = (await intakeManager.Handle(new DrrForecastsQuery { Id = forecastId, BusinessId = GetCurrentBusinessId() })).Items.FirstOrDefault();
                 if (forecast == null) return new NotFoundObjectResult(new ProblemDetails { Type = "NotFoundException", Title = "Not Found", Detail = "" });
                 return Ok(mapper.Map<ForecastDetails>(forecast));
             }
