@@ -64,7 +64,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
         [Test]
         public async Task QueryReports_CanFilterById()
         {
-            var queryRes = await manager.Handle(new DrrReportsQuery { Id = "DRIF-REP-1002", BusinessId = GetTestUserInfo().BusinessId });
+            var queryRes = await manager.Handle(new DrrReportsQuery { Id = "DRIF-REP-1025", BusinessId = GetTestUserInfo().BusinessId });
             var reports = mapper.Map<IEnumerable<EMCR.DRR.Controllers.InterimReportDetails>>(queryRes.Items);
             reports.Count().ShouldBe(1);
         }
