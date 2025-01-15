@@ -1,12 +1,7 @@
-<!-- @if (reportId) {
-<p>Project ID: {{ projectId }}</p>
-<p>Interim Report ID: {{ reportId }}</p>
-} @else {
-<p>Project ID: {{ projectId }}</p>
-<p>Create new interim report</p>
-} -->
-
-<div style="display: flex; flex-direction: column; gap: 1rem; padding: 1rem">
+<div
+  style="display: flex; flex-direction: column; gap: 1rem; padding: 1rem"
+  *transloco="let t; read: 'project'"
+>
   <mat-card>
     <mat-card-header>
       <mat-card-title-group>
@@ -14,7 +9,7 @@
         <span style="display: flex; align-items: center">
           <i style="padding-right: 1rem">Status:</i>
           <mat-chip [ngClass]="getStatusColorClass(interimReport?.status)">
-            {{ interimReport?.status }}
+            {{ interimReport?.status | transloco }}
           </mat-chip>
           <span class="report-action">
             <button mat-icon-button [matMenuTriggerFor]="menu">

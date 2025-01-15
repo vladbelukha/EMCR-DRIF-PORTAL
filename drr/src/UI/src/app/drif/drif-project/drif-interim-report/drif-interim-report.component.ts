@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ActivatedRoute, RouterModule } from '@angular/router';
+import { TranslocoModule } from '@ngneat/transloco';
 import { IFormGroup, RxFormBuilder } from '@rxweb/reactive-form-validators';
 import { ProjectService } from '../../../../api/project/project.service';
 import {
@@ -36,6 +37,7 @@ import { InterimReportForm } from './drif-interim-report-form';
     MatTabsModule,
     DrrInputComponent,
     DrrTextareaComponent,
+    TranslocoModule
   ],
   providers: [RxFormBuilder],
   templateUrl: './drif-interim-report.component.html',
