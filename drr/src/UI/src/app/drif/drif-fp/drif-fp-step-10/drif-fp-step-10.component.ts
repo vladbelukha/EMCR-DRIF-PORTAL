@@ -7,6 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -15,7 +16,7 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { IFormGroup, RxFormBuilder } from '@rxweb/reactive-form-validators';
 import { distinctUntilChanged } from 'rxjs';
-import { FundingType, YesNoOption } from '../../../../model';
+import { FundingStream, FundingType, YesNoOption } from '../../../../model';
 import { DrrChipAutocompleteComponent } from '../../../shared/controls/drr-chip-autocomplete/drr-chip-autocomplete.component';
 import { DrrCurrencyInputComponent } from '../../../shared/controls/drr-currency-input/drr-currency-input.component';
 import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
@@ -25,7 +26,14 @@ import { DrrTextareaComponent } from '../../../shared/controls/drr-textarea/drr-
 import { OptionsStore } from '../../../store/options.store';
 import { FundingInformationItemForm } from '../../drif-eoi/drif-eoi-form';
 import { DrrFundingListComponent } from '../../drr-funding-list/drr-funding-list.component';
-import { BudgetForm, YearOverYearFundingForm } from '../drif-fp-form';
+import {
+  BudgetForm,
+  CostCategory,
+  CostEstimateForm,
+  CostUnit,
+  ResourceCategory,
+  YearOverYearFundingForm,
+} from '../drif-fp-form';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -38,6 +46,7 @@ import { BudgetForm, YearOverYearFundingForm } from '../drif-fp-form';
     MatButtonModule,
     MatDividerModule,
     MatFormFieldModule,
+    MatCardModule,
     TranslocoModule,
     FormsModule,
     ReactiveFormsModule,
@@ -61,6 +70,9 @@ export class DrifFpStep10Component {
   @Input()
   budgetForm!: IFormGroup<BudgetForm>;
 
+  @Input()
+  fundingStream!: FundingStream;
+
   isMobile = false;
 
   fiscalYearsOptions =
@@ -68,10 +80,6 @@ export class DrifFpStep10Component {
       value,
       label: value,
     })) ?? [];
-  fundingTypeOptions = Object.values(FundingType).map((value) => ({
-    value,
-    label: this.translocoService.translate(value),
-  }));
   previousResponseOptions = [
     { value: YesNoOption.Yes, label: 'Yes' },
     {
@@ -82,16 +90,23 @@ export class DrifFpStep10Component {
   ];
   costConsiderationsOptions = this.optionsStore.costConsiderations?.() ?? [];
 
+  costCategoriesOptions = Object.values(CostCategory).map((value) => ({
+    value,
+    label: value,
+  }));
+  resourcesOptions = Object.values(ResourceCategory).map((value) => ({
+    value,
+    label: value,
+  }));
+  unitsOptions = Object.values(CostUnit).map((value) => ({
+    value,
+    label: value,
+  }));
+
   ngOnInit() {
     const currentYear = new Date().getFullYear();
     const currentMonth = new Date().getMonth();
     const startFiscalYear = currentMonth >= 6 ? currentYear : currentYear - 1; // Assuming fiscal year starts in July
-
-    // this.fiscalYearsOptions = Array.from({ length: 10 }, (_, i) => {
-    //   const startYear = startFiscalYear + i;
-    //   const endYear = startYear + 1;
-    //   return `${startYear}/${endYear}`;
-    // });
 
     this.budgetForm
       .get('yearOverYearFunding')!
@@ -206,6 +221,10 @@ export class DrifFpStep10Component {
         costConsiderations?.updateValueAndValidity();
         costConsiderationsComments?.updateValueAndValidity();
       });
+
+    this.getFormArray('costEstimates').controls.length === 0 && this.addCost();
+
+    // TODO: need to handle value changes for cost estimates to calculate total cost
   }
 
   showDiscrepancyComment() {
@@ -291,5 +310,32 @@ export class DrifFpStep10Component {
 
   getRemainingAmountAbs() {
     return Math.abs(this.getRemainingAmount());
+  }
+
+  isStrucutralProject() {
+    return this.fundingStream === FundingStream.Stream2;
+  }
+
+  addCost() {
+    const newCostEstimateForm = this.formBuilder.formGroup(CostEstimateForm);
+    newCostEstimateForm.get('unitRate')?.valueChanges.subscribe((value) => {
+      const quantityControl = newCostEstimateForm.get('quantity');
+      const totalCostControl = newCostEstimateForm.get('totalCost');
+
+      totalCostControl?.setValue(value * quantityControl?.value);
+    });
+
+    newCostEstimateForm.get('quantity')?.valueChanges.subscribe((value) => {
+      const unitRateControl = newCostEstimateForm.get('unitRate');
+      const totalCostControl = newCostEstimateForm.get('totalCost');
+
+      totalCostControl?.setValue(value * unitRateControl?.value);
+    });
+
+    this.getFormArray('costEstimates').push(newCostEstimateForm);
+  }
+
+  removeCost(index: number) {
+    this.getFormArray('costEstimates').removeAt(index);
   }
 }

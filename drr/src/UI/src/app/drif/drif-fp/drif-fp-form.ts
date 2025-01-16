@@ -216,6 +216,59 @@ export class YearOverYearFundingForm {
   }
 }
 
+export enum CostCategory {
+  Category1 = 'Category 1',
+  Category2 = 'Category 2',
+  Category3 = 'Category 3',
+}
+
+export enum ResourceCategory {
+  Resource1 = 'Resource 1',
+  Resource2 = 'Resource 2',
+  Resource3 = 'Resource 3',
+}
+
+export enum CostUnit {
+  Unit1 = 'Unit 1',
+  Unit2 = 'Unit 2',
+  Unit3 = 'Unit 3',
+}
+
+export class CostEstimateForm {
+  @prop()
+  @required()
+  taskName?: string;
+
+  @prop()
+  @required()
+  costCategory?: CostCategory; // TODO: use API enum when available
+
+  @prop()
+  description?: string;
+
+  @prop()
+  resources?: ResourceCategory[];
+
+  @prop()
+  @required()
+  units?: CostUnit;
+
+  @prop()
+  @required()
+  @maxNumber({ value: 999999999 }) // TODO: what values is appropriate?
+  @minNumber({ value: 0 })
+  quantity?: number;
+
+  @prop()
+  @required()
+  @minNumber({ value: 0 })
+  unitRate?: number;
+
+  @prop()
+  @required()
+  totalCost?: number;
+}
+
 export class BudgetForm {
   @prop()
   eligibleFundingRequest?: number;
@@ -225,7 +278,7 @@ export class BudgetForm {
   totalProjectCost?: number;
 
   @prop()
-  @minNumber({ value: 0 }) 
+  @minNumber({ value: 0 })
   remainingAmount?: number;
 
   @propArray(YearOverYearFundingForm)
@@ -274,6 +327,9 @@ export class BudgetForm {
 
   @prop()
   costConsiderationsComments?: string;
+
+  @propArray(CostEstimateForm)
+  costEstimates?: CostEstimateForm[] = [];
 
   constructor(values: BudgetForm) {
     Object.assign(this, values);

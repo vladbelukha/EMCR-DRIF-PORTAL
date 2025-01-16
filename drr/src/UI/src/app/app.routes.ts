@@ -19,6 +19,7 @@ import { DrifProjectComponent } from './drif/drif-project/drif-project.component
 
 export const routes: Routes = [
   { path: '', component: DashboardComponent },
+  { path: 'dashboard', component: DashboardComponent },
   {
     path: 'drif-eoi',
     component: EOIApplicationComponent,

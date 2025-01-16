@@ -193,5 +193,115 @@
       [rxFormControl]="budgetForm.get('costConsiderationsComments')"
       [maxlength]="2000"
     ></drr-textarea>
+
+    <mat-label class="drr-label">Detailed Cost Estimates</mat-label>
+    <p>
+      Use the section below to provide a detailed breakdown of the costs
+      estimates for each high-level task in your project. You can add as many
+      rows as needed. We will use this breakdown when you report your progress.
+    </p>
+    <p>Please note:</p>
+    <ul>
+      <li>
+        Your total costs must match the updated DRIF funding request in the
+        <b>DRIF Program Funding Breakdown</b> above.
+      </li>
+      <li>
+        Administrative costs cannot exceed 10% of the approved DRIF program
+        cost.
+      </li>
+      <li>
+        If you choose “other” for any of the values, use the description field
+        to explain.
+      </li>
+      @if (isStrucutralProject()) {
+      <li>
+        At this stage, your project should have a class A or B cost estimate.
+        Set your contingency based on this. See below for more information about
+        the classes.
+      </li>
+      }
+    </ul>
+    <div>
+      <div
+        *ngFor="
+          let cost of getFormArray('costEstimates').controls;
+          let i = index
+        "
+      >
+        <mat-card style="margin-top: 1rem">
+          <mat-card-header>
+            <mat-card-subtitle>Task {{ i + 1 }}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="row">
+              <drr-input
+                label="Task Name"
+                [rxFormControl]="cost.get('taskName')"
+                [maxlength]="50"
+              ></drr-input>
+              <drr-select
+                label="Cost Category"
+                [rxFormControl]="cost.get('costCategory')"
+                [options]="costCategoriesOptions"
+              >
+              </drr-select>
+            </div>
+            <drr-textarea
+              label="Description"
+              [rxFormControl]="cost.get('description')"
+              [maxlength]="500"
+            ></drr-textarea>
+            <div class="row">
+              <drr-select
+                label="Resources"
+                [rxFormControl]="cost.get('resources')"
+                [options]="resourcesOptions"
+              ></drr-select>
+              <drr-select
+                label="Units"
+                [rxFormControl]="cost.get('units')"
+                [options]="unitsOptions"
+              >
+              </drr-select>
+              <drr-input
+                label="Quantity"
+                [rxFormControl]="cost.get('quantity')"
+                [type]="'number'"
+              ></drr-input>
+              <drr-currency-input
+                label="Unit Rate"
+                [rxFormControl]="cost.get('unitRate')"
+                [max]="1000000000"
+              ></drr-currency-input>
+              <drr-currency-input
+                label="Total Cost"
+                [rxFormControl]="cost.get('totalCost')"
+                [disabled]="true"
+              ></drr-currency-input>
+            </div>
+            <div class="row"></div>
+          </mat-card-content>
+          @if (i > 0) {
+          <mat-card-actions align="end">
+            <button mat-raised-button color="warn" (click)="removeCost(i)">
+              Remove
+            </button>
+          </mat-card-actions>
+          }
+        </mat-card>
+      </div>
+      <button
+        style="margin-top: 10px"
+        [style.padding]="isMobile ? '24px 16px' : ''"
+        mat-stroked-button
+        type="button"
+        color="primary"
+        (click)="addCost()"
+      >
+        <mat-icon>add</mat-icon>
+        Add Additional Task
+      </button>
+    </div>
   </form>
 </div>
