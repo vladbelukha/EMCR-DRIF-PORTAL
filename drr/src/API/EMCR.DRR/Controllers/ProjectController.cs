@@ -202,7 +202,7 @@ namespace EMCR.DRR.Controllers
         public string? Id { get; set; }
         public string? ConditionName { get; set; }
         public decimal? Limit { get; set; }
-        public PaymentConditionStatus? Status { get; set; }
+        public bool? ConditionMet { get; set; }
         public DateTime? DateMet { get; set; }
     }
 
@@ -214,8 +214,8 @@ namespace EMCR.DRR.Controllers
         public InterimReportStatus? Status { get; set; }
         public InterimProjectType? ProjectType { get; set; }
         public PeriodType? PeriodType { get; set; }
-        public ProjectClaim? Claim { get; set; }
-        public ProgressReport? Report { get; set; }
+        public ProjectClaim? ProjectClaim { get; set; }
+        public ProgressReport? ProgressReport { get; set; }
         public Forecast? Forecast { get; set; }
     }
 
@@ -264,9 +264,9 @@ namespace EMCR.DRR.Controllers
         public InterimReportStatus? Status { get; set; }
         public InterimProjectType? ProjectType { get; set; }
         public PeriodType? PeriodType { get; set; }
-        public ProjectClaim? Claim { get; set; }
-        public ProgressReport? Report { get; set; }
-        public Forecast? Forecast { get; set; }
+        public ClaimDetails? ProjectClaim { get; set; }
+        public ProgressReportDetails? ProgressReport { get; set; }
+        public ForecastDetails? Forecast { get; set; }
     }
 
     public class ClaimDetails
@@ -283,7 +283,7 @@ namespace EMCR.DRR.Controllers
         public string? Id { get; set; }
         public string? ReportType { get; set; }
         public DateTime? ReportDate { get; set; }
-        public WorkplanActivity[]? WorkplanActivities { get; set; }
+        public WorkplanActivityDetails[]? WorkplanActivities { get; set; }
         public ProgressReportStatus? Status { get; set; }
     }
 
@@ -294,6 +294,11 @@ namespace EMCR.DRR.Controllers
         public DateTime? ForecastDate { get; set; }
         public decimal? ForecastAmount { get; set; }
         public ForecastStatus? Status { get; set; }
+    }
+
+    public class WorkplanActivityDetails
+    {
+        public WorkplanProgress? Progress { get; set; }
     }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
@@ -364,14 +369,14 @@ namespace EMCR.DRR.Controllers
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum InterimReportStatus
     {
-        [Description("In Review")]
-        InReview,
+        [Description("Not Started")]
+        NotStarted,
+
+        [Description("In Progress")]
+        InProgress,
 
         [Description("Approved")]
         Approved,
-
-        [Description("Rejected")]
-        Rejected,
 
         [Description("Skipped")]
         Skipped,
@@ -401,19 +406,41 @@ namespace EMCR.DRR.Controllers
     }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
-    public enum ProgressReportStatus
+    public enum ClaimStatus
     {
-        [Description("Pending")]
-        Pending,
-
-        [Description("Review")]
-        Review,
-
         [Description("Approved")]
         Approved,
 
         [Description("Rejected")]
         Rejected,
+
+        [Description("Invalid")]
+        Invalid,
+
+        [Description("In Progress")]
+        InProgress,
+
+        [Description("Submitted")]
+        Submitted,
+    }
+
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public enum ProgressReportStatus
+    {
+        [Description("NotStarted")]
+        NotStarted,
+
+        [Description("Draft")]
+        Draft,
+
+        [Description("Submitted")]
+        Submitted,
+
+        [Description("Update Needed")]
+        UpdateNeeded,
+        
+        [Description("Approved")]
+        Approved,
     }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]

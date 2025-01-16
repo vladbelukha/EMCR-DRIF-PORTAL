@@ -27,8 +27,7 @@ namespace EMCR.DRR.API.Resources.Cases
                 .ForMember(dest => dest.ProjectNumber, opt => opt.Ignore())
                 .ForMember(dest => dest.ProgramType, opt => opt.MapFrom(src => src.drr_Program.drr_name))
                 .ForMember(dest => dest.ReportingScheduleType, opt => opt.MapFrom(src => src.drr_ReportingSchedule.drr_name))
-                //.ForMember(dest => dest.Conditions, opt => opt.MapFrom(src => src.drr_name))
-                .ForMember(dest => dest.Conditions, opt => opt.Ignore())
+                .ForMember(dest => dest.Conditions, opt => opt.MapFrom(src => src.drr_drr_project_drr_projectcondition_Project))
                 .ForMember(dest => dest.FundingAmount, opt => opt.MapFrom(src => src.drr_fundingamount))
                 .ForMember(dest => dest.StartDate, opt => opt.MapFrom(src => src.drr_plannedstartdate.HasValue ? src.drr_plannedstartdate.Value.UtcDateTime : (DateTime?)null))
                 .ForMember(dest => dest.EndDate, opt => opt.MapFrom(src => src.drr_plannedenddate.HasValue ? src.drr_plannedenddate.Value.UtcDateTime : (DateTime?)null))
@@ -54,9 +53,9 @@ namespace EMCR.DRR.API.Resources.Cases
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => Enum.Parse<InterimReportStatus>(((ProjectReportStatusOptionSet)src.statuscode).ToString())))
                 .ForMember(dest => dest.ProjectType, opt => opt.MapFrom(src => src.drr_projecttype.HasValue ? (int?)Enum.Parse<InterimProjectType>(((FundingStreamOptionSet)src.drr_projecttype).ToString()) : null))
                 .ForMember(dest => dest.PeriodType, opt => opt.MapFrom(src => src.drr_periodtype.HasValue ? (int?)Enum.Parse<PeriodType>(((PeriodTypeOptionSet)src.drr_periodtype).ToString()) : null))
-                .ForMember(dest => dest.Claim, opt => opt.Ignore())
-                .ForMember(dest => dest.Report, opt => opt.Ignore())
-                .ForMember(dest => dest.Forecast, opt => opt.Ignore())
+                .ForMember(dest => dest.ProjectClaim, opt => opt.MapFrom(src => src.drr_ClaimReport))
+                .ForMember(dest => dest.ProgressReport, opt => opt.MapFrom(src => src.drr_ProgressReport))
+                .ForMember(dest => dest.Forecast, opt => opt.MapFrom(src => src.drr_BudgetForecast))
             ;
 
             CreateMap<ProjectClaim, drr_projectclaim>(MemberList.None)
@@ -104,6 +103,17 @@ namespace EMCR.DRR.API.Resources.Cases
                 .ReverseMap()
                 .ValidateMemberList(MemberList.Destination)
                 .ForMember(dest => dest.Progress, opt => opt.MapFrom(src => src.drr_progressstatus.HasValue ? (int?)Enum.Parse<WorkplanProgress>(((WorkplanProgressOptionSet)src.drr_progressstatus).ToString()) : null))
+            ;
+
+            CreateMap<PaymentCondition, drr_projectcondition>(MemberList.None)
+                .ForMember(dest => dest.drr_name, opt => opt.Ignore())
+                .ReverseMap()
+                .ValidateMemberList(MemberList.Destination)
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.drr_name))
+                .ForMember(dest => dest.ConditionName, opt => opt.MapFrom(src => src.drr_Condition.drr_name))
+                .ForMember(dest => dest.Limit, opt => opt.MapFrom(src => src.drr_conditionpercentagelimit))
+                .ForMember(dest => dest.DateMet, opt => opt.MapFrom(src => src.drr_conditionmetdate.HasValue ? src.drr_conditionmetdate.Value.UtcDateTime : (DateTime?)null))
+                .ForMember(dest => dest.ConditionMet, opt => opt.MapFrom(src => src.drr_conditionmet.HasValue ? src.drr_conditionmet == (int)DRRTwoOptions.Yes : (bool?)null))
             ;
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
 #pragma warning restore CS8629 // Nullable value type may be null.

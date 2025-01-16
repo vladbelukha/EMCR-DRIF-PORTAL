@@ -22,9 +22,9 @@ namespace EMCR.DRR.API.Resources.Cases
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => Enum.Parse<InterimReportStatus>(((ProjectReportStatusOptionSet)src.statuscode).ToString())))
                 .ForMember(dest => dest.ProjectType, opt => opt.MapFrom(src => src.drr_projecttype.HasValue ? (int?)Enum.Parse<InterimProjectType>(((FundingStreamOptionSet)src.drr_projecttype).ToString()) : null))
                 .ForMember(dest => dest.PeriodType, opt => opt.MapFrom(src => src.drr_periodtype.HasValue ? (int?)Enum.Parse<PeriodType>(((PeriodTypeOptionSet)src.drr_periodtype).ToString()) : null))
-                .ForMember(dest => dest.Claim, opt => opt.Ignore())
-                .ForMember(dest => dest.Report, opt => opt.Ignore())
-                .ForMember(dest => dest.Forecast, opt => opt.Ignore())
+                .ForMember(dest => dest.ProjectClaim, opt => opt.MapFrom(src => src.drr_ClaimReport))
+                .ForMember(dest => dest.ProgressReport, opt => opt.MapFrom(src => src.drr_ProgressReport))
+                .ForMember(dest => dest.Forecast, opt => opt.MapFrom(src => src.drr_BudgetForecast))
             ;
 
             CreateMap<ClaimDetails, drr_projectclaim>(MemberList.None)
@@ -33,9 +33,9 @@ namespace EMCR.DRR.API.Resources.Cases
                 .ValidateMemberList(MemberList.Destination)
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.drr_name))
                 .ForMember(dest => dest.ClaimAmount, opt => opt.MapFrom(src => src.drr_claimamount))
-                .ForMember(dest => dest.ClaimDate, opt => opt.MapFrom(src => src.drr_statusdate.HasValue ? src.drr_statusdate.Value.UtcDateTime : (DateTime?)null))
+                .ForMember(dest => dest.ClaimDate, opt => opt.MapFrom(src => src.drr_dateapproved.HasValue ? src.drr_dateapproved.Value.UtcDateTime : (DateTime?)null))
                 .ForMember(dest => dest.ClaimType, opt => opt.Ignore())
-                .ForMember(dest => dest.Status, opt => opt.Ignore())
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => Enum.Parse<ClaimStatus>(((ProjectClaimStatusOptionSet)src.statuscode).ToString())))
             ;
 
             CreateMap<ProgressReportDetails, drr_projectprogress>(MemberList.None)
@@ -43,7 +43,9 @@ namespace EMCR.DRR.API.Resources.Cases
                 .ReverseMap()
                 .ValidateMemberList(MemberList.Destination)
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.drr_name))
-                .ForMember(dest => dest.ReportDate, opt => opt.MapFrom(src => src.drr_reportasatdate.HasValue ? src.drr_reportasatdate.Value.UtcDateTime : (DateTime?)null))
+                .ForMember(dest => dest.DateApproved, opt => opt.MapFrom(src => src.drr_dateapproved.HasValue ? src.drr_dateapproved.Value.UtcDateTime : (DateTime?)null))
+                .ForMember(dest => dest.DateSubmitted, opt => opt.MapFrom(src => src.drr_datesubmitted.HasValue ? src.drr_datesubmitted.Value.UtcDateTime : (DateTime?)null))
+                .ForMember(dest => dest.DueDate, opt => opt.MapFrom(src => src.drr_duedate.HasValue ? src.drr_duedate.Value.UtcDateTime : (DateTime?)null))
                 .ForMember(dest => dest.WorkplanActivities, opt => opt.MapFrom(src => src.drr_drr_projectprogress_drr_projectworkplanactivity_ProjectProgressReport))
                 .ForMember(dest => dest.ReportType, opt => opt.Ignore())
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => Enum.Parse<ProgressReportStatus>(((ProjectProgressReportStatusOptionSet)src.statuscode).ToString())))
@@ -58,6 +60,13 @@ namespace EMCR.DRR.API.Resources.Cases
                 .ForMember(dest => dest.ForecastDate, opt => opt.MapFrom(src => src.drr_reportasatdate.HasValue ? src.drr_reportasatdate.Value.UtcDateTime : (DateTime?)null))
                 .ForMember(dest => dest.ForecastType, opt => opt.Ignore())
                 .ForMember(dest => dest.Status, opt => opt.Ignore())
+            ;
+
+            CreateMap<WorkplanActivityDetails, drr_projectworkplanactivity>(MemberList.None)
+                .ForMember(dest => dest.drr_name, opt => opt.Ignore())
+                .ReverseMap()
+                .ValidateMemberList(MemberList.Destination)
+                .ForMember(dest => dest.Progress, opt => opt.MapFrom(src => src.drr_progressstatus.HasValue ? (int?)Enum.Parse<WorkplanProgress>(((WorkplanProgressOptionSet)src.drr_progressstatus).ToString()) : null))
             ;
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
 #pragma warning restore CS8629 // Nullable value type may be null.
