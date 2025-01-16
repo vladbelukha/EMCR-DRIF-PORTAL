@@ -101,7 +101,7 @@ export class DrifFpScreenerComponent {
   }
 
   cancel() {
-    this.router.navigate(['/submissions']);
+    this.router.navigate(['/dashboard']);
   }
 
   continue() {

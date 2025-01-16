@@ -805,7 +805,7 @@ export class DrifFpComponent {
   }
 
   goBack() {
-    this.router.navigate(['/submissions']);
+    this.router.navigate(['/dashboard']);
   }
 
   getFormValue() {
@@ -921,7 +921,7 @@ export class DrifFpComponent {
             `Your submission has been received. \nID #: ${response.id}.`
           );
 
-          this.router.navigate(['/submissions']);
+          this.router.navigate(['/dashboard']);
         },
         error: (error) => {
           this.hotToast.close();

@@ -22,11 +22,10 @@ import {
   Attachment,
   ContactDetails,
   DraftDrrProject,
-  Forecast,
   InterimReport,
   InterimReportStatus,
   PaymentCondition,
-  ProgressReport,
+  PaymentConditionStatus,
   ProjectClaim,
 } from '../../../model';
 import { DrrInputComponent } from '../../shared/controls/drr-input/drr-input.component';
@@ -70,7 +69,9 @@ export class DrifProjectComponent {
 
   project?: DraftDrrProject;
 
-  conditionsDataSource = new MatTableDataSource<PaymentCondition>([]);
+  conditionsDataSource = new MatTableDataSource<
+    PaymentCondition & { actions?: [] }
+  >([]);
 
   expandedInterimReport?: InterimReport | null;
 
@@ -79,9 +80,6 @@ export class DrifProjectComponent {
   interimReportsDataSource = new MatTableDataSource<InterimReport>([]);
   pastReportsDataSource = new MatTableDataSource<InterimReport>([]);
 
-  claimsDataSource = new MatTableDataSource<ProjectClaim>([]);
-  progressReportsDataSource = new MatTableDataSource<ProgressReport>([]);
-  forecastsDataSource = new MatTableDataSource<Forecast>([]);
   attachmentsDataSource = new MatTableDataSource<Attachment>([]);
 
   ngOnInit() {
@@ -92,7 +90,21 @@ export class DrifProjectComponent {
       .subscribe((project) => {
         this.project = project;
 
-        this.conditionsDataSource.data = this.project!.conditions!;
+        this.conditionsDataSource.data = [
+          ...this.project!.conditions!,
+          {
+            id: 'PC-0004',
+            conditionName: 'Condition 4',
+            limit: 90,
+            status: PaymentConditionStatus.NotMet,
+          },
+          {
+            id: 'PC-0005',
+            conditionName: 'Condition 5',
+            limit: 90,
+            status: PaymentConditionStatus.NotMet,
+          },
+        ];
 
         this.projectContactsDataSource.data = this.project!.contacts!;
 
@@ -381,4 +393,8 @@ export class DrifProjectComponent {
   editForecast() {}
 
   deleteForecast() {}
+
+  viewContion() {}
+
+  clearCondition() {}
 }

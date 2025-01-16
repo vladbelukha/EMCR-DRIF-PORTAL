@@ -363,6 +363,6 @@ export class DrifFpViewComponent {
   }
 
   goBack() {
-    this.router.navigate(['/submissions']);
+    this.router.navigate(['/dashboard']);
   }
 }

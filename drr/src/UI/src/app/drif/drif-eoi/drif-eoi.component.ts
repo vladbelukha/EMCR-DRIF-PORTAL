@@ -560,7 +560,7 @@ export class EOIApplicationComponent {
     this.hotToast.success(
       `Your submission has been received. \nID #: ${response.id}.`
     );
-    this.router.navigate(['/submissions']);
+    this.router.navigate(['/dashboard']);
   };
 
   onSubmitFailure = () => {
@@ -569,6 +569,6 @@ export class EOIApplicationComponent {
   };
 
   goBack() {
-    this.router.navigate(['/submissions']);
+    this.router.navigate(['/dashboard']);
   }
 }

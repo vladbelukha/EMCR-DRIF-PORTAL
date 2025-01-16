@@ -478,5 +478,7 @@
       "Q4": "Q4 (October-December)"
     }
   },
-  "interimReport": "Interim Report"
+  "interimReport": "Interim Report",
+  "NotMet": "Not Met",
+  "InReview": "In Review"
 }
