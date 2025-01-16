@@ -41,7 +41,19 @@ namespace EMCR.DRR.API.Resources.Projects
             //results = SortAndPageResults(results, query);
 
             await Parallel.ForEachAsync(results, ct, async (prj, ct) => await ParallelLoadProjectAsync(readCtx, prj, ct));
+            await ParallelLoadCases(readCtx, results);
+            
             return new ProjectQueryResult { Items = mapper.Map<IEnumerable<Project>>(results), Length = length };
+        }
+
+        private static async Task ParallelLoadCases(DRRContext ctx, List<drr_project> projects)
+        {
+            var cases = projects.Where(prj => prj.drr_Case != null).Select(prj => prj.drr_Case).DistinctBy(c => c.incidentid).ToList();
+            await cases.ForEachAsync(5, async c =>
+            {
+                ctx.AttachTo(nameof(DRRContext.incidents), c);
+                await ctx.LoadPropertyAsync(c, nameof(incident.drr_EOIApplication));
+            });
         }
 
         private static async Task ParallelLoadProjectAsync(DRRContext ctx, drr_project project, CancellationToken ct)
@@ -56,7 +68,8 @@ namespace EMCR.DRR.API.Resources.Projects
                 ctx.LoadPropertyAsync(project, nameof(drr_project.drr_ReportingSchedule), ct),
                 ctx.LoadPropertyAsync(project, nameof(drr_project.drr_drr_project_drr_projectreport_Project), ct),
                 ctx.LoadPropertyAsync(project, nameof(drr_project.drr_drr_project_drr_projectclaim_Project), ct),
-                ctx.LoadPropertyAsync(project, nameof(drr_project.drr_drr_project_drr_projectprogress_Project), ct),
+                //ctx.LoadPropertyAsync(project, nameof(drr_project.drr_drr_project_drr_projectprogress_Project), ct),
+                //ctx.LoadPropertyAsync(project, nameof(drr_project.drr_drr_project_drr_projectcondition_Project), ct),
                 //ctx.LoadPropertyAsync(project, nameof(drr_project.drr_drr_project_drr_projectbudgetforecast_Project), ct),
                 //ctx.LoadPropertyAsync(project, nameof(drr_project.drr_drr_project_drr_projectevent_Project), ct),
             };
@@ -67,12 +80,32 @@ namespace EMCR.DRR.API.Resources.Projects
             //The SSL connection could not be established, see inner exception.
             //----> System.IO.IOException : Unable to read data from the transport connection: An existing connection was forcibly closed by the remote host..----> System.Net.Sockets.SocketException : An existing connection was forcibly closed by the remote host.
             //But if I load these separately down here, it works consistently...
+            await ctx.LoadPropertyAsync(project, nameof(drr_project.drr_drr_project_drr_projectprogress_Project), ct);
+            await ctx.LoadPropertyAsync(project, nameof(drr_project.drr_drr_project_drr_projectcondition_Project), ct);
             await ctx.LoadPropertyAsync(project, nameof(drr_project.drr_drr_project_drr_projectbudgetforecast_Project), ct);
             await ctx.LoadPropertyAsync(project, nameof(drr_project.drr_drr_project_drr_projectevent_Project), ct);
 
             await Task.WhenAll([
                 ParallelLoadWorkplanActivities(ctx, project, ct),
+                ParallelLoadReportDetails(ctx, project, ct),
+                ParallelLoadConditions(ctx, project, ct),
                 ]);
+        }
+
+        private static async Task ParallelLoadReportDetails(DRRContext ctx, drr_project project, CancellationToken ct)
+        {
+            await project.drr_drr_project_drr_projectreport_Project.ForEachAsync(5, async report =>
+            {
+                ctx.AttachTo(nameof(DRRContext.drr_projectreports), report);
+                var loadTasks = new List<Task>
+                {
+                    ctx.LoadPropertyAsync(report, nameof(drr_projectreport.drr_ClaimReport), ct),
+                    ctx.LoadPropertyAsync(report, nameof(drr_projectreport.drr_ProgressReport), ct),
+                    ctx.LoadPropertyAsync(report, nameof(drr_projectreport.drr_BudgetForecast), ct),
+                };
+
+                await Task.WhenAll(loadTasks);
+            });
         }
 
         private static async Task ParallelLoadWorkplanActivities(DRRContext ctx, drr_project project, CancellationToken ct)
@@ -81,6 +114,15 @@ namespace EMCR.DRR.API.Resources.Projects
             {
                 ctx.AttachTo(nameof(DRRContext.drr_projectprogresses), report);
                 await ctx.LoadPropertyAsync(report, nameof(drr_projectprogress.drr_drr_projectprogress_drr_projectworkplanactivity_ProjectProgressReport), ct);
+            });
+        }
+
+        private static async Task ParallelLoadConditions(DRRContext ctx, drr_project project, CancellationToken ct)
+        {
+            await project.drr_drr_project_drr_projectcondition_Project.ForEachAsync(5, async condition =>
+            {
+                ctx.AttachTo(nameof(DRRContext.drr_projectconditions), condition);
+                await ctx.LoadPropertyAsync(condition, nameof(drr_projectcondition.drr_Condition), ct);
             });
         }
 

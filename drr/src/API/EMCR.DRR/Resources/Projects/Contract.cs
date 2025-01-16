@@ -44,9 +44,9 @@ namespace EMCR.DRR.API.Resources.Projects
 
     public enum ProjectReportStatusOptionSet
     {
-        InReview = 1,
+        NotStarted = 1,
+        InProgress = 172580001,
         Approved = 172580000,
-        Rejected = 172580001,
         Skipped = 172580002,
         Inactive = 2,
     }
@@ -57,6 +57,7 @@ namespace EMCR.DRR.API.Resources.Projects
         Rejected = 172580000,
         Invalid = 172580001,
         InProgress = 172580002,
+        Submitted = 172580003,
         Inactive = 2,
     }
 

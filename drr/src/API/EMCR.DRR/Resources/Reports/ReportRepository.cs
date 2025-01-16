@@ -66,6 +66,8 @@ namespace EMCR.DRR.API.Resources.Reports
             var results = (await claimsQuery.GetAllPagesAsync(ct)).ToList();
             var length = results.Count;
 
+            await Parallel.ForEachAsync(results, ct, async (rep, ct) => await ParallelLoadReportDetails(readCtx, rep, ct));
+
             return new ReportQueryResult { Items = mapper.Map<IEnumerable<InterimReportDetails>>(results), Length = length };
         }
 
@@ -113,6 +115,19 @@ namespace EMCR.DRR.API.Resources.Reports
             var length = results.Count;
 
             return new ForecastQueryResult { Items = mapper.Map<IEnumerable<ForecastDetails>>(results), Length = length };
+        }
+
+        private static async Task ParallelLoadReportDetails(DRRContext ctx, drr_projectreport report, CancellationToken ct)
+        {
+            ctx.AttachTo(nameof(DRRContext.drr_projectreports), report);
+            var loadTasks = new List<Task>
+            {
+                ctx.LoadPropertyAsync(report, nameof(drr_projectreport.drr_ClaimReport), ct),
+                ctx.LoadPropertyAsync(report, nameof(drr_projectreport.drr_ProgressReport), ct),
+                ctx.LoadPropertyAsync(report, nameof(drr_projectreport.drr_BudgetForecast), ct),
+            };
+
+            await Task.WhenAll(loadTasks);
         }
 
         private static async Task ParallelLoadWorkplanActivities(DRRContext ctx, drr_projectprogress pr, CancellationToken ct)

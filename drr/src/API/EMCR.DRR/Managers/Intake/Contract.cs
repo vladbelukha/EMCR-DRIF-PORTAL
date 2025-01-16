@@ -444,6 +444,7 @@ namespace EMCR.DRR.Managers.Intake
         public bool? CostConsiderationsApplied { get; set; }
         public IEnumerable<CostConsideration> CostConsiderations { get; set; }
         public string? CostConsiderationsComments { get; set; }
+        public IEnumerable<CostEstimate>? CostEstimates { get; set; }
 
         //Attachments - 11
         public bool? HaveResolution { get; set; }
@@ -612,6 +613,18 @@ namespace EMCR.DRR.Managers.Intake
         public decimal? Amount { get; set; }
     }
 
+    public class CostEstimate
+    {
+        public string? TaskName { get; set; }
+        public CostCategory? CostCategory { get; set; }
+        public string? Description { get; set; }
+        public IEnumerable<ResourceCategory>? Resources { get; set; }
+        public CostUnit? Units { get; set; }
+        public decimal? Quantity { get; set; }
+        public int? UnitRate { get; set; }
+        public decimal? TotalCost { get; set; }
+    }
+
     public class ProposedActivity
     {
         public string? Name { get; set; }
@@ -651,7 +664,7 @@ namespace EMCR.DRR.Managers.Intake
         public string? Id { get; set; }
         public string? ConditionName { get; set; }
         public decimal? Limit { get; set; }
-        public PaymentConditionStatus? Status { get; set; }
+        public bool? ConditionMet { get; set; }
         public DateTime? DateMet { get; set; }
     }
 
@@ -663,8 +676,8 @@ namespace EMCR.DRR.Managers.Intake
         public InterimReportStatus? Status { get; set; }
         public InterimProjectType? ProjectType { get; set; }
         public PeriodType? PeriodType { get; set; }
-        public ProjectClaim? Claim { get; set; }
-        public ProgressReport? Report { get; set; }
+        public ProjectClaim? ProjectClaim { get; set; }
+        public ProgressReport? ProgressReport { get; set; }
         public Forecast? Forecast { get; set; }
     }
 
@@ -713,9 +726,9 @@ namespace EMCR.DRR.Managers.Intake
         public InterimReportStatus? Status { get; set; }
         public InterimProjectType? ProjectType { get; set; }
         public PeriodType? PeriodType { get; set; }
-        public ProjectClaim? Claim { get; set; }
-        public ProgressReport? Report { get; set; }
-        public Forecast? Forecast { get; set; }
+        public ClaimDetails? ProjectClaim { get; set; }
+        public ProgressReportDetails? ProgressReport { get; set; }
+        public ForecastDetails? Forecast { get; set; }
     }
 
     public class ClaimDetails
@@ -731,8 +744,10 @@ namespace EMCR.DRR.Managers.Intake
     {
         public string? Id { get; set; }
         public string? ReportType { get; set; }
-        public DateTime? ReportDate { get; set; }
-        public WorkplanActivity[]? WorkplanActivities { get; set; }
+        public DateTime? DateSubmitted { get; set; }
+        public DateTime? DateApproved { get; set; }
+        public DateTime? DueDate { get; set; }
+        public WorkplanActivityDetails[]? WorkplanActivities { get; set; }
         public ProgressReportStatus? Status { get; set; }
     }
 
@@ -743,6 +758,35 @@ namespace EMCR.DRR.Managers.Intake
         public DateTime? ForecastDate { get; set; }
         public decimal? ForecastAmount { get; set; }
         public ForecastStatus? Status { get; set; }
+    }
+
+    public class WorkplanActivityDetails
+    {
+        public WorkplanProgress? Progress { get; set; }
+    }
+
+
+    public enum CostCategory
+    {
+        Category1,
+        Category2,
+        Category3
+    }
+
+
+    public enum CostUnit
+    {
+        Unit1,
+        Unit2,
+        Unit3
+    }
+
+
+    public enum ResourceCategory
+    {
+        Category1,
+        Category2,
+        Category3
     }
 
     public enum ProjectStatus
@@ -804,9 +848,9 @@ namespace EMCR.DRR.Managers.Intake
 
     public enum InterimReportStatus
     {
-        InReview,
+        NotStarted,
+        InProgress,
         Approved,
-        Rejected,
         Skipped,
         Inactive,
     }
@@ -817,13 +861,18 @@ namespace EMCR.DRR.Managers.Intake
         Rejected,
         Invalid,
         InProgress,
+        Submitted,
         Inactive
     }
 
     public enum ProgressReportStatus
     {
+        NotStarted,
         Draft,
-        Inactive
+        Submitted,
+        UpdateNeeded,
+        Approved,
+        Inactive,
     }
 
     public enum ForecastStatus

@@ -51,13 +51,18 @@ namespace EMCR.DRR.API.Mappers
             CreateMap<DraftDrrProject, DrrProject>()
                 ;
 
-            CreateMap< Managers.Intake.InterimReportDetails, InterimReportDetails>()
+            CreateMap<Managers.Intake.InterimReportDetails, InterimReportDetails>()
                 ;
 
             CreateMap<Managers.Intake.ClaimDetails, ClaimDetails>()
                 ;
 
             CreateMap<Managers.Intake.ProgressReportDetails, ProgressReportDetails>()
+                .ForMember(dest => dest.ReportDate, opt => opt.MapFrom(src => src.Status == Managers.Intake.ProgressReportStatus.Submitted ? src.DateSubmitted : src.DueDate))
+                .ReverseMap()
+                .ForMember(dest => dest.DateSubmitted, opt => opt.Ignore())
+                .ForMember(dest => dest.DateApproved, opt => opt.Ignore())
+                .ForMember(dest => dest.DueDate, opt => opt.Ignore())
                 ;
 
             CreateMap<Managers.Intake.ForecastDetails, ForecastDetails>()
