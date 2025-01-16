@@ -45,6 +45,10 @@ export class DrrInputComponent {
   @Input() maxlength?: string | number | null;
   @Input() type: InputType = 'text';
 
+  get maskAdjustedType() {
+    return this.type === 'number' ? 'text' : this.type;
+  }
+
   ngOnInit() {
     this.breakpointObserver
       .observe('(min-width: 768px)')
@@ -106,6 +110,11 @@ export class DrrInputComponent {
   getMask() {
     if (this.type === 'tel') {
       return '000-000-0000';
+    }
+
+    // TODO: consider using 'separator.2' for number input
+    if (this.type === 'number') {
+      return 'separator.2';
     }
 
     return '';

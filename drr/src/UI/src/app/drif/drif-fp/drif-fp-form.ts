@@ -247,7 +247,7 @@ export class CostEstimateForm {
   description?: string;
 
   @prop()
-  resources?: ResourceCategory[];
+  resources?: ResourceCategory[]; // TODO: use API enum when available
 
   @prop()
   @required()
@@ -267,6 +267,10 @@ export class CostEstimateForm {
   @prop()
   @required()
   totalCost?: number;
+
+  constructor(values: CostEstimateForm) {
+    Object.assign(this, values);
+  }
 }
 
 export class BudgetForm {
