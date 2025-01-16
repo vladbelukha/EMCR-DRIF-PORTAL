@@ -430,6 +430,8 @@ namespace EMCR.DRR.Controllers
         [MandatoryIf("CostConsiderationsApplied", true)]
         public string? CostConsiderationsComments { get; set; }
 
+        public IEnumerable<CostEstimate>? CostEstimates { get; set; }
+
         //Attachments - 11
         public bool? HaveResolution { get; set; }
         public IEnumerable<Attachment>? Attachments { get; set; }
@@ -468,6 +470,18 @@ namespace EMCR.DRR.Controllers
         [Range(0, ApplicationValidators.FUNDING_MAX_VAL)]
         public decimal? Amount { get; set; }
         public string? OtherDescription { get; set; }
+    }
+
+    public class CostEstimate
+    {
+        public string? TaskName { get; set; }
+        public CostCategory? CostCategory { get; set; }
+        public string? Description { get; set; }
+        public IEnumerable<ResourceCategory>? Resources { get; set; }
+        public CostUnit? Units { get; set; }
+        public decimal? Quantity { get; set; }
+        public int? UnitRate { get; set; }
+        public decimal? TotalCost { get; set; }
     }
 
     public class InfrastructureImpacted
@@ -625,6 +639,45 @@ namespace EMCR.DRR.Controllers
 
         [Description("Other")]
         Other,
+    }
+
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public enum CostCategory
+    {
+        [Description("Category1")]
+        Category1,
+
+        [Description("Category2")]
+        Category2,
+
+        [Description("Category3")]
+        Category3
+    }
+
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public enum CostUnit
+    {
+        [Description("Unit1")]
+        Unit1,
+
+        [Description("Unit2")]
+        Unit2,
+
+        [Description("Unit3")]
+        Unit3
+    }
+
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public enum ResourceCategory
+    {
+        [Description("Category1")]
+        Category1,
+
+        [Description("Category2")]
+        Category2,
+
+        [Description("Category3")]
+        Category3
     }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]

@@ -166,6 +166,7 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.drr_costconsiderationsapply, opt => opt.MapFrom(src => src.CostConsiderationsApplied.HasValue ? src.CostConsiderationsApplied.Value ? (int?)DRRTwoOptions.Yes : (int?)DRRTwoOptions.No : null))
                 .ForMember(dest => dest.drr_drr_application_drr_costconsiderationitem_Application, opt => opt.MapFrom(src => src.CostConsiderations))
                 .ForMember(dest => dest.drr_explaincostconsiderations, opt => opt.MapFrom(src => src.CostConsiderationsComments))
+                //.ForMember(dest => dest.estima, opt => opt.MapFrom(src => src.CostEstimates))
 
                 //Attachments - 11
                 .ForMember(dest => dest.drr_hasresolution, opt => opt.MapFrom(src => src.HaveResolution.HasValue ? src.HaveResolution.Value ? (int?)DRRTwoOptions.Yes : (int?)DRRTwoOptions.No : null))
@@ -316,6 +317,7 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.CostConsiderationsApplied, opt => opt.MapFrom(src => src.drr_costconsiderationsapply.HasValue ? src.drr_costconsiderationsapply.Value == (int)DRRTwoOptions.Yes : (bool?)null))
                 .ForMember(dest => dest.CostConsiderations, opt => opt.MapFrom(src => src.drr_drr_application_drr_costconsiderationitem_Application))
                 .ForMember(dest => dest.CostConsiderationsComments, opt => opt.MapFrom(src => src.drr_explaincostconsiderations))
+                .ForMember(dest => dest.CostEstimates, opt => opt.Ignore())
 
                 //Attachments
                 .ForMember(dest => dest.HaveResolution, opt => opt.MapFrom(src => src.drr_hasresolution.HasValue ? src.drr_hasresolution.Value == (int)DRRTwoOptions.Yes : (bool?)null))

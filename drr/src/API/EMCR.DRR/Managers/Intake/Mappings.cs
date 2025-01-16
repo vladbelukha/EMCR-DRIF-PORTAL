@@ -121,28 +121,52 @@ namespace EMCR.DRR.Managers.Intake
             CreateMap<Controllers.PaymentCondition, PaymentCondition>()
                 .ReverseMap()
                 ;
-            
-            CreateMap<Controllers.ProjectClaim  , ProjectClaim  >()
+
+            CreateMap<Controllers.ProjectClaim, ProjectClaim>()
                 .ReverseMap()
                 ;
-            
+
             CreateMap<Controllers.ProgressReport, ProgressReport>()
                 .ReverseMap()
                 ;
-            
+
             CreateMap<Controllers.Forecast, Forecast>()
                 .ReverseMap()
                 ;
-            
+
             CreateMap<Controllers.InterimReport, InterimReport>()
                 .ReverseMap()
                 ;
 
-            CreateMap<Controllers.ProjectEvent, ProjectEvent>()
+            CreateMap<Controllers.WorkplanActivity, WorkplanActivity>()
                 .ReverseMap()
                 ;
 
-            CreateMap<Controllers.WorkplanActivity, WorkplanActivity>()
+            CreateMap<Controllers.ClaimDetails, ClaimDetails>()
+                .ReverseMap()
+                ;
+
+            CreateMap<Controllers.ProgressReportDetails, ProgressReportDetails>()
+                .ForMember(dest => dest.DateSubmitted, opt => opt.Ignore())
+                .ForMember(dest => dest.DateApproved, opt => opt.Ignore())
+                .ForMember(dest => dest.DueDate, opt => opt.Ignore())
+                .ReverseMap()
+                .ForMember(dest => dest.ReportDate, opt => opt.MapFrom(src => src.Status == ProgressReportStatus.Submitted ? src.DateSubmitted : src.DueDate))
+                ;
+
+            CreateMap<Controllers.ForecastDetails, ForecastDetails>()
+                .ReverseMap()
+                ;
+
+            CreateMap<Controllers.InterimReportDetails, InterimReportDetails>()
+                .ReverseMap()
+                ;
+
+            CreateMap<Controllers.WorkplanActivityDetails, WorkplanActivityDetails>()
+                .ReverseMap()
+                ;
+
+            CreateMap<Controllers.ProjectEvent, ProjectEvent>()
                 .ReverseMap()
                 ;
 
@@ -240,6 +264,10 @@ namespace EMCR.DRR.Managers.Intake
 
             CreateMap<Controllers.ProposedActivity, ProposedActivity>()
                 .ForMember(dest => dest.ActivityNumber, opt => opt.Ignore())
+                .ReverseMap()
+                ;
+
+            CreateMap<Controllers.CostEstimate, CostEstimate>()
                 .ReverseMap()
                 ;
 
