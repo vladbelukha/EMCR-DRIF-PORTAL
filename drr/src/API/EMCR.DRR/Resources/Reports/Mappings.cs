@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using EMCR.DRR.API.Resources.Projects;
+using EMCR.DRR.Dynamics;
 using EMCR.DRR.Managers.Intake;
 using EMCR.DRR.Resources.Applications;
 using Microsoft.Dynamics.CRM;
@@ -46,7 +47,7 @@ namespace EMCR.DRR.API.Resources.Cases
                 .ForMember(dest => dest.DateApproved, opt => opt.MapFrom(src => src.drr_dateapproved.HasValue ? src.drr_dateapproved.Value.UtcDateTime : (DateTime?)null))
                 .ForMember(dest => dest.DateSubmitted, opt => opt.MapFrom(src => src.drr_datesubmitted.HasValue ? src.drr_datesubmitted.Value.UtcDateTime : (DateTime?)null))
                 .ForMember(dest => dest.DueDate, opt => opt.MapFrom(src => src.drr_duedate.HasValue ? src.drr_duedate.Value.UtcDateTime : (DateTime?)null))
-                .ForMember(dest => dest.WorkplanActivities, opt => opt.MapFrom(src => src.drr_drr_projectprogress_drr_projectworkplanactivity_ProjectProgressReport))
+                .ForMember(dest => dest.WorkplanActivities, opt => opt.MapFrom(src => src.drr_drr_projectprogress_drr_projectworkplanactivity_ProjectProgressReport.Where(c => c.statecode == (int)EntityState.Active)))
                 .ForMember(dest => dest.ReportType, opt => opt.Ignore())
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => Enum.Parse<ProgressReportStatus>(((ProjectProgressReportStatusOptionSet)src.statuscode).ToString())))
             ;
