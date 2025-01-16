@@ -46,8 +46,8 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
         {
             var queryRes = await manager.Handle(new DrrProjectsQuery { BusinessId = GetTestUserInfo().BusinessId });
             var projects = mapper.Map<IEnumerable<DraftDrrProject>>(queryRes.Items);
-            //projects.Count().ShouldBeGreaterThan(1);
-            projects.ShouldAllBe(s => s.ProgramType == ProgramType.DRIF);
+            projects.Count().ShouldBeGreaterThan(1);
+            //projects.ShouldAllBe(s => s.ProgramType == ProgramType.DRIF);
         }
 
         [Test]
@@ -63,7 +63,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
         [Test]
         public async Task QueryReports_CanFilterById()
         {
-            var queryRes = await manager.Handle(new DrrReportsQuery { Id = "DRIF-REP-1031", BusinessId = GetTestUserInfo().BusinessId });
+            var queryRes = await manager.Handle(new DrrReportsQuery { Id = "DRIF-REP-1032", BusinessId = GetTestUserInfo().BusinessId });
             var reports = mapper.Map<IEnumerable<EMCR.DRR.Controllers.InterimReportDetails>>(queryRes.Items);
             reports.Count().ShouldBe(1);
         }
