@@ -68,13 +68,15 @@
             <span>
               <i style="padding-right: 1rem">Status:</i>
               <mat-chip
-                [ngClass]="getStatusColorClass(interimReport?.claim?.status)"
+                [ngClass]="
+                  getStatusColorClass(interimReport?.projectClaim?.status)
+                "
               >
-                {{ interimReport?.claim?.status }}</mat-chip
+                {{ interimReport?.projectClaim?.status }}</mat-chip
               >
             </span>
             <mat-card-subtitle>{{
-              interimReport?.claim?.id
+              interimReport?.projectClaim?.id
             }}</mat-card-subtitle>
           </mat-card-title-group>
         </mat-card-header>
@@ -82,15 +84,15 @@
           <div>
             <p>
               <strong>Claim Type:</strong>
-              {{ interimReport?.claim?.claimType }}
+              {{ interimReport?.projectClaim?.claimType }}
             </p>
             <p>
               <strong>Claim Amount:</strong>
-              {{ interimReport?.claim?.claimAmount }}
+              {{ interimReport?.projectClaim?.claimAmount }}
             </p>
             <p>
               <strong>Claim Date:</strong>
-              {{ interimReport?.claim?.claimDate }}
+              {{ interimReport?.projectClaim?.claimDate }}
             </p>
           </div>
           <div>
@@ -126,13 +128,15 @@
             <span>
               <i style="padding-right: 1rem">Status:</i>
               <mat-chip
-                [ngClass]="getStatusColorClass(interimReport?.report?.status)"
+                [ngClass]="
+                  getStatusColorClass(interimReport?.progressReport?.status)
+                "
               >
-                {{ interimReport?.report?.status }}
+                {{ interimReport?.progressReport?.status }}
               </mat-chip>
             </span>
             <mat-card-subtitle>{{
-              interimReport?.report?.id
+              interimReport?.progressReport?.id
             }}</mat-card-subtitle>
           </mat-card-title-group>
         </mat-card-header>
@@ -140,11 +144,11 @@
           <div>
             <p>
               <strong>Progress Date:</strong>
-              {{ interimReport?.report?.reportDate }}
+              {{ interimReport?.progressReport?.reportDate }}
             </p>
             <p>
               <strong>Progress Type:</strong>
-              {{ interimReport?.report?.reportType }}
+              {{ interimReport?.progressReport?.reportType }}
             </p>
           </div>
         </mat-card-content>

@@ -14,5 +14,5 @@ export const ClaimStatus = {
   Rejected: 'Rejected',
   Invalid: 'Invalid',
   InProgress: 'InProgress',
-  Inactive: 'Inactive',
+  Submitted: 'Submitted',
 } as const;

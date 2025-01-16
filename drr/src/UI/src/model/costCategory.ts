@@ -5,11 +5,12 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type PaymentConditionStatus = typeof PaymentConditionStatus[keyof typeof PaymentConditionStatus];
+export type CostCategory = typeof CostCategory[keyof typeof CostCategory];
 
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PaymentConditionStatus = {
-  Met: 'Met',
-  NotMet: 'NotMet',
+export const CostCategory = {
+  Category1: 'Category1',
+  Category2: 'Category2',
+  Category3: 'Category3',
 } as const;

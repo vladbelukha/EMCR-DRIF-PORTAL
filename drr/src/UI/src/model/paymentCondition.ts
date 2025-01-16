@@ -4,9 +4,10 @@
  * DRR API
  * OpenAPI spec version: 1.0.0
  */
-import type { PaymentConditionStatus } from './paymentConditionStatus';
 
 export interface PaymentCondition {
+  /** @nullable */
+  conditionMet?: boolean;
   /** @nullable */
   conditionName?: string;
   /** @nullable */
@@ -15,6 +16,4 @@ export interface PaymentCondition {
   id?: string;
   /** @nullable */
   limit?: number;
-  /** @nullable */
-  status?: PaymentConditionStatus;
 }

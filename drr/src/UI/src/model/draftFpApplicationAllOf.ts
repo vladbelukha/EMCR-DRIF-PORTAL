@@ -6,6 +6,7 @@
  */
 import type { ContactDetails } from './contactDetails';
 import type { Attachment } from './attachment';
+import type { CostEstimate } from './costEstimate';
 import type { EstimatedNumberOfPeopleFP } from './estimatedNumberOfPeopleFP';
 import type { YesNoOption } from './yesNoOption';
 import type { IncreasedOrTransferred } from './increasedOrTransferred';
@@ -68,6 +69,8 @@ export type DraftFpApplicationAllOf = {
   costConsiderationsComments?: string;
   /** @nullable */
   costEffectiveComments?: string;
+  /** @nullable */
+  costEstimates?: CostEstimate[];
   /** @nullable */
   costReductionComments?: string;
   /** @nullable */

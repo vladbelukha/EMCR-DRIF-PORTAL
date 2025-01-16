@@ -4,30 +4,30 @@
  * DRR API
  * OpenAPI spec version: 1.0.0
  */
-import type { ProjectClaim } from './projectClaim';
-import type { Forecast } from './forecast';
+import type { ForecastDetails } from './forecastDetails';
 import type { PeriodType } from './periodType';
+import type { ProgressReportDetails } from './progressReportDetails';
+import type { ClaimDetails } from './claimDetails';
 import type { InterimProjectType } from './interimProjectType';
-import type { ProgressReport } from './progressReport';
 import type { InterimReportStatus } from './interimReportStatus';
 
 export interface InterimReportDetails {
-  /** @nullable */
-  claim?: ProjectClaim;
   /** @nullable */
   description?: string;
   /** @nullable */
   dueDate?: string;
   /** @nullable */
-  forecast?: Forecast;
+  forecast?: ForecastDetails;
   /** @nullable */
   id?: string;
   /** @nullable */
   periodType?: PeriodType;
   /** @nullable */
-  projectType?: InterimProjectType;
+  progressReport?: ProgressReportDetails;
   /** @nullable */
-  report?: ProgressReport;
+  projectClaim?: ClaimDetails;
+  /** @nullable */
+  projectType?: InterimProjectType;
   /** @nullable */
   status?: InterimReportStatus;
 }
