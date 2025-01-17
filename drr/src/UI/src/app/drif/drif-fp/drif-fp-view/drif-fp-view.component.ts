@@ -22,6 +22,7 @@ import {
 } from '../../drif-eoi/drif-eoi-form';
 import {
   AttachmentForm,
+  CostEstimateForm,
   DrifFpForm,
   ImpactedInfrastructureForm,
   ProposedActivityForm,
@@ -271,9 +272,9 @@ export class DrifFpViewComponent {
           { emitEvent: false }
         );
       });
-      const yearOverYearFormArray = this.fullProposalForm
-        .get('budget')
-        ?.get('yearOverYearFunding') as FormArray;
+      const yearOverYearFormArray = this.fullProposalForm?.get(
+        'budget.yearOverYearFunding'
+      ) as FormArray;
       if (response.yearOverYearFunding?.length! > 0) {
         yearOverYearFormArray.clear({ emitEvent: false });
       }
@@ -284,7 +285,18 @@ export class DrifFpViewComponent {
         );
       });
 
-      // TODO: init cost estimate array
+      const costEstimateArray = this.fullProposalForm.get(
+        'budget.costEstimates'
+      ) as FormArray;
+      if (response.costEstimates?.length! > 0) {
+        costEstimateArray.clear({ emitEvent: false });
+      }
+      response.costEstimates?.forEach((costEstimate) => {
+        costEstimateArray?.push(
+          this.formBuilder.formGroup(new CostEstimateForm(costEstimate)),
+          { emitEvent: false }
+        );
+      });
 
       const standardsFormArray = this.fullProposalForm
         .get('permitsRegulationsAndStandards')
