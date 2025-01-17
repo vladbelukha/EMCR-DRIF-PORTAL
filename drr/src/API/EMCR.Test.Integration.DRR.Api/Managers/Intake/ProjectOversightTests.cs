@@ -79,7 +79,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
         [Test]
         public async Task QueryProgressReports_CanFilterById()
         {
-            var queryRes = await manager.Handle(new DrrProgressReportsQuery { Id = "DRIF-PR-1018", BusinessId = GetTestUserInfo().BusinessId });
+            var queryRes = await manager.Handle(new DrrProgressReportsQuery { Id = "DRIF-PR-1057", BusinessId = GetTestUserInfo().BusinessId });
             var prs = mapper.Map<IEnumerable<EMCR.DRR.Controllers.ProgressReportDetails>>(queryRes.Items);
             prs.Count().ShouldBe(1);
         }
