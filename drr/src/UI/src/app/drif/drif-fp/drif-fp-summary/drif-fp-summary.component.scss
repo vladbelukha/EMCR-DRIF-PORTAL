@@ -46,6 +46,21 @@
   margin-left: 1rem;
 }
 
+.cost-estimate-row {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(200px, 1fr));
+  margin: 1rem 0 0 1rem;
+}
+
+.cost-estimate-description {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 1rem;
+  margin: 1rem 0 0 1rem;
+}
+
 .attachment {
   margin-top: 1rem;
 }

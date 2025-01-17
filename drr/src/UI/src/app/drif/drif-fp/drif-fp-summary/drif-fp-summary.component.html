@@ -1169,6 +1169,66 @@
           fullProposalForm.get('budget.costConsiderationsComments')
         "
       ></drr-summary-item>
+
+      <div>
+        <mat-label class="drr-label">{{
+          t("detailedCostEstimates")
+        }}</mat-label>
+        <div
+          *ngFor="
+            let control of getRxFormArrayControls('budget', 'costEstimates')
+          "
+        >
+          <div class="cost-estimate-row">
+            <drr-summary-item
+              [label]="t('taskName')"
+              [rxFormControl]="control.get('taskName')"
+            >
+            </drr-summary-item>
+
+            <drr-summary-item
+              [label]="t('costCategory')"
+              [rxFormControl]="control.get('costCategory')"
+            >
+            </drr-summary-item>
+
+            <drr-summary-item
+              [label]="t('resources')"
+              [rxFormControl]="control.get('resources')"
+            >
+            </drr-summary-item>
+
+            <drr-summary-item
+              [label]="t('costUnits')"
+              [rxFormControl]="control.get('units')"
+            >
+            </drr-summary-item>
+
+            <drr-summary-item
+              [label]="t('quantity')"
+              [rxFormControl]="control.get('quantity')"
+            ></drr-summary-item>
+
+            <drr-summary-item
+              [label]="t('unitRate')"
+              [rxFormControl]="control.get('unitRate')"
+              controlType="currency"
+            ></drr-summary-item>
+
+            <drr-summary-item
+              [label]="t('totalCost')"
+              [rxFormControl]="control.get('totalCost')"
+              controlType="currency"
+            ></drr-summary-item>
+          </div>
+          <drr-summary-item
+            class="cost-estimate-description"
+            [label]="t('description')"
+            [rxFormControl]="control.get('description')"
+          >
+          </drr-summary-item>
+        </div>
+      </div>
     </mat-card-content>
   </mat-card>
 

@@ -283,6 +283,9 @@ export class DrifFpViewComponent {
           { emitEvent: false }
         );
       });
+
+      // TODO: init cost estimate array
+
       const standardsFormArray = this.fullProposalForm
         .get('permitsRegulationsAndStandards')
         ?.get('standards') as FormArray;
