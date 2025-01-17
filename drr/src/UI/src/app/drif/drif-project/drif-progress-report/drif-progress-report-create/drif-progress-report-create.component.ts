@@ -11,6 +11,8 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { IFormGroup, RxFormBuilder } from '@rxweb/reactive-form-validators';
 import { YesNoOption } from '../../../../../model';
 
+import { ActivatedRoute } from '@angular/router';
+import { ProjectService } from '../../../../../api/project/project.service';
 import { DrrDatepickerComponent } from '../../../../shared/controls/drr-datepicker/drr-datepicker.component';
 import { DrrInputComponent } from '../../../../shared/controls/drr-input/drr-input.component';
 import {
@@ -52,6 +54,12 @@ import {
 })
 export class DrifProgressReportCreateComponent {
   formBuilder = inject(RxFormBuilder);
+  route = inject(ActivatedRoute);
+  projectService = inject(ProjectService);
+
+  projectId!: string;
+  reportId!: string;
+  progressReportId!: string;
 
   progressReportOptions: RadioOption[] = Object.values(
     WorkplanProgressType
@@ -95,6 +103,24 @@ export class DrifProgressReportCreateComponent {
 
   get eventForm(): IFormGroup<EventForm> | null {
     return this.progressReportForm.get('event') as IFormGroup<EventForm>;
+  }
+
+  ngOnInit() {
+    this.route.params.subscribe((params) => {
+      this.projectId = params['projectId'];
+      this.reportId = params['reportId'];
+      this.progressReportId = params['progressReportId'];
+
+      this.projectService
+        .projectGetProgressReport(
+          this.projectId,
+          this.reportId,
+          this.progressReportId
+        )
+        .subscribe((report) => {
+          this.progressReportForm.patchValue(report);
+        });
+    });
   }
 
   stepperSelectionChange(event: any) {}

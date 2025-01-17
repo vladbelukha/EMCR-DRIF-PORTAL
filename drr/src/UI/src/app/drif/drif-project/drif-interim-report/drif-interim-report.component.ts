@@ -57,7 +57,7 @@ export class DrifInterimReportComponent {
     });
 
     this.projectService
-      .projectGetInterimReport(this.projectId!.replace(' ', ''), this.reportId!)
+      .projectGetInterimReport(this.projectId!, this.reportId!)
       .subscribe((report) => {
         this.interimReport = report;
         this.interimReportForm.patchValue(report);
