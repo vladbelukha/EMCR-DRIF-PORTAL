@@ -50,6 +50,7 @@ import { OptionsStore } from '../../store/options.store';
 import { ProfileStore } from '../../store/profile.store';
 import {
   AttachmentForm,
+  CostEstimateForm,
   DrifFpForm,
   ImpactedInfrastructureForm,
   ProposedActivityForm,
@@ -689,6 +690,19 @@ export class DrifFpComponent {
     response.yearOverYearFunding?.forEach((funding) => {
       yearOverYearFormArray?.push(
         this.formBuilder.formGroup(new YearOverYearFundingForm(funding)),
+        { emitEvent: false }
+      );
+    });
+
+    const costEstimatesArray = this.fullProposalForm.get(
+      'budget.costEstimates'
+    ) as FormArray;
+    if (response.costEstimates?.length! > 0) {
+      costEstimatesArray.clear({ emitEvent: false });
+    }
+    response.costEstimates?.forEach((costEstimate) => {
+      costEstimatesArray?.push(
+        this.formBuilder.formGroup(new CostEstimateForm(costEstimate)),
         { emitEvent: false }
       );
     });

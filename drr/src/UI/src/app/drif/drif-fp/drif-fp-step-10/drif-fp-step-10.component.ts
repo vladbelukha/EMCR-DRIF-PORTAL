@@ -224,7 +224,27 @@ export class DrifFpStep10Component {
 
     this.getFormArray('costEstimates').controls.length === 0 && this.addCost();
 
-    // TODO: need to handle value changes for cost estimates to calculate total cost
+    this.budgetForm
+      .get('costEstimates')
+      ?.valueChanges.pipe(distinctUntilChanged())
+      .subscribe(() => {
+        let totalCost = 0;
+
+        // iterate over cost estimates and calculate total cost
+        this.getFormArray('costEstimates').controls.forEach((costEstimate) => {
+          const unitRate = costEstimate.get('unitRate')?.value;
+          const quantity = costEstimate.get('quantity')?.value;
+          const cost = unitRate * quantity;
+          costEstimate.get('totalCost')?.setValue(cost, {
+            emitEvent: false,
+          });
+
+          totalCost += cost;
+        });
+
+        // TODO: investigate glitch with double calculation
+        console.log(totalCost);
+      });
   }
 
   showDiscrepancyComment() {
@@ -318,19 +338,19 @@ export class DrifFpStep10Component {
 
   addCost() {
     const newCostEstimateForm = this.formBuilder.formGroup(CostEstimateForm);
-    newCostEstimateForm.get('unitRate')?.valueChanges.subscribe((value) => {
-      const quantityControl = newCostEstimateForm.get('quantity');
-      const totalCostControl = newCostEstimateForm.get('totalCost');
+    // newCostEstimateForm.get('unitRate')?.valueChanges.subscribe((value) => {
+    //   const quantityControl = newCostEstimateForm.get('quantity');
+    //   const totalCostControl = newCostEstimateForm.get('totalCost');
 
-      totalCostControl?.setValue(value * quantityControl?.value);
-    });
+    //   totalCostControl?.setValue(value * quantityControl?.value);
+    // });
 
-    newCostEstimateForm.get('quantity')?.valueChanges.subscribe((value) => {
-      const unitRateControl = newCostEstimateForm.get('unitRate');
-      const totalCostControl = newCostEstimateForm.get('totalCost');
+    // newCostEstimateForm.get('quantity')?.valueChanges.subscribe((value) => {
+    //   const unitRateControl = newCostEstimateForm.get('unitRate');
+    //   const totalCostControl = newCostEstimateForm.get('totalCost');
 
-      totalCostControl?.setValue(value * unitRateControl?.value);
-    });
+    //   totalCostControl?.setValue(value * unitRateControl?.value);
+    // });
 
     this.getFormArray('costEstimates').push(newCostEstimateForm);
   }
