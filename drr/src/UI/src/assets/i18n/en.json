@@ -489,5 +489,9 @@
   },
   "interimReport": "Interim Report",
   "NotMet": "Not Met",
-  "InReview": "In Review"
+  "InReview": "In Review",
+  "progressReport": {
+    "projectWorkplan": "Project Workplan",
+    "eventInformation": "Event Information"
+  }
 }

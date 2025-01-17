@@ -128,4 +128,6 @@ export class DrifProgressReportCreateComponent {
   save() {}
 
   goBack() {}
+
+  submit() {}
 }
