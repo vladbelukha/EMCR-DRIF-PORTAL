@@ -153,12 +153,18 @@
           </div>
         </mat-card-content>
         <mat-card-actions align="end" style="display: flex; gap: 1rem">
-          <button mat-button color="primary" (click)="editProgressReport()">
-            View
-          </button>
-          <button mat-button color="warn" (click)="deleteProgressReport()">
-            Delete
-          </button>
+          <a
+            [routerLink]="[
+              '/drif-projects',
+              projectId,
+              'interim-reports',
+              interimReport?.id,
+              'progress-reports',
+              interimReport?.progressReport?.id,
+              'edit'
+            ]"
+            ><button mat-raised-button color="primary">Edit</button></a
+          >
         </mat-card-actions>
       </mat-card>
     </mat-tab>
