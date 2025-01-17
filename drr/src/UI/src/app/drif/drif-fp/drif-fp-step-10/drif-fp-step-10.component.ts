@@ -16,7 +16,14 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { IFormGroup, RxFormBuilder } from '@rxweb/reactive-form-validators';
 import { distinctUntilChanged } from 'rxjs';
-import { FundingStream, FundingType, YesNoOption } from '../../../../model';
+import {
+  CostCategory,
+  CostUnit,
+  FundingStream,
+  FundingType,
+  ResourceCategory,
+  YesNoOption,
+} from '../../../../model';
 import { DrrChipAutocompleteComponent } from '../../../shared/controls/drr-chip-autocomplete/drr-chip-autocomplete.component';
 import { DrrCurrencyInputComponent } from '../../../shared/controls/drr-currency-input/drr-currency-input.component';
 import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
@@ -28,10 +35,7 @@ import { FundingInformationItemForm } from '../../drif-eoi/drif-eoi-form';
 import { DrrFundingListComponent } from '../../drr-funding-list/drr-funding-list.component';
 import {
   BudgetForm,
-  CostCategory,
   CostEstimateForm,
-  CostUnit,
-  ResourceCategory,
   YearOverYearFundingForm,
 } from '../drif-fp-form';
 
@@ -96,7 +100,7 @@ export class DrifFpStep10Component {
   }));
   resourcesOptions = Object.values(ResourceCategory).map((value) => ({
     value,
-    label: value,
+    label: this.translocoService.translate(value),
   }));
   unitsOptions = Object.values(CostUnit).map((value) => ({
     value,
@@ -104,10 +108,6 @@ export class DrifFpStep10Component {
   }));
 
   ngOnInit() {
-    const currentYear = new Date().getFullYear();
-    const currentMonth = new Date().getMonth();
-    const startFiscalYear = currentMonth >= 6 ? currentYear : currentYear - 1; // Assuming fiscal year starts in July
-
     this.budgetForm
       .get('yearOverYearFunding')!
       .valueChanges.pipe(distinctUntilChanged())

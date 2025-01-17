@@ -10,11 +10,14 @@ import {
 } from '@rxweb/reactive-form-validators';
 import {
   Attachment,
+  CostCategory,
+  CostUnit,
   DocumentType,
   EstimatedNumberOfPeopleFP,
   FundingStream,
   Hazards,
   ProjectType,
+  ResourceCategory,
   StandardInfo,
   YesNoOption,
 } from '../../../model';
@@ -216,24 +219,6 @@ export class YearOverYearFundingForm {
   }
 }
 
-export enum CostCategory {
-  Category1 = 'Category 1',
-  Category2 = 'Category 2',
-  Category3 = 'Category 3',
-}
-
-export enum ResourceCategory {
-  Resource1 = 'Resource 1',
-  Resource2 = 'Resource 2',
-  Resource3 = 'Resource 3',
-}
-
-export enum CostUnit {
-  Unit1 = 'Unit 1',
-  Unit2 = 'Unit 2',
-  Unit3 = 'Unit 3',
-}
-
 export class CostEstimateForm {
   @prop()
   @required()
@@ -247,7 +232,7 @@ export class CostEstimateForm {
   description?: string;
 
   @prop()
-  resources?: ResourceCategory[]; // TODO: use API enum when available
+  resources?: ResourceCategory[];
 
   @prop()
   @required()
