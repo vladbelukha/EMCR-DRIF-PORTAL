@@ -134,14 +134,15 @@ namespace EMCR.DRR.API.Resources.Reports
         {
             ctx.AttachTo(nameof(DRRContext.drr_projectprogresses), pr);
             await ctx.LoadPropertyAsync(pr, nameof(drr_projectprogress.drr_drr_projectprogress_drr_projectworkplanactivity_ProjectProgressReport), ct);
+            await ParallelLoadActivityTypes(ctx, pr, ct);
         }
 
-        private static async Task ParallelLoadWorkplanActivities(DRRContext ctx, drr_project project, CancellationToken ct)
+        private static async Task ParallelLoadActivityTypes(DRRContext ctx, drr_projectprogress pr, CancellationToken ct)
         {
-            await project.drr_drr_project_drr_projectprogress_Project.ForEachAsync(5, async report =>
+            await pr.drr_drr_projectprogress_drr_projectworkplanactivity_ProjectProgressReport.ForEachAsync(5, async wa =>
             {
-                ctx.AttachTo(nameof(DRRContext.drr_projectprogresses), report);
-                await ctx.LoadPropertyAsync(report, nameof(drr_projectprogress.drr_drr_projectprogress_drr_projectworkplanactivity_ProjectProgressReport), ct);
+                ctx.AttachTo(nameof(DRRContext.drr_projectworkplanactivities), wa);
+                await ctx.LoadPropertyAsync(wa, nameof(drr_projectworkplanactivity.drr_ActivityType), ct);
             });
         }
 

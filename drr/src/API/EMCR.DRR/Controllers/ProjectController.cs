@@ -244,7 +244,8 @@ namespace EMCR.DRR.Controllers
 
     public class WorkplanActivity
     {
-        public WorkplanProgress? Progress { get; set; }
+        //public ActivityType? ActivityType { get; set; }
+        public WorkplanStatus? Status { get; set; }
     }
 
     public class Forecast
@@ -281,8 +282,9 @@ namespace EMCR.DRR.Controllers
     public class ProgressReportDetails
     {
         public string? Id { get; set; }
-        public string? ReportType { get; set; }
-        public DateTime? ReportDate { get; set; }
+        public DateTime? DateSubmitted { get; set; }
+        public DateTime? DateApproved { get; set; }
+        public DateTime? DueDate { get; set; }
         public WorkplanActivityDetails[]? WorkplanActivities { get; set; }
         public ProgressReportStatus? Status { get; set; }
     }
@@ -298,7 +300,66 @@ namespace EMCR.DRR.Controllers
 
     public class WorkplanActivityDetails
     {
-        public WorkplanProgress? Progress { get; set; }
+        public ActivityType? Activity { get; set; }
+        public bool? PreCreatedActivity { get; set; }
+        public string? Comment { get; set; }
+        public WorkplanStatus? Status { get; set; }
+        public DateTime? PlannedStartDate { get; set; }
+        public DateTime? ActualStartDate { get; set; }
+        public DateTime? PlannedCompletionDate { get; set; }
+        public DateTime? ActualCompletionDate { get; set; }
+    }
+
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public enum ActivityType
+    {
+        [Description("Administration (up to 10%)")]
+        Administration,
+
+        [Description("Approvals/Permitting")]
+        ApprovalsPermitting,
+
+        [Description("Assessment")]
+        Assessment,
+
+        [Description("Communications")]
+        Communications,
+
+        [Description("Construction")]
+        Construction,
+
+        [Description("Construction Contract Award")]
+        ConstructionContractAward,
+
+        [Description("Construction Tender")]
+        ConstructionTender,
+
+        [Description("Design")]
+        Design,
+
+        [Description("First Nations Engagement")]
+        FirstNationsEngagement,
+
+        [Description("Land Acquisition/Property Purchase")]
+        LandAcquisition,
+
+        [Description("Mapping")]
+        Mapping,
+
+        [Description("Neighbouring jurisdictions and other impacted or affected parties engagement")]
+        AffectedPartiesEngagement,
+
+        [Description("Permit to Construct")]
+        PermitToConstruct,
+
+        [Description("Project")]
+        Project,
+
+        [Description("Project Planning")]
+        ProjectPlanning,
+
+        [Description("Proponent community(ies) engagement and public education")]
+        CommunityEngagement,
     }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
@@ -332,7 +393,7 @@ namespace EMCR.DRR.Controllers
     }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
-    public enum WorkplanProgress
+    public enum WorkplanStatus
     {
         [Description("Not Started")]
         NotStarted,
@@ -438,7 +499,7 @@ namespace EMCR.DRR.Controllers
 
         [Description("Update Needed")]
         UpdateNeeded,
-        
+
         [Description("Approved")]
         Approved,
     }

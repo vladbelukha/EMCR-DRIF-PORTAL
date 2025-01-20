@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using EMCR.DRR.API.Model;
+using EMCR.DRR.API.Resources.Projects;
 using EMCR.DRR.Controllers;
 
 namespace EMCR.DRR.Managers.Intake
@@ -147,11 +148,7 @@ namespace EMCR.DRR.Managers.Intake
                 ;
 
             CreateMap<Controllers.ProgressReportDetails, ProgressReportDetails>()
-                .ForMember(dest => dest.DateSubmitted, opt => opt.Ignore())
-                .ForMember(dest => dest.DateApproved, opt => opt.Ignore())
-                .ForMember(dest => dest.DueDate, opt => opt.Ignore())
                 .ReverseMap()
-                .ForMember(dest => dest.ReportDate, opt => opt.MapFrom(src => src.Status == ProgressReportStatus.Submitted ? src.DateSubmitted : src.DueDate))
                 ;
 
             CreateMap<Controllers.ForecastDetails, ForecastDetails>()
@@ -162,9 +159,16 @@ namespace EMCR.DRR.Managers.Intake
                 .ReverseMap()
                 ;
 
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+#pragma warning disable CS8604 // Possible null reference argument.
             CreateMap<Controllers.WorkplanActivityDetails, WorkplanActivityDetails>()
+                .ForMember(dest => dest.ActivityType, opt => opt.MapFrom(src => new ActivityType { Name = src.Activity.ToString(), PreCreatedActivity = src.PreCreatedActivity }))
                 .ReverseMap()
+                .ForMember(dest => dest.Activity, opt => opt.MapFrom(src => Enum.Parse<Controllers.ActivityType>(src.ActivityType.Name)))
+                .ForMember(dest => dest.PreCreatedActivity, opt => opt.MapFrom(src => src.ActivityType.PreCreatedActivity))
                 ;
+#pragma warning restore CS8604 // Possible null reference argument.
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
 
             CreateMap<Controllers.ProjectEvent, ProjectEvent>()
                 .ReverseMap()

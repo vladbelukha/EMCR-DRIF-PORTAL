@@ -706,7 +706,7 @@ namespace EMCR.DRR.Managers.Intake
 
     public class WorkplanActivity
     {
-        public WorkplanProgress? Progress { get; set; }
+        public WorkplanStatus? Status { get; set; }
     }
 
     public class Forecast
@@ -743,7 +743,6 @@ namespace EMCR.DRR.Managers.Intake
     public class ProgressReportDetails
     {
         public string? Id { get; set; }
-        public string? ReportType { get; set; }
         public DateTime? DateSubmitted { get; set; }
         public DateTime? DateApproved { get; set; }
         public DateTime? DueDate { get; set; }
@@ -762,9 +761,20 @@ namespace EMCR.DRR.Managers.Intake
 
     public class WorkplanActivityDetails
     {
-        public WorkplanProgress? Progress { get; set; }
+        public ActivityType? ActivityType { get; set; }
+        public string? Comment { get; set; }
+        public WorkplanStatus? Status { get; set; }
+        public DateTime? PlannedStartDate { get; set; }
+        public DateTime? ActualStartDate { get; set; }
+        public DateTime? PlannedCompletionDate { get; set; }
+        public DateTime? ActualCompletionDate { get; set; }
     }
 
+    public class ActivityType
+    {
+        public string? Name { get; set; }
+        public bool? PreCreatedActivity { get; set; }
+    }
 
     public enum CostCategory
     {
@@ -821,7 +831,7 @@ namespace EMCR.DRR.Managers.Intake
         NotMet
     }
 
-    public enum WorkplanProgress
+    public enum WorkplanStatus
     {
         NotStarted,
         InProgress,
