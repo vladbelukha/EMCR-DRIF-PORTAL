@@ -7,8 +7,12 @@ import {
   MatStepperModule,
   StepperOrientation,
 } from '@angular/material/stepper';
-import { TranslocoModule } from '@ngneat/transloco';
-import { IFormGroup, RxFormBuilder } from '@rxweb/reactive-form-validators';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import {
+  IFormGroup,
+  RxFormBuilder,
+  RxReactiveFormsModule,
+} from '@rxweb/reactive-form-validators';
 import { YesNoOption } from '../../../../../model';
 
 import { ActivatedRoute } from '@angular/router';
@@ -47,6 +51,7 @@ import {
     DrrSelectComponent,
     DrrRadioButtonComponent,
     DrrTextareaComponent,
+    RxReactiveFormsModule,
   ],
   templateUrl: './drif-progress-report-create.component.html',
   styleUrl: './drif-progress-report-create.component.scss',
@@ -56,6 +61,7 @@ export class DrifProgressReportCreateComponent {
   formBuilder = inject(RxFormBuilder);
   route = inject(ActivatedRoute);
   projectService = inject(ProjectService);
+  translocoService = inject(TranslocoService);
 
   projectId!: string;
   reportId!: string;
@@ -130,4 +136,27 @@ export class DrifProgressReportCreateComponent {
   goBack() {}
 
   submit() {}
+
+  showPlannedStartDate() {
+    const status = this.workplanForm?.get('projectProgress.status')?.value;
+    return status === WorkplanProgressType.NotStarted;
+  }
+
+  showPlannedEndDate() {
+    const status = this.workplanForm?.get('projectProgress.status')?.value;
+    return (
+      status === WorkplanProgressType.NotStarted ||
+      status === WorkplanProgressType.InProgress
+    );
+  }
+
+  showActualStartDate() {
+    const status = this.workplanForm?.get('projectProgress.status')?.value;
+    return status === WorkplanProgressType.InProgress || status === WorkplanProgressType.Completed;
+  }
+
+  showActualEndDate() {
+    const status = this.workplanForm?.get('projectProgress.status')?.value;
+    return status === WorkplanProgressType.Completed;
+  }
 }

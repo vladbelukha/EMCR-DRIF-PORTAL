@@ -84,17 +84,55 @@
               class="drr-single-input"
               label="Status"
               [options]="progressReportOptions"
-              [rxFormControl]="workplanForm?.get('projectProgress')"
+              [rxFormControl]="workplanForm?.get('projectProgress.status')"
             ></drr-radio-button>
-            <drr-datepicker
-              class="drr-single-input"
-              label="Report Date"
-              [rxFormControl]="workplanForm?.get('projectProgressDate')"
-            ></drr-datepicker>
+
+            <div
+              style="
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                gap: 1rem;
+              "
+            >
+              @if (showPlannedStartDate()) {
+              <drr-datepicker
+                class="drr-single-input"
+                [label]="t('plannedStartDate')"
+                [rxFormControl]="
+                  workplanForm?.get('projectProgress.plannedStartDate')
+                "
+              ></drr-datepicker>
+              } @if (showPlannedEndDate()) {
+              <drr-datepicker
+                class="drr-single-input"
+                [label]="t('plannedEndDate')"
+                [rxFormControl]="
+                  workplanForm?.get('projectProgress.plannedEndDate')
+                "
+              ></drr-datepicker>
+              } @if (showActualStartDate()) {
+              <drr-datepicker
+                class="drr-single-input"
+                [label]="t('actualStartDate')"
+                [rxFormControl]="
+                  workplanForm?.get('projectProgress.actualStartDate')
+                "
+              ></drr-datepicker>
+              } @if (showActualEndDate()) {
+              <drr-datepicker
+                class="drr-single-input"
+                [label]="t('actualEndDate')"
+                [rxFormControl]="
+                  workplanForm?.get('projectProgress.actualEndDate')
+                "
+              ></drr-datepicker>
+              }
+            </div>
           </div>
           <drr-textarea
             label="Comments"
-            [rxFormControl]="workplanForm?.get('projectProgressComment')"
+            [rxFormControl]="workplanForm?.get('projectProgress.comment')"
           ></drr-textarea>
         </div>
         <mat-label class="drr-label">

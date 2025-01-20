@@ -1,4 +1,4 @@
-import { prop, propObject } from '@rxweb/reactive-form-validators';
+import { prop, propObject, required } from '@rxweb/reactive-form-validators';
 import { YesNoOption } from '../../../../model';
 
 import { ContactDetailsForm } from '../../drif-eoi/drif-eoi-form';
@@ -16,15 +16,71 @@ export enum EventProgressType {
   Completed = 'Completed',
 }
 
+export enum ProjectActivityType {
+  ProjectProgress = 'Project Progress',
+  FirstNationEngagement = 'First Nation Engagement',
+  Design = 'Design',
+  ConstructionTender = 'Construction Tender',
+  ConstructionContract = 'Construction Contract',
+  PermitToConstruct = 'Permit to Construct',
+  Construction = 'Construction',
+  Additional = 'Additional',
+}
+
+export class WorkplanItemForm {
+  @prop()
+  @required()
+  activity?: ProjectActivityType;
+
+  @prop()
+  isPreDefinedActivity?: boolean;
+
+  @prop()
+  @required()
+  status?: WorkplanProgressType;
+
+  @prop()
+  // @required({
+  //   conditionalExpression: function (
+  //     model: any,
+  //     form: any,
+  //     control: any
+  //   ) {
+  //      TODO: this is working, but control doesn't update its state, need to investigate further
+  //     console.log('model: ', model);
+  //     console.log('form: ', form);
+  //     console.log('control: ', control);
+  //     return model.status === WorkplanProgressType.NotStarted;
+  //   },
+  // })
+  comment?: string;
+
+  @prop()
+  @required()
+  plannedStartDate?: string;
+
+  @prop()
+  @required()
+  plannedEndDate?: string;
+
+  @prop()
+  @required()
+  actualStartDate?: string;
+
+  @prop()
+  @required()
+  actualEndDate?: string;
+
+  constructor(values: WorkplanItemForm) {
+    Object.assign(this, values);
+  }
+}
+
 export class WorkplanForm {
-  @prop()
-  projectProgress?: WorkplanProgressType;
-
-  @prop()
-  projectProgressComment?: string;
-
-  @prop()
-  projectProgressDate?: string;
+  @propObject()
+  projectProgress?: WorkplanItemForm = new WorkplanItemForm({
+    activity: ProjectActivityType.ProjectProgress,
+  });
 
   @prop()
   firstNationEngagementProgress?: WorkplanProgressType;

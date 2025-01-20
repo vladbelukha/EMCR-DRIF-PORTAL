@@ -492,6 +492,10 @@
   "InReview": "In Review",
   "progressReport": {
     "projectWorkplan": "Project Workplan",
-    "eventInformation": "Event Information"
+    "eventInformation": "Event Information",
+    "plannedStartDate": "Planned Start Date",
+    "plannedEndDate": "Planned Completion Date",
+    "actualStartDate": "Actual Start Date",
+    "actualEndDate": "Actual Completion Date"
   }
 }
