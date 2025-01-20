@@ -1,4 +1,9 @@
-import { prop, propObject, required } from '@rxweb/reactive-form-validators';
+import {
+  prop,
+  propArray,
+  propObject,
+  required,
+} from '@rxweb/reactive-form-validators';
 import { YesNoOption } from '../../../../model';
 
 import { ContactDetailsForm } from '../../drif-eoi/drif-eoi-form';
@@ -77,64 +82,8 @@ export class WorkplanItemForm {
 }
 
 export class WorkplanForm {
-  @propObject()
-  projectProgress?: WorkplanItemForm = new WorkplanItemForm({
-    activity: ProjectActivityType.ProjectProgress,
-  });
-
-  @prop()
-  firstNationEngagementProgress?: WorkplanProgressType;
-
-  @prop()
-  firstNationEngagementProgressComment?: string;
-
-  @prop()
-  firstNationEngagementProgressDate?: string;
-
-  @prop()
-  designProgress?: WorkplanProgressType;
-
-  @prop()
-  designProgressComment?: string;
-
-  @prop()
-  designProgressDate?: string;
-
-  @prop()
-  constructionTenderProgress?: WorkplanProgressType;
-
-  @prop()
-  constructionTenderProgressComment?: string;
-
-  @prop()
-  constructionTenderProgressDate?: string;
-
-  @prop()
-  constractionContractProgress?: WorkplanProgressType;
-
-  @prop()
-  constractionContractProgressComment?: string;
-
-  @prop()
-  constractionContractProgressDate?: string;
-
-  @prop()
-  permitToConstructProgress?: WorkplanProgressType;
-
-  @prop()
-  permitToConstructProgressComment?: string;
-
-  @prop()
-  permitToConstructProgressDate?: string;
-
-  @prop()
-  constructionProgress?: WorkplanProgressType;
-
-  @prop()
-  constructionProgressComment?: string;
-
-  @prop()
-  constructionProgressDate?: string;
+  @propArray(WorkplanItemForm)
+  workplanItems?: WorkplanItemForm[] = [];
 
   // TODO: 3 fields for construction progress?
 

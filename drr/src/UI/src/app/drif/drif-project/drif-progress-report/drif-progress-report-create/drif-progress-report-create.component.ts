@@ -15,6 +15,7 @@ import {
 } from '@rxweb/reactive-form-validators';
 import { YesNoOption } from '../../../../../model';
 
+import { FormArray } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ProjectService } from '../../../../../api/project/project.service';
 import { DrrDatepickerComponent } from '../../../../shared/controls/drr-datepicker/drr-datepicker.component';
@@ -32,7 +33,9 @@ import {
   EventForm,
   EventProgressType,
   ProgressReportForm,
+  ProjectActivityType,
   WorkplanForm,
+  WorkplanItemForm,
   WorkplanProgressType,
 } from '../drif-progress-report-form';
 
@@ -107,6 +110,10 @@ export class DrifProgressReportCreateComponent {
     return this.progressReportForm.get('workplan') as IFormGroup<WorkplanForm>;
   }
 
+  get workplanItems(): FormArray | null {
+    return this.workplanForm?.get('workplanItems') as FormArray;
+  }
+
   get eventForm(): IFormGroup<EventForm> | null {
     return this.progressReportForm.get('event') as IFormGroup<EventForm>;
   }
@@ -125,6 +132,15 @@ export class DrifProgressReportCreateComponent {
         )
         .subscribe((report) => {
           this.progressReportForm.patchValue(report);
+
+          // TODO: add temp values
+          const projectStartEndItem = this.formBuilder.formGroup(
+            new WorkplanItemForm({
+              activity: ProjectActivityType.ProjectProgress,
+              isPreDefinedActivity: true,
+            })
+          ) as IFormGroup<WorkplanItemForm>;
+          this.workplanItems?.controls.push(projectStartEndItem);
         });
     });
   }
@@ -136,6 +152,13 @@ export class DrifProgressReportCreateComponent {
   goBack() {}
 
   submit() {}
+
+  getPreDefinedActivitiesArray() {
+    return this.workplanItems?.controls.filter(
+      (control) => control.get('isPreDefinedActivity')?.value
+    );
+    return;
+  }
 
   showPlannedStartDate() {
     const status = this.workplanForm?.get('projectProgress.status')?.value;
@@ -152,7 +175,10 @@ export class DrifProgressReportCreateComponent {
 
   showActualStartDate() {
     const status = this.workplanForm?.get('projectProgress.status')?.value;
-    return status === WorkplanProgressType.InProgress || status === WorkplanProgressType.Completed;
+    return (
+      status === WorkplanProgressType.InProgress ||
+      status === WorkplanProgressType.Completed
+    );
   }
 
   showActualEndDate() {
