@@ -48,7 +48,6 @@ namespace EMCR.DRR.API.Resources.Cases
                 .ForMember(dest => dest.DateSubmitted, opt => opt.MapFrom(src => src.drr_datesubmitted.HasValue ? src.drr_datesubmitted.Value.UtcDateTime : (DateTime?)null))
                 .ForMember(dest => dest.DueDate, opt => opt.MapFrom(src => src.drr_duedate.HasValue ? src.drr_duedate.Value.UtcDateTime : (DateTime?)null))
                 .ForMember(dest => dest.WorkplanActivities, opt => opt.MapFrom(src => src.drr_drr_projectprogress_drr_projectworkplanactivity_ProjectProgressReport.Where(c => c.statecode == (int)EntityState.Active)))
-                .ForMember(dest => dest.ReportType, opt => opt.Ignore())
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => Enum.Parse<ProgressReportStatus>(((ProjectProgressReportStatusOptionSet)src.statuscode).ToString())))
             ;
 
@@ -67,7 +66,21 @@ namespace EMCR.DRR.API.Resources.Cases
                 .ForMember(dest => dest.drr_name, opt => opt.Ignore())
                 .ReverseMap()
                 .ValidateMemberList(MemberList.Destination)
-                .ForMember(dest => dest.Progress, opt => opt.MapFrom(src => src.drr_progressstatus.HasValue ? (int?)Enum.Parse<WorkplanProgress>(((WorkplanProgressOptionSet)src.drr_progressstatus).ToString()) : null))
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.statuscode.HasValue ? (int?)Enum.Parse<WorkplanStatus>(((WorkplanProgressOptionSet)src.statuscode).ToString()) : null))
+                .ForMember(dest => dest.PlannedStartDate, opt => opt.MapFrom(src => src.drr_plannedstartdate.HasValue ? src.drr_plannedstartdate.Value.UtcDateTime : (DateTime?)null))
+                .ForMember(dest => dest.PlannedCompletionDate, opt => opt.MapFrom(src => src.drr_plannedcompletiondate.HasValue ? src.drr_plannedcompletiondate.Value.UtcDateTime : (DateTime?)null))
+                .ForMember(dest => dest.ActualStartDate, opt => opt.MapFrom(src => src.drr_actualstartdate.HasValue ? src.drr_actualstartdate.Value.UtcDateTime : (DateTime?)null))
+                .ForMember(dest => dest.ActualCompletionDate, opt => opt.MapFrom(src => src.drr_actualcompletiondate.HasValue ? src.drr_actualcompletiondate.Value.UtcDateTime : (DateTime?)null))
+                .ForMember(dest => dest.ActivityType, opt => opt.MapFrom(src => src.drr_ActivityType))
+                .ForMember(dest => dest.Comment, opt => opt.Ignore())
+            ;
+
+            CreateMap<ActivityType, drr_projectactivity>(MemberList.None)
+                .ForMember(dest => dest.drr_name, opt => opt.Ignore())
+                .ReverseMap()
+                .ValidateMemberList(MemberList.Destination)
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.drr_name))
+                .ForMember(dest => dest.PreCreatedActivity, opt => opt.MapFrom(src => src.drr_precreatedactivity.HasValue ? src.drr_precreatedactivity == (int)DRRTwoOptions.Yes : false))
             ;
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
 #pragma warning restore CS8629 // Nullable value type may be null.

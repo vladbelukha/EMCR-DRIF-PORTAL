@@ -103,7 +103,7 @@ namespace EMCR.DRR.API.Resources.Cases
                 .ForMember(dest => dest.drr_name, opt => opt.Ignore())
                 .ReverseMap()
                 .ValidateMemberList(MemberList.Destination)
-                .ForMember(dest => dest.Progress, opt => opt.MapFrom(src => src.drr_progressstatus.HasValue ? (int?)Enum.Parse<WorkplanProgress>(((WorkplanProgressOptionSet)src.drr_progressstatus).ToString()) : null))
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.drr_progressstatus.HasValue ? (int?)Enum.Parse<WorkplanStatus>(((WorkplanProgressOptionSet)src.drr_progressstatus).ToString()) : null))
             ;
 
             CreateMap<PaymentCondition, drr_projectcondition>(MemberList.None)
