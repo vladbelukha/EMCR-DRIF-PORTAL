@@ -6,6 +6,7 @@
  */
 
 export * from './actions';
+export * from './activityType';
 export * from './applicationResult';
 export * from './applicationType';
 export * from './areaUnits';
@@ -84,6 +85,6 @@ export * from './submissionResponse';
 export * from './versionInformation';
 export * from './workplanActivity';
 export * from './workplanActivityDetails';
-export * from './workplanProgress';
+export * from './workplanStatus';
 export * from './yearOverYearFunding';
 export * from './yesNoOption';

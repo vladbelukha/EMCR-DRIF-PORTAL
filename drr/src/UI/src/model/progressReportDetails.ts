@@ -9,11 +9,13 @@ import type { WorkplanActivityDetails } from './workplanActivityDetails';
 
 export interface ProgressReportDetails {
   /** @nullable */
+  dateApproved?: string;
+  /** @nullable */
+  dateSubmitted?: string;
+  /** @nullable */
+  dueDate?: string;
+  /** @nullable */
   id?: string;
-  /** @nullable */
-  reportDate?: string;
-  /** @nullable */
-  reportType?: string;
   /** @nullable */
   status?: ProgressReportStatus;
   /** @nullable */

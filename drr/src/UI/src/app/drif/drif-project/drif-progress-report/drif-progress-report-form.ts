@@ -4,7 +4,12 @@ import {
   propObject,
   required,
 } from '@rxweb/reactive-form-validators';
-import { YesNoOption } from '../../../../model';
+import {
+  ActivityType,
+  WorkplanActivityDetails,
+  WorkplanStatus,
+  YesNoOption,
+} from '../../../../model';
 
 import { ContactDetailsForm } from '../../drif-eoi/drif-eoi-form';
 
@@ -21,28 +26,17 @@ export enum EventProgressType {
   Completed = 'Completed',
 }
 
-export enum ProjectActivityType {
-  ProjectProgress = 'Project Progress',
-  FirstNationEngagement = 'First Nation Engagement',
-  Design = 'Design',
-  ConstructionTender = 'Construction Tender',
-  ConstructionContract = 'Construction Contract',
-  PermitToConstruct = 'Permit to Construct',
-  Construction = 'Construction',
-  Additional = 'Additional',
-}
-
-export class WorkplanItemForm {
+export class WorkplanActivityDetailsForm implements WorkplanActivityDetails {
   @prop()
   @required()
-  activity?: ProjectActivityType;
+  activity?: ActivityType;
 
   @prop()
-  isPreDefinedActivity?: boolean;
+  preCreatedActivity?: boolean;
 
   @prop()
   @required()
-  status?: WorkplanProgressType;
+  status?: WorkplanStatus;
 
   @prop()
   // @required({
@@ -66,7 +60,7 @@ export class WorkplanItemForm {
 
   @prop()
   @required()
-  plannedEndDate?: string;
+  plannedCompletionDate?: string;
 
   @prop()
   @required()
@@ -74,16 +68,16 @@ export class WorkplanItemForm {
 
   @prop()
   @required()
-  actualEndDate?: string;
+  actualCompletionDate?: string;
 
-  constructor(values: WorkplanItemForm) {
+  constructor(values: WorkplanActivityDetailsForm) {
     Object.assign(this, values);
   }
 }
 
 export class WorkplanForm {
-  @propArray(WorkplanItemForm)
-  workplanItems?: WorkplanItemForm[] = [];
+  @propArray(WorkplanActivityDetailsForm)
+  workplanActivities?: WorkplanActivityDetailsForm[] = [];
 
   // TODO: 3 fields for construction progress?
 

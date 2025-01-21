@@ -89,7 +89,7 @@
               class="drr-single-input"
               label="Status"
               [options]="progressReportOptions"
-              [rxFormControl]="workplanForm?.get('projectProgress.status')"
+              [rxFormControl]="activity.get('status')"
             ></drr-radio-button>
 
             <div
@@ -100,44 +100,36 @@
                 gap: 1rem;
               "
             >
-              @if (showPlannedStartDate()) {
+              @if (showPlannedStartDate(activity)) {
               <drr-datepicker
                 class="drr-single-input"
                 [label]="t('plannedStartDate')"
-                [rxFormControl]="
-                  workplanForm?.get('projectProgress.plannedStartDate')
-                "
+                [rxFormControl]="activity.get('plannedStartDate')"
               ></drr-datepicker>
-              } @if (showPlannedEndDate()) {
+              } @if (showPlannedEndDate(activity)) {
               <drr-datepicker
                 class="drr-single-input"
                 [label]="t('plannedEndDate')"
-                [rxFormControl]="
-                  workplanForm?.get('projectProgress.plannedEndDate')
-                "
+                [rxFormControl]="activity.get('plannedCompletionDate')"
               ></drr-datepicker>
-              } @if (showActualStartDate()) {
+              } @if (showActualStartDate(activity)) {
               <drr-datepicker
                 class="drr-single-input"
                 [label]="t('actualStartDate')"
-                [rxFormControl]="
-                  workplanForm?.get('projectProgress.actualStartDate')
-                "
+                [rxFormControl]="activity.get('actualStartDate')"
               ></drr-datepicker>
-              } @if (showActualEndDate()) {
+              } @if (showActualEndDate(activity)) {
               <drr-datepicker
                 class="drr-single-input"
                 [label]="t('actualEndDate')"
-                [rxFormControl]="
-                  workplanForm?.get('projectProgress.actualEndDate')
-                "
+                [rxFormControl]="activity.get('actualCompletionDate')"
               ></drr-datepicker>
               }
             </div>
           </div>
           <drr-textarea
             label="Comments"
-            [rxFormControl]="workplanForm?.get('projectProgress.comment')"
+            [rxFormControl]="activity.get('comment')"
           ></drr-textarea>
         </div>
 

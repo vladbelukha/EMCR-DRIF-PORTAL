@@ -13,9 +13,9 @@ import {
   RxFormBuilder,
   RxReactiveFormsModule,
 } from '@rxweb/reactive-form-validators';
-import { YesNoOption } from '../../../../../model';
+import { ActivityType, YesNoOption } from '../../../../../model';
 
-import { FormArray } from '@angular/forms';
+import { AbstractControl, FormArray } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ProjectService } from '../../../../../api/project/project.service';
 import { DrrDatepickerComponent } from '../../../../shared/controls/drr-datepicker/drr-datepicker.component';
@@ -33,9 +33,8 @@ import {
   EventForm,
   EventProgressType,
   ProgressReportForm,
-  ProjectActivityType,
+  WorkplanActivityDetailsForm,
   WorkplanForm,
-  WorkplanItemForm,
   WorkplanProgressType,
 } from '../drif-progress-report-form';
 
@@ -111,7 +110,7 @@ export class DrifProgressReportCreateComponent {
   }
 
   get workplanItems(): FormArray | null {
-    return this.workplanForm?.get('workplanItems') as FormArray;
+    return this.workplanForm?.get('workplanActivities') as FormArray;
   }
 
   get eventForm(): IFormGroup<EventForm> | null {
@@ -135,11 +134,11 @@ export class DrifProgressReportCreateComponent {
 
           // TODO: add temp values
           const projectStartEndItem = this.formBuilder.formGroup(
-            new WorkplanItemForm({
-              activity: ProjectActivityType.ProjectProgress,
-              isPreDefinedActivity: true,
+            new WorkplanActivityDetailsForm({
+              activity: ActivityType.Project,
+              preCreatedActivity: true,
             })
-          ) as IFormGroup<WorkplanItemForm>;
+          ) as IFormGroup<WorkplanActivityDetailsForm>;
           this.workplanItems?.controls.push(projectStartEndItem);
         });
     });
@@ -155,34 +154,46 @@ export class DrifProgressReportCreateComponent {
 
   getPreDefinedActivitiesArray() {
     return this.workplanItems?.controls.filter(
-      (control) => control.get('isPreDefinedActivity')?.value
+      (control) => control.get('preCreatedActivity')?.value
     );
     return;
   }
 
-  showPlannedStartDate() {
-    const status = this.workplanForm?.get('projectProgress.status')?.value;
+  showPlannedStartDate(
+    activityControl: AbstractControl<WorkplanActivityDetailsForm>
+  ) {
+    const status = activityControl?.get('status')
+      ?.value as WorkplanProgressType;
     return status === WorkplanProgressType.NotStarted;
   }
 
-  showPlannedEndDate() {
-    const status = this.workplanForm?.get('projectProgress.status')?.value;
+  showPlannedEndDate(
+    activityControl: AbstractControl<WorkplanActivityDetailsForm>
+  ) {
+    const status = activityControl?.get('status')
+      ?.value as WorkplanProgressType;
     return (
       status === WorkplanProgressType.NotStarted ||
       status === WorkplanProgressType.InProgress
     );
   }
 
-  showActualStartDate() {
-    const status = this.workplanForm?.get('projectProgress.status')?.value;
+  showActualStartDate(
+    activityControl: AbstractControl<WorkplanActivityDetailsForm>
+  ) {
+    const status = activityControl?.get('status')
+      ?.value as WorkplanProgressType;
     return (
       status === WorkplanProgressType.InProgress ||
       status === WorkplanProgressType.Completed
     );
   }
 
-  showActualEndDate() {
-    const status = this.workplanForm?.get('projectProgress.status')?.value;
+  showActualEndDate(
+    activityControl: AbstractControl<WorkplanActivityDetailsForm>
+  ) {
+    const status = activityControl?.get('status')
+      ?.value as WorkplanProgressType;
     return status === WorkplanProgressType.Completed;
   }
 }

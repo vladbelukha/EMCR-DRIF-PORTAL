@@ -5,11 +5,11 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type WorkplanProgress = typeof WorkplanProgress[keyof typeof WorkplanProgress];
+export type WorkplanStatus = typeof WorkplanStatus[keyof typeof WorkplanStatus];
 
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const WorkplanProgress = {
+export const WorkplanStatus = {
   NotStarted: 'NotStarted',
   InProgress: 'InProgress',
   Completed: 'Completed',

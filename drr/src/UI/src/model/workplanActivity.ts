@@ -4,9 +4,9 @@
  * DRR API
  * OpenAPI spec version: 1.0.0
  */
-import type { WorkplanProgress } from './workplanProgress';
+import type { WorkplanStatus } from './workplanStatus';
 
 export interface WorkplanActivity {
   /** @nullable */
-  progress?: WorkplanProgress;
+  status?: WorkplanStatus;
 }
