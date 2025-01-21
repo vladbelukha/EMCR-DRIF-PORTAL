@@ -134,13 +134,7 @@ export class DrifProjectComponent {
     ]);
   }
 
-  addProjectContact() {}
-
-  viewClaimClick(claim: ProjectClaim, event: Event) {
-    event.stopPropagation();
-
-    this.router.navigate(['drif-projects', this.projectId, 'claims', claim.id]);
-  }
+  addProjectContact() {}  
 
   editClaim() {}
 
