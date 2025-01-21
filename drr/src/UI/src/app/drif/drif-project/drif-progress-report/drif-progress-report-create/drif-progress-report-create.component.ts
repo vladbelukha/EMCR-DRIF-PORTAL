@@ -139,7 +139,14 @@ export class DrifProgressReportCreateComponent {
               preCreatedActivity: true,
             })
           ) as IFormGroup<WorkplanActivityDetailsForm>;
+          const addActivityItem = this.formBuilder.formGroup(
+            new WorkplanActivityDetailsForm({
+              activity: ActivityType.Design,
+              preCreatedActivity: false,
+            })
+          ) as IFormGroup<WorkplanActivityDetailsForm>;
           this.workplanItems?.controls.push(projectStartEndItem);
+          this.workplanItems?.controls.push(addActivityItem);
         });
     });
   }
@@ -157,6 +164,12 @@ export class DrifProgressReportCreateComponent {
       (control) => control.get('preCreatedActivity')?.value
     );
     return;
+  }
+
+  getAdditionalActivitiesArray() {
+    return this.workplanItems?.controls.filter(
+      (control) => !control.get('preCreatedActivity')?.value
+    );
   }
 
   showPlannedStartDate(
