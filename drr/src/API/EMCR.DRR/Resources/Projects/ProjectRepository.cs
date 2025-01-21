@@ -67,11 +67,6 @@ namespace EMCR.DRR.API.Resources.Projects
                 ctx.LoadPropertyAsync(project, nameof(drr_project.drr_Program), ct),
                 ctx.LoadPropertyAsync(project, nameof(drr_project.drr_ReportingSchedule), ct),
                 ctx.LoadPropertyAsync(project, nameof(drr_project.drr_drr_project_drr_projectreport_Project), ct),
-                ctx.LoadPropertyAsync(project, nameof(drr_project.drr_drr_project_drr_projectclaim_Project), ct),
-                //ctx.LoadPropertyAsync(project, nameof(drr_project.drr_drr_project_drr_projectprogress_Project), ct),
-                //ctx.LoadPropertyAsync(project, nameof(drr_project.drr_drr_project_drr_projectcondition_Project), ct),
-                //ctx.LoadPropertyAsync(project, nameof(drr_project.drr_drr_project_drr_projectbudgetforecast_Project), ct),
-                //ctx.LoadPropertyAsync(project, nameof(drr_project.drr_drr_project_drr_projectevent_Project), ct),
             };
 
             await Task.WhenAll(loadTasks);
@@ -79,11 +74,17 @@ namespace EMCR.DRR.API.Resources.Projects
             //For some reason when testing locally I get this error (though not when debugging... of course...):
             //The SSL connection could not be established, see inner exception.
             //----> System.IO.IOException : Unable to read data from the transport connection: An existing connection was forcibly closed by the remote host..----> System.Net.Sockets.SocketException : An existing connection was forcibly closed by the remote host.
-            //But if I load these separately down here, it works consistently...
-            await ctx.LoadPropertyAsync(project, nameof(drr_project.drr_drr_project_drr_projectprogress_Project), ct);
-            await ctx.LoadPropertyAsync(project, nameof(drr_project.drr_drr_project_drr_projectcondition_Project), ct);
-            await ctx.LoadPropertyAsync(project, nameof(drr_project.drr_drr_project_drr_projectbudgetforecast_Project), ct);
-            await ctx.LoadPropertyAsync(project, nameof(drr_project.drr_drr_project_drr_projectevent_Project), ct);
+            //But if I load these in two steps, it works consistently...
+            var loadTasks2 = new List<Task>
+            {
+                ctx.LoadPropertyAsync(project, nameof(drr_project.drr_drr_project_drr_projectclaim_Project), ct),
+                ctx.LoadPropertyAsync(project, nameof(drr_project.drr_drr_project_drr_projectprogress_Project), ct),
+                ctx.LoadPropertyAsync(project, nameof(drr_project.drr_drr_project_drr_projectcondition_Project), ct),
+                ctx.LoadPropertyAsync(project, nameof(drr_project.drr_drr_project_drr_projectbudgetforecast_Project), ct),
+                ctx.LoadPropertyAsync(project, nameof(drr_project.drr_drr_project_drr_projectevent_Project), ct),
+            };
+
+            await Task.WhenAll(loadTasks2);
 
             await Task.WhenAll([
                 ParallelLoadWorkplanActivities(ctx, project, ct),

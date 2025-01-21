@@ -63,8 +63,8 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
         [Test]
         public async Task QueryReports_CanFilterById()
         {
-            var queryRes = await manager.Handle(new DrrReportsQuery { Id = "DRIF-REP-1032", BusinessId = GetTestUserInfo().BusinessId });
-            var reports = mapper.Map<IEnumerable<EMCR.DRR.Controllers.InterimReportDetails>>(queryRes.Items);
+            var queryRes = await manager.Handle(new DrrReportsQuery { Id = "DRIF-REP-1034", BusinessId = GetTestUserInfo().BusinessId });
+            var reports = mapper.Map<IEnumerable<EMCR.DRR.Controllers.InterimReport>>(queryRes.Items);
             reports.Count().ShouldBe(1);
         }
 
@@ -72,15 +72,15 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
         public async Task QueryClaims_CanFilterById()
         {
             var queryRes = await manager.Handle(new DrrClaimsQuery { Id = "DRIF-CLAIM-1000", BusinessId = GetTestUserInfo().BusinessId });
-            var claims = mapper.Map<IEnumerable<EMCR.DRR.Controllers.ClaimDetails>>(queryRes.Items);
+            var claims = mapper.Map<IEnumerable<EMCR.DRR.Controllers.ProjectClaim>>(queryRes.Items);
             claims.Count().ShouldBe(1);
         }
 
         [Test]
         public async Task QueryProgressReports_CanFilterById()
         {
-            var queryRes = await manager.Handle(new DrrProgressReportsQuery { Id = "DRIF-PR-1057", BusinessId = GetTestUserInfo().BusinessId });
-            var prs = mapper.Map<IEnumerable<EMCR.DRR.Controllers.ProgressReportDetails>>(queryRes.Items);
+            var queryRes = await manager.Handle(new DrrProgressReportsQuery { Id = "DRIF-PR-1058", BusinessId = GetTestUserInfo().BusinessId });
+            var prs = mapper.Map<IEnumerable<EMCR.DRR.Controllers.ProgressReport>>(queryRes.Items);
             prs.Count().ShouldBe(1);
         }
 
@@ -88,7 +88,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
         public async Task QueryForecasts_CanFilterById()
         {
             var queryRes = await manager.Handle(new DrrForecastsQuery { Id = "DRIF-FORECAST-1001", BusinessId = GetTestUserInfo().BusinessId });
-            var forecasts = mapper.Map<IEnumerable<EMCR.DRR.Controllers.ForecastDetails>>(queryRes.Items);
+            var forecasts = mapper.Map<IEnumerable<EMCR.DRR.Controllers.Forecast>>(queryRes.Items);
             forecasts.Count().ShouldBe(1);
         }
     }
