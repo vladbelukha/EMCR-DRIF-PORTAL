@@ -693,9 +693,9 @@ namespace EMCR.DRR.Managers.Intake
     public class ProgressReport
     {
         public string? Id { get; set; }
-        public string? ReportType { get; set; }
-        public DateTime? ReportDate { get; set; }
-        public WorkplanActivity[]? WorkplanActivities { get; set; }
+        public DateTime? DateSubmitted { get; set; }
+        public DateTime? DateApproved { get; set; }
+        public DateTime? DueDate { get; set; }
         public ProgressReportStatus? Status { get; set; }
     }
 
@@ -704,10 +704,6 @@ namespace EMCR.DRR.Managers.Intake
         public EventStatus? Status { get; set; }
     }
 
-    public class WorkplanActivity
-    {
-        public WorkplanStatus? Status { get; set; }
-    }
 
     public class Forecast
     {
@@ -718,45 +714,22 @@ namespace EMCR.DRR.Managers.Intake
         public ForecastStatus? Status { get; set; }
     }
 
-    public class InterimReportDetails
+    public class InterimReportDetails : InterimReport
     {
-        public string? Id { get; set; }
-        public DateTime? DueDate { get; set; }
-        public string? Description { get; set; }
-        public InterimReportStatus? Status { get; set; }
-        public InterimProjectType? ProjectType { get; set; }
-        public PeriodType? PeriodType { get; set; }
-        public ClaimDetails? ProjectClaim { get; set; }
-        public ProgressReportDetails? ProgressReport { get; set; }
-        public ForecastDetails? Forecast { get; set; }
     }
 
-    public class ClaimDetails
+    public class ClaimDetails : ProjectClaim
     {
-        public string? Id { get; set; }
-        public string? ClaimType { get; set; }
-        public DateTime? ClaimDate { get; set; }
-        public decimal? ClaimAmount { get; set; }
-        public ClaimStatus? Status { get; set; }
+
     }
 
-    public class ProgressReportDetails
+    public class ProgressReportDetails : ProgressReport
     {
-        public string? Id { get; set; }
-        public DateTime? DateSubmitted { get; set; }
-        public DateTime? DateApproved { get; set; }
-        public DateTime? DueDate { get; set; }
         public WorkplanActivityDetails[]? WorkplanActivities { get; set; }
-        public ProgressReportStatus? Status { get; set; }
     }
 
-    public class ForecastDetails
+    public class ForecastDetails : Forecast
     {
-        public string? Id { get; set; }
-        public string? ForecastType { get; set; }
-        public DateTime? ForecastDate { get; set; }
-        public decimal? ForecastAmount { get; set; }
-        public ForecastStatus? Status { get; set; }
     }
 
     public class WorkplanActivityDetails

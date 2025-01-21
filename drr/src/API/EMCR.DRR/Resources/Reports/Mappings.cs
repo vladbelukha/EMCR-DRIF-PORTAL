@@ -5,7 +5,7 @@ using EMCR.DRR.Managers.Intake;
 using EMCR.DRR.Resources.Applications;
 using Microsoft.Dynamics.CRM;
 
-namespace EMCR.DRR.API.Resources.Cases
+namespace EMCR.DRR.API.Resources.Reports
 {
     public class ReportMapperProfile : Profile
     {
