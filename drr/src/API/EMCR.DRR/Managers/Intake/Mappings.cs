@@ -2,6 +2,7 @@
 using EMCR.DRR.API.Model;
 using EMCR.DRR.API.Resources.Projects;
 using EMCR.DRR.Controllers;
+using EMCR.Utilities.Extensions;
 
 namespace EMCR.DRR.Managers.Intake
 {
@@ -143,28 +144,29 @@ namespace EMCR.DRR.Managers.Intake
                 .ReverseMap()
                 ;
 
-            CreateMap<Controllers.ClaimDetails, ClaimDetails>()
+            CreateMap<Controllers.ProjectClaim, ClaimDetails>()
                 .ReverseMap()
                 ;
 
-            CreateMap<Controllers.ProgressReportDetails, ProgressReportDetails>()
+            CreateMap<Controllers.ProgressReport, ProgressReportDetails>()
                 .ReverseMap()
                 ;
 
-            CreateMap<Controllers.ForecastDetails, ForecastDetails>()
+            CreateMap<Controllers.Forecast, ForecastDetails>()
                 .ReverseMap()
                 ;
 
-            CreateMap<Controllers.InterimReportDetails, InterimReportDetails>()
+            CreateMap<Controllers.InterimReport, InterimReportDetails>()
                 .ReverseMap()
                 ;
 
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
 #pragma warning disable CS8604 // Possible null reference argument.
-            CreateMap<Controllers.WorkplanActivityDetails, WorkplanActivityDetails>()
+            CreateMap<Controllers.WorkplanActivity, WorkplanActivityDetails>()
                 .ForMember(dest => dest.ActivityType, opt => opt.MapFrom(src => new ActivityType { Name = src.Activity.ToString(), PreCreatedActivity = src.PreCreatedActivity }))
                 .ReverseMap()
-                .ForMember(dest => dest.Activity, opt => opt.MapFrom(src => Enum.Parse<Controllers.ActivityType>(src.ActivityType.Name)))
+                //.ForMember(dest => dest.Activity, opt => opt.MapFrom(src => IEnumEx.GetValueFromDescription<DocumentType>(src.bcgov_DocumentType != null ? src.bcgov_DocumentType.bcgov_name : DocumentType.OtherSupportingDocument.ToDescriptionString())))
+                .ForMember(dest => dest.Activity, opt => opt.MapFrom(src => IEnumEx.GetValueFromDescription<Controllers.ActivityType>(src.ActivityType.Name)))
                 .ForMember(dest => dest.PreCreatedActivity, opt => opt.MapFrom(src => src.ActivityType.PreCreatedActivity))
                 ;
 #pragma warning restore CS8604 // Possible null reference argument.

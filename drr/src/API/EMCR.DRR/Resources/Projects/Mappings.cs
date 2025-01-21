@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
-using EMCR.DRR.API.Resources.Projects;
 using EMCR.DRR.Dynamics;
 using EMCR.DRR.Managers.Intake;
 using EMCR.DRR.Resources.Applications;
 using Microsoft.Dynamics.CRM;
 
-namespace EMCR.DRR.API.Resources.Cases
+namespace EMCR.DRR.API.Resources.Projects
 {
     public class ProjectMapperProfile : Profile
     {
@@ -75,9 +74,9 @@ namespace EMCR.DRR.API.Resources.Cases
                 .ReverseMap()
                 .ValidateMemberList(MemberList.Destination)
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.drr_name))
-                .ForMember(dest => dest.ReportDate, opt => opt.MapFrom(src => src.drr_reportasatdate.HasValue ? src.drr_reportasatdate.Value.UtcDateTime : (DateTime?)null))
-                .ForMember(dest => dest.WorkplanActivities, opt => opt.MapFrom(src => src.drr_drr_projectprogress_drr_projectworkplanactivity_ProjectProgressReport.Where(c => c.statecode == (int)EntityState.Active)))
-                .ForMember(dest => dest.ReportType, opt => opt.Ignore())
+                .ForMember(dest => dest.DateApproved, opt => opt.MapFrom(src => src.drr_dateapproved.HasValue ? src.drr_dateapproved.Value.UtcDateTime : (DateTime?)null))
+                .ForMember(dest => dest.DateSubmitted, opt => opt.MapFrom(src => src.drr_datesubmitted.HasValue ? src.drr_datesubmitted.Value.UtcDateTime : (DateTime?)null))
+                .ForMember(dest => dest.DueDate, opt => opt.MapFrom(src => src.drr_duedate.HasValue ? src.drr_duedate.Value.UtcDateTime : (DateTime?)null))
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => Enum.Parse<ProgressReportStatus>(((ProjectProgressReportStatusOptionSet)src.statuscode).ToString())))
             ;
 
@@ -99,12 +98,12 @@ namespace EMCR.DRR.API.Resources.Cases
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.drr_eventstatus.HasValue ? (int?)Enum.Parse<EventStatus>(((EventStatusOptionSet)src.drr_eventstatus).ToString()) : null))
             ;
 
-            CreateMap<WorkplanActivity, drr_projectworkplanactivity>(MemberList.None)
-                .ForMember(dest => dest.drr_name, opt => opt.Ignore())
-                .ReverseMap()
-                .ValidateMemberList(MemberList.Destination)
-                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.drr_progressstatus.HasValue ? (int?)Enum.Parse<WorkplanStatus>(((WorkplanProgressOptionSet)src.drr_progressstatus).ToString()) : null))
-            ;
+            //CreateMap<WorkplanActivity, drr_projectworkplanactivity>(MemberList.None)
+            //    .ForMember(dest => dest.drr_name, opt => opt.Ignore())
+            //    .ReverseMap()
+            //    .ValidateMemberList(MemberList.Destination)
+            //    .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.drr_progressstatus.HasValue ? (int?)Enum.Parse<WorkplanStatus>(((WorkplanProgressOptionSet)src.drr_progressstatus).ToString()) : null))
+            //;
 
             CreateMap<PaymentCondition, drr_projectcondition>(MemberList.None)
                 .ForMember(dest => dest.drr_name, opt => opt.Ignore())
