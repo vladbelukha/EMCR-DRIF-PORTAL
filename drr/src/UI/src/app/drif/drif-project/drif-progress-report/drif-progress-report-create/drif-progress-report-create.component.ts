@@ -13,9 +13,10 @@ import {
   RxFormBuilder,
   RxReactiveFormsModule,
 } from '@rxweb/reactive-form-validators';
-import { ActivityType, YesNoOption } from '../../../../../model';
+import { YesNoOption } from '../../../../../model';
 
 import { AbstractControl, FormArray } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
 import { ActivatedRoute } from '@angular/router';
 import { ProjectService } from '../../../../../api/project/project.service';
 import { DrrDatepickerComponent } from '../../../../shared/controls/drr-datepicker/drr-datepicker.component';
@@ -47,6 +48,7 @@ import {
     MatIconModule,
     MatButtonModule,
     MatInputModule,
+    MatCardModule,
     TranslocoModule,
     DrrDatepickerComponent,
     DrrInputComponent,
@@ -131,22 +133,6 @@ export class DrifProgressReportCreateComponent {
         )
         .subscribe((report) => {
           this.progressReportForm.patchValue(report);
-
-          // TODO: add temp values
-          const projectStartEndItem = this.formBuilder.formGroup(
-            new WorkplanActivityDetailsForm({
-              activity: ActivityType.Project,
-              preCreatedActivity: true,
-            })
-          ) as IFormGroup<WorkplanActivityDetailsForm>;
-          const addActivityItem = this.formBuilder.formGroup(
-            new WorkplanActivityDetailsForm({
-              activity: ActivityType.Design,
-              preCreatedActivity: false,
-            })
-          ) as IFormGroup<WorkplanActivityDetailsForm>;
-          this.workplanItems?.controls.push(projectStartEndItem);
-          this.workplanItems?.controls.push(addActivityItem);
         });
     });
   }

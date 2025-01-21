@@ -84,65 +84,71 @@
           "
           style="display: flex; flex-direction: column; gap: 1rem"
         >
-          <mat-label class="drr-label">
-            {{ t(preDefinedActivity.get("activity")?.value) }}
-          </mat-label>
-          <div>
-            <div class="progress-group">
-              <drr-radio-button
-                class="drr-single-input"
-                label="Status"
-                [options]="progressReportOptions"
-                [rxFormControl]="preDefinedActivity.get('status')"
-              ></drr-radio-button>
+          <mat-label class="drr-label"> </mat-label>
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>
+                {{ t(preDefinedActivity.get("activity")?.value) }}
+                <mat-card-title-group> </mat-card-title-group>
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="progress-group">
+                <drr-radio-button
+                  class="drr-single-input"
+                  label="Status"
+                  [options]="progressReportOptions"
+                  [rxFormControl]="preDefinedActivity.get('status')"
+                ></drr-radio-button>
 
-              <div
-                style="
-                  display: flex;
-                  flex-direction: column;
-                  justify-content: space-between;
-                  gap: 1rem;
-                "
-              >
-                @if (showPlannedStartDate(preDefinedActivity)) {
-                <drr-datepicker
-                  class="drr-single-input"
-                  [label]="t('plannedStartDate')"
-                  [rxFormControl]="preDefinedActivity.get('plannedStartDate')"
-                ></drr-datepicker>
-                } @if (showPlannedEndDate(preDefinedActivity)) {
-                <drr-datepicker
-                  class="drr-single-input"
-                  [label]="t('plannedEndDate')"
-                  [rxFormControl]="
-                    preDefinedActivity.get('plannedCompletionDate')
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    gap: 1rem;
                   "
-                ></drr-datepicker>
-                } @if (showActualStartDate(preDefinedActivity)) {
-                <drr-datepicker
-                  class="drr-single-input"
-                  [label]="t('actualStartDate')"
-                  [rxFormControl]="preDefinedActivity.get('actualStartDate')"
-                ></drr-datepicker>
-                } @if (showActualEndDate(preDefinedActivity)) {
-                <drr-datepicker
-                  class="drr-single-input"
-                  [label]="t('actualEndDate')"
-                  [rxFormControl]="
-                    preDefinedActivity.get('actualCompletionDate')
-                  "
-                ></drr-datepicker>
-                }
+                >
+                  @if (showPlannedStartDate(preDefinedActivity)) {
+                  <drr-datepicker
+                    class="drr-single-input"
+                    [label]="t('plannedStartDate')"
+                    [rxFormControl]="preDefinedActivity.get('plannedStartDate')"
+                  ></drr-datepicker>
+                  } @if (showPlannedEndDate(preDefinedActivity)) {
+                  <drr-datepicker
+                    class="drr-single-input"
+                    [label]="t('plannedEndDate')"
+                    [rxFormControl]="
+                      preDefinedActivity.get('plannedCompletionDate')
+                    "
+                  ></drr-datepicker>
+                  } @if (showActualStartDate(preDefinedActivity)) {
+                  <drr-datepicker
+                    class="drr-single-input"
+                    [label]="t('actualStartDate')"
+                    [rxFormControl]="preDefinedActivity.get('actualStartDate')"
+                  ></drr-datepicker>
+                  } @if (showActualEndDate(preDefinedActivity)) {
+                  <drr-datepicker
+                    class="drr-single-input"
+                    [label]="t('actualEndDate')"
+                    [rxFormControl]="
+                      preDefinedActivity.get('actualCompletionDate')
+                    "
+                  ></drr-datepicker>
+                  }
+                </div>
               </div>
-            </div>
-            <drr-textarea
-              label="Comments"
-              [rxFormControl]="preDefinedActivity.get('comment')"
-            ></drr-textarea>
-          </div>
+              <drr-textarea
+                label="Comments"
+                [rxFormControl]="preDefinedActivity.get('comment')"
+              ></drr-textarea>
+            </mat-card-content>
+          </mat-card>
         </div>
 
-        <mat-label class="drr-label"> Additional Activities </mat-label>
+        <h5>Additional Activities</h5>
 
         <div
           *ngFor="
@@ -151,62 +157,70 @@
           "
           style="display: flex; flex-direction: column; gap: 1rem"
         >
-          <mat-label class="drr-label">
-            {{ t(additionalActivity.get("activity")?.value) }}
-          </mat-label>
-          <div>
-            <div class="progress-group">
-              <drr-radio-button
-                class="drr-single-input"
-                label="Status"
-                [options]="progressReportOptions"
-                [rxFormControl]="additionalActivity.get('status')"
-              ></drr-radio-button>
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>
+                <mat-card-title-group>
+                  <mat-card-subtitle>
+                    Additional Activity {{ i + 1 }}
+                  </mat-card-subtitle>
+                </mat-card-title-group>
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="progress-group">
+                <drr-radio-button
+                  class="drr-single-input"
+                  label="Status"
+                  [options]="progressReportOptions"
+                  [rxFormControl]="additionalActivity.get('status')"
+                ></drr-radio-button>
 
-              <div
-                style="
-                  display: flex;
-                  flex-direction: column;
-                  justify-content: space-between;
-                  gap: 1rem;
-                "
-              >
-                @if (showPlannedStartDate(additionalActivity)) {
-                <drr-datepicker
-                  class="drr-single-input"
-                  [label]="t('plannedStartDate')"
-                  [rxFormControl]="additionalActivity.get('plannedStartDate')"
-                ></drr-datepicker>
-                } @if (showPlannedEndDate(additionalActivity)) {
-                <drr-datepicker
-                  class="drr-single-input"
-                  [label]="t('plannedEndDate')"
-                  [rxFormControl]="
-                    additionalActivity.get('plannedCompletionDate')
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    gap: 1rem;
                   "
-                ></drr-datepicker>
-                } @if (showActualStartDate(additionalActivity)) {
-                <drr-datepicker
-                  class="drr-single-input"
-                  [label]="t('actualStartDate')"
-                  [rxFormControl]="additionalActivity.get('actualStartDate')"
-                ></drr-datepicker>
-                } @if (showActualEndDate(additionalActivity)) {
-                <drr-datepicker
-                  class="drr-single-input"
-                  [label]="t('actualEndDate')"
-                  [rxFormControl]="
-                    additionalActivity.get('actualCompletionDate')
-                  "
-                ></drr-datepicker>
-                }
+                >
+                  @if (showPlannedStartDate(additionalActivity)) {
+                  <drr-datepicker
+                    class="drr-single-input"
+                    [label]="t('plannedStartDate')"
+                    [rxFormControl]="additionalActivity.get('plannedStartDate')"
+                  ></drr-datepicker>
+                  } @if (showPlannedEndDate(additionalActivity)) {
+                  <drr-datepicker
+                    class="drr-single-input"
+                    [label]="t('plannedEndDate')"
+                    [rxFormControl]="
+                      additionalActivity.get('plannedCompletionDate')
+                    "
+                  ></drr-datepicker>
+                  } @if (showActualStartDate(additionalActivity)) {
+                  <drr-datepicker
+                    class="drr-single-input"
+                    [label]="t('actualStartDate')"
+                    [rxFormControl]="additionalActivity.get('actualStartDate')"
+                  ></drr-datepicker>
+                  } @if (showActualEndDate(additionalActivity)) {
+                  <drr-datepicker
+                    class="drr-single-input"
+                    [label]="t('actualEndDate')"
+                    [rxFormControl]="
+                      additionalActivity.get('actualCompletionDate')
+                    "
+                  ></drr-datepicker>
+                  }
+                </div>
               </div>
-            </div>
-            <drr-textarea
-              label="Comments"
-              [rxFormControl]="additionalActivity.get('comment')"
-            ></drr-textarea>
-          </div>
+              <drr-textarea
+                label="Comments"
+                [rxFormControl]="additionalActivity.get('comment')"
+              ></drr-textarea>
+            </mat-card-content>
+          </mat-card>
         </div>
 
         <div>
