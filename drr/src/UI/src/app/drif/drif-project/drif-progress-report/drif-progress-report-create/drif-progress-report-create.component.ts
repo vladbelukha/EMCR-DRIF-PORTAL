@@ -13,7 +13,7 @@ import {
   RxFormBuilder,
   RxReactiveFormsModule,
 } from '@rxweb/reactive-form-validators';
-import { YesNoOption } from '../../../../../model';
+import { ActivityType, YesNoOption } from '../../../../../model';
 
 import { AbstractControl, FormArray } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -70,6 +70,15 @@ export class DrifProgressReportCreateComponent {
   projectId!: string;
   reportId!: string;
   progressReportId!: string;
+
+  activityTypeOptions: DrrSelectOption[] = Object.values(ActivityType).map(
+    (value) => ({
+      label: this.translocoService.translate(
+        `progressReport.activityType.${value}`
+      ),
+      value,
+    })
+  );
 
   progressReportOptions: RadioOption[] = Object.values(
     WorkplanProgressType
@@ -133,6 +142,15 @@ export class DrifProgressReportCreateComponent {
         )
         .subscribe((report) => {
           this.progressReportForm.patchValue(report);
+
+          // TODO: temporarily add workplan items
+          report.workplanActivities?.map((activity) => {
+            this.workplanItems?.push(
+              this.formBuilder.formGroup(
+                new WorkplanActivityDetailsForm(activity)
+              )
+            );
+          });
         });
     });
   }
@@ -156,6 +174,16 @@ export class DrifProgressReportCreateComponent {
     return this.workplanItems?.controls.filter(
       (control) => !control.get('preCreatedActivity')?.value
     );
+  }
+
+  addAdditionalActivity() {
+    this.workplanItems?.push(
+      this.formBuilder.formGroup(new WorkplanActivityDetailsForm({}))
+    );
+  }
+
+  removeAdditionalActivity(index: number) {
+    this.workplanItems?.removeAt(index);
   }
 
   showPlannedStartDate(
