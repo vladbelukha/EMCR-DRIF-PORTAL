@@ -282,7 +282,7 @@
             </div>
             <div class="row"></div>
           </mat-card-content>
-          @if (i > 0) {
+          @if (getFormArray('costEstimates').controls.length > 1) {
           <mat-card-actions align="end">
             <button mat-raised-button color="warn" (click)="removeCost(i)">
               Remove
