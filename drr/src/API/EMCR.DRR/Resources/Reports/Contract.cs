@@ -71,4 +71,10 @@ namespace EMCR.DRR.API.Resources.Reports
         public string? Id { get; set; }
         public string? BusinessId { get; set; }
     }
+
+    public enum ProvincialMediaOptionSet
+    {
+        NotAnnounced = 172580000,
+        NotApplicable = 172580001
+    }
 }
