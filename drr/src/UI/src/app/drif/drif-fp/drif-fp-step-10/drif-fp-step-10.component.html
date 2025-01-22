@@ -303,5 +303,13 @@
         Add Additional Task
       </button>
     </div>
+
+    <drr-input
+      style="align-self: flex-start; margin-top: 1rem"
+      [label]="t('contingency')"
+      [rxFormControl]="budgetForm.get('contingency')"
+      [type]="'percentage'"
+    >
+    </drr-input>
   </form>
 </div>

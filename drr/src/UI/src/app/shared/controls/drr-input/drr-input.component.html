@@ -14,7 +14,11 @@
     [mask]="getMask()"
     [decimalMarker]="'.'"
     [thousandSeparator]="''"
+    [ngStyle]="{ 'text-align': type === 'percentage' ? 'right' : 'left' }"
   />
+  @if (this.type === "percentage") {
+  <span matTextSuffix>%&nbsp;</span>
+  }
   <mat-hint *ngIf="isEmail() && !rxFormControl.value" align="start">{{
     t("emailExample")
   }}</mat-hint>

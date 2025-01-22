@@ -403,6 +403,7 @@
   "unitRate": "Unit Rate",
   "totalCost": "Total Cost",
   "description": "Description",
+  "contingency": "Contingency",
   "Yes": "Yes",
   "No": "No",
   "NotApplicable": "Not Applicable",

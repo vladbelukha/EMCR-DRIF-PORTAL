@@ -320,6 +320,12 @@ export class BudgetForm {
   @propArray(CostEstimateForm)
   costEstimates?: CostEstimateForm[] = [];
 
+  @prop()
+  @required()
+  @maxNumber({ value: 100 })
+  @minNumber({ value: 0 })
+  contingency?: number;
+
   constructor(values: BudgetForm) {
     Object.assign(this, values);
   }
