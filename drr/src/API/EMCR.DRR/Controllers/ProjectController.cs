@@ -234,13 +234,29 @@ namespace EMCR.DRR.Controllers
         public DateTime? DateSubmitted { get; set; }
         public DateTime? DateApproved { get; set; }
         public DateTime? DueDate { get; set; }
-        public WorkplanActivity[]? WorkplanActivities { get; set; }
+        public WorkPlan? WorkPlan { get; set; }
         public ProgressReportStatus? Status { get; set; }
     }
 
     public class ProjectEvent
     {
         public EventStatus? status { get; set; }
+    }
+
+    public class WorkPlan
+    {
+        public WorkplanActivity[]? WorkplanActivities { get; set; }
+        public decimal? ProjectCompletionPercentage { get; set; }
+        public YesNoOption? CommunityMedia { get; set; }
+        public DateTime? CommunityMediaDate { get; set; }
+        public string? CommunityMediaComment { get; set; }
+        public ProvincialMedia? ProvincialMedia { get; set; }
+        public DateTime? ProvincialMediaDate { get; set; }
+        public string? ProvincialMediaComment { get; set; }
+        public string? WorksCompleted { get; set; }
+        public string? OutstandingIssues { get; set; }
+        public bool? FundingSourcesChanged { get; set; }
+        public string? FundingSourcesChangedComment { get; set; }
     }
 
     public class WorkplanActivity
@@ -344,6 +360,16 @@ namespace EMCR.DRR.Controllers
 
         [Description("NotMet")]
         NotMet
+    }
+
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public enum ProvincialMedia
+    {
+        [Description("Not Announced")]
+        NotAnnounced,
+
+        [Description("Not Applicable")]
+        NotApplicable
     }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]

@@ -725,11 +725,27 @@ namespace EMCR.DRR.Managers.Intake
 
     public class ProgressReportDetails : ProgressReport
     {
-        public WorkplanActivityDetails[]? WorkplanActivities { get; set; }
+        public WorkPlanDetails? Workplan { get; set; }
     }
 
     public class ForecastDetails : Forecast
     {
+    }
+
+    public class WorkPlanDetails
+    {
+        public WorkplanActivityDetails[]? WorkplanActivities { get; set; }
+        public decimal? ProjectCompletionPercentage { get; set; }
+        public YesNoOption? CommunityMedia { get; set; }
+        public DateTime? CommunityMediaDate { get; set; }
+        public string? CommunityMediaComment { get; set; }
+        public ProvincialMedia? ProvincialMedia { get; set; }
+        public DateTime? ProvincialMediaDate { get; set; }
+        public string? ProvincialMediaComment { get; set; }
+        public string? WorksCompleted { get; set; }
+        public string? OutstandingIssues { get; set; }
+        public bool? FundingSourcesChanged { get; set; }
+        public string? FundingSourcesChangedComment { get; set; }
     }
 
     public class WorkplanActivityDetails
@@ -802,6 +818,12 @@ namespace EMCR.DRR.Managers.Intake
     {
         Met,
         NotMet
+    }
+
+    public enum ProvincialMedia
+    {
+        NotAnnounced,
+        NotApplicable
     }
 
     public enum WorkplanStatus

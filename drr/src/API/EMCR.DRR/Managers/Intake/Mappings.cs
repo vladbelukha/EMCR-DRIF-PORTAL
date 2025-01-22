@@ -160,6 +160,10 @@ namespace EMCR.DRR.Managers.Intake
                 .ReverseMap()
                 ;
 
+            CreateMap<Controllers.WorkPlan, WorkPlanDetails>()
+                .ReverseMap()
+                ;
+
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
 #pragma warning disable CS8604 // Possible null reference argument.
             CreateMap<Controllers.WorkplanActivity, WorkplanActivityDetails>()
