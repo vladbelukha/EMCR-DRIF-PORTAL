@@ -5,17 +5,19 @@
  * OpenAPI spec version: 1.0.0
  */
 import type { ProgressReportStatus } from './progressReportStatus';
-import type { WorkplanActivity } from './workplanActivity';
+import type { WorkPlan } from './workPlan';
 
 export interface ProgressReport {
   /** @nullable */
+  dateApproved?: string;
+  /** @nullable */
+  dateSubmitted?: string;
+  /** @nullable */
+  dueDate?: string;
+  /** @nullable */
   id?: string;
-  /** @nullable */
-  reportDate?: string;
-  /** @nullable */
-  reportType?: string;
   /** @nullable */
   status?: ProgressReportStatus;
   /** @nullable */
-  workplanActivities?: WorkplanActivity[];
+  workPlan?: WorkPlan;
 }

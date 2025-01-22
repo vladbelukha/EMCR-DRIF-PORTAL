@@ -34,7 +34,7 @@ import {
   EventForm,
   EventProgressType,
   ProgressReportForm,
-  WorkplanActivityDetailsForm,
+  WorkplanActivityForm,
   WorkplanForm,
   WorkplanProgressType,
 } from '../drif-progress-report-form';
@@ -144,14 +144,12 @@ export class DrifProgressReportCreateComponent {
         .subscribe((report) => {
           this.progressReportForm.patchValue(report);
 
-          // TODO: temporarily add workplan items
-          report.workplanActivities?.map((activity) => {
-            this.workplanItems?.push(
-              this.formBuilder.formGroup(
-                new WorkplanActivityDetailsForm(activity)
-              )
-            );
-          });
+          // // TODO: temporarily add workplan items
+          // report.workplanActivities?.map((activity) => {
+          //   this.workplanItems?.push(
+          //     this.formBuilder.formGroup(new WorkplanActivityForm(activity))
+          //   );
+          // });
         });
     });
   }
@@ -183,7 +181,7 @@ export class DrifProgressReportCreateComponent {
 
   addAdditionalActivity() {
     this.workplanItems?.push(
-      this.formBuilder.formGroup(new WorkplanActivityDetailsForm({}))
+      this.formBuilder.formGroup(new WorkplanActivityForm({}))
     );
   }
 
@@ -191,17 +189,13 @@ export class DrifProgressReportCreateComponent {
     this.workplanItems?.removeAt(index);
   }
 
-  showPlannedStartDate(
-    activityControl: AbstractControl<WorkplanActivityDetailsForm>
-  ) {
+  showPlannedStartDate(activityControl: AbstractControl<WorkplanActivityForm>) {
     const status = activityControl?.get('status')
       ?.value as WorkplanProgressType;
     return status === WorkplanProgressType.NotStarted;
   }
 
-  showPlannedEndDate(
-    activityControl: AbstractControl<WorkplanActivityDetailsForm>
-  ) {
+  showPlannedEndDate(activityControl: AbstractControl<WorkplanActivityForm>) {
     const status = activityControl?.get('status')
       ?.value as WorkplanProgressType;
     return (
@@ -210,9 +204,7 @@ export class DrifProgressReportCreateComponent {
     );
   }
 
-  showActualStartDate(
-    activityControl: AbstractControl<WorkplanActivityDetailsForm>
-  ) {
+  showActualStartDate(activityControl: AbstractControl<WorkplanActivityForm>) {
     const status = activityControl?.get('status')
       ?.value as WorkplanProgressType;
     return (
@@ -221,9 +213,7 @@ export class DrifProgressReportCreateComponent {
     );
   }
 
-  showActualEndDate(
-    activityControl: AbstractControl<WorkplanActivityDetailsForm>
-  ) {
+  showActualEndDate(activityControl: AbstractControl<WorkplanActivityForm>) {
     const status = activityControl?.get('status')
       ?.value as WorkplanProgressType;
     return status === WorkplanProgressType.Completed;

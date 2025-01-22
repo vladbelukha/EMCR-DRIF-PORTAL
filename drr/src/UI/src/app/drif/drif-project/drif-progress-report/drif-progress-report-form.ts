@@ -6,7 +6,7 @@ import {
 } from '@rxweb/reactive-form-validators';
 import {
   ActivityType,
-  WorkplanActivityDetails,
+  WorkplanActivity,
   WorkplanStatus,
   YesNoOption,
 } from '../../../../model';
@@ -26,7 +26,7 @@ export enum EventProgressType {
   Completed = 'Completed',
 }
 
-export class WorkplanActivityDetailsForm implements WorkplanActivityDetails {
+export class WorkplanActivityForm implements WorkplanActivity {
   @prop()
   @required()
   activity?: ActivityType;
@@ -70,14 +70,14 @@ export class WorkplanActivityDetailsForm implements WorkplanActivityDetails {
   @required()
   actualCompletionDate?: string;
 
-  constructor(values: WorkplanActivityDetailsForm) {
+  constructor(values: WorkplanActivityForm) {
     Object.assign(this, values);
   }
 }
 
 export class WorkplanForm {
-  @propArray(WorkplanActivityDetailsForm)
-  workplanActivities?: WorkplanActivityDetailsForm[] = [];
+  @propArray(WorkplanActivityForm)
+  workplanActivities?: WorkplanActivityForm[] = [];
 
   // TODO: 3 fields for construction progress?
 
