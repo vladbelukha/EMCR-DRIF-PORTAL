@@ -17,7 +17,7 @@ import { ActivityType, YesNoOption } from '../../../../../model';
 
 import { AbstractControl, FormArray } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectService } from '../../../../../api/project/project.service';
 import { DrrDatepickerComponent } from '../../../../shared/controls/drr-datepicker/drr-datepicker.component';
 import { DrrInputComponent } from '../../../../shared/controls/drr-input/drr-input.component';
@@ -64,6 +64,7 @@ import {
 export class DrifProgressReportCreateComponent {
   formBuilder = inject(RxFormBuilder);
   route = inject(ActivatedRoute);
+  router = inject(Router);
   projectService = inject(ProjectService);
   translocoService = inject(TranslocoService);
 
@@ -159,7 +160,11 @@ export class DrifProgressReportCreateComponent {
 
   save() {}
 
-  goBack() {}
+  goBack() {
+    // TODO: save
+
+    this.router.navigate(['drif-projects', this.projectId]);
+  }
 
   submit() {}
 

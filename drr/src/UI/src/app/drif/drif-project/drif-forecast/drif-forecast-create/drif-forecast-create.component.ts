@@ -18,6 +18,7 @@ import { DrrRadioButtonComponent } from '../../../../shared/controls/drr-radio-b
 import { DrrSelectComponent } from '../../../../shared/controls/drr-select/drr-select.component';
 import { DrrTextareaComponent } from '../../../../shared/controls/drr-textarea/drr-textarea.component';
 import { ForecastForm, YearForecastForm } from '../drif-forecast-form';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'drr-drif-forecast-create',
@@ -43,14 +44,20 @@ import { ForecastForm, YearForecastForm } from '../drif-forecast-form';
 })
 export class DrifForecastCreateComponent {
   formBuilder = inject(RxFormBuilder);
+  route = inject(ActivatedRoute);
+  router = inject(Router);
 
   stepperOrientation: StepperOrientation = 'horizontal';
+
+  projectId?: string;
 
   forecastForm = this.formBuilder.formGroup(
     ForecastForm
   ) as IFormGroup<ForecastForm>;
 
   ngOnInit() {
+    this.projectId = this.route.snapshot.params['projectId'];
+
     // TODO: temp add init values
     this.getYearForecastFormArray().controls.push(
       this.formBuilder.formGroup(YearForecastForm, {
@@ -81,7 +88,11 @@ export class DrifForecastCreateComponent {
 
   stepperSelectionChange(event: any) {}
 
-  goBack() {}
+  goBack() {
+    // TODO: save
+
+    this.router.navigate(['drif-projects', this.projectId]);
+  }
 
   save() {}
 }

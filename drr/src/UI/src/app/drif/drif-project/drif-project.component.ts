@@ -25,7 +25,6 @@ import {
   InterimReport,
   InterimReportStatus,
   PaymentCondition,
-  ProjectClaim,
 } from '../../../model';
 import { DrrInputComponent } from '../../shared/controls/drr-input/drr-input.component';
 
@@ -89,21 +88,7 @@ export class DrifProjectComponent {
       .subscribe((project) => {
         this.project = project;
 
-        this.conditionsDataSource.data = [
-          ...this.project!.conditions!,
-          {
-            id: 'PC-0004',
-            conditionName: 'Condition 4',
-            limit: 90,
-            conditionMet: false,
-          },
-          {
-            id: 'PC-0005',
-            conditionName: 'Condition 5',
-            limit: 90,
-            conditionMet: false,
-          },
-        ];
+        this.conditionsDataSource.data = [...this.project!.conditions!];
 
         this.projectContactsDataSource.data = this.project!.contacts!;
 
@@ -134,7 +119,7 @@ export class DrifProjectComponent {
     ]);
   }
 
-  addProjectContact() {}  
+  addProjectContact() {}
 
   editClaim() {}
 

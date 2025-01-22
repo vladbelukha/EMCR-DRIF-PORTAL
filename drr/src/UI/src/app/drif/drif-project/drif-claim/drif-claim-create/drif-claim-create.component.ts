@@ -9,6 +9,7 @@ import {
   MatStepperModule,
   StepperOrientation,
 } from '@angular/material/stepper';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
 import { IFormGroup, RxFormBuilder } from '@rxweb/reactive-form-validators';
 import { DrrCurrencyInputComponent } from '../../../../shared/controls/drr-currency-input/drr-currency-input.component';
@@ -33,6 +34,7 @@ import { ClaimForm, InvoiceForm } from '../drif-claim-form';
     MatInputModule,
     MatCardModule,
     TranslocoModule,
+    RouterModule,
     DrrDatepickerComponent,
     DrrInputComponent,
     DrrSelectComponent,
@@ -46,6 +48,10 @@ import { ClaimForm, InvoiceForm } from '../drif-claim-form';
 })
 export class DrifClaimCreateComponent {
   formBuilder = inject(RxFormBuilder);
+  route = inject(ActivatedRoute);
+  router = inject(Router);
+
+  projectId?: string;
 
   claimForm = this.formBuilder.formGroup(ClaimForm) as IFormGroup<ClaimForm>;
 
@@ -59,6 +65,10 @@ export class DrifClaimCreateComponent {
   }
 
   ngOnInit() {
+    this.route.params.subscribe((params) => {
+      this.projectId = params['projectId'];
+    });
+
     // TODO: temp init array
     this.getInvoiceFormArray().push(this.formBuilder.formGroup(InvoiceForm));
     this.getInvoiceFormArray().push(this.formBuilder.formGroup(InvoiceForm));
@@ -68,9 +78,13 @@ export class DrifClaimCreateComponent {
 
   stepperSelectionChange(event: any) {}
 
-  goBack() {}
-
   save() {}
+
+  goBack() {
+    // TODO: save
+
+    this.router.navigate(['drif-projects', this.projectId]);
+  }
 
   addInvoice() {
     this.getInvoiceFormArray().push(this.formBuilder.formGroup(InvoiceForm));
