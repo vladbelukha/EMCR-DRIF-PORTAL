@@ -304,6 +304,7 @@
       </button>
     </div>
 
+    @if (isStrucutralProject()) {
     <drr-input
       style="align-self: flex-start; margin-top: 1rem"
       [label]="t('contingency')"
@@ -311,5 +312,6 @@
       [type]="'percentage'"
     >
     </drr-input>
+    }
   </form>
 </div>
