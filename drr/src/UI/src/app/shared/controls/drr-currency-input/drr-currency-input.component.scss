@@ -23,4 +23,18 @@
   .mat-mdc-form-field-error {
     text-wrap: nowrap;
   }
+
+  .drr-currency-input
+    ::ng-deep
+    .mdc-text-field--outlined.mdc-text-field--disabled
+    .mdc-text-field__input {
+    color: var(--mdc-outlined-text-field-input-text-color);
+  }
+
+  ::ng-deep .mdc-text-field--outlined.mdc-text-field--disabled {
+    .mdc-floating-label,
+    .mdc-floating-label--float-above {
+      color: var(--mdc-outlined-text-field-label-text-color);
+    }
+  }
 }

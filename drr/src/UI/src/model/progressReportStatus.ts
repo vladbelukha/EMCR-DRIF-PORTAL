@@ -10,8 +10,9 @@ export type ProgressReportStatus = typeof ProgressReportStatus[keyof typeof Prog
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ProgressReportStatus = {
-  Pending: 'Pending',
-  Review: 'Review',
+  NotStarted: 'NotStarted',
+  Draft: 'Draft',
+  Submitted: 'Submitted',
+  UpdateNeeded: 'UpdateNeeded',
   Approved: 'Approved',
-  Rejected: 'Rejected',
 } as const;

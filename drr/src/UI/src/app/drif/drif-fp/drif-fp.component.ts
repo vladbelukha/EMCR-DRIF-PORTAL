@@ -50,6 +50,7 @@ import { OptionsStore } from '../../store/options.store';
 import { ProfileStore } from '../../store/profile.store';
 import {
   AttachmentForm,
+  CostEstimateForm,
   DrifFpForm,
   ImpactedInfrastructureForm,
   ProposedActivityForm,
@@ -693,6 +694,19 @@ export class DrifFpComponent {
       );
     });
 
+    const costEstimatesArray = this.fullProposalForm.get(
+      'budget.costEstimates'
+    ) as FormArray;
+    if (response.costEstimates?.length! > 0) {
+      costEstimatesArray.clear({ emitEvent: false });
+    }
+    response.costEstimates?.forEach((costEstimate) => {
+      costEstimatesArray?.push(
+        this.formBuilder.formGroup(new CostEstimateForm(costEstimate)),
+        { emitEvent: false }
+      );
+    });
+
     const previousResponseCost = this.fullProposalForm.get(
       'budget.previousResponseCost'
     );
@@ -863,16 +877,21 @@ export class DrifFpComponent {
       });
   }
 
-  onlyExceessFundingInvalid() {
-    // check if the only invalid control is remaining amount
+  getBudgetStepErrorMessageKey() {
     const budgetForm = this.getFormGroup('budget');
+
     const invalidControls = Object.keys(budgetForm?.controls).filter(
       (key) => budgetForm?.get(key)?.invalid
     );
+    if (budgetForm.get('remainingAmount')?.invalid) {
+      return 'excessFundingError';
+    }
 
-    return (
-      invalidControls.length === 1 && invalidControls[0] === 'remainingAmount'
-    );
+    if (budgetForm?.get('estimatesMatchFundingRequest')?.invalid) {
+      return 'totalDrifFundingRequestError';
+    }
+
+    return 'stepError';
   }
 
   submit() {
@@ -892,6 +911,17 @@ export class DrifFpComponent {
       ) {
         this.hotToast.close();
         this.hotToast.error('Cannot submit with excess funding.');
+        return;
+      }
+
+      if (
+        this.fullProposalForm.get('budget.estimatesMatchFundingRequest')
+          ?.invalid
+      ) {
+        this.hotToast.close();
+        this.hotToast.error(
+          'Detailed cost estimates do not match your funding request in Step 10.'
+        );
         return;
       }
 

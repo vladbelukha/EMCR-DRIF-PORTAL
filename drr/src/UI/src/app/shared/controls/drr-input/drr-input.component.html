@@ -7,17 +7,25 @@
     [formControl]="rxFormControl"
     [maxlength]="getMaxLength"
     required="{{ isRequired() }}"
-    [type]="type"
+    [type]="maskAdjustedType"
     [min]="numberInputMin"
     (focus)="onFocus()"
     (blur)="onBlur()"
     [mask]="getMask()"
+    [decimalMarker]="'.'"
+    [thousandSeparator]="''"
+    [ngStyle]="{ 'text-align': type === 'percentage' ? 'right' : 'left' }"
   />
+  @if (this.type === "percentage") {
+  <span matTextSuffix>%&nbsp;</span>
+  }
   <mat-hint *ngIf="isEmail() && !rxFormControl.value" align="start">{{
     t("emailExample")
   }}</mat-hint>
   <mat-hint *ngIf="maxlength && isFocused" align="end"
     >{{ getCount() }} / {{ maxlength }}</mat-hint
   >
-  <mat-error *ngIf="rxFormControl.hasError('email')">{{ t("emailError") }}</mat-error>
+  <mat-error *ngIf="rxFormControl.hasError('email')">{{
+    t("emailError")
+  }}</mat-error>
 </mat-form-field>

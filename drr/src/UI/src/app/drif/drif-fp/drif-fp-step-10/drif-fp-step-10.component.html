@@ -282,7 +282,7 @@
             </div>
             <div class="row"></div>
           </mat-card-content>
-          @if (i > 0) {
+          @if (getFormArray('costEstimates').controls.length > 1) {
           <mat-card-actions align="end">
             <button mat-raised-button color="warn" (click)="removeCost(i)">
               Remove
@@ -303,5 +303,23 @@
         Add Additional Task
       </button>
     </div>
+
+    @if (isStrucutralProject()) {
+    <drr-input
+      style="align-self: flex-start; margin-top: 1rem"
+      [label]="t('contingency')"
+      [rxFormControl]="budgetForm.get('contingency')"
+      [type]="'percentage'"
+    >
+    </drr-input>
+    }
+
+    <drr-currency-input
+      style="align-self: flex-start; margin-top: 1rem"
+      [label]="t('totalEligibleCosts')"
+      [rxFormControl]="budgetForm.get('totalEligibleCosts')"
+      [disabled]="true"
+    >
+    </drr-currency-input>
   </form>
 </div>

@@ -11,13 +11,7 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
 import { IFormGroup, RxFormBuilder } from '@rxweb/reactive-form-validators';
 import { ProjectService } from '../../../../api/project/project.service';
-import {
-  ClaimStatus,
-  ForecastStatus,
-  InterimReport,
-  InterimReportStatus,
-  ProgressReportStatus,
-} from '../../../../model';
+import { InterimReport } from '../../../../model';
 import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
 import { DrrTextareaComponent } from '../../../shared/controls/drr-textarea/drr-textarea.component';
 import { InterimReportForm } from './drif-interim-report-form';
@@ -37,7 +31,7 @@ import { InterimReportForm } from './drif-interim-report-form';
     MatTabsModule,
     DrrInputComponent,
     DrrTextareaComponent,
-    TranslocoModule
+    TranslocoModule,
   ],
   providers: [RxFormBuilder],
   templateUrl: './drif-interim-report.component.html',
@@ -63,7 +57,7 @@ export class DrifInterimReportComponent {
     });
 
     this.projectService
-      .projectGetInterimReport(this.projectId!.replace(' ', ''), this.reportId!)
+      .projectGetInterimReport(this.projectId!, this.reportId!)
       .subscribe((report) => {
         this.interimReport = report;
         this.interimReportForm.patchValue(report);
@@ -115,26 +109,27 @@ export class DrifInterimReportComponent {
 
   getStatusColorClass(status?: string) {
     switch (status) {
-      case InterimReportStatus.InReview:
-      case ClaimStatus.InProgress:
-      case ProgressReportStatus.Pending:
-      case ForecastStatus.Pending:
-        return 'pending';
-      case InterimReportStatus.InReview:
-      case ClaimStatus.InProgress:
-      case ProgressReportStatus.Review:
-      case ForecastStatus.Review:
-        return 'review';
-      case InterimReportStatus.Approved:
-      case ClaimStatus.Approved:
-      case ProgressReportStatus.Approved:
-      case ForecastStatus.Approved:
-        return 'approved';
-      case InterimReportStatus.Rejected:
-      case ClaimStatus.Rejected:
-      case ProgressReportStatus.Rejected:
-      case ForecastStatus.Rejected:
-        return 'rejected';
+      // case InterimReportStatus.InProgress:
+      // case ClaimStatus.InProgress:
+      // case ProgressReportStatus.Draft:
+      // case ProgressReportStatus.NotStarted:
+      // case ForecastStatus.Pending:
+      //   return 'pending';
+      // case InterimReportStatus.InReview:
+      // case ClaimStatus.InProgress:
+      // case ProgressReportStatus.Review:
+      // case ForecastStatus.Review:
+      //   return 'review';
+      // case InterimReportStatus.Approved:
+      // case ClaimStatus.Approved:
+      // case ProgressReportStatus.Approved:
+      // case ForecastStatus.Approved:
+      //   return 'approved';
+      // case InterimReportStatus.Rejected:
+      // case ClaimStatus.Rejected:
+      // case ProgressReportStatus.Rejected:
+      // case ForecastStatus.Rejected:
+      //   return 'rejected';
       default:
         return '';
     }

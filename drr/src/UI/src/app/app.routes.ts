@@ -72,34 +72,33 @@ export const routes: Routes = [
     component: DrifInterimReportComponent,
     canActivate: [AuthenticationGuard],
   },
-  // TODO: probably need 'drif-projects/:projectId/interim-reports/:reportId/progress-reposts/create' route
   {
-    path: 'drif-projects/:projectId/progress-reports/create',
+    path: 'drif-projects/:projectId/interim-reports/:reportId/progress-reports/:progressReportId/edit',
     component: DrifProgressReportCreateComponent,
     canActivate: [AuthenticationGuard],
   },
   {
-    path: 'drif-projects/:projectId/progress-reports/:reportId',
+    path: 'drif-projects/:projectId/interim-reports/:reportId/progress-reports/:progressReportId',
     component: DrifProgressReportComponent,
     canActivate: [AuthenticationGuard],
   },
   {
-    path: 'drif-projects/:projectId/claims/create',
+    path: 'drif-projects/:projectId/interim-reports/:reportId/claims/:claimId/edit',
     component: DrifClaimCreateComponent,
     canActivate: [AuthenticationGuard],
   },
   {
-    path: 'drif-projects/:projectId/claims/:claimId',
+    path: 'drif-projects/:projectId/interim-reports/:reportId/claims/:claimId',
     component: DrifClaimComponent,
     canActivate: [AuthenticationGuard],
   },
   {
-    path: 'drif-projects/:projectId/interim-reports/:reportId/forecasts/create',
+    path: 'drif-projects/:projectId/interim-reports/:reportId/forecasts/:forecastId/edit',
     component: DrifForecastCreateComponent,
     canActivate: [AuthenticationGuard],
   },
   {
-    path: 'drif-projects/:projectId/forecasts/:forecastId',
+    path: 'drif-projects/:projectId/interim-reports/:reportId/forecasts/:forecastId',
     component: DrifForecastComponent,
     canActivate: [AuthenticationGuard],
   },

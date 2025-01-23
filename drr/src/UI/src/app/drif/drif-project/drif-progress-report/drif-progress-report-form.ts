@@ -1,5 +1,15 @@
-import { prop, propObject } from '@rxweb/reactive-form-validators';
-import { YesNoOption } from '../../../../model';
+import {
+  prop,
+  propArray,
+  propObject,
+  required,
+} from '@rxweb/reactive-form-validators';
+import {
+  ActivityType,
+  WorkplanActivity,
+  WorkplanStatus,
+  YesNoOption,
+} from '../../../../model';
 
 import { ContactDetailsForm } from '../../drif-eoi/drif-eoi-form';
 
@@ -16,69 +26,58 @@ export enum EventProgressType {
   Completed = 'Completed',
 }
 
+export class WorkplanActivityForm implements WorkplanActivity {
+  @prop()
+  @required()
+  activity?: ActivityType;
+
+  @prop()
+  preCreatedActivity?: boolean;
+
+  @prop()
+  @required()
+  status?: WorkplanStatus;
+
+  @prop()
+  // @required({
+  //   conditionalExpression: function (
+  //     model: any,
+  //     form: any,
+  //     control: any
+  //   ) {
+  //      TODO: this is working, but control doesn't update its state, need to investigate further
+  //     console.log('model: ', model);
+  //     console.log('form: ', form);
+  //     console.log('control: ', control);
+  //     return model.status === WorkplanProgressType.NotStarted;
+  //   },
+  // })
+  comment?: string;
+
+  @prop()
+  @required()
+  plannedStartDate?: string;
+
+  @prop()
+  @required()
+  plannedCompletionDate?: string;
+
+  @prop()
+  @required()
+  actualStartDate?: string;
+
+  @prop()
+  @required()
+  actualCompletionDate?: string;
+
+  constructor(values: WorkplanActivityForm) {
+    Object.assign(this, values);
+  }
+}
+
 export class WorkplanForm {
-  @prop()
-  projectProgress?: WorkplanProgressType;
-
-  @prop()
-  projectProgressComment?: string;
-
-  @prop()
-  projectProgressDate?: string;
-
-  @prop()
-  firstNationEngagementProgress?: WorkplanProgressType;
-
-  @prop()
-  firstNationEngagementProgressComment?: string;
-
-  @prop()
-  firstNationEngagementProgressDate?: string;
-
-  @prop()
-  designProgress?: WorkplanProgressType;
-
-  @prop()
-  designProgressComment?: string;
-
-  @prop()
-  designProgressDate?: string;
-
-  @prop()
-  constructionTenderProgress?: WorkplanProgressType;
-
-  @prop()
-  constructionTenderProgressComment?: string;
-
-  @prop()
-  constructionTenderProgressDate?: string;
-
-  @prop()
-  constractionContractProgress?: WorkplanProgressType;
-
-  @prop()
-  constractionContractProgressComment?: string;
-
-  @prop()
-  constractionContractProgressDate?: string;
-
-  @prop()
-  permitToConstructProgress?: WorkplanProgressType;
-
-  @prop()
-  permitToConstructProgressComment?: string;
-
-  @prop()
-  permitToConstructProgressDate?: string;
-
-  @prop()
-  constructionProgress?: WorkplanProgressType;
-
-  @prop()
-  constructionProgressComment?: string;
-
-  @prop()
-  constructionProgressDate?: string;
+  @propArray(WorkplanActivityForm)
+  workplanActivities?: WorkplanActivityForm[] = [];
 
   // TODO: 3 fields for construction progress?
 

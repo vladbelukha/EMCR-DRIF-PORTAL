@@ -15,7 +15,7 @@ import { UntilDestroy } from '@ngneat/until-destroy';
 import { RxFormBuilder, RxFormControl } from '@rxweb/reactive-form-validators';
 import { NgxMaskDirective } from 'ngx-mask';
 
-export type InputType = 'text' | 'tel' | 'number' | 'email';
+export type InputType = 'text' | 'tel' | 'number' | 'email' | 'percentage';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -44,6 +44,12 @@ export class DrrInputComponent {
   @Input() id = '';
   @Input() maxlength?: string | number | null;
   @Input() type: InputType = 'text';
+
+  get maskAdjustedType() {
+    return this.type === 'number' || this.type === 'percentage'
+      ? 'text'
+      : this.type;
+  }
 
   ngOnInit() {
     this.breakpointObserver
@@ -106,6 +112,11 @@ export class DrrInputComponent {
   getMask() {
     if (this.type === 'tel') {
       return '000-000-0000';
+    }
+
+    // TODO: consider using 'separator.2' for number input
+    if (this.type === 'number' || this.type === 'percentage') {
+      return 'separator.2';
     }
 
     return '';

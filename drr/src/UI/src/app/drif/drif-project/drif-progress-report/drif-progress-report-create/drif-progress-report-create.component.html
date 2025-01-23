@@ -1,15 +1,13 @@
-<div class="app-stepper-container" *transloco="let t">
+<div class="app-stepper-container" *transloco="let t; read: 'progressReport'">
   <div class="app-stepper-header">
     <div style="flex: 1">
       <h5 style="font-size: 1.2rem; margin-bottom: 0.5rem">Progress Report</h5>
-      <!-- <span>
-          {{ t("project") }}: {{ project?.name }} ({{ project?.id }})
-        </span> -->
+      <!-- <span> {{ t("project") }}: {{ project?.name }} ({{ project?.id }}) </span> -->
     </div>
     <div>
       <div class="header-actions">
         <button mat-stroked-button color="primary" (click)="goBack()">
-          {{ t("exitForm") }}
+          Exit Form
         </button>
         <button mat-flat-button color="primary" (click)="save()">
           <mat-icon>save</mat-icon>
@@ -73,246 +71,277 @@
           matStepperNext
           type="button"
         >
-          {{ t("next") }}
+          Next
         </button>
       </div>
     </mat-step>
-    <mat-step label="Workplan Report">
-      <div style="display: flex; flex-direction: column; gap: 1rem">
-        <mat-label class="drr-label"> Project Start / Finish</mat-label>
-        <div>
-          <div class="progress-group">
-            <drr-radio-button
-              class="drr-single-input"
-              label="Status"
-              [options]="progressReportOptions"
-              [rxFormControl]="workplanForm?.get('projectProgress')"
-            ></drr-radio-button>
-            <drr-datepicker
-              class="drr-single-input"
-              label="Report Date"
-              [rxFormControl]="workplanForm?.get('projectProgressDate')"
-            ></drr-datepicker>
-          </div>
-          <drr-textarea
-            label="Comments"
-            [rxFormControl]="workplanForm?.get('projectProgressComment')"
-          ></drr-textarea>
-        </div>
-        <mat-label class="drr-label">
-          First Nations Engagement Start / Finish</mat-label
+    <mat-step [label]="t('projectWorkplan')">
+      <div>
+        <div
+          *ngFor="
+            let preDefinedActivity of getPreDefinedActivitiesArray();
+            let i = index
+          "
+          style="margin-top: 1rem"
         >
-        <div>
-          <div class="progress-group">
-            <drr-radio-button
-              class="drr-single-input"
-              label="Status"
-              [options]="progressReportOptions"
-              [rxFormControl]="
-                workplanForm?.get('firstNationEngagementProgress')
-              "
-            ></drr-radio-button>
-            <drr-datepicker
-              class="drr-single-input"
-              label="Report Date"
-              [rxFormControl]="
-                workplanForm?.get('firstNationEngagementProgressDate')
-              "
-            ></drr-datepicker>
-          </div>
-          <drr-textarea
-            label="Comments"
-            [rxFormControl]="
-              workplanForm?.get('firstNationEngagementProgressComment')
-            "
-          ></drr-textarea>
-        </div>
-        <mat-label class="drr-label"> Design Start / Finish</mat-label>
-        <div>
-          <div class="progress-group">
-            <drr-radio-button
-              class="drr-single-input"
-              label="Status"
-              [options]="progressReportOptions"
-              [rxFormControl]="workplanForm?.get('designProgress')"
-            ></drr-radio-button>
-            <drr-datepicker
-              class="drr-single-input"
-              label="Report Date"
-              [rxFormControl]="workplanForm?.get('designProgressDate')"
-            ></drr-datepicker>
-          </div>
-          <drr-textarea
-            label="Comments"
-            [rxFormControl]="workplanForm?.get('designProgressComment')"
-          ></drr-textarea>
-        </div>
-        <mat-label class="drr-label">
-          Construction Tender Start / Finish</mat-label
-        >
-        <div>
-          <div class="progress-group">
-            <drr-radio-button
-              class="drr-single-input"
-              label="Status"
-              [options]="progressReportOptions"
-              [rxFormControl]="workplanForm?.get('constructionTenderProgress')"
-            ></drr-radio-button>
-            <drr-datepicker
-              class="drr-single-input"
-              label="Report Date"
-              [rxFormControl]="
-                workplanForm?.get('constructionTenderProgressDate')
-              "
-            ></drr-datepicker>
-          </div>
-          <drr-textarea
-            label="Comments"
-            [rxFormControl]="
-              workplanForm?.get('constructionTenderProgressComment')
-            "
-          ></drr-textarea>
-        </div>
-        <mat-label class="drr-label">
-          Construction Contract Start / Finish</mat-label
-        >
-        <div>
-          <div class="progress-group">
-            <drr-radio-button
-              class="drr-single-input"
-              label="Status"
-              [options]="progressReportOptions"
-              [rxFormControl]="
-                workplanForm?.get('constractionContractProgress')
-              "
-            ></drr-radio-button>
-            <drr-datepicker
-              class="drr-single-input"
-              label="Report Date"
-              [rxFormControl]="
-                workplanForm?.get('constractionContractProgressDate')
-              "
-            ></drr-datepicker>
-          </div>
-          <drr-textarea
-            label="Comments"
-            [rxFormControl]="
-              workplanForm?.get('constractionContractProgressComment')
-            "
-          ></drr-textarea>
-        </div>
-        <mat-label class="drr-label">
-          Permit to Construct Start / Finish</mat-label
-        >
-        <div>
-          <div class="progress-group">
-            <drr-radio-button
-              class="drr-single-input"
-              label="Status"
-              [options]="progressReportOptions"
-              [rxFormControl]="workplanForm?.get('permitToConstructProgress')"
-            ></drr-radio-button>
-            <drr-datepicker
-              class="drr-single-input"
-              label="Report Date"
-              [rxFormControl]="
-                workplanForm?.get('permitToConstructProgressDate')
-              "
-            ></drr-datepicker>
-          </div>
-          <drr-textarea
-            label="Comments"
-            [rxFormControl]="
-              workplanForm?.get('permitToConstructProgressComment')
-            "
-          ></drr-textarea>
-        </div>
-        <mat-label class="drr-label"> Construction Start / Finish</mat-label>
-        <div>
-          <div class="progress-group">
-            <drr-radio-button
-              class="drr-single-input"
-              label="Status"
-              [options]="progressReportOptions"
-              [rxFormControl]="workplanForm?.get('constructionProgress')"
-            ></drr-radio-button>
-            <drr-datepicker
-              class="drr-single-input"
-              label="Report Date"
-              [rxFormControl]="workplanForm?.get('constructionProgressDate')"
-            ></drr-datepicker>
-          </div>
-          <drr-textarea
-            label="Comments"
-            [rxFormControl]="workplanForm?.get('constructionProgressComment')"
-          ></drr-textarea>
-        </div>
-        <mat-label class="drr-label">
-          Percentage of Project Complete as of report date
-        </mat-label>
-        <drr-input
-          class="drr-single-input"
-          label="Percentage"
-          [rxFormControl]="workplanForm?.get('projectCompletionPercentage')"
-        ></drr-input>
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>
+                {{
+                  t("activityType." + preDefinedActivity.get("activity")?.value)
+                }}
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="progress-group">
+                <drr-radio-button
+                  class="drr-single-input"
+                  label="Status"
+                  [options]="progressReportOptions"
+                  [rxFormControl]="preDefinedActivity.get('status')"
+                ></drr-radio-button>
 
-        <mat-label class="drr-label"> Community Media Announcements</mat-label>
-        <drr-radio-button
-          class="drr-single-input"
-          label="Please select below"
-          [options]="yesNoNaOptions"
-          [rxFormControl]="workplanForm?.get('communityMedia')"
-        ></drr-radio-button>
-        <drr-datepicker
-          class="drr-single-input"
-          label="Date of Announcement"
-          [rxFormControl]="workplanForm?.get('communityMediaDate')"
-        ></drr-datepicker>
-        <drr-textarea
-          label="Comments"
-          [rxFormControl]="workplanForm?.get('communityMediaComment')"
-        ></drr-textarea>
-        <mat-label class="drr-label"> Provincial Media Announcements</mat-label>
-        <drr-radio-button
-          class="drr-single-input"
-          label="Please select below"
-          [options]="yesNoNaOptions"
-          [rxFormControl]="workplanForm?.get('provincialMedia')"
-        ></drr-radio-button>
-        <drr-datepicker
-          class="drr-single-input"
-          label="Date of Announcement"
-          [rxFormControl]="workplanForm?.get('provincialMediaDate')"
-        ></drr-datepicker>
-        <drr-textarea
-          label="Comments"
-          [rxFormControl]="workplanForm?.get('provincialMediaComment')"
-        ></drr-textarea>
-        <mat-label class="drr-label"> Works Completed </mat-label>
-        <drr-textarea
-          label="Please provide a bulleted list of works completed since the last project report"
-          [rxFormControl]="workplanForm?.get('worksCompleted')"
-        ></drr-textarea>
-        <mat-label class="drr-label"> Outstanding Issues </mat-label>
-        <drr-textarea
-          label="Please provide any details on any outstanding issues"
-          [rxFormControl]="workplanForm?.get('outstandingIssues')"
-        ></drr-textarea>
-        <mat-label class="drr-label"> Changes to Funding Srouces </mat-label>
-        <drr-select
-          class="drr-single-input"
-          label="Have there been changes to other funding sources in the last quarter?"
-          [rxFormControl]="workplanForm?.get('fundingSourcesChanged')"
-          [options]="yesNoOptions"
-        ></drr-select>
-        <drr-textarea
-          label="Please provide details on any changes to other funding sources"
-          [rxFormControl]="workplanForm?.get('fundingSourcesChangedComment')"
-        ></drr-textarea>
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    gap: 1rem;
+                  "
+                >
+                  @if (showPlannedStartDate(preDefinedActivity)) {
+                  <drr-datepicker
+                    class="drr-single-input"
+                    [label]="t('plannedStartDate')"
+                    [rxFormControl]="preDefinedActivity.get('plannedStartDate')"
+                  ></drr-datepicker>
+                  } @if (showPlannedEndDate(preDefinedActivity)) {
+                  <drr-datepicker
+                    class="drr-single-input"
+                    [label]="t('plannedEndDate')"
+                    [rxFormControl]="
+                      preDefinedActivity.get('plannedCompletionDate')
+                    "
+                  ></drr-datepicker>
+                  } @if (showActualStartDate(preDefinedActivity)) {
+                  <drr-datepicker
+                    class="drr-single-input"
+                    [label]="t('actualStartDate')"
+                    [rxFormControl]="preDefinedActivity.get('actualStartDate')"
+                  ></drr-datepicker>
+                  } @if (showActualEndDate(preDefinedActivity)) {
+                  <drr-datepicker
+                    class="drr-single-input"
+                    [label]="t('actualEndDate')"
+                    [rxFormControl]="
+                      preDefinedActivity.get('actualCompletionDate')
+                    "
+                  ></drr-datepicker>
+                  }
+                </div>
+              </div>
+              <drr-textarea
+                label="Comments"
+                [rxFormControl]="preDefinedActivity.get('comment')"
+              ></drr-textarea>
+            </mat-card-content>
+          </mat-card>
+        </div>
+
+        <h5 style="margin-top: 2rem">Additional Activities</h5>
+
+        <div
+          *ngFor="
+            let additionalActivity of getAdditionalActivitiesArray();
+            let i = index
+          "
+          style="margin-top: 1rem"
+        >
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>
+                <mat-card-title-group>
+                  <mat-card-subtitle>
+                    Additional Activity {{ i + 1 }}
+                  </mat-card-subtitle>
+                </mat-card-title-group>
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content style="display: flex; flex-direction: column">
+              <drr-select
+                style="margin-top: 0.5rem"
+                class="drr-single-input"
+                label="Activity"
+                [rxFormControl]="additionalActivity.get('activity')"
+                [options]="activityTypeOptions"
+              >
+              </drr-select>
+              <div class="progress-group">
+                <drr-radio-button
+                  class="drr-single-input"
+                  label="Status"
+                  [options]="progressReportOptions"
+                  [rxFormControl]="additionalActivity.get('status')"
+                ></drr-radio-button>
+
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    gap: 1rem;
+                  "
+                >
+                  @if (showPlannedStartDate(additionalActivity)) {
+                  <drr-datepicker
+                    class="drr-single-input"
+                    [label]="t('plannedStartDate')"
+                    [rxFormControl]="additionalActivity.get('plannedStartDate')"
+                  ></drr-datepicker>
+                  } @if (showPlannedEndDate(additionalActivity)) {
+                  <drr-datepicker
+                    class="drr-single-input"
+                    [label]="t('plannedEndDate')"
+                    [rxFormControl]="
+                      additionalActivity.get('plannedCompletionDate')
+                    "
+                  ></drr-datepicker>
+                  } @if (showActualStartDate(additionalActivity)) {
+                  <drr-datepicker
+                    class="drr-single-input"
+                    [label]="t('actualStartDate')"
+                    [rxFormControl]="additionalActivity.get('actualStartDate')"
+                  ></drr-datepicker>
+                  } @if (showActualEndDate(additionalActivity)) {
+                  <drr-datepicker
+                    class="drr-single-input"
+                    [label]="t('actualEndDate')"
+                    [rxFormControl]="
+                      additionalActivity.get('actualCompletionDate')
+                    "
+                  ></drr-datepicker>
+                  }
+                </div>
+              </div>
+              <drr-textarea
+                label="Comments"
+                [rxFormControl]="additionalActivity.get('comment')"
+              ></drr-textarea>
+            </mat-card-content>
+            <mat-card-actions align="end">
+              <button
+                mat-button
+                color="warn"
+                (click)="removeAdditionalActivity(i)"
+              >
+                Remove
+              </button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+        <button
+          mat-raised-button
+          color="primary"
+          style="margin-top: 1rem"
+          (click)="addAdditionalActivity()"
+        >
+          Add Additional Activity
+        </button>
+
+        <div
+          style="
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 2rem;
+          "
+        >
+          <div class="workplan-item">
+            <mat-label class="drr-label">
+              Percentage of Project Complete as of report date
+            </mat-label>
+            <drr-input
+              class="drr-single-input"
+              label="Percentage"
+              [rxFormControl]="workplanForm?.get('projectCompletionPercentage')"
+            ></drr-input>
+          </div>
+          <div class="workplan-item">
+            <mat-label class="drr-label">
+              Community Media Announcements</mat-label
+            >
+            <drr-radio-button
+              class="drr-single-input"
+              label="Please select below"
+              [options]="yesNoNaOptions"
+              [rxFormControl]="workplanForm?.get('communityMedia')"
+            ></drr-radio-button>
+            <drr-datepicker
+              class="drr-single-input"
+              label="Date of Announcement"
+              [rxFormControl]="workplanForm?.get('communityMediaDate')"
+            ></drr-datepicker>
+            <drr-textarea
+              label="Comments"
+              [rxFormControl]="workplanForm?.get('communityMediaComment')"
+            ></drr-textarea>
+          </div>
+          <div class="workplan-item">
+            <mat-label class="drr-label">
+              Provincial Media Announcements</mat-label
+            >
+            <drr-radio-button
+              class="drr-single-input"
+              label="Please select below"
+              [options]="yesNoNaOptions"
+              [rxFormControl]="workplanForm?.get('provincialMedia')"
+            ></drr-radio-button>
+            <drr-datepicker
+              class="drr-single-input"
+              label="Date of Announcement"
+              [rxFormControl]="workplanForm?.get('provincialMediaDate')"
+            ></drr-datepicker>
+            <drr-textarea
+              label="Comments"
+              [rxFormControl]="workplanForm?.get('provincialMediaComment')"
+            ></drr-textarea>
+          </div>
+          <div class="workplan-item">
+            <mat-label class="drr-label"> Works Completed </mat-label>
+            <drr-textarea
+              label="Please provide a bulleted list of works completed since the last project report"
+              [rxFormControl]="workplanForm?.get('worksCompleted')"
+            ></drr-textarea>
+          </div>
+          <div class="workplan-item">
+            <mat-label class="drr-label"> Outstanding Issues </mat-label>
+            <drr-textarea
+              label="Please provide any details on any outstanding issues"
+              [rxFormControl]="workplanForm?.get('outstandingIssues')"
+            ></drr-textarea>
+          </div>
+          <div class="workplan-item">
+            <mat-label class="drr-label">
+              Changes to Funding Srouces
+            </mat-label>
+            <drr-radio-button
+              class="drr-single-input"
+              label="Have there been changes to other funding sources in the last quarter?"
+              [rxFormControl]="workplanForm?.get('fundingSourcesChanged')"
+              [options]="yesNoOptions"
+            ></drr-radio-button>
+            <drr-textarea
+              label="Please provide details on any changes to other funding sources"
+              [rxFormControl]="
+                workplanForm?.get('fundingSourcesChangedComment')
+              "
+            ></drr-textarea>
+          </div>
+        </div>
       </div>
       <div class="drr-stepper-actions">
         <button mat-stroked-button color="primary" matStepperPrevious>
-          {{ t("back") }}
+          Back
         </button>
         <button
           id="next2"
@@ -321,11 +350,11 @@
           matStepperNext
           type="button"
         >
-          {{ t("next") }}
+          Next
         </button>
       </div></mat-step
     >
-    <mat-step label="Event Report">
+    <mat-step [label]="t('eventInformation')">
       <div style="display: flex; flex-direction: column; gap: 1rem">
         <mat-label class="drr-label"> Ground Breaking Event </mat-label>
         <div class="progress-group">
@@ -388,7 +417,7 @@
       </div>
       <div class="drr-stepper-actions">
         <button mat-stroked-button color="primary" matStepperPrevious>
-          {{ t("back") }}
+          Back
         </button>
         <button
           id="next2"
@@ -397,14 +426,14 @@
           matStepperNext
           type="button"
         >
-          {{ t("next") }}
+          Next
         </button>
       </div>
     </mat-step>
     <mat-step label="Attachments">
       <div class="drr-stepper-actions">
         <button mat-stroked-button color="primary" matStepperPrevious>
-          {{ t("back") }}
+          Back
         </button>
         <button
           id="next2"
@@ -413,23 +442,23 @@
           matStepperNext
           type="button"
         >
-          {{ t("next") }}
+          Next
         </button>
       </div></mat-step
     >
     <mat-step label="Review & Declarations">
       <div class="drr-stepper-actions">
         <button mat-stroked-button color="primary" matStepperPrevious>
-          {{ t("back") }}
+          Back
         </button>
         <button
-          id="next2"
+          id="submit"
           mat-flat-button
           color="primary"
-          matStepperNext
           type="button"
+          (click)="submit()"
         >
-          {{ t("next") }}
+          Submit
         </button>
       </div></mat-step
     >

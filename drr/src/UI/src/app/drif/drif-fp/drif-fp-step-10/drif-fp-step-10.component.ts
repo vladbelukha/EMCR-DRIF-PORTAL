@@ -16,7 +16,14 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { IFormGroup, RxFormBuilder } from '@rxweb/reactive-form-validators';
 import { distinctUntilChanged } from 'rxjs';
-import { FundingStream, FundingType, YesNoOption } from '../../../../model';
+import {
+  CostCategory,
+  CostUnit,
+  FundingStream,
+  FundingType,
+  ResourceCategory,
+  YesNoOption,
+} from '../../../../model';
 import { DrrChipAutocompleteComponent } from '../../../shared/controls/drr-chip-autocomplete/drr-chip-autocomplete.component';
 import { DrrCurrencyInputComponent } from '../../../shared/controls/drr-currency-input/drr-currency-input.component';
 import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
@@ -28,10 +35,7 @@ import { FundingInformationItemForm } from '../../drif-eoi/drif-eoi-form';
 import { DrrFundingListComponent } from '../../drr-funding-list/drr-funding-list.component';
 import {
   BudgetForm,
-  CostCategory,
   CostEstimateForm,
-  CostUnit,
-  ResourceCategory,
   YearOverYearFundingForm,
 } from '../drif-fp-form';
 
@@ -96,7 +100,7 @@ export class DrifFpStep10Component {
   }));
   resourcesOptions = Object.values(ResourceCategory).map((value) => ({
     value,
-    label: value,
+    label: this.translocoService.translate(value),
   }));
   unitsOptions = Object.values(CostUnit).map((value) => ({
     value,
@@ -104,10 +108,6 @@ export class DrifFpStep10Component {
   }));
 
   ngOnInit() {
-    const currentYear = new Date().getFullYear();
-    const currentMonth = new Date().getMonth();
-    const startFiscalYear = currentMonth >= 6 ? currentYear : currentYear - 1; // Assuming fiscal year starts in July
-
     this.budgetForm
       .get('yearOverYearFunding')!
       .valueChanges.pipe(distinctUntilChanged())
@@ -131,6 +131,7 @@ export class DrifFpStep10Component {
       ?.valueChanges.pipe(distinctUntilChanged())
       .subscribe(() => {
         this.calculateRemainingAmount();
+        this.budgetForm.get('costEstimates')?.updateValueAndValidity();
       });
 
     this.budgetForm
@@ -224,7 +225,47 @@ export class DrifFpStep10Component {
 
     this.getFormArray('costEstimates').controls.length === 0 && this.addCost();
 
-    // TODO: need to handle value changes for cost estimates to calculate total cost
+    this.isStrucutralProject() &&
+      this.budgetForm.get('contingency')?.setValidators(Validators.required);
+
+    this.budgetForm
+      .get('costEstimates')
+      ?.valueChanges.pipe(distinctUntilChanged())
+      .subscribe(() => {
+        let totalCost = 0;
+
+        // iterate over cost estimates and calculate total cost
+        this.getFormArray('costEstimates').controls.forEach((costEstimate) => {
+          const unitRate = costEstimate.get('unitRate')?.value;
+          const quantity = costEstimate.get('quantity')?.value;
+          const cost = unitRate * quantity;
+          costEstimate.get('totalCost')?.setValue(cost, {
+            emitEvent: false,
+          });
+
+          totalCost += cost;
+        });
+
+        const contingency = this.budgetForm.get('contingency')?.value;
+        const totalEligibleCosts = this.isStrucutralProject()
+          ? totalCost + totalCost * (contingency / 100)
+          : totalCost;
+
+        this.budgetForm.get('totalEligibleCosts')?.setValue(totalEligibleCosts);
+        const totalDrifFundingRequest = this.budgetForm?.get(
+          'totalDrifFundingRequest'
+        )?.value;
+        this.budgetForm
+          .get('estimatesMatchFundingRequest')
+          ?.setValue(totalEligibleCosts === totalDrifFundingRequest);
+      });
+
+    this.budgetForm
+      .get('contingency')
+      ?.valueChanges.pipe(distinctUntilChanged())
+      .subscribe(() => {
+        this.budgetForm.get('costEstimates')?.updateValueAndValidity();
+      });
   }
 
   showDiscrepancyComment() {
@@ -318,19 +359,19 @@ export class DrifFpStep10Component {
 
   addCost() {
     const newCostEstimateForm = this.formBuilder.formGroup(CostEstimateForm);
-    newCostEstimateForm.get('unitRate')?.valueChanges.subscribe((value) => {
-      const quantityControl = newCostEstimateForm.get('quantity');
-      const totalCostControl = newCostEstimateForm.get('totalCost');
+    // newCostEstimateForm.get('unitRate')?.valueChanges.subscribe((value) => {
+    //   const quantityControl = newCostEstimateForm.get('quantity');
+    //   const totalCostControl = newCostEstimateForm.get('totalCost');
 
-      totalCostControl?.setValue(value * quantityControl?.value);
-    });
+    //   totalCostControl?.setValue(value * quantityControl?.value);
+    // });
 
-    newCostEstimateForm.get('quantity')?.valueChanges.subscribe((value) => {
-      const unitRateControl = newCostEstimateForm.get('unitRate');
-      const totalCostControl = newCostEstimateForm.get('totalCost');
+    // newCostEstimateForm.get('quantity')?.valueChanges.subscribe((value) => {
+    //   const unitRateControl = newCostEstimateForm.get('unitRate');
+    //   const totalCostControl = newCostEstimateForm.get('totalCost');
 
-      totalCostControl?.setValue(value * unitRateControl?.value);
-    });
+    //   totalCostControl?.setValue(value * unitRateControl?.value);
+    // });
 
     this.getFormArray('costEstimates').push(newCostEstimateForm);
   }

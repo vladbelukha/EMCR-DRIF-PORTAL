@@ -10,11 +10,14 @@ import {
 } from '@rxweb/reactive-form-validators';
 import {
   Attachment,
+  CostCategory,
+  CostUnit,
   DocumentType,
   EstimatedNumberOfPeopleFP,
   FundingStream,
   Hazards,
   ProjectType,
+  ResourceCategory,
   StandardInfo,
   YesNoOption,
 } from '../../../model';
@@ -216,24 +219,6 @@ export class YearOverYearFundingForm {
   }
 }
 
-export enum CostCategory {
-  Category1 = 'Category 1',
-  Category2 = 'Category 2',
-  Category3 = 'Category 3',
-}
-
-export enum ResourceCategory {
-  Resource1 = 'Resource 1',
-  Resource2 = 'Resource 2',
-  Resource3 = 'Resource 3',
-}
-
-export enum CostUnit {
-  Unit1 = 'Unit 1',
-  Unit2 = 'Unit 2',
-  Unit3 = 'Unit 3',
-}
-
 export class CostEstimateForm {
   @prop()
   @required()
@@ -267,6 +252,10 @@ export class CostEstimateForm {
   @prop()
   @required()
   totalCost?: number;
+
+  constructor(values: CostEstimateForm) {
+    Object.assign(this, values);
+  }
 }
 
 export class BudgetForm {
@@ -330,6 +319,19 @@ export class BudgetForm {
 
   @propArray(CostEstimateForm)
   costEstimates?: CostEstimateForm[] = [];
+
+  @prop()
+  @requiredTrue()
+  estimatesMatchFundingRequest?: boolean;
+
+  @prop()
+  @maxNumber({ value: 100 })
+  @minNumber({ value: 0 })
+  contingency?: number;
+
+  @prop()
+  @required()
+  totalEligibleCosts?: number;
 
   constructor(values: BudgetForm) {
     Object.assign(this, values);

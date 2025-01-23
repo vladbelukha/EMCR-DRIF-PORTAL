@@ -5,13 +5,11 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type WorkplanProgress = typeof WorkplanProgress[keyof typeof WorkplanProgress];
+export type ProvincialMedia = typeof ProvincialMedia[keyof typeof ProvincialMedia];
 
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const WorkplanProgress = {
-  NotStarted: 'NotStarted',
-  InProgress: 'InProgress',
-  Completed: 'Completed',
+export const ProvincialMedia = {
+  NotAnnounced: 'NotAnnounced',
   NotApplicable: 'NotApplicable',
 } as const;
