@@ -28,4 +28,7 @@
   <mat-error *ngIf="rxFormControl.hasError('email')">{{
     t("emailError")
   }}</mat-error>
+  <mat-error *ngIf="type === 'percentage' && rxFormControl.hasError('maxNumber')">{{
+    t("percentageMaxValueError")
+  }}</mat-error>
 </mat-form-field>

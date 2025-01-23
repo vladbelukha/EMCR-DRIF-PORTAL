@@ -226,7 +226,7 @@ export class DrifFpStep10Component {
     this.getFormArray('costEstimates').controls.length === 0 && this.addCost();
 
     this.isStrucutralProject() &&
-      this.budgetForm.get('contingency')?.setValidators(Validators.required);
+      this.budgetForm.get('contingency')?.addValidators(Validators.required);
 
     this.budgetForm
       .get('costEstimates')
@@ -354,6 +354,7 @@ export class DrifFpStep10Component {
   }
 
   isStrucutralProject() {
+    return true;
     return this.fundingStream === FundingStream.Stream2;
   }
 

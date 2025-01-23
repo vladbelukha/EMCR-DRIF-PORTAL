@@ -188,6 +188,7 @@
   "minEndDateNotBeforeError": "Date must not come before Start Date.",
   "matDatepickerParseError": "Invalid date format",
   "emailError": "This email is not valid",
+  "percentageMaxValueError": "Percentage must be less than or equal to 100",
   "missingFundsLabel": "Amount that is not currently funded",
   "excessFundingLabel": "Excess Funding",
   "excessFundingTextEoi": "You cannot submit an Expression of Interest with excess funding.",
