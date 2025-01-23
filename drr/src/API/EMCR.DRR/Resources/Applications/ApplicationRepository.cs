@@ -304,6 +304,7 @@ namespace EMCR.DRR.Resources.Applications
                 ctx.LoadPropertyAsync(currentApplication, nameof(drr_application.drr_drr_application_drr_resiliencyitem_Application)),
                 ctx.LoadPropertyAsync(currentApplication, nameof(drr_application.drr_drr_application_drr_climateassessmenttoolitem_Application)),
                 ctx.LoadPropertyAsync(currentApplication, nameof(drr_application.drr_drr_application_drr_costconsiderationitem_Application)),
+                ctx.LoadPropertyAsync(currentApplication, nameof(drr_application.drr_drr_application_drr_detailedcostestimate_Application)),
                 ctx.LoadPropertyAsync(currentApplication, nameof(drr_application.drr_drr_application_drr_permitslicensesandauthorizations_Application)),
                 ctx.LoadPropertyAsync(currentApplication, nameof(drr_application.bcgov_drr_application_bcgov_documenturl_Application)),
             };
@@ -434,6 +435,11 @@ namespace EMCR.DRR.Resources.Applications
                 ctx.AttachTo(nameof(ctx.drr_costconsiderationitems), cost);
                 ctx.DeleteObject(cost);
             }
+            foreach (var estimate in drrApplication.drr_drr_application_drr_detailedcostestimate_Application)
+            {
+                ctx.AttachTo(nameof(ctx.drr_detailedcostestimates), estimate);
+                ctx.DeleteObject(estimate);
+            }
             foreach (var funding in drrApplication.drr_drr_application_drr_driffundingrequest_Application)
             {
                 ctx.AttachTo(nameof(ctx.drr_driffundingrequests), funding);
@@ -463,6 +469,7 @@ namespace EMCR.DRR.Resources.Applications
             if (additionalContact2 != null) AddAdditionalContact2(ctx, drrApplication, additionalContact2);
             AddFundinSources(ctx, drrApplication);
             AddInfrastructureImpacted(ctx, drrApplication);
+            AddCostEstimates(ctx, drrApplication);
 
             var projectActivityMasterListTask = LoadProjectActivityList(ctx, drrApplication);
             var standardsMasterListTask = LoadStandardsMasterList(ctx, drrApplication);
@@ -760,6 +767,19 @@ namespace EMCR.DRR.Resources.Applications
                     drrContext.AddTodrr_fundingsources(fund);
                     drrContext.AddLink(application, nameof(application.drr_application_fundingsource_Application), fund);
                     drrContext.SetLink(fund, nameof(fund.drr_Application), application);
+                }
+            }
+        }
+        
+        private static void AddCostEstimates(DRRContext drrContext, drr_application application)
+        {
+            foreach (var estimate in application.drr_drr_application_drr_detailedcostestimate_Application)
+            {
+                if (estimate != null)
+                {
+                    drrContext.AddTodrr_detailedcostestimates(estimate);
+                    drrContext.AddLink(application, nameof(application.drr_drr_application_drr_detailedcostestimate_Application), estimate);
+                    drrContext.SetLink(estimate, nameof(estimate.drr_Application), application);
                 }
             }
         }
@@ -1186,6 +1206,7 @@ namespace EMCR.DRR.Resources.Applications
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_drr_application_drr_resiliencyitem_Application), ct),
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_drr_application_drr_climateassessmenttoolitem_Application), ct),
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_drr_application_drr_costconsiderationitem_Application), ct),
+                    ctx.LoadPropertyAsync(application, nameof(drr_application.drr_drr_application_drr_detailedcostestimate_Application), ct),
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_drr_application_drr_driffundingrequest_Application), ct),
                     ctx.LoadPropertyAsync(application, nameof(drr_application.drr_drr_application_drr_permitslicensesandauthorizations_Application), ct),
                     ctx.LoadPropertyAsync(application, nameof(drr_application.bcgov_drr_application_bcgov_documenturl_Application), ct),
@@ -1212,6 +1233,7 @@ namespace EMCR.DRR.Resources.Applications
             application.drr_drr_application_drr_resiliencyitem_Application = new System.Collections.ObjectModel.Collection<drr_resiliencyitem>(application.drr_drr_application_drr_resiliencyitem_Application.Where(c => c.statecode == (int)EntityState.Active).ToList());
             application.drr_drr_application_drr_climateassessmenttoolitem_Application = new System.Collections.ObjectModel.Collection<drr_climateassessmenttoolitem>(application.drr_drr_application_drr_climateassessmenttoolitem_Application.Where(c => c.statecode == (int)EntityState.Active).ToList());
             application.drr_drr_application_drr_costconsiderationitem_Application = new System.Collections.ObjectModel.Collection<drr_costconsiderationitem>(application.drr_drr_application_drr_costconsiderationitem_Application.Where(c => c.statecode == (int)EntityState.Active).ToList());
+            application.drr_drr_application_drr_detailedcostestimate_Application = new System.Collections.ObjectModel.Collection<drr_detailedcostestimate>(application.drr_drr_application_drr_detailedcostestimate_Application.Where(c => c.statecode == (int)EntityState.Active).ToList());
             application.drr_drr_application_drr_driffundingrequest_Application = new System.Collections.ObjectModel.Collection<drr_driffundingrequest>(application.drr_drr_application_drr_driffundingrequest_Application.Where(c => c.statecode == (int)EntityState.Active).ToList());
             application.drr_drr_application_drr_permitslicensesandauthorizations_Application = new System.Collections.ObjectModel.Collection<drr_permitslicensesandauthorizations>(application.drr_drr_application_drr_permitslicensesandauthorizations_Application.Where(c => c.statecode == (int)EntityState.Active).ToList());
             application.bcgov_drr_application_bcgov_documenturl_Application = new System.Collections.ObjectModel.Collection<bcgov_documenturl>(application.bcgov_drr_application_bcgov_documenturl_Application.Where(c => c.statecode == (int)EntityState.Active).ToList());

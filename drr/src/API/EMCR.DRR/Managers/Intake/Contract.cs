@@ -445,6 +445,9 @@ namespace EMCR.DRR.Managers.Intake
         public IEnumerable<CostConsideration> CostConsiderations { get; set; }
         public string? CostConsiderationsComments { get; set; }
         public IEnumerable<CostEstimate>? CostEstimates { get; set; }
+        public bool? EstimatesMatchFundingRequest { get; set; }
+        public int? Contingency { get; set; }
+        public decimal? TotalEligibleCosts { get; set; }
 
         //Attachments - 11
         public bool? HaveResolution { get; set; }
@@ -618,16 +621,18 @@ namespace EMCR.DRR.Managers.Intake
         public string? TaskName { get; set; }
         public CostCategory? CostCategory { get; set; }
         public string? Description { get; set; }
-        public IEnumerable<ResourceCategory>? Resources { get; set; }
+        public ResourceCategory? Resources { get; set; }
         public CostUnit? Units { get; set; }
         public decimal? Quantity { get; set; }
         public int? UnitRate { get; set; }
         public decimal? TotalCost { get; set; }
+        public int? TaskNumber { get; set; }
     }
 
     public class ProposedActivity
     {
         public string? Name { get; set; }
+        public ActivityType? ActivityType { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public string? Tasks { get; set; }
@@ -704,6 +709,21 @@ namespace EMCR.DRR.Managers.Intake
         public EventStatus? Status { get; set; }
     }
 
+    public class EventInformationDetails
+    {
+        public ProjectEventDetails[]? Events { get; set; }
+    }
+
+    public class ProjectEventDetails : ProjectEvent
+    {
+        public EventType? EventType { get; set; }
+        public DateTime? PlannedEventDate { get; set; }
+        public DateTime? ActualEventDate { get; set; }
+        public string? NextEventDescription { get; set; }
+        public ContactDetails? EventContact { get; set; }
+        public bool? ProvincialRepresentativeRequest { get; set; }
+        public string? ProvincialRepresentativeRequestComment { get; set; }
+    }
 
     public class Forecast
     {
@@ -726,6 +746,7 @@ namespace EMCR.DRR.Managers.Intake
     public class ProgressReportDetails : ProgressReport
     {
         public WorkPlanDetails? Workplan { get; set; }
+        public EventInformationDetails? EventInformation { get; set; }
     }
 
     public class ForecastDetails : Forecast
@@ -767,25 +788,51 @@ namespace EMCR.DRR.Managers.Intake
 
     public enum CostCategory
     {
-        Category1,
-        Category2,
-        Category3
+        ProjectAdministration,
+        Design,
+        Assessment,
+        Mapping,
+        ConstructionMaterials,
+        FirstNationsEngagement,
+        CommunityEngagement,
+        IncrementalStaffing,
+        ShortTermInterest,
+        LandAcquisition,
+        ApprovalsPermitting,
+        Contingency,
+        Other,
     }
 
 
     public enum CostUnit
     {
-        Unit1,
-        Unit2,
-        Unit3
+        Hours,
+        LumpSum,
+        Each,
+        Metre,
+        SquareMetre,
+        CubicMetre,
+        Kilometer,
+        SquareKilometer,
+        Hectare,
+        Kilogram,
+        Tonne,
+        Other,
     }
 
 
     public enum ResourceCategory
     {
-        Category1,
-        Category2,
-        Category3
+        ProjectManager,
+        CulturalMonitor,
+        Elders,
+        JuniorQualifiedProfessional,
+        IntermediateQualifiedProfessional,
+        SeniorQualifiedProfessional,
+        PrincipalQualifiedProfessional,
+        ProjectSupport,
+        Equipment,
+        Other,
     }
 
     public enum ProjectStatus

@@ -235,12 +235,26 @@ namespace EMCR.DRR.Controllers
         public DateTime? DateApproved { get; set; }
         public DateTime? DueDate { get; set; }
         public WorkPlan? WorkPlan { get; set; }
+        public EventInformation? EventInformation { get; set; }
         public ProgressReportStatus? Status { get; set; }
+    }
+
+    public class EventInformation
+    {
+        public ProjectEvent[]? Events { get; set; }
+        public bool? HaveEventsOccurred { get; set; }
     }
 
     public class ProjectEvent
     {
-        public EventStatus? status { get; set; }
+        public EventType? EventType { get; set; }
+        public EventStatus? Status { get; set; }
+        public DateTime? PlannedEventDate { get; set; }
+        public DateTime? ActualEventDate { get; set; }
+        public string? NextEventDescription { get; set; }
+        public ContactDetails? EventContact { get; set; }
+        public bool? ProvincialRepresentativeRequest { get; set; }
+        public string? ProvincialRepresentativeRequestComment { get; set; }
     }
 
     public class WorkPlan
@@ -386,6 +400,21 @@ namespace EMCR.DRR.Controllers
 
         [Description("Not Applicable")]
         NotApplicable
+    }
+
+    public enum EventType
+    {
+        [Description("Ground Breaking")]
+        GroundBreaking,
+
+        [Description("Ribbon Cutting/Opening")]
+        RibbonCuttingOpening,
+
+        [Description("Community Engagement")]
+        CommunityEngagement,
+
+        [Description("Other")]
+        Other,
     }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]

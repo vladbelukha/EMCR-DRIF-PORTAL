@@ -98,7 +98,7 @@ namespace EMCR.DRR.API.Resources.Reports
             var results = (await progressReportsQuery.GetAllPagesAsync(ct)).ToList();
             var length = results.Count;
 
-            await Parallel.ForEachAsync(results, ct, async (pr, ct) => await ParallelLoadWorkplanActivities(readCtx, pr, ct));
+            await Parallel.ForEachAsync(results, ct, async (pr, ct) => await ParallelLoadProgressReport(readCtx, pr, ct));
             return new ProgressReportQueryResult { Items = mapper.Map<IEnumerable<ProgressReportDetails>>(results), Length = length };
         }
 
@@ -130,11 +130,21 @@ namespace EMCR.DRR.API.Resources.Reports
             await Task.WhenAll(loadTasks);
         }
 
-        private static async Task ParallelLoadWorkplanActivities(DRRContext ctx, drr_projectprogress pr, CancellationToken ct)
+        private static async Task ParallelLoadProgressReport(DRRContext ctx, drr_projectprogress pr, CancellationToken ct)
         {
             ctx.AttachTo(nameof(DRRContext.drr_projectprogresses), pr);
-            await ctx.LoadPropertyAsync(pr, nameof(drr_projectprogress.drr_drr_projectprogress_drr_projectworkplanactivity_ProjectProgressReport), ct);
-            await ParallelLoadActivityTypes(ctx, pr, ct);
+            var loadTasks = new List<Task>
+            {
+                ctx.LoadPropertyAsync(pr, nameof(drr_projectprogress.drr_drr_projectprogress_drr_projectworkplanactivity_ProjectProgressReport), ct),
+                ctx.LoadPropertyAsync(pr, nameof(drr_projectprogress.drr_drr_projectprogress_drr_projectevent_ProgressReport), ct),
+            };
+
+            await Task.WhenAll(loadTasks);
+
+            await Task.WhenAll([
+                ParallelLoadActivityTypes(ctx, pr, ct),
+                ParallelLoadEventContacts(ctx, pr, ct),
+                ]);
         }
 
         private static async Task ParallelLoadActivityTypes(DRRContext ctx, drr_projectprogress pr, CancellationToken ct)
@@ -143,6 +153,15 @@ namespace EMCR.DRR.API.Resources.Reports
             {
                 ctx.AttachTo(nameof(DRRContext.drr_projectworkplanactivities), wa);
                 await ctx.LoadPropertyAsync(wa, nameof(drr_projectworkplanactivity.drr_ActivityType), ct);
+            });
+        }
+
+        private static async Task ParallelLoadEventContacts(DRRContext ctx, drr_projectprogress pr, CancellationToken ct)
+        {
+            await pr.drr_drr_projectprogress_drr_projectevent_ProgressReport.ForEachAsync(5, async e =>
+            {
+                ctx.AttachTo(nameof(DRRContext.drr_projectevents), e);
+                await ctx.LoadPropertyAsync(e, nameof(drr_projectevent.drr_EventContact), ct);
             });
         }
 

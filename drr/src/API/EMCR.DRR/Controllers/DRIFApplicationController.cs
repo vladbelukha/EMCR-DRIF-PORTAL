@@ -113,6 +113,8 @@ namespace EMCR.DRR.Controllers
     {
         public const int CONTACT_MAX_LENGTH = 40;
         public const int CONTACT_EMAIL_TITLE_MAX_LENGTH = 100;
+        public const int CONTIGENCY_MIN_VALUE = 0;
+        public const int CONTIGENCY_MAX_VALUE = 100;
         public const int ACCOUNT_MAX_LENGTH = 100;
         public const int COMMENTS_MAX_LENGTH = 2000;
         public const double FUNDING_MAX_VAL = 999999999.99;
@@ -431,6 +433,10 @@ namespace EMCR.DRR.Controllers
         public string? CostConsiderationsComments { get; set; }
 
         public IEnumerable<CostEstimate>? CostEstimates { get; set; }
+        public bool? EstimatesMatchFundingRequest { get; set; }
+        [Range(ApplicationValidators.CONTIGENCY_MIN_VALUE, ApplicationValidators.CONTIGENCY_MAX_VALUE)]
+        public int? Contingency { get; set; }
+        public decimal? TotalEligibleCosts { get; set; }
 
         //Attachments - 11
         public bool? HaveResolution { get; set; }
@@ -450,6 +456,7 @@ namespace EMCR.DRR.Controllers
     public class ProposedActivity
     {
         public string? Name { get; set; }
+        public bool? PreCreatedActivity { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public string? Tasks { get; set; }
@@ -477,7 +484,7 @@ namespace EMCR.DRR.Controllers
         public string? TaskName { get; set; }
         public CostCategory? CostCategory { get; set; }
         public string? Description { get; set; }
-        public IEnumerable<ResourceCategory>? Resources { get; set; }
+        public ResourceCategory? Resources { get; set; }
         public CostUnit? Units { get; set; }
         public decimal? Quantity { get; set; }
         public int? UnitRate { get; set; }
@@ -644,40 +651,118 @@ namespace EMCR.DRR.Controllers
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum CostCategory
     {
-        [Description("Category1")]
-        Category1,
+        [Description("Project Administration (up to 10%)")]
+        ProjectAdministration,
 
-        [Description("Category2")]
-        Category2,
+        [Description("Design")]
+        Design,
 
-        [Description("Category3")]
-        Category3
+        [Description("Assessment")]
+        Assessment,
+
+        [Description("Mapping")]
+        Mapping,
+
+        [Description("Construction Materials/Equipment/Personnel")]
+        ConstructionMaterials,
+
+        [Description("First Nations Engagement")]
+        FirstNationsEngagement,
+
+        [Description("Community/Education/Public Engagement")]
+        CommunityEngagement,
+
+        [Description("Incremental Staffing")]
+        IncrementalStaffing,
+
+        [Description("Short Term Interest")]
+        ShortTermInterest,
+
+        [Description("Land Acquisition/Property Purchase")]
+        LandAcquisition,
+
+        [Description("Approvals/Permitting")]
+        ApprovalsPermitting,
+
+        [Description("Contingency")]
+        Contingency,
+
+        [Description("Other")]
+        Other,
     }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum CostUnit
     {
-        [Description("Unit1")]
-        Unit1,
+        [Description("Hours")]
+        Hours,
 
-        [Description("Unit2")]
-        Unit2,
+        [Description("Lump Sum")]
+        LumpSum,
 
-        [Description("Unit3")]
-        Unit3
+        [Description("Each")]
+        Each,
+
+        [Description("Metre")]
+        Metre,
+
+        [Description("Square Metre")]
+        SquareMetre,
+
+        [Description("Cubic Metre")]
+        CubicMetre,
+
+        [Description("Kilometer")]
+        Kilometer,
+
+        [Description("Square Kilometer")]
+        SquareKilometer,
+
+        [Description("Hectare")]
+        Hectare,
+
+        [Description("Kilogram")]
+        Kilogram,
+
+        [Description("Tonne")]
+        Tonne,
+
+        [Description("Other")]
+        Other,
     }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum ResourceCategory
     {
-        [Description("Category1")]
-        Category1,
+        [Description("Project Manager")]
+        ProjectManager,
 
-        [Description("Category2")]
-        Category2,
+        [Description("Cultural/Environmental/Indigenous Monitor")]
+        CulturalMonitor,
 
-        [Description("Category3")]
-        Category3
+        [Description("Elders/Traditional Knowledge Keepers")]
+        Elders,
+
+        [Description("Junior Qualified Professional")]
+        JuniorQualifiedProfessional,
+
+        [Description("Intermediate Qualified Professional")]
+        IntermediateQualifiedProfessional,
+
+        [Description("Senior Qualified Professional")]
+        SeniorQualifiedProfessional,
+
+        [Description("Principal Qualified Professional")]
+        PrincipalQualifiedProfessional,
+
+        [Description("Project Support")]
+        ProjectSupport,
+
+        [Description("Equipment")]
+        Equipment,
+
+        [Description("Other")]
+        Other,
     }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]

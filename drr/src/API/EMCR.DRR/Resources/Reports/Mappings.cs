@@ -59,6 +59,7 @@ namespace EMCR.DRR.API.Resources.Reports
                 .ForPath(dest => dest.Workplan.OutstandingIssues, opt => opt.MapFrom(src => src.drr_outstandingissues))
                 .ForPath(dest => dest.Workplan.FundingSourcesChanged, opt => opt.MapFrom(src => src.drr_changestofundingsources.HasValue ? src.drr_changestofundingsources.Value == (int)DRRTwoOptions.Yes : (bool?)null))
                 .ForPath(dest => dest.Workplan.FundingSourcesChangedComment, opt => opt.MapFrom(src => src.drr_commentschangestofundingsources))
+                .ForPath(dest => dest.EventInformation.Events, opt => opt.MapFrom(src => src.drr_drr_projectprogress_drr_projectevent_ProgressReport.Where(c => c.statecode == (int)EntityState.Active)))
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => Enum.Parse<ProgressReportStatus>(((ProjectProgressReportStatusOptionSet)src.statuscode).ToString())))
             ;
 
@@ -92,6 +93,20 @@ namespace EMCR.DRR.API.Resources.Reports
                 .ValidateMemberList(MemberList.Destination)
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.drr_name))
                 .ForMember(dest => dest.PreCreatedActivity, opt => opt.MapFrom(src => src.drr_precreatedactivity.HasValue ? src.drr_precreatedactivity == (int)DRRTwoOptions.Yes : false))
+            ;
+            
+            CreateMap<ProjectEventDetails, drr_projectevent>(MemberList.None)
+                .ForMember(dest => dest.drr_name, opt => opt.Ignore())
+                .ReverseMap()
+                .ValidateMemberList(MemberList.Destination)
+                .ForMember(dest => dest.EventType, opt => opt.MapFrom(src => src.drr_eventtype.HasValue ? (int?)Enum.Parse<EventType>(((EventTypeOptionSet)src.drr_eventtype).ToString()) : null))
+                .ForMember(dest => dest.PlannedEventDate, opt => opt.MapFrom(src => src.drr_plannedeventdate.HasValue ? src.drr_plannedeventdate.Value.UtcDateTime : (DateTime?)null))
+                .ForMember(dest => dest.ActualEventDate, opt => opt.MapFrom(src => src.drr_actualeventdate.HasValue ? src.drr_actualeventdate.Value.UtcDateTime : (DateTime?)null))
+                .ForMember(dest => dest.NextEventDescription, opt => opt.MapFrom(src => src.drr_describenextevent))
+                .ForMember(dest => dest.EventContact, opt => opt.MapFrom(src => src.drr_EventContact))
+                .ForMember(dest => dest.ProvincialRepresentativeRequest, opt => opt.MapFrom(src => src.drr_provincialrepresentativerequest.HasValue ? src.drr_provincialrepresentativerequest == (int)DRRTwoOptions.Yes : (bool?)null))
+                .ForMember(dest => dest.ProvincialRepresentativeRequestComment, opt => opt.MapFrom(src => src.drr_commentsprovincialrepresentativerequest))
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.statuscode.HasValue ? (int?)Enum.Parse<EventStatus>(((EventStatusOptionSet)src.statuscode).ToString()) : null))
             ;
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
 #pragma warning restore CS8629 // Nullable value type may be null.
