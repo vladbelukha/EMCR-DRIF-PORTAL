@@ -354,7 +354,6 @@ export class DrifFpStep10Component {
   }
 
   isStrucutralProject() {
-    return true;
     return this.fundingStream === FundingStream.Stream2;
   }
 

@@ -3,9 +3,12 @@
     <mat-card-header>
       <mat-card-title-group>
         <mat-card-title>{{ project?.projectTitle }}</mat-card-title>
-        <mat-chip>
-          {{ project?.status }}
-        </mat-chip>
+        <div>
+          <i> Status: </i>
+          <mat-chip>
+            {{ project?.status }}
+          </mat-chip>
+        </div>
         <mat-card-subtitle>{{ project?.proponentName }}</mat-card-subtitle>
       </mat-card-title-group>
     </mat-card-header>
@@ -18,6 +21,16 @@
           gap: 2rem;
         "
       >
+        <div>
+          <p>
+            <strong>Project ID:</strong>
+            {{ project?.id }}
+          </p>
+          <p>
+            <strong>Contract ID:</strong>
+            {{ project?.contractNumber }}
+          </p>
+        </div>
         <div>
           <p>
             <strong>Project Type:</strong>
@@ -99,11 +112,6 @@
   <mat-tab-group>
     <mat-tab label="Reports Due">
       <div>
-        <!-- <mat-card-header>
-          <mat-card-title-group>
-            <mat-card-title>Interim Reports</mat-card-title>
-          </mat-card-title-group>
-        </mat-card-header> -->
         <div
           style="
             display: grid;
@@ -120,15 +128,7 @@
             <ng-container matColumnDef="id">
               <th mat-header-cell *matHeaderCellDef>ID</th>
               <td mat-cell *matCellDef="let element">
-                <!-- <a
-                  [routerLink]="[
-                    '/drif-projects',
-                    projectId,
-                    'interim-reports',
-                    element.id
-                  ]"> -->
                 {{ element.id }}
-                <!-- </a> -->
               </td>
             </ng-container>
             <ng-container matColumnDef="status">
