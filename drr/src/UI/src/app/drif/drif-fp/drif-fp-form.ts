@@ -321,7 +321,10 @@ export class BudgetForm {
   costEstimates?: CostEstimateForm[] = [];
 
   @prop()
-  @required()
+  @requiredTrue()
+  estimatesMatchFundingRequest?: boolean;
+
+  @prop()
   @maxNumber({ value: 100 })
   @minNumber({ value: 0 })
   contingency?: number;

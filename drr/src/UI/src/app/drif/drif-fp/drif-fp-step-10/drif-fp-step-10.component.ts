@@ -131,6 +131,7 @@ export class DrifFpStep10Component {
       ?.valueChanges.pipe(distinctUntilChanged())
       .subscribe(() => {
         this.calculateRemainingAmount();
+        this.budgetForm.get('costEstimates')?.updateValueAndValidity();
       });
 
     this.budgetForm
@@ -224,6 +225,9 @@ export class DrifFpStep10Component {
 
     this.getFormArray('costEstimates').controls.length === 0 && this.addCost();
 
+    this.isStrucutralProject() &&
+      this.budgetForm.get('contingency')?.setValidators(Validators.required);
+
     this.budgetForm
       .get('costEstimates')
       ?.valueChanges.pipe(distinctUntilChanged())
@@ -248,7 +252,12 @@ export class DrifFpStep10Component {
           : totalCost;
 
         this.budgetForm.get('totalEligibleCosts')?.setValue(totalEligibleCosts);
-        // TODO: investigate glitch with double calculation
+        const totalDrifFundingRequest = this.budgetForm?.get(
+          'totalDrifFundingRequest'
+        )?.value;
+        this.budgetForm
+          .get('estimatesMatchFundingRequest')
+          ?.setValue(totalEligibleCosts === totalDrifFundingRequest);
       });
 
     this.budgetForm

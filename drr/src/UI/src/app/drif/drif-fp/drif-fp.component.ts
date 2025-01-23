@@ -877,16 +877,21 @@ export class DrifFpComponent {
       });
   }
 
-  onlyExceessFundingInvalid() {
-    // check if the only invalid control is remaining amount
+  getBudgetStepErrorMessageKey() {
     const budgetForm = this.getFormGroup('budget');
+
     const invalidControls = Object.keys(budgetForm?.controls).filter(
       (key) => budgetForm?.get(key)?.invalid
     );
+    if (budgetForm.get('remainingAmount')?.invalid) {
+      return 'excessFundingError';
+    }
 
-    return (
-      invalidControls.length === 1 && invalidControls[0] === 'remainingAmount'
-    );
+    if (budgetForm?.get('estimatesMatchFundingRequest')?.invalid) {
+      return 'totalDrifFundingRequestError';
+    }
+
+    return 'stepError';
   }
 
   submit() {
