@@ -404,6 +404,7 @@
   "totalCost": "Total Cost",
   "description": "Description",
   "contingency": "Contingency",
+  "totalEligibleCosts": "Total Eligible Costs",
   "Yes": "Yes",
   "No": "No",
   "NotApplicable": "Not Applicable",

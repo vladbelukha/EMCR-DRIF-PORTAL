@@ -313,5 +313,13 @@
     >
     </drr-input>
     }
+
+    <drr-currency-input
+      style="align-self: flex-start; margin-top: 1rem"
+      [label]="t('totalEligibleCosts')"
+      [rxFormControl]="budgetForm.get('totalEligibleCosts')"
+      [disabled]="true"
+    >
+    </drr-currency-input>
   </form>
 </div>

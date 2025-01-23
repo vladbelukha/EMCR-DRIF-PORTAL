@@ -242,8 +242,20 @@ export class DrifFpStep10Component {
           totalCost += cost;
         });
 
+        const contingency = this.budgetForm.get('contingency')?.value;
+        const totalEligibleCosts = this.isStrucutralProject()
+          ? totalCost + totalCost * (contingency / 100)
+          : totalCost;
+
+        this.budgetForm.get('totalEligibleCosts')?.setValue(totalEligibleCosts);
         // TODO: investigate glitch with double calculation
-        console.log(totalCost);
+      });
+
+    this.budgetForm
+      .get('contingency')
+      ?.valueChanges.pipe(distinctUntilChanged())
+      .subscribe(() => {
+        this.budgetForm.get('costEstimates')?.updateValueAndValidity();
       });
   }
 

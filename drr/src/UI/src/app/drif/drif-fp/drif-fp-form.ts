@@ -326,6 +326,10 @@ export class BudgetForm {
   @minNumber({ value: 0 })
   contingency?: number;
 
+  @prop()
+  @required()
+  totalEligibleCosts?: number;
+
   constructor(values: BudgetForm) {
     Object.assign(this, values);
   }
