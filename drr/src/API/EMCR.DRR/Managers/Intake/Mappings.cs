@@ -55,6 +55,14 @@ namespace EMCR.DRR.Managers.Intake
                             activity.ActivityNumber = i++;
                         }
                     }
+                    i = 1;
+                    if (dest.CostEstimates != null)
+                    {
+                        foreach (var cost in dest.CostEstimates)
+                        {
+                            cost.TaskNumber = i++;
+                        }
+                    }
                 })
                 .ReverseMap()
                 .ForMember(dest => dest.AdditionalContacts, opt => opt.MapFrom(src => DRRAdditionalContactMapper(src.AdditionalContact1, src.AdditionalContact2)))
@@ -160,7 +168,16 @@ namespace EMCR.DRR.Managers.Intake
                 .ReverseMap()
                 ;
 
-            CreateMap<Controllers.WorkPlan, WorkPlanDetails>()
+            CreateMap<WorkPlan, WorkPlanDetails>()
+                .ReverseMap()
+                ;
+
+            CreateMap<EventInformation, EventInformationDetails>()
+                .ReverseMap()
+                .ForMember(dest => dest.HaveEventsOccurred, opt => opt.Ignore())
+                ;
+            
+            CreateMap<Controllers.ProjectEvent, ProjectEventDetails>()
                 .ReverseMap()
                 ;
 
@@ -169,9 +186,8 @@ namespace EMCR.DRR.Managers.Intake
             CreateMap<Controllers.WorkplanActivity, WorkplanActivityDetails>()
                 .ForMember(dest => dest.ActivityType, opt => opt.MapFrom(src => new ActivityType { Name = src.Activity.ToString(), PreCreatedActivity = src.PreCreatedActivity }))
                 .ReverseMap()
-                //.ForMember(dest => dest.Activity, opt => opt.MapFrom(src => IEnumEx.GetValueFromDescription<DocumentType>(src.bcgov_DocumentType != null ? src.bcgov_DocumentType.bcgov_name : DocumentType.OtherSupportingDocument.ToDescriptionString())))
                 .ForMember(dest => dest.Activity, opt => opt.MapFrom(src => IEnumEx.GetValueFromDescription<Controllers.ActivityType>(src.ActivityType.Name)))
-                .ForMember(dest => dest.PreCreatedActivity, opt => opt.MapFrom(src => src.ActivityType.PreCreatedActivity))
+                .ForMember(dest => dest.PreCreatedActivity, opt => opt.MapFrom(src => src.ActivityType != null ? src.ActivityType.PreCreatedActivity : false))
                 ;
 #pragma warning restore CS8604 // Possible null reference argument.
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
@@ -274,10 +290,13 @@ namespace EMCR.DRR.Managers.Intake
 
             CreateMap<Controllers.ProposedActivity, ProposedActivity>()
                 .ForMember(dest => dest.ActivityNumber, opt => opt.Ignore())
+                .ForMember(dest => dest.ActivityType, opt => opt.MapFrom(src => new ActivityType { Name = src.Name, PreCreatedActivity = src.PreCreatedActivity }))
                 .ReverseMap()
+                .ForMember(dest => dest.PreCreatedActivity, opt => opt.MapFrom(src => src.ActivityType != null ? src.ActivityType.PreCreatedActivity : false))
                 ;
 
             CreateMap<Controllers.CostEstimate, CostEstimate>()
+                .ForMember(dest => dest.TaskNumber, opt => opt.Ignore())
                 .ReverseMap()
                 ;
 
