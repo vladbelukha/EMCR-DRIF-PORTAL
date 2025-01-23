@@ -914,6 +914,17 @@ export class DrifFpComponent {
         return;
       }
 
+      if (
+        this.fullProposalForm.get('budget.estimatesMatchFundingRequest')
+          ?.invalid
+      ) {
+        this.hotToast.close();
+        this.hotToast.error(
+          'Detailed cost estimates do not match your funding request in Step 10.'
+        );
+        return;
+      }
+
       const lastStep = invalidSteps.pop();
 
       const stepsErrorMessage =
