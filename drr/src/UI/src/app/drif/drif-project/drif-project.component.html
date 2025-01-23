@@ -33,12 +33,16 @@
         </div>
         <div>
           <p>
+            <strong> Funding Program: </strong>
+            {{ project?.programType | transloco }}
+          </p>
+          <p>
             <strong>Project Type:</strong>
-            {{ project?.fundingStream | transloco }}
+            {{ t(project?.fundingStream!) }}
           </p>
           <p>
             <strong>Reporting Schedule:</strong>
-            {{ project?.reportingScheduleType }}
+            {{ t(project?.reportingScheduleType!) }}
           </p>
         </div>
         <div>
@@ -52,11 +56,11 @@
       </div>
       <div style="align-self: start">
         <p>
-          <strong>Start Date:</strong>
+          <strong>Planned Start Date:</strong>
           {{ project?.startDate | date : "yyyy-MM-dd" }}
         </p>
         <p>
-          <strong>End Date:</strong>
+          <strong>Planned Start Date:</strong>
           {{ project?.endDate | date : "yyyy-MM-dd" }}
         </p>
       </div>

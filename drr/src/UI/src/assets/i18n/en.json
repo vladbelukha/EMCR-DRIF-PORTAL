@@ -478,6 +478,7 @@
     "startFinalReport": "Start Final Report",
     "Stream1": "Non-Structural",
     "Stream2": "Structural",
+    "Quarterly": "Quarterly",
     "interimReportType": {
       "Interim": "Interim Report",
       "Final": "Final Report",
