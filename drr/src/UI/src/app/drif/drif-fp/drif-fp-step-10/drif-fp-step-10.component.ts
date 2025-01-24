@@ -96,7 +96,7 @@ export class DrifFpStep10Component {
 
   costCategoriesOptions = Object.values(CostCategory).map((value) => ({
     value,
-    label: value,
+    label: this.translocoService.translate(value),
   }));
   resourcesOptions = Object.values(ResourceCategory).map((value) => ({
     value,
@@ -104,7 +104,7 @@ export class DrifFpStep10Component {
   }));
   unitsOptions = Object.values(CostUnit).map((value) => ({
     value,
-    label: value,
+    label: this.translocoService.translate(value),
   }));
 
   ngOnInit() {
