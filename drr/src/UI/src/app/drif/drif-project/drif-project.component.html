@@ -3,9 +3,12 @@
     <mat-card-header>
       <mat-card-title-group>
         <mat-card-title>{{ project?.projectTitle }}</mat-card-title>
-        <mat-chip>
-          {{ project?.status }}
-        </mat-chip>
+        <div>
+          <i> Status: </i>
+          <mat-chip>
+            {{ project?.status }}
+          </mat-chip>
+        </div>
         <mat-card-subtitle>{{ project?.proponentName }}</mat-card-subtitle>
       </mat-card-title-group>
     </mat-card-header>
@@ -20,12 +23,26 @@
       >
         <div>
           <p>
+            <strong>Project ID:</strong>
+            {{ project?.id }}
+          </p>
+          <p>
+            <strong>Contract ID:</strong>
+            {{ project?.contractNumber }}
+          </p>
+        </div>
+        <div>
+          <p>
+            <strong> Funding Program: </strong>
+            {{ project?.programType | transloco }}
+          </p>
+          <p>
             <strong>Project Type:</strong>
-            {{ project?.fundingStream | transloco }}
+            {{ t(project?.fundingStream!) }}
           </p>
           <p>
             <strong>Reporting Schedule:</strong>
-            {{ project?.reportingScheduleType }}
+            {{ t(project?.reportingScheduleType!) }}
           </p>
         </div>
         <div>
@@ -39,16 +56,18 @@
       </div>
       <div style="align-self: start">
         <p>
-          <strong>Start Date:</strong>
+          <strong>Planned Start Date:</strong>
           {{ project?.startDate | date : "yyyy-MM-dd" }}
         </p>
         <p>
-          <strong>End Date:</strong>
+          <strong>Planned Start Date:</strong>
           {{ project?.endDate | date : "yyyy-MM-dd" }}
         </p>
       </div>
-      <div style="align-self: start"></div>
       <div>
+        <p style="margin-left: 1rem">
+          <strong>Conditions</strong>
+        </p>
         <table
           mat-table
           [dataSource]="conditionsDataSource"
@@ -64,10 +83,10 @@
             <th mat-header-cell *matHeaderCellDef>Limit</th>
             <td mat-cell *matCellDef="let condition">{{ condition.limit }}%</td>
           </ng-container>
-          <ng-container matColumnDef="status">
-            <th mat-header-cell *matHeaderCellDef>Status</th>
+          <ng-container matColumnDef="conditionMet">
+            <th mat-header-cell *matHeaderCellDef>Condition Met?</th>
             <td mat-cell *matCellDef="let condition">
-              {{ condition.status | transloco }}
+              {{ condition.conditionMet ? "Yes" : "No" }}
             </td>
           </ng-container>
           <ng-container matColumnDef="dateMet">
@@ -78,13 +97,18 @@
           </ng-container>
           <tr
             mat-header-row
-            *matHeaderRowDef="['conditionName', 'limit', 'status', 'dateMet']"
+            *matHeaderRowDef="[
+              'conditionName',
+              'limit',
+              'conditionMet',
+              'dateMet'
+            ]"
           ></tr>
           <tr
             mat-row
             *matRowDef="
               let row;
-              columns: ['conditionName', 'limit', 'status', 'dateMet']
+              columns: ['conditionName', 'limit', 'conditionMet', 'dateMet']
             "
           ></tr>
         </table>
@@ -99,11 +123,6 @@
   <mat-tab-group>
     <mat-tab label="Reports Due">
       <div>
-        <!-- <mat-card-header>
-          <mat-card-title-group>
-            <mat-card-title>Interim Reports</mat-card-title>
-          </mat-card-title-group>
-        </mat-card-header> -->
         <div
           style="
             display: grid;
@@ -120,15 +139,7 @@
             <ng-container matColumnDef="id">
               <th mat-header-cell *matHeaderCellDef>ID</th>
               <td mat-cell *matCellDef="let element">
-                <!-- <a
-                  [routerLink]="[
-                    '/drif-projects',
-                    projectId,
-                    'interim-reports',
-                    element.id
-                  ]"> -->
                 {{ element.id }}
-                <!-- </a> -->
               </td>
             </ng-container>
             <ng-container matColumnDef="status">
@@ -397,9 +408,11 @@
             <th mat-header-cell *matHeaderCellDef>Limit</th>
             <td mat-cell *matCellDef="let condition">{{ condition.limit }}%</td>
           </ng-container>
-          <ng-container matColumnDef="status">
-            <th mat-header-cell *matHeaderCellDef>Status</th>
-            <td mat-cell *matCellDef="let condition">{{ condition.status }}</td>
+          <ng-container matColumnDef="conditionMet">
+            <th mat-header-cell *matHeaderCellDef>Condition Met?</th>
+            <td mat-cell *matCellDef="let condition">
+              {{ condition.conditionMet }}
+            </td>
           </ng-container>
           <ng-container matColumnDef="dateMet">
             <th mat-header-cell *matHeaderCellDef>Date Met</th>
@@ -413,7 +426,7 @@
             </th>
             <td mat-cell *matCellDef="let condition">
               <div class="table-actions">
-                <button mat-button color="primary" (click)="viewContion()">
+                <button mat-button color="primary" (click)="viewCondition()">
                   Check details
                 </button>
                 <button
@@ -431,7 +444,7 @@
             *matHeaderRowDef="[
               'conditionName',
               'limit',
-              'status',
+              'conditionMet',
               'dateMet',
               'actions'
             ]"
@@ -443,7 +456,7 @@
               columns: [
                 'conditionName',
                 'limit',
-                'status',
+                'conditionMet',
                 'dateMet',
                 'actions'
               ]

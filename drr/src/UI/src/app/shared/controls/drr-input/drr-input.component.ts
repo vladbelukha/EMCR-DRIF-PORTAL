@@ -114,9 +114,12 @@ export class DrrInputComponent {
       return '000-000-0000';
     }
 
-    // TODO: consider using 'separator.2' for number input
-    if (this.type === 'number' || this.type === 'percentage') {
+    if (this.type === 'number') {
       return 'separator.2';
+    }
+
+    if (this.type === 'percentage') {
+      return 'separator.0';
     }
 
     return '';

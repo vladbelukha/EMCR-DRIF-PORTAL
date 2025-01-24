@@ -10,7 +10,14 @@ export type ResourceCategory = typeof ResourceCategory[keyof typeof ResourceCate
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ResourceCategory = {
-  Category1: 'Category1',
-  Category2: 'Category2',
-  Category3: 'Category3',
+  ProjectManager: 'ProjectManager',
+  CulturalMonitor: 'CulturalMonitor',
+  Elders: 'Elders',
+  JuniorQualifiedProfessional: 'JuniorQualifiedProfessional',
+  IntermediateQualifiedProfessional: 'IntermediateQualifiedProfessional',
+  SeniorQualifiedProfessional: 'SeniorQualifiedProfessional',
+  PrincipalQualifiedProfessional: 'PrincipalQualifiedProfessional',
+  ProjectSupport: 'ProjectSupport',
+  Equipment: 'Equipment',
+  Other: 'Other',
 } as const;

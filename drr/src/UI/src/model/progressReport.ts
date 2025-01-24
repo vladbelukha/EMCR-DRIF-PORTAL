@@ -4,6 +4,7 @@
  * DRR API
  * OpenAPI spec version: 1.0.0
  */
+import type { EventInformation } from './eventInformation';
 import type { ProgressReportStatus } from './progressReportStatus';
 import type { WorkPlan } from './workPlan';
 
@@ -14,6 +15,8 @@ export interface ProgressReport {
   dateSubmitted?: string;
   /** @nullable */
   dueDate?: string;
+  /** @nullable */
+  eventInformation?: EventInformation;
   /** @nullable */
   id?: string;
   /** @nullable */

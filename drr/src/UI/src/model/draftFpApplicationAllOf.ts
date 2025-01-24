@@ -61,6 +61,12 @@ export type DraftFpApplicationAllOf = {
   complexityRiskMitigated?: boolean;
   /** @nullable */
   complexityRisks?: string[];
+  /**
+   * @minimum 0
+   * @maximum 100
+   * @nullable
+   */
+  contingency?: number;
   /** @nullable */
   costConsiderations?: string[];
   /** @nullable */
@@ -95,6 +101,8 @@ export type DraftFpApplicationAllOf = {
   eoiId?: string;
   /** @nullable */
   estimatedPeopleImpactedFP?: EstimatedNumberOfPeopleFP;
+  /** @nullable */
+  estimatesMatchFundingRequest?: boolean;
   /** @nullable */
   firstNationsAuthorizedByPartners?: YesNoOption;
   /** @nullable */
@@ -239,6 +247,8 @@ export type DraftFpApplicationAllOf = {
    * @nullable
    */
   totalDrifFundingRequest?: number;
+  /** @nullable */
+  totalEligibleCosts?: number;
   /**
    * @minimum -999999999.99
    * @maximum 999999999.99

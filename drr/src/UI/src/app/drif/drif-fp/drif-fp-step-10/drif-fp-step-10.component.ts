@@ -96,7 +96,7 @@ export class DrifFpStep10Component {
 
   costCategoriesOptions = Object.values(CostCategory).map((value) => ({
     value,
-    label: value,
+    label: this.translocoService.translate(value),
   }));
   resourcesOptions = Object.values(ResourceCategory).map((value) => ({
     value,
@@ -104,7 +104,7 @@ export class DrifFpStep10Component {
   }));
   unitsOptions = Object.values(CostUnit).map((value) => ({
     value,
-    label: value,
+    label: this.translocoService.translate(value),
   }));
 
   ngOnInit() {
@@ -226,7 +226,7 @@ export class DrifFpStep10Component {
     this.getFormArray('costEstimates').controls.length === 0 && this.addCost();
 
     this.isStrucutralProject() &&
-      this.budgetForm.get('contingency')?.setValidators(Validators.required);
+      this.budgetForm.get('contingency')?.addValidators(Validators.required);
 
     this.budgetForm
       .get('costEstimates')

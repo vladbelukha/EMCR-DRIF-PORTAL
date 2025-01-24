@@ -10,7 +10,17 @@ export type CostCategory = typeof CostCategory[keyof typeof CostCategory];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const CostCategory = {
-  Category1: 'Category1',
-  Category2: 'Category2',
-  Category3: 'Category3',
+  ProjectAdministration: 'ProjectAdministration',
+  Design: 'Design',
+  Assessment: 'Assessment',
+  Mapping: 'Mapping',
+  ConstructionMaterials: 'ConstructionMaterials',
+  FirstNationsEngagement: 'FirstNationsEngagement',
+  CommunityEngagement: 'CommunityEngagement',
+  IncrementalStaffing: 'IncrementalStaffing',
+  ShortTermInterest: 'ShortTermInterest',
+  LandAcquisition: 'LandAcquisition',
+  ApprovalsPermitting: 'ApprovalsPermitting',
+  Contingency: 'Contingency',
+  Other: 'Other',
 } as const;
