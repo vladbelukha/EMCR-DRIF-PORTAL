@@ -13,6 +13,8 @@ export interface ProposedActivity {
   /** @nullable */
   name?: string;
   /** @nullable */
+  preCreatedActivity?: boolean;
+  /** @nullable */
   startDate?: string;
   /** @nullable */
   tasks?: string;

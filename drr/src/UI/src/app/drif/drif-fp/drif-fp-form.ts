@@ -11,6 +11,7 @@ import {
 import {
   Attachment,
   CostCategory,
+  CostEstimate,
   CostUnit,
   DocumentType,
   EstimatedNumberOfPeopleFP,
@@ -219,7 +220,7 @@ export class YearOverYearFundingForm {
   }
 }
 
-export class CostEstimateForm {
+export class CostEstimateForm implements CostEstimate {
   @prop()
   @required()
   taskName?: string;
@@ -232,7 +233,7 @@ export class CostEstimateForm {
   description?: string;
 
   @prop()
-  resources?: ResourceCategory[];
+  resources?: ResourceCategory;
 
   @prop()
   @required()

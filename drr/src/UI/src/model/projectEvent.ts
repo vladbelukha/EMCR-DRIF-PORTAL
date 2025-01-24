@@ -4,9 +4,25 @@
  * DRR API
  * OpenAPI spec version: 1.0.0
  */
+import type { ContactDetails } from './contactDetails';
+import type { EventType } from './eventType';
 import type { EventStatus } from './eventStatus';
 
 export interface ProjectEvent {
+  /** @nullable */
+  actualEventDate?: string;
+  /** @nullable */
+  eventContact?: ContactDetails;
+  /** @nullable */
+  eventType?: EventType;
+  /** @nullable */
+  nextEventDescription?: string;
+  /** @nullable */
+  plannedEventDate?: string;
+  /** @nullable */
+  provincialRepresentativeRequest?: boolean;
+  /** @nullable */
+  provincialRepresentativeRequestComment?: string;
   /** @nullable */
   status?: EventStatus;
 }

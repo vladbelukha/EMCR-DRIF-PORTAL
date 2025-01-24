@@ -10,7 +10,16 @@ export type CostUnit = typeof CostUnit[keyof typeof CostUnit];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const CostUnit = {
-  Unit1: 'Unit1',
-  Unit2: 'Unit2',
-  Unit3: 'Unit3',
+  Hours: 'Hours',
+  LumpSum: 'LumpSum',
+  Each: 'Each',
+  Metre: 'Metre',
+  SquareMetre: 'SquareMetre',
+  CubicMetre: 'CubicMetre',
+  Kilometer: 'Kilometer',
+  SquareKilometer: 'SquareKilometer',
+  Hectare: 'Hectare',
+  Kilogram: 'Kilogram',
+  Tonne: 'Tonne',
+  Other: 'Other',
 } as const;
