@@ -133,7 +133,7 @@ export class DrifProjectComponent {
 
   deleteForecast() {}
 
-  viewContion() {}
+  viewCondition() {}
 
   clearCondition() {}
 }
