@@ -488,6 +488,9 @@ export class ProposedActivityForm {
   @prop()
   deliverables?: string;
 
+  @prop()
+  preCreatedActivity?: boolean;
+
   constructor(values: ProposedActivityForm) {
     Object.assign(this, values);
   }

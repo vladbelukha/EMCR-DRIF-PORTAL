@@ -527,30 +527,31 @@
   "interimReport": "Interim Report",
   "NotMet": "Not Met",
   "InReview": "In Review",
+  "additionalActivities": "Additional Activities",
+  "activityType": {
+    "Project": "Project",
+    "ConstructionTender": "Construction Tender",
+    "ConstructionContractAward": "Construction Contract Award",
+    "Administration": "Administration",
+    "ApprovalsPermitting": "Approvals/Permitting",
+    "Assessment": "Assessment",
+    "Communications": "Communications",
+    "Construction": "Construction",
+    "Design": "Design",
+    "FirstNationsEngagement": "First Nations Engagement",
+    "LandAcquisition": "Land Acquisition",
+    "Mapping": "Mapping",
+    "AffectedPartiesEngagement": "Affected Parties Engagement",
+    "PermitToConstruct": "Permit to Construct",
+    "ProjectPlanning": "Project Planning",
+    "CommunityEngagement": "Community Engagement"
+  },
   "progressReport": {
     "projectWorkplan": "Project Workplan",
     "eventInformation": "Event Information",
     "plannedStartDate": "Planned Start Date",
     "plannedEndDate": "Planned Completion Date",
     "actualStartDate": "Actual Start Date",
-    "actualEndDate": "Actual Completion Date",
-    "activityType": {
-      "Project": "Project",
-      "ConstructionTender": "Construction Tender",
-      "ConstructionContractAward": "Construction Contract Award",
-      "Administration": "Administration",
-      "ApprovalsPermitting": "Approvals/Permitting",
-      "Assessment": "Assessment",
-      "Communications": "Communications",
-      "Construction": "Construction",
-      "Design": "Design",
-      "FirstNationsEngagement": "First Nations Engagement",
-      "LandAcquisition": "Land Acquisition",
-      "Mapping": "Mapping",
-      "AffectedPartiesEngagement": "Affected Parties Engagement",
-      "PermitToConstruct": "Permit to Construct",
-      "ProjectPlanning": "Project Planning",
-      "CommunityEngagement": "Community Engagement"
-    }
+    "actualEndDate": "Actual Completion Date"
   }
 }

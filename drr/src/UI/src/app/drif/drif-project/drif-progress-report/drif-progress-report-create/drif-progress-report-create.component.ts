@@ -170,7 +170,6 @@ export class DrifProgressReportCreateComponent {
     return this.workplanItems?.controls.filter(
       (control) => control.get('preCreatedActivity')?.value
     );
-    return;
   }
 
   getAdditionalActivitiesArray() {

@@ -76,6 +76,18 @@ export class DrifFpStep4Component {
     return this.minStartDate;
   }
 
+  getPreDefinedActivitiesArray() {
+    return this.getActivitiesFormArray()?.controls.filter(
+      (control) => control.get('preCreatedActivity')?.value
+    );
+  }
+
+  getAdditionalActivitiesArray() {
+    return this.getActivitiesFormArray()?.controls.filter(
+      (control) => !control.get('preCreatedActivity')?.value
+    );
+  }
+
   getActivitiesFormArray() {
     return this.projectPlanForm.get('proposedActivities') as FormArray;
   }
