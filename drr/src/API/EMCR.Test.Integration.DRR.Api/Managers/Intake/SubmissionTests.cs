@@ -362,6 +362,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             updatedFp.ClimateAssessmentTools.ShouldNotBeEmpty();
             updatedFp.ClimateAssessmentComments.ShouldBe("climate assessment comments");
             updatedFp.IncreasedOrTransferred.ShouldNotBeEmpty();
+            updatedFp.CostEstimates.ShouldNotBeEmpty();
             updatedFp.IntendToSecureFunding.ShouldBe(fpToUpdate.IntendToSecureFunding);
 
             var ret = mapper.Map<DraftFpApplication>(updatedFp);
@@ -383,6 +384,8 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             ret.MeetsEligibilityComments.ShouldBe(fpToUpdate.MeetsEligibilityComments);
             ret.TotalProjectCost.ShouldBe(fpToUpdate.TotalProjectCost);
             ret.HowWasNeedIdentified.ShouldBe(fpToUpdate.HowWasNeedIdentified);
+            ret.Contingency.ShouldBe(fpToUpdate.Contingency);
+            //ret.TotalEligibleCosts.ShouldBe(fpToUpdate.TotalEligibleCosts);
         }
 
         [Test]
@@ -849,6 +852,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             {
                 new EMCR.DRR.Controllers.ProposedActivity {StartDate = DateTime.UtcNow, EndDate = DateTime.UtcNow.AddDays(5), Name = "autotest-proposed-activity-name", Deliverables = "some deliverable", Tasks = "some tasks" },
                 new EMCR.DRR.Controllers.ProposedActivity {StartDate = DateTime.UtcNow, EndDate = DateTime.UtcNow.AddDays(5), Name = "Mapping", Deliverables = "mapping deliverable", Tasks = "mapping tasks" },
+                new EMCR.DRR.Controllers.ProposedActivity {StartDate = DateTime.UtcNow, EndDate = DateTime.UtcNow.AddDays(5), Name = "Construction", Deliverables = "construction deliverable", Tasks = "construction tasks" },
             };
             application.FoundationalOrPreviousWorks = new[] { "autotest-verification-method" };
             application.HowWasNeedIdentified = "need identified";
@@ -929,6 +933,19 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             application.CostConsiderationsApplied = false;
             application.CostConsiderations = new[] { "cost consideration 1", "cost consideration 2" };
             application.CostConsiderationsComments = "cost consideration comments";
+            application.CostEstimates = new[] { new EMCR.DRR.Controllers.CostEstimate {
+                TaskName = "cost estimate task 1",
+                CostCategory = EMCR.DRR.Controllers.CostCategory.CommunityEngagement,
+                Description = "cost estimate description",
+                Resources = EMCR.DRR.Controllers.ResourceCategory.ProjectSupport,
+                Units = EMCR.DRR.Controllers.CostUnit.SquareKilometer,
+                Quantity = 5,
+                UnitRate = 10,
+                TotalCost = 50,
+                }
+            };
+            application.Contingency = 10;
+            application.TotalEligibleCosts = 55;
 
             return application;
         }

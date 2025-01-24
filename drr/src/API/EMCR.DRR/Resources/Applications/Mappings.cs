@@ -166,7 +166,10 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.drr_costconsiderationsapply, opt => opt.MapFrom(src => src.CostConsiderationsApplied.HasValue ? src.CostConsiderationsApplied.Value ? (int?)DRRTwoOptions.Yes : (int?)DRRTwoOptions.No : null))
                 .ForMember(dest => dest.drr_drr_application_drr_costconsiderationitem_Application, opt => opt.MapFrom(src => src.CostConsiderations))
                 .ForMember(dest => dest.drr_explaincostconsiderations, opt => opt.MapFrom(src => src.CostConsiderationsComments))
-                //.ForMember(dest => dest.estima, opt => opt.MapFrom(src => src.CostEstimates))
+                .ForMember(dest => dest.drr_drr_application_drr_detailedcostestimate_Application, opt => opt.MapFrom(src => src.CostEstimates))
+                //.ForMember(dest => dest.match, opt => opt.MapFrom(src => src.EstimatesMatchFundingRequest))
+                .ForMember(dest => dest.drr_contingency, opt => opt.MapFrom(src => src.Contingency))
+                .ForMember(dest => dest.drr_totaleligiblecosts, opt => opt.MapFrom(src => src.TotalEligibleCosts))
 
                 //Attachments - 11
                 .ForMember(dest => dest.drr_hasresolution, opt => opt.MapFrom(src => src.HaveResolution.HasValue ? src.HaveResolution.Value ? (int?)DRRTwoOptions.Yes : (int?)DRRTwoOptions.No : null))
@@ -317,7 +320,10 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.CostConsiderationsApplied, opt => opt.MapFrom(src => src.drr_costconsiderationsapply.HasValue ? src.drr_costconsiderationsapply.Value == (int)DRRTwoOptions.Yes : (bool?)null))
                 .ForMember(dest => dest.CostConsiderations, opt => opt.MapFrom(src => src.drr_drr_application_drr_costconsiderationitem_Application))
                 .ForMember(dest => dest.CostConsiderationsComments, opt => opt.MapFrom(src => src.drr_explaincostconsiderations))
-                .ForMember(dest => dest.CostEstimates, opt => opt.Ignore())
+                .ForMember(dest => dest.CostEstimates, opt => opt.MapFrom(src => src.drr_drr_application_drr_detailedcostestimate_Application))
+                .ForMember(dest => dest.EstimatesMatchFundingRequest, opt => opt.Ignore())
+                .ForMember(dest => dest.Contingency, opt => opt.MapFrom(src => src.drr_contingency))
+                .ForMember(dest => dest.TotalEligibleCosts, opt => opt.MapFrom(src => src.drr_totaleligiblecosts))
 
                 //Attachments
                 .ForMember(dest => dest.HaveResolution, opt => opt.MapFrom(src => src.drr_hasresolution.HasValue ? src.drr_hasresolution.Value == (int)DRRTwoOptions.Yes : (bool?)null))
@@ -396,6 +402,7 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.drr_QualifiedProfessional.drr_name != "Other" || string.IsNullOrEmpty(src.drr_qualifiedprofessionalcomments) ? src.drr_QualifiedProfessional.drr_name : src.drr_qualifiedprofessionalcomments))
             ;
 
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
             CreateMap<ProposedActivity, drr_proposedactivity>(MemberList.None)
                 .ForMember(dest => dest.drr_name, opt => opt.MapFrom(src => src.Name))
                 .ForMember(dest => dest.drr_Activity, opt => opt.MapFrom(src => new drr_projectactivity { drr_name = src.Name }))
@@ -411,7 +418,9 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.EndDate, opt => opt.MapFrom(src => src.drr_anticipatedenddate.HasValue ? src.drr_anticipatedenddate.Value.UtcDateTime : (DateTime?)null))
                 .ForMember(dest => dest.Deliverables, opt => opt.MapFrom(src => src.drr_deliverablesproducts))
                 .ForMember(dest => dest.Tasks, opt => opt.MapFrom(src => src.drr_relatedtasks))
+                .ForMember(dest => dest.ActivityType, opt => opt.MapFrom(src => src.drr_Activity))
             ;
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
 
             CreateMap<ProvincialStandard, drr_provincialstandarditem>(MemberList.None)
                 .ForMember(dest => dest.drr_ProvincialStandard, opt => opt.MapFrom(src => new drr_provincialstandard { drr_name = src.Name }))
@@ -495,6 +504,28 @@ namespace EMCR.DRR.Resources.Applications
               .ReverseMap()
               .ValidateMemberList(MemberList.Destination)
               .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.drr_CostConsideration.drr_name != "Other" || string.IsNullOrEmpty(src.drr_costconsiderationcomments) ? src.drr_CostConsideration.drr_name : src.drr_costconsiderationcomments))
+            ;
+
+            CreateMap<CostEstimate, drr_detailedcostestimate>(MemberList.None)
+                //.ForMember(dest => dest.drr_name, opt => opt.MapFrom(src => src.TaskName))
+                .ForMember(dest => dest.drr_costcategory, opt => opt.MapFrom(src => src.CostCategory.HasValue ? (int?)Enum.Parse<CostCategoryOptionSet>(src.CostCategory.Value.ToString()) : null))
+                .ForMember(dest => dest.drr_description, opt => opt.MapFrom(src => src.Description))
+                .ForMember(dest => dest.drr_resources, opt => opt.MapFrom(src => src.Resources.HasValue ? (int?)Enum.Parse<ResourceCategoryOptionSet>(src.Resources.Value.ToString()) : null))
+                .ForMember(dest => dest.drr_units, opt => opt.MapFrom(src => src.Units.HasValue ? (int?)Enum.Parse<CostUnitOptionSet>(src.Units.Value.ToString()) : null))
+                .ForMember(dest => dest.drr_unitrate, opt => opt.MapFrom(src => src.UnitRate))
+                .ForMember(dest => dest.drr_quantity, opt => opt.MapFrom(src => src.Quantity))
+                .ForMember(dest => dest.drr_totalcost, opt => opt.MapFrom(src => src.TotalCost))
+                .ForMember(dest => dest.drr_tasknumber, opt => opt.MapFrom(src => src.TaskNumber))
+                .ReverseMap()
+                .ValidateMemberList(MemberList.Destination)
+                .ForMember(dest => dest.TaskName, opt => opt.MapFrom(src => src.drr_name))
+                .ForMember(dest => dest.CostCategory, opt => opt.MapFrom(src => src.drr_costcategory.HasValue ? (int?)Enum.Parse<CostCategory>(((CostCategoryOptionSet)src.drr_costcategory).ToString()) : null))
+                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.drr_description))
+                .ForMember(dest => dest.Resources, opt => opt.MapFrom(src => src.drr_resources.HasValue ? (int?)Enum.Parse<ResourceCategory>(((ResourceCategoryOptionSet)src.drr_resources).ToString()) : null))
+                .ForMember(dest => dest.Units, opt => opt.MapFrom(src => src.drr_units.HasValue ? (int?)Enum.Parse<CostUnit>(((CostUnitOptionSet)src.drr_units).ToString()) : null))
+                .ForMember(dest => dest.UnitRate, opt => opt.MapFrom(src => src.drr_unitrate))
+                .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.drr_quantity))
+                .ForMember(dest => dest.TotalCost, opt => opt.MapFrom(src => src.drr_totalcost))
             ;
 
             CreateMap<YearOverYearFunding, drr_driffundingrequest>(MemberList.None)

@@ -199,6 +199,53 @@ namespace EMCR.DRR.Resources.Applications
         NotApplicable = 172580002
     }
 
+    public enum CostCategoryOptionSet
+    {
+        ProjectAdministration = 172580000,
+        Design = 172580001,
+        Assessment = 172580002,
+        Mapping = 172580003,
+        ConstructionMaterials = 172580004,
+        FirstNationsEngagement = 172580005,
+        CommunityEngagement = 172580006,
+        IncrementalStaffing = 172580007,
+        ShortTermInterest = 172580008,
+        LandAcquisition = 172580009,
+        ApprovalsPermitting = 172580010,
+        Contingency = 172580011,
+        Other = 172580012,
+    }
+
+    public enum ResourceCategoryOptionSet
+    {
+        ProjectManager = 172580000,
+        CulturalMonitor = 172580001,
+        Elders = 172580002,
+        JuniorQualifiedProfessional = 172580003,
+        IntermediateQualifiedProfessional = 172580004,
+        SeniorQualifiedProfessional = 172580005,
+        PrincipalQualifiedProfessional = 172580006,
+        ProjectSupport = 172580007,
+        Equipment = 172580008,
+        Other = 172580009,
+    }
+
+    public enum CostUnitOptionSet
+    {
+        Hours = 172580000,
+        LumpSum = 172580001,
+        Each = 172580002,
+        Metre = 172580003,
+        SquareMetre = 172580004,
+        CubicMetre = 172580005,
+        Kilometer = 172580006,
+        SquareKilometer = 172580007,
+        Hectare = 172580008,
+        Kilogram = 172580009,
+        Tonne = 172580010,
+        Other = 172580011,
+    }
+
     public enum ApplicationStatusOptionSet
     {
         DraftStaff = 1,
