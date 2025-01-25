@@ -230,7 +230,7 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.InformationAccuracyStatement, opt => opt.MapFrom(src => src.drr_accuracyofinformation == (int)DRRTwoOptions.Yes))
                 .ForMember(dest => dest.SubmittedDate, opt => opt.MapFrom(src => src.drr_submitteddate.HasValue ? src.drr_submitteddate.Value.UtcDateTime : (DateTime?)null))
                 .ForMember(dest => dest.ModifiedOn, opt => opt.MapFrom(src => src.modifiedon.HasValue ? src.modifiedon.Value.UtcDateTime : (DateTime?)null))
-                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => Enum.Parse<ApplicationStatus>(((ApplicationStatusOptionSet)src.statuscode).ToString())))
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.statuscode.HasValue ? (int?)Enum.Parse<ApplicationStatus>(((ApplicationStatusOptionSet)src.statuscode).ToString()) : null))
 
                 //FP
                 //Proponent & Project Information - 1
@@ -391,7 +391,7 @@ namespace EMCR.DRR.Resources.Applications
                 ;
 
             CreateMap<drr_legaldeclaration, DeclarationInfo>()
-                .ForMember(dest => dest.Type, opt => opt.MapFrom(src => Enum.Parse<DeclarationTypeOptionSet>(((DeclarationTypeOptionSet)src.drr_declarationtype).ToString())))
+                .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.drr_declarationtype.HasValue ? (int?)Enum.Parse<DeclarationTypeOptionSet>(((DeclarationTypeOptionSet)src.drr_declarationtype).ToString()) : null))
                 .ForMember(dest => dest.ApplicationTypeName, opt => opt.MapFrom(src => src.drr_ApplicationType.drr_name))
                 .ForMember(dest => dest.Text, opt => opt.MapFrom(src => src.drr_declarationtext));
 
@@ -402,7 +402,6 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.drr_QualifiedProfessional.drr_name != "Other" || string.IsNullOrEmpty(src.drr_qualifiedprofessionalcomments) ? src.drr_QualifiedProfessional.drr_name : src.drr_qualifiedprofessionalcomments))
             ;
 
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
             CreateMap<ProposedActivity, drr_proposedactivity>(MemberList.None)
                 .ForMember(dest => dest.drr_name, opt => opt.MapFrom(src => src.Name))
                 .ForMember(dest => dest.drr_Activity, opt => opt.MapFrom(src => new drr_projectactivity { drr_name = src.Name }))
@@ -420,7 +419,6 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.Tasks, opt => opt.MapFrom(src => src.drr_relatedtasks))
                 .ForMember(dest => dest.ActivityType, opt => opt.MapFrom(src => src.drr_Activity))
             ;
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
 
             CreateMap<ProvincialStandard, drr_provincialstandarditem>(MemberList.None)
                 .ForMember(dest => dest.drr_ProvincialStandard, opt => opt.MapFrom(src => new drr_provincialstandard { drr_name = src.Name }))
@@ -507,7 +505,7 @@ namespace EMCR.DRR.Resources.Applications
             ;
 
             CreateMap<CostEstimate, drr_detailedcostestimate>(MemberList.None)
-                //.ForMember(dest => dest.drr_name, opt => opt.MapFrom(src => src.TaskName))
+                .ForMember(dest => dest.drr_taskname, opt => opt.MapFrom(src => src.TaskName))
                 .ForMember(dest => dest.drr_costcategory, opt => opt.MapFrom(src => src.CostCategory.HasValue ? (int?)Enum.Parse<CostCategoryOptionSet>(src.CostCategory.Value.ToString()) : null))
                 .ForMember(dest => dest.drr_description, opt => opt.MapFrom(src => src.Description))
                 .ForMember(dest => dest.drr_resources, opt => opt.MapFrom(src => src.Resources.HasValue ? (int?)Enum.Parse<ResourceCategoryOptionSet>(src.Resources.Value.ToString()) : null))
@@ -518,7 +516,7 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.drr_tasknumber, opt => opt.MapFrom(src => src.TaskNumber))
                 .ReverseMap()
                 .ValidateMemberList(MemberList.Destination)
-                .ForMember(dest => dest.TaskName, opt => opt.MapFrom(src => src.drr_name))
+                .ForMember(dest => dest.TaskName, opt => opt.MapFrom(src => src.drr_taskname))
                 .ForMember(dest => dest.CostCategory, opt => opt.MapFrom(src => src.drr_costcategory.HasValue ? (int?)Enum.Parse<CostCategory>(((CostCategoryOptionSet)src.drr_costcategory).ToString()) : null))
                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.drr_description))
                 .ForMember(dest => dest.Resources, opt => opt.MapFrom(src => src.drr_resources.HasValue ? (int?)Enum.Parse<ResourceCategory>(((ResourceCategoryOptionSet)src.drr_resources).ToString()) : null))
