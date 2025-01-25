@@ -74,9 +74,7 @@ export class DrifProgressReportCreateComponent {
 
   activityTypeOptions: DrrSelectOption[] = Object.values(ActivityType).map(
     (value) => ({
-      label: this.translocoService.translate(
-        `progressReport.activityType.${value}`
-      ),
+      label: this.translocoService.translate(`activityType.${value}`),
       value,
     })
   );
