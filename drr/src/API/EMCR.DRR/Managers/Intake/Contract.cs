@@ -631,7 +631,7 @@ namespace EMCR.DRR.Managers.Intake
 
     public class ProposedActivity
     {
-        public string? Name { get; set; }
+        public string? ActivityName { get; set; }
         public ActivityType? ActivityType { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }

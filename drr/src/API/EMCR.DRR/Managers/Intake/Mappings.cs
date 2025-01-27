@@ -290,7 +290,7 @@ namespace EMCR.DRR.Managers.Intake
 
             CreateMap<Controllers.ProposedActivity, ProposedActivity>()
                 .ForMember(dest => dest.ActivityNumber, opt => opt.Ignore())
-                .ForMember(dest => dest.ActivityType, opt => opt.MapFrom(src => new ActivityType { Name = src.Name, PreCreatedActivity = src.PreCreatedActivity }))
+                .ForMember(dest => dest.ActivityType, opt => opt.MapFrom(src => new ActivityType { Name = src.ActivityName, PreCreatedActivity = src.PreCreatedActivity }))
                 .ReverseMap()
                 .ForMember(dest => dest.PreCreatedActivity, opt => opt.MapFrom(src => src.ActivityType != null ? src.ActivityType.PreCreatedActivity : false))
                 ;

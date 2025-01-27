@@ -850,9 +850,8 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             //Project Plan - 4
             application.ProposedActivities = new[]
             {
-                new EMCR.DRR.Controllers.ProposedActivity {StartDate = DateTime.UtcNow, EndDate = DateTime.UtcNow.AddDays(5), Name = "autotest-proposed-activity-name", Deliverables = "some deliverable", Tasks = "some tasks" },
-                new EMCR.DRR.Controllers.ProposedActivity {StartDate = DateTime.UtcNow, EndDate = DateTime.UtcNow.AddDays(5), Name = "Mapping", Deliverables = "mapping deliverable", Tasks = "mapping tasks" },
-                new EMCR.DRR.Controllers.ProposedActivity {StartDate = DateTime.UtcNow, EndDate = DateTime.UtcNow.AddDays(5), Name = "Construction", Deliverables = "construction deliverable", Tasks = "construction tasks" },
+                new EMCR.DRR.Controllers.ProposedActivity {StartDate = DateTime.UtcNow, EndDate = DateTime.UtcNow.AddDays(5), ActivityName = "Mapping", Deliverables = "mapping deliverable", Tasks = "mapping tasks" },
+                new EMCR.DRR.Controllers.ProposedActivity {StartDate = DateTime.UtcNow, EndDate = DateTime.UtcNow.AddDays(5), ActivityName = "Construction", Deliverables = "construction deliverable", Tasks = "construction tasks" },
             };
             application.FoundationalOrPreviousWorks = new[] { "autotest-verification-method" };
             application.HowWasNeedIdentified = "need identified";
