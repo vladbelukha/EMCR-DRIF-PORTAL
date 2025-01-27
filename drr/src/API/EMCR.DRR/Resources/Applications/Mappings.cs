@@ -402,9 +402,10 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.drr_QualifiedProfessional.drr_name != "Other" || string.IsNullOrEmpty(src.drr_qualifiedprofessionalcomments) ? src.drr_QualifiedProfessional.drr_name : src.drr_qualifiedprofessionalcomments))
             ;
 
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
             CreateMap<ProposedActivity, drr_proposedactivity>(MemberList.None)
-                .ForMember(dest => dest.drr_name, opt => opt.MapFrom(src => src.Name))
-                .ForMember(dest => dest.drr_Activity, opt => opt.MapFrom(src => new drr_projectactivity { drr_name = src.Name }))
+                .ForMember(dest => dest.drr_name, opt => opt.MapFrom(src => src.ActivityType.Name))
+                .ForMember(dest => dest.drr_Activity, opt => opt.MapFrom(src => new drr_projectactivity { drr_name = src.ActivityType.Name }))
                 .ForMember(dest => dest.drr_anticipatedstartdate, opt => opt.MapFrom(src => src.StartDate.HasValue ? src.StartDate.Value.ToUniversalTime() : (DateTimeOffset?)null))
                 .ForMember(dest => dest.drr_anticipatedenddate, opt => opt.MapFrom(src => src.EndDate.HasValue ? src.EndDate.Value.ToUniversalTime() : (DateTimeOffset?)null))
                 .ForMember(dest => dest.drr_relatedtasks, opt => opt.MapFrom(src => src.Tasks))
@@ -412,13 +413,13 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.drr_activitynumber, opt => opt.MapFrom(src => src.ActivityNumber))
                 .ReverseMap()
                 .ValidateMemberList(MemberList.Destination)
-                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.drr_name))
                 .ForMember(dest => dest.StartDate, opt => opt.MapFrom(src => src.drr_anticipatedstartdate.HasValue ? src.drr_anticipatedstartdate.Value.UtcDateTime : (DateTime?)null))
                 .ForMember(dest => dest.EndDate, opt => opt.MapFrom(src => src.drr_anticipatedenddate.HasValue ? src.drr_anticipatedenddate.Value.UtcDateTime : (DateTime?)null))
                 .ForMember(dest => dest.Deliverables, opt => opt.MapFrom(src => src.drr_deliverablesproducts))
                 .ForMember(dest => dest.Tasks, opt => opt.MapFrom(src => src.drr_relatedtasks))
                 .ForMember(dest => dest.ActivityType, opt => opt.MapFrom(src => src.drr_Activity))
             ;
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
 
             CreateMap<ProvincialStandard, drr_provincialstandarditem>(MemberList.None)
                 .ForMember(dest => dest.drr_ProvincialStandard, opt => opt.MapFrom(src => new drr_provincialstandard { drr_name = src.Name }))
