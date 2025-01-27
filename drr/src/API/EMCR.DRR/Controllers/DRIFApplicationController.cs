@@ -456,7 +456,7 @@ namespace EMCR.DRR.Controllers
 
     public class ProposedActivity
     {
-        public string? ActivityName { get; set; }
+        public ActivityType? Activity { get; set; }
         public bool? PreCreatedActivity { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }

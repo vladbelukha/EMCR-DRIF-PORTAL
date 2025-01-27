@@ -288,12 +288,17 @@ namespace EMCR.DRR.Managers.Intake
                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src))
                ;
 
+#pragma warning disable CS8604 // Possible null reference argument.
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
             CreateMap<Controllers.ProposedActivity, ProposedActivity>()
                 .ForMember(dest => dest.ActivityNumber, opt => opt.Ignore())
-                .ForMember(dest => dest.ActivityType, opt => opt.MapFrom(src => new ActivityType { Name = src.ActivityName, PreCreatedActivity = src.PreCreatedActivity }))
+                .ForMember(dest => dest.ActivityType, opt => opt.MapFrom(src => new ActivityType { Name = src.Activity != null ? src.Activity.Value.ToDescriptionString() : string.Empty, PreCreatedActivity = src.PreCreatedActivity }))
                 .ReverseMap()
                 .ForMember(dest => dest.PreCreatedActivity, opt => opt.MapFrom(src => src.ActivityType != null ? src.ActivityType.PreCreatedActivity : false))
+                .ForMember(dest => dest.Activity, opt => opt.MapFrom(src => IEnumEx.GetValueFromDescription<Controllers.ActivityType>(src.ActivityType.Name)))
                 ;
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
+#pragma warning restore CS8604 // Possible null reference argument.
 
             CreateMap<Controllers.CostEstimate, CostEstimate>()
                 .ForMember(dest => dest.TaskNumber, opt => opt.Ignore())
