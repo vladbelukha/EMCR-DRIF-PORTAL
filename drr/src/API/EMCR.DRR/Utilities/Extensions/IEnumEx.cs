@@ -6,7 +6,7 @@ namespace EMCR.Utilities.Extensions
 {
     public static class IEnumEx
     {
-        public static string ToDescriptionString(this DocumentType val)
+        public static string ToDescriptionString<T>(this T val) where T : Enum
         {
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
             DescriptionAttribute[] attributes = (DescriptionAttribute[])val

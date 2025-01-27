@@ -393,6 +393,7 @@ namespace EMCR.DRR.Controllers
         public string? IncreasedOrTransferredComments { get; set; }
 
         //Budget - 10
+        public FundingStream? FundingStream { get; set; }
         [Range(ApplicationValidators.FUNDING_MIN_VAL, ApplicationValidators.FUNDING_MAX_VAL)]
         [CurrencyNotNegativeForSubmission]
         [Mandatory]
@@ -455,7 +456,7 @@ namespace EMCR.DRR.Controllers
 
     public class ProposedActivity
     {
-        public string? Name { get; set; }
+        public ActivityType? Activity { get; set; }
         public bool? PreCreatedActivity { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
