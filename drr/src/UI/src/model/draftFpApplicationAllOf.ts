@@ -9,6 +9,7 @@ import type { Attachment } from './attachment';
 import type { CostEstimate } from './costEstimate';
 import type { EstimatedNumberOfPeopleFP } from './estimatedNumberOfPeopleFP';
 import type { YesNoOption } from './yesNoOption';
+import type { FundingStream } from './fundingStream';
 import type { IncreasedOrTransferred } from './increasedOrTransferred';
 import type { InfrastructureImpacted } from './infrastructureImpacted';
 import type { FundingInformation } from './fundingInformation';
@@ -107,6 +108,8 @@ export type DraftFpApplicationAllOf = {
   firstNationsAuthorizedByPartners?: YesNoOption;
   /** @nullable */
   foundationalOrPreviousWorks?: string[];
+  /** @nullable */
+  fundingStream?: FundingStream;
   /** @nullable */
   futureCostReduction?: boolean;
   /** @nullable */

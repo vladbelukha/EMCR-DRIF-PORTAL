@@ -55,7 +55,7 @@
         <mat-card>
           <mat-card-header>
             <mat-card-title>
-              {{ t("activityType." + activity.get("name")?.value) }}
+              {{ t("activityType." + activity.get("activity")?.value) }}
             </mat-card-title>
           </mat-card-header>
           <mat-card-content
@@ -121,11 +121,10 @@
               <drr-select
                 style="width: 50%"
                 [label]="t('activityName')"
-                [rxFormControl]="activity.get('name')"
+                [rxFormControl]="activity.get('activity')"
                 [options]="activityOptions"
               ></drr-select>
-              @if (showStartDate(activity.get('name')?.value))
-              {
+              @if (showStartDate(activity.get('name')?.value)) {
               <drr-datepicker
                 style="width: 24%"
                 [label]="t('activityStartDate')"

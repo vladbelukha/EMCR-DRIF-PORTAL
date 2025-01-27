@@ -9,6 +9,7 @@ import {
   requiredTrue,
 } from '@rxweb/reactive-form-validators';
 import {
+  ActivityType,
   Attachment,
   CostCategory,
   CostEstimate,
@@ -18,6 +19,7 @@ import {
   FundingStream,
   Hazards,
   ProjectType,
+  ProposedActivity,
   ResourceCategory,
   StandardInfo,
   YesNoOption,
@@ -469,10 +471,10 @@ export class ProjectAreaForm {
   }
 }
 
-export class ProposedActivityForm {
+export class ProposedActivityForm implements ProposedActivity {
   @prop()
   @required()
-  name?: string;
+  activity?: ActivityType;
 
   @prop()
   @required()

@@ -4,14 +4,15 @@
  * DRR API
  * OpenAPI spec version: 1.0.0
  */
+import type { ActivityType } from './activityType';
 
 export interface ProposedActivity {
+  /** @nullable */
+  activity?: ActivityType;
   /** @nullable */
   deliverables?: string;
   /** @nullable */
   endDate?: string;
-  /** @nullable */
-  name?: string;
   /** @nullable */
   preCreatedActivity?: boolean;
   /** @nullable */
