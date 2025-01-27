@@ -277,6 +277,7 @@
       >
         <drif-fp-step-10
           [budgetForm]="getFormGroup('budget')"
+          [fundingStream]="getFormGroup('budget').get('fundingStream')?.value"
         ></drif-fp-step-10>
         <div class="drr-stepper-actions">
           <button mat-stroked-button color="primary" matStepperPrevious>
