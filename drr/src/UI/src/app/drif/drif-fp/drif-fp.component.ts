@@ -239,6 +239,7 @@ export class DrifFpComponent {
 
           const formData: DrifFpForm = {
             eoiId: response.eoiId,
+            fundingStream: response.fundingStream,
             proponentAndProjectInformation: {
               projectContact: response.projectContact,
               projectTitle: response.projectTitle,
