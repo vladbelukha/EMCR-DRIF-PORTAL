@@ -185,6 +185,7 @@ export class DrifFpViewComponent {
           previousResponse: response.previousResponse,
           previousResponseComments: response.previousResponseComments,
           previousResponseCost: response.previousResponseCost,
+          contingency: response.contingency,
         },
         attachments: {
           haveResolution: response.haveResolution,

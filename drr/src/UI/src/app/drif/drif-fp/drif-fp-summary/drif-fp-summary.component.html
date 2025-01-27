@@ -408,7 +408,6 @@
           <drr-summary-item
             [label]="t('activityName')"
             [rxFormControl]="control.get('activity')"
-            
           >
           </drr-summary-item>
 
@@ -1229,6 +1228,20 @@
           >
           </drr-summary-item>
         </div>
+        @if (fullProposalForm.get('fundingStream')?.value === 'Stream2') {
+        <drr-summary-item
+          [label]="t('contingency')"
+          [rxFormControl]="fullProposalForm.get('budget.contingency')"
+          [value]="fullProposalForm.get('budget.contingency')?.value + '%'"
+        >
+        </drr-summary-item>
+        }
+        <drr-summary-item
+          [label]="t('totalEligibleCosts')"
+          [rxFormControl]="fullProposalForm.get('budget.totalEligibleCosts')"
+          controlType="currency"
+        >
+        </drr-summary-item>
       </div>
     </mat-card-content>
   </mat-card>
