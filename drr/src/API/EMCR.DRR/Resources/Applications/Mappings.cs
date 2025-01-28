@@ -391,7 +391,7 @@ namespace EMCR.DRR.Resources.Applications
                 ;
 
             CreateMap<drr_legaldeclaration, DeclarationInfo>()
-                .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.drr_declarationtype.HasValue ? (int?)Enum.Parse<DeclarationTypeOptionSet>(((DeclarationTypeOptionSet)src.drr_declarationtype).ToString()) : null))
+                .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.drr_declarationtype.HasValue ? (int?)Enum.Parse<DeclarationType>(((DeclarationTypeOptionSet)src.drr_declarationtype).ToString()) : null))
                 .ForMember(dest => dest.ApplicationTypeName, opt => opt.MapFrom(src => src.drr_ApplicationType.drr_name))
                 .ForMember(dest => dest.Text, opt => opt.MapFrom(src => src.drr_declarationtext));
 
