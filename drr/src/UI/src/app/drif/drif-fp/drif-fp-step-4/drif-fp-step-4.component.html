@@ -122,9 +122,13 @@
                 style="width: 50%"
                 [label]="t('activityName')"
                 [rxFormControl]="activity.get('activity')"
-                [options]="activityOptions"
+                [options]="
+                  getAvailableOptionsForActivity(
+                    activity.get('activity')?.value
+                  )
+                "
               ></drr-select>
-              @if (showStartDate(activity.get('name')?.value)) {
+              @if (showStartDate(activity.get('activity')?.value)) {
               <drr-datepicker
                 style="width: 24%"
                 [label]="t('activityStartDate')"

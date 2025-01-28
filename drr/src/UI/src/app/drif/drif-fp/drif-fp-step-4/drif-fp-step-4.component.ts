@@ -50,14 +50,13 @@ export class DrifFpStep4Component {
   optionsStore = inject(OptionsStore);
   translocoService = inject(TranslocoService);
 
-  private _activityOptionsSignal =
-    this.optionsStore.getOptions!().projectActivities!;
-  get activityOptions(): DrrSelectOption[] | undefined {
-    return this._activityOptionsSignal()?.map((a) => ({
-      value: a,
-      label: a,
-    }));
-  }
+  private allActivityOptions: DrrSelectOption[] = Object.values(
+    ActivityType
+  ).map((activity) => ({
+    value: activity,
+    label: this.translocoService.translate(`activityType.${activity}`),
+  }));
+  availableActivityOptions: DrrSelectOption[] = [...this.allActivityOptions];
 
   @Input() projectPlanForm!: IFormGroup<ProjectPlanForm>;
 
@@ -101,6 +100,27 @@ export class DrifFpStep4Component {
 
   removeActivity(index: number) {
     this.getActivitiesFormArray().removeAt(index);
+  }
+
+  getAvailableOptionsForActivity(selectedActivity: ActivityType) {
+    const selectedActivities = this.getActivitiesFormArray()?.controls.map(
+      (control) => control.get('activity')?.value
+    );
+
+    const availableOptions = this.allActivityOptions.filter(
+      (option) => !selectedActivities.includes(option.value)
+    );
+
+    if (selectedActivity) {
+      const selectedActivityOption = this.allActivityOptions.find(
+        (option) => option.value === selectedActivity
+      );
+
+      availableOptions.push(selectedActivityOption!);
+      availableOptions.sort((a, b) => a.label.localeCompare(b.label));
+    }
+
+    return availableOptions;
   }
 
   showStartDate(activityType: ActivityType) {
