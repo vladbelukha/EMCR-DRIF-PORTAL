@@ -404,6 +404,7 @@ namespace EMCR.DRR.Resources.Applications
 
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
             CreateMap<ProposedActivity, drr_proposedactivity>(MemberList.None)
+                .ForMember(dest => dest.drr_proposedactivityid, opt => opt.MapFrom(src => !string.IsNullOrEmpty(src.Id) ? Guid.Parse(src.Id) : (Guid?)null))
                 .ForMember(dest => dest.drr_name, opt => opt.MapFrom(src => src.ActivityType.Name))
                 .ForMember(dest => dest.drr_Activity, opt => opt.MapFrom(src => new drr_projectactivity { drr_name = src.ActivityType.Name }))
                 .ForMember(dest => dest.drr_anticipatedstartdate, opt => opt.MapFrom(src => src.StartDate.HasValue ? src.StartDate.Value.ToUniversalTime() : (DateTimeOffset?)null))
@@ -415,11 +416,13 @@ namespace EMCR.DRR.Resources.Applications
 
             CreateMap<drr_proposedactivity, ProposedActivity>()
                 .ValidateMemberList(MemberList.Destination)
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.drr_proposedactivityid.ToString()))
                 .ForMember(dest => dest.StartDate, opt => opt.MapFrom(src => src.drr_anticipatedstartdate.HasValue ? src.drr_anticipatedstartdate.Value.UtcDateTime : (DateTime?)null))
                 .ForMember(dest => dest.EndDate, opt => opt.MapFrom(src => src.drr_anticipatedenddate.HasValue ? src.drr_anticipatedenddate.Value.UtcDateTime : (DateTime?)null))
                 .ForMember(dest => dest.Deliverables, opt => opt.MapFrom(src => src.drr_deliverablesproducts))
                 .ForMember(dest => dest.Tasks, opt => opt.MapFrom(src => src.drr_relatedtasks))
                 .ForMember(dest => dest.ActivityType, opt => opt.MapFrom(src => src.drr_Activity))
+                .ForMember(dest => dest.ActivityNumber, opt => opt.MapFrom(src => src.drr_activitynumber))
             ;
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
 
@@ -508,6 +511,7 @@ namespace EMCR.DRR.Resources.Applications
             ;
 
             CreateMap<CostEstimate, drr_detailedcostestimate>(MemberList.None)
+                .ForMember(dest => dest.drr_detailedcostestimateid, opt => opt.MapFrom(src => !string.IsNullOrEmpty(src.Id) ? Guid.Parse(src.Id) : (Guid?)null))
                 .ForMember(dest => dest.drr_taskname, opt => opt.MapFrom(src => src.TaskName))
                 .ForMember(dest => dest.drr_costcategory, opt => opt.MapFrom(src => src.CostCategory.HasValue ? (int?)Enum.Parse<CostCategoryOptionSet>(src.CostCategory.Value.ToString()) : null))
                 .ForMember(dest => dest.drr_description, opt => opt.MapFrom(src => src.Description))
@@ -519,6 +523,7 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.drr_tasknumber, opt => opt.MapFrom(src => src.TaskNumber))
                 .ReverseMap()
                 .ValidateMemberList(MemberList.Destination)
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.drr_detailedcostestimateid.ToString()))
                 .ForMember(dest => dest.TaskName, opt => opt.MapFrom(src => src.drr_taskname))
                 .ForMember(dest => dest.CostCategory, opt => opt.MapFrom(src => src.drr_costcategory.HasValue ? (int?)Enum.Parse<CostCategory>(((CostCategoryOptionSet)src.drr_costcategory).ToString()) : null))
                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.drr_description))
