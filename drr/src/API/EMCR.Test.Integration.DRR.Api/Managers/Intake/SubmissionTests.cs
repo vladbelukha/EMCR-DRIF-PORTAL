@@ -328,6 +328,14 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
         }
 
         [Test]
+        public async Task CanQueryFp()
+        {
+            var fp = (await manager.Handle(new DrrApplicationsQuery { Id = "DRIF-FP-4492", BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault();
+            var ret = mapper.Map<DraftFpApplication>(fp);
+            ret.ProposedActivities.ShouldNotBeEmpty();
+        }
+            
+        [Test]
         public async Task CanUpdateFp()
         {
             var eoi = mapper.Map<EoiApplication>(CreateNewTestEOIApplication());

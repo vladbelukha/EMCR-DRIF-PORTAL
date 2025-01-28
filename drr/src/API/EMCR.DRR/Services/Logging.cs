@@ -25,10 +25,10 @@ namespace EMCR.DRR.API.Services
                 .Enrich.WithCorrelationIdHeader()
                 .Enrich.WithClientIp()
                 .Enrich.WithSpan()
-                .MinimumLevel.Override("System.Net.Http.HttpClient", LogEventLevel.Warning)
-                .MinimumLevel.Override("Microsoft.AspNetCore.Hosting", LogEventLevel.Warning)
-                .MinimumLevel.Override("Microsoft.AspNetCore.Routing", LogEventLevel.Warning)
-                .MinimumLevel.Override("Microsoft.OData.Extensions", LogEventLevel.Warning)
+                //.MinimumLevel.Override("System.Net.Http.HttpClient", LogEventLevel.Warning)
+                //.MinimumLevel.Override("Microsoft.AspNetCore.Hosting", LogEventLevel.Warning)
+                //.MinimumLevel.Override("Microsoft.AspNetCore.Routing", LogEventLevel.Warning)
+                //.MinimumLevel.Override("Microsoft.OData.Extensions", LogEventLevel.Warning)
                 .WriteTo.Console(outputTemplate: LogOutputTemplate)
                 ;
 

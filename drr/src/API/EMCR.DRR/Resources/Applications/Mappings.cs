@@ -417,7 +417,12 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.EndDate, opt => opt.MapFrom(src => src.drr_anticipatedenddate.HasValue ? src.drr_anticipatedenddate.Value.UtcDateTime : (DateTime?)null))
                 .ForMember(dest => dest.Deliverables, opt => opt.MapFrom(src => src.drr_deliverablesproducts))
                 .ForMember(dest => dest.Tasks, opt => opt.MapFrom(src => src.drr_relatedtasks))
-                .ForMember(dest => dest.ActivityType, opt => opt.MapFrom(src => src.drr_Activity))
+                .ForMember(dest => dest.ActivityType, opt => opt.MapFrom(src => new ActivityType { Name = src.drr_Activity.drr_name, PreCreatedActivity = src.drr_Activity.drr_precreatedactivity.HasValue ? src.drr_Activity.drr_precreatedactivity == (int)DRRTwoOptions.Yes : false }))
+                .AfterMap((src, dest) =>
+                {
+                    var test = dest.ActivityType;
+                    dest.ActivityType.Name = src.drr_Activity.drr_name;
+                })
             ;
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
 

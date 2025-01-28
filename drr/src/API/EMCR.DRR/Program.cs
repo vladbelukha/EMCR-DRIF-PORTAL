@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.IdentityModel.Tokens;
@@ -30,6 +31,13 @@ using Xrm.Tools.WebAPI.Requests;
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 var configuration = builder.Configuration;
+
+services.AddHttpLogging(logging =>
+{
+    logging.LoggingFields = HttpLoggingFields.None;
+    logging.RequestBodyLogLimit = 12000;
+    logging.ResponseBodyLogLimit = 4096;
+});
 
 #pragma warning disable CS8604 // Possible null reference argument.
 builder.Host.UseSerilog((ctx, services, config) => Logging.ConfigureSerilog(ctx, services, config, configuration.GetValue("APP_NAME", string.Empty)));
@@ -269,6 +277,8 @@ if (!app.Environment.IsProduction())
 }
 
 app.UseHttpsRedirection();
+app.UseHttpLogging();
+app.UseSerilogRequestLogging();
 app.UseCors();
 app.UseAuthorization();
 app.MapControllers();
