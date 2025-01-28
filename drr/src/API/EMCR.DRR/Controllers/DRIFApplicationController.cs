@@ -456,6 +456,7 @@ namespace EMCR.DRR.Controllers
 
     public class ProposedActivity
     {
+        public string? Id { get; set; }
         public ActivityType? Activity { get; set; }
         public bool? PreCreatedActivity { get; set; }
         public DateTime? StartDate { get; set; }
@@ -482,6 +483,7 @@ namespace EMCR.DRR.Controllers
 
     public class CostEstimate
     {
+        public string? Id { get; set; }
         public string? TaskName { get; set; }
         public CostCategory? CostCategory { get; set; }
         public string? Description { get; set; }
