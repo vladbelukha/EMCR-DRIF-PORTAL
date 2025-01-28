@@ -618,6 +618,7 @@ namespace EMCR.DRR.Managers.Intake
 
     public class CostEstimate
     {
+        public string? Id { get; set; }
         public string? TaskName { get; set; }
         public CostCategory? CostCategory { get; set; }
         public string? Description { get; set; }
@@ -631,6 +632,7 @@ namespace EMCR.DRR.Managers.Intake
 
     public class ProposedActivity
     {
+        public string? Id { get; set; }
         public ActivityType? ActivityType { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }

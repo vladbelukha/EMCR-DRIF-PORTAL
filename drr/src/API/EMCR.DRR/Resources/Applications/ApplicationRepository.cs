@@ -315,7 +315,6 @@ namespace EMCR.DRR.Resources.Applications
 
             var partnerAccounts = (await ctx.connections.Expand(c => c.record2id_account).Where(c => c.record1id_drr_application.drr_applicationid == currentApplication.drr_applicationid && c.statecode == (int)EntityState.Active).GetAllPagesAsync()).Select(p => p.record2id_account).Distinct().ToList();
             ctx.DetachAll();
-            RemoveOldData(ctx, currentApplication, partnerAccounts);
 
             var drrApplication = mapper.Map<drr_application>(application);
             drrApplication.drr_applicationid = currentApplication.drr_applicationid;
@@ -327,12 +326,14 @@ namespace EMCR.DRR.Resources.Applications
 
             drrApplication.bcgov_drr_application_bcgov_documenturl_Application = currentApplication.bcgov_drr_application_bcgov_documenturl_Application;
 
+            RemoveOldData(ctx, currentApplication, drrApplication, partnerAccounts);
+
             ctx.AttachTo(nameof(ctx.drr_applications), drrApplication);
             ctx.UpdateObject(drrApplication);
             return await SaveApplication(ctx, drrApplication, application);
         }
 
-        private void RemoveOldData(DRRContext ctx, drr_application drrApplication, IEnumerable<account> partnerAccounts)
+        private void RemoveOldData(DRRContext ctx, drr_application currentApplication, drr_application updatedApplication, IEnumerable<account> partnerAccounts)
         {
             foreach (var account in partnerAccounts)
             {
@@ -340,112 +341,120 @@ namespace EMCR.DRR.Resources.Applications
                 ctx.DeleteObject(account);
             }
 
-            if (drrApplication.drr_PrimaryProjectContact != null)
+            if (currentApplication.drr_PrimaryProjectContact != null)
             {
-                ctx.AttachTo(nameof(ctx.contacts), drrApplication.drr_PrimaryProjectContact);
-                ctx.DeleteObject(drrApplication.drr_PrimaryProjectContact);
+                ctx.AttachTo(nameof(ctx.contacts), currentApplication.drr_PrimaryProjectContact);
+                ctx.DeleteObject(currentApplication.drr_PrimaryProjectContact);
             }
-            if (drrApplication.drr_AdditionalContact1 != null)
+            if (currentApplication.drr_AdditionalContact1 != null)
             {
-                ctx.AttachTo(nameof(ctx.contacts), drrApplication.drr_AdditionalContact1);
-                ctx.DeleteObject(drrApplication.drr_AdditionalContact1);
+                ctx.AttachTo(nameof(ctx.contacts), currentApplication.drr_AdditionalContact1);
+                ctx.DeleteObject(currentApplication.drr_AdditionalContact1);
             }
-            if (drrApplication.drr_AdditionalContact2 != null)
+            if (currentApplication.drr_AdditionalContact2 != null)
             {
-                ctx.AttachTo(nameof(ctx.contacts), drrApplication.drr_AdditionalContact2);
-                ctx.DeleteObject(drrApplication.drr_AdditionalContact2);
+                ctx.AttachTo(nameof(ctx.contacts), currentApplication.drr_AdditionalContact2);
+                ctx.DeleteObject(currentApplication.drr_AdditionalContact2);
             }
-            foreach (var fund in drrApplication.drr_application_fundingsource_Application)
+            foreach (var fund in currentApplication.drr_application_fundingsource_Application)
             {
                 ctx.AttachTo(nameof(ctx.drr_fundingsources), fund);
                 ctx.DeleteObject(fund);
             }
-            foreach (var infrastructure in drrApplication.drr_drr_application_drr_criticalinfrastructureimpacted_Application)
+            foreach (var infrastructure in currentApplication.drr_drr_application_drr_criticalinfrastructureimpacted_Application)
             {
                 ctx.AttachTo(nameof(ctx.drr_criticalinfrastructureimpacteds), infrastructure);
                 ctx.DeleteObject(infrastructure);
             }
-            foreach (var professional in drrApplication.drr_drr_application_drr_qualifiedprofessionalitem_Application)
+            foreach (var professional in currentApplication.drr_drr_application_drr_qualifiedprofessionalitem_Application)
             {
                 ctx.AttachTo(nameof(ctx.drr_qualifiedprofessionalitems), professional);
                 ctx.DeleteObject(professional);
             }
-            foreach (var standard in drrApplication.drr_drr_application_drr_provincialstandarditem_Application)
+            foreach (var standard in currentApplication.drr_drr_application_drr_provincialstandarditem_Application)
             {
                 ctx.AttachTo(nameof(ctx.drr_provincialstandarditems), standard);
                 ctx.DeleteObject(standard);
             }
-            foreach (var activity in drrApplication.drr_drr_application_drr_proposedactivity_Application)
+
+            var proposedActivitiesToRemove = currentApplication.drr_drr_application_drr_proposedactivity_Application.Where(curr =>
+            !updatedApplication.drr_drr_application_drr_proposedactivity_Application.Any(updated => updated.drr_proposedactivityid == curr.drr_proposedactivityid)).ToList();
+
+            foreach (var activity in proposedActivitiesToRemove)
             {
                 ctx.AttachTo(nameof(ctx.drr_proposedactivities), activity);
                 ctx.DeleteObject(activity);
             }
-            foreach (var item in drrApplication.drr_drr_application_drr_foundationalorpreviousworkitem_Application)
+            foreach (var item in currentApplication.drr_drr_application_drr_foundationalorpreviousworkitem_Application)
             {
                 ctx.AttachTo(nameof(ctx.drr_foundationalorpreviousworkitems), item);
                 ctx.DeleteObject(item);
             }
-            foreach (var affectedParty in drrApplication.drr_drr_application_drr_impactedoraffectedpartyitem_Application)
+            foreach (var affectedParty in currentApplication.drr_drr_application_drr_impactedoraffectedpartyitem_Application)
             {
                 ctx.AttachTo(nameof(ctx.drr_impactedoraffectedpartyitems), affectedParty);
                 ctx.DeleteObject(affectedParty);
             }
-            foreach (var costReduction in drrApplication.drr_drr_application_drr_costreductionitem_Application)
+            foreach (var costReduction in currentApplication.drr_drr_application_drr_costreductionitem_Application)
             {
                 ctx.AttachTo(nameof(ctx.drr_costreductionitems), costReduction);
                 ctx.DeleteObject(costReduction);
             }
-            foreach (var coBenefit in drrApplication.drr_drr_application_drr_cobenefititem_Application)
+            foreach (var coBenefit in currentApplication.drr_drr_application_drr_cobenefititem_Application)
             {
                 ctx.AttachTo(nameof(ctx.drr_cobenefititems), coBenefit);
                 ctx.DeleteObject(coBenefit);
             }
-            foreach (var risk in drrApplication.drr_drr_application_drr_projectcomplexityriskitem_Application)
+            foreach (var risk in currentApplication.drr_drr_application_drr_projectcomplexityriskitem_Application)
             {
                 ctx.AttachTo(nameof(ctx.drr_projectcomplexityriskitems), risk);
                 ctx.DeleteObject(risk);
             }
-            foreach (var risk in drrApplication.drr_drr_application_drr_projectreadinessriskitem_Application)
+            foreach (var risk in currentApplication.drr_drr_application_drr_projectreadinessriskitem_Application)
             {
                 ctx.AttachTo(nameof(ctx.drr_projectreadinessriskitems), risk);
                 ctx.DeleteObject(risk);
             }
-            foreach (var resiliency in drrApplication.drr_drr_application_drr_resiliencyitem_Application)
+            foreach (var resiliency in currentApplication.drr_drr_application_drr_resiliencyitem_Application)
             {
                 ctx.AttachTo(nameof(ctx.drr_resiliencyitems), resiliency);
                 ctx.DeleteObject(resiliency);
             }
-            foreach (var risk in drrApplication.drr_drr_application_drr_projectsensitivityriskitem_Application)
+            foreach (var risk in currentApplication.drr_drr_application_drr_projectsensitivityriskitem_Application)
             {
                 ctx.AttachTo(nameof(ctx.drr_projectsensitivityriskitems), risk);
                 ctx.DeleteObject(risk);
             }
-            foreach (var risk in drrApplication.drr_drr_application_drr_projectcapacitychallengeitem_Application)
+            foreach (var risk in currentApplication.drr_drr_application_drr_projectcapacitychallengeitem_Application)
             {
                 ctx.AttachTo(nameof(ctx.drr_projectcapacitychallengeitems), risk);
                 ctx.DeleteObject(risk);
             }
-            foreach (var item in drrApplication.drr_drr_application_drr_climateassessmenttoolitem_Application)
+            foreach (var item in currentApplication.drr_drr_application_drr_climateassessmenttoolitem_Application)
             {
                 ctx.AttachTo(nameof(ctx.drr_climateassessmenttoolitems), item);
                 ctx.DeleteObject(item);
             }
-            foreach (var cost in drrApplication.drr_drr_application_drr_costconsiderationitem_Application)
+            foreach (var cost in currentApplication.drr_drr_application_drr_costconsiderationitem_Application)
             {
                 ctx.AttachTo(nameof(ctx.drr_costconsiderationitems), cost);
                 ctx.DeleteObject(cost);
             }
-            foreach (var estimate in drrApplication.drr_drr_application_drr_detailedcostestimate_Application)
+
+            var detailedCostEstimatesToRemove = currentApplication.drr_drr_application_drr_detailedcostestimate_Application.Where(curr =>
+            !updatedApplication.drr_drr_application_drr_detailedcostestimate_Application.Any(updated => updated.drr_detailedcostestimateid == curr.drr_detailedcostestimateid)).ToList();
+
+            foreach (var estimate in detailedCostEstimatesToRemove)
             {
                 ctx.AttachTo(nameof(ctx.drr_detailedcostestimates), estimate);
                 ctx.DeleteObject(estimate);
             }
-            foreach (var funding in drrApplication.drr_drr_application_drr_driffundingrequest_Application)
+            foreach (var funding in currentApplication.drr_drr_application_drr_driffundingrequest_Application)
             {
                 ctx.AttachTo(nameof(ctx.drr_driffundingrequests), funding);
                 ctx.DeleteObject(funding);
             }
-            foreach (var permit in drrApplication.drr_drr_application_drr_permitslicensesandauthorizations_Application)
+            foreach (var permit in currentApplication.drr_drr_application_drr_permitslicensesandauthorizations_Application)
             {
                 ctx.AttachTo(nameof(ctx.drr_permitslicensesandauthorizationses), permit);
                 ctx.DeleteObject(permit);
@@ -770,16 +779,24 @@ namespace EMCR.DRR.Resources.Applications
                 }
             }
         }
-        
+
         private static void AddCostEstimates(DRRContext drrContext, drr_application application)
         {
             foreach (var estimate in application.drr_drr_application_drr_detailedcostestimate_Application)
             {
                 if (estimate != null)
                 {
-                    drrContext.AddTodrr_detailedcostestimates(estimate);
-                    drrContext.AddLink(application, nameof(application.drr_drr_application_drr_detailedcostestimate_Application), estimate);
-                    drrContext.SetLink(estimate, nameof(estimate.drr_Application), application);
+                    if (estimate.drr_detailedcostestimateid == null)
+                    {
+                        drrContext.AddTodrr_detailedcostestimates(estimate);
+                        drrContext.AddLink(application, nameof(application.drr_drr_application_drr_detailedcostestimate_Application), estimate);
+                        drrContext.SetLink(estimate, nameof(estimate.drr_Application), application);
+                    }
+                    else
+                    {
+                        drrContext.AttachTo(nameof(drrContext.drr_detailedcostestimates), estimate);
+                        drrContext.UpdateObject(estimate);
+                    }
                 }
             }
         }
@@ -832,10 +849,19 @@ namespace EMCR.DRR.Resources.Applications
                     }
                     activity.drr_Activity = masterVal;
 
-                    drrContext.AddTodrr_proposedactivities(activity);
-                    drrContext.AddLink(application, nameof(application.drr_drr_application_drr_proposedactivity_Application), activity);
-                    drrContext.SetLink(activity, nameof(activity.drr_Application), application);
-                    drrContext.SetLink(activity, nameof(activity.drr_Activity), masterVal);
+                    if (activity.drr_proposedactivityid == null)
+                    {
+                        drrContext.AddTodrr_proposedactivities(activity);
+                        drrContext.AddLink(application, nameof(application.drr_drr_application_drr_proposedactivity_Application), activity);
+                        drrContext.SetLink(activity, nameof(activity.drr_Application), application);
+                        drrContext.SetLink(activity, nameof(activity.drr_Activity), masterVal);
+                    }
+                    else
+                    {
+                        drrContext.AttachTo(nameof(drrContext.drr_proposedactivities), activity);
+                        drrContext.UpdateObject(activity);
+                        drrContext.SetLink(activity, nameof(activity.drr_Activity), masterVal);
+                    }
                 }
             }
         }
@@ -1233,7 +1259,7 @@ namespace EMCR.DRR.Resources.Applications
             application.drr_drr_application_drr_resiliencyitem_Application = new System.Collections.ObjectModel.Collection<drr_resiliencyitem>(application.drr_drr_application_drr_resiliencyitem_Application.Where(c => c.statecode == (int)EntityState.Active).ToList());
             application.drr_drr_application_drr_climateassessmenttoolitem_Application = new System.Collections.ObjectModel.Collection<drr_climateassessmenttoolitem>(application.drr_drr_application_drr_climateassessmenttoolitem_Application.Where(c => c.statecode == (int)EntityState.Active).ToList());
             application.drr_drr_application_drr_costconsiderationitem_Application = new System.Collections.ObjectModel.Collection<drr_costconsiderationitem>(application.drr_drr_application_drr_costconsiderationitem_Application.Where(c => c.statecode == (int)EntityState.Active).ToList());
-            application.drr_drr_application_drr_detailedcostestimate_Application = new System.Collections.ObjectModel.Collection<drr_detailedcostestimate>(application.drr_drr_application_drr_detailedcostestimate_Application.Where(c => c.statecode == (int)EntityState.Active).ToList());
+            application.drr_drr_application_drr_detailedcostestimate_Application = new System.Collections.ObjectModel.Collection<drr_detailedcostestimate>(application.drr_drr_application_drr_detailedcostestimate_Application.Where(c => c.statecode == (int)EntityState.Active).OrderBy(c => c.drr_tasknumber).ToList());
             application.drr_drr_application_drr_driffundingrequest_Application = new System.Collections.ObjectModel.Collection<drr_driffundingrequest>(application.drr_drr_application_drr_driffundingrequest_Application.Where(c => c.statecode == (int)EntityState.Active).ToList());
             application.drr_drr_application_drr_permitslicensesandauthorizations_Application = new System.Collections.ObjectModel.Collection<drr_permitslicensesandauthorizations>(application.drr_drr_application_drr_permitslicensesandauthorizations_Application.Where(c => c.statecode == (int)EntityState.Active).ToList());
             application.bcgov_drr_application_bcgov_documenturl_Application = new System.Collections.ObjectModel.Collection<bcgov_documenturl>(application.bcgov_drr_application_bcgov_documenturl_Application.Where(c => c.statecode == (int)EntityState.Active).ToList());

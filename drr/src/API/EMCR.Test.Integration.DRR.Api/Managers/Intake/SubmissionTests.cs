@@ -109,6 +109,13 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             fpToSubmit.Submitter = eoi.Submitter;
             fpToSubmit.AuthorizedRepresentativeStatement = true;
             fpToSubmit.InformationAccuracyStatement = true;
+
+            foreach (var activity in fpToSubmit.ProposedActivities)
+            {
+                if (!activity.StartDate.HasValue) activity.StartDate = DateTime.UtcNow.AddDays(1);
+                if (!activity.EndDate.HasValue) activity.EndDate = DateTime.UtcNow.AddDays(5);
+            }
+
             await manager.Handle(new FpSubmitApplicationCommand { Application = fpToSubmit, UserInfo = userInfo });
 
             var submittedFP = (await manager.Handle(new DrrApplicationsQuery { Id = fpId, BusinessId = userInfo.BusinessId })).Items.SingleOrDefault();
@@ -334,7 +341,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             var ret = mapper.Map<DraftFpApplication>(fp);
             ret.ProposedActivities.ShouldNotBeEmpty();
         }
-            
+
         [Test]
         public async Task CanUpdateFp()
         {
@@ -354,8 +361,16 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             fullProposal.Id.ShouldBe(fpId);
             fullProposal.EoiId.ShouldBe(eoiId);
             fullProposal.HowWasNeedIdentified.ShouldBe(eoi.RationaleForSolution);
-
             var fpToUpdate = FillInFullProposal(mapper.Map<DraftFpApplication>(fullProposal));
+            fpToUpdate.ProposedActivities.First().Deliverables = "project deliverables";
+            fpToUpdate.ProposedActivities.First().StartDate = DateTime.UtcNow.AddDays(1);
+
+            foreach (var activity in fpToUpdate.ProposedActivities)
+            {
+                if (!activity.StartDate.HasValue) activity.StartDate = DateTime.UtcNow.AddDays(1);
+                if (!activity.EndDate.HasValue) activity.EndDate = DateTime.UtcNow.AddDays(5);
+            }
+
             await manager.Handle(new FpSaveApplicationCommand { Application = mapper.Map<FpApplication>(fpToUpdate), UserInfo = GetTestUserInfo() });
 
             var updatedFp = (await manager.Handle(new DrrApplicationsQuery { Id = fpId, BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault();
@@ -393,6 +408,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             ret.TotalProjectCost.ShouldBe(fpToUpdate.TotalProjectCost);
             ret.HowWasNeedIdentified.ShouldBe(fpToUpdate.HowWasNeedIdentified);
             ret.Contingency.ShouldBe(fpToUpdate.Contingency);
+            ret.ProposedActivities.Count().ShouldBe(fpToUpdate.ProposedActivities.Count());
             //ret.TotalEligibleCosts.ShouldBe(fpToUpdate.TotalEligibleCosts);
         }
 
@@ -482,26 +498,28 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             updatedFp.LocalGovernmentAuthorizedByPartners.ShouldBe(EMCR.DRR.Managers.Intake.YesNoOption.NotApplicable);
 
             fpToUpdate = FillInFullProposal(mapper.Map<DraftFpApplication>(updatedFp));
+            fpToUpdate.ProposedActivities = fpToUpdate.ProposedActivities.Where(a => a.Activity != EMCR.DRR.Controllers.ActivityType.Mapping).ToList();
 
             await manager.Handle(new FpSaveApplicationCommand { Application = mapper.Map<FpApplication>(fpToUpdate), UserInfo = GetTestUserInfo() });
 
             var twiceUpdatedFp = (await manager.Handle(new DrrApplicationsQuery { Id = fpId, BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault();
-
-            twiceUpdatedFp.Professionals.Count().ShouldBe(fpToUpdate.Professionals.Count());
-            twiceUpdatedFp.Standards.Count().ShouldBe(6);
-            twiceUpdatedFp.ProposedActivities.Count().ShouldBe(fpToUpdate.ProposedActivities.Count());
-            twiceUpdatedFp.FoundationalOrPreviousWorks.Count().ShouldBe(fpToUpdate.FoundationalOrPreviousWorks.Count());
-            twiceUpdatedFp.AffectedParties.Count().ShouldBe(fpToUpdate.AffectedParties.Count());
-            twiceUpdatedFp.CostReductions.Count().ShouldBe(fpToUpdate.CostReductions.Count());
-            twiceUpdatedFp.CoBenefits.Count().ShouldBe(fpToUpdate.CoBenefits.Count());
-            twiceUpdatedFp.IncreasedResiliency.Count().ShouldBe(fpToUpdate.IncreasedResiliency.Count());
-            twiceUpdatedFp.ComplexityRisks.Count().ShouldBe(fpToUpdate.ComplexityRisks.Count());
-            twiceUpdatedFp.ReadinessRisks.Count().ShouldBe(fpToUpdate.ReadinessRisks.Count());
-            twiceUpdatedFp.SensitivityRisks.Count().ShouldBe(fpToUpdate.SensitivityRisks.Count());
-            twiceUpdatedFp.CapacityRisks.Count().ShouldBe(fpToUpdate.CapacityRisks.Count());
-            ////twiceUpdatedFp.TransferRisks.Count().ShouldBe(fpToUpdate.TransferRisks.Count());
-            twiceUpdatedFp.YearOverYearFunding.Count().ShouldBe(fpToUpdate.YearOverYearFunding.Count());
-            //twiceUpdatedFp.CostConsiderations.Count().ShouldBe(fpToUpdate.CostConsiderations.Count());
+            var ret = mapper.Map<DraftFpApplication>(twiceUpdatedFp);
+            ret.Professionals.Count().ShouldBe(fpToUpdate.Professionals.Count());
+            ret.Standards.Count().ShouldBe(6);
+            ret.ProposedActivities.Count().ShouldBe(fpToUpdate.ProposedActivities.Count());
+            ret.FoundationalOrPreviousWorks.Count().ShouldBe(fpToUpdate.FoundationalOrPreviousWorks.Count());
+            ret.AffectedParties.Count().ShouldBe(fpToUpdate.AffectedParties.Count());
+            ret.CostReductions.Count().ShouldBe(fpToUpdate.CostReductions.Count());
+            ret.CoBenefits.Count().ShouldBe(fpToUpdate.CoBenefits.Count());
+            ret.IncreasedResiliency.Count().ShouldBe(fpToUpdate.IncreasedResiliency.Count());
+            ret.ComplexityRisks.Count().ShouldBe(fpToUpdate.ComplexityRisks.Count());
+            ret.ReadinessRisks.Count().ShouldBe(fpToUpdate.ReadinessRisks.Count());
+            ret.SensitivityRisks.Count().ShouldBe(fpToUpdate.SensitivityRisks.Count());
+            ret.CapacityRisks.Count().ShouldBe(fpToUpdate.CapacityRisks.Count());
+            ret.CostEstimates.Count().ShouldBe(fpToUpdate.CostEstimates.Count());
+            ////ret.TransferRisks.Count().ShouldBe(fpToUpdate.TransferRisks.Count());
+            ret.YearOverYearFunding.Count().ShouldBe(fpToUpdate.YearOverYearFunding.Count());
+            //ret.CostConsiderations.Count().ShouldBe(fpToUpdate.CostConsiderations.Count());
         }
 
         [Test]
@@ -856,11 +874,13 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             application.EstimatedPeopleImpactedFP = EMCR.DRR.Controllers.EstimatedNumberOfPeopleFP.FiveHundredToOneK;
 
             //Project Plan - 4
-            application.ProposedActivities = new[]
+#pragma warning disable CS8604 // Possible null reference argument.
+            application.ProposedActivities = application.ProposedActivities.Concat(new[]
             {
                 new EMCR.DRR.Controllers.ProposedActivity {StartDate = DateTime.UtcNow, EndDate = DateTime.UtcNow.AddDays(5), Activity = EMCR.DRR.Controllers.ActivityType.Mapping, Deliverables = "mapping deliverable", Tasks = "mapping tasks" },
                 new EMCR.DRR.Controllers.ProposedActivity {StartDate = DateTime.UtcNow, EndDate = DateTime.UtcNow.AddDays(5), Activity = EMCR.DRR.Controllers.ActivityType.Construction, Deliverables = "construction deliverable", Tasks = "construction tasks" },
-            };
+            });
+#pragma warning restore CS8604 // Possible null reference argument.
             application.FoundationalOrPreviousWorks = new[] { "autotest-verification-method" };
             application.HowWasNeedIdentified = "need identified";
             application.ProjectAlternateOptions = "some alternate options";
@@ -940,7 +960,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             application.CostConsiderationsApplied = false;
             application.CostConsiderations = new[] { "cost consideration 1", "cost consideration 2" };
             application.CostConsiderationsComments = "cost consideration comments";
-            application.CostEstimates = new[] { new EMCR.DRR.Controllers.CostEstimate {
+            application.CostEstimates = application.CostEstimates.Concat(new[] { new EMCR.DRR.Controllers.CostEstimate {
                 TaskName = "cost estimate task 1",
                 CostCategory = EMCR.DRR.Controllers.CostCategory.CommunityEngagement,
                 Description = "cost estimate description",
@@ -950,7 +970,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
                 UnitRate = 10,
                 TotalCost = 50,
                 }
-            };
+            });
             application.Contingency = 10;
             application.TotalEligibleCosts = 55;
 
