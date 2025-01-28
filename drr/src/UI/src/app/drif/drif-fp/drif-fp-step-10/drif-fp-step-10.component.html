@@ -236,11 +236,13 @@
           <mat-card-content>
             <div class="row">
               <drr-input
+                class="drr-single-input"
                 label="Task Name"
                 [rxFormControl]="cost.get('taskName')"
                 [maxlength]="50"
               ></drr-input>
               <drr-select
+                class="drr-single-input"
                 label="Cost Category"
                 [rxFormControl]="cost.get('costCategory')"
                 [options]="costCategoriesOptions"
