@@ -88,7 +88,8 @@
             <mat-card-header>
               <mat-card-title>
                 {{
-                  t("activityType." + preDefinedActivity.get("activity")?.value)
+                  "activityType." + preDefinedActivity.get("activity")?.value
+                    | transloco
                 }}
               </mat-card-title>
             </mat-card-header>

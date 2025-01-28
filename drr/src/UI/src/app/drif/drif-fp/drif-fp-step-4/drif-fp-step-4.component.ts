@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { IFormGroup, RxFormBuilder } from '@rxweb/reactive-form-validators';
+import { ActivityType } from '../../../../model';
 import { DrrChipAutocompleteComponent } from '../../../shared/controls/drr-chip-autocomplete/drr-chip-autocomplete.component';
 import { DrrDatepickerComponent } from '../../../shared/controls/drr-datepicker/drr-datepicker.component';
 import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
@@ -76,6 +77,18 @@ export class DrifFpStep4Component {
     return this.minStartDate;
   }
 
+  getPreDefinedActivitiesArray() {
+    return this.getActivitiesFormArray()?.controls.filter(
+      (control) => control.get('preCreatedActivity')?.value
+    );
+  }
+
+  getAdditionalActivitiesArray() {
+    return this.getActivitiesFormArray()?.controls.filter(
+      (control) => !control.get('preCreatedActivity')?.value
+    );
+  }
+
   getActivitiesFormArray() {
     return this.projectPlanForm.get('proposedActivities') as FormArray;
   }
@@ -88,5 +101,12 @@ export class DrifFpStep4Component {
 
   removeActivity(index: number) {
     this.getActivitiesFormArray().removeAt(index);
+  }
+
+  showStartDate(activityType: ActivityType) {
+    return (
+      activityType !== 'ConstructionContractAward' &&
+      activityType !== 'PermitToConstruct'
+    );
   }
 }

@@ -287,6 +287,7 @@
         <drr-summary-item
           [label]="t('units')"
           [rxFormControl]="fullProposalForm.get('projectArea.units')"
+          [controlType]="'select'"
         >
         </drr-summary-item>
       </div>
@@ -407,7 +408,8 @@
         >
           <drr-summary-item
             [label]="t('activityName')"
-            [rxFormControl]="control.get('name')"
+            [rxFormControl]="control.get('activity')"
+            [controlType]="'select'"
           >
           </drr-summary-item>
 
@@ -1189,18 +1191,21 @@
             <drr-summary-item
               [label]="t('costCategory')"
               [rxFormControl]="control.get('costCategory')"
+              [controlType]="'select'"
             >
             </drr-summary-item>
 
             <drr-summary-item
               [label]="t('resources')"
               [rxFormControl]="control.get('resources')"
+              [controlType]="'select'"
             >
             </drr-summary-item>
 
             <drr-summary-item
               [label]="t('costUnits')"
               [rxFormControl]="control.get('units')"
+              [controlType]="'select'"
             >
             </drr-summary-item>
 
@@ -1228,6 +1233,20 @@
           >
           </drr-summary-item>
         </div>
+        @if (fullProposalForm.get('fundingStream')?.value === 'Stream2') {
+        <drr-summary-item
+          [label]="t('contingency')"
+          [rxFormControl]="fullProposalForm.get('budget.contingency')"
+          [value]="fullProposalForm.get('budget.contingency')?.value + '%'"
+        >
+        </drr-summary-item>
+        }
+        <drr-summary-item
+          [label]="t('totalEligibleCosts')"
+          [rxFormControl]="fullProposalForm.get('budget.totalEligibleCosts')"
+          controlType="currency"
+        >
+        </drr-summary-item>
       </div>
     </mat-card-content>
   </mat-card>

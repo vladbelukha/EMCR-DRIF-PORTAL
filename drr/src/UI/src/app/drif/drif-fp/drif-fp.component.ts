@@ -239,6 +239,7 @@ export class DrifFpComponent {
 
           const formData: DrifFpForm = {
             eoiId: response.eoiId,
+            fundingStream: response.fundingStream,
             proponentAndProjectInformation: {
               projectContact: response.projectContact,
               projectTitle: response.projectTitle,
@@ -361,6 +362,7 @@ export class DrifFpComponent {
               previousResponseComments: response.previousResponseComments,
               previousResponseCost: response.previousResponseCost,
               intendToSecureFunding: response.intendToSecureFunding,
+              contingency: response.contingency,
             },
             attachments: {
               haveResolution: response.haveResolution,

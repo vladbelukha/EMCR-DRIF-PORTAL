@@ -49,28 +49,19 @@
     </span>
     <div class="proposed-activity-container">
       <div
-        class="proposed-activities-item"
-        *ngFor="
-          let activity of getActivitiesFormArray().controls;
-          let i = index
-        "
+        *ngFor="let activity of getPreDefinedActivitiesArray(); let i = index"
+        style="margin-top: 1rem; width: 100%"
       >
-        <mat-card class="activity-card">
+        <mat-card>
           <mat-card-header>
-            <mat-card-subtitle
-              >{{ t("activity") }} {{ i + 1 }}</mat-card-subtitle
-            >
+            <mat-card-title>
+              {{ t("activityType." + activity.get("activity")?.value) }}
+            </mat-card-title>
           </mat-card-header>
-          <mat-card-content>
-            <div
-              style="display: flex; justify-content: space-between; gap: 1rem"
-            >
-              <drr-select
-                style="width: 50%"
-                [label]="t('activityName')"
-                [rxFormControl]="activity.get('name')"
-                [options]="activityOptions"
-              ></drr-select>
+          <mat-card-content
+            style="display: flex; flex-direction: column; gap: 1rem"
+          >
+            <div style="display: flex; gap: 1rem; margin-top: 1rem">
               <drr-datepicker
                 style="width: 24%"
                 [label]="t('activityStartDate')"
@@ -78,6 +69,70 @@
                 [min]="minStartDate"
                 [minErrorLabel]="t('minStartDateError')"
               ></drr-datepicker>
+              <drr-datepicker
+                style="width: 24%"
+                [label]="t('activityEndDate')"
+                [rxFormControl]="activity.get('endDate')"
+                [min]="activity.get('startDate')?.value"
+                [minErrorLabel]="t('minEndDateNotBeforeError')"
+              ></drr-datepicker>
+            </div>
+            <div style="display: flex; gap: 1rem">
+              <drr-input
+                style="width: 50%"
+                [label]="t('tasks')"
+                [rxFormControl]="activity.get('tasks')"
+                [maxlength]="200"
+              ></drr-input>
+              <drr-input
+                style="width: 50%"
+                [label]="t('deliverables')"
+                [rxFormControl]="activity.get('deliverables')"
+                [maxlength]="200"
+              ></drr-input>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+    <mat-label class="drr-label" style="margin-top: 2rem">{{
+      t("additionalActivities")
+    }}</mat-label>
+    <div class="proposed-activity-container">
+      <div
+        *ngFor="let activity of getAdditionalActivitiesArray(); let i = index"
+        style="width: 100%"
+      >
+        <mat-card>
+          <mat-card-header>
+            <mat-card-subtitle
+              >{{ t("activity") }} {{ i + 1 }}</mat-card-subtitle
+            >
+          </mat-card-header>
+          <mat-card-content style="display: flex; flex-direction: column">
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                gap: 1rem;
+                margin-top: 1rem;
+              "
+            >
+              <drr-select
+                style="width: 50%"
+                [label]="t('activityName')"
+                [rxFormControl]="activity.get('activity')"
+                [options]="activityOptions"
+              ></drr-select>
+              @if (showStartDate(activity.get('name')?.value)) {
+              <drr-datepicker
+                style="width: 24%"
+                [label]="t('activityStartDate')"
+                [rxFormControl]="activity.get('startDate')"
+                [min]="minStartDate"
+                [minErrorLabel]="t('minStartDateError')"
+              ></drr-datepicker
+              >}
               <drr-datepicker
                 style="width: 24%"
                 [label]="t('activityEndDate')"
@@ -102,15 +157,16 @@
                 [maxlength]="200"
               ></drr-input>
             </div>
-            <button
-              *ngIf="i > 0"
-              mat-stroked-button
-              color="warn"
-              (click)="removeActivity(i)"
-              type="button"
-            >
-              {{ t("delete") }}
-            </button>
+            <mat-card-actions align="end">
+              <button
+                mat-stroked-button
+                color="warn"
+                (click)="removeActivity(i)"
+                type="button"
+              >
+                {{ t("delete") }}
+              </button>
+            </mat-card-actions>
           </mat-card-content>
         </mat-card>
       </div>
