@@ -877,7 +877,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
 #pragma warning disable CS8604 // Possible null reference argument.
             application.ProposedActivities = application.ProposedActivities.Concat(new[]
             {
-                new EMCR.DRR.Controllers.ProposedActivity {StartDate = DateTime.UtcNow, EndDate = DateTime.UtcNow.AddDays(5), Activity = EMCR.DRR.Controllers.ActivityType.Mapping, Deliverables = "mapping deliverable", Tasks = "mapping tasks" },
+                new EMCR.DRR.Controllers.ProposedActivity {Id = Guid.NewGuid().ToString(), StartDate = DateTime.UtcNow, EndDate = DateTime.UtcNow.AddDays(5), Activity = EMCR.DRR.Controllers.ActivityType.Mapping, Deliverables = "mapping deliverable", Tasks = "mapping tasks" },
                 new EMCR.DRR.Controllers.ProposedActivity {StartDate = DateTime.UtcNow, EndDate = DateTime.UtcNow.AddDays(5), Activity = EMCR.DRR.Controllers.ActivityType.Construction, Deliverables = "construction deliverable", Tasks = "construction tasks" },
             });
 #pragma warning restore CS8604 // Possible null reference argument.

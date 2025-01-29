@@ -330,7 +330,7 @@ namespace EMCR.DRR.Resources.Applications
 
             ctx.AttachTo(nameof(ctx.drr_applications), drrApplication);
             ctx.UpdateObject(drrApplication);
-            return await SaveApplication(ctx, drrApplication, application);
+            return await SaveApplication(ctx, drrApplication, application, currentApplication);
         }
 
         private void RemoveOldData(DRRContext ctx, drr_application currentApplication, drr_application updatedApplication, IEnumerable<account> partnerAccounts)
@@ -461,7 +461,7 @@ namespace EMCR.DRR.Resources.Applications
             }
         }
 
-        private async Task<string> SaveApplication(DRRContext ctx, drr_application drrApplication, Application application)
+        private async Task<string> SaveApplication(DRRContext ctx, drr_application drrApplication, Application application, drr_application? oldApplication = null)
         {
             var primaryProponent = drrApplication.drr_Primary_Proponent_Name;
             primaryProponent = await CheckForExistingProponent(ctx, primaryProponent, application);
@@ -478,7 +478,7 @@ namespace EMCR.DRR.Resources.Applications
             if (additionalContact2 != null) AddAdditionalContact2(ctx, drrApplication, additionalContact2);
             AddFundinSources(ctx, drrApplication);
             AddInfrastructureImpacted(ctx, drrApplication);
-            AddCostEstimates(ctx, drrApplication);
+            AddCostEstimates(ctx, drrApplication, oldApplication);
 
             var projectActivityMasterListTask = LoadProjectActivityList(ctx, drrApplication);
             var standardsMasterListTask = LoadStandardsMasterList(ctx, drrApplication);
@@ -533,7 +533,7 @@ namespace EMCR.DRR.Resources.Applications
             var climateAssessmentToolsMasterList = climateAssessmentToolsMasterListTask.Result;
             var costConsiderationsMasterList = costConsiderationsMasterListTask.Result;
 
-            AddProposedActivities(ctx, drrApplication, projectActivityMasterList);
+            AddProposedActivities(ctx, drrApplication, projectActivityMasterList, oldApplication);
             AddProvincialStandards(ctx, drrApplication, standardsMasterList, categoryMasterList);
             AddQualifiedProfessionals(ctx, drrApplication, professionalsMasterList);
             AddFoundationOrPreviousWorks(ctx, drrApplication, foundationalMasterList);
@@ -780,13 +780,14 @@ namespace EMCR.DRR.Resources.Applications
             }
         }
 
-        private static void AddCostEstimates(DRRContext drrContext, drr_application application)
+        private static void AddCostEstimates(DRRContext drrContext, drr_application application, drr_application? oldApplication = null)
         {
             foreach (var estimate in application.drr_drr_application_drr_detailedcostestimate_Application)
             {
                 if (estimate != null)
                 {
-                    if (estimate.drr_detailedcostestimateid == null)
+                    if (estimate.drr_detailedcostestimateid == null ||
+                        (oldApplication != null && !oldApplication.drr_drr_application_drr_detailedcostestimate_Application.Any(a => a.drr_detailedcostestimateid == estimate.drr_detailedcostestimateid)))
                     {
                         drrContext.AddTodrr_detailedcostestimates(estimate);
                         drrContext.AddLink(application, nameof(application.drr_drr_application_drr_detailedcostestimate_Application), estimate);
@@ -836,7 +837,7 @@ namespace EMCR.DRR.Resources.Applications
             }
         }
 
-        private static void AddProposedActivities(DRRContext drrContext, drr_application application, List<drr_projectactivity> projectActivityMasterList)
+        private static void AddProposedActivities(DRRContext drrContext, drr_application application, List<drr_projectactivity> projectActivityMasterList, drr_application? oldApplication = null)
         {
             foreach (var activity in application.drr_drr_application_drr_proposedactivity_Application)
             {
@@ -849,7 +850,8 @@ namespace EMCR.DRR.Resources.Applications
                     }
                     activity.drr_Activity = masterVal;
 
-                    if (activity.drr_proposedactivityid == null)
+                    if (activity.drr_proposedactivityid == null || 
+                        (oldApplication != null && !oldApplication.drr_drr_application_drr_proposedactivity_Application.Any(a => a.drr_proposedactivityid == activity.drr_proposedactivityid)))
                     {
                         drrContext.AddTodrr_proposedactivities(activity);
                         drrContext.AddLink(application, nameof(application.drr_drr_application_drr_proposedactivity_Application), activity);
