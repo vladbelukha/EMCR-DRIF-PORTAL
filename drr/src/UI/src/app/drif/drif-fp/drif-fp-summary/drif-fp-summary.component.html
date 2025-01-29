@@ -409,6 +409,7 @@
           <drr-summary-item
             [label]="t('activityName')"
             [rxFormControl]="control.get('activity')"
+            [value]="t('activityType.' + control.get('activity')?.value)"
             [controlType]="'select'"
           >
           </drr-summary-item>

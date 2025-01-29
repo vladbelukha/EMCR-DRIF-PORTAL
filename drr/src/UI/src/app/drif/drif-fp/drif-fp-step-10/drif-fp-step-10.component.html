@@ -236,11 +236,13 @@
           <mat-card-content>
             <div class="row">
               <drr-input
+                class="drr-single-input"
                 label="Task Name"
                 [rxFormControl]="cost.get('taskName')"
                 [maxlength]="50"
               ></drr-input>
               <drr-select
+                class="drr-single-input"
                 label="Cost Category"
                 [rxFormControl]="cost.get('costCategory')"
                 [options]="costCategoriesOptions"
@@ -284,7 +286,11 @@
           </mat-card-content>
           @if (getFormArray('costEstimates').controls.length > 1) {
           <mat-card-actions align="end">
-            <button mat-raised-button color="warn" (click)="removeCost(i)">
+            <button
+              mat-raised-button
+              color="warn"
+              (click)="removeCost(cost.get('id')?.value)"
+            >
               Remove
             </button>
           </mat-card-actions>

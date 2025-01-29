@@ -359,24 +359,18 @@ export class DrifFpStep10Component {
 
   addCost() {
     const newCostEstimateForm = this.formBuilder.formGroup(CostEstimateForm);
-    // newCostEstimateForm.get('unitRate')?.valueChanges.subscribe((value) => {
-    //   const quantityControl = newCostEstimateForm.get('quantity');
-    //   const totalCostControl = newCostEstimateForm.get('totalCost');
 
-    //   totalCostControl?.setValue(value * quantityControl?.value);
-    // });
-
-    // newCostEstimateForm.get('quantity')?.valueChanges.subscribe((value) => {
-    //   const unitRateControl = newCostEstimateForm.get('unitRate');
-    //   const totalCostControl = newCostEstimateForm.get('totalCost');
-
-    //   totalCostControl?.setValue(value * unitRateControl?.value);
-    // });
+    // TODO: form require ID to be able to remove cost, perhaps API should ignore ID when creating/updating cost estimates
+    // newCostEstimateForm.get('id')?.setValue(Math.random().toString(36).substring(2));
 
     this.getFormArray('costEstimates').push(newCostEstimateForm);
   }
 
-  removeCost(index: number) {
-    this.getFormArray('costEstimates').removeAt(index);
+  removeCost(id: string) {
+    this.getFormArray('costEstimates').removeAt(
+      this.getFormArray('costEstimates').controls.findIndex(
+        (control) => control.get('id')?.value === id
+      )
+    );
   }
 }

@@ -224,6 +224,9 @@ export class YearOverYearFundingForm {
 
 export class CostEstimateForm implements CostEstimate {
   @prop()
+  id?: string;
+
+  @prop()
   @required()
   taskName?: string;
 
@@ -472,6 +475,9 @@ export class ProjectAreaForm {
 }
 
 export class ProposedActivityForm implements ProposedActivity {
+  @prop()
+  id?: string;
+
   @prop()
   @required()
   activity?: ActivityType;

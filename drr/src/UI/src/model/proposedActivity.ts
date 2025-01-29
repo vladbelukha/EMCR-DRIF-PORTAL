@@ -14,6 +14,8 @@ export interface ProposedActivity {
   /** @nullable */
   endDate?: string;
   /** @nullable */
+  id?: string;
+  /** @nullable */
   preCreatedActivity?: boolean;
   /** @nullable */
   startDate?: string;

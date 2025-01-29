@@ -14,6 +14,8 @@ export interface CostEstimate {
   /** @nullable */
   description?: string;
   /** @nullable */
+  id?: string;
+  /** @nullable */
   quantity?: number;
   /** @nullable */
   resources?: ResourceCategory;
