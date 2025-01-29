@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { IFormGroup, RxFormBuilder } from '@rxweb/reactive-form-validators';
+import { v4 as uuidv4 } from 'uuid';
 import { ActivityType } from '../../../../model';
 import { DrrChipAutocompleteComponent } from '../../../shared/controls/drr-chip-autocomplete/drr-chip-autocomplete.component';
 import { DrrDatepickerComponent } from '../../../shared/controls/drr-datepicker/drr-datepicker.component';
@@ -95,8 +96,7 @@ export class DrifFpStep4Component {
   addActivity() {
     const newActivity = this.formBuilder.formGroup(ProposedActivityForm);
 
-    // TODO: form require ID to be able to remove activity, perhaps API should ignore it
-    // newActivity.get('id')?.setValue(Math.random().toString(36).substring(2));
+    newActivity.get('id')?.setValue(uuidv4());
 
     this.getActivitiesFormArray().push(newActivity);
   }

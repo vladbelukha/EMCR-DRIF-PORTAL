@@ -16,6 +16,7 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { IFormGroup, RxFormBuilder } from '@rxweb/reactive-form-validators';
 import { distinctUntilChanged } from 'rxjs';
+import { v4 as uuidv4 } from 'uuid';
 import {
   CostCategory,
   CostUnit,
@@ -33,6 +34,7 @@ import { DrrTextareaComponent } from '../../../shared/controls/drr-textarea/drr-
 import { OptionsStore } from '../../../store/options.store';
 import { FundingInformationItemForm } from '../../drif-eoi/drif-eoi-form';
 import { DrrFundingListComponent } from '../../drr-funding-list/drr-funding-list.component';
+
 import {
   BudgetForm,
   CostEstimateForm,
@@ -360,8 +362,7 @@ export class DrifFpStep10Component {
   addCost() {
     const newCostEstimateForm = this.formBuilder.formGroup(CostEstimateForm);
 
-    // TODO: form require ID to be able to remove cost, perhaps API should ignore ID when creating/updating cost estimates
-    // newCostEstimateForm.get('id')?.setValue(Math.random().toString(36).substring(2));
+    newCostEstimateForm.get('id')?.setValue(uuidv4());
 
     this.getFormArray('costEstimates').push(newCostEstimateForm);
   }
