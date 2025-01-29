@@ -165,7 +165,7 @@
               <button
                 mat-stroked-button
                 color="warn"
-                (click)="removeActivity(i)"
+                (click)="removeActivity(activity.get('id')?.value)"
                 type="button"
               >
                 {{ t("delete") }}

@@ -93,13 +93,20 @@ export class DrifFpStep4Component {
   }
 
   addActivity() {
-    this.getActivitiesFormArray().push(
-      this.formBuilder.formGroup(ProposedActivityForm)
-    );
+    const newActivity = this.formBuilder.formGroup(ProposedActivityForm);
+
+    // TODO: form require ID to be able to remove activity, perhaps API should ignore it
+    // newActivity.get('id')?.setValue(Math.random().toString(36).substring(2));
+
+    this.getActivitiesFormArray().push(newActivity);
   }
 
-  removeActivity(index: number) {
-    this.getActivitiesFormArray().removeAt(index);
+  removeActivity(id: string) {
+    this.getActivitiesFormArray().removeAt(
+      this.getActivitiesFormArray().controls.findIndex(
+        (control) => control.get('id')?.value === id
+      )
+    );
   }
 
   getAvailableOptionsForActivity(selectedActivity: ActivityType) {
