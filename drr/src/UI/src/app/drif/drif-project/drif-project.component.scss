@@ -5,12 +5,10 @@
   padding: 1rem;
 
   .drif-project-details {
-    display: flex;
-    flex-direction: row;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 1rem;
     padding: 1rem;
-    justify-content: space-between;
-    align-items: center;
   }
 
   mat-card table {
