@@ -13,9 +13,13 @@ import {
   RxFormBuilder,
   RxReactiveFormsModule,
 } from '@rxweb/reactive-form-validators';
-import { ActivityType, YesNoOption } from '../../../../../model';
+import {
+  ActivityType,
+  ProgressReport,
+  YesNoOption,
+} from '../../../../../model';
 
-import { AbstractControl, FormArray } from '@angular/forms';
+import { AbstractControl, FormArray, Validators } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectService } from '../../../../../api/project/project.service';
@@ -139,17 +143,80 @@ export class DrifProgressReportCreateComponent {
           this.reportId,
           this.progressReportId
         )
-        .subscribe((report) => {
+        .subscribe((report: ProgressReport) => {
           this.progressReportForm.patchValue(report);
 
-          // // TODO: temporarily add workplan items
-          // report.workplanActivities?.map((activity) => {
-          //   this.workplanItems?.push(
-          //     this.formBuilder.formGroup(new WorkplanActivityForm(activity))
-          //   );
-          // });
+          report.workPlan?.workplanActivities?.map((activity) => {
+            const activityForm = this.formBuilder.formGroup(
+              new WorkplanActivityForm(activity)
+            );
+            // activityForm
+            //   .get('plannedStartDate')
+            //   ?.valueChanges.subscribe((value) => {
+            //     if (
+            //       activity.plannedStartDate &&
+            //       value &&
+            //       new Date(activity.plannedStartDate).getTime() !==
+            //         new Date(value).getTime()
+            //     ) {
+            //       this.addComentValidator(activityForm);
+            //     }
+            //   });
+            // activityForm
+            //   .get('plannedEndDate')
+            //   ?.valueChanges.subscribe((value) =>
+            //     this.addComentValidator(activityForm)
+            //   );
+            // activityForm
+            //   .get('actualStartDate')
+            //   ?.valueChanges.subscribe((value) => {
+            //     const plannedStartDate =
+            //       activityForm.get('plannedStartDate')?.value;
+            //     if (
+            //       plannedStartDate &&
+            //       value &&
+            //       new Date(plannedStartDate).getTime() !==
+            //         new Date(value).getTime()
+            //     ) {
+            //       this.addComentValidator(activityForm);
+            //     } else {
+            //       this.removeCommentValidator(activityForm);
+            //     }
+            //   });
+            // activityForm
+            //   .get('actualEndDate')
+            //   ?.valueChanges.subscribe((value) => {
+            //     const plannedEndDate =
+            //       activityForm.get('plannedEndDate')?.value;
+            //     if (
+            //       plannedEndDate &&
+            //       value &&
+            //       plannedEndDate.toISO() !== value.toISO()
+            //     ) {
+            //       this.addComentValidator(activityForm);
+            //     }
+            //   });
+
+            this.workplanItems?.push(activityForm);
+          });
         });
     });
+  }
+
+  addComentValidator(activityForm: AbstractControl) {
+    const commentControl = activityForm.get('comment');
+    commentControl?.addValidators(Validators.required);
+    commentControl?.updateValueAndValidity();
+  }
+
+  removeCommentValidator(activityForm: AbstractControl) {
+    const commentControl = activityForm.get('comment');
+    commentControl?.clearValidators();
+    commentControl?.updateValueAndValidity();
+  }
+
+  showComment(commentField?: AbstractControl<any, any> | null | undefined) {
+    return commentField?.hasError('required');
   }
 
   stepperSelectionChange(event: any) {}

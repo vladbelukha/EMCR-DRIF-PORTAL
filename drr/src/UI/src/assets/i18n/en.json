@@ -552,6 +552,7 @@
     "plannedStartDate": "Planned Start Date",
     "plannedEndDate": "Planned Completion Date",
     "actualStartDate": "Actual Start Date",
-    "actualEndDate": "Actual Completion Date"
+    "actualEndDate": "Actual Completion Date",
+    "explainDateChange": "Explain Date Change"
   }
 }
