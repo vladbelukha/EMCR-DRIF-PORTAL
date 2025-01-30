@@ -1,4 +1,6 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+﻿using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text.Json.Serialization;
 using EMCR.DRR.API.Services;
@@ -16,6 +18,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.HttpLogging;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.IdentityModel.Tokens;
@@ -42,10 +45,53 @@ services.AddHttpLogging(logging =>
 #pragma warning disable CS8604 // Possible null reference argument.
 builder.Host.UseSerilog((ctx, services, config) => Logging.ConfigureSerilog(ctx, services, config, configuration.GetValue("APP_NAME", string.Empty)));
 #pragma warning restore CS8604 // Possible null reference argument.
-services.AddControllers().AddJsonOptions(x =>
-{
-    x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-});
+services.AddControllers()
+    .ConfigureApiBehaviorOptions(options =>
+    {
+        options.InvalidModelStateResponseFactory = context =>
+        {
+            var loggerFactory = context.HttpContext.RequestServices
+    .GetRequiredService<ILoggerFactory>();
+            var problemDetails = new ValidationProblemDetails(context.ModelState)
+            {
+                Type = "Model Validation",
+                Title = "One or more validation errors occurred.",
+                Status = StatusCodes.Status400BadRequest,
+                Instance = context.HttpContext.Request.Path,
+                Extensions =
+                            {
+                                ["traceId"] = Activity.Current?.Id ?? context.HttpContext?.TraceIdentifier
+                            }
+            };
+
+            var logger = loggerFactory.CreateLogger(context.ActionDescriptor.DisplayName ?? "ModelValidation");
+            var errorInfo = new Dictionary<string, Collection<string>>(StringComparer.Ordinal);
+            if (logger != null && context.ModelState.Count > 0)
+            {
+                foreach (var modelState in context.ModelState)
+                {
+                    if (!errorInfo.TryGetValue(modelState.Key, out Collection<string>? errorMessages))
+                    {
+                        errorMessages = [];
+                        errorInfo.Add(modelState.Key, errorMessages);
+                    }
+
+                    foreach (var error in modelState.Value.Errors)
+                    {
+                        errorMessages.Add(error.ErrorMessage);
+                    }
+                }
+
+                logger.LogWarning("Validation errors: {@message}", errorInfo);
+            }
+
+            return new BadRequestObjectResult(problemDetails);
+        };
+    })
+    .AddJsonOptions(x =>
+    {
+        x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
 services.AddRouting(o => o.LowercaseUrls = true);
 services.AddEndpointsApiExplorer();
 services.AddIntakeManager();
