@@ -546,6 +546,12 @@
     "ProjectPlanning": "Project Planning",
     "CommunityEngagement": "Community Engagement"
   },
+  "workplanStatus": {
+    "NotStarted": "Not Started",
+    "InProgress": "In Progress",
+    "Completed": "Completed",
+    "NoLongerNeeded": "No Longer Needed"
+  },
   "progressReport": {
     "projectWorkplan": "Project Workplan",
     "eventInformation": "Event Information",

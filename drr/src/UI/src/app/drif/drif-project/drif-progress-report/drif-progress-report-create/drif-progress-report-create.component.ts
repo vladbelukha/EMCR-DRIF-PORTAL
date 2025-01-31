@@ -86,12 +86,12 @@ export class DrifProgressReportCreateComponent {
   optionalActivityOptions: DrrSelectOption[] = Object.values(
     WorkplanStatus
   ).map((value) => ({
-    label: this.translocoService.translate(value),
+    label: this.translocoService.translate(`workplanStatus.${value}`),
     value,
   }));
 
   necessaryActivityOptions: RadioOption[] = this.optionalActivityOptions.filter(
-    (option) => option.value !== WorkplanStatus.NotApplicable
+    (option) => option.value !== WorkplanStatus.NoLongerNeeded
   );
 
   yesNoNaOptions = Object.values(YesNoOption).map((value) => ({
