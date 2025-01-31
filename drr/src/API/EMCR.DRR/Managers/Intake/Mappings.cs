@@ -168,7 +168,7 @@ namespace EMCR.DRR.Managers.Intake
                 .ReverseMap()
                 ;
 
-            CreateMap<WorkPlan, WorkPlanDetails>()
+            CreateMap<Workplan, WorkplanDetails>()
                 .ReverseMap()
                 ;
 

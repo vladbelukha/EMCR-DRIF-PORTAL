@@ -14,6 +14,7 @@ namespace EMCR.DRR.Managers.Intake
 {
     public class IntakeManager : IIntakeManager
     {
+        private readonly ILogger<IntakeManager> logger;
         private readonly IMapper mapper;
         private readonly IApplicationRepository applicationRepository;
         private readonly IProjectRepository projectRepository;
@@ -24,8 +25,9 @@ namespace EMCR.DRR.Managers.Intake
 
         private FileTag GetDeletedFileTag() => new FileTag { Tags = new[] { new Tag { Key = "Deleted", Value = "true" } } };
 
-        public IntakeManager(IMapper mapper, IApplicationRepository applicationRepository, IDocumentRepository documentRepository, ICaseRepository caseRepository, IProjectRepository projectRepository, IReportRepository reportRepository, IS3Provider s3Provider)
+        public IntakeManager(ILogger<IntakeManager> logger, IMapper mapper, IApplicationRepository applicationRepository, IDocumentRepository documentRepository, ICaseRepository caseRepository, IProjectRepository projectRepository, IReportRepository reportRepository, IS3Provider s3Provider)
         {
+            this.logger = logger;
             this.mapper = mapper;
             this.applicationRepository = applicationRepository;
             this.documentRepository = documentRepository;
@@ -113,6 +115,7 @@ namespace EMCR.DRR.Managers.Intake
                 DeleteAttachmentCommand c => await Handle(c),
                 SaveProjectCommand c => await Handle(c),
                 SubmitProjectCommand c => await Handle(c),
+                SaveProgressReportCommand c => await Handle(c),
                 _ => throw new NotSupportedException($"{cmd.GetType().Name} is not supported")
             };
         }
@@ -334,7 +337,7 @@ namespace EMCR.DRR.Managers.Intake
         public async Task<string> Handle(SaveProjectCommand cmd)
         {
             var canAccess = await CanAccessProject(cmd.Project.Id, cmd.UserInfo.BusinessId);
-            if (!canAccess) throw new ForbiddenException("Not allowed to access this application.");
+            if (!canAccess) throw new ForbiddenException("Not allowed to access this project.");
             var project = mapper.Map<Project>(cmd.Project);
             project.ProponentName = cmd.UserInfo.BusinessName;
             //var id = (await projectRepository.Manage(new SaveProject { Project = project })).Id;
@@ -345,12 +348,24 @@ namespace EMCR.DRR.Managers.Intake
         public async Task<string> Handle(SubmitProjectCommand cmd)
         {
             var canAccess = await CanAccessProject(cmd.Project.Id, cmd.UserInfo.BusinessId);
-            if (!canAccess) throw new ForbiddenException("Not allowed to access this application.");
+            if (!canAccess) throw new ForbiddenException("Not allowed to access this project.");
             var project = mapper.Map<Project>(cmd.Project);
             project.ProponentName = cmd.UserInfo.BusinessName;
             //var id = (await projectRepository.Manage(new SaveProject { Project = project })).Id;
             //await projectRepository.Manage(new SubmitProject { Id = id });
             var id = Guid.NewGuid().ToString();
+            return id;
+        }
+        
+        public async Task<string> Handle(SaveProgressReportCommand cmd)
+        {
+            var canAccess = await CanAccessProgressReport(cmd.ProgressReport.Id, cmd.UserInfo.BusinessId);
+            if (!canAccess) throw new ForbiddenException("Not allowed to access this progress report.");
+            var progressReport = mapper.Map<ProgressReportDetails>(cmd.ProgressReport);
+            //progressReport.ProponentName = cmd.UserInfo.BusinessName;
+            var id = (await reportRepository.Manage(new SaveProgressReport { ProgressReport = progressReport })).Id;
+            //await projectRepository.Manage(new SubmitProject { Id = id });
+            //var id = Guid.NewGuid().ToString();
             return id;
         }
 
@@ -420,6 +435,7 @@ namespace EMCR.DRR.Managers.Intake
         {
             if (string.IsNullOrEmpty(businessId)) throw new ArgumentNullException("Missing user's BusinessId");
             if (string.IsNullOrEmpty(id)) return true;
+            logger.LogDebug("CanAccessReport not implemented");
             //return await reportRepository.CanAccessReport(id, businessId);
             return await Task.FromResult(true);
         }
@@ -428,6 +444,7 @@ namespace EMCR.DRR.Managers.Intake
         {
             if (string.IsNullOrEmpty(businessId)) throw new ArgumentNullException("Missing user's BusinessId");
             if (string.IsNullOrEmpty(id)) return true;
+            logger.LogDebug("CanAccessClaim not implemented");
             //return await reportRepository.CanAccessClaim(id, businessId);
             return await Task.FromResult(true);
         }
@@ -436,6 +453,7 @@ namespace EMCR.DRR.Managers.Intake
         {
             if (string.IsNullOrEmpty(businessId)) throw new ArgumentNullException("Missing user's BusinessId");
             if (string.IsNullOrEmpty(id)) return true;
+            logger.LogDebug("CanAccessProgressReport not implemented");
             //return await reportRepository.CanAccessProgressReport(id, businessId);
             return await Task.FromResult(true);
         }
@@ -444,6 +462,7 @@ namespace EMCR.DRR.Managers.Intake
         {
             if (string.IsNullOrEmpty(businessId)) throw new ArgumentNullException("Missing user's BusinessId");
             if (string.IsNullOrEmpty(id)) return true;
+            logger.LogDebug("CanAccessForecast not implemented");
             //return await reportRepository.CanAccessForecast(id, businessId);
             return await Task.FromResult(true);
         }

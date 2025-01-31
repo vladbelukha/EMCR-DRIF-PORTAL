@@ -1,11 +1,13 @@
 ﻿using System.ComponentModel;
-using System;
-using EMCR.DRR.Managers.Intake;
 
 namespace EMCR.Utilities.Extensions
 {
     public static class IEnumEx
     {
+        public static IEnumerable<T> TakeRandom<T>(this IEnumerable<T> list) => list.TakeRandom(Random.Shared.Next(1, list.Count()));
+
+        public static IEnumerable<T> TakeRandom<T>(this IEnumerable<T> list, int numberOfItems) => list.Skip(Random.Shared.Next(list.Count() - numberOfItems)).Take(numberOfItems);
+
         public static string ToDescriptionString<T>(this T val) where T : Enum
         {
 #pragma warning disable CS8602 // Dereference of a possibly null reference.

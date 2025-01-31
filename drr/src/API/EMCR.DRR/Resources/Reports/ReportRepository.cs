@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using EMCR.DRR.API.Resources.Projects;
+using EMCR.DRR.API.Services;
 using EMCR.DRR.Dynamics;
 using EMCR.DRR.Managers.Intake;
 using EMCR.Utilities.Extensions;
 using Microsoft.Dynamics.CRM;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace EMCR.DRR.API.Resources.Reports
 {
@@ -17,6 +19,36 @@ namespace EMCR.DRR.API.Resources.Reports
             this.mapper = mapper;
             this.dRRContextFactory = dRRContextFactory;
         }
+
+        public async Task<ManageReportCommandResult> Manage(ManageReportCommand cmd)
+        {
+            return cmd switch
+            {
+                SaveProgressReport c => await HandleSaveProgressReport(c),
+                _ => throw new NotSupportedException($"{cmd.GetType().Name} is not supported")
+            };
+        }
+
+#pragma warning disable CS8604 // Possible null reference argument.
+        public async Task<ManageReportCommandResult> HandleSaveProgressReport(SaveProgressReport cmd)
+        {
+            var ctx = dRRContextFactory.Create();
+            var existingProgressReport = await ctx.drr_projectprogresses.Where(p => p.drr_name == cmd.ProgressReport.Id).SingleOrDefaultAsync();
+            if (existingProgressReport == null) throw new NotFoundException("Progress Report not found");
+            ctx.DetachAll();
+            var drrProgressReport = mapper.Map<drr_projectprogress>(cmd.ProgressReport);
+            drrProgressReport.drr_projectprogressid = existingProgressReport.drr_projectprogressid;
+
+            //Update related records... remove/add
+            ctx.AttachTo(nameof(ctx.drr_projectprogresses), drrProgressReport);
+            ctx.UpdateObject(drrProgressReport);
+            await ctx.SaveChangesAsync();
+            ctx.DetachAll();
+
+            return new ManageReportCommandResult { Id = existingProgressReport.drr_name };
+
+        }
+#pragma warning restore CS8604 // Possible null reference argument.
 
         public async Task<ReportQueryResult> Query(ReportQuery query)
         {

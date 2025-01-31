@@ -150,6 +150,22 @@ namespace EMCR.DRR.Controllers
             }
         }
 
+        [HttpPatch("{projectId}/interim-reports/{reportId}/progress-reports/{progressId}")]
+        public async Task<ActionResult<ProgressReportResult>> UpdateProgressReport([FromBody] ProgressReport progressReport, string id)
+        {
+            try
+            {
+                progressReport.Id = id;
+
+                var drr_id = await intakeManager.Handle(new SaveProgressReportCommand { ProgressReport = progressReport, UserInfo = GetCurrentUser() });
+                return Ok(new ProgressReportResult { Id = drr_id });
+            }
+            catch (Exception e)
+            {
+                return errorParser.Parse(e, logger);
+            }
+        }
+
         [HttpGet("{projectId}/interim-reports/{reportId}/forecasts/{forecastId}")]
         public async Task<ActionResult<Forecast>> GetForecastReport(string projectId, string reportId, string forecastId)
         {
@@ -234,7 +250,7 @@ namespace EMCR.DRR.Controllers
         public DateTime? DateSubmitted { get; set; }
         public DateTime? DateApproved { get; set; }
         public DateTime? DueDate { get; set; }
-        public WorkPlan? WorkPlan { get; set; }
+        public Workplan? Workplan { get; set; }
         public EventInformation? EventInformation { get; set; }
         public ProgressReportStatus? Status { get; set; }
     }
@@ -247,6 +263,7 @@ namespace EMCR.DRR.Controllers
 
     public class ProjectEvent
     {
+        public string? Id { get; set; }
         public EventType? EventType { get; set; }
         public EventStatus? Status { get; set; }
         public DateTime? PlannedEventDate { get; set; }
@@ -257,7 +274,7 @@ namespace EMCR.DRR.Controllers
         public string? ProvincialRepresentativeRequestComment { get; set; }
     }
 
-    public class WorkPlan
+    public class Workplan
     {
         public WorkplanActivity[]? WorkplanActivities { get; set; }
         public decimal? ProjectCompletionPercentage { get; set; }
@@ -275,6 +292,7 @@ namespace EMCR.DRR.Controllers
 
     public class WorkplanActivity
     {
+        public string? Id { get; set; }
         public ActivityType? Activity { get; set; }
         public bool? PreCreatedActivity { get; set; }
         public string? Comment { get; set; }
@@ -538,5 +556,10 @@ namespace EMCR.DRR.Controllers
     {
         public IEnumerable<DraftDrrProject> Projects { get; set; } = Array.Empty<DraftDrrProject>();
         public int Length { get; set; }
+    }
+
+    public class ProgressReportResult
+    {
+        public required string Id { get; set; }
     }
 }
