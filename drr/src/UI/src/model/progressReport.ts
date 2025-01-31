@@ -6,7 +6,7 @@
  */
 import type { EventInformation } from './eventInformation';
 import type { ProgressReportStatus } from './progressReportStatus';
-import type { WorkPlan } from './workPlan';
+import type { Workplan } from './workplan';
 
 export interface ProgressReport {
   /** @nullable */
@@ -22,5 +22,5 @@ export interface ProgressReport {
   /** @nullable */
   status?: ProgressReportStatus;
   /** @nullable */
-  workPlan?: WorkPlan;
+  workplan?: Workplan;
 }

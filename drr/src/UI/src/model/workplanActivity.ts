@@ -17,6 +17,8 @@ export interface WorkplanActivity {
   /** @nullable */
   comment?: string;
   /** @nullable */
+  id?: string;
+  /** @nullable */
   plannedCompletionDate?: string;
   /** @nullable */
   plannedStartDate?: string;

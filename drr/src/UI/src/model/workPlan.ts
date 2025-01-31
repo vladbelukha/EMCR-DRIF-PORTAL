@@ -8,7 +8,7 @@ import type { YesNoOption } from './yesNoOption';
 import type { ProvincialMedia } from './provincialMedia';
 import type { WorkplanActivity } from './workplanActivity';
 
-export interface WorkPlan {
+export interface Workplan {
   /** @nullable */
   communityMedia?: YesNoOption;
   /** @nullable */

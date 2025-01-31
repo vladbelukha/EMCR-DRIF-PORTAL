@@ -16,6 +16,8 @@ export interface ProjectEvent {
   /** @nullable */
   eventType?: EventType;
   /** @nullable */
+  id?: string;
+  /** @nullable */
   nextEventDescription?: string;
   /** @nullable */
   plannedEventDate?: string;
