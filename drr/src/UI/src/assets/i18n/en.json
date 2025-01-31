@@ -559,6 +559,8 @@
     "plannedEndDate": "Planned Completion Date",
     "actualStartDate": "Actual Start Date",
     "actualEndDate": "Actual Completion Date",
-    "explainDateChange": "Explain Date Change"
+    "explainDateChange": "Explain Date Change",
+    "minStartDateError": "Start Date must be before End Date",
+    "minEndDateError": "End Date must be after Start Date"
   }
 }

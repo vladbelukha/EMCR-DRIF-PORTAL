@@ -32,7 +32,9 @@ export class DrrDatepickerComponent {
   @Input() label = '';
   @Input() id = '';
   @Input() min?: Date;
+  @Input() max?: Date;
   @Input() minErrorLabel = '';
+  @Input() maxErrorLabel = '';
 
   private _formControl = this.formBuilder.control('', []) as RxFormControl;
   @Input()
