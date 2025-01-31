@@ -98,7 +98,7 @@
                 <drr-radio-button
                   class="drr-single-input"
                   label="Status"
-                  [options]="progressReportOptions"
+                  [options]="necessaryActivityOptions"
                   [rxFormControl]="preDefinedActivity.get('status')"
                 ></drr-radio-button>
 
@@ -165,13 +165,22 @@
             <mat-card-header>
               <mat-card-title>
                 <mat-card-title-group>
-                  <mat-card-subtitle>
+                  <mat-card-title>
                     Additional Activity {{ i + 1 }}
+                  </mat-card-title>
+                  @if (isAdditionalActivityMandatory(additionalActivity)) {
+                  <mat-card-subtitle>
+                    {{
+                      "activityType." +
+                        additionalActivity.get("activity")?.value | transloco
+                    }}
                   </mat-card-subtitle>
+                  }
                 </mat-card-title-group>
               </mat-card-title>
             </mat-card-header>
             <mat-card-content style="display: flex; flex-direction: column">
+              @if (!isAdditionalActivityMandatory(additionalActivity)) {
               <drr-select
                 style="margin-top: 0.5rem"
                 class="drr-single-input"
@@ -180,11 +189,12 @@
                 [options]="activityTypeOptions"
               >
               </drr-select>
+              }
               <div class="progress-group">
                 <drr-radio-button
                   class="drr-single-input"
                   label="Status"
-                  [options]="progressReportOptions"
+                  [options]="getAdditionalActivityOptions(additionalActivity)"
                   [rxFormControl]="additionalActivity.get('status')"
                 ></drr-radio-button>
 
@@ -227,20 +237,22 @@
                   }
                 </div>
               </div>
-              <drr-textarea
+              <!-- <drr-textarea
                 label="Comments"
                 [rxFormControl]="additionalActivity.get('comment')"
-              ></drr-textarea>
+              ></drr-textarea> -->
             </mat-card-content>
+            @if (!isAdditionalActivityMandatory(additionalActivity)) {
             <mat-card-actions align="end">
               <button
-                mat-button
+                mat-raised-button
                 color="warn"
                 (click)="removeAdditionalActivity(i)"
               >
                 Remove
               </button>
             </mat-card-actions>
+            }
           </mat-card>
         </div>
         <button

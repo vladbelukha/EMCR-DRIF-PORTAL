@@ -83,12 +83,16 @@ export class DrifProgressReportCreateComponent {
     })
   );
 
-  progressReportOptions: RadioOption[] = Object.values(
+  optionalActivityOptions: DrrSelectOption[] = Object.values(
     WorkplanProgressType
   ).map((value) => ({
-    label: value,
+    label: this.translocoService.translate(value),
     value,
   }));
+
+  necessaryActivityOptions: RadioOption[] = this.optionalActivityOptions.filter(
+    (option) => option.value !== WorkplanProgressType.NotApplicable
+  );
 
   yesNoNaOptions = Object.values(YesNoOption).map((value) => ({
     label: value, // TODO: translate
@@ -147,6 +151,9 @@ export class DrifProgressReportCreateComponent {
           this.progressReportForm.patchValue(report);
 
           report.workPlan?.workplanActivities?.map((activity) => {
+            // TODO: remove after API fills the values
+            activity.isMandatory = activity.isMandatory ?? true;
+
             const activityForm = this.formBuilder.formGroup(
               new WorkplanActivityForm(activity)
             );
@@ -238,15 +245,44 @@ export class DrifProgressReportCreateComponent {
   }
 
   getAdditionalActivitiesArray() {
-    return this.workplanItems?.controls.filter(
-      (control) => !control.get('preCreatedActivity')?.value
-    );
+    return this.workplanItems?.controls
+      .filter((control) => !control.get('preCreatedActivity')?.value)
+      .sort((a, b) => {
+        const aMandatory = a.get('isMandatory')?.value;
+        const bMandatory = b.get('isMandatory')?.value;
+
+        if (aMandatory && !bMandatory) {
+          return -1;
+        }
+
+        if (!aMandatory && bMandatory) {
+          return 1;
+        }
+
+        return 0;
+      });
   }
 
   addAdditionalActivity() {
     this.workplanItems?.push(
-      this.formBuilder.formGroup(new WorkplanActivityForm({}))
+      this.formBuilder.formGroup(
+        new WorkplanActivityForm({
+          isMandatory: false,
+        })
+      )
     );
+  }
+
+  getAdditionalActivityOptions(activityControl: AbstractControl) {
+    if (!this.isAdditionalActivityMandatory(activityControl)) {
+      return this.necessaryActivityOptions;
+    }
+
+    return this.optionalActivityOptions;
+  }
+
+  isAdditionalActivityMandatory(activityControl: AbstractControl) {
+    return !!activityControl.get('isMandatory')?.value;
   }
 
   removeAdditionalActivity(index: number) {

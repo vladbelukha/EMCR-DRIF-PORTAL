@@ -35,6 +35,9 @@ export class WorkplanActivityForm implements WorkplanActivity {
   preCreatedActivity?: boolean;
 
   @prop()
+  isMandatory?: boolean;
+
+  @prop()
   @required()
   status?: WorkplanStatus;
 
