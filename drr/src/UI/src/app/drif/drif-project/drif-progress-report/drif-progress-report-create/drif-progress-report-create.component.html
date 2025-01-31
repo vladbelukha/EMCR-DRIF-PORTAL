@@ -153,13 +153,11 @@
                   }
                 </div>
               </div>
-              <!-- @if (showComment(preDefinedActivity?.get('comment'))) { -->
               <drr-textarea
                 [label]="t('explainDateChange')"
                 [rxFormControl]="preDefinedActivity.get('comment')"
                 [maxlength]="250"
               ></drr-textarea>
-              <!-- } -->
             </mat-card-content>
           </mat-card>
         </div>
@@ -261,10 +259,10 @@
                   }
                 </div>
               </div>
-              <!-- <drr-textarea
+              <drr-textarea
                 label="Comments"
                 [rxFormControl]="additionalActivity.get('comment')"
-              ></drr-textarea> -->
+              ></drr-textarea>
             </mat-card-content>
             @if (!isAdditionalActivityMandatory(additionalActivity)) {
             <mat-card-actions align="end">
