@@ -16,6 +16,7 @@ import {
 import {
   ActivityType,
   ProgressReport,
+  WorkplanStatus,
   YesNoOption,
 } from '../../../../../model';
 
@@ -40,7 +41,6 @@ import {
   ProgressReportForm,
   WorkplanActivityForm,
   WorkplanForm,
-  WorkplanProgressType,
 } from '../drif-progress-report-form';
 
 @Component({
@@ -84,14 +84,14 @@ export class DrifProgressReportCreateComponent {
   );
 
   optionalActivityOptions: DrrSelectOption[] = Object.values(
-    WorkplanProgressType
+    WorkplanStatus
   ).map((value) => ({
     label: this.translocoService.translate(value),
     value,
   }));
 
   necessaryActivityOptions: RadioOption[] = this.optionalActivityOptions.filter(
-    (option) => option.value !== WorkplanProgressType.NotApplicable
+    (option) => option.value !== WorkplanStatus.NotApplicable
   );
 
   yesNoNaOptions = Object.values(YesNoOption).map((value) => ({
@@ -290,32 +290,28 @@ export class DrifProgressReportCreateComponent {
   }
 
   showPlannedStartDate(activityControl: AbstractControl<WorkplanActivityForm>) {
-    const status = activityControl?.get('status')
-      ?.value as WorkplanProgressType;
-    return status === WorkplanProgressType.NotStarted;
+    const status = activityControl?.get('status')?.value as WorkplanStatus;
+    return status === WorkplanStatus.NotStarted;
   }
 
   showPlannedEndDate(activityControl: AbstractControl<WorkplanActivityForm>) {
-    const status = activityControl?.get('status')
-      ?.value as WorkplanProgressType;
+    const status = activityControl?.get('status')?.value as WorkplanStatus;
     return (
-      status === WorkplanProgressType.NotStarted ||
-      status === WorkplanProgressType.InProgress
+      status === WorkplanStatus.NotStarted ||
+      status === WorkplanStatus.InProgress
     );
   }
 
   showActualStartDate(activityControl: AbstractControl<WorkplanActivityForm>) {
-    const status = activityControl?.get('status')
-      ?.value as WorkplanProgressType;
+    const status = activityControl?.get('status')?.value as WorkplanStatus;
     return (
-      status === WorkplanProgressType.InProgress ||
-      status === WorkplanProgressType.Completed
+      status === WorkplanStatus.InProgress ||
+      status === WorkplanStatus.Completed
     );
   }
 
   showActualEndDate(activityControl: AbstractControl<WorkplanActivityForm>) {
-    const status = activityControl?.get('status')
-      ?.value as WorkplanProgressType;
-    return status === WorkplanProgressType.Completed;
+    const status = activityControl?.get('status')?.value as WorkplanStatus;
+    return status === WorkplanStatus.Completed;
   }
 }
