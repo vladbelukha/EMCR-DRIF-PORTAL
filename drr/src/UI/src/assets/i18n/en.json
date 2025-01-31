@@ -546,12 +546,21 @@
     "ProjectPlanning": "Project Planning",
     "CommunityEngagement": "Community Engagement"
   },
+  "workplanStatus": {
+    "NotStarted": "Not Started",
+    "InProgress": "In Progress",
+    "Completed": "Completed",
+    "NoLongerNeeded": "No Longer Needed"
+  },
   "progressReport": {
     "projectWorkplan": "Project Workplan",
     "eventInformation": "Event Information",
     "plannedStartDate": "Planned Start Date",
     "plannedEndDate": "Planned Completion Date",
     "actualStartDate": "Actual Start Date",
-    "actualEndDate": "Actual Completion Date"
+    "actualEndDate": "Actual Completion Date",
+    "explainDateChange": "Explain Date Change",
+    "minStartDateError": "Start Date must be before End Date",
+    "minEndDateError": "End Date must be after Start Date"
   }
 }

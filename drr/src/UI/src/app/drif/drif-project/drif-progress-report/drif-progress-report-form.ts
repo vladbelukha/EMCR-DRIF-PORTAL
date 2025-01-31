@@ -13,13 +13,6 @@ import {
 
 import { ContactDetailsForm } from '../../drif-eoi/drif-eoi-form';
 
-export enum WorkplanProgressType {
-  NotStarted = 'Not Started',
-  InProgress = 'In Progress',
-  Completed = 'Completed',
-  NotApplicable = 'Not Applicable',
-}
-
 export enum EventProgressType {
   NotStarted = 'Not Started',
   InProgress = 'In Progress',
@@ -33,6 +26,9 @@ export class WorkplanActivityForm implements WorkplanActivity {
 
   @prop()
   preCreatedActivity?: boolean;
+
+  @prop()
+  isMandatory?: boolean;
 
   @prop()
   @required()

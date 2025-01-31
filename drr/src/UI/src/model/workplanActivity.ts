@@ -22,6 +22,8 @@ export interface WorkplanActivity {
   plannedStartDate?: string;
   /** @nullable */
   preCreatedActivity?: boolean;
+  // TODO: to be replaced by API generated interface
+  isMandatory?: boolean;
   /** @nullable */
   status?: WorkplanStatus;
 }

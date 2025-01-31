@@ -21,97 +21,124 @@
           gap: 2rem;
         "
       >
-        <div>
-          <p>
-            <strong>Project ID:</strong>
-            {{ project?.id }}
-          </p>
-          <p>
-            <strong>Contract ID:</strong>
-            {{ project?.contractNumber }}
-          </p>
-        </div>
-        <div>
-          <p>
-            <strong> Funding Program: </strong>
-            {{ project?.programType | transloco }}
-          </p>
-          <p>
-            <strong>Project Type:</strong>
-            {{ t(project?.fundingStream!) }}
-          </p>
-          <p>
-            <strong>Reporting Schedule:</strong>
-            {{ t(project?.reportingScheduleType!) }}
-          </p>
-        </div>
-        <div>
-          <p>
-            <strong>EOI:</strong><a href=""> {{ project?.eoiId }} </a>
-          </p>
-          <p>
-            <strong>Full Proposal:</strong><a href=""> {{ project?.fpId }} </a>
-          </p>
-        </div>
+        <mat-card>
+          <mat-card-header>
+            <mat-card-subtitle>Contract Details</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <p>
+              <strong>Project ID:</strong>
+              {{ project?.id }}
+            </p>
+            <p>
+              <strong>Contract ID:</strong>
+              {{ project?.contractNumber }}
+            </p>
+          </mat-card-content>
+        </mat-card>
+        <mat-card>
+          <mat-card-header>
+            <mat-card-subtitle>Project Properties</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <p>
+              <strong> Funding Program: </strong>
+              {{ project?.programType | transloco }}
+            </p>
+            <p>
+              <strong>Project Type:</strong>
+              {{ t(project?.fundingStream!) }}
+            </p>
+            <p>
+              <strong>Reporting Schedule:</strong>
+              {{ t(project?.reportingScheduleType!) }}
+            </p>
+          </mat-card-content>
+        </mat-card>
+        <mat-card>
+          <mat-card-header>
+            <mat-card-subtitle>Related Items</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <p>
+              <strong>EOI:</strong><a href=""> {{ project?.eoiId }} </a>
+            </p>
+            <p>
+              <strong>Full Proposal:</strong
+              ><a href=""> {{ project?.fpId }} </a>
+            </p>
+          </mat-card-content>
+        </mat-card>
       </div>
-      <div style="align-self: start">
-        <p>
-          <strong>Planned Start Date:</strong>
-          {{ project?.startDate | date : "yyyy-MM-dd" }}
-        </p>
-        <p>
-          <strong>Planned Start Date:</strong>
-          {{ project?.endDate | date : "yyyy-MM-dd" }}
-        </p>
-      </div>
+      <mat-card style="align-self: start">
+        <mat-card-header>
+          <mat-card-subtitle>Project Dates</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>
+            <strong>Planned Start Date:</strong>
+            {{ project?.startDate | date : "yyyy-MM-dd" }}
+          </p>
+          <p>
+            <strong>Planned Start Date:</strong>
+            {{ project?.endDate | date : "yyyy-MM-dd" }}
+          </p>
+        </mat-card-content>
+      </mat-card>
       <div>
-        <p style="margin-left: 1rem">
-          <strong>Conditions</strong>
-        </p>
-        <table
-          mat-table
-          [dataSource]="conditionsDataSource"
-          multiTemplateDataRows
-        >
-          <ng-container matColumnDef="conditionName">
-            <th mat-header-cell *matHeaderCellDef>Condition</th>
-            <td mat-cell *matCellDef="let condition">
-              {{ condition.conditionName }}
-            </td>
-          </ng-container>
-          <ng-container matColumnDef="limit">
-            <th mat-header-cell *matHeaderCellDef>Limit</th>
-            <td mat-cell *matCellDef="let condition">{{ condition.limit }}%</td>
-          </ng-container>
-          <ng-container matColumnDef="conditionMet">
-            <th mat-header-cell *matHeaderCellDef>Condition Met?</th>
-            <td mat-cell *matCellDef="let condition">
-              {{ condition.conditionMet ? "Yes" : "No" }}
-            </td>
-          </ng-container>
-          <ng-container matColumnDef="dateMet">
-            <th mat-header-cell *matHeaderCellDef>Date Met</th>
-            <td mat-cell *matCellDef="let condition">
-              {{ condition.dateMet | date : "yyyy-MM-dd" }}
-            </td>
-          </ng-container>
-          <tr
-            mat-header-row
-            *matHeaderRowDef="[
-              'conditionName',
-              'limit',
-              'conditionMet',
-              'dateMet'
-            ]"
-          ></tr>
-          <tr
-            mat-row
-            *matRowDef="
-              let row;
-              columns: ['conditionName', 'limit', 'conditionMet', 'dateMet']
-            "
-          ></tr>
-        </table>
+        <mat-card>
+          <mat-card-header>
+            <mat-card-subtitle>Conditions</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <table
+              mat-table
+              [dataSource]="conditionsDataSource"
+              multiTemplateDataRows
+            >
+              <ng-container matColumnDef="conditionName">
+                <th mat-header-cell *matHeaderCellDef>Condition</th>
+                <td mat-cell *matCellDef="let condition">
+                  {{ condition.conditionName }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="limit">
+                <th mat-header-cell *matHeaderCellDef>Limit</th>
+                <td mat-cell *matCellDef="let condition">
+                  {{ condition.limit }}%
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="conditionMet">
+                <th mat-header-cell *matHeaderCellDef>Condition Met?</th>
+                <td mat-cell *matCellDef="let condition">
+                  {{ condition.conditionMet ? "Yes" : "No" }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="dateMet">
+                <th mat-header-cell *matHeaderCellDef>Date Met</th>
+                <td mat-cell *matCellDef="let condition">
+                  {{ condition.dateMet | date : "yyyy-MM-dd" }}
+                </td>
+              </ng-container>
+              <tr
+                mat-header-row
+                *matHeaderRowDef="[
+                  'conditionName',
+                  'limit',
+                  'conditionMet',
+                  'dateMet'
+                ]"
+              ></tr>
+              <tr
+                mat-row
+                *matRowDef="
+                  let row;
+                  columns: ['conditionName', 'limit', 'conditionMet', 'dateMet']
+                "
+              ></tr>
+            </table>
+          </mat-card-content>
+        </mat-card>
         <p style="text-align: end">
           <strong>Funding Amount</strong>
           {{ project?.fundingAmount | currency : "" : "symbol" : "1.0-0" }}
