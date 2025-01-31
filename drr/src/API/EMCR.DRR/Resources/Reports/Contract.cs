@@ -1,15 +1,28 @@
 ﻿using EMCR.DRR.Managers.Intake;
-using EMCR.DRR.Resources.Applications;
 
 namespace EMCR.DRR.API.Resources.Reports
 {
     public interface IReportRepository
     {
+        Task<ManageReportCommandResult> Manage(ManageReportCommand cmd);
         Task<ReportQueryResult> Query(ReportQuery query);
         Task<ClaimQueryResult> Query(ClaimQuery query);
         Task<ProgressReportQueryResult> Query(ProgressReportQuery query);
         Task<ForecastQueryResult> Query(ForecastQuery query);
-        //Task<bool> CanAccessProject(string id, string businessId);
+        //Task<bool> CanAccessProgressReport(string id, string businessId);
+    }
+
+    public abstract class ManageReportCommand
+    { }
+
+    public class ManageReportCommandResult
+    {
+        public required string Id { get; set; }
+    }
+
+    public class SaveProgressReport : ManageReportCommand
+    {
+        public required ProgressReportDetails ProgressReport { get; set; }
     }
 
     public abstract class ReportQuery

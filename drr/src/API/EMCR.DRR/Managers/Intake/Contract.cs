@@ -231,6 +231,12 @@ namespace EMCR.DRR.Managers.Intake
         public UserInfo UserInfo { get; set; }
     }
 
+    public class SaveProgressReportCommand : IntakeCommand
+    {
+        public Controllers.ProgressReport ProgressReport { get; set; } = null!;
+        public UserInfo UserInfo { get; set; }
+    }
+
     public abstract class AttachmentQuery
     { }
 
@@ -717,6 +723,7 @@ namespace EMCR.DRR.Managers.Intake
 
     public class ProjectEventDetails : ProjectEvent
     {
+        public string? Id { get; set; }
         public EventType? EventType { get; set; }
         public DateTime? PlannedEventDate { get; set; }
         public DateTime? ActualEventDate { get; set; }
@@ -746,7 +753,7 @@ namespace EMCR.DRR.Managers.Intake
 
     public class ProgressReportDetails : ProgressReport
     {
-        public WorkPlanDetails? Workplan { get; set; }
+        public WorkplanDetails? Workplan { get; set; }
         public EventInformationDetails? EventInformation { get; set; }
     }
 
@@ -754,7 +761,7 @@ namespace EMCR.DRR.Managers.Intake
     {
     }
 
-    public class WorkPlanDetails
+    public class WorkplanDetails
     {
         public WorkplanActivityDetails[]? WorkplanActivities { get; set; }
         public decimal? ProjectCompletionPercentage { get; set; }
@@ -772,6 +779,7 @@ namespace EMCR.DRR.Managers.Intake
 
     public class WorkplanActivityDetails
     {
+        public string? Id { get; set; }
         public ActivityType? ActivityType { get; set; }
         public string? Comment { get; set; }
         public WorkplanStatus? Status { get; set; }

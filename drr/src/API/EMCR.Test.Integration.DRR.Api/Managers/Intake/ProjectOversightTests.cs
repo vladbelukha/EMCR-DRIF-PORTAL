@@ -1,13 +1,10 @@
-﻿using System.Text;
-using AutoMapper;
+﻿using AutoMapper;
 using EMCR.DRR.API.Model;
-using EMCR.DRR.API.Services.S3;
 using EMCR.DRR.Controllers;
-using EMCR.DRR.Dynamics;
 using EMCR.DRR.Managers.Intake;
 using Microsoft.Extensions.DependencyInjection;
 using Shouldly;
-using static EMCR.DRR.Controllers.ProjectController;
+using EMCR.Utilities.Extensions;
 
 namespace EMCR.Tests.Integration.DRR.Managers.Intake
 {
@@ -91,5 +88,27 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             var forecasts = mapper.Map<IEnumerable<EMCR.DRR.Controllers.Forecast>>(queryRes.Items);
             forecasts.Count().ShouldBe(1);
         }
+
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+#pragma warning disable CS8604 // Possible null reference argument.
+        [Test]
+        public async Task CanUpdateProgressReport()
+        {
+            var uniqueSignature = TestPrefix + "-" + Guid.NewGuid().ToString().Substring(0, 4);
+            var queryRes = await manager.Handle(new DrrProjectsQuery { BusinessId = GetTestUserInfo().BusinessId });
+            var projects = mapper.Map<IEnumerable<DraftDrrProject>>(queryRes.Items);
+            var progressReportId = projects.Where(p => p.ProgressReports.Length > 0).TakeRandom().FirstOrDefault().ProgressReports.TakeRandom().FirstOrDefault().Id;
+
+            var progressReport = mapper.Map<EMCR.DRR.Controllers.ProgressReport>((await manager.Handle(new DrrProgressReportsQuery { Id = progressReportId, BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault());
+            progressReport.Workplan.CommunityMediaComment = $"{uniqueSignature} - media comment";
+
+            await manager.Handle(new SaveProgressReportCommand { ProgressReport = progressReport, UserInfo = GetTestUserInfo() });
+
+
+            var updatedProgressReport = mapper.Map<EMCR.DRR.Controllers.ProgressReport>((await manager.Handle(new DrrProgressReportsQuery { Id = progressReportId, BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault());
+            updatedProgressReport.Workplan.CommunityMediaComment.ShouldBe(progressReport.Workplan.CommunityMediaComment);
+        }
+#pragma warning restore CS8604 // Possible null reference argument.
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
     }
 }
