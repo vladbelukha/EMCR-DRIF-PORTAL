@@ -189,6 +189,22 @@ export class DrifProgressReportCreateComponent {
 
               comment?.updateValueAndValidity();
             });
+
+          this.progressReportForm
+            .get('workplan.outstandingIssues')
+            ?.valueChanges.subscribe((value) => {
+              const comment = this.progressReportForm.get(
+                'workplan.outstandingIssuesComment'
+              );
+
+              if (value) {
+                comment?.addValidators(Validators.required);
+              } else {
+                comment?.removeValidators(Validators.required);
+              }
+
+              comment?.updateValueAndValidity();
+            });
         });
     });
   }
@@ -285,6 +301,12 @@ export class DrifProgressReportCreateComponent {
   showFundingSourcesChangedComment() {
     return this.progressReportForm
       .get('workplan.fundingSourcesChangedComment')
+      ?.hasValidator(Validators.required);
+  }
+
+  showOutstandingIssuesComment() {
+    return this.progressReportForm
+      .get('workplan.outstandingIssuesComment')
       ?.hasValidator(Validators.required);
   }
 }

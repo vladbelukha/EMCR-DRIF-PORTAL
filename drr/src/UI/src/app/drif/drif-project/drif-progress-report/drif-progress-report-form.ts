@@ -107,7 +107,11 @@ export class WorkplanForm implements Workplan {
   worksCompleted?: string;
 
   @prop()
-  outstandingIssues?: string;
+  @required()
+  outstandingIssues?: boolean;
+
+  @prop()
+  outstandingIssuesComment?: string;
 
   @prop()
   @required()

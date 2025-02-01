@@ -360,10 +360,19 @@
           </div>
           <div class="workplan-item">
             <mat-label class="drr-label"> Outstanding Issues </mat-label>
-            <drr-textarea
-              label="Please provide any details on any outstanding issues"
+            <drr-radio-button
+              class="drr-single-input"
+              [label]="t('outstandingIssues')"
               [rxFormControl]="workplanForm?.get('outstandingIssues')"
+              [options]="yesNoRadioOptions"
+            ></drr-radio-button>
+            @if (showOutstandingIssuesComment()) {
+            <drr-textarea
+              [label]="t('outstandingIssuesComment')"
+              [rxFormControl]="workplanForm?.get('outstandingIssuesComment')"
+              [maxlength]="2000"
             ></drr-textarea>
+            }
           </div>
           <div class="workplan-item">
             <mat-label class="drr-label">

@@ -4,9 +4,9 @@
  * DRR API
  * OpenAPI spec version: 1.0.0
  */
-import type { YesNoOption } from './yesNoOption';
 import type { ProvincialMedia } from './provincialMedia';
 import type { WorkplanActivity } from './workplanActivity';
+import type { YesNoOption } from './yesNoOption';
 
 export interface Workplan {
   /** @nullable */
@@ -20,7 +20,8 @@ export interface Workplan {
   /** @nullable */
   fundingSourcesChangedComment?: string;
   /** @nullable */
-  outstandingIssues?: string;
+  outstandingIssues?: boolean;
+  outstandingIssuesComment?: string;
   /** @nullable */
   projectCompletionPercentage?: number;
   /** @nullable */
