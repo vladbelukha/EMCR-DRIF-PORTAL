@@ -154,7 +154,7 @@
                 </div>
               </div>
               <drr-textarea
-                [label]="t('explainDateChange')"
+                [label]="t('keyActivityComment')"
                 [rxFormControl]="preDefinedActivity.get('comment')"
                 [maxlength]="250"
               ></drr-textarea>
@@ -260,8 +260,15 @@
                 </div>
               </div>
               <drr-textarea
-                label="Comments"
+                [label]="
+                  t(
+                    isAdditionalActivityMandatory(additionalActivity)
+                      ? 'keyActivityComment'
+                      : 'additionalActivityComment'
+                  )
+                "
                 [rxFormControl]="additionalActivity.get('comment')"
+                [maxlength]="250"
               ></drr-textarea>
             </mat-card-content>
             @if (!isAdditionalActivityMandatory(additionalActivity)) {
@@ -311,7 +318,7 @@
             <drr-radio-button
               class="drr-single-input"
               label="Please select below"
-              [options]="yesNoNaOptions"
+              [options]="yesNoNaRadioOptions"
               [rxFormControl]="workplanForm?.get('communityMedia')"
             ></drr-radio-button>
             <drr-datepicker
@@ -331,7 +338,7 @@
             <drr-radio-button
               class="drr-single-input"
               label="Please select below"
-              [options]="yesNoNaOptions"
+              [options]="yesNoNaRadioOptions"
               [rxFormControl]="workplanForm?.get('provincialMedia')"
             ></drr-radio-button>
             <drr-datepicker
@@ -353,10 +360,19 @@
           </div>
           <div class="workplan-item">
             <mat-label class="drr-label"> Outstanding Issues </mat-label>
-            <drr-textarea
-              label="Please provide any details on any outstanding issues"
+            <drr-radio-button
+              class="drr-single-input"
+              [label]="t('outstandingIssues')"
               [rxFormControl]="workplanForm?.get('outstandingIssues')"
+              [options]="yesNoRadioOptions"
+            ></drr-radio-button>
+            @if (showOutstandingIssuesComment()) {
+            <drr-textarea
+              [label]="t('outstandingIssuesComment')"
+              [rxFormControl]="workplanForm?.get('outstandingIssuesComment')"
+              [maxlength]="2000"
             ></drr-textarea>
+            }
           </div>
           <div class="workplan-item">
             <mat-label class="drr-label">
@@ -366,14 +382,17 @@
               class="drr-single-input"
               label="Have there been changes to other funding sources in the last quarter?"
               [rxFormControl]="workplanForm?.get('fundingSourcesChanged')"
-              [options]="yesNoOptions"
+              [options]="yesNoRadioOptions"
             ></drr-radio-button>
+            @if (showFundingSourcesChangedComment()) {
             <drr-textarea
               label="Please provide details on any changes to other funding sources"
               [rxFormControl]="
                 workplanForm?.get('fundingSourcesChangedComment')
               "
+              [maxlength]="2000"
             ></drr-textarea>
+            }
           </div>
         </div>
       </div>
@@ -444,7 +463,7 @@
           class="drr-single-input"
           label="Is the community requesting a provincial representative be present for the event?"
           [rxFormControl]="eventForm?.get('provincialRepresentativeRequest')"
-          [options]="yesNoOptions"
+          [options]="yesNoSelectOptions"
         ></drr-select>
         <drr-textarea
           label="Please provide details on the request"

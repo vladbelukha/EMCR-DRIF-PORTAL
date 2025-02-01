@@ -6,6 +6,8 @@ import {
 } from '@rxweb/reactive-form-validators';
 import {
   ActivityType,
+  ProvincialMedia,
+  Workplan,
   WorkplanActivity,
   WorkplanStatus,
   YesNoOption,
@@ -20,6 +22,9 @@ export enum EventProgressType {
 }
 
 export class WorkplanActivityForm implements WorkplanActivity {
+  @prop()
+  id?: string;
+
   @prop()
   @required()
   activity?: ActivityType;
@@ -71,7 +76,7 @@ export class WorkplanActivityForm implements WorkplanActivity {
   }
 }
 
-export class WorkplanForm {
+export class WorkplanForm implements Workplan {
   @propArray(WorkplanActivityForm)
   workplanActivities?: WorkplanActivityForm[] = [];
 
@@ -90,7 +95,7 @@ export class WorkplanForm {
   communityMediaComment?: string;
 
   @prop()
-  provincialMedia?: string; // TODO: use type
+  provincialMedia?: ProvincialMedia | undefined;
 
   @prop()
   provincialMediaDate?: string;
@@ -102,9 +107,14 @@ export class WorkplanForm {
   worksCompleted?: string;
 
   @prop()
-  outstandingIssues?: string;
+  @required()
+  outstandingIssues?: boolean;
 
   @prop()
+  outstandingIssuesComment?: string;
+
+  @prop()
+  @required()
   fundingSourcesChanged?: boolean;
 
   @prop()

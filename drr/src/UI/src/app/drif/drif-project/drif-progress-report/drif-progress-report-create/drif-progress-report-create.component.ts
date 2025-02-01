@@ -94,19 +94,32 @@ export class DrifProgressReportCreateComponent {
     (option) => option.value !== WorkplanStatus.NoLongerNeeded
   );
 
-  yesNoNaOptions = Object.values(YesNoOption).map((value) => ({
-    label: value, // TODO: translate
-    value,
-  }));
+  yesNoNaRadioOptions: RadioOption[] = Object.values(YesNoOption).map(
+    (value) => ({
+      label: value, // TODO: translate
+      value,
+    })
+  );
 
-  yesNoOptions: DrrSelectOption[] = [
+  yesNoRadioOptions: RadioOption[] = [
     {
       label: 'Yes',
-      value: 'yes',
+      value: true,
     },
     {
       label: 'No',
-      value: 'no',
+      value: false,
+    },
+  ];
+
+  yesNoSelectOptions: DrrSelectOption[] = [
+    {
+      label: 'Yes',
+      value: YesNoOption.Yes,
+    },
+    {
+      label: 'No',
+      value: YesNoOption.No,
     },
   ];
 
@@ -150,80 +163,50 @@ export class DrifProgressReportCreateComponent {
         .subscribe((report: ProgressReport) => {
           this.progressReportForm.patchValue(report);
 
-          report.workPlan?.workplanActivities?.map((activity) => {
+          report.workplan?.workplanActivities?.map((activity) => {
             // TODO: remove after API fills the values
             activity.isMandatory = activity.isMandatory ?? true;
 
             const activityForm = this.formBuilder.formGroup(
               new WorkplanActivityForm(activity)
             );
-            // activityForm
-            //   .get('plannedStartDate')
-            //   ?.valueChanges.subscribe((value) => {
-            //     if (
-            //       activity.plannedStartDate &&
-            //       value &&
-            //       new Date(activity.plannedStartDate).getTime() !==
-            //         new Date(value).getTime()
-            //     ) {
-            //       this.addComentValidator(activityForm);
-            //     }
-            //   });
-            // activityForm
-            //   .get('plannedEndDate')
-            //   ?.valueChanges.subscribe((value) =>
-            //     this.addComentValidator(activityForm)
-            //   );
-            // activityForm
-            //   .get('actualStartDate')
-            //   ?.valueChanges.subscribe((value) => {
-            //     const plannedStartDate =
-            //       activityForm.get('plannedStartDate')?.value;
-            //     if (
-            //       plannedStartDate &&
-            //       value &&
-            //       new Date(plannedStartDate).getTime() !==
-            //         new Date(value).getTime()
-            //     ) {
-            //       this.addComentValidator(activityForm);
-            //     } else {
-            //       this.removeCommentValidator(activityForm);
-            //     }
-            //   });
-            // activityForm
-            //   .get('actualEndDate')
-            //   ?.valueChanges.subscribe((value) => {
-            //     const plannedEndDate =
-            //       activityForm.get('plannedEndDate')?.value;
-            //     if (
-            //       plannedEndDate &&
-            //       value &&
-            //       plannedEndDate.toISO() !== value.toISO()
-            //     ) {
-            //       this.addComentValidator(activityForm);
-            //     }
-            //   });
 
             this.workplanItems?.push(activityForm);
           });
+
+          this.progressReportForm
+            .get('workplan.fundingSourcesChanged')
+            ?.valueChanges.subscribe((value) => {
+              const comment = this.progressReportForm.get(
+                'workplan.fundingSourcesChangedComment'
+              );
+
+              if (value) {
+                comment?.addValidators(Validators.required);
+              } else {
+                comment?.removeValidators(Validators.required);
+              }
+
+              comment?.updateValueAndValidity();
+            });
+
+          this.progressReportForm
+            .get('workplan.outstandingIssues')
+            ?.valueChanges.subscribe((value) => {
+              const comment = this.progressReportForm.get(
+                'workplan.outstandingIssuesComment'
+              );
+
+              if (value) {
+                comment?.addValidators(Validators.required);
+              } else {
+                comment?.removeValidators(Validators.required);
+              }
+
+              comment?.updateValueAndValidity();
+            });
         });
     });
-  }
-
-  addComentValidator(activityForm: AbstractControl) {
-    const commentControl = activityForm.get('comment');
-    commentControl?.addValidators(Validators.required);
-    commentControl?.updateValueAndValidity();
-  }
-
-  removeCommentValidator(activityForm: AbstractControl) {
-    const commentControl = activityForm.get('comment');
-    commentControl?.clearValidators();
-    commentControl?.updateValueAndValidity();
-  }
-
-  showComment(commentField?: AbstractControl<any, any> | null | undefined) {
-    return commentField?.hasError('required');
   }
 
   stepperSelectionChange(event: any) {}
@@ -313,5 +296,17 @@ export class DrifProgressReportCreateComponent {
   showActualEndDate(activityControl: AbstractControl<WorkplanActivityForm>) {
     const status = activityControl?.get('status')?.value as WorkplanStatus;
     return status === WorkplanStatus.Completed;
+  }
+
+  showFundingSourcesChangedComment() {
+    return this.progressReportForm
+      .get('workplan.fundingSourcesChangedComment')
+      ?.hasValidator(Validators.required);
+  }
+
+  showOutstandingIssuesComment() {
+    return this.progressReportForm
+      .get('workplan.outstandingIssuesComment')
+      ?.hasValidator(Validators.required);
   }
 }

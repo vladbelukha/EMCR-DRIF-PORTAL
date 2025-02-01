@@ -26,9 +26,11 @@ import type {
   Forecast,
   InterimReport,
   ProgressReport,
+  ProgressReportResult,
   ProjectClaim,
   ProjectResponse,
-  ProjectResult
+  ProjectResult,
+  ProjectUpdateProgressReportParams
 } from '../../model'
 
 
@@ -187,6 +189,40 @@ export class ProjectService {
       `/api/project/${projectId}/interim-reports/${reportId}/progress-reports/${progressId}`,options
     );
   }
+ projectUpdateProgressReport<TData = ProgressReportResult>(
+    projectId: string,
+    reportId: string,
+    progressId: string,
+    progressReport: ProgressReport,
+    params?: ProjectUpdateProgressReportParams, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
+  ): Observable<TData>;
+    projectUpdateProgressReport<TData = ProgressReportResult>(
+    projectId: string,
+    reportId: string,
+    progressId: string,
+    progressReport: ProgressReport,
+    params?: ProjectUpdateProgressReportParams, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
+  ): Observable<AngularHttpResponse<TData>>;
+    projectUpdateProgressReport<TData = ProgressReportResult>(
+    projectId: string,
+    reportId: string,
+    progressId: string,
+    progressReport: ProgressReport,
+    params?: ProjectUpdateProgressReportParams, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
+  ): Observable<HttpEvent<TData>>;projectUpdateProgressReport<TData = ProgressReportResult>(
+    projectId: string,
+    reportId: string,
+    progressId: string,
+    progressReport: ProgressReport,
+    params?: ProjectUpdateProgressReportParams, options?: HttpClientOptions
+  ): Observable<TData>  {
+    return this.http.patch<TData>(
+      `/api/project/${projectId}/interim-reports/${reportId}/progress-reports/${progressId}`,
+      progressReport,{
+    ...options,
+        params: {...params, ...options?.params},}
+    );
+  }
  projectGetForecastReport<TData = Forecast>(
     projectId: string,
     reportId: string,
@@ -219,4 +255,5 @@ export type ProjectSubmitProjectClientResult = NonNullable<ProjectResult>
 export type ProjectGetInterimReportClientResult = NonNullable<InterimReport>
 export type ProjectGetClaimClientResult = NonNullable<ProjectClaim>
 export type ProjectGetProgressReportClientResult = NonNullable<ProgressReport>
+export type ProjectUpdateProgressReportClientResult = NonNullable<ProgressReportResult>
 export type ProjectGetForecastReportClientResult = NonNullable<Forecast>
