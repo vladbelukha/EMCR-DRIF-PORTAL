@@ -20,7 +20,7 @@ import {
   YesNoOption,
 } from '../../../../../model';
 
-import { AbstractControl, FormArray } from '@angular/forms';
+import { AbstractControl, FormArray, Validators } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectService } from '../../../../../api/project/project.service';
@@ -94,19 +94,32 @@ export class DrifProgressReportCreateComponent {
     (option) => option.value !== WorkplanStatus.NoLongerNeeded
   );
 
-  yesNoNaOptions = Object.values(YesNoOption).map((value) => ({
-    label: value, // TODO: translate
-    value,
-  }));
+  yesNoNaRadioOptions: RadioOption[] = Object.values(YesNoOption).map(
+    (value) => ({
+      label: value, // TODO: translate
+      value,
+    })
+  );
 
-  yesNoOptions: DrrSelectOption[] = [
+  yesNoRadioOptions: RadioOption[] = [
     {
       label: 'Yes',
-      value: 'yes',
+      value: true,
     },
     {
       label: 'No',
-      value: 'no',
+      value: false,
+    },
+  ];
+
+  yesNoSelectOptions: DrrSelectOption[] = [
+    {
+      label: 'Yes',
+      value: YesNoOption.Yes,
+    },
+    {
+      label: 'No',
+      value: YesNoOption.No,
     },
   ];
 
@@ -160,6 +173,22 @@ export class DrifProgressReportCreateComponent {
 
             this.workplanItems?.push(activityForm);
           });
+
+          this.progressReportForm
+            .get('workplan.fundingSourcesChanged')
+            ?.valueChanges.subscribe((value) => {
+              const comment = this.progressReportForm.get(
+                'workplan.fundingSourcesChangedComment'
+              );
+
+              if (value) {
+                comment?.addValidators(Validators.required);
+              } else {
+                comment?.removeValidators(Validators.required);
+              }
+
+              comment?.updateValueAndValidity();
+            });
         });
     });
   }
@@ -251,5 +280,11 @@ export class DrifProgressReportCreateComponent {
   showActualEndDate(activityControl: AbstractControl<WorkplanActivityForm>) {
     const status = activityControl?.get('status')?.value as WorkplanStatus;
     return status === WorkplanStatus.Completed;
+  }
+
+  showFundingSourcesChangedComment() {
+    return this.progressReportForm
+      .get('workplan.fundingSourcesChangedComment')
+      ?.hasValidator(Validators.required);
   }
 }

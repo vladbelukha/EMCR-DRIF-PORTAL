@@ -318,7 +318,7 @@
             <drr-radio-button
               class="drr-single-input"
               label="Please select below"
-              [options]="yesNoNaOptions"
+              [options]="yesNoNaRadioOptions"
               [rxFormControl]="workplanForm?.get('communityMedia')"
             ></drr-radio-button>
             <drr-datepicker
@@ -338,7 +338,7 @@
             <drr-radio-button
               class="drr-single-input"
               label="Please select below"
-              [options]="yesNoNaOptions"
+              [options]="yesNoNaRadioOptions"
               [rxFormControl]="workplanForm?.get('provincialMedia')"
             ></drr-radio-button>
             <drr-datepicker
@@ -373,14 +373,17 @@
               class="drr-single-input"
               label="Have there been changes to other funding sources in the last quarter?"
               [rxFormControl]="workplanForm?.get('fundingSourcesChanged')"
-              [options]="yesNoOptions"
+              [options]="yesNoRadioOptions"
             ></drr-radio-button>
+            @if (showFundingSourcesChangedComment()) {
             <drr-textarea
               label="Please provide details on any changes to other funding sources"
               [rxFormControl]="
                 workplanForm?.get('fundingSourcesChangedComment')
               "
+              [maxlength]="2000"
             ></drr-textarea>
+            }
           </div>
         </div>
       </div>
@@ -451,7 +454,7 @@
           class="drr-single-input"
           label="Is the community requesting a provincial representative be present for the event?"
           [rxFormControl]="eventForm?.get('provincialRepresentativeRequest')"
-          [options]="yesNoOptions"
+          [options]="yesNoSelectOptions"
         ></drr-select>
         <drr-textarea
           label="Please provide details on the request"
