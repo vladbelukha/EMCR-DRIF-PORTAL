@@ -561,6 +561,8 @@
     "actualEndDate": "Actual Completion Date",
     "explainDateChange": "Explain Date Change",
     "minStartDateError": "Start Date must be before End Date",
-    "minEndDateError": "End Date must be after Start Date"
+    "minEndDateError": "End Date must be after Start Date",
+    "keyActivityComment": "Detail any date changes that have occurred and explain why the dates have changed",
+    "additionalActivityComment": "Explain why the additional activity is needed for the project"
   }
 }
