@@ -150,7 +150,7 @@ export class DrifProgressReportCreateComponent {
         .subscribe((report: ProgressReport) => {
           this.progressReportForm.patchValue(report);
 
-          report.workPlan?.workplanActivities?.map((activity) => {
+          report.workplan?.workplanActivities?.map((activity) => {
             // TODO: remove after API fills the values
             activity.isMandatory = activity.isMandatory ?? true;
 
