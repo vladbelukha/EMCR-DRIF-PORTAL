@@ -4,7 +4,6 @@
  * DRR API
  * OpenAPI spec version: 1.0.0
  */
-import type { ProvincialMedia } from './provincialMedia';
 import type { WorkplanActivity } from './workplanActivity';
 
 export interface Workplan {
@@ -18,7 +17,7 @@ export interface Workplan {
   /** @nullable */
   projectCompletionPercentage?: number;
   /** @nullable */
-  mediaAnnouncement?: ProvincialMedia;
+  mediaAnnouncement?: boolean;
   /** @nullable */
   mediaAnnouncementComment?: string;
   /** @nullable */
