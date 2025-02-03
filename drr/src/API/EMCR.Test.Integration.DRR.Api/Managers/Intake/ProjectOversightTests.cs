@@ -101,7 +101,19 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
 
             var progressReport = mapper.Map<EMCR.DRR.Controllers.ProgressReport>((await manager.Handle(new DrrProgressReportsQuery { Id = progressReportId, BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault());
             progressReport.Workplan.MediaAnnouncementComment = $"{uniqueSignature} - media comment";
+            //progressReport.Workplan.WorkplanActivities = progressReport.Workplan.WorkplanActivities.Append(new WorkplanActivity
+            //{
+            //    Activity = EMCR.DRR.Controllers.ActivityType.ConstructionContractAward,
+            //    ActualCompletionDate = DateTime.UtcNow,
+            //    ActualStartDate = DateTime.UtcNow.AddDays(-3),
+            //    Comment = "construction contract comment",
+            //    Id = Guid.NewGuid().ToString(),
+            //    PlannedCompletionDate = DateTime.UtcNow,
+            //    PlannedStartDate = DateTime.UtcNow.AddDays(-3),
+            //    Status = EMCR.DRR.Controllers.WorkplanStatus.Awarded,
+            //}).ToArray();
 
+            Console.WriteLine(progressReport.Id);
             await manager.Handle(new SaveProgressReportCommand { ProgressReport = progressReport, UserInfo = GetTestUserInfo() });
 
 

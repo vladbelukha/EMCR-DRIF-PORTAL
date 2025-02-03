@@ -179,8 +179,9 @@ namespace EMCR.DRR.Managers.Intake
 
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
 #pragma warning disable CS8604 // Possible null reference argument.
+#pragma warning disable CS8629 // Nullable value type may be null.
             CreateMap<Controllers.WorkplanActivity, WorkplanActivityDetails>()
-                .ForMember(dest => dest.ActivityType, opt => opt.MapFrom(src => new ActivityType { Name = src.Activity.ToString(), PreCreatedActivity = src.PreCreatedActivity }))
+                .ForMember(dest => dest.ActivityType, opt => opt.MapFrom(src => new ActivityType { Name = src.Activity.Value.ToDescriptionString(), PreCreatedActivity = src.PreCreatedActivity }))
                 .ForMember(dest => dest.Status, opt => opt.Ignore())
                 .ForMember(dest => dest.OriginalReportId, opt => opt.Ignore())
                 .ForMember(dest => dest.ConstructionContractStatus, opt => opt.Ignore())
@@ -194,12 +195,13 @@ namespace EMCR.DRR.Managers.Intake
                 .ForMember(dest => dest.Activity, opt => opt.MapFrom(src => IEnumEx.GetValueFromDescription<Controllers.ActivityType>(src.ActivityType.Name)))
                 .ForMember(dest => dest.PreCreatedActivity, opt => opt.MapFrom(src => src.ActivityType != null ? src.ActivityType.PreCreatedActivity : false))
                 .ForMember(dest => dest.Status, opt => opt.Ignore())
-                .ForMember(dest => dest.IsMandatory, opt => opt.MapFrom(src => !string.IsNullOrEmpty(src.OriginalReportId)))
+                .ForMember(dest => dest.IsMandatory, opt => opt.MapFrom(src => src.CopiedFromActivity == true))
                 .AfterMap((src, dest) =>
                 {
                     dest.Status = WorkplanFlatStatusMapper(src, dest.Activity);
                 })
                     ;
+#pragma warning restore CS8629 // Nullable value type may be null.
 #pragma warning restore CS8604 // Possible null reference argument.
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
 
