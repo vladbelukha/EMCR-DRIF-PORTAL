@@ -765,7 +765,7 @@ namespace EMCR.DRR.Managers.Intake
     {
         public WorkplanActivityDetails[]? WorkplanActivities { get; set; }
         public decimal? ProjectCompletionPercentage { get; set; }
-        public YesNoOption? MediaAnnouncement { get; set; }
+        public bool? MediaAnnouncement { get; set; }
         public DateTime? MediaAnnouncementDate { get; set; }
         public string? MediaAnnouncementComment { get; set; }
         public string? WorksCompleted { get; set; }
@@ -778,6 +778,7 @@ namespace EMCR.DRR.Managers.Intake
     {
         public string? Id { get; set; }
         public string? OriginalReportId { get; set; }
+        public bool? CopiedFromActivity { get; set; }
         public ActivityType? ActivityType { get; set; }
         public string? Comment { get; set; }
         public ConstructionContractStatus? ConstructionContractStatus { get; set; }
