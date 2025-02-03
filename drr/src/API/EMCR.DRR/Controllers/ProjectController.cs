@@ -151,11 +151,11 @@ namespace EMCR.DRR.Controllers
         }
 
         [HttpPatch("{projectId}/interim-reports/{reportId}/progress-reports/{progressId}")]
-        public async Task<ActionResult<ProgressReportResult>> UpdateProgressReport([FromBody] ProgressReport progressReport, string id)
+        public async Task<ActionResult<ProgressReportResult>> UpdateProgressReport([FromBody] ProgressReport progressReport, string progressId)
         {
             try
             {
-                progressReport.Id = id;
+                progressReport.Id = progressId;
 
                 var drr_id = await intakeManager.Handle(new SaveProgressReportCommand { ProgressReport = progressReport, UserInfo = GetCurrentUser() });
                 return Ok(new ProgressReportResult { Id = drr_id });
@@ -278,12 +278,9 @@ namespace EMCR.DRR.Controllers
     {
         public WorkplanActivity[]? WorkplanActivities { get; set; }
         public decimal? ProjectCompletionPercentage { get; set; }
-        public YesNoOption? CommunityMedia { get; set; }
-        public DateTime? CommunityMediaDate { get; set; }
-        public string? CommunityMediaComment { get; set; }
-        public ProvincialMedia? ProvincialMedia { get; set; }
-        public DateTime? ProvincialMediaDate { get; set; }
-        public string? ProvincialMediaComment { get; set; }
+        public YesNoOption? MediaAnnouncement { get; set; }
+        public DateTime? MediaAnnouncementDate { get; set; }
+        public string? MediaAnnouncementComment { get; set; }
         public string? WorksCompleted { get; set; }
         public string? OutstandingIssues { get; set; }
         public bool? FundingSourcesChanged { get; set; }
@@ -295,6 +292,7 @@ namespace EMCR.DRR.Controllers
         public string? Id { get; set; }
         public ActivityType? Activity { get; set; }
         public bool? PreCreatedActivity { get; set; }
+        public bool? IsMandatory { get; set; }
         public string? Comment { get; set; }
         public WorkplanStatus? Status { get; set; }
         public DateTime? PlannedStartDate { get; set; }
@@ -416,8 +414,14 @@ namespace EMCR.DRR.Controllers
         [Description("Completed")]
         Completed,
 
-        [Description("Not Applicable")]
-        NotApplicable
+        [Description("Awarded")]
+        Awarded,
+
+        [Description("Not Awarded")]
+        NotAwarded,
+
+        [Description("No Longer Needed")]
+        NoLongerNeeded
     }
 
     public enum EventType
