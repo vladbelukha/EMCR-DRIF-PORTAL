@@ -100,13 +100,13 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             var progressReportId = projects.Where(p => p.ProgressReports.Length > 0).TakeRandom().FirstOrDefault().ProgressReports.TakeRandom().FirstOrDefault().Id;
 
             var progressReport = mapper.Map<EMCR.DRR.Controllers.ProgressReport>((await manager.Handle(new DrrProgressReportsQuery { Id = progressReportId, BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault());
-            progressReport.Workplan.CommunityMediaComment = $"{uniqueSignature} - media comment";
+            progressReport.Workplan.MediaAnnouncementComment = $"{uniqueSignature} - media comment";
 
             await manager.Handle(new SaveProgressReportCommand { ProgressReport = progressReport, UserInfo = GetTestUserInfo() });
 
 
             var updatedProgressReport = mapper.Map<EMCR.DRR.Controllers.ProgressReport>((await manager.Handle(new DrrProgressReportsQuery { Id = progressReportId, BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault());
-            updatedProgressReport.Workplan.CommunityMediaComment.ShouldBe(progressReport.Workplan.CommunityMediaComment);
+            updatedProgressReport.Workplan.MediaAnnouncementComment.ShouldBe(progressReport.Workplan.MediaAnnouncementComment);
         }
 #pragma warning restore CS8604 // Possible null reference argument.
 #pragma warning restore CS8602 // Dereference of a possibly null reference.

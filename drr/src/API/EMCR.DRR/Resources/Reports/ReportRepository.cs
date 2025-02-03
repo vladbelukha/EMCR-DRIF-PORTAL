@@ -185,6 +185,7 @@ namespace EMCR.DRR.API.Resources.Reports
             {
                 ctx.AttachTo(nameof(DRRContext.drr_projectworkplanactivities), wa);
                 await ctx.LoadPropertyAsync(wa, nameof(drr_projectworkplanactivity.drr_ActivityType), ct);
+                await ctx.LoadPropertyAsync(wa, nameof(drr_projectworkplanactivity.drr_CopiedfromReport), ct);
             });
         }
 

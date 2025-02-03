@@ -92,8 +92,25 @@ namespace EMCR.DRR.API.Resources.Projects
     {
         NotStarted = 172580000,
         InProgress = 172580001,
-        Completed = 172580002,
-        NotApplicable = 172580003
+        Completed = 172580002
+    }
+
+    public enum ConstructionContractOptionSet
+    {
+        Awarded = 172580000,
+        NotAwarded = 172580001,
+    }
+
+    public enum PermitToConstructOptionSet
+    {
+        Awarded = 172580000,
+        NotAwarded = 172580001,
+    }
+
+    public enum WorkplanStatusOptionSet
+    {
+        Active = 1,
+        NoLongerNeeded = 2
     }
 
     public enum EventTypeOptionSet
