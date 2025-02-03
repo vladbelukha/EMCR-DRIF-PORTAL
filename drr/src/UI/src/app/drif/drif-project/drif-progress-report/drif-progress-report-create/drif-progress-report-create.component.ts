@@ -22,6 +22,7 @@ import {
 
 import { AbstractControl, FormArray, Validators } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectService } from '../../../../../api/project/project.service';
 import { DrrDatepickerComponent } from '../../../../shared/controls/drr-datepicker/drr-datepicker.component';
@@ -60,6 +61,7 @@ import {
     DrrRadioButtonComponent,
     DrrTextareaComponent,
     RxReactiveFormsModule,
+    MatDividerModule,
   ],
   templateUrl: './drif-progress-report-create.component.html',
   styleUrl: './drif-progress-report-create.component.scss',
@@ -76,14 +78,16 @@ export class DrifProgressReportCreateComponent {
   reportId!: string;
   progressReportId!: string;
 
-  activityTypeOptions: DrrSelectOption[] = Object.values(ActivityType).map(
-    (value) => ({
-      label: this.translocoService.translate(`activityType.${value}`),
-      value,
-    })
-  );
+  private allActivityTypeOptions: DrrSelectOption[] = Object.values(
+    ActivityType
+  ).map((activity) => ({
+    value: activity,
+    label: this.translocoService.translate(`activityType.${activity}`),
+  }));
 
-  optionalActivityOptions: DrrSelectOption[] = Object.values(WorkplanStatus)
+  optionalActivityStatusOptions: DrrSelectOption[] = Object.values(
+    WorkplanStatus
+  )
     .filter(
       (s) => s !== WorkplanStatus.NotAwarded && s !== WorkplanStatus.Awarded
     )
@@ -92,9 +96,10 @@ export class DrifProgressReportCreateComponent {
       value,
     }));
 
-  necessaryActivityOptions: RadioOption[] = this.optionalActivityOptions.filter(
-    (option) => option.value !== WorkplanStatus.NoLongerNeeded
-  );
+  necessaryActivityStatusOptions: RadioOption[] =
+    this.optionalActivityStatusOptions.filter(
+      (option) => option.value !== WorkplanStatus.NoLongerNeeded
+    );
 
   yesNoNaRadioOptions: RadioOption[] = Object.values(YesNoOption).map(
     (value) => ({
@@ -253,6 +258,10 @@ export class DrifProgressReportCreateComponent {
 
   submit() {}
 
+  getActivitiesFormArray() {
+    return this.workplanForm?.get('workplanActivities') as FormArray;
+  }
+
   getPreDefinedActivitiesArray() {
     return this.workplanItems?.controls.filter(
       (control) => control.get('preCreatedActivity')?.value
@@ -290,10 +299,10 @@ export class DrifProgressReportCreateComponent {
 
   getAdditionalActivityOptions(activityControl: AbstractControl) {
     if (!this.isAdditionalActivityMandatory(activityControl)) {
-      return this.necessaryActivityOptions;
+      return this.necessaryActivityStatusOptions;
     }
 
-    return this.optionalActivityOptions;
+    return this.optionalActivityStatusOptions;
   }
 
   isAdditionalActivityMandatory(activityControl: AbstractControl) {
@@ -332,5 +341,34 @@ export class DrifProgressReportCreateComponent {
 
   showMandatoryControl(control: AbstractControl<any, any> | null | undefined) {
     return control?.hasValidator(Validators.required);
+  }
+
+  getAvailableOptionsForActivity(selectedActivity: ActivityType) {
+    const selectedActivities = this.getActivitiesFormArray()?.controls.map(
+      (control) => control.get('activity')?.value
+    );
+
+    const availableOptions = this.allActivityTypeOptions.filter(
+      (option) => !selectedActivities.includes(option.value)
+    );
+
+    if (selectedActivity) {
+      const selectedActivityOption = this.allActivityTypeOptions.find(
+        (option) => option.value === selectedActivity
+      );
+
+      availableOptions.push(selectedActivityOption!);
+      availableOptions.sort((a, b) => a.label.localeCompare(b.label));
+    }
+
+    return availableOptions;
+  }
+
+  hasAvailableOptionsForActivity() {
+    const selectedActivities = this.getActivitiesFormArray()?.controls.map(
+      (control) => control.get('activity')?.value
+    );
+
+    return this.allActivityTypeOptions.length !== selectedActivities.length;
   }
 }

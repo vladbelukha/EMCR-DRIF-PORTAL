@@ -98,7 +98,7 @@
                 <drr-radio-button
                   class="drr-single-input"
                   label="Status"
-                  [options]="necessaryActivityOptions"
+                  [options]="necessaryActivityStatusOptions"
                   [rxFormControl]="preDefinedActivity.get('status')"
                 ></drr-radio-button>
 
@@ -196,7 +196,11 @@
                 class="drr-single-input"
                 label="Activity"
                 [rxFormControl]="additionalActivity.get('activity')"
-                [options]="activityTypeOptions"
+                [options]="
+                  getAvailableOptionsForActivity(
+                    additionalActivity.get('activity')?.value
+                  )
+                "
               >
               </drr-select>
               }
@@ -284,6 +288,7 @@
             }
           </mat-card>
         </div>
+        @if (hasAvailableOptionsForActivity()) {
         <button
           mat-raised-button
           color="primary"
@@ -292,6 +297,9 @@
         >
           Add Additional Activity
         </button>
+        }
+
+        <mat-divider style="margin-top: 2rem"></mat-divider>
 
         <div
           style="
