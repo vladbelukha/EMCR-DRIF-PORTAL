@@ -306,9 +306,10 @@
               Percentage of Project Complete as of report date
             </mat-label>
             <drr-input
-              class="drr-single-input"
+              style="align-self: flex-start"
               label="Percentage"
               [rxFormControl]="workplanForm?.get('projectCompletionPercentage')"
+              [type]="'percentage'"
             ></drr-input>
           </div>
           <div class="workplan-item">

@@ -1,4 +1,6 @@
 import {
+  maxNumber,
+  minNumber,
   prop,
   propArray,
   propObject,
@@ -79,9 +81,10 @@ export class WorkplanForm implements Workplan {
   @propArray(WorkplanActivityForm)
   workplanActivities?: WorkplanActivityForm[] = [];
 
-  // TODO: 3 fields for construction progress?
-
   @prop()
+  @required()
+  @minNumber({ value: 0 })
+  @maxNumber({ value: 100 })
   projectCompletionPercentage?: number;
 
   @prop()
