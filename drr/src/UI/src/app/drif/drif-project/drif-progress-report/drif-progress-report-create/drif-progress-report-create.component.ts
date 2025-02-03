@@ -166,9 +166,6 @@ export class DrifProgressReportCreateComponent {
           this.progressReportForm.patchValue(report);
 
           report.workplan?.workplanActivities?.map((activity) => {
-            // TODO: remove after API fills the values
-            activity.isMandatory = activity.isMandatory ?? true;
-
             const activityForm = this.formBuilder.formGroup(
               new WorkplanActivityForm(activity)
             );
