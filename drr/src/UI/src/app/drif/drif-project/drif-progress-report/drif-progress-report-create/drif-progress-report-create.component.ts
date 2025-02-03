@@ -83,12 +83,14 @@ export class DrifProgressReportCreateComponent {
     })
   );
 
-  optionalActivityOptions: DrrSelectOption[] = Object.values(
-    WorkplanStatus
-  ).map((value) => ({
-    label: this.translocoService.translate(`workplanStatus.${value}`),
-    value,
-  }));
+  optionalActivityOptions: DrrSelectOption[] = Object.values(WorkplanStatus)
+    .filter(
+      (s) => s !== WorkplanStatus.NotAwarded && s !== WorkplanStatus.Awarded
+    )
+    .map((value) => ({
+      label: this.translocoService.translate(`workplanStatus.${value}`),
+      value,
+    }));
 
   necessaryActivityOptions: RadioOption[] = this.optionalActivityOptions.filter(
     (option) => option.value !== WorkplanStatus.NoLongerNeeded
@@ -329,7 +331,7 @@ export class DrifProgressReportCreateComponent {
   showActualEndDate(activityControl: AbstractControl<WorkplanActivityForm>) {
     const status = activityControl?.get('status')?.value as WorkplanStatus;
     return status === WorkplanStatus.Completed;
-  }  
+  }
 
   showMandatoryControl(control: AbstractControl<any, any> | null | undefined) {
     return control?.hasValidator(Validators.required);

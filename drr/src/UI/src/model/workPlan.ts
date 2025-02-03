@@ -15,13 +15,13 @@ export interface Workplan {
   outstandingIssues?: boolean;
   outstandingIssuesComment?: string;
   /** @nullable */
-  projectCompletionPercentage?: number;
-  /** @nullable */
   mediaAnnouncement?: boolean;
   /** @nullable */
   mediaAnnouncementComment?: string;
   /** @nullable */
   mediaAnnouncementDate?: string;
+  /** @nullable */
+  projectCompletionPercentage?: number;
   /** @nullable */
   workplanActivities?: WorkplanActivity[];
   /** @nullable */

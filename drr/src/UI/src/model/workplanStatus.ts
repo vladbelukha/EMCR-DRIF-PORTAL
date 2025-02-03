@@ -13,5 +13,7 @@ export const WorkplanStatus = {
   NotStarted: 'NotStarted',
   InProgress: 'InProgress',
   Completed: 'Completed',
+  Awarded: 'Awarded',
+  NotAwarded: 'NotAwarded',
   NoLongerNeeded: 'NoLongerNeeded',
 } as const;

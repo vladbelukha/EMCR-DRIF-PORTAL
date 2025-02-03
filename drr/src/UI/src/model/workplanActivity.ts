@@ -19,13 +19,13 @@ export interface WorkplanActivity {
   /** @nullable */
   id?: string;
   /** @nullable */
+  isMandatory?: boolean;
+  /** @nullable */
   plannedCompletionDate?: string;
   /** @nullable */
   plannedStartDate?: string;
   /** @nullable */
   preCreatedActivity?: boolean;
-  // TODO: to be replaced by API generated interface
-  isMandatory?: boolean;
   /** @nullable */
   status?: WorkplanStatus;
 }
