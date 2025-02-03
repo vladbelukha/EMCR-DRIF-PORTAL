@@ -148,10 +148,6 @@ namespace EMCR.DRR.Managers.Intake
                 .ReverseMap()
                 ;
 
-            CreateMap<Controllers.WorkplanActivity, WorkplanActivity>()
-                .ReverseMap()
-                ;
-
             CreateMap<Controllers.ProjectClaim, ClaimDetails>()
                 .ReverseMap()
                 ;
@@ -176,7 +172,7 @@ namespace EMCR.DRR.Managers.Intake
                 .ReverseMap()
                 .ForMember(dest => dest.HaveEventsOccurred, opt => opt.Ignore())
                 ;
-            
+
             CreateMap<Controllers.ProjectEvent, ProjectEventDetails>()
                 .ReverseMap()
                 ;
@@ -185,10 +181,25 @@ namespace EMCR.DRR.Managers.Intake
 #pragma warning disable CS8604 // Possible null reference argument.
             CreateMap<Controllers.WorkplanActivity, WorkplanActivityDetails>()
                 .ForMember(dest => dest.ActivityType, opt => opt.MapFrom(src => new ActivityType { Name = src.Activity.ToString(), PreCreatedActivity = src.PreCreatedActivity }))
+                .ForMember(dest => dest.Status, opt => opt.Ignore())
+                .ForMember(dest => dest.OriginalReportId, opt => opt.Ignore())
+                .ForMember(dest => dest.ConstructionContractStatus, opt => opt.Ignore())
+                .ForMember(dest => dest.PermitToConstructStatus, opt => opt.Ignore())
+                .ForMember(dest => dest.ProgressStatus, opt => opt.Ignore())
+                .AfterMap((src, dest) =>
+                {
+                    WorkplanStatusMapper(dest, src);
+                })
                 .ReverseMap()
                 .ForMember(dest => dest.Activity, opt => opt.MapFrom(src => IEnumEx.GetValueFromDescription<Controllers.ActivityType>(src.ActivityType.Name)))
                 .ForMember(dest => dest.PreCreatedActivity, opt => opt.MapFrom(src => src.ActivityType != null ? src.ActivityType.PreCreatedActivity : false))
-                ;
+                .ForMember(dest => dest.Status, opt => opt.Ignore())
+                .ForMember(dest => dest.IsMandatory, opt => opt.MapFrom(src => !string.IsNullOrEmpty(src.OriginalReportId)))
+                .AfterMap((src, dest) =>
+                {
+                    dest.Status = WorkplanFlatStatusMapper(src, dest.Activity);
+                })
+                    ;
 #pragma warning restore CS8604 // Possible null reference argument.
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
 
@@ -321,6 +332,66 @@ namespace EMCR.DRR.Managers.Intake
             if (contact2 != null) ret.Add(contact2);
             return ret;
         }
+
+#pragma warning disable CS8629 // Nullable value type may be null.
+#pragma warning disable CS8604 // Possible null reference argument.
+        private Controllers.WorkplanStatus? WorkplanFlatStatusMapper(WorkplanActivityDetails workplanDetails, Controllers.ActivityType? activityType)
+        {
+            if (workplanDetails.Status == WorkplanStatus.NoLongerNeeded)
+            {
+                return Controllers.WorkplanStatus.NoLongerNeeded;
+            }
+
+            switch (activityType)
+            {
+                case Controllers.ActivityType.ConstructionContractAward:
+                    {
+                        return workplanDetails.ConstructionContractStatus != null ? Enum.Parse<Controllers.WorkplanStatus>(workplanDetails.ConstructionContractStatus.ToString()) : null;
+                    }
+                case Controllers.ActivityType.PermitToConstruct:
+                    {
+                        return workplanDetails.PermitToConstructStatus != null ? Enum.Parse<Controllers.WorkplanStatus>(workplanDetails.PermitToConstructStatus.ToString()) : null;
+                    }
+                default:
+                    {
+                        return workplanDetails.ProgressStatus != null ? Enum.Parse<Controllers.WorkplanStatus>(workplanDetails.ProgressStatus.ToString()) : null;
+                    }
+            }
+        }
+
+        private void WorkplanStatusMapper(WorkplanActivityDetails dest, WorkplanActivity src)
+        {
+            if (src.Status == Controllers.WorkplanStatus.NoLongerNeeded)
+            {
+                dest.Status = WorkplanStatus.NoLongerNeeded;
+            }
+            switch (src.Activity)
+            {
+                case Controllers.ActivityType.ConstructionContractAward:
+                    {
+                        dest.ProgressStatus = null;
+                        dest.PermitToConstructStatus = null;
+                        dest.ConstructionContractStatus = src.Status != null ? Enum.Parse<ConstructionContractStatus>(src.Status.ToString()) : null;
+                        break;
+                    }
+                case Controllers.ActivityType.PermitToConstruct:
+                    {
+                        dest.ProgressStatus = null;
+                        dest.ConstructionContractStatus = null;
+                        dest.PermitToConstructStatus = src.Status != null ? Enum.Parse<PermitToConstructStatus>(src.Status.ToString()) : null;
+                        break;
+                    }
+                default:
+                    {
+                        dest.ConstructionContractStatus = null;
+                        dest.PermitToConstructStatus = null;
+                        dest.ProgressStatus = src.Status != null ? Enum.Parse<WorkplanProgress>(src.Status.ToString()) : null;
+                        break;
+                    }
+            }
+        }
+#pragma warning restore CS8604 // Possible null reference argument.
+#pragma warning restore CS8629 // Nullable value type may be null.
 
         private SubmissionPortalStatus DRRApplicationStatusMapper(ApplicationStatus status)
         {

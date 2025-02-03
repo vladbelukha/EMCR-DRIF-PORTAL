@@ -765,12 +765,9 @@ namespace EMCR.DRR.Managers.Intake
     {
         public WorkplanActivityDetails[]? WorkplanActivities { get; set; }
         public decimal? ProjectCompletionPercentage { get; set; }
-        public YesNoOption? CommunityMedia { get; set; }
-        public DateTime? CommunityMediaDate { get; set; }
-        public string? CommunityMediaComment { get; set; }
-        public ProvincialMedia? ProvincialMedia { get; set; }
-        public DateTime? ProvincialMediaDate { get; set; }
-        public string? ProvincialMediaComment { get; set; }
+        public YesNoOption? MediaAnnouncement { get; set; }
+        public DateTime? MediaAnnouncementDate { get; set; }
+        public string? MediaAnnouncementComment { get; set; }
         public string? WorksCompleted { get; set; }
         public string? OutstandingIssues { get; set; }
         public bool? FundingSourcesChanged { get; set; }
@@ -780,8 +777,12 @@ namespace EMCR.DRR.Managers.Intake
     public class WorkplanActivityDetails
     {
         public string? Id { get; set; }
+        public string? OriginalReportId { get; set; }
         public ActivityType? ActivityType { get; set; }
         public string? Comment { get; set; }
+        public ConstructionContractStatus? ConstructionContractStatus { get; set; }
+        public PermitToConstructStatus? PermitToConstructStatus { get; set; }
+        public WorkplanProgress? ProgressStatus { get; set; }
         public WorkplanStatus? Status { get; set; }
         public DateTime? PlannedStartDate { get; set; }
         public DateTime? ActualStartDate { get; set; }
@@ -882,12 +883,29 @@ namespace EMCR.DRR.Managers.Intake
         NotApplicable
     }
 
-    public enum WorkplanStatus
+    public enum WorkplanProgress
     {
         NotStarted,
         InProgress,
-        Completed,
-        NotApplicable
+        Completed
+    }
+
+    public enum ConstructionContractStatus
+    {
+        Awarded,
+        NotAwarded,
+    }
+
+    public enum PermitToConstructStatus
+    {
+        Awarded,
+        NotAwarded,
+    }
+
+    public enum WorkplanStatus
+    {
+        Active,
+        NoLongerNeeded
     }
 
     public enum EventStatus
