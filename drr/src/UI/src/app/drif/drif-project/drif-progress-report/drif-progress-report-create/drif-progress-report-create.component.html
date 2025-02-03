@@ -312,44 +312,29 @@
             ></drr-input>
           </div>
           <div class="workplan-item">
-            <mat-label class="drr-label">
-              Community Media Announcements</mat-label
-            >
+            <mat-label class="drr-label"> Media Announcements</mat-label>
             <drr-radio-button
               class="drr-single-input"
               label="Please select below"
-              [options]="yesNoNaRadioOptions"
-              [rxFormControl]="workplanForm?.get('communityMedia')"
+              [options]="yesNoRadioOptions"
+              [rxFormControl]="workplanForm?.get('mediaAnnouncement')"
             ></drr-radio-button>
+            @if
+            (showMandatoryControl(workplanForm?.get('mediaAnnouncementDate'))) {
             <drr-datepicker
               class="drr-single-input"
               label="Date of Announcement"
-              [rxFormControl]="workplanForm?.get('communityMediaDate')"
+              [rxFormControl]="workplanForm?.get('mediaAnnouncementDate')"
             ></drr-datepicker>
+            } @if
+            (showMandatoryControl(workplanForm?.get('mediaAnnouncementComment')))
+            {
             <drr-textarea
               label="Comments"
-              [rxFormControl]="workplanForm?.get('communityMediaComment')"
+              [rxFormControl]="workplanForm?.get('mediaAnnouncementComment')"
+              [maxlength]="2000"
             ></drr-textarea>
-          </div>
-          <div class="workplan-item">
-            <mat-label class="drr-label">
-              Provincial Media Announcements</mat-label
-            >
-            <drr-radio-button
-              class="drr-single-input"
-              label="Please select below"
-              [options]="yesNoNaRadioOptions"
-              [rxFormControl]="workplanForm?.get('provincialMedia')"
-            ></drr-radio-button>
-            <drr-datepicker
-              class="drr-single-input"
-              label="Date of Announcement"
-              [rxFormControl]="workplanForm?.get('provincialMediaDate')"
-            ></drr-datepicker>
-            <drr-textarea
-              label="Comments"
-              [rxFormControl]="workplanForm?.get('provincialMediaComment')"
-            ></drr-textarea>
+            }
           </div>
           <div class="workplan-item">
             <mat-label class="drr-label"> Works Completed </mat-label>
@@ -366,7 +351,9 @@
               [rxFormControl]="workplanForm?.get('outstandingIssues')"
               [options]="yesNoRadioOptions"
             ></drr-radio-button>
-            @if (showOutstandingIssuesComment()) {
+            @if
+            (showMandatoryControl(workplanForm?.get('outstandingIssuesComment')))
+            {
             <drr-textarea
               [label]="t('outstandingIssuesComment')"
               [rxFormControl]="workplanForm?.get('outstandingIssuesComment')"
@@ -384,7 +371,9 @@
               [rxFormControl]="workplanForm?.get('fundingSourcesChanged')"
               [options]="yesNoRadioOptions"
             ></drr-radio-button>
-            @if (showFundingSourcesChangedComment()) {
+            @if
+            (showMandatoryControl(workplanForm?.get('fundingSourcesChangedComment')))
+            {
             <drr-textarea
               label="Please provide details on any changes to other funding sources"
               [rxFormControl]="

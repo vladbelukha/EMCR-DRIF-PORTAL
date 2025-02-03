@@ -6,7 +6,6 @@ import {
 } from '@rxweb/reactive-form-validators';
 import {
   ActivityType,
-  ProvincialMedia,
   Workplan,
   WorkplanActivity,
   WorkplanStatus,
@@ -86,22 +85,14 @@ export class WorkplanForm implements Workplan {
   projectCompletionPercentage?: number;
 
   @prop()
-  communityMedia?: YesNoOption; // TODO: use type
+  @required()
+  mediaAnnouncement?: boolean;
 
   @prop()
-  communityMediaDate?: string;
+  mediaAnnouncementDate?: string;
 
   @prop()
-  communityMediaComment?: string;
-
-  @prop()
-  provincialMedia?: ProvincialMedia | undefined;
-
-  @prop()
-  provincialMediaDate?: string;
-
-  @prop()
-  provincialMediaComment?: string;
+  mediaAnnouncementComment?: string;
 
   @prop()
   worksCompleted?: string;

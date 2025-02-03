@@ -6,15 +6,8 @@
  */
 import type { ProvincialMedia } from './provincialMedia';
 import type { WorkplanActivity } from './workplanActivity';
-import type { YesNoOption } from './yesNoOption';
 
 export interface Workplan {
-  /** @nullable */
-  communityMedia?: YesNoOption;
-  /** @nullable */
-  communityMediaComment?: string;
-  /** @nullable */
-  communityMediaDate?: string;
   /** @nullable */
   fundingSourcesChanged?: boolean;
   /** @nullable */
@@ -25,11 +18,11 @@ export interface Workplan {
   /** @nullable */
   projectCompletionPercentage?: number;
   /** @nullable */
-  provincialMedia?: ProvincialMedia;
+  mediaAnnouncement?: ProvincialMedia;
   /** @nullable */
-  provincialMediaComment?: string;
+  mediaAnnouncementComment?: string;
   /** @nullable */
-  provincialMediaDate?: string;
+  mediaAnnouncementDate?: string;
   /** @nullable */
   workplanActivities?: WorkplanActivity[];
   /** @nullable */

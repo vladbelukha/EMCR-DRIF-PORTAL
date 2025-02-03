@@ -205,13 +205,46 @@ export class DrifProgressReportCreateComponent {
 
               comment?.updateValueAndValidity();
             });
+
+          this.progressReportForm
+            .get('workplan.mediaAnnouncement')
+            ?.valueChanges.subscribe((value) => {
+              const date = this.progressReportForm.get(
+                'workplan.mediaAnnouncementDate'
+              );
+              const comment = this.progressReportForm.get(
+                'workplan.mediaAnnouncementComment'
+              );
+
+              if (value) {
+                date?.addValidators(Validators.required);
+                comment?.addValidators(Validators.required);
+              } else {
+                date?.removeValidators(Validators.required);
+                comment?.removeValidators(Validators.required);
+              }
+
+              date?.updateValueAndValidity();
+              comment?.updateValueAndValidity();
+            });
         });
     });
   }
 
   stepperSelectionChange(event: any) {}
 
-  save() {}
+  save() {
+    this.projectService
+      .projectUpdateProgressReport(
+        this.projectId,
+        this.reportId,
+        this.progressReportId,
+        this.progressReportForm.getRawValue()
+      )
+      .subscribe(() => {
+        this.router.navigate(['drif-projects', this.projectId]);
+      });
+  }
 
   goBack() {
     // TODO: save
@@ -296,17 +329,9 @@ export class DrifProgressReportCreateComponent {
   showActualEndDate(activityControl: AbstractControl<WorkplanActivityForm>) {
     const status = activityControl?.get('status')?.value as WorkplanStatus;
     return status === WorkplanStatus.Completed;
-  }
+  }  
 
-  showFundingSourcesChangedComment() {
-    return this.progressReportForm
-      .get('workplan.fundingSourcesChangedComment')
-      ?.hasValidator(Validators.required);
-  }
-
-  showOutstandingIssuesComment() {
-    return this.progressReportForm
-      .get('workplan.outstandingIssuesComment')
-      ?.hasValidator(Validators.required);
+  showMandatoryControl(control: AbstractControl<any, any> | null | undefined) {
+    return control?.hasValidator(Validators.required);
   }
 }
