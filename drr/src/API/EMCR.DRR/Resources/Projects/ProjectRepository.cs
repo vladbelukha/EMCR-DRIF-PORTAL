@@ -40,9 +40,12 @@ namespace EMCR.DRR.API.Resources.Projects
 
             //results = SortAndPageResults(results, query);
 
-            await Parallel.ForEachAsync(results, ct, async (prj, ct) => await ParallelLoadProjectAsync(readCtx, prj, ct));
-            await ParallelLoadCases(readCtx, results);
-            
+            if (length == 1)
+            {
+                await Parallel.ForEachAsync(results, ct, async (prj, ct) => await ParallelLoadProjectAsync(readCtx, prj, ct));
+                await ParallelLoadCases(readCtx, results);
+            }
+
             return new ProjectQueryResult { Items = mapper.Map<IEnumerable<Project>>(results), Length = length };
         }
 

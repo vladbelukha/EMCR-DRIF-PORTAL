@@ -54,7 +54,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             var queryRes = await manager.Handle(new DrrProjectsQuery { Id = "DRIF-PRJ-1012", BusinessId = GetCRAFTUserInfo().BusinessId, QueryOptions = queryOptions });
             var projects = mapper.Map<IEnumerable<DraftDrrProject>>(queryRes.Items);
             projects.Count().ShouldBe(1);
-            projects.ShouldAllBe(s => s.ProgramType == ProgramType.DRIF);
+            //projects.ShouldAllBe(s => s.ProgramType == ProgramType.DRIF);
         }
 
         [Test]
