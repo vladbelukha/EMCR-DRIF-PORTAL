@@ -35,12 +35,30 @@ namespace EMCR.DRR.API.Resources.Reports
             var ctx = dRRContextFactory.Create();
             var existingProgressReport = await ctx.drr_projectprogresses.Where(p => p.drr_name == cmd.ProgressReport.Id).SingleOrDefaultAsync();
             if (existingProgressReport == null) throw new NotFoundException("Progress Report not found");
+
+            var loadTasks = new List<Task>
+            {
+                ctx.LoadPropertyAsync(existingProgressReport, nameof(drr_projectprogress.drr_drr_projectprogress_drr_projectworkplanactivity_ProjectProgressReport)),
+                ctx.LoadPropertyAsync(existingProgressReport, nameof(drr_projectprogress.drr_drr_projectprogress_drr_projectevent_ProgressReport)),
+            };
+
+            await Task.WhenAll(loadTasks);
+
             ctx.DetachAll();
             var drrProgressReport = mapper.Map<drr_projectprogress>(cmd.ProgressReport);
             drrProgressReport.drr_projectprogressid = existingProgressReport.drr_projectprogressid;
 
-            //Update related records... remove/add
+            RemoveOldData(ctx, existingProgressReport, drrProgressReport);
             ctx.AttachTo(nameof(ctx.drr_projectprogresses), drrProgressReport);
+
+            var projectActivityMasterListTask = LoadProjectActivityList(ctx, drrProgressReport);
+            await Task.WhenAll([
+                projectActivityMasterListTask,
+            ]);
+            var projectActivityMasterList = projectActivityMasterListTask.Result;
+
+            AddWorkplanActivities(ctx, drrProgressReport, projectActivityMasterList, existingProgressReport);
+
             ctx.UpdateObject(drrProgressReport);
             await ctx.SaveChangesAsync();
             ctx.DetachAll();
@@ -49,6 +67,65 @@ namespace EMCR.DRR.API.Resources.Reports
 
         }
 #pragma warning restore CS8604 // Possible null reference argument.
+
+        private void RemoveOldData(DRRContext ctx, drr_projectprogress existingProgressReport, drr_projectprogress drrProgressReport)
+        {
+            var activitiesToRemove = existingProgressReport.drr_drr_projectprogress_drr_projectworkplanactivity_ProjectProgressReport.Where(curr =>
+            !drrProgressReport.drr_drr_projectprogress_drr_projectworkplanactivity_ProjectProgressReport.Any(updated => updated.drr_projectworkplanactivityid == curr.drr_projectworkplanactivityid)).ToList();
+
+            foreach (var activity in activitiesToRemove)
+            {
+                ctx.AttachTo(nameof(ctx.drr_projectworkplanactivities), activity);
+                ctx.DeleteObject(activity);
+            }
+
+            var eventsToRemove = existingProgressReport.drr_drr_projectprogress_drr_projectevent_ProgressReport.Where(curr =>
+            !drrProgressReport.drr_drr_projectprogress_drr_projectevent_ProgressReport.Any(updated => updated.drr_projecteventid == curr.drr_projecteventid)).ToList();
+
+            foreach (var projectEvent in eventsToRemove)
+            {
+                ctx.AttachTo(nameof(ctx.drr_projectevents), projectEvent);
+                ctx.DeleteObject(projectEvent);
+            }
+        }
+
+        private async Task<List<drr_projectactivity>> LoadProjectActivityList(DRRContext ctx, drr_projectprogress drrProgressReport)
+        {
+            return drrProgressReport.drr_drr_projectprogress_drr_projectworkplanactivity_ProjectProgressReport.Count > 0 ?
+                (await ctx.drr_projectactivities.GetAllPagesAsync()).ToList() :
+                new List<drr_projectactivity>();
+        }
+
+        private static void AddWorkplanActivities(DRRContext drrContext, drr_projectprogress progressReport, List<drr_projectactivity> projectActivityMasterList, drr_projectprogress? oldReport = null)
+        {
+            foreach (var activity in progressReport.drr_drr_projectprogress_drr_projectworkplanactivity_ProjectProgressReport)
+            {
+                if (activity != null && !string.IsNullOrEmpty(activity.drr_name))
+                {
+                    var masterVal = projectActivityMasterList.FirstOrDefault(s => s.drr_name == activity.drr_ActivityType?.drr_name);
+                    if (masterVal == null)
+                    {
+                        masterVal = projectActivityMasterList.FirstOrDefault(s => s.drr_name == "Other");
+                    }
+                    activity.drr_ActivityType = masterVal;
+
+                    if (activity.drr_projectworkplanactivityid == null ||
+                        (oldReport != null && !oldReport.drr_drr_projectprogress_drr_projectworkplanactivity_ProjectProgressReport.Any(a => a.drr_projectworkplanactivityid == activity.drr_projectworkplanactivityid)))
+                    {
+                        drrContext.AddTodrr_projectworkplanactivities(activity);
+                        drrContext.AddLink(progressReport, nameof(progressReport.drr_drr_projectprogress_drr_projectworkplanactivity_ProjectProgressReport), activity);
+                        drrContext.SetLink(activity, nameof(activity.drr_ProjectProgressReport), progressReport);
+                        drrContext.SetLink(activity, nameof(activity.drr_ActivityType), masterVal);
+                    }
+                    else
+                    {
+                        drrContext.AttachTo(nameof(drrContext.drr_projectworkplanactivities), activity);
+                        drrContext.UpdateObject(activity);
+                        drrContext.SetLink(activity, nameof(activity.drr_ActivityType), masterVal);
+                    }
+                }
+            }
+        }
 
         public async Task<ReportQueryResult> Query(ReportQuery query)
         {

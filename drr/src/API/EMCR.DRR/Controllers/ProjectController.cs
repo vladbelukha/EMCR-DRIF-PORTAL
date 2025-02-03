@@ -278,7 +278,7 @@ namespace EMCR.DRR.Controllers
     {
         public WorkplanActivity[]? WorkplanActivities { get; set; }
         public decimal? ProjectCompletionPercentage { get; set; }
-        public YesNoOption? MediaAnnouncement { get; set; }
+        public bool? MediaAnnouncement { get; set; }
         public DateTime? MediaAnnouncementDate { get; set; }
         public string? MediaAnnouncementComment { get; set; }
         public string? WorksCompleted { get; set; }
