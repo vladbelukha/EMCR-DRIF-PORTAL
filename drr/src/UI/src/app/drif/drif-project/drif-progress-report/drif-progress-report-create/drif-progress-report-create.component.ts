@@ -26,6 +26,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HotToastService } from '@ngxpert/hot-toast';
 import { ProjectService } from '../../../../../api/project/project.service';
+import { DrrChipAutocompleteComponent } from '../../../../shared/controls/drr-chip-autocomplete/drr-chip-autocomplete.component';
 import { DrrDatepickerComponent } from '../../../../shared/controls/drr-datepicker/drr-datepicker.component';
 import { DrrInputComponent } from '../../../../shared/controls/drr-input/drr-input.component';
 import { DrrNumericInputComponent } from '../../../../shared/controls/drr-number-input/drr-number-input.component';
@@ -42,6 +43,8 @@ import {
   EventForm,
   EventProgressType,
   ProgressReportForm,
+  ProjectProgressStatus,
+  ReasonsForDelay,
   WorkplanActivityForm,
   WorkplanForm,
 } from '../drif-progress-report-form';
@@ -63,6 +66,7 @@ import {
     DrrSelectComponent,
     DrrRadioButtonComponent,
     DrrTextareaComponent,
+    DrrChipAutocompleteComponent,
     RxReactiveFormsModule,
     MatDividerModule,
   ],
@@ -81,6 +85,13 @@ export class DrifProgressReportCreateComponent {
   projectId!: string;
   reportId!: string;
   progressReportId!: string;
+
+  stepperOrientation: StepperOrientation = 'horizontal';
+
+  progressReportForm = this.formBuilder.formGroup(
+    ProgressReportForm,
+    {}
+  ) as IFormGroup<ProgressReportForm>;
 
   private allActivityTypeOptions: DrrSelectOption[] = Object.values(
     ActivityType
@@ -114,13 +125,6 @@ export class DrifProgressReportCreateComponent {
       value,
     }));
 
-  yesNoNaRadioOptions: RadioOption[] = Object.values(YesNoOption).map(
-    (value) => ({
-      label: value, // TODO: translate
-      value,
-    })
-  );
-
   yesNoRadioOptions: RadioOption[] = [
     {
       label: 'Yes',
@@ -150,11 +154,16 @@ export class DrifProgressReportCreateComponent {
     })
   );
 
-  stepperOrientation: StepperOrientation = 'horizontal';
+  projectProgressStatusOptions = Object.keys(ProjectProgressStatus).map(
+    (key) => ({
+      label: this.translocoService.translate(`projectProgressStatus.${key}`),
+      value: key,
+    })
+  );
 
-  progressReportForm = this.formBuilder.formGroup(
-    ProgressReportForm
-  ) as IFormGroup<ProgressReportForm>;
+  reasonsForDelayOptions: string[] = Object.values(ReasonsForDelay).map(
+    (value) => this.translocoService.translate(`reasonsForDelay.${value}`)
+  );
 
   get workplanForm(): IFormGroup<WorkplanForm> | null {
     return this.progressReportForm.get('workplan') as IFormGroup<WorkplanForm>;
@@ -181,8 +190,6 @@ export class DrifProgressReportCreateComponent {
           this.progressReportId
         )
         .subscribe((report: ProgressReport) => {
-          this.progressReportForm.patchValue(report);
-
           report.workplan?.workplanActivities?.map((activity) => {
             const activityForm = this.formBuilder.formGroup(
               new WorkplanActivityForm(activity)
@@ -244,6 +251,8 @@ export class DrifProgressReportCreateComponent {
               date?.updateValueAndValidity();
               comment?.updateValueAndValidity();
             });
+
+          this.progressReportForm.patchValue(report);
         });
     });
   }
@@ -412,5 +421,19 @@ export class DrifProgressReportCreateComponent {
     );
 
     return this.allActivityTypeOptions.length !== selectedActivities.length;
+  }
+
+  isProjectDelayed() {
+    return (
+      this.workplanForm?.get('projectProgressStatus')?.value ===
+      ProjectProgressStatus.BehindSchedule
+    );
+  }
+
+  isProjectAhead() {
+    return (
+      this.workplanForm?.get('projectProgressStatus')?.value ===
+      ProjectProgressStatus.AheadOfSchedule
+    );
   }
 }

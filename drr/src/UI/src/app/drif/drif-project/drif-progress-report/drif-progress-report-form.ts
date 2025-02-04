@@ -78,7 +78,63 @@ export class WorkplanActivityForm implements WorkplanActivity {
   }
 }
 
+// TODO: remove after API introduces this enum
+export enum ProjectProgressStatus {
+  OnSchedule = 'OnSchedule',
+  AheadOfSchedule = 'AheadOfSchedule',
+  BehindSchedule = 'BehindSchedule',
+  Completed = 'Completed',
+}
+// TODO: remove after API introduces this enum
+export enum ReasonsForDelay {
+  Reason1 = 'Reason 1',
+  Reason2 = 'Reason 2',
+  Reason3 = 'Reason 3',
+}
+
 export class WorkplanForm implements Workplan {
+  @prop()
+  @required()
+  projectProgressStatus?: ProjectProgressStatus;
+
+  @prop()
+  @required({
+    conditionalExpression: function (control: any) {
+      return (
+        control.projectProgressStatus == ProjectProgressStatus.BehindSchedule
+      );
+    },
+  })
+  // @minNumber({
+  //   value: 1,
+  //   conditionalExpression: function (control: any) {
+  //     return (
+  //       control.projectProgressStatus == ProjectProgressStatus.BehindSchedule
+  //     );
+  //   },
+  // })
+  reasonsForDelay?: string[];
+
+  @required({
+    conditionalExpression: function (control: any) {
+      return (
+        control.projectProgressStatus == ProjectProgressStatus.BehindSchedule
+      );
+    },
+  })
+  @prop()
+  reasonsForDelayComment?: string;
+
+  @prop()
+  @required({
+    conditionalExpression: function (control: any) {
+      return (
+        control.projectProgressStatus == ProjectProgressStatus.AheadOfSchedule
+      );
+    },
+  })
+  reasonsForBeingAhead?: string;
+
   @propArray(WorkplanActivityForm)
   workplanActivities?: WorkplanActivityForm[] = [];
 

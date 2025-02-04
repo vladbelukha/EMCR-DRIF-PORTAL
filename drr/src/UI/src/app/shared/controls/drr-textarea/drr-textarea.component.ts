@@ -60,6 +60,11 @@ export class DrrTextareaComponent {
   }
 
   getMandatoryMark() {
-    return !!this.rxFormControl?.validator?.({})?.required ? '*' : '';
+    // TODO: experimental code
+
+    return !!this.rxFormControl?.validator?.({})?.required ||
+      this.rxFormControl?.hasError('required')
+      ? '*'
+      : '';
   }
 }

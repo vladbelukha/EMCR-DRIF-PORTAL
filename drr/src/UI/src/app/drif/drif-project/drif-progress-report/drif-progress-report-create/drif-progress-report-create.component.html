@@ -76,289 +76,343 @@
       </div>
     </mat-step>
     <mat-step [label]="t('projectWorkplan')">
-      <div>
-        <h5>Key Activities</h5>
-        <div
-          *ngFor="
-            let preDefinedActivity of getPreDefinedActivitiesArray();
-            let i = index
+      <div style="display: flex; flex-direction: column; gap: 1rem">
+        <h5>Project Progress</h5>
+
+        <drr-select
+          class="drr-single-input"
+          label="Project Progress Status"
+          [rxFormControl]="
+            progressReportForm.get('workplan.projectProgressStatus')
           "
-          style="margin-top: 1rem"
+          [options]="projectProgressStatusOptions"
         >
-          <mat-card>
-            <mat-card-header>
-              <mat-card-title>
-                {{
-                  "activityType." + preDefinedActivity.get("activity")?.value
-                    | transloco
-                }}
-              </mat-card-title>
-            </mat-card-header>
-            <mat-card-content>
-              <div class="progress-group">
-                <drr-radio-button
-                  class="drr-single-input"
-                  label="Status"
-                  [options]="necessaryActivityStatusOptions"
-                  [rxFormControl]="preDefinedActivity.get('status')"
-                ></drr-radio-button>
+        </drr-select>
 
-                <div
-                  style="
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: space-between;
-                    gap: 1rem;
-                  "
-                >
-                  @if (showPlannedStartDate(preDefinedActivity)) {
-                  <drr-datepicker
-                    class="drr-single-input"
-                    [label]="t('plannedStartDate')"
-                    [rxFormControl]="preDefinedActivity.get('plannedStartDate')"
-                    [max]="
-                      preDefinedActivity.get('plannedCompletionDate')?.value
-                    "
-                    [maxErrorLabel]="t('minStartDateError')"
-                  ></drr-datepicker>
-                  } @if (showPlannedEndDate(preDefinedActivity)) {
-                  <drr-datepicker
-                    class="drr-single-input"
-                    [label]="t('plannedEndDate')"
-                    [rxFormControl]="
-                      preDefinedActivity.get('plannedCompletionDate')
-                    "
-                    [min]="preDefinedActivity.get('plannedStartDate')?.value"
-                    [minErrorLabel]="t('minEndDateError')"
-                  ></drr-datepicker>
-                  } @if (showActualStartDate(preDefinedActivity)) {
-                  <drr-datepicker
-                    class="drr-single-input"
-                    [label]="t('actualStartDate')"
-                    [rxFormControl]="preDefinedActivity.get('actualStartDate')"
-                    [max]="
-                      preDefinedActivity.get('actualCompletionDate')?.value
-                    "
-                    [maxErrorLabel]="t('minStartDateError')"
-                  ></drr-datepicker>
-                  } @if (showActualEndDate(preDefinedActivity)) {
-                  <drr-datepicker
-                    class="drr-single-input"
-                    [label]="t('actualEndDate')"
-                    [rxFormControl]="
-                      preDefinedActivity.get('actualCompletionDate')
-                    "
-                    [min]="preDefinedActivity.get('actualStartDate')?.value"
-                    [minErrorLabel]="t('minEndDateError')"
-                  ></drr-datepicker>
-                  }
-                </div>
-              </div>
-              <drr-textarea
-                [label]="t('keyActivityComment')"
-                [rxFormControl]="preDefinedActivity.get('comment')"
-                [maxlength]="250"
-              ></drr-textarea>
-            </mat-card-content>
-          </mat-card>
-        </div>
+        @if(isProjectDelayed()) {
+        <drr-chip-autocomplete
+          label="Reasons for delay"
+          [rxFormControl]="progressReportForm.get('workplan.reasonsForDelay')"
+          [options]="reasonsForDelayOptions"
+        ></drr-chip-autocomplete>
 
-        <h5 style="margin-top: 2rem">Milestones</h5>
-
-        <div
-          *ngFor="
-            let milestoneActivity of getMilestoneActivitiesArray();
-            let i = index
+        <drr-textarea
+          label="Reasons for delay"
+          [rxFormControl]="
+            progressReportForm.get('workplan.reasonsForDelayComment')
           "
-          style="margin-top: 1rem"
-        >
-          <mat-card>
-            <mat-card-header>
-              <mat-card-title>
-                {{
-                  "activityType." + milestoneActivity.get("activity")?.value
-                    | transloco
-                }}
-              </mat-card-title>
-            </mat-card-header>
-            <mat-card-content>
-              <div class="progress-group">
-                <drr-radio-button
-                  class="drr-single-input"
-                  label="Status"
-                  [options]="milestoneStatusOptions"
-                  [rxFormControl]="milestoneActivity.get('status')"
-                ></drr-radio-button>
-
-                <div
-                  style="
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: space-between;
-                    gap: 1rem;
-                  "
-                >
-                  @if (showPlannedStartDate(milestoneActivity)) {
-                  <drr-datepicker
-                    class="drr-single-input"
-                    [label]="t('plannedStartDate')"
-                    [rxFormControl]="milestoneActivity.get('plannedStartDate')"
-                    [max]="
-                      milestoneActivity.get('plannedCompletionDate')?.value
-                    "
-                    [maxErrorLabel]="t('minStartDateError')"
-                  ></drr-datepicker>
-                  } @if (showActualStartDate(milestoneActivity)) {
-                  <drr-datepicker
-                    class="drr-single-input"
-                    [label]="t('actualStartDate')"
-                    [rxFormControl]="milestoneActivity.get('actualStartDate')"
-                    [max]="milestoneActivity.get('actualCompletionDate')?.value"
-                    [maxErrorLabel]="t('minStartDateError')"
-                  ></drr-datepicker>
-                  }
-                </div>
-              </div>
-            </mat-card-content>
-          </mat-card>
-        </div>
-
-        <h5 style="margin-top: 2rem">Additional Activities</h5>
-
-        <div
-          *ngFor="
-            let additionalActivity of getAdditionalActivitiesArray();
-            let i = index
+          [maxlength]="2000"
+        ></drr-textarea>
+        } @if (isProjectAhead()) {
+        <drr-textarea
+          label="Reasons for being ahead"
+          [rxFormControl]="
+            progressReportForm.get('workplan.reasonsForBeingAhead')
           "
-          style="margin-top: 1rem"
-        >
-          <mat-card>
-            <mat-card-header>
-              <mat-card-title>
-                <mat-card-title-group>
-                  <mat-card-title>
-                    Additional Activity {{ i + 1 }}
-                  </mat-card-title>
-                  @if (isAdditionalActivityMandatory(additionalActivity)) {
-                  <mat-card-subtitle>
-                    {{
-                      "activityType." +
-                        additionalActivity.get("activity")?.value | transloco
-                    }}
-                  </mat-card-subtitle>
-                  }
-                </mat-card-title-group>
-              </mat-card-title>
-            </mat-card-header>
-            <mat-card-content style="display: flex; flex-direction: column">
-              @if (!isAdditionalActivityMandatory(additionalActivity)) {
-              <drr-select
-                style="margin-top: 0.5rem"
-                class="drr-single-input"
-                label="Activity"
-                [rxFormControl]="additionalActivity.get('activity')"
-                [options]="
-                  getAvailableOptionsForActivity(
-                    additionalActivity.get('activity')?.value
-                  )
-                "
-              >
-              </drr-select>
-              }
-              <div class="progress-group">
-                <drr-radio-button
-                  class="drr-single-input"
-                  label="Status"
-                  [options]="getAdditionalActivityOptions(additionalActivity)"
-                  [rxFormControl]="additionalActivity.get('status')"
-                ></drr-radio-button>
-
-                <div
-                  style="
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: space-between;
-                    gap: 1rem;
-                  "
-                >
-                  @if (showPlannedStartDate(additionalActivity)) {
-                  <drr-datepicker
-                    class="drr-single-input"
-                    [label]="t('plannedStartDate')"
-                    [rxFormControl]="additionalActivity.get('plannedStartDate')"
-                    [max]="
-                      additionalActivity.get('plannedCompletionDate')?.value
-                    "
-                    [maxErrorLabel]="t('minStartDateError')"
-                  ></drr-datepicker>
-                  } @if (showPlannedEndDate(additionalActivity)) {
-                  <drr-datepicker
-                    class="drr-single-input"
-                    [label]="t('plannedEndDate')"
-                    [rxFormControl]="
-                      additionalActivity.get('plannedCompletionDate')
-                    "
-                    [min]="additionalActivity.get('plannedStartDate')?.value"
-                    [minErrorLabel]="t('minEndDateError')"
-                  ></drr-datepicker>
-                  } @if (showActualStartDate(additionalActivity)) {
-                  <drr-datepicker
-                    class="drr-single-input"
-                    [label]="t('actualStartDate')"
-                    [rxFormControl]="additionalActivity.get('actualStartDate')"
-                    [max]="
-                      additionalActivity.get('actualCompletionDate')?.value
-                    "
-                    [maxErrorLabel]="t('minStartDateError')"
-                  ></drr-datepicker>
-                  } @if (showActualEndDate(additionalActivity)) {
-                  <drr-datepicker
-                    class="drr-single-input"
-                    [label]="t('actualEndDate')"
-                    [rxFormControl]="
-                      additionalActivity.get('actualCompletionDate')
-                    "
-                    [min]="additionalActivity.get('actualStartDate')?.value"
-                    [minErrorLabel]="t('minEndDateError')"
-                  ></drr-datepicker>
-                  }
-                </div>
-              </div>
-              <drr-textarea
-                [label]="
-                  t(
-                    isAdditionalActivityMandatory(additionalActivity)
-                      ? 'keyActivityComment'
-                      : 'additionalActivityComment'
-                  )
-                "
-                [rxFormControl]="additionalActivity.get('comment')"
-                [maxlength]="250"
-              ></drr-textarea>
-            </mat-card-content>
-            @if (!isAdditionalActivityMandatory(additionalActivity)) {
-            <mat-card-actions align="end">
-              <button
-                mat-raised-button
-                color="warn"
-                (click)="removeAdditionalActivity(i)"
-              >
-                Remove
-              </button>
-            </mat-card-actions>
-            }
-          </mat-card>
-        </div>
-        @if (hasAvailableOptionsForActivity()) {
-        <button
-          mat-raised-button
-          color="primary"
-          style="margin-top: 1rem"
-          (click)="addAdditionalActivity()"
-        >
-          Add Additional Activity
-        </button>
+          [maxlength]="2000"
+        ></drr-textarea>
         }
+
+        <div>
+          <h5>Key Activities</h5>
+          <div
+            *ngFor="
+              let preDefinedActivity of getPreDefinedActivitiesArray();
+              let i = index
+            "
+            style="margin-top: 1rem"
+          >
+            <mat-card>
+              <mat-card-header>
+                <mat-card-title>
+                  {{
+                    "activityType." + preDefinedActivity.get("activity")?.value
+                      | transloco
+                  }}
+                </mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <div class="progress-group">
+                  <drr-radio-button
+                    class="drr-single-input"
+                    label="Status"
+                    [options]="necessaryActivityStatusOptions"
+                    [rxFormControl]="preDefinedActivity.get('status')"
+                  ></drr-radio-button>
+
+                  <div
+                    style="
+                      display: flex;
+                      flex-direction: column;
+                      justify-content: space-between;
+                      gap: 1rem;
+                    "
+                  >
+                    @if (showPlannedStartDate(preDefinedActivity)) {
+                    <drr-datepicker
+                      class="drr-single-input"
+                      [label]="t('plannedStartDate')"
+                      [rxFormControl]="
+                        preDefinedActivity.get('plannedStartDate')
+                      "
+                      [max]="
+                        preDefinedActivity.get('plannedCompletionDate')?.value
+                      "
+                      [maxErrorLabel]="t('minStartDateError')"
+                    ></drr-datepicker>
+                    } @if (showPlannedEndDate(preDefinedActivity)) {
+                    <drr-datepicker
+                      class="drr-single-input"
+                      [label]="t('plannedEndDate')"
+                      [rxFormControl]="
+                        preDefinedActivity.get('plannedCompletionDate')
+                      "
+                      [min]="preDefinedActivity.get('plannedStartDate')?.value"
+                      [minErrorLabel]="t('minEndDateError')"
+                    ></drr-datepicker>
+                    } @if (showActualStartDate(preDefinedActivity)) {
+                    <drr-datepicker
+                      class="drr-single-input"
+                      [label]="t('actualStartDate')"
+                      [rxFormControl]="
+                        preDefinedActivity.get('actualStartDate')
+                      "
+                      [max]="
+                        preDefinedActivity.get('actualCompletionDate')?.value
+                      "
+                      [maxErrorLabel]="t('minStartDateError')"
+                    ></drr-datepicker>
+                    } @if (showActualEndDate(preDefinedActivity)) {
+                    <drr-datepicker
+                      class="drr-single-input"
+                      [label]="t('actualEndDate')"
+                      [rxFormControl]="
+                        preDefinedActivity.get('actualCompletionDate')
+                      "
+                      [min]="preDefinedActivity.get('actualStartDate')?.value"
+                      [minErrorLabel]="t('minEndDateError')"
+                    ></drr-datepicker>
+                    }
+                  </div>
+                </div>
+                <drr-textarea
+                  [label]="t('keyActivityComment')"
+                  [rxFormControl]="preDefinedActivity.get('comment')"
+                  [maxlength]="250"
+                ></drr-textarea>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
+
+        <div>
+          <h5 style="margin-top: 2rem">Milestones</h5>
+
+          <div
+            *ngFor="
+              let milestoneActivity of getMilestoneActivitiesArray();
+              let i = index
+            "
+            style="margin-top: 1rem"
+          >
+            <mat-card>
+              <mat-card-header>
+                <mat-card-title>
+                  {{
+                    "activityType." + milestoneActivity.get("activity")?.value
+                      | transloco
+                  }}
+                </mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <div class="progress-group">
+                  <drr-radio-button
+                    class="drr-single-input"
+                    label="Status"
+                    [options]="milestoneStatusOptions"
+                    [rxFormControl]="milestoneActivity.get('status')"
+                  ></drr-radio-button>
+
+                  <div
+                    style="
+                      display: flex;
+                      flex-direction: column;
+                      justify-content: space-between;
+                      gap: 1rem;
+                    "
+                  >
+                    @if (showPlannedStartDate(milestoneActivity)) {
+                    <drr-datepicker
+                      class="drr-single-input"
+                      [label]="t('plannedStartDate')"
+                      [rxFormControl]="
+                        milestoneActivity.get('plannedStartDate')
+                      "
+                      [max]="
+                        milestoneActivity.get('plannedCompletionDate')?.value
+                      "
+                      [maxErrorLabel]="t('minStartDateError')"
+                    ></drr-datepicker>
+                    } @if (showActualStartDate(milestoneActivity)) {
+                    <drr-datepicker
+                      class="drr-single-input"
+                      [label]="t('actualStartDate')"
+                      [rxFormControl]="milestoneActivity.get('actualStartDate')"
+                      [max]="
+                        milestoneActivity.get('actualCompletionDate')?.value
+                      "
+                      [maxErrorLabel]="t('minStartDateError')"
+                    ></drr-datepicker>
+                    }
+                  </div>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
+
+        <div>
+          <h5 style="margin-top: 2rem">Additional Activities</h5>
+
+          <div
+            *ngFor="
+              let additionalActivity of getAdditionalActivitiesArray();
+              let i = index
+            "
+            style="margin-top: 1rem"
+          >
+            <mat-card>
+              <mat-card-header>
+                <mat-card-title>
+                  <mat-card-title-group>
+                    <mat-card-title>
+                      Additional Activity {{ i + 1 }}
+                    </mat-card-title>
+                    @if (isAdditionalActivityMandatory(additionalActivity)) {
+                    <mat-card-subtitle>
+                      {{
+                        "activityType." +
+                          additionalActivity.get("activity")?.value | transloco
+                      }}
+                    </mat-card-subtitle>
+                    }
+                  </mat-card-title-group>
+                </mat-card-title>
+              </mat-card-header>
+              <mat-card-content style="display: flex; flex-direction: column">
+                @if (!isAdditionalActivityMandatory(additionalActivity)) {
+                <drr-select
+                  style="margin-top: 0.5rem"
+                  class="drr-single-input"
+                  label="Activity"
+                  [rxFormControl]="additionalActivity.get('activity')"
+                  [options]="
+                    getAvailableOptionsForActivity(
+                      additionalActivity.get('activity')?.value
+                    )
+                  "
+                >
+                </drr-select>
+                }
+                <div class="progress-group">
+                  <drr-radio-button
+                    class="drr-single-input"
+                    label="Status"
+                    [options]="getAdditionalActivityOptions(additionalActivity)"
+                    [rxFormControl]="additionalActivity.get('status')"
+                  ></drr-radio-button>
+
+                  <div
+                    style="
+                      display: flex;
+                      flex-direction: column;
+                      justify-content: space-between;
+                      gap: 1rem;
+                    "
+                  >
+                    @if (showPlannedStartDate(additionalActivity)) {
+                    <drr-datepicker
+                      class="drr-single-input"
+                      [label]="t('plannedStartDate')"
+                      [rxFormControl]="
+                        additionalActivity.get('plannedStartDate')
+                      "
+                      [max]="
+                        additionalActivity.get('plannedCompletionDate')?.value
+                      "
+                      [maxErrorLabel]="t('minStartDateError')"
+                    ></drr-datepicker>
+                    } @if (showPlannedEndDate(additionalActivity)) {
+                    <drr-datepicker
+                      class="drr-single-input"
+                      [label]="t('plannedEndDate')"
+                      [rxFormControl]="
+                        additionalActivity.get('plannedCompletionDate')
+                      "
+                      [min]="additionalActivity.get('plannedStartDate')?.value"
+                      [minErrorLabel]="t('minEndDateError')"
+                    ></drr-datepicker>
+                    } @if (showActualStartDate(additionalActivity)) {
+                    <drr-datepicker
+                      class="drr-single-input"
+                      [label]="t('actualStartDate')"
+                      [rxFormControl]="
+                        additionalActivity.get('actualStartDate')
+                      "
+                      [max]="
+                        additionalActivity.get('actualCompletionDate')?.value
+                      "
+                      [maxErrorLabel]="t('minStartDateError')"
+                    ></drr-datepicker>
+                    } @if (showActualEndDate(additionalActivity)) {
+                    <drr-datepicker
+                      class="drr-single-input"
+                      [label]="t('actualEndDate')"
+                      [rxFormControl]="
+                        additionalActivity.get('actualCompletionDate')
+                      "
+                      [min]="additionalActivity.get('actualStartDate')?.value"
+                      [minErrorLabel]="t('minEndDateError')"
+                    ></drr-datepicker>
+                    }
+                  </div>
+                </div>
+                <drr-textarea
+                  [label]="
+                    t(
+                      isAdditionalActivityMandatory(additionalActivity)
+                        ? 'keyActivityComment'
+                        : 'additionalActivityComment'
+                    )
+                  "
+                  [rxFormControl]="additionalActivity.get('comment')"
+                  [maxlength]="250"
+                ></drr-textarea>
+              </mat-card-content>
+              @if (!isAdditionalActivityMandatory(additionalActivity)) {
+              <mat-card-actions align="end">
+                <button
+                  mat-raised-button
+                  color="warn"
+                  (click)="removeAdditionalActivity(i)"
+                >
+                  Remove
+                </button>
+              </mat-card-actions>
+              }
+            </mat-card>
+          </div>
+          @if (hasAvailableOptionsForActivity()) {
+          <button
+            mat-raised-button
+            color="primary"
+            style="margin-top: 1rem"
+            (click)="addAdditionalActivity()"
+          >
+            Add Additional Activity
+          </button>
+          }
+        </div>
 
         <mat-divider style="margin-top: 2rem"></mat-divider>
 

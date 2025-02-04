@@ -161,6 +161,8 @@ export class DrrChipAutocompleteComponent {
   isRequired(): boolean {
     return this.isMobile
       ? false
-      : !!this.rxFormControl?.validator?.({})?.required;
+      : // TODO: experimental code
+        !!this.rxFormControl?.validator?.({})?.required ||
+          this.rxFormControl?.hasError('required');
   }
 }
