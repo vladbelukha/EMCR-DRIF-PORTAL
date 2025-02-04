@@ -313,12 +313,12 @@
             <mat-label class="drr-label">
               Percentage of Project Complete as of report date
             </mat-label>
-            <drr-input
+            <drr-numeric-input
               style="align-self: flex-start"
               label="Percentage"
               [rxFormControl]="workplanForm?.get('projectCompletionPercentage')"
-              [type]="'percentage'"
-            ></drr-input>
+              numericType="percentage"
+            ></drr-numeric-input>
           </div>
           <div class="workplan-item">
             <mat-label class="drr-label"> Media Announcements</mat-label>

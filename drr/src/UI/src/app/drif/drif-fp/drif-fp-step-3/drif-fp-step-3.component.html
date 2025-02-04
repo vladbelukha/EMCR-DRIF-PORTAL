@@ -12,13 +12,13 @@
       t("estimatedAreaText")
     }}</mat-label>
     <div style="display: flex; flex-direction: row; gap: 1rem">
-      <drr-input
+      <drr-numeric-input
         style="width: 25vw"
         [label]="t('area')"
         [rxFormControl]="projectAreaForm.get('area')"
         [maxlength]="9"
-        [type]="'number'"
-      ></drr-input>
+        numericType="integer"
+      ></drr-numeric-input>
 
       <drr-select
         [label]="t('units')"

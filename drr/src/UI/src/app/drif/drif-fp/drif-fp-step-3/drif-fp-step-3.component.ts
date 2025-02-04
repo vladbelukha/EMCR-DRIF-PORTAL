@@ -23,6 +23,7 @@ import { DrrRadioButtonComponent } from '../../../shared/controls/drr-radio-butt
 import { DrrSelectComponent } from '../../../shared/controls/drr-select/drr-select.component';
 import { DrrTextareaComponent } from '../../../shared/controls/drr-textarea/drr-textarea.component';
 import { ImpactedInfrastructureForm, ProjectAreaForm } from '../drif-fp-form';
+import { DrrNumericInputComponent } from '../../../shared/controls/drr-number-input/drr-number-input.component';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -38,6 +39,7 @@ import { ImpactedInfrastructureForm, ProjectAreaForm } from '../drif-fp-form';
     MatButtonModule,
     DrrTextareaComponent,
     DrrInputComponent,
+    DrrNumericInputComponent,
     DrrSelectComponent,
     DrrRadioButtonComponent,
   ],

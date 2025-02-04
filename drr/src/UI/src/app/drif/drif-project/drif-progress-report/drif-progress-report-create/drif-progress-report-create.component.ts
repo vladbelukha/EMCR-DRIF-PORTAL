@@ -27,6 +27,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectService } from '../../../../../api/project/project.service';
 import { DrrDatepickerComponent } from '../../../../shared/controls/drr-datepicker/drr-datepicker.component';
 import { DrrInputComponent } from '../../../../shared/controls/drr-input/drr-input.component';
+import { DrrNumericInputComponent } from '../../../../shared/controls/drr-number-input/drr-number-input.component';
 import {
   DrrRadioButtonComponent,
   RadioOption,
@@ -57,6 +58,7 @@ import {
     TranslocoModule,
     DrrDatepickerComponent,
     DrrInputComponent,
+    DrrNumericInputComponent,
     DrrSelectComponent,
     DrrRadioButtonComponent,
     DrrTextareaComponent,

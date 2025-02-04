@@ -8,6 +8,7 @@ import {
 } from '@rxweb/reactive-form-validators';
 import {
   ActivityType,
+  ProgressReport,
   Workplan,
   WorkplanActivity,
   WorkplanStatus,
@@ -154,7 +155,7 @@ export class EventForm {
   }
 }
 
-export class ProgressReportForm {
+export class ProgressReportForm implements ProgressReport {
   @propObject(WorkplanForm)
   workplan?: WorkplanForm = new WorkplanForm({});
 
