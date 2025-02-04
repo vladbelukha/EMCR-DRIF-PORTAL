@@ -967,7 +967,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
                 Resources = EMCR.DRR.Controllers.ResourceCategory.ProjectSupport,
                 Units = EMCR.DRR.Controllers.CostUnit.SquareKilometer,
                 Quantity = 5,
-                UnitRate = 10,
+                UnitRate = (decimal?)10.15,
                 TotalCost = 50,
                 }
             });

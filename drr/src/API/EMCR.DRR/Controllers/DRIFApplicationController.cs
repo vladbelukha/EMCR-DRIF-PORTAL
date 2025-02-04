@@ -490,7 +490,7 @@ namespace EMCR.DRR.Controllers
         public ResourceCategory? Resources { get; set; }
         public CostUnit? Units { get; set; }
         public decimal? Quantity { get; set; }
-        public int? UnitRate { get; set; }
+        public decimal? UnitRate { get; set; }
         public decimal? TotalCost { get; set; }
     }
 
