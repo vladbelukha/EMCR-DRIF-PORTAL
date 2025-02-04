@@ -96,7 +96,9 @@ namespace EMCR.DRR.API.Resources.Reports
                 .ForMember(dest => dest.drr_permittoconstructstatus, opt => opt.MapFrom(src => src.PermitToConstructStatus.HasValue ? (int?)Enum.Parse<PermitToConstructOptionSet>(src.PermitToConstructStatus.Value.ToString()) : null))
                 .ForMember(dest => dest.drr_progressstatus, opt => opt.MapFrom(src => src.ProgressStatus.HasValue ? (int?)Enum.Parse<WorkplanProgressOptionSet>(src.ProgressStatus.Value.ToString()) : null))
                 .ForMember(dest => dest.drr_ActivityType, opt => opt.MapFrom(src => src.ActivityType))
-                .ReverseMap()
+            ;
+
+            CreateMap<drr_projectworkplanactivity, WorkplanActivityDetails>(MemberList.None)
                 .ValidateMemberList(MemberList.Destination)
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.drr_projectworkplanactivityid.ToString()))
                 .ForMember(dest => dest.PlannedStartDate, opt => opt.MapFrom(src => src.drr_plannedstartdate.HasValue ? src.drr_plannedstartdate.Value.UtcDateTime : (DateTime?)null))
@@ -115,7 +117,9 @@ namespace EMCR.DRR.API.Resources.Reports
 
             CreateMap<ActivityType, drr_projectactivity>(MemberList.None)
                 .ForMember(dest => dest.drr_name, opt => opt.MapFrom(src => src.Name))
-                .ReverseMap()
+            ;
+
+            CreateMap<drr_projectactivity, ActivityType>(MemberList.None)
                 .ValidateMemberList(MemberList.Destination)
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.drr_name))
                 .ForMember(dest => dest.PreCreatedActivity, opt => opt.MapFrom(src => src.drr_precreatedactivity.HasValue ? src.drr_precreatedactivity == (int)DRRTwoOptions.Yes : false))
