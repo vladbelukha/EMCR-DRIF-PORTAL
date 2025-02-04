@@ -1,4 +1,6 @@
 import {
+  maxNumber,
+  minNumber,
   prop,
   propArray,
   propObject,
@@ -6,7 +8,7 @@ import {
 } from '@rxweb/reactive-form-validators';
 import {
   ActivityType,
-  ProvincialMedia,
+  ProgressReport,
   Workplan,
   WorkplanActivity,
   WorkplanStatus,
@@ -80,28 +82,21 @@ export class WorkplanForm implements Workplan {
   @propArray(WorkplanActivityForm)
   workplanActivities?: WorkplanActivityForm[] = [];
 
-  // TODO: 3 fields for construction progress?
-
   @prop()
+  @required()
+  @minNumber({ value: 0 })
+  @maxNumber({ value: 100 })
   projectCompletionPercentage?: number;
 
   @prop()
-  communityMedia?: YesNoOption; // TODO: use type
+  @required()
+  mediaAnnouncement?: boolean;
 
   @prop()
-  communityMediaDate?: string;
+  mediaAnnouncementDate?: string;
 
   @prop()
-  communityMediaComment?: string;
-
-  @prop()
-  provincialMedia?: ProvincialMedia | undefined;
-
-  @prop()
-  provincialMediaDate?: string;
-
-  @prop()
-  provincialMediaComment?: string;
+  mediaAnnouncementComment?: string;
 
   @prop()
   worksCompleted?: string;
@@ -160,7 +155,7 @@ export class EventForm {
   }
 }
 
-export class ProgressReportForm {
+export class ProgressReportForm implements ProgressReport {
   @propObject(WorkplanForm)
   workplan?: WorkplanForm = new WorkplanForm({});
 

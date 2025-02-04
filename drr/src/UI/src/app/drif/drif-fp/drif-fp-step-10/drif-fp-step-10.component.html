@@ -266,11 +266,11 @@
                 [options]="unitsOptions"
               >
               </drr-select>
-              <drr-input
+              <drr-numeric-input
                 label="Quantity"
                 [rxFormControl]="cost.get('quantity')"
-                [type]="'number'"
-              ></drr-input>
+                numericType="decimal"
+              ></drr-numeric-input>
               <drr-currency-input
                 label="Unit Rate"
                 [rxFormControl]="cost.get('unitRate')"
@@ -311,13 +311,13 @@
     </div>
 
     @if (isStrucutralProject()) {
-    <drr-input
+    <drr-numeric-input
       style="align-self: flex-start; margin-top: 1rem"
       [label]="t('contingency')"
       [rxFormControl]="budgetForm.get('contingency')"
-      [type]="'percentage'"
+      numericType="percentage"
     >
-    </drr-input>
+    </drr-numeric-input>
     }
 
     <drr-currency-input

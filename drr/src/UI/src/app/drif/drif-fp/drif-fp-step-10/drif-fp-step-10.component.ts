@@ -35,6 +35,7 @@ import { OptionsStore } from '../../../store/options.store';
 import { FundingInformationItemForm } from '../../drif-eoi/drif-eoi-form';
 import { DrrFundingListComponent } from '../../drr-funding-list/drr-funding-list.component';
 
+import { DrrNumericInputComponent } from '../../../shared/controls/drr-number-input/drr-number-input.component';
 import {
   BudgetForm,
   CostEstimateForm,
@@ -57,6 +58,7 @@ import {
     FormsModule,
     ReactiveFormsModule,
     DrrInputComponent,
+    DrrNumericInputComponent,
     DrrCurrencyInputComponent,
     DrrSelectComponent,
     DrrTextareaComponent,

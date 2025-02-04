@@ -15,11 +15,11 @@ import { UntilDestroy } from '@ngneat/until-destroy';
 import { RxFormBuilder, RxFormControl } from '@rxweb/reactive-form-validators';
 import { NgxMaskDirective } from 'ngx-mask';
 
-export type InputType = 'text' | 'tel' | 'email';
+export type NumericInputType = 'integer' | 'decimal' | 'percentage';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
-  selector: 'drr-input',
+  selector: 'drr-numeric-input',
   template: `
     <mat-label *ngIf="isMobile">{{ label }}{{ getMandatoryMark() }}</mat-label>
     <mat-form-field class="drr-input" *transloco="let t">
@@ -28,30 +28,51 @@ export type InputType = 'text' | 'tel' | 'email';
         id="{{ id }}"
         matInput
         [formControl]="rxFormControl"
-        [maxlength]="getMaxLength"
+        [maxlength]="maxlength ?? null"
         required="{{ isRequired() }}"
-        [type]="type"
+        type="text"
+        [min]="min"
+        [max]="max"
         (focus)="onFocus()"
         (blur)="onBlur()"
         [mask]="getMask()"
         [decimalMarker]="'.'"
         [thousandSeparator]="''"
+        [ngStyle]="{
+          'text-align': numericType === 'percentage' ? 'right' : 'left'
+        }"
       />
-      <mat-hint *ngIf="isEmail() && !rxFormControl.value" align="start">{{
-        t('emailExample')
-      }}</mat-hint>
+      @if (this.numericType === "percentage") {
+      <span matTextSuffix>%&nbsp;</span>
+      }
       <mat-hint *ngIf="maxlength && isFocused" align="end"
         >{{ getCount() }} / {{ maxlength }}</mat-hint
       >
-      <mat-error *ngIf="rxFormControl.hasError('email')">{{
-        t('emailError')
-      }}</mat-error>
+      @if (getCount() > maxlength!) {
+      <mat-error>{{ t('maxLengthError') }}</mat-error>
+      }
+      <mat-error
+        *ngIf="
+          numericType === 'percentage' && rxFormControl.hasError('maxNumber')
+        "
+        >{{ t('percentageMaxValueError') }}</mat-error
+      >
     </mat-form-field>
   `,
   styles: [
     `
       .drr-input {
         width: 100%;
+      }
+
+      .drr-input input[type='number']::-webkit-inner-spin-button,
+      .drr-input input[type='number']::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      .drr-input input[type='number'] {
+        -moz-appearance: textfield;
       }
 
       :host {
@@ -82,7 +103,7 @@ export type InputType = 'text' | 'tel' | 'email';
     TranslocoModule,
   ],
 })
-export class DrrInputComponent {
+export class DrrNumericInputComponent {
   formBuilder = inject(RxFormBuilder);
   breakpointObserver = inject(BreakpointObserver);
 
@@ -91,8 +112,10 @@ export class DrrInputComponent {
 
   @Input() label = '';
   @Input() id = '';
-  @Input() maxlength?: string | number | null;
-  @Input() type: InputType = 'text';
+  @Input() min: number = 0;
+  @Input() max: number | null = null;
+  @Input() maxlength?: number | null;
+  @Input() numericType: NumericInputType = 'integer';
 
   ngOnInit() {
     this.breakpointObserver
@@ -100,14 +123,6 @@ export class DrrInputComponent {
       .subscribe(({ matches }) => {
         this.isMobile = !matches;
       });
-  }
-
-  get getMaxLength() {
-    if (this.type === 'tel') {
-      return null;
-    }
-
-    return this.maxlength ?? null;
   }
 
   private _formControl = this.formBuilder.control('', []) as RxFormControl;
@@ -149,11 +164,18 @@ export class DrrInputComponent {
   }
 
   getMask() {
-    if (this.type === 'tel') {
-      return '000-000-0000';
+    if (this.numericType === 'percentage' || this.numericType === 'integer') {
+      return 'separator.0';
     }
 
-    return '';
+    return 'separator.2';
+  }
+
+  @HostListener('keydown', ['$event'])
+  handleArrowKeyEvent(event: KeyboardEvent) {
+    if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
+      event.preventDefault();
+    }
   }
 
   @HostListener('keypress', ['$event'])
@@ -169,18 +191,36 @@ export class DrrInputComponent {
   }
 
   private handleInputEvent(event: Event, inputValue: string) {
-    if (this.type === 'tel') {
-      // Allow numbers
-      const pattern = /[0-9]/;
+    // number input doesn't not support maxlength by default
+    // so we need to add it manually to match text input behavior,
+    // but allow decimal point to be moved around
+    if (
+      this.maxlength
+        ? this.getCount() + inputValue.length > Number(this.maxlength) &&
+          inputValue !== '.'
+        : false
+    ) {
+      event.preventDefault();
+    }
+
+    if (this.numericType === 'decimal') {
+      // Allow positive numbers and decimals
+      const pattern = /^\d*\.?\d*$/;
 
       if (!pattern.test(inputValue)) {
         // Invalid character, prevent input
         event.preventDefault();
       }
     }
-  }
 
-  isEmail() {
-    return this.type === 'email';
+    if (this.numericType === 'integer') {
+      // Allow positive numbers
+      const pattern = /^\d*$/;
+
+      if (!pattern.test(inputValue)) {
+        // Invalid character, prevent input
+        event.preventDefault();
+      }
+    }
   }
 }

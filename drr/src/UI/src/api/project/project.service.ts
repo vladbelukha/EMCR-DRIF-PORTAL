@@ -29,8 +29,7 @@ import type {
   ProgressReportResult,
   ProjectClaim,
   ProjectResponse,
-  ProjectResult,
-  ProjectUpdateProgressReportParams
+  ProjectResult
 } from '../../model'
 
 
@@ -193,34 +192,28 @@ export class ProjectService {
     projectId: string,
     reportId: string,
     progressId: string,
-    progressReport: ProgressReport,
-    params?: ProjectUpdateProgressReportParams, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
+    progressReport: ProgressReport, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
   ): Observable<TData>;
     projectUpdateProgressReport<TData = ProgressReportResult>(
     projectId: string,
     reportId: string,
     progressId: string,
-    progressReport: ProgressReport,
-    params?: ProjectUpdateProgressReportParams, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
+    progressReport: ProgressReport, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
   ): Observable<AngularHttpResponse<TData>>;
     projectUpdateProgressReport<TData = ProgressReportResult>(
     projectId: string,
     reportId: string,
     progressId: string,
-    progressReport: ProgressReport,
-    params?: ProjectUpdateProgressReportParams, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
+    progressReport: ProgressReport, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
   ): Observable<HttpEvent<TData>>;projectUpdateProgressReport<TData = ProgressReportResult>(
     projectId: string,
     reportId: string,
     progressId: string,
-    progressReport: ProgressReport,
-    params?: ProjectUpdateProgressReportParams, options?: HttpClientOptions
+    progressReport: ProgressReport, options?: HttpClientOptions
   ): Observable<TData>  {
     return this.http.patch<TData>(
       `/api/project/${projectId}/interim-reports/${reportId}/progress-reports/${progressId}`,
-      progressReport,{
-    ...options,
-        params: {...params, ...options?.params},}
+      progressReport,options
     );
   }
  projectGetForecastReport<TData = Forecast>(

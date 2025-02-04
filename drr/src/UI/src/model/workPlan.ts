@@ -4,17 +4,9 @@
  * DRR API
  * OpenAPI spec version: 1.0.0
  */
-import type { ProvincialMedia } from './provincialMedia';
 import type { WorkplanActivity } from './workplanActivity';
-import type { YesNoOption } from './yesNoOption';
 
 export interface Workplan {
-  /** @nullable */
-  communityMedia?: YesNoOption;
-  /** @nullable */
-  communityMediaComment?: string;
-  /** @nullable */
-  communityMediaDate?: string;
   /** @nullable */
   fundingSourcesChanged?: boolean;
   /** @nullable */
@@ -23,13 +15,13 @@ export interface Workplan {
   outstandingIssues?: boolean;
   outstandingIssuesComment?: string;
   /** @nullable */
+  mediaAnnouncement?: boolean;
+  /** @nullable */
+  mediaAnnouncementComment?: string;
+  /** @nullable */
+  mediaAnnouncementDate?: string;
+  /** @nullable */
   projectCompletionPercentage?: number;
-  /** @nullable */
-  provincialMedia?: ProvincialMedia;
-  /** @nullable */
-  provincialMediaComment?: string;
-  /** @nullable */
-  provincialMediaDate?: string;
   /** @nullable */
   workplanActivities?: WorkplanActivity[];
   /** @nullable */
