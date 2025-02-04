@@ -276,12 +276,17 @@ namespace EMCR.DRR.Controllers
     public class Workplan
     {
         public WorkplanActivity[]? WorkplanActivities { get; set; }
+        public ProjectProgress? ProjectProgress { get; set; }
         public decimal? ProjectCompletionPercentage { get; set; }
+        public decimal? ConstructionCompletionPercentage { get; set; }
+        public bool? SignageRequired { get; set; }
+        public string? SignageNotRequiredComments { get; set; }
+        public FundingSignage[]? FundingSignage { get; set; }
         public bool? MediaAnnouncement { get; set; }
         public DateTime? MediaAnnouncementDate { get; set; }
         public string? MediaAnnouncementComment { get; set; }
-        public string? WorksCompleted { get; set; }
-        public string? OutstandingIssues { get; set; }
+        public bool? OutstandingIssues { get; set; }
+        public string? OutstandingIssuesComments { get; set; }
         public bool? FundingSourcesChanged { get; set; }
         public string? FundingSourcesChangedComment { get; set; }
     }
@@ -307,6 +312,15 @@ namespace EMCR.DRR.Controllers
         public DateTime? ForecastDate { get; set; }
         public decimal? ForecastAmount { get; set; }
         public ForecastStatus? Status { get; set; }
+    }
+
+    public class FundingSignage
+    {
+        public string? Id { get; set; }
+        public SignageType? SignageType { get; set; }
+        public DateTime? DateInstalled { get; set; }
+        public DateTime? DateRemoved { get; set; }
+        public bool? BeenApproved { get; set; }
     }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
@@ -359,6 +373,35 @@ namespace EMCR.DRR.Controllers
 
         [Description("Proponent community(ies) engagement and public education")]
         CommunityEngagement,
+    }
+
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public enum ProjectProgress
+    {
+        [Description("Project is on schedule")]
+        OnSchedule,
+        
+        [Description("Project is ahead of schedule")]
+        AheadOfSchedule,
+        
+        [Description("Project is behind schedule")]
+        BehindSchedule,
+        
+        [Description("Project is complete")]
+        Complete,
+    }
+    
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public enum SignageType
+    {
+        [Description("Temporary physical signage")]
+        Temporary,
+
+        [Description("Digital signage")]
+        Digital,
+
+        [Description("Permanent plaque")]
+        Plaque,
     }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]

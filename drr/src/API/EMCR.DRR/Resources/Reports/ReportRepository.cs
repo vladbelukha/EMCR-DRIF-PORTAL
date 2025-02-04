@@ -5,7 +5,6 @@ using EMCR.DRR.Dynamics;
 using EMCR.DRR.Managers.Intake;
 using EMCR.Utilities.Extensions;
 using Microsoft.Dynamics.CRM;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace EMCR.DRR.API.Resources.Reports
 {
@@ -40,6 +39,7 @@ namespace EMCR.DRR.API.Resources.Reports
             {
                 ctx.LoadPropertyAsync(existingProgressReport, nameof(drr_projectprogress.drr_drr_projectprogress_drr_projectworkplanactivity_ProjectProgressReport)),
                 ctx.LoadPropertyAsync(existingProgressReport, nameof(drr_projectprogress.drr_drr_projectprogress_drr_projectevent_ProgressReport)),
+                ctx.LoadPropertyAsync(existingProgressReport, nameof(drr_projectprogress.drr_drr_projectprogress_drr_temporaryprovincialfundingsignage_ProjectProgress)),
             };
 
             await Task.WhenAll(loadTasks);
@@ -58,6 +58,8 @@ namespace EMCR.DRR.API.Resources.Reports
             var projectActivityMasterList = projectActivityMasterListTask.Result;
 
             AddWorkplanActivities(ctx, drrProgressReport, projectActivityMasterList, existingProgressReport);
+            //AddEvents(ctx, drrProgressReport);
+            AddFundingSignage(ctx, drrProgressReport, existingProgressReport);
 
             ctx.UpdateObject(drrProgressReport);
             await ctx.SaveChangesAsync();
@@ -86,6 +88,15 @@ namespace EMCR.DRR.API.Resources.Reports
             {
                 ctx.AttachTo(nameof(ctx.drr_projectevents), projectEvent);
                 ctx.DeleteObject(projectEvent);
+            }
+
+            var signageToRemove = existingProgressReport.drr_drr_projectprogress_drr_temporaryprovincialfundingsignage_ProjectProgress.Where(curr =>
+            !drrProgressReport.drr_drr_projectprogress_drr_temporaryprovincialfundingsignage_ProjectProgress.Any(updated => updated.drr_temporaryprovincialfundingsignageid == curr.drr_temporaryprovincialfundingsignageid)).ToList();
+
+            foreach (var signage in signageToRemove)
+            {
+                ctx.AttachTo(nameof(ctx.drr_temporaryprovincialfundingsignages), signage);
+                ctx.DeleteObject(signage);
             }
         }
 
@@ -122,6 +133,28 @@ namespace EMCR.DRR.API.Resources.Reports
                         drrContext.AttachTo(nameof(drrContext.drr_projectworkplanactivities), activity);
                         drrContext.UpdateObject(activity);
                         drrContext.SetLink(activity, nameof(activity.drr_ActivityType), masterVal);
+                    }
+                }
+            }
+        }
+
+        private static void AddFundingSignage(DRRContext drrContext, drr_projectprogress progressReport, drr_projectprogress oldReport)
+        {
+            foreach (var signage in progressReport.drr_drr_projectprogress_drr_temporaryprovincialfundingsignage_ProjectProgress)
+            {
+                if (signage != null)
+                {
+                    if (signage.drr_temporaryprovincialfundingsignageid == null ||
+                        (oldReport != null && !oldReport.drr_drr_projectprogress_drr_temporaryprovincialfundingsignage_ProjectProgress.Any(a => a.drr_temporaryprovincialfundingsignageid == signage.drr_temporaryprovincialfundingsignageid)))
+                    {
+                        drrContext.AddTodrr_temporaryprovincialfundingsignages(signage);
+                        drrContext.AddLink(progressReport, nameof(progressReport.drr_drr_projectprogress_drr_temporaryprovincialfundingsignage_ProjectProgress), signage);
+                        drrContext.SetLink(signage, nameof(signage.drr_ProjectProgress), progressReport);
+                    }
+                    else
+                    {
+                        drrContext.AttachTo(nameof(drrContext.drr_temporaryprovincialfundingsignages), signage);
+                        drrContext.UpdateObject(signage);
                     }
                 }
             }
@@ -246,6 +279,7 @@ namespace EMCR.DRR.API.Resources.Reports
             {
                 ctx.LoadPropertyAsync(pr, nameof(drr_projectprogress.drr_drr_projectprogress_drr_projectworkplanactivity_ProjectProgressReport), ct),
                 ctx.LoadPropertyAsync(pr, nameof(drr_projectprogress.drr_drr_projectprogress_drr_projectevent_ProgressReport), ct),
+                ctx.LoadPropertyAsync(pr, nameof(drr_projectprogress.drr_drr_projectprogress_drr_temporaryprovincialfundingsignage_ProjectProgress), ct),
             };
 
             await Task.WhenAll(loadTasks);

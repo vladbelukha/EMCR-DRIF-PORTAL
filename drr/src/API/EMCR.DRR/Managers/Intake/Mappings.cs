@@ -206,6 +206,10 @@ namespace EMCR.DRR.Managers.Intake
 #pragma warning restore CS8604 // Possible null reference argument.
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
 
+            CreateMap<Controllers.FundingSignage, FundingSignage>()
+                .ReverseMap()
+                ;
+
             CreateMap<Controllers.ProjectEvent, ProjectEvent>()
                 .ReverseMap()
                 ;
