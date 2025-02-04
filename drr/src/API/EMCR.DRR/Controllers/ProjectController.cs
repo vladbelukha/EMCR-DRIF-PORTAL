@@ -277,6 +277,10 @@ namespace EMCR.DRR.Controllers
     {
         public WorkplanActivity[]? WorkplanActivities { get; set; }
         public ProjectProgress? ProjectProgress { get; set; }
+        public string? AheadOfScheduleComments { get; set; }
+        public DelayReason? DelayReason { get; set; }
+        public string? OtherDelayReason { get; set; }
+        public string? BehindScheduleMitigatingComments { get; set; }
         public decimal? ProjectCompletionPercentage { get; set; }
         public decimal? ConstructionCompletionPercentage { get; set; }
         public bool? SignageRequired { get; set; }
@@ -389,6 +393,46 @@ namespace EMCR.DRR.Controllers
         
         [Description("Project is complete")]
         Complete,
+    }
+
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public enum DelayReason
+    {
+        [Description("Tendering")]
+        Tendering,
+
+        [Description("Referendum")]
+        Referendum,
+
+        [Description("Property Aquisition")]
+        PropertyAquisition,
+
+        [Description("Negotiations")]
+        Negotiations,
+
+        [Description("Project Implementation")]
+        ProjectImplementation,
+
+        [Description("Unforeseen Complexity")]
+        UnforeseenComplexity,
+
+        [Description("Project Scope Change")]
+        ProjectScopeChange,
+
+        [Description("Ministries/Senior Government Agencies (permitting approvals, etc.)")]
+        GovernmentAgencies,
+
+        [Description("Unforeseen Contractor Delays")]
+        UnforeseenContractorDelays,
+
+        [Description("Weather")]
+        Weather,
+
+        [Description("Change in Project Manager or Project Oversight Committee")]
+        ChangeProjectManager,
+
+        [Description("Other")]
+        Other,
     }
     
     [JsonConverter(typeof(JsonStringEnumConverter))]

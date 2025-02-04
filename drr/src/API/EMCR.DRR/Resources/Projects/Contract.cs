@@ -102,14 +102,14 @@ namespace EMCR.DRR.API.Resources.Projects
         BehindSchedule = 172580002,
         Complete = 172580003,
     }
-    
+
     public enum SignageTypeOptionSet
     {
         Temporary = 172580000,
         Digital = 172580001,
         Plaque = 172580002,
     }
-    
+
     public enum ConstructionContractOptionSet
     {
         Awarded = 172580000,
@@ -140,8 +140,24 @@ namespace EMCR.DRR.API.Resources.Projects
     {
         NotPlanned = 172580000,
         PlannedDateUnknown = 172580001,
-        PlannedDateKnown= 172580002,
-        AlreadyOccurred= 172580003,
-        Unknown= 172580004,
+        PlannedDateKnown = 172580002,
+        AlreadyOccurred = 172580003,
+        Unknown = 172580004,
+    }
+
+    public enum DelayReasonOptionSet
+    {
+        Tendering = 172580000,
+        Referendum = 172580001,
+        PropertyAquisition = 172580002,
+        Negotiations = 172580003,
+        ProjectImplementation = 172580004,
+        UnforeseenComplexity = 172580005,
+        ProjectScopeChange = 172580006,
+        GovernmentAgencies = 172580007,
+        UnforeseenContractorDelays = 172580008,
+        Weather = 172580009,
+        ChangeProjectManager = 172580010,
+        Other = 172580011,
     }
 }

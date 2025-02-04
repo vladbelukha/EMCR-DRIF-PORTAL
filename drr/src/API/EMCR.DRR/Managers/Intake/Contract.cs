@@ -765,6 +765,10 @@ namespace EMCR.DRR.Managers.Intake
     {
         public WorkplanActivityDetails[]? WorkplanActivities { get; set; }
         public ProjectProgress? ProjectProgress { get; set; }
+        public string? AheadOfScheduleComments { get; set; }
+        public DelayReason? DelayReason { get; set; }
+        public string? OtherDelayReason { get; set; }
+        public string? BehindScheduleMitigatingComments { get; set; }
         public decimal? ProjectCompletionPercentage { get; set; }
         public decimal? ConstructionCompletionPercentage { get; set; }
         public bool? SignageRequired { get; set; }
@@ -930,6 +934,22 @@ namespace EMCR.DRR.Managers.Intake
     {
         Awarded,
         NotAwarded,
+    }
+    
+    public enum DelayReason
+    {
+        Tendering,
+        Referendum,
+        PropertyAquisition,
+        Negotiations,
+        ProjectImplementation,
+        UnforeseenComplexity,
+        ProjectScopeChange,
+        GovernmentAgencies,
+        UnforeseenContractorDelays,
+        Weather,
+        ChangeProjectManager,
+        Other,
     }
 
     public enum WorkplanStatus
