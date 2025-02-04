@@ -550,7 +550,9 @@
     "NotStarted": "Not Started",
     "InProgress": "In Progress",
     "Completed": "Completed",
-    "NoLongerNeeded": "No Longer Needed"
+    "NoLongerNeeded": "No Longer Needed",
+    "Awarded": "Awarded",
+    "NotAwarded": "Not Awarded"
   },
   "progressReport": {
     "projectWorkplan": "Project Workplan",

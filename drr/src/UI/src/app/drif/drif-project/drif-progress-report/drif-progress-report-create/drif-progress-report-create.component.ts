@@ -24,6 +24,7 @@ import { AbstractControl, FormArray, Validators } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { ActivatedRoute, Router } from '@angular/router';
+import { HotToastService } from '@ngxpert/hot-toast';
 import { ProjectService } from '../../../../../api/project/project.service';
 import { DrrDatepickerComponent } from '../../../../shared/controls/drr-datepicker/drr-datepicker.component';
 import { DrrInputComponent } from '../../../../shared/controls/drr-input/drr-input.component';
@@ -75,6 +76,7 @@ export class DrifProgressReportCreateComponent {
   router = inject(Router);
   projectService = inject(ProjectService);
   translocoService = inject(TranslocoService);
+  toastService = inject(HotToastService);
 
   projectId!: string;
   reportId!: string;
@@ -102,6 +104,15 @@ export class DrifProgressReportCreateComponent {
     this.optionalActivityStatusOptions.filter(
       (option) => option.value !== WorkplanStatus.NoLongerNeeded
     );
+
+  milestoneStatusOptions: DrrSelectOption[] = Object.values(WorkplanStatus)
+    .filter(
+      (s) => s === WorkplanStatus.NotAwarded || s === WorkplanStatus.Awarded
+    )
+    .map((value) => ({
+      label: this.translocoService.translate(`workplanStatus.${value}`),
+      value,
+    }));
 
   yesNoNaRadioOptions: RadioOption[] = Object.values(YesNoOption).map(
     (value) => ({
@@ -248,7 +259,7 @@ export class DrifProgressReportCreateComponent {
         this.progressReportForm.getRawValue()
       )
       .subscribe(() => {
-        this.router.navigate(['drif-projects', this.projectId]);
+        this.toastService.success('Progress report saved');
       });
   }
 
@@ -268,6 +279,17 @@ export class DrifProgressReportCreateComponent {
     return this.workplanItems?.controls.filter(
       (control) => control.get('preCreatedActivity')?.value
     );
+  }
+
+  getPreDefinedActivityStatusOptions(preDefinedActivity: ActivityType) {
+    if (
+      preDefinedActivity === ActivityType.ConstructionContractAward ||
+      preDefinedActivity === ActivityType.PermitToConstruct
+    ) {
+      return this.milestoneStatusOptions;
+    }
+
+    return this.necessaryActivityStatusOptions;
   }
 
   getAdditionalActivitiesArray() {
