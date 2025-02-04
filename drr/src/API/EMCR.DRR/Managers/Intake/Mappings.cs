@@ -184,6 +184,7 @@ namespace EMCR.DRR.Managers.Intake
                 .ForMember(dest => dest.ActivityType, opt => opt.MapFrom(src => new ActivityType { Name = src.Activity.Value.ToDescriptionString(), PreCreatedActivity = src.PreCreatedActivity }))
                 .ForMember(dest => dest.Status, opt => opt.Ignore())
                 .ForMember(dest => dest.OriginalReportId, opt => opt.Ignore())
+                .ForMember(dest => dest.CopiedFromActivity, opt => opt.Ignore())
                 .ForMember(dest => dest.ConstructionContractStatus, opt => opt.Ignore())
                 .ForMember(dest => dest.PermitToConstructStatus, opt => opt.Ignore())
                 .ForMember(dest => dest.ProgressStatus, opt => opt.Ignore())

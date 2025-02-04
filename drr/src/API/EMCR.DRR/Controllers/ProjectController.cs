@@ -1,14 +1,13 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.ComponentModel;
 using System.Net.Mime;
-using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+using System.Text.Json.Serialization;
 using AutoMapper;
+using EMCR.DRR.API.Model;
 using EMCR.DRR.API.Services;
 using EMCR.DRR.Managers.Intake;
-using System.Security.Claims;
-using System.ComponentModel;
-using System.Text.Json.Serialization;
-using EMCR.DRR.API.Model;
-using Microsoft.Dynamics.CRM;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace EMCR.DRR.Controllers
 {

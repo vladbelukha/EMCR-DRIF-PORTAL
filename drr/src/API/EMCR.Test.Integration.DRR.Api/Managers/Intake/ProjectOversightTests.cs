@@ -95,29 +95,40 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
         public async Task CanUpdateProgressReport()
         {
             var uniqueSignature = TestPrefix + "-" + Guid.NewGuid().ToString().Substring(0, 4);
-            var queryRes = await manager.Handle(new DrrProjectsQuery { BusinessId = GetTestUserInfo().BusinessId });
-            var projects = mapper.Map<IEnumerable<DraftDrrProject>>(queryRes.Items);
-            var progressReportId = projects.Where(p => p.ProgressReports.Length > 0).TakeRandom().FirstOrDefault().ProgressReports.TakeRandom().FirstOrDefault().Id;
+            //var queryRes = await manager.Handle(new DrrProjectsQuery { BusinessId = GetTestUserInfo().BusinessId });
+            //var projects = mapper.Map<IEnumerable<DraftDrrProject>>(queryRes.Items);
+            //var progressReportId = projects.Where(p => p.ProgressReports.Length > 0).TakeRandom().FirstOrDefault().ProgressReports.TakeRandom().FirstOrDefault().Id;
 
-            var progressReport = mapper.Map<EMCR.DRR.Controllers.ProgressReport>((await manager.Handle(new DrrProgressReportsQuery { Id = progressReportId, BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault());
+            var progressReport = mapper.Map<EMCR.DRR.Controllers.ProgressReport>((await manager.Handle(new DrrProgressReportsQuery { Id = "DRIF-PR-1058", BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault());
             progressReport.Workplan.MediaAnnouncementComment = $"{uniqueSignature} - media comment";
-            //progressReport.Workplan.WorkplanActivities = progressReport.Workplan.WorkplanActivities.Append(new WorkplanActivity
-            //{
-            //    Activity = EMCR.DRR.Controllers.ActivityType.ConstructionContractAward,
-            //    ActualCompletionDate = DateTime.UtcNow,
-            //    ActualStartDate = DateTime.UtcNow.AddDays(-3),
-            //    Comment = "construction contract comment",
-            //    Id = Guid.NewGuid().ToString(),
-            //    PlannedCompletionDate = DateTime.UtcNow,
-            //    PlannedStartDate = DateTime.UtcNow.AddDays(-3),
-            //    Status = EMCR.DRR.Controllers.WorkplanStatus.Awarded,
-            //}).ToArray();
+            progressReport.Workplan.MediaAnnouncement = null;
+            progressReport.Workplan.MediaAnnouncementDate = null;
+            progressReport.Workplan.ProjectCompletionPercentage = 10;
+            progressReport.Workplan.WorksCompleted = null;
+            progressReport.Workplan.OutstandingIssues = null;
+            progressReport.Workplan.FundingSourcesChanged = null;
+            progressReport.Workplan.FundingSourcesChangedComment = null;
+            // progressReport.Workplan.WorkplanActivities = progressReport.Workplan.WorkplanActivities.Append(new WorkplanActivity
+            // {
+            //     Activity = EMCR.DRR.Controllers.ActivityType.Administration,
+            //     ActualCompletionDate = null,
+            //     ActualStartDate = null,
+            //     Comment = "construction contract comment",
+            //     Id = Guid.NewGuid().ToString(),
+            //     PlannedCompletionDate = null,
+            //     PlannedStartDate = null,
+            //     Status = null,
+            // }).ToArray();
+            // progressReport.EventInformation.Events = progressReport.EventInformation.Events.Append(new EMCR.DRR.Controllers.ProjectEvent
+            // {
+
+            // }).ToArray();
 
             Console.WriteLine(progressReport.Id);
             await manager.Handle(new SaveProgressReportCommand { ProgressReport = progressReport, UserInfo = GetTestUserInfo() });
 
 
-            var updatedProgressReport = mapper.Map<EMCR.DRR.Controllers.ProgressReport>((await manager.Handle(new DrrProgressReportsQuery { Id = progressReportId, BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault());
+            var updatedProgressReport = mapper.Map<EMCR.DRR.Controllers.ProgressReport>((await manager.Handle(new DrrProgressReportsQuery { Id = progressReport.Id, BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault());
             updatedProgressReport.Workplan.MediaAnnouncementComment.ShouldBe(progressReport.Workplan.MediaAnnouncementComment);
         }
 #pragma warning restore CS8604 // Possible null reference argument.
