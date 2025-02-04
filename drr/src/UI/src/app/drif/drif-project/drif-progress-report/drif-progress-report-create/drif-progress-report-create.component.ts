@@ -277,7 +277,21 @@ export class DrifProgressReportCreateComponent {
 
   getPreDefinedActivitiesArray() {
     return this.workplanItems?.controls.filter(
-      (control) => control.get('preCreatedActivity')?.value
+      (control) =>
+        control.get('preCreatedActivity')?.value &&
+        control.get('activity')?.value !== ActivityType.PermitToConstruct &&
+        control.get('activity')?.value !==
+          ActivityType.ConstructionContractAward
+    );
+  }
+
+  getMilestoneActivitiesArray() {
+    return this.workplanItems?.controls.filter(
+      (control) =>
+        control.get('preCreatedActivity')?.value &&
+        (control.get('activity')?.value === ActivityType.PermitToConstruct ||
+          control.get('activity')?.value ===
+            ActivityType.ConstructionContractAward)
     );
   }
 
@@ -339,7 +353,10 @@ export class DrifProgressReportCreateComponent {
 
   showPlannedStartDate(activityControl: AbstractControl<WorkplanActivityForm>) {
     const status = activityControl?.get('status')?.value as WorkplanStatus;
-    return status === WorkplanStatus.NotStarted;
+    return (
+      status === WorkplanStatus.NotStarted ||
+      status === WorkplanStatus.NotAwarded
+    );
   }
 
   showPlannedEndDate(activityControl: AbstractControl<WorkplanActivityForm>) {
@@ -354,7 +371,8 @@ export class DrifProgressReportCreateComponent {
     const status = activityControl?.get('status')?.value as WorkplanStatus;
     return (
       status === WorkplanStatus.InProgress ||
-      status === WorkplanStatus.Completed
+      status === WorkplanStatus.Completed ||
+      status === WorkplanStatus.Awarded
     );
   }
 
