@@ -95,36 +95,46 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
         public async Task CanUpdateProgressReport()
         {
             var uniqueSignature = TestPrefix + "-" + Guid.NewGuid().ToString().Substring(0, 4);
-            //var queryRes = await manager.Handle(new DrrProjectsQuery { BusinessId = GetTestUserInfo().BusinessId });
-            //var projects = mapper.Map<IEnumerable<DraftDrrProject>>(queryRes.Items);
-            //var progressReportId = projects.Where(p => p.ProgressReports.Length > 0).TakeRandom().FirstOrDefault().ProgressReports.TakeRandom().FirstOrDefault().Id;
 
             var progressReport = mapper.Map<EMCR.DRR.Controllers.ProgressReport>((await manager.Handle(new DrrProgressReportsQuery { Id = "DRIF-PR-1058", BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault());
             progressReport.Workplan.MediaAnnouncementComment = $"{uniqueSignature} - media comment";
-            progressReport.Workplan.MediaAnnouncement = null;
-            progressReport.Workplan.MediaAnnouncementDate = null;
-            progressReport.Workplan.ProjectCompletionPercentage = 10;
-            progressReport.Workplan.WorksCompleted = null;
-            progressReport.Workplan.OutstandingIssues = null;
-            progressReport.Workplan.FundingSourcesChanged = null;
-            progressReport.Workplan.FundingSourcesChangedComment = null;
-            // progressReport.Workplan.WorkplanActivities = progressReport.Workplan.WorkplanActivities.Append(new WorkplanActivity
-            // {
-            //     Activity = EMCR.DRR.Controllers.ActivityType.Administration,
-            //     ActualCompletionDate = null,
-            //     ActualStartDate = null,
-            //     Comment = "construction contract comment",
-            //     Id = Guid.NewGuid().ToString(),
-            //     PlannedCompletionDate = null,
-            //     PlannedStartDate = null,
-            //     Status = null,
-            // }).ToArray();
-            // progressReport.EventInformation.Events = progressReport.EventInformation.Events.Append(new EMCR.DRR.Controllers.ProjectEvent
-            // {
 
-            // }).ToArray();
+            progressReport.Workplan.ProjectProgress = EMCR.DRR.Controllers.ProjectProgress.OnSchedule;
+            progressReport.Workplan.ProjectCompletionPercentage = (decimal?)12.5;
+            progressReport.Workplan.ConstructionCompletionPercentage = (decimal?)35.7;
+            progressReport.Workplan.SignageRequired = true;
+            progressReport.Workplan.MediaAnnouncement = true;
+            progressReport.Workplan.MediaAnnouncementDate = DateTime.UtcNow.AddDays(3);
+            progressReport.Workplan.MediaAnnouncementComment = "media announcement description";
+            progressReport.Workplan.OutstandingIssues = true;
+            progressReport.Workplan.OutstandingIssuesComments = "issues description";
+            progressReport.Workplan.FundingSourcesChanged = true;
+            progressReport.Workplan.FundingSourcesChangedComment = "funding change description";
 
-            Console.WriteLine(progressReport.Id);
+
+            if (progressReport.Workplan.WorkplanActivities.Length > 0) progressReport.Workplan.WorkplanActivities = progressReport.Workplan.WorkplanActivities.Take(progressReport.Workplan.WorkplanActivities.Count() - 1).ToArray();
+            progressReport.Workplan.WorkplanActivities = progressReport.Workplan.WorkplanActivities.Append(new WorkplanActivity
+            {
+                Activity = EMCR.DRR.Controllers.ActivityType.Mapping,
+                ActualCompletionDate = DateTime.UtcNow.AddDays(11),
+                ActualStartDate = DateTime.UtcNow.AddDays(4),
+                Comment = $"{uniqueSignature} - mapping comment",
+                Id = Guid.NewGuid().ToString(),
+                PlannedCompletionDate = DateTime.UtcNow.AddDays(10),
+                PlannedStartDate = DateTime.UtcNow.AddDays(3),
+                Status = EMCR.DRR.Controllers.WorkplanStatus.NotStarted,
+            }).ToArray();
+            if (progressReport.Workplan.FundingSignage.Length > 0) progressReport.Workplan.FundingSignage = progressReport.Workplan.FundingSignage.Take(progressReport.Workplan.FundingSignage.Count() - 1).ToArray();
+            progressReport.Workplan.FundingSignage = progressReport.Workplan.FundingSignage.Append(new EMCR.DRR.Controllers.FundingSignage
+            {
+                Id = Guid.NewGuid().ToString(),
+                SignageType = EMCR.DRR.Controllers.SignageType.Temporary,
+                DateInstalled = DateTime.UtcNow.AddDays(3),
+                DateRemoved = DateTime.UtcNow.AddDays(7),
+                BeenApproved = false,
+            }).ToArray();
+
+            //Console.WriteLine(progressReport.Id);
             await manager.Handle(new SaveProgressReportCommand { ProgressReport = progressReport, UserInfo = GetTestUserInfo() });
 
 

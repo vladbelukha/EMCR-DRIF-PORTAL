@@ -95,6 +95,21 @@ namespace EMCR.DRR.API.Resources.Projects
         Completed = 172580002
     }
 
+    public enum ProjectProgressOptionSet
+    {
+        OnSchedule = 172580000,
+        AheadOfSchedule = 172580001,
+        BehindSchedule = 172580002,
+        Complete = 172580003,
+    }
+    
+    public enum SignageTypeOptionSet
+    {
+        Temporary = 172580000,
+        Digital = 172580001,
+        Plaque = 172580002,
+    }
+    
     public enum ConstructionContractOptionSet
     {
         Awarded = 172580000,
