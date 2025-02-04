@@ -99,7 +99,10 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             var progressReport = mapper.Map<EMCR.DRR.Controllers.ProgressReport>((await manager.Handle(new DrrProgressReportsQuery { Id = "DRIF-PR-1058", BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault());
             progressReport.Workplan.MediaAnnouncementComment = $"{uniqueSignature} - media comment";
 
-            progressReport.Workplan.ProjectProgress = EMCR.DRR.Controllers.ProjectProgress.OnSchedule;
+            progressReport.Workplan.ProjectProgress = EMCR.DRR.Controllers.ProjectProgress.BehindSchedule;
+            progressReport.Workplan.DelayReason = EMCR.DRR.Controllers.DelayReason.Other;
+            progressReport.Workplan.OtherDelayReason = "we are slow";
+            progressReport.Workplan.BehindScheduleMitigatingComments = "mitigation steps";
             progressReport.Workplan.ProjectCompletionPercentage = (decimal?)12.5;
             progressReport.Workplan.ConstructionCompletionPercentage = (decimal?)35.7;
             progressReport.Workplan.SignageRequired = true;
@@ -140,6 +143,9 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
 
             var updatedProgressReport = mapper.Map<EMCR.DRR.Controllers.ProgressReport>((await manager.Handle(new DrrProgressReportsQuery { Id = progressReport.Id, BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault());
             updatedProgressReport.Workplan.MediaAnnouncementComment.ShouldBe(progressReport.Workplan.MediaAnnouncementComment);
+            updatedProgressReport.Workplan.ProjectProgress.ShouldBe(progressReport.Workplan.ProjectProgress);
+            updatedProgressReport.Workplan.MediaAnnouncement.ShouldBe(progressReport.Workplan.MediaAnnouncement);
+            updatedProgressReport.Workplan.OtherDelayReason.ShouldBe(progressReport.Workplan.OtherDelayReason);
         }
 #pragma warning restore CS8604 // Possible null reference argument.
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
