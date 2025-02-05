@@ -31,8 +31,10 @@ namespace EMCR.DRR.API.Resources.Projects
             var ct = new CancellationTokenSource().Token;
             var readCtx = dRRContextFactory.CreateReadOnly();
 
-            var projectsQuery = readCtx.drr_projects
-                .Where(a => a.statuscode != (int)ProjectStatusOptionSet.Inactive);
+            var projectsQuery = readCtx.drr_projects.Expand(a => a.drr_ProponentName)
+                .Where(a => a.statuscode != (int)ProjectStatusOptionSet.Inactive
+                && a.drr_ProponentName.drr_bceidguid == query.BusinessId);
+            //drr_ProponentName.drr_bceidguid.Equals(businessId);
             if (!string.IsNullOrEmpty(query.Id)) projectsQuery = projectsQuery.Where(a => a.drr_name == query.Id);
 
             var results = (await projectsQuery.GetAllPagesAsync(ct)).ToList();
