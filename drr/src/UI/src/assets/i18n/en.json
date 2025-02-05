@@ -583,10 +583,10 @@
     "ProjectImplementation": "Project Implementation",
     "UnforeseenComplexity": "Unforeseen Complexity",
     "ProjectScopeChange": "Project Scope Change",
-    "GovernmentAgencies": "Government Agencies",
+    "GovernmentAgencies": "Ministries/Senior Government Agencies (permitting approvals, etc.)",
     "UnforeseenContractorDelays": "Unforeseen Contractor Delays",
     "Weather": "Weather",
-    "ChangeProjectManager": "Change Project Manager",
+    "ChangeProjectManager": "Change in Project Manager or Project Oversight Committee",
     "Other": "Other"
   }
 }
