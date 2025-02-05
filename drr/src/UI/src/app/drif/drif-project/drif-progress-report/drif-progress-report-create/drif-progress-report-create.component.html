@@ -88,15 +88,25 @@
         </drr-select>
 
         @if(isProjectDelayed()) {
-        <drr-select
-          class="drr-single-input"
-          label="Reason for delay"
-          [rxFormControl]="progressReportForm.get('workplan.delayReason')"
-          [options]="delayReasonOptions"
-        >
-        </drr-select>
-
-        <!-- TODO: "other" option input -->
+        <div style="display: flex; gap: 1rem">
+          <drr-select
+            class="drr-single-input"
+            label="Reason for delay"
+            [rxFormControl]="progressReportForm.get('workplan.delayReason')"
+            [options]="delayReasonOptions"
+          >
+          </drr-select>
+          @if (isOtherDelayReasonSelected()) {
+          <drr-input
+            class="drr-single-input"
+            label="Other"
+            [rxFormControl]="
+              progressReportForm.get('workplan.otherDelayReason')
+            "
+            [maxlength]="50"
+          ></drr-input
+          >}
+        </div>
 
         <drr-textarea
           label="Reasons for delay"

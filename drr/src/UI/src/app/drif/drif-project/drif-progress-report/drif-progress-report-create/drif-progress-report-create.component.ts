@@ -27,6 +27,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HotToastService } from '@ngxpert/hot-toast';
+import { Subscription } from 'rxjs';
 import { ProjectService } from '../../../../../api/project/project.service';
 import { DrrChipAutocompleteComponent } from '../../../../shared/controls/drr-chip-autocomplete/drr-chip-autocomplete.component';
 import { DrrDatepickerComponent } from '../../../../shared/controls/drr-datepicker/drr-datepicker.component';
@@ -262,6 +263,9 @@ export class DrifProgressReportCreateComponent {
           const delayReason = this.progressReportForm.get(
             'workplan.delayReason'
           );
+          const otherDelayReason = this.progressReportForm.get(
+            'workplan.otherDelayReason'
+          );
           const behindScheduleMitigatingComments = this.progressReportForm.get(
             'workplan.behindScheduleMitigatingComments'
           );
@@ -269,25 +273,40 @@ export class DrifProgressReportCreateComponent {
             'workplan.aheadOfScheduleComments'
           );
 
+          let delayReasonSub: Subscription | undefined;
+
           if (value === ProjectProgress.BehindSchedule) {
             delayReason?.addValidators(Validators.required);
+            delayReasonSub = delayReason?.valueChanges.subscribe((reason) => {
+              if (reason === DelayReason.Other) {
+                otherDelayReason?.addValidators(Validators.required);
+              } else {
+                otherDelayReason?.removeValidators(Validators.required);
+                otherDelayReason?.reset();
+              }
+            });
             behindScheduleMitigatingComments?.addValidators(
               Validators.required
             );
           } else {
             delayReason?.removeValidators(Validators.required);
+            delayReason?.reset();
+            delayReasonSub?.unsubscribe();
             behindScheduleMitigatingComments?.removeValidators(
               Validators.required
             );
+            behindScheduleMitigatingComments?.reset();
           }
 
           if (value === ProjectProgress.AheadOfSchedule) {
             aheadOfScheduleComments?.addValidators(Validators.required);
           } else {
             aheadOfScheduleComments?.removeValidators(Validators.required);
+            aheadOfScheduleComments?.reset();
           }
 
           delayReason?.updateValueAndValidity();
+          otherDelayReason?.updateValueAndValidity();
           behindScheduleMitigatingComments?.updateValueAndValidity();
           aheadOfScheduleComments?.updateValueAndValidity();
         });
@@ -472,5 +491,9 @@ export class DrifProgressReportCreateComponent {
       this.workplanForm?.get('projectProgress')?.value ===
       ProjectProgress.AheadOfSchedule
     );
+  }
+
+  isOtherDelayReasonSelected() {
+    return this.workplanForm?.get('delayReason')?.value === DelayReason.Other;
   }
 }
