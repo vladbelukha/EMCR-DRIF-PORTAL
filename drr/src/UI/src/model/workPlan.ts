@@ -4,16 +4,26 @@
  * DRR API
  * OpenAPI spec version: 1.0.0
  */
+import type { DelayReason } from './delayReason';
+import type { FundingSignage } from './fundingSignage';
+import type { ProjectProgress } from './projectProgress';
 import type { WorkplanActivity } from './workplanActivity';
 
 export interface Workplan {
   /** @nullable */
+  aheadOfScheduleComments?: string;
+  /** @nullable */
+  behindScheduleMitigatingComments?: string;
+  /** @nullable */
+  constructionCompletionPercentage?: number;
+  /** @nullable */
+  delayReason?: DelayReason;
+  /** @nullable */
+  fundingSignage?: FundingSignage[];
+  /** @nullable */
   fundingSourcesChanged?: boolean;
   /** @nullable */
   fundingSourcesChangedComment?: string;
-  /** @nullable */
-  outstandingIssues?: boolean;
-  outstandingIssuesComment?: string;
   /** @nullable */
   mediaAnnouncement?: boolean;
   /** @nullable */
@@ -21,9 +31,19 @@ export interface Workplan {
   /** @nullable */
   mediaAnnouncementDate?: string;
   /** @nullable */
+  otherDelayReason?: string;
+  /** @nullable */
+  outstandingIssues?: boolean;
+  /** @nullable */
+  outstandingIssuesComments?: string;
+  /** @nullable */
   projectCompletionPercentage?: number;
   /** @nullable */
-  workplanActivities?: WorkplanActivity[];
+  projectProgress?: ProjectProgress;
   /** @nullable */
-  worksCompleted?: string;
+  signageNotRequiredComments?: string;
+  /** @nullable */
+  signageRequired?: boolean;
+  /** @nullable */
+  workplanActivities?: WorkplanActivity[];
 }

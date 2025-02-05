@@ -8,7 +8,9 @@ import {
 } from '@rxweb/reactive-form-validators';
 import {
   ActivityType,
+  DelayReason,
   ProgressReport,
+  ProjectProgress,
   Workplan,
   WorkplanActivity,
   WorkplanStatus,
@@ -79,6 +81,40 @@ export class WorkplanActivityForm implements WorkplanActivity {
 }
 
 export class WorkplanForm implements Workplan {
+  @prop()
+  @required()
+  projectProgress?: ProjectProgress;
+
+  @prop()
+  @required({
+    conditionalExpression: function (control: any) {
+      return control.projectProgress == ProjectProgress.BehindSchedule;
+    },
+  })
+  delayReason?: DelayReason;
+
+  @prop()
+  otherDelayReason?: string;
+
+  // TODO: the reason why this is not working with hasValidator(Validators.required)
+  // is because rxweb create a custom validator that doesn't match
+  // it is possible unsolvable, need to investigate further
+  @required({
+    conditionalExpression: function (model: any) {
+      return model.projectProgress == ProjectProgress.BehindSchedule;
+    },
+  })
+  @prop()
+  behindScheduleMitigatingComments?: string;
+
+  @prop()
+  @required({
+    conditionalExpression: function (control: any) {
+      return control.projectProgress == ProjectProgress.AheadOfSchedule;
+    },
+  })
+  aheadOfScheduleComments?: string;
+
   @propArray(WorkplanActivityForm)
   workplanActivities?: WorkplanActivityForm[] = [];
 

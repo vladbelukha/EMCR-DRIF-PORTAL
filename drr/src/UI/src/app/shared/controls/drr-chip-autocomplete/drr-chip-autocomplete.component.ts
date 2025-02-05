@@ -2,7 +2,12 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { Component, ElementRef, inject, Input, ViewChild } from '@angular/core';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormControl,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import {
   MatAutocompleteModule,
   MatAutocompleteSelectedEvent,
@@ -161,6 +166,6 @@ export class DrrChipAutocompleteComponent {
   isRequired(): boolean {
     return this.isMobile
       ? false
-      : !!this.rxFormControl?.validator?.({})?.required;
+      : this.rxFormControl?.hasValidator(Validators.required);
   }
 }

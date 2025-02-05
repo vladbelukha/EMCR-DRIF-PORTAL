@@ -15,7 +15,9 @@ import {
 } from '@rxweb/reactive-form-validators';
 import {
   ActivityType,
+  DelayReason,
   ProgressReport,
+  ProjectProgress,
   WorkplanStatus,
   YesNoOption,
 } from '../../../../../model';
@@ -24,7 +26,10 @@ import { AbstractControl, FormArray, Validators } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { ActivatedRoute, Router } from '@angular/router';
+import { HotToastService } from '@ngxpert/hot-toast';
+import { Subscription } from 'rxjs';
 import { ProjectService } from '../../../../../api/project/project.service';
+import { DrrChipAutocompleteComponent } from '../../../../shared/controls/drr-chip-autocomplete/drr-chip-autocomplete.component';
 import { DrrDatepickerComponent } from '../../../../shared/controls/drr-datepicker/drr-datepicker.component';
 import { DrrInputComponent } from '../../../../shared/controls/drr-input/drr-input.component';
 import { DrrNumericInputComponent } from '../../../../shared/controls/drr-number-input/drr-number-input.component';
@@ -62,6 +67,7 @@ import {
     DrrSelectComponent,
     DrrRadioButtonComponent,
     DrrTextareaComponent,
+    DrrChipAutocompleteComponent,
     RxReactiveFormsModule,
     MatDividerModule,
   ],
@@ -75,10 +81,18 @@ export class DrifProgressReportCreateComponent {
   router = inject(Router);
   projectService = inject(ProjectService);
   translocoService = inject(TranslocoService);
+  toastService = inject(HotToastService);
 
   projectId!: string;
   reportId!: string;
   progressReportId!: string;
+
+  stepperOrientation: StepperOrientation = 'horizontal';
+
+  progressReportForm = this.formBuilder.formGroup(
+    ProgressReportForm,
+    {}
+  ) as IFormGroup<ProgressReportForm>;
 
   private allActivityTypeOptions: DrrSelectOption[] = Object.values(
     ActivityType
@@ -103,12 +117,14 @@ export class DrifProgressReportCreateComponent {
       (option) => option.value !== WorkplanStatus.NoLongerNeeded
     );
 
-  yesNoNaRadioOptions: RadioOption[] = Object.values(YesNoOption).map(
-    (value) => ({
-      label: value, // TODO: translate
+  milestoneStatusOptions: DrrSelectOption[] = Object.values(WorkplanStatus)
+    .filter(
+      (s) => s === WorkplanStatus.NotAwarded || s === WorkplanStatus.Awarded
+    )
+    .map((value) => ({
+      label: this.translocoService.translate(`workplanStatus.${value}`),
       value,
-    })
-  );
+    }));
 
   yesNoRadioOptions: RadioOption[] = [
     {
@@ -139,11 +155,17 @@ export class DrifProgressReportCreateComponent {
     })
   );
 
-  stepperOrientation: StepperOrientation = 'horizontal';
+  projectProgressOptions = Object.keys(ProjectProgress).map((key) => ({
+    label: this.translocoService.translate(`projectProgress.${key}`),
+    value: key,
+  }));
 
-  progressReportForm = this.formBuilder.formGroup(
-    ProgressReportForm
-  ) as IFormGroup<ProgressReportForm>;
+  delayReasonOptions: DrrSelectOption[] = Object.values(DelayReason).map(
+    (value) => ({
+      label: this.translocoService.translate(`delayReason.${value}`),
+      value,
+    })
+  );
 
   get workplanForm(): IFormGroup<WorkplanForm> | null {
     return this.progressReportForm.get('workplan') as IFormGroup<WorkplanForm>;
@@ -170,8 +192,6 @@ export class DrifProgressReportCreateComponent {
           this.progressReportId
         )
         .subscribe((report: ProgressReport) => {
-          this.progressReportForm.patchValue(report);
-
           report.workplan?.workplanActivities?.map((activity) => {
             const activityForm = this.formBuilder.formGroup(
               new WorkplanActivityForm(activity)
@@ -233,6 +253,62 @@ export class DrifProgressReportCreateComponent {
               date?.updateValueAndValidity();
               comment?.updateValueAndValidity();
             });
+
+          this.progressReportForm.patchValue(report);
+        });
+
+      this.progressReportForm
+        .get('workplan.projectProgress')
+        ?.valueChanges.subscribe((value) => {
+          const delayReason = this.progressReportForm.get(
+            'workplan.delayReason'
+          );
+          const otherDelayReason = this.progressReportForm.get(
+            'workplan.otherDelayReason'
+          );
+          const behindScheduleMitigatingComments = this.progressReportForm.get(
+            'workplan.behindScheduleMitigatingComments'
+          );
+          const aheadOfScheduleComments = this.progressReportForm.get(
+            'workplan.aheadOfScheduleComments'
+          );
+
+          let delayReasonSub: Subscription | undefined;
+
+          if (value === ProjectProgress.BehindSchedule) {
+            delayReason?.addValidators(Validators.required);
+            delayReasonSub = delayReason?.valueChanges.subscribe((reason) => {
+              if (reason === DelayReason.Other) {
+                otherDelayReason?.addValidators(Validators.required);
+              } else {
+                otherDelayReason?.removeValidators(Validators.required);
+                otherDelayReason?.reset();
+              }
+            });
+            behindScheduleMitigatingComments?.addValidators(
+              Validators.required
+            );
+          } else {
+            delayReason?.removeValidators(Validators.required);
+            delayReason?.reset();
+            delayReasonSub?.unsubscribe();
+            behindScheduleMitigatingComments?.removeValidators(
+              Validators.required
+            );
+            behindScheduleMitigatingComments?.reset();
+          }
+
+          if (value === ProjectProgress.AheadOfSchedule) {
+            aheadOfScheduleComments?.addValidators(Validators.required);
+          } else {
+            aheadOfScheduleComments?.removeValidators(Validators.required);
+            aheadOfScheduleComments?.reset();
+          }
+
+          delayReason?.updateValueAndValidity();
+          otherDelayReason?.updateValueAndValidity();
+          behindScheduleMitigatingComments?.updateValueAndValidity();
+          aheadOfScheduleComments?.updateValueAndValidity();
         });
     });
   }
@@ -248,7 +324,7 @@ export class DrifProgressReportCreateComponent {
         this.progressReportForm.getRawValue()
       )
       .subscribe(() => {
-        this.router.navigate(['drif-projects', this.projectId]);
+        this.toastService.success('Progress report saved');
       });
   }
 
@@ -266,8 +342,33 @@ export class DrifProgressReportCreateComponent {
 
   getPreDefinedActivitiesArray() {
     return this.workplanItems?.controls.filter(
-      (control) => control.get('preCreatedActivity')?.value
+      (control) =>
+        control.get('preCreatedActivity')?.value &&
+        control.get('activity')?.value !== ActivityType.PermitToConstruct &&
+        control.get('activity')?.value !==
+          ActivityType.ConstructionContractAward
     );
+  }
+
+  getMilestoneActivitiesArray() {
+    return this.workplanItems?.controls.filter(
+      (control) =>
+        control.get('preCreatedActivity')?.value &&
+        (control.get('activity')?.value === ActivityType.PermitToConstruct ||
+          control.get('activity')?.value ===
+            ActivityType.ConstructionContractAward)
+    );
+  }
+
+  getPreDefinedActivityStatusOptions(preDefinedActivity: ActivityType) {
+    if (
+      preDefinedActivity === ActivityType.ConstructionContractAward ||
+      preDefinedActivity === ActivityType.PermitToConstruct
+    ) {
+      return this.milestoneStatusOptions;
+    }
+
+    return this.necessaryActivityStatusOptions;
   }
 
   getAdditionalActivitiesArray() {
@@ -317,7 +418,10 @@ export class DrifProgressReportCreateComponent {
 
   showPlannedStartDate(activityControl: AbstractControl<WorkplanActivityForm>) {
     const status = activityControl?.get('status')?.value as WorkplanStatus;
-    return status === WorkplanStatus.NotStarted;
+    return (
+      status === WorkplanStatus.NotStarted ||
+      status === WorkplanStatus.NotAwarded
+    );
   }
 
   showPlannedEndDate(activityControl: AbstractControl<WorkplanActivityForm>) {
@@ -332,7 +436,8 @@ export class DrifProgressReportCreateComponent {
     const status = activityControl?.get('status')?.value as WorkplanStatus;
     return (
       status === WorkplanStatus.InProgress ||
-      status === WorkplanStatus.Completed
+      status === WorkplanStatus.Completed ||
+      status === WorkplanStatus.Awarded
     );
   }
 
@@ -372,5 +477,23 @@ export class DrifProgressReportCreateComponent {
     );
 
     return this.allActivityTypeOptions.length !== selectedActivities.length;
+  }
+
+  isProjectDelayed() {
+    return (
+      this.workplanForm?.get('projectProgress')?.value ===
+      ProjectProgress.BehindSchedule
+    );
+  }
+
+  isProjectAhead() {
+    return (
+      this.workplanForm?.get('projectProgress')?.value ===
+      ProjectProgress.AheadOfSchedule
+    );
+  }
+
+  isOtherDelayReasonSelected() {
+    return this.workplanForm?.get('delayReason')?.value === DelayReason.Other;
   }
 }

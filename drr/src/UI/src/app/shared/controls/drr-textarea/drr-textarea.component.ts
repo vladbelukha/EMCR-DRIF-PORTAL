@@ -1,7 +1,7 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, Input, inject } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { UntilDestroy } from '@ngneat/until-destroy';
@@ -10,8 +10,44 @@ import { RxFormBuilder, RxFormControl } from '@rxweb/reactive-form-validators';
 @UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'drr-textarea',
-  templateUrl: './drr-textarea.component.html',
-  styleUrl: './drr-textarea.component.scss',
+  template: `
+    <mat-label>{{ label }}{{ getMandatoryMark() }}</mat-label>
+    <mat-form-field class="drr-textarea">
+      <textarea
+        id="{{ id }}"
+        matInput
+        [formControl]="rxFormControl"
+        [maxlength]="maxlength"
+        [rows]="rows"
+      ></textarea>
+      <mat-hint *ngIf="maxlength" align="end"
+        >{{ getCount() }} / {{ maxlength }}</mat-hint
+      >
+    </mat-form-field>
+  `,
+  styles: [
+    `
+      .drr-textarea {
+        width: 100%;
+        margin-top: 8px;
+      }
+
+      @media screen and (max-width: 767px) {
+        .drr-textarea mat-label {
+          white-space: normal;
+        }
+      }
+
+      :host {
+        .drr-textarea
+          ::ng-deep
+          .mdc-text-field--outlined.mdc-text-field--disabled
+          .mdc-text-field__input {
+          color: var(--mdc-outlined-text-field-input-text-color);
+        }
+      }
+    `,
+  ],
   standalone: true,
   imports: [
     CommonModule,
@@ -60,6 +96,6 @@ export class DrrTextareaComponent {
   }
 
   getMandatoryMark() {
-    return !!this.rxFormControl?.validator?.({})?.required ? '*' : '';
+    return this.rxFormControl?.hasValidator(Validators.required) ? '*' : '';
   }
 }

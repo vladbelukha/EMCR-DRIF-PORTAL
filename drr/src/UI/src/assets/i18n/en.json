@@ -550,7 +550,9 @@
     "NotStarted": "Not Started",
     "InProgress": "In Progress",
     "Completed": "Completed",
-    "NoLongerNeeded": "No Longer Needed"
+    "NoLongerNeeded": "No Longer Needed",
+    "Awarded": "Awarded",
+    "NotAwarded": "Not Awarded"
   },
   "progressReport": {
     "projectWorkplan": "Project Workplan",
@@ -566,5 +568,25 @@
     "additionalActivityComment": "Explain why the additional activity is needed for the project",
     "outstandingIssues": "Are there any outstanding issues?",
     "outstandingIssuesComment": "Please provide any details on any outstanding issues"
+  },
+  "projectProgress": {
+    "OnSchedule": "Project is on schedule",
+    "AheadOfSchedule": "Project is ahead of schedule",
+    "BehindSchedule": "Project is behind schedule",
+    "Complete": "Project is complete"
+  },
+  "delayReason": {
+    "Tendering": "Tendering",
+    "Referendum": "Referendum",
+    "PropertyAquisition": "Property Aquisition",
+    "Negotiations": "Negotiations",
+    "ProjectImplementation": "Project Implementation",
+    "UnforeseenComplexity": "Unforeseen Complexity",
+    "ProjectScopeChange": "Project Scope Change",
+    "GovernmentAgencies": "Ministries/Senior Government Agencies (permitting approvals, etc.)",
+    "UnforeseenContractorDelays": "Unforeseen Contractor Delays",
+    "Weather": "Weather",
+    "ChangeProjectManager": "Change in Project Manager or Project Oversight Committee",
+    "Other": "Other"
   }
 }
