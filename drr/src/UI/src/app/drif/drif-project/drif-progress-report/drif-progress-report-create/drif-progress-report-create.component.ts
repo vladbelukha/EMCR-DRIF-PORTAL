@@ -18,6 +18,7 @@ import {
   DelayReason,
   ProgressReport,
   ProjectProgress,
+  SignageType,
   WorkplanStatus,
   YesNoOption,
 } from '../../../../../model';
@@ -29,7 +30,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HotToastService } from '@ngxpert/hot-toast';
 import { Subscription } from 'rxjs';
 import { ProjectService } from '../../../../../api/project/project.service';
-import { DrrChipAutocompleteComponent } from '../../../../shared/controls/drr-chip-autocomplete/drr-chip-autocomplete.component';
 import { DrrDatepickerComponent } from '../../../../shared/controls/drr-datepicker/drr-datepicker.component';
 import { DrrInputComponent } from '../../../../shared/controls/drr-input/drr-input.component';
 import { DrrNumericInputComponent } from '../../../../shared/controls/drr-number-input/drr-number-input.component';
@@ -45,6 +45,7 @@ import { DrrTextareaComponent } from '../../../../shared/controls/drr-textarea/d
 import {
   EventForm,
   EventProgressType,
+  FundingSignageForm,
   ProgressReportForm,
   WorkplanActivityForm,
   WorkplanForm,
@@ -67,7 +68,6 @@ import {
     DrrSelectComponent,
     DrrRadioButtonComponent,
     DrrTextareaComponent,
-    DrrChipAutocompleteComponent,
     RxReactiveFormsModule,
     MatDividerModule,
   ],
@@ -167,6 +167,13 @@ export class DrifProgressReportCreateComponent {
     })
   );
 
+  signageTypeOptions: DrrSelectOption[] = Object.values(SignageType).map(
+    (value) => ({
+      label: this.translocoService.translate(`signageType.${value}`),
+      value,
+    })
+  );
+
   get workplanForm(): IFormGroup<WorkplanForm> | null {
     return this.progressReportForm.get('workplan') as IFormGroup<WorkplanForm>;
   }
@@ -200,6 +207,21 @@ export class DrifProgressReportCreateComponent {
             this.workplanItems?.push(activityForm);
           });
 
+          if (
+            report?.workplan?.fundingSignage
+              ? report?.workplan?.fundingSignage.length > 0
+              : false
+          ) {
+            this.getSignageFormArray().clear();
+          }
+          report.workplan?.fundingSignage?.map((signage) => {
+            const signageForm = this.formBuilder.formGroup(
+              new FundingSignageForm(signage)
+            );
+
+            this.getSignageFormArray()?.push(signageForm);
+          });
+
           this.progressReportForm
             .get('workplan.fundingSourcesChanged')
             ?.valueChanges.subscribe((value) => {
@@ -220,7 +242,7 @@ export class DrifProgressReportCreateComponent {
             .get('workplan.outstandingIssues')
             ?.valueChanges.subscribe((value) => {
               const comment = this.progressReportForm.get(
-                'workplan.outstandingIssuesComment'
+                'workplan.outstandingIssuesComments'
               );
 
               if (value) {
@@ -495,5 +517,28 @@ export class DrifProgressReportCreateComponent {
 
   isOtherDelayReasonSelected() {
     return this.workplanForm?.get('delayReason')?.value === DelayReason.Other;
+  }
+
+  isStructuralProject() {
+    // TODO: implement
+    return true;
+  }
+
+  getSignageFormArray() {
+    return this.workplanForm?.get('fundingSignage') as FormArray;
+  }
+
+  addSignage() {
+    this.getSignageFormArray()?.push(
+      this.formBuilder.formGroup(new FundingSignageForm({}))
+    );
+  }
+
+  removeSignage(id: string) {
+    const index = this.getSignageFormArray()?.controls.findIndex(
+      (control) => control.get('id')?.value === id
+    );
+
+    this.getSignageFormArray()?.removeAt(index!);
   }
 }
