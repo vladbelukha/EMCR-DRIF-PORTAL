@@ -254,6 +254,38 @@ export class DrifProgressReportCreateComponent {
 
           this.progressReportForm.patchValue(report);
         });
+
+      this.progressReportForm
+        .get('workplan.projectProgressStatus')
+        ?.valueChanges.subscribe((value) => {
+          const reasonsForDelay = this.progressReportForm.get(
+            'workplan.reasonsForDelay'
+          );
+          const reasonsForDelayComment = this.progressReportForm.get(
+            'workplan.reasonsForDelayComment'
+          );
+          const reasonsForBeingAhead = this.progressReportForm.get(
+            'workplan.reasonsForBeingAhead'
+          );
+
+          if (value === ProjectProgressStatus.BehindSchedule) {
+            reasonsForDelay?.addValidators(Validators.required);
+            reasonsForDelayComment?.addValidators(Validators.required);
+          } else {
+            reasonsForDelay?.removeValidators(Validators.required);
+            reasonsForDelayComment?.removeValidators(Validators.required);
+          }
+
+          if (value === ProjectProgressStatus.AheadOfSchedule) {
+            reasonsForBeingAhead?.addValidators(Validators.required);
+          } else {
+            reasonsForBeingAhead?.removeValidators(Validators.required);
+          }
+
+          reasonsForDelay?.updateValueAndValidity();
+          reasonsForDelayComment?.updateValueAndValidity();
+          reasonsForBeingAhead?.updateValueAndValidity();
+        });
     });
   }
 

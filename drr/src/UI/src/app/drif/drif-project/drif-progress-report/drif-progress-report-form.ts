@@ -105,20 +105,15 @@ export class WorkplanForm implements Workplan {
       );
     },
   })
-  // @minNumber({
-  //   value: 1,
-  //   conditionalExpression: function (control: any) {
-  //     return (
-  //       control.projectProgressStatus == ProjectProgressStatus.BehindSchedule
-  //     );
-  //   },
-  // })
   reasonsForDelay?: string[];
 
+  // TODO: the reason why this is not working with hasValidator(Validators.required)
+  // is because rxweb create a custom validator that doesn't match
+  // it is possible unsolvable, need to investigate further
   @required({
-    conditionalExpression: function (control: any) {
+    conditionalExpression: function (model: any) {
       return (
-        control.projectProgressStatus == ProjectProgressStatus.BehindSchedule
+        model.projectProgressStatus == ProjectProgressStatus.BehindSchedule
       );
     },
   })
