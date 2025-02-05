@@ -15,7 +15,9 @@ import {
 } from '@rxweb/reactive-form-validators';
 import {
   ActivityType,
+  DelayReason,
   ProgressReport,
+  ProjectProgress,
   WorkplanStatus,
   YesNoOption,
 } from '../../../../../model';
@@ -43,8 +45,6 @@ import {
   EventForm,
   EventProgressType,
   ProgressReportForm,
-  ProjectProgressStatus,
-  ReasonsForDelay,
   WorkplanActivityForm,
   WorkplanForm,
 } from '../drif-progress-report-form';
@@ -154,15 +154,16 @@ export class DrifProgressReportCreateComponent {
     })
   );
 
-  projectProgressStatusOptions = Object.keys(ProjectProgressStatus).map(
-    (key) => ({
-      label: this.translocoService.translate(`projectProgressStatus.${key}`),
-      value: key,
-    })
-  );
+  projectProgressOptions = Object.keys(ProjectProgress).map((key) => ({
+    label: this.translocoService.translate(`projectProgress.${key}`),
+    value: key,
+  }));
 
-  reasonsForDelayOptions: string[] = Object.values(ReasonsForDelay).map(
-    (value) => this.translocoService.translate(`reasonsForDelay.${value}`)
+  delayReasonOptions: DrrSelectOption[] = Object.values(DelayReason).map(
+    (value) => ({
+      label: this.translocoService.translate(`delayReason.${value}`),
+      value,
+    })
   );
 
   get workplanForm(): IFormGroup<WorkplanForm> | null {
@@ -256,35 +257,39 @@ export class DrifProgressReportCreateComponent {
         });
 
       this.progressReportForm
-        .get('workplan.projectProgressStatus')
+        .get('workplan.projectProgress')
         ?.valueChanges.subscribe((value) => {
-          const reasonsForDelay = this.progressReportForm.get(
-            'workplan.reasonsForDelay'
+          const delayReason = this.progressReportForm.get(
+            'workplan.delayReason'
           );
-          const reasonsForDelayComment = this.progressReportForm.get(
-            'workplan.reasonsForDelayComment'
+          const behindScheduleMitigatingComments = this.progressReportForm.get(
+            'workplan.behindScheduleMitigatingComments'
           );
-          const reasonsForBeingAhead = this.progressReportForm.get(
-            'workplan.reasonsForBeingAhead'
+          const aheadOfScheduleComments = this.progressReportForm.get(
+            'workplan.aheadOfScheduleComments'
           );
 
-          if (value === ProjectProgressStatus.BehindSchedule) {
-            reasonsForDelay?.addValidators(Validators.required);
-            reasonsForDelayComment?.addValidators(Validators.required);
+          if (value === ProjectProgress.BehindSchedule) {
+            delayReason?.addValidators(Validators.required);
+            behindScheduleMitigatingComments?.addValidators(
+              Validators.required
+            );
           } else {
-            reasonsForDelay?.removeValidators(Validators.required);
-            reasonsForDelayComment?.removeValidators(Validators.required);
+            delayReason?.removeValidators(Validators.required);
+            behindScheduleMitigatingComments?.removeValidators(
+              Validators.required
+            );
           }
 
-          if (value === ProjectProgressStatus.AheadOfSchedule) {
-            reasonsForBeingAhead?.addValidators(Validators.required);
+          if (value === ProjectProgress.AheadOfSchedule) {
+            aheadOfScheduleComments?.addValidators(Validators.required);
           } else {
-            reasonsForBeingAhead?.removeValidators(Validators.required);
+            aheadOfScheduleComments?.removeValidators(Validators.required);
           }
 
-          reasonsForDelay?.updateValueAndValidity();
-          reasonsForDelayComment?.updateValueAndValidity();
-          reasonsForBeingAhead?.updateValueAndValidity();
+          delayReason?.updateValueAndValidity();
+          behindScheduleMitigatingComments?.updateValueAndValidity();
+          aheadOfScheduleComments?.updateValueAndValidity();
         });
     });
   }
@@ -457,15 +462,15 @@ export class DrifProgressReportCreateComponent {
 
   isProjectDelayed() {
     return (
-      this.workplanForm?.get('projectProgressStatus')?.value ===
-      ProjectProgressStatus.BehindSchedule
+      this.workplanForm?.get('projectProgress')?.value ===
+      ProjectProgress.BehindSchedule
     );
   }
 
   isProjectAhead() {
     return (
-      this.workplanForm?.get('projectProgressStatus')?.value ===
-      ProjectProgressStatus.AheadOfSchedule
+      this.workplanForm?.get('projectProgress')?.value ===
+      ProjectProgress.AheadOfSchedule
     );
   }
 }

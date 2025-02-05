@@ -569,10 +569,24 @@
     "outstandingIssues": "Are there any outstanding issues?",
     "outstandingIssuesComment": "Please provide any details on any outstanding issues"
   },
-  "projectProgressStatus": {
+  "projectProgress": {
     "OnSchedule": "Project is on schedule",
     "AheadOfSchedule": "Project is ahead of schedule",
     "BehindSchedule": "Project is behind schedule",
-    "Completed": "Project is complete"
+    "Complete": "Project is complete"
+  },
+  "delayReason": {
+    "Tendering": "Tendering",
+    "Referendum": "Referendum",
+    "PropertyAquisition": "Property Aquisition",
+    "Negotiations": "Negotiations",
+    "ProjectImplementation": "Project Implementation",
+    "UnforeseenComplexity": "Unforeseen Complexity",
+    "ProjectScopeChange": "Project Scope Change",
+    "GovernmentAgencies": "Government Agencies",
+    "UnforeseenContractorDelays": "Unforeseen Contractor Delays",
+    "Weather": "Weather",
+    "ChangeProjectManager": "Change Project Manager",
+    "Other": "Other"
   }
 }

@@ -82,24 +82,26 @@
         <drr-select
           class="drr-single-input"
           label="Project Progress Status"
-          [rxFormControl]="
-            progressReportForm.get('workplan.projectProgressStatus')
-          "
-          [options]="projectProgressStatusOptions"
+          [rxFormControl]="progressReportForm.get('workplan.projectProgress')"
+          [options]="projectProgressOptions"
         >
         </drr-select>
 
         @if(isProjectDelayed()) {
-        <drr-chip-autocomplete
-          label="Reasons for delay"
-          [rxFormControl]="progressReportForm.get('workplan.reasonsForDelay')"
-          [options]="reasonsForDelayOptions"
-        ></drr-chip-autocomplete>
+        <drr-select
+          class="drr-single-input"
+          label="Reason for delay"
+          [rxFormControl]="progressReportForm.get('workplan.delayReason')"
+          [options]="delayReasonOptions"
+        >
+        </drr-select>
+
+        <!-- TODO: "other" option input -->
 
         <drr-textarea
           label="Reasons for delay"
           [rxFormControl]="
-            progressReportForm.get('workplan.reasonsForDelayComment')
+            progressReportForm.get('workplan.behindScheduleMitigatingComments')
           "
           [maxlength]="2000"
         ></drr-textarea>
@@ -107,7 +109,7 @@
         <drr-textarea
           label="Reasons for being ahead"
           [rxFormControl]="
-            progressReportForm.get('workplan.reasonsForBeingAhead')
+            progressReportForm.get('workplan.aheadOfScheduleComments')
           "
           [maxlength]="2000"
         ></drr-textarea>

@@ -8,7 +8,9 @@ import {
 } from '@rxweb/reactive-form-validators';
 import {
   ActivityType,
+  DelayReason,
   ProgressReport,
+  ProjectProgress,
   Workplan,
   WorkplanActivity,
   WorkplanStatus,
@@ -78,57 +80,40 @@ export class WorkplanActivityForm implements WorkplanActivity {
   }
 }
 
-// TODO: remove after API introduces this enum
-export enum ProjectProgressStatus {
-  OnSchedule = 'OnSchedule',
-  AheadOfSchedule = 'AheadOfSchedule',
-  BehindSchedule = 'BehindSchedule',
-  Completed = 'Completed',
-}
-// TODO: remove after API introduces this enum
-export enum ReasonsForDelay {
-  Reason1 = 'Reason 1',
-  Reason2 = 'Reason 2',
-  Reason3 = 'Reason 3',
-}
-
 export class WorkplanForm implements Workplan {
   @prop()
   @required()
-  projectProgressStatus?: ProjectProgressStatus;
+  projectProgress?: ProjectProgress;
 
   @prop()
   @required({
     conditionalExpression: function (control: any) {
-      return (
-        control.projectProgressStatus == ProjectProgressStatus.BehindSchedule
-      );
+      return control.projectProgress == ProjectProgress.BehindSchedule;
     },
   })
-  reasonsForDelay?: string[];
+  delayReason?: DelayReason;
+
+  @prop()
+  otherDelayReason?: string;
 
   // TODO: the reason why this is not working with hasValidator(Validators.required)
   // is because rxweb create a custom validator that doesn't match
   // it is possible unsolvable, need to investigate further
   @required({
     conditionalExpression: function (model: any) {
-      return (
-        model.projectProgressStatus == ProjectProgressStatus.BehindSchedule
-      );
+      return model.projectProgress == ProjectProgress.BehindSchedule;
     },
   })
   @prop()
-  reasonsForDelayComment?: string;
+  behindScheduleMitigatingComments?: string;
 
   @prop()
   @required({
     conditionalExpression: function (control: any) {
-      return (
-        control.projectProgressStatus == ProjectProgressStatus.AheadOfSchedule
-      );
+      return control.projectProgress == ProjectProgress.AheadOfSchedule;
     },
   })
-  reasonsForBeingAhead?: string;
+  aheadOfScheduleComments?: string;
 
   @propArray(WorkplanActivityForm)
   workplanActivities?: WorkplanActivityForm[] = [];
