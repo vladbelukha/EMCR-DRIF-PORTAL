@@ -125,6 +125,18 @@
         ></drr-textarea>
         }
 
+        <div class="workplan-item">
+          <mat-label class="drr-label">
+            Percentage of Project Complete as of report date
+          </mat-label>
+          <drr-numeric-input
+            style="align-self: flex-start"
+            label="Percentage"
+            [rxFormControl]="workplanForm?.get('projectCompletionPercentage')"
+            numericType="percentage"
+          ></drr-numeric-input>
+        </div>
+
         <div>
           <h5>Key Activities</h5>
           <div
@@ -428,6 +440,82 @@
 
         <mat-divider style="margin-top: 2rem"></mat-divider>
 
+        @if (isStructuralProject()) {
+        <h5 style="margin-top: 2rem">Temporary Provincial Funding Signage</h5>
+
+        <drr-radio-button
+          class="drr-single-input"
+          label="Is signage required?"
+          [options]="yesNoRadioOptions"
+          [rxFormControl]="workplanForm?.get('signageRequired')"
+        ></drr-radio-button>
+
+        @if (workplanForm?.get('signageRequired')?.value === true) {
+        <div
+          *ngFor="let signage of getSignageFormArray().controls; let i = index"
+          style="margin-top: 1rem"
+        >
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title-group>
+                <mat-card-subtitle> Signage {{ i + 1 }} </mat-card-subtitle>
+              </mat-card-title-group>
+            </mat-card-header>
+            <mat-card-content>
+              <div style="display: flex; gap: 1rem; align-items: flex-end">
+                <drr-radio-button
+                  class="drr-single-input"
+                  label="Is approved by Province?"
+                  [options]="yesNoRadioOptions"
+                  [rxFormControl]="signage.get('beenApproved')"
+                ></drr-radio-button>
+                <drr-select
+                  class="drr-single-input"
+                  label="Signage Type"
+                  [rxFormControl]="signage.get('signageType')"
+                  [options]="signageTypeOptions"
+                >
+                </drr-select>
+                <drr-datepicker
+                  class="drr-single-input"
+                  label="Date Installed"
+                  [rxFormControl]="signage.get('dateInstalled')"
+                ></drr-datepicker>
+                <drr-datepicker
+                  class="drr-single-input"
+                  label="Date Removed"
+                  [rxFormControl]="signage.get('dateRemoved')"
+                ></drr-datepicker>
+              </div>
+            </mat-card-content>
+            @if (getSignageFormArray().controls.length > 1) {
+            <mat-card-actions align="end">
+              <button
+                mat-raised-button
+                color="warn"
+                (click)="removeSignage(signage.get('id')?.value)"
+              >
+                Remove
+              </button>
+            </mat-card-actions>
+            }
+          </mat-card>
+        </div>
+        <button
+          style="margin-top: 1rem; align-self: flex-start"
+          mat-raised-button
+          color="primary"
+          (click)="addSignage()"
+        >
+          Add Signage
+        </button>
+        } @if (workplanForm?.get('signageRequired')?.value === false) {
+        <drr-textarea
+          label="Why is signage not required?"
+          [rxFormControl]="workplanForm?.get('signageNotRequiredComments')"
+          [maxlength]="2000"
+        ></drr-textarea>
+        } }
         <div
           style="
             display: flex;
@@ -436,17 +524,6 @@
             margin-top: 2rem;
           "
         >
-          <div class="workplan-item">
-            <mat-label class="drr-label">
-              Percentage of Project Complete as of report date
-            </mat-label>
-            <drr-numeric-input
-              style="align-self: flex-start"
-              label="Percentage"
-              [rxFormControl]="workplanForm?.get('projectCompletionPercentage')"
-              numericType="percentage"
-            ></drr-numeric-input>
-          </div>
           <div class="workplan-item">
             <mat-label class="drr-label"> Media Announcements</mat-label>
             <drr-radio-button
@@ -488,18 +565,18 @@
               [options]="yesNoRadioOptions"
             ></drr-radio-button>
             @if
-            (showMandatoryControl(workplanForm?.get('outstandingIssuesComment')))
+            (showMandatoryControl(workplanForm?.get('outstandingIssuesComments')))
             {
             <drr-textarea
-              [label]="t('outstandingIssuesComment')"
-              [rxFormControl]="workplanForm?.get('outstandingIssuesComment')"
+              [label]="t('outstandingIssuesComments')"
+              [rxFormControl]="workplanForm?.get('outstandingIssuesComments')"
               [maxlength]="2000"
             ></drr-textarea>
             }
           </div>
           <div class="workplan-item">
             <mat-label class="drr-label">
-              Changes to Funding Srouces
+              Changes to Funding Sources
             </mat-label>
             <drr-radio-button
               class="drr-single-input"

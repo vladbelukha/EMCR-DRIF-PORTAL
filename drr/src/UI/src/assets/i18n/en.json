@@ -567,7 +567,7 @@
     "keyActivityComment": "Detail any date changes that have occurred and explain why the dates have changed",
     "additionalActivityComment": "Explain why the additional activity is needed for the project",
     "outstandingIssues": "Are there any outstanding issues?",
-    "outstandingIssuesComment": "Please provide any details on any outstanding issues"
+    "outstandingIssuesComments": "Please provide any details on any outstanding issues"
   },
   "projectProgress": {
     "OnSchedule": "Project is on schedule",
@@ -588,5 +588,10 @@
     "Weather": "Weather",
     "ChangeProjectManager": "Change in Project Manager or Project Oversight Committee",
     "Other": "Other"
+  },
+  "signageType": {
+    "Temporary": "Temporary",
+    "Digital": "Digital",
+    "Plaque": "Plaque"
   }
 }

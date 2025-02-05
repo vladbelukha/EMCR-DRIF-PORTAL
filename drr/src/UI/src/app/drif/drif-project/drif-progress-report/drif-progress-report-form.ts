@@ -9,8 +9,10 @@ import {
 import {
   ActivityType,
   DelayReason,
+  FundingSignage,
   ProgressReport,
   ProjectProgress,
+  SignageType,
   Workplan,
   WorkplanActivity,
   WorkplanStatus,
@@ -80,6 +82,29 @@ export class WorkplanActivityForm implements WorkplanActivity {
   }
 }
 
+export class FundingSignageForm implements FundingSignage {
+  @prop()
+  id?: string;
+
+  @prop()
+  @required()
+  signageType?: SignageType | undefined;
+
+  @prop()
+  @required()
+  beenApproved?: boolean;
+
+  @prop()
+  dateInstalled?: string;
+
+  @prop()
+  dateRemoved?: string;
+
+  constructor(values: FundingSignageForm) {
+    Object.assign(this, values);
+  }
+}
+
 export class WorkplanForm implements Workplan {
   @prop()
   @required()
@@ -142,7 +167,7 @@ export class WorkplanForm implements Workplan {
   outstandingIssues?: boolean;
 
   @prop()
-  outstandingIssuesComment?: string;
+  outstandingIssuesComments?: string;
 
   @prop()
   @required()
@@ -150,6 +175,16 @@ export class WorkplanForm implements Workplan {
 
   @prop()
   fundingSourcesChangedComment?: string;
+
+  @prop()
+  @required()
+  signageRequired?: boolean;
+
+  @propArray(FundingSignageForm)
+  fundingSignage?: FundingSignageForm[] = [{}];
+
+  @prop()
+  signageNotRequiredComments?: string;
 
   constructor(values: WorkplanForm) {
     Object.assign(this, values);
