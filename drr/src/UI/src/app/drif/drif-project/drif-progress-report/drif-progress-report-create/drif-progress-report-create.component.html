@@ -456,8 +456,19 @@
           style="margin-top: 1rem"
         >
           <mat-card>
+            <mat-card-header>
+              <mat-card-title-group>
+                <mat-card-subtitle> Signage {{ i + 1 }} </mat-card-subtitle>
+              </mat-card-title-group>
+            </mat-card-header>
             <mat-card-content>
-              <div style="display: flex; gap: 1rem">
+              <div style="display: flex; gap: 1rem; align-items: flex-end">
+                <drr-radio-button
+                  class="drr-single-input"
+                  label="Is approved by Province?"
+                  [options]="yesNoRadioOptions"
+                  [rxFormControl]="signage.get('beenApproved')"
+                ></drr-radio-button>
                 <drr-select
                   class="drr-single-input"
                   label="Signage Type"
@@ -476,12 +487,6 @@
                   [rxFormControl]="signage.get('dateRemoved')"
                 ></drr-datepicker>
               </div>
-              <drr-radio-button
-                class="drr-single-input"
-                label="Is approved by Province?"
-                [options]="yesNoRadioOptions"
-                [rxFormControl]="signage.get('beenApproved')"
-              ></drr-radio-button>
             </mat-card-content>
             @if (getSignageFormArray().controls.length > 1) {
             <mat-card-actions align="end">
