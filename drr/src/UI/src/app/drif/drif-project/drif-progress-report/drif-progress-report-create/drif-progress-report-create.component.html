@@ -137,6 +137,23 @@
           ></drr-numeric-input>
         </div>
 
+        @if (isStructuralProject()) {
+        <div class="workplan-item">
+          <mat-label class="drr-label">
+            Percentage of Construction complete for the project as of report
+            date
+          </mat-label>
+          <drr-numeric-input
+            style="align-self: flex-start"
+            label="Percentage"
+            [rxFormControl]="
+              workplanForm?.get('constructionCompletionPercentage')
+            "
+            numericType="percentage"
+          ></drr-numeric-input>
+        </div>
+        }
+
         <div>
           <h5>Key Activities</h5>
           <div
