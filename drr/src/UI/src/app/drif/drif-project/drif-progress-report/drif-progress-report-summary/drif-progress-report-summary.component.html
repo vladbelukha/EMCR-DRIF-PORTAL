@@ -197,6 +197,7 @@
         [rxFormControl]="progressReportForm.get('workplan.signageRequired')"
         controlType="radio"
       ></drr-summary-item>
+      @if (progressReportForm.get('workplan.signageRequired')?.value === true) {
       <div
         class="summary-row"
         *ngFor="let signage of getSignageFormArray().controls; let i = index"
@@ -223,7 +224,42 @@
           controlType="date"
         ></drr-summary-item>
       </div>
-      }
+      } @if (progressReportForm.get('workplan.signageRequired')?.value ===
+      false) {
+      <drr-summary-item
+        [label]="t('progressReport.signageNotRequiredComments')"
+        [rxFormControl]="
+          progressReportForm.get('workplan.signageNotRequiredComments')
+        "
+        controlType="textarea"
+      ></drr-summary-item>
+      } }
+
+      <div class="summary-row">
+        <drr-summary-item
+          [label]="t('progressReport.mediaAnnouncement')"
+          [rxFormControl]="progressReportForm.get('workplan.mediaAnnouncement')"
+          controlType="radio"
+        ></drr-summary-item>
+        @if (progressReportForm.get('workplan.mediaAnnouncement')?.value ===
+        true) {
+        <drr-summary-item
+          [label]="t('progressReport.mediaAnnouncementDate')"
+          [rxFormControl]="
+            progressReportForm.get('workplan.mediaAnnouncementDate')
+          "
+          controlType="date"
+        ></drr-summary-item>
+        <drr-summary-item
+          [label]="t('progressReport.mediaAnnouncementComment')"
+          [rxFormControl]="
+            progressReportForm.get('workplan.mediaAnnouncementComment')
+          "
+          controlType="textarea"
+        ></drr-summary-item>
+        }
+      </div>
+      
     </mat-card-content>
   </mat-card>
   <mat-card>

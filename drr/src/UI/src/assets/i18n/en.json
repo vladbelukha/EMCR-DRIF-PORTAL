@@ -587,10 +587,14 @@
     "activity": "Activity",
     "status": "Status",
     "signageRequired": "Is signage required?",
+    "signageNotRequiredComments": "Why is signage not required?",
     "beenApproved": "Is approved by Province?",
     "signageType": "Signage Type",
     "dateInstalled": "Date Installed",
-    "dateRemoved": "Date Removed"
+    "dateRemoved": "Date Removed",
+    "mediaAnnouncement": "Media Announcements",
+    "mediaAnnouncementDate": "Date of Announcement",
+    "mediaAnnouncementComment": "Comments"
   },
   "projectProgress": {
     "OnSchedule": "Project is on schedule",

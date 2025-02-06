@@ -527,7 +527,7 @@
         </button>
         } @if (workplanForm?.get('signageRequired')?.value === false) {
         <drr-textarea
-          label="Why is signage not required?"
+          [label]="t('signageNotRequiredComments')"
           [rxFormControl]="workplanForm?.get('signageNotRequiredComments')"
           [maxlength]="2000"
         ></drr-textarea>
@@ -541,7 +541,9 @@
           "
         >
           <div class="workplan-item">
-            <mat-label class="drr-label"> Media Announcements</mat-label>
+            <mat-label class="drr-label">
+              {{ t("mediaAnnouncements") }}</mat-label
+            >
             <drr-radio-button
               class="drr-single-input"
               label="Please select below"
