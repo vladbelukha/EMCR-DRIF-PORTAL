@@ -136,6 +136,10 @@ namespace EMCR.DRR.Managers.Intake
                 .ReverseMap()
                 ;
 
+            CreateMap<DraftProgressReport, Controllers.ProgressReport>()
+                .ReverseMap()
+                ;
+
             CreateMap<Controllers.ProgressReport, ProgressReport>()
                 .ReverseMap()
                 ;

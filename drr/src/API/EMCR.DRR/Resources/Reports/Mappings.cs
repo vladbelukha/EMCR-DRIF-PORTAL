@@ -117,6 +117,7 @@ namespace EMCR.DRR.API.Resources.Reports
                 .ForMember(dest => dest.drr_permittoconstructstatus, opt => opt.MapFrom(src => src.PermitToConstructStatus.HasValue ? (int?)Enum.Parse<PermitToConstructOptionSet>(src.PermitToConstructStatus.Value.ToString()) : null))
                 .ForMember(dest => dest.drr_progressstatus, opt => opt.MapFrom(src => src.ProgressStatus.HasValue ? (int?)Enum.Parse<WorkplanProgressOptionSet>(src.ProgressStatus.Value.ToString()) : null))
                 .ForMember(dest => dest.drr_ActivityType, opt => opt.MapFrom(src => src.ActivityType))
+                .ForMember(dest => dest.drr_explaindatechange, opt => opt.MapFrom(src => src.Comment))
             ;
 
             CreateMap<drr_projectworkplanactivity, WorkplanActivityDetails>(MemberList.None)
@@ -132,7 +133,7 @@ namespace EMCR.DRR.API.Resources.Reports
                 .ForMember(dest => dest.ActivityType, opt => opt.MapFrom(src => src.drr_ActivityType))
                 .ForMember(dest => dest.OriginalReportId, opt => opt.MapFrom(src => src.drr_CopiedfromReport.drr_projectprogressid.ToString()))
                 .ForMember(dest => dest.CopiedFromActivity, opt => opt.MapFrom(src => src.drr_copiedactivity.HasValue ? src.drr_copiedactivity.Value == (int)DRRTwoOptions.Yes : (bool?)null))
-                .ForMember(dest => dest.Comment, opt => opt.Ignore())
+                .ForMember(dest => dest.Comment, opt => opt.MapFrom(src => src.drr_explaindatechange))
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.statuscode.HasValue ? (int?)Enum.Parse<WorkplanStatus>(((WorkplanStatusOptionSet)src.statuscode).ToString()) : null))
             ;
 
@@ -148,14 +149,14 @@ namespace EMCR.DRR.API.Resources.Reports
 
             CreateMap<FundingSignage, drr_temporaryprovincialfundingsignage>(MemberList.None)
                 .ForMember(dest => dest.drr_temporaryprovincialfundingsignageid, opt => opt.MapFrom(src => src.Id))
-                .ForMember(dest => dest.drr_typeofsignage, opt => opt.MapFrom(src => src.SignageType.HasValue ? (int?)Enum.Parse<SignageTypeOptionSet>(src.SignageType.Value.ToString()) : null))
+                .ForMember(dest => dest.drr_typeofsignage, opt => opt.MapFrom(src => src.Type.HasValue ? (int?)Enum.Parse<SignageTypeOptionSet>(src.Type.Value.ToString()) : null))
                 .ForMember(dest => dest.drr_dateinstalled, opt => opt.MapFrom(src => src.DateInstalled.HasValue ? src.DateInstalled.Value.ToUniversalTime() : (DateTimeOffset?)null))
                 .ForMember(dest => dest.drr_dateremoved, opt => opt.MapFrom(src => src.DateRemoved.HasValue ? src.DateRemoved.Value.ToUniversalTime() : (DateTimeOffset?)null))
                 .ForMember(dest => dest.drr_hasthesignagebeenapprovedbytheprovince, opt => opt.MapFrom(src => src.BeenApproved.HasValue ? src.BeenApproved.Value ? (int?)DRRTwoOptions.Yes : (int?)DRRTwoOptions.No : null))
                 .ReverseMap()
                 .ValidateMemberList(MemberList.Destination)
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.drr_temporaryprovincialfundingsignageid))
-                .ForMember(dest => dest.SignageType, opt => opt.MapFrom(src => src.drr_typeofsignage.HasValue ? (int?)Enum.Parse<SignageType>(((SignageTypeOptionSet)src.drr_typeofsignage).ToString()) : null))
+                .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.drr_typeofsignage.HasValue ? (int?)Enum.Parse<SignageType>(((SignageTypeOptionSet)src.drr_typeofsignage).ToString()) : null))
                 .ForMember(dest => dest.DateInstalled, opt => opt.MapFrom(src => src.drr_dateinstalled.HasValue ? src.drr_dateinstalled.Value.UtcDateTime : (DateTime?)null))
                 .ForMember(dest => dest.DateRemoved, opt => opt.MapFrom(src => src.drr_dateremoved.HasValue ? src.drr_dateremoved.Value.UtcDateTime : (DateTime?)null))
                 .ForMember(dest => dest.BeenApproved, opt => opt.MapFrom(src => src.drr_hasthesignagebeenapprovedbytheprovince.HasValue ? src.drr_hasthesignagebeenapprovedbytheprovince.Value == (int)DRRTwoOptions.Yes : (bool?)null))
@@ -166,7 +167,7 @@ namespace EMCR.DRR.API.Resources.Reports
                 .ReverseMap()
                 .ValidateMemberList(MemberList.Destination)
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.drr_projecteventid))
-                .ForMember(dest => dest.EventType, opt => opt.MapFrom(src => src.drr_eventtype.HasValue ? (int?)Enum.Parse<EventType>(((EventTypeOptionSet)src.drr_eventtype).ToString()) : null))
+                .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.drr_eventtype.HasValue ? (int?)Enum.Parse<EventType>(((EventTypeOptionSet)src.drr_eventtype).ToString()) : null))
                 .ForMember(dest => dest.PlannedEventDate, opt => opt.MapFrom(src => src.drr_plannedeventdate.HasValue ? src.drr_plannedeventdate.Value.UtcDateTime : (DateTime?)null))
                 .ForMember(dest => dest.ActualEventDate, opt => opt.MapFrom(src => src.drr_actualeventdate.HasValue ? src.drr_actualeventdate.Value.UtcDateTime : (DateTime?)null))
                 .ForMember(dest => dest.NextEventDescription, opt => opt.MapFrom(src => src.drr_describenextevent))

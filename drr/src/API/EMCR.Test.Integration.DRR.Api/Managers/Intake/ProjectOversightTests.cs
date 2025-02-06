@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
-using EMCR.DRR.API.Model;
 using EMCR.DRR.Controllers;
 using EMCR.DRR.Managers.Intake;
 using Microsoft.Extensions.DependencyInjection;
 using Shouldly;
-using EMCR.Utilities.Extensions;
 
 namespace EMCR.Tests.Integration.DRR.Managers.Intake
 {
@@ -101,8 +99,8 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             var progressReport = mapper.Map<EMCR.DRR.Controllers.ProgressReport>((await manager.Handle(new DrrProgressReportsQuery { Id = "DRIF-PR-1058", BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault());
             progressReport.Workplan.MediaAnnouncementComment = $"{uniqueSignature} - media comment";
 
-            progressReport.Workplan.ProjectProgress = EMCR.DRR.Controllers.ProjectProgress.BehindSchedule;
-            progressReport.Workplan.DelayReason = EMCR.DRR.Controllers.DelayReason.Other;
+            progressReport.Workplan.ProjectProgress = ProjectProgressStatus.BehindSchedule;
+            progressReport.Workplan.DelayReason = Delay.Other;
             progressReport.Workplan.OtherDelayReason = "we are slow";
             progressReport.Workplan.BehindScheduleMitigatingComments = "mitigation steps";
             progressReport.Workplan.ProjectCompletionPercentage = (decimal?)12.5;
@@ -117,7 +115,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             progressReport.Workplan.FundingSourcesChangedComment = "funding change description";
 
 
-            if (progressReport.Workplan.WorkplanActivities.Length > 0) progressReport.Workplan.WorkplanActivities = progressReport.Workplan.WorkplanActivities.Take(progressReport.Workplan.WorkplanActivities.Count() - 1).ToArray();
+            if (progressReport.Workplan.WorkplanActivities.Count() > 0) progressReport.Workplan.WorkplanActivities = progressReport.Workplan.WorkplanActivities.Take(progressReport.Workplan.WorkplanActivities.Count() - 1).ToArray();
             progressReport.Workplan.WorkplanActivities = progressReport.Workplan.WorkplanActivities.Append(new WorkplanActivity
             {
                 Activity = EMCR.DRR.Controllers.ActivityType.Mapping,
@@ -129,11 +127,11 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
                 PlannedStartDate = DateTime.UtcNow.AddDays(3),
                 Status = EMCR.DRR.Controllers.WorkplanStatus.NotStarted,
             }).ToArray();
-            if (progressReport.Workplan.FundingSignage.Length > 0) progressReport.Workplan.FundingSignage = progressReport.Workplan.FundingSignage.Take(progressReport.Workplan.FundingSignage.Count() - 1).ToArray();
+            if (progressReport.Workplan.FundingSignage.Count() > 0) progressReport.Workplan.FundingSignage = progressReport.Workplan.FundingSignage.Take(progressReport.Workplan.FundingSignage.Count() - 1).ToArray();
             progressReport.Workplan.FundingSignage = progressReport.Workplan.FundingSignage.Append(new EMCR.DRR.Controllers.FundingSignage
             {
                 Id = Guid.NewGuid().ToString(),
-                SignageType = EMCR.DRR.Controllers.SignageType.Temporary,
+                Type = EMCR.DRR.Controllers.SignageType.Temporary,
                 DateInstalled = DateTime.UtcNow.AddDays(3),
                 DateRemoved = DateTime.UtcNow.AddDays(7),
                 BeenApproved = false,

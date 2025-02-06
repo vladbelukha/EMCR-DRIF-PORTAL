@@ -1,10 +1,12 @@
 ﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Net.Mime;
 using System.Security.Claims;
 using System.Text.Json.Serialization;
 using AutoMapper;
 using EMCR.DRR.API.Model;
 using EMCR.DRR.API.Services;
+using EMCR.DRR.API.Utilities.Extensions;
 using EMCR.DRR.Managers.Intake;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -150,13 +152,13 @@ namespace EMCR.DRR.Controllers
         }
 
         [HttpPatch("{projectId}/interim-reports/{reportId}/progress-reports/{progressId}")]
-        public async Task<ActionResult<ProgressReportResult>> UpdateProgressReport([FromBody] ProgressReport progressReport, string progressId)
+        public async Task<ActionResult<ProgressReportResult>> UpdateProgressReport([FromBody] DraftProgressReport progressReport, string progressId)
         {
             try
             {
                 progressReport.Id = progressId;
 
-                var drr_id = await intakeManager.Handle(new SaveProgressReportCommand { ProgressReport = progressReport, UserInfo = GetCurrentUser() });
+                var drr_id = await intakeManager.Handle(new SaveProgressReportCommand { ProgressReport = mapper.Map<ProgressReport>(progressReport), UserInfo = GetCurrentUser() });
                 return Ok(new ProgressReportResult { Id = drr_id });
             }
             catch (Exception e)
@@ -181,6 +183,19 @@ namespace EMCR.DRR.Controllers
         }
     }
 
+    public static class WorkplanActivityValidators
+    {
+        public const int COMMENT_MAX_LENGTH = 250;
+    }
+
+    public static class ProgressReportValidators
+    {
+        public const int PERCENTAGE_MIN = 0;
+        public const int PERCENTAGE_MAX = 100;
+        public const int LONG_COMMENTS_MAX = 2000;
+        public const int SHORT_COMMENTS_MAX = 50;
+    }
+
     public class DraftDrrProject : DrrProject
     {
 
@@ -202,14 +217,14 @@ namespace EMCR.DRR.Controllers
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public ProjectStatus? Status { get; set; }
-        public PaymentCondition[]? Conditions { get; set; }
-        public ContactDetails[]? Contacts { get; set; }
-        public InterimReport[]? InterimReports { get; set; }
-        public ProjectClaim[]? Claims { get; set; }
-        public ProgressReport[]? ProgressReports { get; set; }
-        public Forecast[]? Forecast { get; set; }
-        public ProjectEvent[]? Events { get; set; }
-        public Attachment[]? Attachments { get; set; }
+        public IEnumerable<PaymentCondition>? Conditions { get; set; }
+        public IEnumerable<ContactDetails>? Contacts { get; set; }
+        public IEnumerable<InterimReport>? InterimReports { get; set; }
+        public IEnumerable<ProjectClaim>? Claims { get; set; }
+        public IEnumerable<ProgressReport>? ProgressReports { get; set; }
+        public IEnumerable<Forecast>? Forecast { get; set; }
+        public IEnumerable<ProjectEvent>? Events { get; set; }
+        public IEnumerable<Attachment>? Attachments { get; set; }
     }
 
     public class PaymentCondition
@@ -243,6 +258,11 @@ namespace EMCR.DRR.Controllers
         public ClaimStatus? Status { get; set; }
     }
 
+    public class DraftProgressReport : ProgressReport
+    {
+
+    }
+
     public class ProgressReport
     {
         public string? Id { get; set; }
@@ -257,14 +277,14 @@ namespace EMCR.DRR.Controllers
 
     public class EventInformation
     {
-        public ProjectEvent[]? Events { get; set; }
+        public IEnumerable<ProjectEvent>? Events { get; set; }
         public bool? HaveEventsOccurred { get; set; }
     }
 
     public class ProjectEvent
     {
         public string? Id { get; set; }
-        public EventType? EventType { get; set; }
+        public EventType? Type { get; set; }
         public EventStatus? Status { get; set; }
         public DateTime? PlannedEventDate { get; set; }
         public DateTime? ActualEventDate { get; set; }
@@ -276,23 +296,42 @@ namespace EMCR.DRR.Controllers
 
     public class Workplan
     {
-        public WorkplanActivity[]? WorkplanActivities { get; set; }
-        public ProjectProgress? ProjectProgress { get; set; }
+        public IEnumerable<WorkplanActivity>? WorkplanActivities { get; set; }
+        [Mandatory(typeof(ProgressReport))]
+        public ProjectProgressStatus? ProjectProgress { get; set; }
+        [MandatoryIf(typeof(ProgressReport), "ProjectProgress", ProjectProgressStatus.AheadOfSchedule)]
+        [StringLength(ProgressReportValidators.LONG_COMMENTS_MAX)]
         public string? AheadOfScheduleComments { get; set; }
-        public DelayReason? DelayReason { get; set; }
+        [MandatoryIf(typeof(ProgressReport), "ProjectProgress", ProjectProgressStatus.BehindSchedule)]
+        public Delay? DelayReason { get; set; }
+        [MandatoryIf(typeof(ProgressReport), "ProjectProgress", ProjectProgressStatus.BehindSchedule)]
+        [StringLength(ProgressReportValidators.SHORT_COMMENTS_MAX)]
         public string? OtherDelayReason { get; set; }
+        [MandatoryIf(typeof(ProgressReport), "ProjectProgress", ProjectProgressStatus.BehindSchedule)]
+        [StringLength(ProgressReportValidators.LONG_COMMENTS_MAX)]
         public string? BehindScheduleMitigatingComments { get; set; }
+        [Mandatory(typeof(ProgressReport))]
+        [Range(ProgressReportValidators.PERCENTAGE_MIN, ProgressReportValidators.PERCENTAGE_MAX)]
         public decimal? ProjectCompletionPercentage { get; set; }
+        [Mandatory(typeof(ProgressReport))]
+        [Range(ProgressReportValidators.PERCENTAGE_MIN, ProgressReportValidators.PERCENTAGE_MAX)]
         public decimal? ConstructionCompletionPercentage { get; set; }
+        [Mandatory(typeof(ProgressReport))]
         public bool? SignageRequired { get; set; }
+        [StringLength(ProgressReportValidators.SHORT_COMMENTS_MAX)]
         public string? SignageNotRequiredComments { get; set; }
-        public FundingSignage[]? FundingSignage { get; set; }
+        [MandatoryIf(typeof(ProgressReport), "SignageRequired", true)]
+        public IEnumerable<FundingSignage>? FundingSignage { get; set; }
         public bool? MediaAnnouncement { get; set; }
         public DateTime? MediaAnnouncementDate { get; set; }
         public string? MediaAnnouncementComment { get; set; }
+        [Mandatory(typeof(ProgressReport))]
         public bool? OutstandingIssues { get; set; }
+        [StringLength(ProgressReportValidators.LONG_COMMENTS_MAX)]
         public string? OutstandingIssuesComments { get; set; }
+        [Mandatory(typeof(ProgressReport))]
         public bool? FundingSourcesChanged { get; set; }
+        [StringLength(ProgressReportValidators.LONG_COMMENTS_MAX)]
         public string? FundingSourcesChangedComment { get; set; }
     }
 
@@ -302,6 +341,7 @@ namespace EMCR.DRR.Controllers
         public ActivityType? Activity { get; set; }
         public bool? PreCreatedActivity { get; set; }
         public bool? IsMandatory { get; set; }
+        [StringLength(WorkplanActivityValidators.COMMENT_MAX_LENGTH)]
         public string? Comment { get; set; }
         public WorkplanStatus? Status { get; set; }
         public DateTime? PlannedStartDate { get; set; }
@@ -322,7 +362,7 @@ namespace EMCR.DRR.Controllers
     public class FundingSignage
     {
         public string? Id { get; set; }
-        public SignageType? SignageType { get; set; }
+        public SignageType? Type { get; set; }
         public DateTime? DateInstalled { get; set; }
         public DateTime? DateRemoved { get; set; }
         public bool? BeenApproved { get; set; }
@@ -381,23 +421,23 @@ namespace EMCR.DRR.Controllers
     }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
-    public enum ProjectProgress
+    public enum ProjectProgressStatus
     {
         [Description("Project is on schedule")]
         OnSchedule,
-        
+
         [Description("Project is ahead of schedule")]
         AheadOfSchedule,
-        
+
         [Description("Project is behind schedule")]
         BehindSchedule,
-        
+
         [Description("Project is complete")]
         Complete,
     }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
-    public enum DelayReason
+    public enum Delay
     {
         [Description("Tendering")]
         Tendering,
@@ -435,7 +475,7 @@ namespace EMCR.DRR.Controllers
         [Description("Other")]
         Other,
     }
-    
+
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum SignageType
     {
