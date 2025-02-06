@@ -16,6 +16,7 @@ import {
 import {
   ActivityType,
   DelayReason,
+  InterimProjectType,
   ProgressReport,
   ProjectProgress,
   SignageType,
@@ -50,6 +51,7 @@ import {
   WorkplanActivityForm,
   WorkplanForm,
 } from '../drif-progress-report-form';
+import { DrifProgressReportSummaryComponent } from '../drif-progress-report-summary/drif-progress-report-summary.component';
 
 @Component({
   selector: 'drr-drif-progress-report-create',
@@ -70,6 +72,7 @@ import {
     DrrTextareaComponent,
     RxReactiveFormsModule,
     MatDividerModule,
+    DrifProgressReportSummaryComponent,
   ],
   templateUrl: './drif-progress-report-create.component.html',
   styleUrl: './drif-progress-report-create.component.scss',
@@ -446,7 +449,9 @@ export class DrifProgressReportCreateComponent {
     );
   }
 
-  showPlannedEndDate(activityControl: AbstractControl<WorkplanActivityForm>) {
+  showPlannedCompletionDate(
+    activityControl: AbstractControl<WorkplanActivityForm>
+  ) {
     const status = activityControl?.get('status')?.value as WorkplanStatus;
     return (
       status === WorkplanStatus.NotStarted ||
@@ -463,13 +468,11 @@ export class DrifProgressReportCreateComponent {
     );
   }
 
-  showActualEndDate(activityControl: AbstractControl<WorkplanActivityForm>) {
+  showActualCompletionDate(
+    activityControl: AbstractControl<WorkplanActivityForm>
+  ) {
     const status = activityControl?.get('status')?.value as WorkplanStatus;
     return status === WorkplanStatus.Completed;
-  }
-
-  showMandatoryControl(control: AbstractControl<any, any> | null | undefined) {
-    return control?.hasValidator(Validators.required);
   }
 
   getAvailableOptionsForActivity(selectedActivity: ActivityType) {
@@ -520,8 +523,10 @@ export class DrifProgressReportCreateComponent {
   }
 
   isStructuralProject() {
-    // TODO: implement
-    return true;
+    return (
+      this.progressReportForm.get('projectType')?.value ===
+      InterimProjectType.Stream2
+    );
   }
 
   getSignageFormArray() {

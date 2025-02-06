@@ -10,6 +10,7 @@ import {
   ActivityType,
   DelayReason,
   FundingSignage,
+  InterimProjectType,
   ProgressReport,
   ProjectProgress,
   SignageType,
@@ -166,9 +167,6 @@ export class WorkplanForm implements Workplan {
   mediaAnnouncementComment?: string;
 
   @prop()
-  worksCompleted?: string;
-
-  @prop()
   @required()
   outstandingIssues?: boolean;
 
@@ -233,6 +231,9 @@ export class EventForm {
 }
 
 export class ProgressReportForm implements ProgressReport {
+  @prop()
+  projectType?: InterimProjectType | undefined;
+
   @propObject(WorkplanForm)
   workplan?: WorkplanForm = new WorkplanForm({});
 

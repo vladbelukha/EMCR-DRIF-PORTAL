@@ -81,7 +81,7 @@
 
         <drr-select
           class="drr-single-input"
-          label="Project Progress Status"
+          [label]="t('projectProgress')"
           [rxFormControl]="progressReportForm.get('workplan.projectProgress')"
           [options]="projectProgressOptions"
         >
@@ -91,7 +91,7 @@
         <div style="display: flex; gap: 1rem">
           <drr-select
             class="drr-single-input"
-            label="Reason for delay"
+            [label]="t('delayReason')"
             [rxFormControl]="progressReportForm.get('workplan.delayReason')"
             [options]="delayReasonOptions"
           >
@@ -99,7 +99,7 @@
           @if (isOtherDelayReasonSelected()) {
           <drr-input
             class="drr-single-input"
-            label="Provide other reason"
+            [label]="t('otherDelayReason')"
             [rxFormControl]="
               progressReportForm.get('workplan.otherDelayReason')
             "
@@ -109,7 +109,7 @@
         </div>
 
         <drr-textarea
-          label="Reasons for delay"
+          [label]="t('behindScheduleMitigatingComments')"
           [rxFormControl]="
             progressReportForm.get('workplan.behindScheduleMitigatingComments')
           "
@@ -117,7 +117,7 @@
         ></drr-textarea>
         } @if (isProjectAhead()) {
         <drr-textarea
-          label="Reasons for being ahead"
+          [label]="t('aheadOfScheduleComments')"
           [rxFormControl]="
             progressReportForm.get('workplan.aheadOfScheduleComments')
           "
@@ -127,7 +127,7 @@
 
         <div class="workplan-item">
           <mat-label class="drr-label">
-            Percentage of Project Complete as of report date
+            {{ t("projectCompletionPercentage") }}
           </mat-label>
           <drr-numeric-input
             style="align-self: flex-start"
@@ -140,8 +140,7 @@
         @if (isStructuralProject()) {
         <div class="workplan-item">
           <mat-label class="drr-label">
-            Percentage of Construction complete for the project as of report
-            date
+            {{ t("constructionCompletionPercentage") }}
           </mat-label>
           <drr-numeric-input
             style="align-self: flex-start"
@@ -201,10 +200,10 @@
                       "
                       [maxErrorLabel]="t('minStartDateError')"
                     ></drr-datepicker>
-                    } @if (showPlannedEndDate(preDefinedActivity)) {
+                    } @if (showPlannedCompletionDate(preDefinedActivity)) {
                     <drr-datepicker
                       class="drr-single-input"
-                      [label]="t('plannedEndDate')"
+                      [label]="t('plannedCompletionDate')"
                       [rxFormControl]="
                         preDefinedActivity.get('plannedCompletionDate')
                       "
@@ -223,10 +222,10 @@
                       "
                       [maxErrorLabel]="t('minStartDateError')"
                     ></drr-datepicker>
-                    } @if (showActualEndDate(preDefinedActivity)) {
+                    } @if (showActualCompletionDate(preDefinedActivity)) {
                     <drr-datepicker
                       class="drr-single-input"
-                      [label]="t('actualEndDate')"
+                      [label]="t('actualCompletionDate')"
                       [rxFormControl]="
                         preDefinedActivity.get('actualCompletionDate')
                       "
@@ -383,10 +382,10 @@
                       "
                       [maxErrorLabel]="t('minStartDateError')"
                     ></drr-datepicker>
-                    } @if (showPlannedEndDate(additionalActivity)) {
+                    } @if (showPlannedCompletionDate(additionalActivity)) {
                     <drr-datepicker
                       class="drr-single-input"
-                      [label]="t('plannedEndDate')"
+                      [label]="t('plannedCompletionDate')"
                       [rxFormControl]="
                         additionalActivity.get('plannedCompletionDate')
                       "
@@ -405,10 +404,10 @@
                       "
                       [maxErrorLabel]="t('minStartDateError')"
                     ></drr-datepicker>
-                    } @if (showActualEndDate(additionalActivity)) {
+                    } @if (showActualCompletionDate(additionalActivity)) {
                     <drr-datepicker
                       class="drr-single-input"
-                      [label]="t('actualEndDate')"
+                      [label]="t('actualCompletionDate')"
                       [rxFormControl]="
                         additionalActivity.get('actualCompletionDate')
                       "
@@ -462,7 +461,7 @@
 
         <drr-radio-button
           class="drr-single-input"
-          label="Is signage required?"
+          [label]="t('signageRequired')"
           [options]="yesNoRadioOptions"
           [rxFormControl]="workplanForm?.get('signageRequired')"
         ></drr-radio-button>
@@ -482,25 +481,25 @@
               <div style="display: flex; gap: 1rem; align-items: flex-end">
                 <drr-radio-button
                   class="drr-single-input"
-                  label="Is approved by Province?"
+                  [label]="t('beenApproved')"
                   [options]="yesNoRadioOptions"
                   [rxFormControl]="signage.get('beenApproved')"
                 ></drr-radio-button>
                 <drr-select
                   class="drr-single-input"
-                  label="Signage Type"
+                  [label]="t('signageType')"
                   [rxFormControl]="signage.get('signageType')"
                   [options]="signageTypeOptions"
                 >
                 </drr-select>
                 <drr-datepicker
                   class="drr-single-input"
-                  label="Date Installed"
+                  [label]="t('dateInstalled')"
                   [rxFormControl]="signage.get('dateInstalled')"
                 ></drr-datepicker>
                 <drr-datepicker
                   class="drr-single-input"
-                  label="Date Removed"
+                  [label]="t('dateRemoved')"
                   [rxFormControl]="signage.get('dateRemoved')"
                 ></drr-datepicker>
               </div>
@@ -528,7 +527,7 @@
         </button>
         } @if (workplanForm?.get('signageRequired')?.value === false) {
         <drr-textarea
-          label="Why is signage not required?"
+          [label]="t('signageNotRequiredComments')"
           [rxFormControl]="workplanForm?.get('signageNotRequiredComments')"
           [maxlength]="2000"
         ></drr-textarea>
@@ -542,36 +541,27 @@
           "
         >
           <div class="workplan-item">
-            <mat-label class="drr-label"> Media Announcements</mat-label>
+            <mat-label class="drr-label">
+              {{ t("mediaAnnouncements") }}</mat-label
+            >
             <drr-radio-button
               class="drr-single-input"
               label="Please select below"
               [options]="yesNoRadioOptions"
               [rxFormControl]="workplanForm?.get('mediaAnnouncement')"
             ></drr-radio-button>
-            @if
-            (showMandatoryControl(workplanForm?.get('mediaAnnouncementDate'))) {
+            @if (workplanForm?.get('mediaAnnouncement')?.value === true) {
             <drr-datepicker
               class="drr-single-input"
               label="Date of Announcement"
               [rxFormControl]="workplanForm?.get('mediaAnnouncementDate')"
             ></drr-datepicker>
-            } @if
-            (showMandatoryControl(workplanForm?.get('mediaAnnouncementComment')))
-            {
             <drr-textarea
               label="Comments"
               [rxFormControl]="workplanForm?.get('mediaAnnouncementComment')"
               [maxlength]="2000"
             ></drr-textarea>
             }
-          </div>
-          <div class="workplan-item">
-            <mat-label class="drr-label"> Works Completed </mat-label>
-            <drr-textarea
-              label="Please provide a bulleted list of works completed since the last project report"
-              [rxFormControl]="workplanForm?.get('worksCompleted')"
-            ></drr-textarea>
           </div>
           <div class="workplan-item">
             <mat-label class="drr-label"> Outstanding Issues </mat-label>
@@ -581,9 +571,7 @@
               [rxFormControl]="workplanForm?.get('outstandingIssues')"
               [options]="yesNoRadioOptions"
             ></drr-radio-button>
-            @if
-            (showMandatoryControl(workplanForm?.get('outstandingIssuesComments')))
-            {
+            @if (workplanForm?.get('outstandingIssues')?.value === true) {
             <drr-textarea
               [label]="t('outstandingIssuesComments')"
               [rxFormControl]="workplanForm?.get('outstandingIssuesComments')"
@@ -597,15 +585,13 @@
             </mat-label>
             <drr-radio-button
               class="drr-single-input"
-              label="Have there been changes to other funding sources in the last quarter?"
+              [label]="t('fundingSourcesChanged')"
               [rxFormControl]="workplanForm?.get('fundingSourcesChanged')"
               [options]="yesNoRadioOptions"
             ></drr-radio-button>
-            @if
-            (showMandatoryControl(workplanForm?.get('fundingSourcesChangedComment')))
-            {
+            @if (workplanForm?.get('fundingSourcesChanged')?.value === true) {
             <drr-textarea
-              label="Please provide details on any changes to other funding sources"
+              [label]="t('fundingSourcesChangedComment')"
               [rxFormControl]="
                 workplanForm?.get('fundingSourcesChangedComment')
               "
@@ -712,7 +698,7 @@
           Back
         </button>
         <button
-          id="next2"
+          id="next3"
           mat-flat-button
           color="primary"
           matStepperNext
@@ -723,6 +709,9 @@
       </div></mat-step
     >
     <mat-step label="Review & Declarations">
+      <drif-progress-report-summary
+        [progressReportForm]="progressReportForm"
+      ></drif-progress-report-summary>
       <div class="drr-stepper-actions">
         <button mat-stroked-button color="primary" matStepperPrevious>
           Back
