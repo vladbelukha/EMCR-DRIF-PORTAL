@@ -98,18 +98,24 @@ export class DrifFpStep10Component {
   ];
   costConsiderationsOptions = this.optionsStore.costConsiderations?.() ?? [];
 
-  costCategoriesOptions = Object.values(CostCategory).map((value) => ({
-    value,
-    label: this.translocoService.translate(value),
-  }));
-  resourcesOptions = Object.values(ResourceCategory).map((value) => ({
-    value,
-    label: this.translocoService.translate(value),
-  }));
-  unitsOptions = Object.values(CostUnit).map((value) => ({
-    value,
-    label: this.translocoService.translate(value),
-  }));
+  costCategoriesOptions = Object.values(CostCategory)
+    .map((value) => ({
+      value,
+      label: this.translocoService.translate(value),
+    }))
+    .sort((a, b) => a.label.localeCompare(b.label));
+  resourcesOptions = Object.values(ResourceCategory)
+    .map((value) => ({
+      value,
+      label: this.translocoService.translate(value),
+    }))
+    .sort((a, b) => a.label.localeCompare(b.label));
+  unitsOptions = Object.values(CostUnit)
+    .map((value) => ({
+      value,
+      label: this.translocoService.translate(value),
+    }))
+    .sort((a, b) => a.label.localeCompare(b.label));
 
   ngOnInit() {
     this.budgetForm
