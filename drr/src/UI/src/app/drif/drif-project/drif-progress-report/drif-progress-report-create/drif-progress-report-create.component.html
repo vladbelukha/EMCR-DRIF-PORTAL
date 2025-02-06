@@ -550,16 +550,12 @@
               [options]="yesNoRadioOptions"
               [rxFormControl]="workplanForm?.get('mediaAnnouncement')"
             ></drr-radio-button>
-            @if
-            (showMandatoryControl(workplanForm?.get('mediaAnnouncementDate'))) {
+            @if (workplanForm?.get('mediaAnnouncement')?.value === true) {
             <drr-datepicker
               class="drr-single-input"
               label="Date of Announcement"
               [rxFormControl]="workplanForm?.get('mediaAnnouncementDate')"
             ></drr-datepicker>
-            } @if
-            (showMandatoryControl(workplanForm?.get('mediaAnnouncementComment')))
-            {
             <drr-textarea
               label="Comments"
               [rxFormControl]="workplanForm?.get('mediaAnnouncementComment')"
@@ -575,9 +571,7 @@
               [rxFormControl]="workplanForm?.get('outstandingIssues')"
               [options]="yesNoRadioOptions"
             ></drr-radio-button>
-            @if
-            (showMandatoryControl(workplanForm?.get('outstandingIssuesComments')))
-            {
+            @if (workplanForm?.get('outstandingIssues')?.value === true) {
             <drr-textarea
               [label]="t('outstandingIssuesComments')"
               [rxFormControl]="workplanForm?.get('outstandingIssuesComments')"
@@ -595,9 +589,7 @@
               [rxFormControl]="workplanForm?.get('fundingSourcesChanged')"
               [options]="yesNoRadioOptions"
             ></drr-radio-button>
-            @if
-            (showMandatoryControl(workplanForm?.get('fundingSourcesChangedComment')))
-            {
+            @if (workplanForm?.get('fundingSourcesChanged')?.value === true) {
             <drr-textarea
               [label]="t('fundingSourcesChangedComment')"
               [rxFormControl]="

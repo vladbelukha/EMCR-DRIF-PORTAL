@@ -5,46 +5,54 @@
       <mat-card-subtitle>Step 2</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-      <mat-label class="drr-label">Project Progress</mat-label>
       <drr-summary-item
         [label]="t('progressReport.projectProgress')"
         [rxFormControl]="progressReportForm.get('workplan.projectProgress')"
         controlType="select"
         translatePrefix="projectProgress"
       ></drr-summary-item>
-      @if (progressReportForm.get('workplan.projectProgress')?.value ===
-      'AheadOfSchedule') {
-      <drr-summary-item
-        [label]="t('progressReport.aheadOfScheduleComments')"
-        [rxFormControl]="
-          progressReportForm.get('workplan.aheadOfScheduleComments')
-        "
-        controlType="textarea"
-      ></drr-summary-item
-      >} @if (progressReportForm.get('workplan.projectProgress')?.value ===
-      'BehindSchedule') {
-      <drr-summary-item
-        [label]="t('progressReport.delayReason')"
-        [rxFormControl]="progressReportForm.get('workplan.delayReason')"
-        controlType="select"
-        translatePrefix="delayReason"
-      ></drr-summary-item>
-
-      @if (progressReportForm.get('workplan.delayReason')?.value === 'Other') {
-      <drr-summary-item
-        [label]="t('progressReport.otherDelayReason')"
-        [rxFormControl]="progressReportForm.get('workplan.otherDelayReason')"
-        controlType="textarea"
-      ></drr-summary-item>
+      @if (
+        progressReportForm.get("workplan.projectProgress")?.value ===
+        "AheadOfSchedule"
+      ) {
+        <drr-summary-item
+          [label]="t('progressReport.aheadOfScheduleComments')"
+          [rxFormControl]="
+            progressReportForm.get('workplan.aheadOfScheduleComments')
+          "
+          controlType="textarea"
+        ></drr-summary-item>
       }
+      @if (
+        progressReportForm.get("workplan.projectProgress")?.value ===
+        "BehindSchedule"
+      ) {
+        <drr-summary-item
+          [label]="t('progressReport.delayReason')"
+          [rxFormControl]="progressReportForm.get('workplan.delayReason')"
+          controlType="select"
+          translatePrefix="delayReason"
+        ></drr-summary-item>
 
-      <drr-summary-item
-        [label]="t('progressReport.behindScheduleMitigatingComments')"
-        [rxFormControl]="
-          progressReportForm.get('workplan.behindScheduleMitigatingComments')
-        "
-        controlType="textarea"
-      ></drr-summary-item>
+        @if (
+          progressReportForm.get("workplan.delayReason")?.value === "Other"
+        ) {
+          <drr-summary-item
+            [label]="t('progressReport.otherDelayReason')"
+            [rxFormControl]="
+              progressReportForm.get('workplan.otherDelayReason')
+            "
+            controlType="textarea"
+          ></drr-summary-item>
+        }
+
+        <drr-summary-item
+          [label]="t('progressReport.behindScheduleMitigatingComments')"
+          [rxFormControl]="
+            progressReportForm.get('workplan.behindScheduleMitigatingComments')
+          "
+          controlType="textarea"
+        ></drr-summary-item>
       }
       <drr-summary-item
         [label]="t('progressReport.projectCompletionPercentage')"
@@ -56,21 +64,22 @@
             ?.value + '%'
         "
       ></drr-summary-item>
-      @if (progressReportForm.get('projectType')?.value === 'Stream2') {
-      <drr-summary-item
-        [label]="t('progressReport.constructionCompletionPercentage')"
-        [rxFormControl]="
-          progressReportForm.get('workplan.constructionCompletionPercentage')
-        "
-        [value]="
-          progressReportForm.get('workplan.constructionCompletionPercentage')
-            ?.value + '%'
-        "
-      ></drr-summary-item
-      >}
+      @if (progressReportForm.get("projectType")?.value === "Stream2") {
+        <drr-summary-item
+          [label]="t('progressReport.constructionCompletionPercentage')"
+          [rxFormControl]="
+            progressReportForm.get('workplan.constructionCompletionPercentage')
+          "
+          [value]="
+            progressReportForm.get('workplan.constructionCompletionPercentage')
+              ?.value + '%'
+          "
+        ></drr-summary-item>
+      }
 
       <mat-label class="drr-label">Key Activities</mat-label>
       <div
+        style="display: flex; flex-direction: column; gap: 1rem"
         *ngFor="let activity of getPreDefinedActivitiesArray(); let i = index"
       >
         <div class="summary-row">
@@ -86,28 +95,37 @@
             controlType="select"
             translatePrefix="workplanStatus"
           ></drr-summary-item>
-          <drr-summary-item
-            [label]="t('progressReport.plannedStartDate')"
-            [rxFormControl]="activity.get('plannedStartDate')"
-            controlType="date"
-          ></drr-summary-item>
-          <drr-summary-item
-            [label]="t('progressReport.plannedCompletionDate')"
-            [rxFormControl]="activity.get('plannedCompletionDate')"
-            controlType="date"
-          ></drr-summary-item>
-          <drr-summary-item
-            [label]="t('progressReport.actualStartDate')"
-            [rxFormControl]="activity.get('actualStartDate')"
-            controlType="date"
-          ></drr-summary-item>
-          <drr-summary-item
-            [label]="t('progressReport.actualCompletionDate')"
-            [rxFormControl]="activity.get('actualCompletionDate')"
-            controlType="date"
-          ></drr-summary-item>
+          @if (showPlannedStartDate(activity)) {
+            <drr-summary-item
+              [label]="t('progressReport.plannedStartDate')"
+              [rxFormControl]="activity.get('plannedStartDate')"
+              controlType="date"
+            ></drr-summary-item>
+          }
+          @if (showPlannedCompletionDate(activity)) {
+            <drr-summary-item
+              [label]="t('progressReport.plannedCompletionDate')"
+              [rxFormControl]="activity.get('plannedCompletionDate')"
+              controlType="date"
+            ></drr-summary-item>
+          }
+          @if (showActualStartDate(activity)) {
+            <drr-summary-item
+              [label]="t('progressReport.actualStartDate')"
+              [rxFormControl]="activity.get('actualStartDate')"
+              controlType="date"
+            ></drr-summary-item>
+          }
+          @if (showActualCompletionDate(activity)) {
+            <drr-summary-item
+              [label]="t('progressReport.actualCompletionDate')"
+              [rxFormControl]="activity.get('actualCompletionDate')"
+              controlType="date"
+            ></drr-summary-item>
+          }
         </div>
         <drr-summary-item
+          style="margin-left: 1rem"
           [label]="t('progressReport.keyActivityComment')"
           [rxFormControl]="activity.get('comment')"
           controlType="textarea"
@@ -131,20 +149,25 @@
           controlType="select"
           translatePrefix="workplanStatus"
         ></drr-summary-item>
-        <drr-summary-item
-          [label]="t('progressReport.plannedStartDate')"
-          [rxFormControl]="activity.get('plannedStartDate')"
-          controlType="date"
-        ></drr-summary-item>
-        <drr-summary-item
-          [label]="t('progressReport.actualCompletionDate')"
-          [rxFormControl]="activity.get('actualCompletionDate')"
-          controlType="date"
-        ></drr-summary-item>
+        @if (showPlannedStartDate(activity)) {
+          <drr-summary-item
+            [label]="t('progressReport.plannedStartDate')"
+            [rxFormControl]="activity.get('plannedStartDate')"
+            controlType="date"
+          ></drr-summary-item>
+        }
+        @if (showActualCompletionDate(activity)) {
+          <drr-summary-item
+            [label]="t('progressReport.actualCompletionDate')"
+            [rxFormControl]="activity.get('actualCompletionDate')"
+            controlType="date"
+          ></drr-summary-item>
+        }
       </div>
 
       <mat-label class="drr-label">Additional Activities</mat-label>
       <div
+        style="display: flex; flex-direction: column; gap: 1rem"
         *ngFor="let activity of getAdditionalActivitiesArray(); let i = index"
       >
         <div class="summary-row">
@@ -160,89 +183,106 @@
             controlType="select"
             translatePrefix="workplanStatus"
           ></drr-summary-item>
-          <drr-summary-item
-            [label]="t('progressReport.plannedStartDate')"
-            [rxFormControl]="activity.get('plannedStartDate')"
-            controlType="date"
-          ></drr-summary-item>
-          <drr-summary-item
-            [label]="t('progressReport.plannedCompletionDate')"
-            [rxFormControl]="activity.get('plannedCompletionDate')"
-            controlType="date"
-          ></drr-summary-item>
-          <drr-summary-item
-            [label]="t('progressReport.actualStartDate')"
-            [rxFormControl]="activity.get('actualStartDate')"
-            controlType="date"
-          ></drr-summary-item>
-          <drr-summary-item
-            [label]="t('progressReport.actualCompletionDate')"
-            [rxFormControl]="activity.get('actualCompletionDate')"
-            controlType="date"
-          ></drr-summary-item>
+          @if (showPlannedStartDate(activity)) {
+            <drr-summary-item
+              [label]="t('progressReport.plannedStartDate')"
+              [rxFormControl]="activity.get('plannedStartDate')"
+              controlType="date"
+            ></drr-summary-item>
+          }
+          @if (showPlannedCompletionDate(activity)) {
+            <drr-summary-item
+              [label]="t('progressReport.plannedCompletionDate')"
+              [rxFormControl]="activity.get('plannedCompletionDate')"
+              controlType="date"
+            ></drr-summary-item>
+          }
+          @if (showActualStartDate(activity)) {
+            <drr-summary-item
+              [label]="t('progressReport.actualStartDate')"
+              [rxFormControl]="activity.get('actualStartDate')"
+              controlType="date"
+            ></drr-summary-item>
+          }
+          @if (showActualCompletionDate(activity)) {
+            <drr-summary-item
+              [label]="t('progressReport.actualCompletionDate')"
+              [rxFormControl]="activity.get('actualCompletionDate')"
+              controlType="date"
+            ></drr-summary-item>
+          }
         </div>
         <drr-summary-item
+          style="margin-left: 1rem"
           [label]="t('progressReport.keyActivityComment')"
           [rxFormControl]="activity.get('comment')"
           controlType="textarea"
         ></drr-summary-item>
       </div>
 
-      @if (progressReportForm.get('projectType')?.value === 'Stream2') {
-      <mat-label class="drr-label"
-        >Temporary Provincial Funding Signage</mat-label
-      >
+      @if (progressReportForm.get("projectType")?.value === "Stream2") {
+        <mat-label class="drr-label"
+          >Temporary Provincial Funding Signage</mat-label
+        >
+        <drr-summary-item
+          [label]="t('progressReport.signageRequired')"
+          [rxFormControl]="progressReportForm.get('workplan.signageRequired')"
+          controlType="radio"
+        ></drr-summary-item>
+        @if (
+          progressReportForm.get("workplan.signageRequired")?.value === true
+        ) {
+          <div
+            class="summary-row"
+            *ngFor="
+              let signage of getSignageFormArray().controls;
+              let i = index
+            "
+          >
+            <drr-summary-item
+              [label]="t('progressReport.beenApproved')"
+              [rxFormControl]="signage.get('beenApproved')"
+              controlType="radio"
+            ></drr-summary-item>
+            <drr-summary-item
+              [label]="t('progressReport.signageType')"
+              [rxFormControl]="signage.get('signageType')"
+              controlType="select"
+              translatePrefix="signageType"
+            ></drr-summary-item>
+            <drr-summary-item
+              [label]="t('progressReport.dateInstalled')"
+              [rxFormControl]="signage.get('dateInstalled')"
+              controlType="date"
+            ></drr-summary-item>
+            <drr-summary-item
+              [label]="t('progressReport.dateRemoved')"
+              [rxFormControl]="signage.get('dateRemoved')"
+              controlType="date"
+            ></drr-summary-item>
+          </div>
+        }
+        @if (
+          progressReportForm.get("workplan.signageRequired")?.value === false
+        ) {
+          <drr-summary-item
+            [label]="t('progressReport.signageNotRequiredComments')"
+            [rxFormControl]="
+              progressReportForm.get('workplan.signageNotRequiredComments')
+            "
+            controlType="textarea"
+          ></drr-summary-item>
+        }
+      }
+
       <drr-summary-item
-        [label]="t('progressReport.signageRequired')"
-        [rxFormControl]="progressReportForm.get('workplan.signageRequired')"
+        [label]="t('progressReport.mediaAnnouncement')"
+        [rxFormControl]="progressReportForm.get('workplan.mediaAnnouncement')"
         controlType="radio"
       ></drr-summary-item>
-      @if (progressReportForm.get('workplan.signageRequired')?.value === true) {
-      <div
-        class="summary-row"
-        *ngFor="let signage of getSignageFormArray().controls; let i = index"
-      >
-        <drr-summary-item
-          [label]="t('progressReport.beenApproved')"
-          [rxFormControl]="signage.get('beenApproved')"
-          controlType="radio"
-        ></drr-summary-item>
-        <drr-summary-item
-          [label]="t('progressReport.signageType')"
-          [rxFormControl]="signage.get('signageType')"
-          controlType="select"
-          translatePrefix="signageType"
-        ></drr-summary-item>
-        <drr-summary-item
-          [label]="t('progressReport.dateInstalled')"
-          [rxFormControl]="signage.get('dateInstalled')"
-          controlType="date"
-        ></drr-summary-item>
-        <drr-summary-item
-          [label]="t('progressReport.dateRemoved')"
-          [rxFormControl]="signage.get('dateRemoved')"
-          controlType="date"
-        ></drr-summary-item>
-      </div>
-      } @if (progressReportForm.get('workplan.signageRequired')?.value ===
-      false) {
-      <drr-summary-item
-        [label]="t('progressReport.signageNotRequiredComments')"
-        [rxFormControl]="
-          progressReportForm.get('workplan.signageNotRequiredComments')
-        "
-        controlType="textarea"
-      ></drr-summary-item>
-      } }
-
-      <div class="summary-row">
-        <drr-summary-item
-          [label]="t('progressReport.mediaAnnouncement')"
-          [rxFormControl]="progressReportForm.get('workplan.mediaAnnouncement')"
-          controlType="radio"
-        ></drr-summary-item>
-        @if (progressReportForm.get('workplan.mediaAnnouncement')?.value ===
-        true) {
+      @if (
+        progressReportForm.get("workplan.mediaAnnouncement")?.value === true
+      ) {
         <drr-summary-item
           [label]="t('progressReport.mediaAnnouncementDate')"
           [rxFormControl]="
@@ -257,23 +297,23 @@
           "
           controlType="textarea"
         ></drr-summary-item>
-        }
-      </div>
+      }
 
       <drr-summary-item
         [label]="t('progressReport.outstandingIssues')"
         [rxFormControl]="progressReportForm.get('workplan.outstandingIssues')"
         controlType="radio"
       ></drr-summary-item>
-      @if (progressReportForm.get('workplan.outstandingIssues')?.value === true)
-      {
-      <drr-summary-item
-        [label]="t('progressReport.outstandingIssuesComments')"
-        [rxFormControl]="
-          progressReportForm.get('workplan.outstandingIssuesComments')
-        "
-        controlType="textarea"
-      ></drr-summary-item>
+      @if (
+        progressReportForm.get("workplan.outstandingIssues")?.value === true
+      ) {
+        <drr-summary-item
+          [label]="t('progressReport.outstandingIssuesComments')"
+          [rxFormControl]="
+            progressReportForm.get('workplan.outstandingIssuesComments')
+          "
+          controlType="textarea"
+        ></drr-summary-item>
       }
 
       <drr-summary-item
@@ -283,15 +323,16 @@
         "
         controlType="radio"
       ></drr-summary-item>
-      @if (progressReportForm.get('workplan.fundingSourcesChanged')?.value ===
-      true) {
-      <drr-summary-item
-        [label]="t('progressReport.fundingSourcesChangedComment')"
-        [rxFormControl]="
-          progressReportForm.get('workplan.fundingSourcesChangedComment')
-        "
-        controlType="textarea"
-      ></drr-summary-item>
+      @if (
+        progressReportForm.get("workplan.fundingSourcesChanged")?.value === true
+      ) {
+        <drr-summary-item
+          [label]="t('progressReport.fundingSourcesChangedComment')"
+          [rxFormControl]="
+            progressReportForm.get('workplan.fundingSourcesChangedComment')
+          "
+          controlType="textarea"
+        ></drr-summary-item>
       }
     </mat-card-content>
   </mat-card>

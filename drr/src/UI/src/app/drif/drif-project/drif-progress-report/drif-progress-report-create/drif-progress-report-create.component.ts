@@ -475,10 +475,6 @@ export class DrifProgressReportCreateComponent {
     return status === WorkplanStatus.Completed;
   }
 
-  showMandatoryControl(control: AbstractControl<any, any> | null | undefined) {
-    return control?.hasValidator(Validators.required);
-  }
-
   getAvailableOptionsForActivity(selectedActivity: ActivityType) {
     const selectedActivities = this.getActivitiesFormArray()?.controls.map(
       (control) => control.get('activity')?.value

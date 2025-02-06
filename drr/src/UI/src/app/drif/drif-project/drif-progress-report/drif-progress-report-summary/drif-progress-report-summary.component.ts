@@ -1,16 +1,19 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, Input } from '@angular/core';
-import { FormArray } from '@angular/forms';
+import { AbstractControl, FormArray } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { IFormGroup, RxFormBuilder } from '@rxweb/reactive-form-validators';
-import { ActivityType } from '../../../../../model';
+import { ActivityType, WorkplanStatus } from '../../../../../model';
 import { FileService } from '../../../../shared/services/file.service';
 import { SummaryItemComponent } from '../../../summary-item/summary-item.component';
-import { ProgressReportForm } from '../drif-progress-report-form';
+import {
+  ProgressReportForm,
+  WorkplanActivityForm,
+} from '../drif-progress-report-form';
 
 @Component({
   selector: 'drif-progress-report-summary',
@@ -82,5 +85,39 @@ export class DrifProgressReportSummaryComponent {
 
   getSignageFormArray() {
     return this.progressReportForm?.get('workplan.fundingSignage') as FormArray;
+  }
+
+  showPlannedStartDate(activityControl: AbstractControl<WorkplanActivityForm>) {
+    const status = activityControl?.get('status')?.value as WorkplanStatus;
+    return (
+      status === WorkplanStatus.NotStarted ||
+      status === WorkplanStatus.NotAwarded
+    );
+  }
+
+  showPlannedCompletionDate(
+    activityControl: AbstractControl<WorkplanActivityForm>
+  ) {
+    const status = activityControl?.get('status')?.value as WorkplanStatus;
+    return (
+      status === WorkplanStatus.NotStarted ||
+      status === WorkplanStatus.InProgress
+    );
+  }
+
+  showActualStartDate(activityControl: AbstractControl<WorkplanActivityForm>) {
+    const status = activityControl?.get('status')?.value as WorkplanStatus;
+    return (
+      status === WorkplanStatus.InProgress ||
+      status === WorkplanStatus.Completed ||
+      status === WorkplanStatus.Awarded
+    );
+  }
+
+  showActualCompletionDate(
+    activityControl: AbstractControl<WorkplanActivityForm>
+  ) {
+    const status = activityControl?.get('status')?.value as WorkplanStatus;
+    return status === WorkplanStatus.Completed;
   }
 }
