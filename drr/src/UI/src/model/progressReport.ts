@@ -5,6 +5,7 @@
  * OpenAPI spec version: 1.0.0
  */
 import type { EventInformation } from './eventInformation';
+import type { InterimProjectType } from './interimProjectType';
 import type { ProgressReportStatus } from './progressReportStatus';
 import type { Workplan } from './workplan';
 
@@ -19,6 +20,8 @@ export interface ProgressReport {
   eventInformation?: EventInformation;
   /** @nullable */
   id?: string;
+  /** @nullable */
+  projectType?: InterimProjectType;
   /** @nullable */
   status?: ProgressReportStatus;
   /** @nullable */

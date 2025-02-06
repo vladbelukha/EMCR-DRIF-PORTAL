@@ -16,6 +16,7 @@ import {
 import {
   ActivityType,
   DelayReason,
+  InterimProjectType,
   ProgressReport,
   ProjectProgress,
   SignageType,
@@ -71,7 +72,7 @@ import { DrifProgressReportSummaryComponent } from '../drif-progress-report-summ
     DrrTextareaComponent,
     RxReactiveFormsModule,
     MatDividerModule,
-    DrifProgressReportSummaryComponent
+    DrifProgressReportSummaryComponent,
   ],
   templateUrl: './drif-progress-report-create.component.html',
   styleUrl: './drif-progress-report-create.component.scss',
@@ -522,8 +523,10 @@ export class DrifProgressReportCreateComponent {
   }
 
   isStructuralProject() {
-    // TODO: implement
-    return true;
+    return (
+      this.progressReportForm.get('projectType')?.value ===
+      InterimProjectType.Stream2
+    );
   }
 
   getSignageFormArray() {

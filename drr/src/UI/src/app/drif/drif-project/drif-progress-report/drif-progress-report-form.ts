@@ -10,6 +10,7 @@ import {
   ActivityType,
   DelayReason,
   FundingSignage,
+  InterimProjectType,
   ProgressReport,
   ProjectProgress,
   SignageType,
@@ -230,6 +231,9 @@ export class EventForm {
 }
 
 export class ProgressReportForm implements ProgressReport {
+  @prop()
+  projectType?: InterimProjectType | undefined;
+
   @propObject(WorkplanForm)
   workplan?: WorkplanForm = new WorkplanForm({});
 
