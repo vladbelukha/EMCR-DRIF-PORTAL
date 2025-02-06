@@ -4,122 +4,137 @@
  * DRR API
  * OpenAPI spec version: 1.0.0
  */
-import {
-  HttpClient
-} from '@angular/common/http'
+import { HttpClient } from '@angular/common/http';
 import type {
   HttpContext,
   HttpEvent,
   HttpHeaders,
   HttpParams,
-  HttpResponse as AngularHttpResponse
-} from '@angular/common/http'
-import {
-  Injectable
-} from '@angular/core'
-import {
-  Observable
-} from 'rxjs'
-import type {
-  ApplicationResult,
-  FilesUploadFileBody
-} from '../../model'
-
+  HttpResponse as AngularHttpResponse,
+} from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import type { ApplicationResult, FilesUploadFileBody } from '../../model';
 
 type HttpClientOptions = {
-  headers?: HttpHeaders | {
-      [header: string]: string | string[];
-  };
+  headers?:
+    | HttpHeaders
+    | {
+        [header: string]: string | string[];
+      };
   context?: HttpContext;
   observe?: any;
-  params?: HttpParams | {
-    [param: string]: string | number | boolean | ReadonlyArray<string | number | boolean>;
-  };
+  params?:
+    | HttpParams
+    | {
+        [param: string]:
+          | string
+          | number
+          | boolean
+          | ReadonlyArray<string | number | boolean>;
+      };
   reportProgress?: boolean;
   responseType?: any;
   withCredentials?: boolean;
 };
 
-
-
 @Injectable({ providedIn: 'root' })
 export class FilesService {
-  constructor(
-    private http: HttpClient,
-  ) {} filesDownloadFile<TData = Blob>(
-    id: string, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
+  constructor(private http: HttpClient) {}
+  filesDownloadFile<TData = Blob>(
+    id: string,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' },
   ): Observable<TData>;
-    filesDownloadFile<TData = Blob>(
-    id: string, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
+  filesDownloadFile<TData = Blob>(
+    id: string,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' },
   ): Observable<AngularHttpResponse<TData>>;
-    filesDownloadFile<TData = Blob>(
-    id: string, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
-  ): Observable<HttpEvent<TData>>;filesDownloadFile<TData = Blob>(
-    id: string, options?: HttpClientOptions
-  ): Observable<TData>  {
-    return this.http.get<TData>(
-      `/api/files/${id}`,{
-        responseType: 'blob',
-    ...options,}
-    );
+  filesDownloadFile<TData = Blob>(
+    id: string,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' },
+  ): Observable<HttpEvent<TData>>;
+  filesDownloadFile<TData = Blob>(
+    id: string,
+    options?: HttpClientOptions,
+  ): Observable<TData> {
+    return this.http.get<TData>(`/api/files/${id}`, {
+      responseType: 'blob',
+      ...options,
+    });
   }
- filesUploadFile<TData = ApplicationResult>(
+  filesUploadFile<TData = ApplicationResult>(
     id: string,
-    filesUploadFileBody: FilesUploadFileBody, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
+    filesUploadFileBody: FilesUploadFileBody,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' },
   ): Observable<TData>;
-    filesUploadFile<TData = ApplicationResult>(
+  filesUploadFile<TData = ApplicationResult>(
     id: string,
-    filesUploadFileBody: FilesUploadFileBody, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
+    filesUploadFileBody: FilesUploadFileBody,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' },
   ): Observable<AngularHttpResponse<TData>>;
-    filesUploadFile<TData = ApplicationResult>(
+  filesUploadFile<TData = ApplicationResult>(
     id: string,
-    filesUploadFileBody: FilesUploadFileBody, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
-  ): Observable<HttpEvent<TData>>;filesUploadFile<TData = ApplicationResult>(
+    filesUploadFileBody: FilesUploadFileBody,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' },
+  ): Observable<HttpEvent<TData>>;
+  filesUploadFile<TData = ApplicationResult>(
     id: string,
-    filesUploadFileBody: FilesUploadFileBody, options?: HttpClientOptions
-  ): Observable<TData>  {const formData = new FormData();
-if(filesUploadFileBody.File !== undefined && filesUploadFileBody.File !== null) {
- formData.append('File', filesUploadFileBody.File)
- }
+    filesUploadFileBody: FilesUploadFileBody,
+    options?: HttpClientOptions,
+  ): Observable<TData> {
+    const formData = new FormData();
+    if (
+      filesUploadFileBody.File !== undefined &&
+      filesUploadFileBody.File !== null
+    ) {
+      formData.append('File', filesUploadFileBody.File);
+    }
 
-    return this.http.post<TData>(
-      `/api/files/${id}`,
-      formData,options
-    );
+    return this.http.post<TData>(`/api/files/${id}`, formData, options);
   }
- filesDeleteFile<TData = ApplicationResult>(
-    id: string, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
+  filesDeleteFile<TData = ApplicationResult>(
+    id: string,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' },
   ): Observable<TData>;
-    filesDeleteFile<TData = ApplicationResult>(
-    id: string, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
+  filesDeleteFile<TData = ApplicationResult>(
+    id: string,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' },
   ): Observable<AngularHttpResponse<TData>>;
-    filesDeleteFile<TData = ApplicationResult>(
-    id: string, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
-  ): Observable<HttpEvent<TData>>;filesDeleteFile<TData = ApplicationResult>(
-    id: string, options?: HttpClientOptions
-  ): Observable<TData>  {
-    return this.http.delete<TData>(
-      `/api/files/${id}`,options
-    );
+  filesDeleteFile<TData = ApplicationResult>(
+    id: string,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' },
+  ): Observable<HttpEvent<TData>>;
+  filesDeleteFile<TData = ApplicationResult>(
+    id: string,
+    options?: HttpClientOptions,
+  ): Observable<TData> {
+    return this.http.delete<TData>(`/api/files/${id}`, options);
   }
- filesReactivateFile<TData = ApplicationResult>(
-    id: string, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
+  filesReactivateFile<TData = ApplicationResult>(
+    id: string,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' },
   ): Observable<TData>;
-    filesReactivateFile<TData = ApplicationResult>(
-    id: string, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
+  filesReactivateFile<TData = ApplicationResult>(
+    id: string,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' },
   ): Observable<AngularHttpResponse<TData>>;
-    filesReactivateFile<TData = ApplicationResult>(
-    id: string, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
-  ): Observable<HttpEvent<TData>>;filesReactivateFile<TData = ApplicationResult>(
-    id: string, options?: HttpClientOptions
-  ): Observable<TData>  {
+  filesReactivateFile<TData = ApplicationResult>(
+    id: string,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' },
+  ): Observable<HttpEvent<TData>>;
+  filesReactivateFile<TData = ApplicationResult>(
+    id: string,
+    options?: HttpClientOptions,
+  ): Observable<TData> {
     return this.http.post<TData>(
-      `/api/files/${id}/reactivate`,undefined,options
+      `/api/files/${id}/reactivate`,
+      undefined,
+      options,
     );
   }
-};
+}
 
-export type FilesDownloadFileClientResult = NonNullable<Blob>
-export type FilesUploadFileClientResult = NonNullable<ApplicationResult>
-export type FilesDeleteFileClientResult = NonNullable<ApplicationResult>
-export type FilesReactivateFileClientResult = NonNullable<ApplicationResult>
+export type FilesDownloadFileClientResult = NonNullable<Blob>;
+export type FilesUploadFileClientResult = NonNullable<ApplicationResult>;
+export type FilesDeleteFileClientResult = NonNullable<ApplicationResult>;
+export type FilesReactivateFileClientResult = NonNullable<ApplicationResult>;

@@ -5,8 +5,8 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type DeclarationType = typeof DeclarationType[keyof typeof DeclarationType];
-
+export type DeclarationType =
+  (typeof DeclarationType)[keyof typeof DeclarationType];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const DeclarationType = {

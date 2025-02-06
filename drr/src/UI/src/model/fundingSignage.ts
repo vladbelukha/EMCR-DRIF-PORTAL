@@ -16,5 +16,5 @@ export interface FundingSignage {
   /** @nullable */
   id?: string;
   /** @nullable */
-  signageType?: SignageType;
+  type?: SignageType;
 }

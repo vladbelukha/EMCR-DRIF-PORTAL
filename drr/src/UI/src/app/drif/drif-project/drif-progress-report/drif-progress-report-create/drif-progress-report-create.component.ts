@@ -15,10 +15,10 @@ import {
 } from '@rxweb/reactive-form-validators';
 import {
   ActivityType,
-  DelayReason,
+  Delay,
   InterimProjectType,
   ProgressReport,
-  ProjectProgress,
+  ProjectProgressStatus,
   SignageType,
   WorkplanStatus,
   YesNoOption,
@@ -94,21 +94,21 @@ export class DrifProgressReportCreateComponent {
 
   progressReportForm = this.formBuilder.formGroup(
     ProgressReportForm,
-    {}
+    {},
   ) as IFormGroup<ProgressReportForm>;
 
   private allActivityTypeOptions: DrrSelectOption[] = Object.values(
-    ActivityType
+    ActivityType,
   ).map((activity) => ({
     value: activity,
     label: this.translocoService.translate(`activityType.${activity}`),
   }));
 
   optionalActivityStatusOptions: DrrSelectOption[] = Object.values(
-    WorkplanStatus
+    WorkplanStatus,
   )
     .filter(
-      (s) => s !== WorkplanStatus.NotAwarded && s !== WorkplanStatus.Awarded
+      (s) => s !== WorkplanStatus.NotAwarded && s !== WorkplanStatus.Awarded,
     )
     .map((value) => ({
       label: this.translocoService.translate(`workplanStatus.${value}`),
@@ -117,12 +117,12 @@ export class DrifProgressReportCreateComponent {
 
   necessaryActivityStatusOptions: RadioOption[] =
     this.optionalActivityStatusOptions.filter(
-      (option) => option.value !== WorkplanStatus.NoLongerNeeded
+      (option) => option.value !== WorkplanStatus.NoLongerNeeded,
     );
 
   milestoneStatusOptions: DrrSelectOption[] = Object.values(WorkplanStatus)
     .filter(
-      (s) => s === WorkplanStatus.NotAwarded || s === WorkplanStatus.Awarded
+      (s) => s === WorkplanStatus.NotAwarded || s === WorkplanStatus.Awarded,
     )
     .map((value) => ({
       label: this.translocoService.translate(`workplanStatus.${value}`),
@@ -155,26 +155,24 @@ export class DrifProgressReportCreateComponent {
     (value) => ({
       label: value,
       value,
-    })
+    }),
   );
 
-  projectProgressOptions = Object.keys(ProjectProgress).map((key) => ({
+  projectProgressOptions = Object.keys(ProjectProgressStatus).map((key) => ({
     label: this.translocoService.translate(`projectProgress.${key}`),
     value: key,
   }));
 
-  delayReasonOptions: DrrSelectOption[] = Object.values(DelayReason).map(
-    (value) => ({
-      label: this.translocoService.translate(`delayReason.${value}`),
-      value,
-    })
-  );
+  delayReasonOptions: DrrSelectOption[] = Object.values(Delay).map((value) => ({
+    label: this.translocoService.translate(`delayReason.${value}`),
+    value,
+  }));
 
   signageTypeOptions: DrrSelectOption[] = Object.values(SignageType).map(
     (value) => ({
       label: this.translocoService.translate(`signageType.${value}`),
       value,
-    })
+    }),
   );
 
   get workplanForm(): IFormGroup<WorkplanForm> | null {
@@ -199,12 +197,12 @@ export class DrifProgressReportCreateComponent {
         .projectGetProgressReport(
           this.projectId,
           this.reportId,
-          this.progressReportId
+          this.progressReportId,
         )
         .subscribe((report: ProgressReport) => {
           report.workplan?.workplanActivities?.map((activity) => {
             const activityForm = this.formBuilder.formGroup(
-              new WorkplanActivityForm(activity)
+              new WorkplanActivityForm(activity),
             );
 
             this.workplanItems?.push(activityForm);
@@ -219,7 +217,7 @@ export class DrifProgressReportCreateComponent {
           }
           report.workplan?.fundingSignage?.map((signage) => {
             const signageForm = this.formBuilder.formGroup(
-              new FundingSignageForm(signage)
+              new FundingSignageForm(signage),
             );
 
             this.getSignageFormArray()?.push(signageForm);
@@ -229,7 +227,7 @@ export class DrifProgressReportCreateComponent {
             .get('workplan.fundingSourcesChanged')
             ?.valueChanges.subscribe((value) => {
               const comment = this.progressReportForm.get(
-                'workplan.fundingSourcesChangedComment'
+                'workplan.fundingSourcesChangedComment',
               );
 
               if (value) {
@@ -245,7 +243,7 @@ export class DrifProgressReportCreateComponent {
             .get('workplan.outstandingIssues')
             ?.valueChanges.subscribe((value) => {
               const comment = this.progressReportForm.get(
-                'workplan.outstandingIssuesComments'
+                'workplan.outstandingIssuesComments',
               );
 
               if (value) {
@@ -261,10 +259,10 @@ export class DrifProgressReportCreateComponent {
             .get('workplan.mediaAnnouncement')
             ?.valueChanges.subscribe((value) => {
               const date = this.progressReportForm.get(
-                'workplan.mediaAnnouncementDate'
+                'workplan.mediaAnnouncementDate',
               );
               const comment = this.progressReportForm.get(
-                'workplan.mediaAnnouncementComment'
+                'workplan.mediaAnnouncementComment',
               );
 
               if (value) {
@@ -286,24 +284,24 @@ export class DrifProgressReportCreateComponent {
         .get('workplan.projectProgress')
         ?.valueChanges.subscribe((value) => {
           const delayReason = this.progressReportForm.get(
-            'workplan.delayReason'
+            'workplan.delayReason',
           );
           const otherDelayReason = this.progressReportForm.get(
-            'workplan.otherDelayReason'
+            'workplan.otherDelayReason',
           );
           const behindScheduleMitigatingComments = this.progressReportForm.get(
-            'workplan.behindScheduleMitigatingComments'
+            'workplan.behindScheduleMitigatingComments',
           );
           const aheadOfScheduleComments = this.progressReportForm.get(
-            'workplan.aheadOfScheduleComments'
+            'workplan.aheadOfScheduleComments',
           );
 
           let delayReasonSub: Subscription | undefined;
 
-          if (value === ProjectProgress.BehindSchedule) {
+          if (value === ProjectProgressStatus.BehindSchedule) {
             delayReason?.addValidators(Validators.required);
             delayReasonSub = delayReason?.valueChanges.subscribe((reason) => {
-              if (reason === DelayReason.Other) {
+              if (reason === Delay.Other) {
                 otherDelayReason?.addValidators(Validators.required);
               } else {
                 otherDelayReason?.removeValidators(Validators.required);
@@ -311,19 +309,19 @@ export class DrifProgressReportCreateComponent {
               }
             });
             behindScheduleMitigatingComments?.addValidators(
-              Validators.required
+              Validators.required,
             );
           } else {
             delayReason?.removeValidators(Validators.required);
             delayReason?.reset();
             delayReasonSub?.unsubscribe();
             behindScheduleMitigatingComments?.removeValidators(
-              Validators.required
+              Validators.required,
             );
             behindScheduleMitigatingComments?.reset();
           }
 
-          if (value === ProjectProgress.AheadOfSchedule) {
+          if (value === ProjectProgressStatus.AheadOfSchedule) {
             aheadOfScheduleComments?.addValidators(Validators.required);
           } else {
             aheadOfScheduleComments?.removeValidators(Validators.required);
@@ -346,7 +344,7 @@ export class DrifProgressReportCreateComponent {
         this.projectId,
         this.reportId,
         this.progressReportId,
-        this.progressReportForm.getRawValue()
+        this.progressReportForm.getRawValue(),
       )
       .subscribe(() => {
         this.toastService.success('Progress report saved');
@@ -371,7 +369,7 @@ export class DrifProgressReportCreateComponent {
         control.get('preCreatedActivity')?.value &&
         control.get('activity')?.value !== ActivityType.PermitToConstruct &&
         control.get('activity')?.value !==
-          ActivityType.ConstructionContractAward
+          ActivityType.ConstructionContractAward,
     );
   }
 
@@ -381,7 +379,7 @@ export class DrifProgressReportCreateComponent {
         control.get('preCreatedActivity')?.value &&
         (control.get('activity')?.value === ActivityType.PermitToConstruct ||
           control.get('activity')?.value ===
-            ActivityType.ConstructionContractAward)
+            ActivityType.ConstructionContractAward),
     );
   }
 
@@ -420,8 +418,8 @@ export class DrifProgressReportCreateComponent {
       this.formBuilder.formGroup(
         new WorkplanActivityForm({
           isMandatory: false,
-        })
-      )
+        }),
+      ),
     );
   }
 
@@ -450,7 +448,7 @@ export class DrifProgressReportCreateComponent {
   }
 
   showPlannedCompletionDate(
-    activityControl: AbstractControl<WorkplanActivityForm>
+    activityControl: AbstractControl<WorkplanActivityForm>,
   ) {
     const status = activityControl?.get('status')?.value as WorkplanStatus;
     return (
@@ -469,7 +467,7 @@ export class DrifProgressReportCreateComponent {
   }
 
   showActualCompletionDate(
-    activityControl: AbstractControl<WorkplanActivityForm>
+    activityControl: AbstractControl<WorkplanActivityForm>,
   ) {
     const status = activityControl?.get('status')?.value as WorkplanStatus;
     return status === WorkplanStatus.Completed;
@@ -477,16 +475,16 @@ export class DrifProgressReportCreateComponent {
 
   getAvailableOptionsForActivity(selectedActivity: ActivityType) {
     const selectedActivities = this.getActivitiesFormArray()?.controls.map(
-      (control) => control.get('activity')?.value
+      (control) => control.get('activity')?.value,
     );
 
     const availableOptions = this.allActivityTypeOptions.filter(
-      (option) => !selectedActivities.includes(option.value)
+      (option) => !selectedActivities.includes(option.value),
     );
 
     if (selectedActivity) {
       const selectedActivityOption = this.allActivityTypeOptions.find(
-        (option) => option.value === selectedActivity
+        (option) => option.value === selectedActivity,
       );
 
       availableOptions.push(selectedActivityOption!);
@@ -498,7 +496,7 @@ export class DrifProgressReportCreateComponent {
 
   hasAvailableOptionsForActivity() {
     const selectedActivities = this.getActivitiesFormArray()?.controls.map(
-      (control) => control.get('activity')?.value
+      (control) => control.get('activity')?.value,
     );
 
     return this.allActivityTypeOptions.length !== selectedActivities.length;
@@ -507,19 +505,19 @@ export class DrifProgressReportCreateComponent {
   isProjectDelayed() {
     return (
       this.workplanForm?.get('projectProgress')?.value ===
-      ProjectProgress.BehindSchedule
+      ProjectProgressStatus.BehindSchedule
     );
   }
 
   isProjectAhead() {
     return (
       this.workplanForm?.get('projectProgress')?.value ===
-      ProjectProgress.AheadOfSchedule
+      ProjectProgressStatus.AheadOfSchedule
     );
   }
 
   isOtherDelayReasonSelected() {
-    return this.workplanForm?.get('delayReason')?.value === DelayReason.Other;
+    return this.workplanForm?.get('delayReason')?.value === Delay.Other;
   }
 
   isStructuralProject() {
@@ -535,13 +533,13 @@ export class DrifProgressReportCreateComponent {
 
   addSignage() {
     this.getSignageFormArray()?.push(
-      this.formBuilder.formGroup(new FundingSignageForm({}))
+      this.formBuilder.formGroup(new FundingSignageForm({})),
     );
   }
 
   removeSignage(id: string) {
     const index = this.getSignageFormArray()?.controls.findIndex(
-      (control) => control.get('id')?.value === id
+      (control) => control.get('id')?.value === id,
     );
 
     this.getSignageFormArray()?.removeAt(index!);

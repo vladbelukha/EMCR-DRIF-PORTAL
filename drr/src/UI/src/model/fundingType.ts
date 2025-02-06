@@ -5,8 +5,7 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type FundingType = typeof FundingType[keyof typeof FundingType];
-
+export type FundingType = (typeof FundingType)[keyof typeof FundingType];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const FundingType = {

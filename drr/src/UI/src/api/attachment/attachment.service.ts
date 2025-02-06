@@ -4,103 +4,114 @@
  * DRR API
  * OpenAPI spec version: 1.0.0
  */
-import {
-  HttpClient
-} from '@angular/common/http'
+import { HttpClient } from '@angular/common/http';
 import type {
   HttpContext,
   HttpEvent,
   HttpHeaders,
   HttpParams,
-  HttpResponse as AngularHttpResponse
-} from '@angular/common/http'
-import {
-  Injectable
-} from '@angular/core'
-import {
-  Observable
-} from 'rxjs'
+  HttpResponse as AngularHttpResponse,
+} from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import type {
   ApplicationResult,
   AttachmentQueryResult,
   DeleteAttachment,
-  FileData
-} from '../../model'
-
+  FileData,
+} from '../../model';
 
 type HttpClientOptions = {
-  headers?: HttpHeaders | {
-      [header: string]: string | string[];
-  };
+  headers?:
+    | HttpHeaders
+    | {
+        [header: string]: string | string[];
+      };
   context?: HttpContext;
   observe?: any;
-  params?: HttpParams | {
-    [param: string]: string | number | boolean | ReadonlyArray<string | number | boolean>;
-  };
+  params?:
+    | HttpParams
+    | {
+        [param: string]:
+          | string
+          | number
+          | boolean
+          | ReadonlyArray<string | number | boolean>;
+      };
   reportProgress?: boolean;
   responseType?: any;
   withCredentials?: boolean;
 };
 
-
-
 @Injectable({ providedIn: 'root' })
 export class AttachmentService {
-  constructor(
-    private http: HttpClient,
-  ) {} attachmentUploadAttachment<TData = ApplicationResult>(
-    fileData: FileData, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
+  constructor(private http: HttpClient) {}
+  attachmentUploadAttachment<TData = ApplicationResult>(
+    fileData: FileData,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' },
   ): Observable<TData>;
-    attachmentUploadAttachment<TData = ApplicationResult>(
-    fileData: FileData, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
+  attachmentUploadAttachment<TData = ApplicationResult>(
+    fileData: FileData,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' },
   ): Observable<AngularHttpResponse<TData>>;
-    attachmentUploadAttachment<TData = ApplicationResult>(
-    fileData: FileData, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
-  ): Observable<HttpEvent<TData>>;attachmentUploadAttachment<TData = ApplicationResult>(
-    fileData: FileData, options?: HttpClientOptions
-  ): Observable<TData>  {
-    return this.http.post<TData>(
-      `/api/attachment`,
-      fileData,options
-    );
+  attachmentUploadAttachment<TData = ApplicationResult>(
+    fileData: FileData,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' },
+  ): Observable<HttpEvent<TData>>;
+  attachmentUploadAttachment<TData = ApplicationResult>(
+    fileData: FileData,
+    options?: HttpClientOptions,
+  ): Observable<TData> {
+    return this.http.post<TData>(`/api/attachment`, fileData, options);
   }
- attachmentDownloadAttachment<TData = AttachmentQueryResult>(
-    id: string, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
+  attachmentDownloadAttachment<TData = AttachmentQueryResult>(
+    id: string,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' },
   ): Observable<TData>;
-    attachmentDownloadAttachment<TData = AttachmentQueryResult>(
-    id: string, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
-  ): Observable<AngularHttpResponse<TData>>;
-    attachmentDownloadAttachment<TData = AttachmentQueryResult>(
-    id: string, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
-  ): Observable<HttpEvent<TData>>;attachmentDownloadAttachment<TData = AttachmentQueryResult>(
-    id: string, options?: HttpClientOptions
-  ): Observable<TData>  {
-    return this.http.get<TData>(
-      `/api/attachment/${id}`,options
-    );
-  }
- attachmentDeleteAttachment<TData = ApplicationResult>(
+  attachmentDownloadAttachment<TData = AttachmentQueryResult>(
     id: string,
-    deleteAttachment: DeleteAttachment, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' },
+  ): Observable<AngularHttpResponse<TData>>;
+  attachmentDownloadAttachment<TData = AttachmentQueryResult>(
+    id: string,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' },
+  ): Observable<HttpEvent<TData>>;
+  attachmentDownloadAttachment<TData = AttachmentQueryResult>(
+    id: string,
+    options?: HttpClientOptions,
+  ): Observable<TData> {
+    return this.http.get<TData>(`/api/attachment/${id}`, options);
+  }
+  attachmentDeleteAttachment<TData = ApplicationResult>(
+    id: string,
+    deleteAttachment: DeleteAttachment,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' },
   ): Observable<TData>;
-    attachmentDeleteAttachment<TData = ApplicationResult>(
+  attachmentDeleteAttachment<TData = ApplicationResult>(
     id: string,
-    deleteAttachment: DeleteAttachment, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
+    deleteAttachment: DeleteAttachment,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' },
   ): Observable<AngularHttpResponse<TData>>;
-    attachmentDeleteAttachment<TData = ApplicationResult>(
+  attachmentDeleteAttachment<TData = ApplicationResult>(
     id: string,
-    deleteAttachment: DeleteAttachment, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
-  ): Observable<HttpEvent<TData>>;attachmentDeleteAttachment<TData = ApplicationResult>(
+    deleteAttachment: DeleteAttachment,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' },
+  ): Observable<HttpEvent<TData>>;
+  attachmentDeleteAttachment<TData = ApplicationResult>(
     id: string,
-    deleteAttachment: DeleteAttachment, options?: HttpClientOptions
-  ): Observable<TData>  {
-    return this.http.delete<TData>(
-      `/api/attachment/${id}`,{body:
-      deleteAttachment, ...options}
-    );
+    deleteAttachment: DeleteAttachment,
+    options?: HttpClientOptions,
+  ): Observable<TData> {
+    return this.http.delete<TData>(`/api/attachment/${id}`, {
+      body: deleteAttachment,
+      ...options,
+    });
   }
-};
+}
 
-export type AttachmentUploadAttachmentClientResult = NonNullable<ApplicationResult>
-export type AttachmentDownloadAttachmentClientResult = NonNullable<AttachmentQueryResult>
-export type AttachmentDeleteAttachmentClientResult = NonNullable<ApplicationResult>
+export type AttachmentUploadAttachmentClientResult =
+  NonNullable<ApplicationResult>;
+export type AttachmentDownloadAttachmentClientResult =
+  NonNullable<AttachmentQueryResult>;
+export type AttachmentDeleteAttachmentClientResult =
+  NonNullable<ApplicationResult>;

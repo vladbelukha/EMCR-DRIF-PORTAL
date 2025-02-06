@@ -5,8 +5,8 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type ResourceCategory = typeof ResourceCategory[keyof typeof ResourceCategory];
-
+export type ResourceCategory =
+  (typeof ResourceCategory)[keyof typeof ResourceCategory];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ResourceCategory = {

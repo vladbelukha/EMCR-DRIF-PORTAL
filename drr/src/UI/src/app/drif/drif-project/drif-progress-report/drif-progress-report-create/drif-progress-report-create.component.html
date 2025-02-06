@@ -87,42 +87,45 @@
         >
         </drr-select>
 
-        @if(isProjectDelayed()) {
-        <div style="display: flex; gap: 1rem">
-          <drr-select
-            class="drr-single-input"
-            [label]="t('delayReason')"
-            [rxFormControl]="progressReportForm.get('workplan.delayReason')"
-            [options]="delayReasonOptions"
-          >
-          </drr-select>
-          @if (isOtherDelayReasonSelected()) {
-          <drr-input
-            class="drr-single-input"
-            [label]="t('otherDelayReason')"
-            [rxFormControl]="
-              progressReportForm.get('workplan.otherDelayReason')
-            "
-            [maxlength]="50"
-          ></drr-input
-          >}
-        </div>
+        @if (isProjectDelayed()) {
+          <div style="display: flex; gap: 1rem">
+            <drr-select
+              class="drr-single-input"
+              [label]="t('delayReason')"
+              [rxFormControl]="progressReportForm.get('workplan.delayReason')"
+              [options]="delayReasonOptions"
+            >
+            </drr-select>
+            @if (isOtherDelayReasonSelected()) {
+              <drr-input
+                class="drr-single-input"
+                [label]="t('otherDelayReason')"
+                [rxFormControl]="
+                  progressReportForm.get('workplan.otherDelayReason')
+                "
+                [maxlength]="50"
+              ></drr-input>
+            }
+          </div>
 
-        <drr-textarea
-          [label]="t('behindScheduleMitigatingComments')"
-          [rxFormControl]="
-            progressReportForm.get('workplan.behindScheduleMitigatingComments')
-          "
-          [maxlength]="2000"
-        ></drr-textarea>
-        } @if (isProjectAhead()) {
-        <drr-textarea
-          [label]="t('aheadOfScheduleComments')"
-          [rxFormControl]="
-            progressReportForm.get('workplan.aheadOfScheduleComments')
-          "
-          [maxlength]="2000"
-        ></drr-textarea>
+          <drr-textarea
+            [label]="t('behindScheduleMitigatingComments')"
+            [rxFormControl]="
+              progressReportForm.get(
+                'workplan.behindScheduleMitigatingComments'
+              )
+            "
+            [maxlength]="2000"
+          ></drr-textarea>
+        }
+        @if (isProjectAhead()) {
+          <drr-textarea
+            [label]="t('aheadOfScheduleComments')"
+            [rxFormControl]="
+              progressReportForm.get('workplan.aheadOfScheduleComments')
+            "
+            [maxlength]="2000"
+          ></drr-textarea>
         }
 
         <div class="workplan-item">
@@ -138,19 +141,19 @@
         </div>
 
         @if (isStructuralProject()) {
-        <div class="workplan-item">
-          <mat-label class="drr-label">
-            {{ t("constructionCompletionPercentage") }}
-          </mat-label>
-          <drr-numeric-input
-            style="align-self: flex-start"
-            label="Percentage"
-            [rxFormControl]="
-              workplanForm?.get('constructionCompletionPercentage')
-            "
-            numericType="percentage"
-          ></drr-numeric-input>
-        </div>
+          <div class="workplan-item">
+            <mat-label class="drr-label">
+              {{ t("constructionCompletionPercentage") }}
+            </mat-label>
+            <drr-numeric-input
+              style="align-self: flex-start"
+              label="Percentage"
+              [rxFormControl]="
+                workplanForm?.get('constructionCompletionPercentage')
+              "
+              numericType="percentage"
+            ></drr-numeric-input>
+          </div>
         }
 
         <div>
@@ -189,49 +192,54 @@
                     "
                   >
                     @if (showPlannedStartDate(preDefinedActivity)) {
-                    <drr-datepicker
-                      class="drr-single-input"
-                      [label]="t('plannedStartDate')"
-                      [rxFormControl]="
-                        preDefinedActivity.get('plannedStartDate')
-                      "
-                      [max]="
-                        preDefinedActivity.get('plannedCompletionDate')?.value
-                      "
-                      [maxErrorLabel]="t('minStartDateError')"
-                    ></drr-datepicker>
-                    } @if (showPlannedCompletionDate(preDefinedActivity)) {
-                    <drr-datepicker
-                      class="drr-single-input"
-                      [label]="t('plannedCompletionDate')"
-                      [rxFormControl]="
-                        preDefinedActivity.get('plannedCompletionDate')
-                      "
-                      [min]="preDefinedActivity.get('plannedStartDate')?.value"
-                      [minErrorLabel]="t('minEndDateError')"
-                    ></drr-datepicker>
-                    } @if (showActualStartDate(preDefinedActivity)) {
-                    <drr-datepicker
-                      class="drr-single-input"
-                      [label]="t('actualStartDate')"
-                      [rxFormControl]="
-                        preDefinedActivity.get('actualStartDate')
-                      "
-                      [max]="
-                        preDefinedActivity.get('actualCompletionDate')?.value
-                      "
-                      [maxErrorLabel]="t('minStartDateError')"
-                    ></drr-datepicker>
-                    } @if (showActualCompletionDate(preDefinedActivity)) {
-                    <drr-datepicker
-                      class="drr-single-input"
-                      [label]="t('actualCompletionDate')"
-                      [rxFormControl]="
-                        preDefinedActivity.get('actualCompletionDate')
-                      "
-                      [min]="preDefinedActivity.get('actualStartDate')?.value"
-                      [minErrorLabel]="t('minEndDateError')"
-                    ></drr-datepicker>
+                      <drr-datepicker
+                        class="drr-single-input"
+                        [label]="t('plannedStartDate')"
+                        [rxFormControl]="
+                          preDefinedActivity.get('plannedStartDate')
+                        "
+                        [max]="
+                          preDefinedActivity.get('plannedCompletionDate')?.value
+                        "
+                        [maxErrorLabel]="t('minStartDateError')"
+                      ></drr-datepicker>
+                    }
+                    @if (showPlannedCompletionDate(preDefinedActivity)) {
+                      <drr-datepicker
+                        class="drr-single-input"
+                        [label]="t('plannedCompletionDate')"
+                        [rxFormControl]="
+                          preDefinedActivity.get('plannedCompletionDate')
+                        "
+                        [min]="
+                          preDefinedActivity.get('plannedStartDate')?.value
+                        "
+                        [minErrorLabel]="t('minEndDateError')"
+                      ></drr-datepicker>
+                    }
+                    @if (showActualStartDate(preDefinedActivity)) {
+                      <drr-datepicker
+                        class="drr-single-input"
+                        [label]="t('actualStartDate')"
+                        [rxFormControl]="
+                          preDefinedActivity.get('actualStartDate')
+                        "
+                        [max]="
+                          preDefinedActivity.get('actualCompletionDate')?.value
+                        "
+                        [maxErrorLabel]="t('minStartDateError')"
+                      ></drr-datepicker>
+                    }
+                    @if (showActualCompletionDate(preDefinedActivity)) {
+                      <drr-datepicker
+                        class="drr-single-input"
+                        [label]="t('actualCompletionDate')"
+                        [rxFormControl]="
+                          preDefinedActivity.get('actualCompletionDate')
+                        "
+                        [min]="preDefinedActivity.get('actualStartDate')?.value"
+                        [minErrorLabel]="t('minEndDateError')"
+                      ></drr-datepicker>
                     }
                   </div>
                 </div>
@@ -282,27 +290,30 @@
                     "
                   >
                     @if (showPlannedStartDate(milestoneActivity)) {
-                    <drr-datepicker
-                      class="drr-single-input"
-                      [label]="t('plannedStartDate')"
-                      [rxFormControl]="
-                        milestoneActivity.get('plannedStartDate')
-                      "
-                      [max]="
-                        milestoneActivity.get('plannedCompletionDate')?.value
-                      "
-                      [maxErrorLabel]="t('minStartDateError')"
-                    ></drr-datepicker>
-                    } @if (showActualStartDate(milestoneActivity)) {
-                    <drr-datepicker
-                      class="drr-single-input"
-                      [label]="t('actualStartDate')"
-                      [rxFormControl]="milestoneActivity.get('actualStartDate')"
-                      [max]="
-                        milestoneActivity.get('actualCompletionDate')?.value
-                      "
-                      [maxErrorLabel]="t('minStartDateError')"
-                    ></drr-datepicker>
+                      <drr-datepicker
+                        class="drr-single-input"
+                        [label]="t('plannedStartDate')"
+                        [rxFormControl]="
+                          milestoneActivity.get('plannedStartDate')
+                        "
+                        [max]="
+                          milestoneActivity.get('plannedCompletionDate')?.value
+                        "
+                        [maxErrorLabel]="t('minStartDateError')"
+                      ></drr-datepicker>
+                    }
+                    @if (showActualStartDate(milestoneActivity)) {
+                      <drr-datepicker
+                        class="drr-single-input"
+                        [label]="t('actualStartDate')"
+                        [rxFormControl]="
+                          milestoneActivity.get('actualStartDate')
+                        "
+                        [max]="
+                          milestoneActivity.get('actualCompletionDate')?.value
+                        "
+                        [maxErrorLabel]="t('minStartDateError')"
+                      ></drr-datepicker>
                     }
                   </div>
                 </div>
@@ -329,30 +340,31 @@
                       Additional Activity {{ i + 1 }}
                     </mat-card-title>
                     @if (isAdditionalActivityMandatory(additionalActivity)) {
-                    <mat-card-subtitle>
-                      {{
-                        "activityType." +
-                          additionalActivity.get("activity")?.value | transloco
-                      }}
-                    </mat-card-subtitle>
+                      <mat-card-subtitle>
+                        {{
+                          "activityType." +
+                            additionalActivity.get("activity")?.value
+                            | transloco
+                        }}
+                      </mat-card-subtitle>
                     }
                   </mat-card-title-group>
                 </mat-card-title>
               </mat-card-header>
               <mat-card-content style="display: flex; flex-direction: column">
                 @if (!isAdditionalActivityMandatory(additionalActivity)) {
-                <drr-select
-                  style="margin-top: 0.5rem"
-                  class="drr-single-input"
-                  label="Activity"
-                  [rxFormControl]="additionalActivity.get('activity')"
-                  [options]="
-                    getAvailableOptionsForActivity(
-                      additionalActivity.get('activity')?.value
-                    )
-                  "
-                >
-                </drr-select>
+                  <drr-select
+                    style="margin-top: 0.5rem"
+                    class="drr-single-input"
+                    label="Activity"
+                    [rxFormControl]="additionalActivity.get('activity')"
+                    [options]="
+                      getAvailableOptionsForActivity(
+                        additionalActivity.get('activity')?.value
+                      )
+                    "
+                  >
+                  </drr-select>
                 }
                 <div class="progress-group">
                   <drr-radio-button
@@ -371,49 +383,54 @@
                     "
                   >
                     @if (showPlannedStartDate(additionalActivity)) {
-                    <drr-datepicker
-                      class="drr-single-input"
-                      [label]="t('plannedStartDate')"
-                      [rxFormControl]="
-                        additionalActivity.get('plannedStartDate')
-                      "
-                      [max]="
-                        additionalActivity.get('plannedCompletionDate')?.value
-                      "
-                      [maxErrorLabel]="t('minStartDateError')"
-                    ></drr-datepicker>
-                    } @if (showPlannedCompletionDate(additionalActivity)) {
-                    <drr-datepicker
-                      class="drr-single-input"
-                      [label]="t('plannedCompletionDate')"
-                      [rxFormControl]="
-                        additionalActivity.get('plannedCompletionDate')
-                      "
-                      [min]="additionalActivity.get('plannedStartDate')?.value"
-                      [minErrorLabel]="t('minEndDateError')"
-                    ></drr-datepicker>
-                    } @if (showActualStartDate(additionalActivity)) {
-                    <drr-datepicker
-                      class="drr-single-input"
-                      [label]="t('actualStartDate')"
-                      [rxFormControl]="
-                        additionalActivity.get('actualStartDate')
-                      "
-                      [max]="
-                        additionalActivity.get('actualCompletionDate')?.value
-                      "
-                      [maxErrorLabel]="t('minStartDateError')"
-                    ></drr-datepicker>
-                    } @if (showActualCompletionDate(additionalActivity)) {
-                    <drr-datepicker
-                      class="drr-single-input"
-                      [label]="t('actualCompletionDate')"
-                      [rxFormControl]="
-                        additionalActivity.get('actualCompletionDate')
-                      "
-                      [min]="additionalActivity.get('actualStartDate')?.value"
-                      [minErrorLabel]="t('minEndDateError')"
-                    ></drr-datepicker>
+                      <drr-datepicker
+                        class="drr-single-input"
+                        [label]="t('plannedStartDate')"
+                        [rxFormControl]="
+                          additionalActivity.get('plannedStartDate')
+                        "
+                        [max]="
+                          additionalActivity.get('plannedCompletionDate')?.value
+                        "
+                        [maxErrorLabel]="t('minStartDateError')"
+                      ></drr-datepicker>
+                    }
+                    @if (showPlannedCompletionDate(additionalActivity)) {
+                      <drr-datepicker
+                        class="drr-single-input"
+                        [label]="t('plannedCompletionDate')"
+                        [rxFormControl]="
+                          additionalActivity.get('plannedCompletionDate')
+                        "
+                        [min]="
+                          additionalActivity.get('plannedStartDate')?.value
+                        "
+                        [minErrorLabel]="t('minEndDateError')"
+                      ></drr-datepicker>
+                    }
+                    @if (showActualStartDate(additionalActivity)) {
+                      <drr-datepicker
+                        class="drr-single-input"
+                        [label]="t('actualStartDate')"
+                        [rxFormControl]="
+                          additionalActivity.get('actualStartDate')
+                        "
+                        [max]="
+                          additionalActivity.get('actualCompletionDate')?.value
+                        "
+                        [maxErrorLabel]="t('minStartDateError')"
+                      ></drr-datepicker>
+                    }
+                    @if (showActualCompletionDate(additionalActivity)) {
+                      <drr-datepicker
+                        class="drr-single-input"
+                        [label]="t('actualCompletionDate')"
+                        [rxFormControl]="
+                          additionalActivity.get('actualCompletionDate')
+                        "
+                        [min]="additionalActivity.get('actualStartDate')?.value"
+                        [minErrorLabel]="t('minEndDateError')"
+                      ></drr-datepicker>
                     }
                   </div>
                 </div>
@@ -430,108 +447,113 @@
                 ></drr-textarea>
               </mat-card-content>
               @if (!isAdditionalActivityMandatory(additionalActivity)) {
-              <mat-card-actions align="end">
-                <button
-                  mat-raised-button
-                  color="warn"
-                  (click)="removeAdditionalActivity(i)"
-                >
-                  Remove
-                </button>
-              </mat-card-actions>
+                <mat-card-actions align="end">
+                  <button
+                    mat-raised-button
+                    color="warn"
+                    (click)="removeAdditionalActivity(i)"
+                  >
+                    Remove
+                  </button>
+                </mat-card-actions>
               }
             </mat-card>
           </div>
           @if (hasAvailableOptionsForActivity()) {
-          <button
-            mat-raised-button
-            color="primary"
-            style="margin-top: 1rem"
-            (click)="addAdditionalActivity()"
-          >
-            Add Additional Activity
-          </button>
+            <button
+              mat-raised-button
+              color="primary"
+              style="margin-top: 1rem"
+              (click)="addAdditionalActivity()"
+            >
+              Add Additional Activity
+            </button>
           }
         </div>
 
         <mat-divider style="margin-top: 2rem"></mat-divider>
 
         @if (isStructuralProject()) {
-        <h5 style="margin-top: 2rem">Temporary Provincial Funding Signage</h5>
+          <h5 style="margin-top: 2rem">Temporary Provincial Funding Signage</h5>
 
-        <drr-radio-button
-          class="drr-single-input"
-          [label]="t('signageRequired')"
-          [options]="yesNoRadioOptions"
-          [rxFormControl]="workplanForm?.get('signageRequired')"
-        ></drr-radio-button>
+          <drr-radio-button
+            class="drr-single-input"
+            [label]="t('signageRequired')"
+            [options]="yesNoRadioOptions"
+            [rxFormControl]="workplanForm?.get('signageRequired')"
+          ></drr-radio-button>
 
-        @if (workplanForm?.get('signageRequired')?.value === true) {
-        <div
-          *ngFor="let signage of getSignageFormArray().controls; let i = index"
-          style="margin-top: 1rem"
-        >
-          <mat-card>
-            <mat-card-header>
-              <mat-card-title-group>
-                <mat-card-subtitle> Signage {{ i + 1 }} </mat-card-subtitle>
-              </mat-card-title-group>
-            </mat-card-header>
-            <mat-card-content>
-              <div style="display: flex; gap: 1rem; align-items: flex-end">
-                <drr-radio-button
-                  class="drr-single-input"
-                  [label]="t('beenApproved')"
-                  [options]="yesNoRadioOptions"
-                  [rxFormControl]="signage.get('beenApproved')"
-                ></drr-radio-button>
-                <drr-select
-                  class="drr-single-input"
-                  [label]="t('signageType')"
-                  [rxFormControl]="signage.get('signageType')"
-                  [options]="signageTypeOptions"
-                >
-                </drr-select>
-                <drr-datepicker
-                  class="drr-single-input"
-                  [label]="t('dateInstalled')"
-                  [rxFormControl]="signage.get('dateInstalled')"
-                ></drr-datepicker>
-                <drr-datepicker
-                  class="drr-single-input"
-                  [label]="t('dateRemoved')"
-                  [rxFormControl]="signage.get('dateRemoved')"
-                ></drr-datepicker>
-              </div>
-            </mat-card-content>
-            @if (getSignageFormArray().controls.length > 1) {
-            <mat-card-actions align="end">
-              <button
-                mat-raised-button
-                color="warn"
-                (click)="removeSignage(signage.get('id')?.value)"
-              >
-                Remove
-              </button>
-            </mat-card-actions>
-            }
-          </mat-card>
-        </div>
-        <button
-          style="margin-top: 1rem; align-self: flex-start"
-          mat-raised-button
-          color="primary"
-          (click)="addSignage()"
-        >
-          Add Signage
-        </button>
-        } @if (workplanForm?.get('signageRequired')?.value === false) {
-        <drr-textarea
-          [label]="t('signageNotRequiredComments')"
-          [rxFormControl]="workplanForm?.get('signageNotRequiredComments')"
-          [maxlength]="2000"
-        ></drr-textarea>
-        } }
+          @if (workplanForm?.get("signageRequired")?.value === true) {
+            <div
+              *ngFor="
+                let signage of getSignageFormArray().controls;
+                let i = index
+              "
+              style="margin-top: 1rem"
+            >
+              <mat-card>
+                <mat-card-header>
+                  <mat-card-title-group>
+                    <mat-card-subtitle> Signage {{ i + 1 }} </mat-card-subtitle>
+                  </mat-card-title-group>
+                </mat-card-header>
+                <mat-card-content>
+                  <div style="display: flex; gap: 1rem; align-items: flex-end">
+                    <drr-radio-button
+                      class="drr-single-input"
+                      [label]="t('beenApproved')"
+                      [options]="yesNoRadioOptions"
+                      [rxFormControl]="signage.get('beenApproved')"
+                    ></drr-radio-button>
+                    <drr-select
+                      class="drr-single-input"
+                      [label]="t('signageType')"
+                      [rxFormControl]="signage.get('signageType')"
+                      [options]="signageTypeOptions"
+                    >
+                    </drr-select>
+                    <drr-datepicker
+                      class="drr-single-input"
+                      [label]="t('dateInstalled')"
+                      [rxFormControl]="signage.get('dateInstalled')"
+                    ></drr-datepicker>
+                    <drr-datepicker
+                      class="drr-single-input"
+                      [label]="t('dateRemoved')"
+                      [rxFormControl]="signage.get('dateRemoved')"
+                    ></drr-datepicker>
+                  </div>
+                </mat-card-content>
+                @if (getSignageFormArray().controls.length > 1) {
+                  <mat-card-actions align="end">
+                    <button
+                      mat-raised-button
+                      color="warn"
+                      (click)="removeSignage(signage.get('id')?.value)"
+                    >
+                      Remove
+                    </button>
+                  </mat-card-actions>
+                }
+              </mat-card>
+            </div>
+            <button
+              style="margin-top: 1rem; align-self: flex-start"
+              mat-raised-button
+              color="primary"
+              (click)="addSignage()"
+            >
+              Add Signage
+            </button>
+          }
+          @if (workplanForm?.get("signageRequired")?.value === false) {
+            <drr-textarea
+              [label]="t('signageNotRequiredComments')"
+              [rxFormControl]="workplanForm?.get('signageNotRequiredComments')"
+              [maxlength]="2000"
+            ></drr-textarea>
+          }
+        }
         <div
           style="
             display: flex;
@@ -542,7 +564,7 @@
         >
           <div class="workplan-item">
             <mat-label class="drr-label">
-              {{ t("mediaAnnouncements") }}</mat-label
+              {{ t("mediaAnnouncement") }}</mat-label
             >
             <drr-radio-button
               class="drr-single-input"
@@ -550,17 +572,17 @@
               [options]="yesNoRadioOptions"
               [rxFormControl]="workplanForm?.get('mediaAnnouncement')"
             ></drr-radio-button>
-            @if (workplanForm?.get('mediaAnnouncement')?.value === true) {
-            <drr-datepicker
-              class="drr-single-input"
-              label="Date of Announcement"
-              [rxFormControl]="workplanForm?.get('mediaAnnouncementDate')"
-            ></drr-datepicker>
-            <drr-textarea
-              label="Comments"
-              [rxFormControl]="workplanForm?.get('mediaAnnouncementComment')"
-              [maxlength]="2000"
-            ></drr-textarea>
+            @if (workplanForm?.get("mediaAnnouncement")?.value === true) {
+              <drr-datepicker
+                class="drr-single-input"
+                label="Date of Announcement"
+                [rxFormControl]="workplanForm?.get('mediaAnnouncementDate')"
+              ></drr-datepicker>
+              <drr-textarea
+                label="Comments"
+                [rxFormControl]="workplanForm?.get('mediaAnnouncementComment')"
+                [maxlength]="2000"
+              ></drr-textarea>
             }
           </div>
           <div class="workplan-item">
@@ -571,12 +593,12 @@
               [rxFormControl]="workplanForm?.get('outstandingIssues')"
               [options]="yesNoRadioOptions"
             ></drr-radio-button>
-            @if (workplanForm?.get('outstandingIssues')?.value === true) {
-            <drr-textarea
-              [label]="t('outstandingIssuesComments')"
-              [rxFormControl]="workplanForm?.get('outstandingIssuesComments')"
-              [maxlength]="2000"
-            ></drr-textarea>
+            @if (workplanForm?.get("outstandingIssues")?.value === true) {
+              <drr-textarea
+                [label]="t('outstandingIssuesComments')"
+                [rxFormControl]="workplanForm?.get('outstandingIssuesComments')"
+                [maxlength]="2000"
+              ></drr-textarea>
             }
           </div>
           <div class="workplan-item">
@@ -589,14 +611,14 @@
               [rxFormControl]="workplanForm?.get('fundingSourcesChanged')"
               [options]="yesNoRadioOptions"
             ></drr-radio-button>
-            @if (workplanForm?.get('fundingSourcesChanged')?.value === true) {
-            <drr-textarea
-              [label]="t('fundingSourcesChangedComment')"
-              [rxFormControl]="
-                workplanForm?.get('fundingSourcesChangedComment')
-              "
-              [maxlength]="2000"
-            ></drr-textarea>
+            @if (workplanForm?.get("fundingSourcesChanged")?.value === true) {
+              <drr-textarea
+                [label]="t('fundingSourcesChangedComment')"
+                [rxFormControl]="
+                  workplanForm?.get('fundingSourcesChangedComment')
+                "
+                [maxlength]="2000"
+              ></drr-textarea>
             }
           </div>
         </div>

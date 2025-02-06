@@ -5,8 +5,8 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type ForecastStatus = typeof ForecastStatus[keyof typeof ForecastStatus];
-
+export type ForecastStatus =
+  (typeof ForecastStatus)[keyof typeof ForecastStatus];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ForecastStatus = {

@@ -5,8 +5,7 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type CostCategory = typeof CostCategory[keyof typeof CostCategory];
-
+export type CostCategory = (typeof CostCategory)[keyof typeof CostCategory];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const CostCategory = {

@@ -5,11 +5,10 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type DelayReason = typeof DelayReason[keyof typeof DelayReason];
-
+export type Delay = (typeof Delay)[keyof typeof Delay];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DelayReason = {
+export const Delay = {
   Tendering: 'Tendering',
   Referendum: 'Referendum',
   PropertyAquisition: 'PropertyAquisition',

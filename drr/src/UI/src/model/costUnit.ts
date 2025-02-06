@@ -5,8 +5,7 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type CostUnit = typeof CostUnit[keyof typeof CostUnit];
-
+export type CostUnit = (typeof CostUnit)[keyof typeof CostUnit];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const CostUnit = {

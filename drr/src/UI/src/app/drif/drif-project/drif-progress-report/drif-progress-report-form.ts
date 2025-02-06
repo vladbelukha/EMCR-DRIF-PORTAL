@@ -8,11 +8,11 @@ import {
 } from '@rxweb/reactive-form-validators';
 import {
   ActivityType,
-  DelayReason,
+  Delay,
   FundingSignage,
   InterimProjectType,
   ProgressReport,
-  ProjectProgress,
+  ProjectProgressStatus,
   SignageType,
   Workplan,
   WorkplanActivity,
@@ -109,15 +109,15 @@ export class FundingSignageForm implements FundingSignage {
 export class WorkplanForm implements Workplan {
   @prop()
   @required()
-  projectProgress?: ProjectProgress;
+  projectProgress?: ProjectProgressStatus;
 
   @prop()
   @required({
     conditionalExpression: function (control: any) {
-      return control.projectProgress == ProjectProgress.BehindSchedule;
+      return control.projectProgress == ProjectProgressStatus.BehindSchedule;
     },
   })
-  delayReason?: DelayReason;
+  delayReason?: Delay;
 
   @prop()
   otherDelayReason?: string;
@@ -127,7 +127,7 @@ export class WorkplanForm implements Workplan {
   // it is possible unsolvable, need to investigate further
   @required({
     conditionalExpression: function (model: any) {
-      return model.projectProgress == ProjectProgress.BehindSchedule;
+      return model.projectProgress == ProjectProgressStatus.BehindSchedule;
     },
   })
   @prop()
@@ -136,7 +136,7 @@ export class WorkplanForm implements Workplan {
   @prop()
   @required({
     conditionalExpression: function (control: any) {
-      return control.projectProgress == ProjectProgress.AheadOfSchedule;
+      return control.projectProgress == ProjectProgressStatus.AheadOfSchedule;
     },
   })
   aheadOfScheduleComments?: string;
