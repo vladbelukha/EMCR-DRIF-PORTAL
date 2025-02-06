@@ -38,7 +38,7 @@ namespace EMCR.DRR.API.Resources.Reports
             var loadTasks = new List<Task>
             {
                 ctx.LoadPropertyAsync(existingProgressReport, nameof(drr_projectprogress.drr_drr_projectprogress_drr_projectworkplanactivity_ProjectProgressReport)),
-                ctx.LoadPropertyAsync(existingProgressReport, nameof(drr_projectprogress.drr_drr_projectprogress_drr_projectevent_ProgressReport)),
+                ctx.LoadPropertyAsync(existingProgressReport, nameof(drr_projectprogress.drr_drr_projectprogress_drr_projectevent_ProjectProgress)),
                 ctx.LoadPropertyAsync(existingProgressReport, nameof(drr_projectprogress.drr_drr_projectprogress_drr_temporaryprovincialfundingsignage_ProjectProgress)),
             };
 
@@ -81,8 +81,8 @@ namespace EMCR.DRR.API.Resources.Reports
                 ctx.DeleteObject(activity);
             }
 
-            var eventsToRemove = existingProgressReport.drr_drr_projectprogress_drr_projectevent_ProgressReport.Where(curr =>
-            !drrProgressReport.drr_drr_projectprogress_drr_projectevent_ProgressReport.Any(updated => updated.drr_projecteventid == curr.drr_projecteventid)).ToList();
+            var eventsToRemove = existingProgressReport.drr_drr_projectprogress_drr_projectevent_ProjectProgress.Where(curr =>
+            !drrProgressReport.drr_drr_projectprogress_drr_projectevent_ProjectProgress.Any(updated => updated.drr_projecteventid == curr.drr_projecteventid)).ToList();
 
             foreach (var projectEvent in eventsToRemove)
             {
@@ -279,7 +279,7 @@ namespace EMCR.DRR.API.Resources.Reports
             {
                 ctx.LoadPropertyAsync(pr, nameof(drr_projectprogress.drr_Project), ct),
                 ctx.LoadPropertyAsync(pr, nameof(drr_projectprogress.drr_drr_projectprogress_drr_projectworkplanactivity_ProjectProgressReport), ct),
-                ctx.LoadPropertyAsync(pr, nameof(drr_projectprogress.drr_drr_projectprogress_drr_projectevent_ProgressReport), ct),
+                ctx.LoadPropertyAsync(pr, nameof(drr_projectprogress.drr_drr_projectprogress_drr_projectevent_ProjectProgress), ct),
                 ctx.LoadPropertyAsync(pr, nameof(drr_projectprogress.drr_drr_projectprogress_drr_temporaryprovincialfundingsignage_ProjectProgress), ct),
             };
 
@@ -303,7 +303,7 @@ namespace EMCR.DRR.API.Resources.Reports
 
         private static async Task ParallelLoadEventContacts(DRRContext ctx, drr_projectprogress pr, CancellationToken ct)
         {
-            await pr.drr_drr_projectprogress_drr_projectevent_ProgressReport.ForEachAsync(5, async e =>
+            await pr.drr_drr_projectprogress_drr_projectevent_ProjectProgress.ForEachAsync(5, async e =>
             {
                 ctx.AttachTo(nameof(DRRContext.drr_projectevents), e);
                 await ctx.LoadPropertyAsync(e, nameof(drr_projectevent.drr_EventContact), ct);
