@@ -59,6 +59,8 @@
   align-items: flex-start;
   gap: 1rem;
   margin: 1rem 0 0 1rem;
+  text-wrap: break-word;
+  word-break: break-all;
 }
 
 .attachment {
