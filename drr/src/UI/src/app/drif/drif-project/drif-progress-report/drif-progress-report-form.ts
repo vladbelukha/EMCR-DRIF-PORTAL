@@ -151,6 +151,12 @@ export class WorkplanForm implements Workplan {
 
   @prop()
   @required()
+  @minNumber({ value: 0 })
+  @maxNumber({ value: 100 })
+  constructionCompletionPercentage?: number;
+
+  @prop()
+  @required()
   mediaAnnouncement?: boolean;
 
   @prop()
