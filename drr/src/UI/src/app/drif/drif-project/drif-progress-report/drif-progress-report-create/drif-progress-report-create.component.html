@@ -127,7 +127,7 @@
 
         <div class="workplan-item">
           <mat-label class="drr-label">
-            Percentage of Project Complete as of report date
+            {{ t("projectCompletionPercentage") }}
           </mat-label>
           <drr-numeric-input
             style="align-self: flex-start"
@@ -140,8 +140,7 @@
         @if (isStructuralProject()) {
         <div class="workplan-item">
           <mat-label class="drr-label">
-            Percentage of Construction complete for the project as of report
-            date
+            {{ t("constructionCompletionPercentage") }}
           </mat-label>
           <drr-numeric-input
             style="align-self: flex-start"

@@ -581,7 +581,9 @@
     "aheadOfScheduleComments": "Describe why project is ahead of schedule",
     "delayReason": "Reason for delay",
     "otherDelayReason": "Provide other reason",
-    "behindScheduleMitigatingComments": "What mitigating steps are being taken to remove or reduce the delay?"
+    "behindScheduleMitigatingComments": "What mitigating steps are being taken to remove or reduce the delay?",
+    "projectCompletionPercentage": "Percentage of Project Complete as of report date",
+    "constructionCompletionPercentage": "Percentage of Construction complete for the project as of report date"
   },
   "projectProgress": {
     "OnSchedule": "Project is on schedule",

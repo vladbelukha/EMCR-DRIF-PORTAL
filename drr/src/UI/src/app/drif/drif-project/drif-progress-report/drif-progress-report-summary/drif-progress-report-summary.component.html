@@ -1,8 +1,8 @@
 <div class="summary-container" *transloco="let t">
   <mat-card>
     <mat-card-header>
-      <mat-card-title>{{ t("steps.progressReport.step1") }}</mat-card-title>
-      <mat-card-subtitle>Step 1</mat-card-subtitle>
+      <mat-card-title>{{ t("steps.progressReport.step2") }}</mat-card-title>
+      <mat-card-subtitle>Step 2</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
       <mat-label class="drr-label">Project Progress</mat-label>
@@ -46,14 +46,27 @@
         controlType="textarea"
       ></drr-summary-item>
       }
+      <drr-summary-item
+        [label]="t('progressReport.projectCompletionPercentage')"
+        [rxFormControl]="
+          progressReportForm.get('workplan.projectCompletionPercentage')
+        "
+        [value]="
+          progressReportForm.get('workplan.projectCompletionPercentage')
+            ?.value + '%'
+        "
+      ></drr-summary-item>
+      <drr-summary-item
+        [label]="t('progressReport.constructionCompletionPercentage')"
+        [rxFormControl]="
+          progressReportForm.get('workplan.constructionCompletionPercentage')
+        "
+        [value]="
+          progressReportForm.get('workplan.constructionCompletionPercentage')
+            ?.value + '%'
+        "
+      ></drr-summary-item>
     </mat-card-content>
-  </mat-card>
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>{{ t("steps.progressReport.step2") }}</mat-card-title>
-      <mat-card-subtitle>Step 2</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content> step 2 content </mat-card-content>
   </mat-card>
   <mat-card>
     <mat-card-header>
@@ -61,5 +74,12 @@
       <mat-card-subtitle>Step 3</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content> step 3 content </mat-card-content>
+  </mat-card>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{ t("steps.progressReport.step4") }}</mat-card-title>
+      <mat-card-subtitle>Step 4</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content> step 4 content </mat-card-content>
   </mat-card>
 </div>
