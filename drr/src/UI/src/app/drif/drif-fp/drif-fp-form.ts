@@ -232,7 +232,7 @@ export class CostEstimateForm implements CostEstimate {
 
   @prop()
   @required()
-  costCategory?: CostCategory; // TODO: use API enum when available
+  costCategory?: CostCategory;
 
   @prop()
   description?: string;
@@ -246,7 +246,7 @@ export class CostEstimateForm implements CostEstimate {
 
   @prop()
   @required()
-  @maxNumber({ value: 999999999 }) // TODO: what values is appropriate?
+  @maxNumber({ value: 999999999 })
   @minNumber({ value: 0 })
   quantity?: number;
 
@@ -257,6 +257,8 @@ export class CostEstimateForm implements CostEstimate {
 
   @prop()
   @required()
+  @maxNumber({ value: 999999999 })
+  @minNumber({ value: 0 })
   totalCost?: number;
 
   constructor(values: CostEstimateForm) {
@@ -337,6 +339,8 @@ export class BudgetForm {
 
   @prop()
   @required()
+  @maxNumber({ value: 999999999 })
+  @minNumber({ value: 0 })
   totalEligibleCosts?: number;
 
   constructor(values: BudgetForm) {

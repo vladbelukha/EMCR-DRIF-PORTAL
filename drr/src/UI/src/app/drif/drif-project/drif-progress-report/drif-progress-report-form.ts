@@ -166,9 +166,6 @@ export class WorkplanForm implements Workplan {
   mediaAnnouncementComment?: string;
 
   @prop()
-  worksCompleted?: string;
-
-  @prop()
   @required()
   outstandingIssues?: boolean;
 

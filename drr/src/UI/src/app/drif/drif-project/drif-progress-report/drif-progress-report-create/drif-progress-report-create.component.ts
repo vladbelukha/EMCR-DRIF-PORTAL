@@ -50,6 +50,7 @@ import {
   WorkplanActivityForm,
   WorkplanForm,
 } from '../drif-progress-report-form';
+import { DrifProgressReportSummaryComponent } from '../drif-progress-report-summary/drif-progress-report-summary.component';
 
 @Component({
   selector: 'drr-drif-progress-report-create',
@@ -70,6 +71,7 @@ import {
     DrrTextareaComponent,
     RxReactiveFormsModule,
     MatDividerModule,
+    DrifProgressReportSummaryComponent
   ],
   templateUrl: './drif-progress-report-create.component.html',
   styleUrl: './drif-progress-report-create.component.scss',

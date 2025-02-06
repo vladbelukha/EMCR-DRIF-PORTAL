@@ -567,13 +567,6 @@
             }
           </div>
           <div class="workplan-item">
-            <mat-label class="drr-label"> Works Completed </mat-label>
-            <drr-textarea
-              label="Please provide a bulleted list of works completed since the last project report"
-              [rxFormControl]="workplanForm?.get('worksCompleted')"
-            ></drr-textarea>
-          </div>
-          <div class="workplan-item">
             <mat-label class="drr-label"> Outstanding Issues </mat-label>
             <drr-radio-button
               class="drr-single-input"
@@ -708,11 +701,14 @@
     </mat-step>
     <mat-step label="Attachments">
       <div class="drr-stepper-actions">
+        <drif-progress-report-summary
+          [progressReportForm]="progressReportForm"
+        ></drif-progress-report-summary>
         <button mat-stroked-button color="primary" matStepperPrevious>
           Back
         </button>
         <button
-          id="next2"
+          id="next3"
           mat-flat-button
           color="primary"
           matStepperNext
