@@ -246,6 +246,7 @@ namespace EMCR.DRR.Controllers
     public class ProgressReport
     {
         public string? Id { get; set; }
+        public InterimProjectType? ProjectType { get; set; }
         public DateTime? DateSubmitted { get; set; }
         public DateTime? DateApproved { get; set; }
         public DateTime? DueDate { get; set; }

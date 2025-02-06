@@ -753,6 +753,7 @@ namespace EMCR.DRR.Managers.Intake
 
     public class ProgressReportDetails : ProgressReport
     {
+        public InterimProjectType? ProjectType { get; set; }
         public WorkplanDetails? Workplan { get; set; }
         public EventInformationDetails? EventInformation { get; set; }
     }

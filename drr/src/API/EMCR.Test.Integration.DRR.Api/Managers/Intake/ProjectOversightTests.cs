@@ -79,6 +79,8 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             var queryRes = await manager.Handle(new DrrProgressReportsQuery { Id = "DRIF-PR-1058", BusinessId = GetTestUserInfo().BusinessId });
             var prs = mapper.Map<IEnumerable<EMCR.DRR.Controllers.ProgressReport>>(queryRes.Items);
             prs.Count().ShouldBe(1);
+            var progressReport = prs.Single();
+            progressReport.ProjectType.ShouldBe(EMCR.DRR.Controllers.InterimProjectType.Stream1);
         }
 
         [Test]

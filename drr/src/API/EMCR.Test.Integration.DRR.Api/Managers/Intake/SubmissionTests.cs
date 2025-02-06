@@ -455,6 +455,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             var twiceUpdatedFp = (await manager.Handle(new DrrApplicationsQuery { Id = fpId, BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault();
 
             var ret = mapper.Map<DraftFpApplication>(twiceUpdatedFp);
+            ret.RegionalProjectComments.ShouldBeNull();
             ret.Area.ShouldBeNull();
             ret.StartDate.ShouldBeNull();
             ret.EndDate.ShouldBeNull();
