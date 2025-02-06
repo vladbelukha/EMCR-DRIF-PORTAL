@@ -724,7 +724,7 @@ namespace EMCR.DRR.Managers.Intake
     public class ProjectEventDetails : ProjectEvent
     {
         public string? Id { get; set; }
-        public EventType? EventType { get; set; }
+        public EventType? Type { get; set; }
         public DateTime? PlannedEventDate { get; set; }
         public DateTime? ActualEventDate { get; set; }
         public string? NextEventDescription { get; set; }
@@ -810,7 +810,7 @@ namespace EMCR.DRR.Managers.Intake
     public class FundingSignage
     {
         public string? Id { get; set; }
-        public SignageType? SignageType { get; set; }
+        public SignageType? Type { get; set; }
         public DateTime? DateInstalled { get; set; }
         public DateTime? DateRemoved { get; set; }
         public bool? BeenApproved { get; set; }

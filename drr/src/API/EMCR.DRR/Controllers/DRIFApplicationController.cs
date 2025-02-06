@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Net.Mime;
 using System.Security.Claims;
@@ -7,6 +6,7 @@ using System.Text.Json.Serialization;
 using AutoMapper;
 using EMCR.DRR.API.Model;
 using EMCR.DRR.API.Services;
+using EMCR.DRR.API.Utilities.Extensions;
 using EMCR.DRR.Managers.Intake;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -149,7 +149,7 @@ namespace EMCR.DRR.Controllers
         //Proponent Information - 1
         public ProponentType? ProponentType { get; set; }
         public ContactDetails? Submitter { get; set; }
-        [Mandatory]
+        [Mandatory(typeof(EoiApplication))]
         public ContactDetails? ProjectContact { get; set; }
         public override IEnumerable<ContactDetails> AdditionalContacts { get; set; }
         [CollectionStringLengthValid(ErrorMessage = "PartneringProponents have a limit of 40 characters per name")]
@@ -157,17 +157,17 @@ namespace EMCR.DRR.Controllers
 
         //Project Information - 2
         public FundingStream? FundingStream { get; set; }
-        [Mandatory]
+        [Mandatory(typeof(EoiApplication))]
         public string? ProjectTitle { get; set; }
-        [Mandatory]
+        [Mandatory(typeof(EoiApplication))]
         public ProjectType? Stream { get; set; }
         public string? ScopeStatement { get; set; }
-        [Mandatory]
+        [Mandatory(typeof(EoiApplication))]
         public IEnumerable<Hazards>? RelatedHazards { get; set; }
         public string? OtherHazardsDescription { get; set; }
-        [Mandatory]
+        [Mandatory(typeof(EoiApplication))]
         public DateTime? StartDate { get; set; }
-        [Mandatory]
+        [Mandatory(typeof(EoiApplication))]
         public DateTime? EndDate { get; set; }
 
         //Funding Information - 3
@@ -175,37 +175,37 @@ namespace EMCR.DRR.Controllers
         public decimal? EstimatedTotal { get; set; }
         [Range(0, ApplicationValidators.FUNDING_MAX_VAL)]
         public decimal? FundingRequest { get; set; }
-        [Mandatory]
+        [Mandatory(typeof(EoiApplication))]
         public bool? HaveOtherFunding { get; set; }
-        [MandatoryIf("HaveOtherFunding", true)]
+        [MandatoryIf(typeof(EoiApplication), "HaveOtherFunding", true)]
         public IEnumerable<FundingInformation> OtherFunding { get; set; }
         public decimal? RemainingAmount { get; set; }
         public string? IntendToSecureFunding { get; set; }
 
         //Location Information - 4
         public bool? OwnershipDeclaration { get; set; }
-        [MandatoryIf("OwnershipDeclaration", false)]
+        [MandatoryIf(typeof(EoiApplication), "OwnershipDeclaration", false)]
         public string? OwnershipDescription { get; set; }
-        [Mandatory]
+        [Mandatory(typeof(EoiApplication))]
         public string? LocationDescription { get; set; }
 
         //Project Detail - 5
         public string? RationaleForFunding { get; set; }
-        [Mandatory]
+        [Mandatory(typeof(EoiApplication))]
         public EstimatedNumberOfPeople? EstimatedPeopleImpacted { get; set; }
-        [Mandatory]
+        [Mandatory(typeof(EoiApplication))]
         public string? CommunityImpact { get; set; }
-        [Mandatory]
+        [Mandatory(typeof(EoiApplication))]
         public bool? IsInfrastructureImpacted { get; set; }
-        [MandatoryIf("IsInfrastructureImpacted", true)]
+        [MandatoryIf(typeof(EoiApplication), "IsInfrastructureImpacted", true)]
         public IEnumerable<InfrastructureImpacted>? InfrastructureImpacted { get; set; }
         public string? DisasterRiskUnderstanding { get; set; }
         public string? AdditionalBackgroundInformation { get; set; }
         public string? AddressRisksAndHazards { get; set; }
-        [Mandatory]
+        [Mandatory(typeof(EoiApplication))]
         public string? ProjectDescription { get; set; }
         public string? AdditionalSolutionInformation { get; set; }
-        [Mandatory]
+        [Mandatory(typeof(EoiApplication))]
         public string? RationaleForSolution { get; set; }
 
         //Engagement Plan - 6
@@ -234,88 +234,88 @@ namespace EMCR.DRR.Controllers
         public ContactDetails? Submitter { get; set; }
 
         //Proponent & Project Information - 1
-        [Mandatory]
+        [Mandatory(typeof(FpApplication))]
         public ContactDetails? ProjectContact { get; set; }
-        [Mandatory]
+        [Mandatory(typeof(FpApplication))]
         public override IEnumerable<ContactDetails> AdditionalContacts { get; set; }
         [CollectionStringLengthValid(ErrorMessage = "PartneringProponents have a limit of 40 characters per name")]
         public IEnumerable<string> PartneringProponents { get; set; }
         public bool? RegionalProject { get; set; }
-        [MandatoryIf("RegionalProject", true)]
+        [MandatoryIf(typeof(FpApplication), "RegionalProject", true)]
         public string? RegionalProjectComments { get; set; }
-        [Mandatory]
+        [Mandatory(typeof(FpApplication))]
         public string? ProjectTitle { get; set; }
         public string? MainDeliverable { get; set; }
 
         //Ownership & Authorization - 2
         public bool? OwnershipDeclaration { get; set; }
-        [MandatoryIf("OwnershipDeclaration", false)]
+        [MandatoryIf(typeof(FpApplication), "OwnershipDeclaration", false)]
         public string? OwnershipDescription { get; set; }
         public bool? HaveAuthorityToDevelop { get; set; }
         public YesNoOption? OperationAndMaintenance { get; set; }
         public string? OperationAndMaintenanceComments { get; set; }
-        [Mandatory]
+        [Mandatory(typeof(FpApplication))]
         public YesNoOption? FirstNationsAuthorizedByPartners { get; set; }
-        [Mandatory]
+        [Mandatory(typeof(FpApplication))]
         public YesNoOption? LocalGovernmentAuthorizedByPartners { get; set; }
-        [Mandatory]
+        [Mandatory(typeof(FpApplication))]
         public string? AuthorizationOrEndorsementComments { get; set; }
 
         //Project Area - 3
-        [Mandatory]
+        [Mandatory(typeof(FpApplication))]
         public string? LocationDescription { get; set; }
         public int? Area { get; set; }
         public AreaUnits? Units { get; set; }
-        [Mandatory]
+        [Mandatory(typeof(FpApplication))]
         public IEnumerable<Hazards>? RelatedHazards { get; set; }
-        [MandatoryIfAny(Values = new[] { nameof(AreaUnits.Acres), nameof(AreaUnits.Hectares), nameof(AreaUnits.SqKm) }, PropertyName = nameof(Units))]
+        [MandatoryIfAny(typeof(FpApplication), Values = new[] { nameof(AreaUnits.Acres), nameof(AreaUnits.Hectares), nameof(AreaUnits.SqKm) }, PropertyName = nameof(Units))]
         public string? AreaDescription { get; set; }
         public string? OtherHazardsDescription { get; set; }
-        [Mandatory]
+        [Mandatory(typeof(FpApplication))]
         public string? CommunityImpact { get; set; }
-        [Mandatory]
+        [Mandatory(typeof(FpApplication))]
         public EstimatedNumberOfPeopleFP? EstimatedPeopleImpactedFP { get; set; }
-        [Mandatory]
+        [Mandatory(typeof(FpApplication))]
         public bool? IsInfrastructureImpacted { get; set; }
-        [MandatoryIf("IsInfrastructureImpacted", true)]
+        [MandatoryIf(typeof(FpApplication), "IsInfrastructureImpacted", true)]
         public IEnumerable<InfrastructureImpacted>? InfrastructureImpacted { get; set; }
 
         //Project Plan - 4
-        [Mandatory]
+        [Mandatory(typeof(FpApplication))]
         public DateTime? StartDate { get; set; }
-        [Mandatory]
+        [Mandatory(typeof(FpApplication))]
         public DateTime? EndDate { get; set; }
-        [Mandatory]
+        [Mandatory(typeof(FpApplication))]
         public string? ProjectDescription { get; set; }
         public IEnumerable<ProposedActivity>? ProposedActivities { get; set; }
         public IEnumerable<string>? FoundationalOrPreviousWorks { get; set; }
-        [Mandatory]
+        [Mandatory(typeof(FpApplication))]
         public string? HowWasNeedIdentified { get; set; }
         public string? AddressRisksAndHazards { get; set; }
         public string? DisasterRiskUnderstanding { get; set; }
         public string? RationaleForFunding { get; set; }
-        [Mandatory]
+        [Mandatory(typeof(FpApplication))]
         public string? ProjectAlternateOptions { get; set; }
 
         //Project Engagement - 5
         public bool? EngagedWithFirstNationsOccurred { get; set; }
-        [Mandatory]
+        [Mandatory(typeof(FpApplication))]
         public string? EngagedWithFirstNationsComments { get; set; }
         public YesNoOption? OtherEngagement { get; set; }
-        [MandatoryIf("OtherEngagement", YesNoOption.Yes)]
+        [MandatoryIf(typeof(FpApplication), "OtherEngagement", YesNoOption.Yes)]
         public IEnumerable<string>? AffectedParties { get; set; }
-        [Mandatory]
+        [Mandatory(typeof(FpApplication))]
         public string? OtherEngagementComments { get; set; }
-        [Mandatory]
+        [Mandatory(typeof(FpApplication))]
         public string? CollaborationComments { get; set; }
 
         //Climate Adaptation - 6
         public bool? IncorporateFutureClimateConditions { get; set; }
         public string? ClimateAdaptation { get; set; }
         public bool? ClimateAssessment { get; set; }
-        [MandatoryIf("ClimateAssessment", true)]
+        [MandatoryIf(typeof(FpApplication), "ClimateAssessment", true)]
         public IEnumerable<string>? ClimateAssessmentTools { get; set; }
-        [MandatoryIf("ClimateAssessment", true)]
+        [MandatoryIf(typeof(FpApplication), "ClimateAssessment", true)]
         public string? ClimateAssessmentComments { get; set; }
 
         //Permits Regulations & Standards - 7
@@ -323,120 +323,123 @@ namespace EMCR.DRR.Controllers
         public YesNoOption? StandardsAcceptable { get; set; }
         public IEnumerable<StandardInfo>? Standards { get; set; }
         public string? StandardsComments { get; set; }
-        [Mandatory]
+        [Mandatory(typeof(FpApplication))]
         public bool? ProfessionalGuidance { get; set; }
-        [MandatoryIf("ProfessionalGuidance", true)]
+        [MandatoryIf(typeof(FpApplication), "ProfessionalGuidance", true)]
         public IEnumerable<string>? Professionals { get; set; }
         public string? ProfessionalGuidanceComments { get; set; }
         public string? KnowledgeHolders { get; set; }
-        [Mandatory]
+        [Mandatory(typeof(FpApplication))]
         public bool? MeetsRegulatoryRequirements { get; set; }
-        [MandatoryIf("MeetsRegulatoryRequirements", true)]
+        [MandatoryIf(typeof(FpApplication), "MeetsRegulatoryRequirements", true)]
         public string? MeetsRegulatoryComments { get; set; }
-        [Mandatory]
+        [Mandatory(typeof(FpApplication))]
         public bool? MeetsEligibilityRequirements { get; set; }
-        [MandatoryIf("MeetsEligibilityRequirements", true)]
+        [MandatoryIf(typeof(FpApplication), "MeetsEligibilityRequirements", true)]
         public string? MeetsEligibilityComments { get; set; }
 
         //Project Outcomes - 8
-        [Mandatory]
+        [Mandatory(typeof(FpApplication))]
         public bool? PublicBenefit { get; set; }
-        [Mandatory]
+        [Mandatory(typeof(FpApplication))]
         public string? PublicBenefitComments { get; set; }
-        [Mandatory]
+        [Mandatory(typeof(FpApplication))]
         public bool? FutureCostReduction { get; set; }
-        [MandatoryIf("FutureCostReduction", true)]
+        [MandatoryIf(typeof(FpApplication), "FutureCostReduction", true)]
         public IEnumerable<string>? CostReductions { get; set; }
-        [MandatoryIf("FutureCostReduction", true)]
+        [MandatoryIf(typeof(FpApplication), "FutureCostReduction", true)]
         public string? CostReductionComments { get; set; }
-        [Mandatory]
+        [Mandatory(typeof(FpApplication))]
         public bool? ProduceCoBenefits { get; set; }
-        [MandatoryIf("ProduceCoBenefits", true)]
+        [MandatoryIf(typeof(FpApplication), "ProduceCoBenefits", true)]
         public IEnumerable<string>? CoBenefits { get; set; }
-        [MandatoryIf("ProduceCoBenefits", true)]
+        [MandatoryIf(typeof(FpApplication), "ProduceCoBenefits", true)]
         public string? CoBenefitComments { get; set; }
-        [Mandatory]
+        [Mandatory(typeof(FpApplication))]
         public IEnumerable<string>? IncreasedResiliency { get; set; }
-        [Mandatory]
+        [Mandatory(typeof(FpApplication))]
         public string? IncreasedResiliencyComments { get; set; }
 
         //Project Risks - 9
-        [Mandatory]
+        [Mandatory(typeof(FpApplication))]
         public bool? ComplexityRiskMitigated { get; set; }
-        [MandatoryIf("ComplexityRiskMitigated", true)]
+        [MandatoryIf(typeof(FpApplication), "ComplexityRiskMitigated", true)]
         public IEnumerable<string>? ComplexityRisks { get; set; }
-        [MandatoryIf("ComplexityRiskMitigated", true)]
+        [MandatoryIf(typeof(FpApplication), "ComplexityRiskMitigated", true)]
         public string? ComplexityRiskComments { get; set; }
-        [Mandatory]
+        [Mandatory(typeof(FpApplication))]
         public bool? ReadinessRiskMitigated { get; set; }
-        [MandatoryIf("ReadinessRiskMitigated", true)]
+        [MandatoryIf(typeof(FpApplication), "ReadinessRiskMitigated", true)]
         public IEnumerable<string>? ReadinessRisks { get; set; }
-        [MandatoryIf("ReadinessRiskMitigated", true)]
+        [MandatoryIf(typeof(FpApplication), "ReadinessRiskMitigated", true)]
         public string? ReadinessRiskComments { get; set; }
-        [Mandatory]
+        [Mandatory(typeof(FpApplication))]
         public bool? SensitivityRiskMitigated { get; set; }
-        [MandatoryIf("SensitivityRiskMitigated", true)]
+        [MandatoryIf(typeof(FpApplication), "SensitivityRiskMitigated", true)]
         public IEnumerable<string>? SensitivityRisks { get; set; }
-        [MandatoryIf("SensitivityRiskMitigated", true)]
+        [MandatoryIf(typeof(FpApplication), "SensitivityRiskMitigated", true)]
         public string? SensitivityRiskComments { get; set; }
-        [Mandatory]
+        [Mandatory(typeof(FpApplication))]
         public bool? CapacityRiskMitigated { get; set; }
-        [MandatoryIf("CapacityRiskMitigated", true)]
+        [MandatoryIf(typeof(FpApplication), "CapacityRiskMitigated", true)]
         public IEnumerable<string>? CapacityRisks { get; set; }
-        [MandatoryIf("CapacityRiskMitigated", true)]
+        [MandatoryIf(typeof(FpApplication), "CapacityRiskMitigated", true)]
         public string? CapacityRiskComments { get; set; }
-        [Mandatory]
+        [Mandatory(typeof(FpApplication))]
         public bool? RiskTransferMigigated { get; set; }
-        //[MandatoryIf("RiskTransferMigigated", true)]
+        //[MandatoryIf(typeof(FpApplication), "RiskTransferMigigated", true)]
         public IEnumerable<IncreasedOrTransferred>? IncreasedOrTransferred { get; set; }
-        [MandatoryIf("RiskTransferMigigated", true)]
+        [MandatoryIf(typeof(FpApplication), "RiskTransferMigigated", true)]
         public string? IncreasedOrTransferredComments { get; set; }
 
         //Budget - 10
         public FundingStream? FundingStream { get; set; }
         [Range(ApplicationValidators.FUNDING_MIN_VAL, ApplicationValidators.FUNDING_MAX_VAL)]
-        [CurrencyNotNegativeForSubmission]
-        [Mandatory]
+        [CurrencyNotNegativeForSubmission(typeof(FpApplication))]
+        [Mandatory(typeof(FpApplication))]
         public decimal? TotalProjectCost { get; set; }
         [Range(ApplicationValidators.FUNDING_MIN_VAL, ApplicationValidators.FUNDING_MAX_VAL)]
-        [CurrencyNotNegativeForSubmission]
+        [CurrencyNotNegativeForSubmission(typeof(FpApplication))]
         public decimal? EligibleFundingRequest { get; set; }
         [Range(ApplicationValidators.FUNDING_MIN_VAL, ApplicationValidators.FUNDING_MAX_VAL)]
-        [CurrencyNotNegativeForSubmission]
-        [Mandatory]
+        [CurrencyNotNegativeForSubmission(typeof(FpApplication))]
+        [Mandatory(typeof(FpApplication))]
         public decimal? RemainingAmount { get; set; }
         public IEnumerable<YearOverYearFunding>? YearOverYearFunding { get; set; }
         [Range(ApplicationValidators.FUNDING_MIN_VAL, ApplicationValidators.FUNDING_MAX_VAL)]
-        [CurrencyNotNegativeForSubmission]
-        [Mandatory]
+        [CurrencyNotNegativeForSubmission(typeof(FpApplication))]
+        [Mandatory(typeof(FpApplication))]
         public decimal? TotalDrifFundingRequest { get; set; }
         public string? DiscrepancyComment { get; set; }
-        [Mandatory]
+        [Mandatory(typeof(FpApplication))]
         public bool? HaveOtherFunding { get; set; }
-        [MandatoryIf("HaveOtherFunding", true)]
+        [MandatoryIf(typeof(FpApplication), "HaveOtherFunding", true)]
         public IEnumerable<FundingInformation> OtherFunding { get; set; }
         public string? IntendToSecureFunding { get; set; }
-        [Mandatory]
+        [Mandatory(typeof(FpApplication))]
         public string? CostEffectiveComments { get; set; }
-        [Mandatory]
+        [Mandatory(typeof(FpApplication))]
         public YesNoOption? PreviousResponse { get; set; }
         [Range(ApplicationValidators.FUNDING_MIN_VAL, ApplicationValidators.FUNDING_MAX_VAL)]
-        [CurrencyNotNegativeForSubmission]
-        [MandatoryIf("PreviousResponse", YesNoOption.Yes)]
+        [CurrencyNotNegativeForSubmission(typeof(FpApplication))]
+        [MandatoryIf(typeof(FpApplication), "PreviousResponse", YesNoOption.Yes)]
         public decimal? PreviousResponseCost { get; set; }
-        [MandatoryIf("PreviousResponse", YesNoOption.Yes)]
+        [MandatoryIf(typeof(FpApplication), "PreviousResponse", YesNoOption.Yes)]
         public string? PreviousResponseComments { get; set; }
-        [Mandatory]
+        [Mandatory(typeof(FpApplication))]
         public bool? CostConsiderationsApplied { get; set; }
-        [MandatoryIf("CostConsiderationsApplied", true)]
+        [MandatoryIf(typeof(FpApplication), "CostConsiderationsApplied", true)]
         public IEnumerable<string>? CostConsiderations { get; set; }
-        [MandatoryIf("CostConsiderationsApplied", true)]
+        [MandatoryIf(typeof(FpApplication), "CostConsiderationsApplied", true)]
         public string? CostConsiderationsComments { get; set; }
 
         public IEnumerable<CostEstimate>? CostEstimates { get; set; }
         public bool? EstimatesMatchFundingRequest { get; set; }
         [Range(ApplicationValidators.CONTIGENCY_MIN_VALUE, ApplicationValidators.CONTIGENCY_MAX_VALUE)]
         public int? Contingency { get; set; }
+        [Range(ApplicationValidators.FUNDING_MIN_VAL, ApplicationValidators.FUNDING_MAX_VAL)]
+        [CurrencyNotNegativeForSubmission(typeof(FpApplication))]
+        //For Submission - must match Updated DRIF program funding request on step 10
         public decimal? TotalEligibleCosts { get; set; }
 
         //Attachments - 11
@@ -798,138 +801,4 @@ namespace EMCR.DRR.Controllers
         [Description("Square Kms")]
         SqKm
     }
-
-#pragma warning disable CS8765 // nullability
-#pragma warning disable CS8603 // Possible null reference return.
-#pragma warning disable CS8604 // Possible null reference argument.
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-    public class Mandatory : ValidationAttribute
-    {
-        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
-        {
-            var model = validationContext.ObjectInstance;
-
-            if ((model.GetType() != typeof(DraftEoiApplication) && model.GetType() != typeof(DraftFpApplication)) && value == null)
-            {
-                var propertyInfo = validationContext.ObjectType.GetProperty(validationContext.MemberName);
-                return new ValidationResult($"{propertyInfo.Name} is required");
-            }
-            return ValidationResult.Success;
-        }
-    }
-
-    public class CurrencyNotNegativeForSubmission : ValidationAttribute
-    {
-        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
-        {
-            var model = validationContext.ObjectInstance;
-
-            if ((model.GetType() != typeof(DraftEoiApplication) && model.GetType() != typeof(DraftFpApplication)))
-            {
-                var propertyInfo = validationContext.ObjectType.GetProperty(validationContext.MemberName);
-                if (value == null) return ValidationResult.Success;
-                decimal dec = Convert.ToDecimal(value);
-                if (dec < 0) return new ValidationResult($"{propertyInfo.Name} cannot be negative");
-            }
-            return ValidationResult.Success;
-        }
-    }
-
-#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
-#pragma warning disable IDE0300 // Simplify collection initialization
-#pragma warning disable CS8620 // Argument cannot be used for parameter due to differences in the nullability of reference types.
-    public class MandatoryIf : ValidationAttribute
-    {
-        RequiredAttribute _innerAttribute = new RequiredAttribute();
-        public string _dependentProperty { get; set; }
-        public object _targetValue { get; set; }
-
-        public MandatoryIf(string dependentProperty, object targetValue)
-        {
-            this._dependentProperty = dependentProperty;
-            this._targetValue = targetValue;
-        }
-        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
-        {
-            var model = validationContext.ObjectInstance;
-
-            if ((model.GetType() == typeof(FpApplication) || model.GetType() == typeof(EoiApplication)) && value == null)
-            {
-
-                var field = validationContext.ObjectType.GetProperty(_dependentProperty);
-                if (field != null)
-                {
-                    var dependentValue = field.GetValue(validationContext.ObjectInstance, null);
-                    if ((dependentValue == null && _targetValue == null) || (dependentValue != null && dependentValue.Equals(_targetValue)))
-                    {
-                        if (!_innerAttribute.IsValid(value))
-                        {
-                            string name = validationContext.DisplayName;
-                            string specificErrorMessage = ErrorMessage;
-                            if (specificErrorMessage != null && specificErrorMessage.Length < 1)
-                                specificErrorMessage = $"{name} is required.";
-
-                            return new ValidationResult(specificErrorMessage, new[] { validationContext.MemberName });
-                        }
-                    }
-                    return ValidationResult.Success;
-                }
-                else
-                {
-                    return new ValidationResult(FormatErrorMessage(_dependentProperty));
-                }
-            }
-            return ValidationResult.Success;
-        }
-    }
-
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false)]
-    public class MandatoryIfAny : ValidationAttribute
-    {
-        public string[] Values { get; set; }
-        public string PropertyName { get; set; }
-
-        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
-        {
-            var model = validationContext.ObjectInstance;
-            if (model == null || Values == null)
-            {
-                return ValidationResult.Success;
-            }
-
-            if ((model.GetType() == typeof(FpApplication) || model.GetType() == typeof(EoiApplication)) && value == null)
-            {
-                var currentValue = model.GetType().GetProperty(PropertyName)?.GetValue(model, null)?.ToString();
-                if (Values.Contains(currentValue) && value == null)
-                {
-                    var propertyInfo = validationContext.ObjectType.GetProperty(validationContext.MemberName);
-                    return new ValidationResult($"{propertyInfo.Name} is required for the current {PropertyName} value {currentValue}");
-                }
-                return ValidationResult.Success;
-            }
-            return ValidationResult.Success;
-        }
-    }
-#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-
-    public class CollectionStringLengthValid : ValidationAttribute
-    {
-        public override bool IsValid(object value)
-        {
-            if (!(value is IList)) return false;
-            foreach (string item in (IList)value)
-            {
-                if (item?.Length > ApplicationValidators.ACCOUNT_MAX_LENGTH) return false;
-            }
-            return true;
-        }
-    }
-#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
-#pragma warning restore CS8620 // Argument cannot be used for parameter due to differences in the nullability of reference types.
-#pragma warning restore IDE0300 // Simplify collection initialization
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
-#pragma warning restore CS8604 // Possible null reference argument.
-#pragma warning restore CS8603 // Possible null reference return.
-#pragma warning restore CS8765
 }
