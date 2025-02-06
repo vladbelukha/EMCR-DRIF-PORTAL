@@ -71,6 +71,7 @@ namespace EMCR.DRR.API.Resources.Reports
                 .ForMember(dest => dest.DateApproved, opt => opt.MapFrom(src => src.drr_dateapproved.HasValue ? src.drr_dateapproved.Value.UtcDateTime : (DateTime?)null))
                 .ForMember(dest => dest.DateSubmitted, opt => opt.MapFrom(src => src.drr_datesubmitted.HasValue ? src.drr_datesubmitted.Value.UtcDateTime : (DateTime?)null))
                 .ForMember(dest => dest.DueDate, opt => opt.MapFrom(src => src.drr_duedate.HasValue ? src.drr_duedate.Value.UtcDateTime : (DateTime?)null))
+                .ForMember(dest => dest.ProjectType, opt => opt.MapFrom(src => src.drr_Project != null && src.drr_Project.drr_projecttype.HasValue ? (int?)Enum.Parse<InterimProjectType>(((FundingStreamOptionSet)src.drr_Project.drr_projecttype).ToString()) : null))
                 .ForPath(dest => dest.Workplan.WorkplanActivities, opt => opt.MapFrom(src => src.drr_drr_projectprogress_drr_projectworkplanactivity_ProjectProgressReport.Where(c => c.statecode == (int)EntityState.Active)))
                 .ForPath(dest => dest.Workplan.ProjectProgress, opt => opt.MapFrom(src => src.drr_projectprogress1.HasValue ? (int?)Enum.Parse<ProjectProgress>(((ProjectProgressOptionSet)src.drr_projectprogress1).ToString()) : null))
                 .ForPath(dest => dest.Workplan.AheadOfScheduleComments, opt => opt.MapFrom(src => src.drr_commentsaheadofschedule))
