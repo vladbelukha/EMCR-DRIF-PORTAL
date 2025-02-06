@@ -4,7 +4,49 @@
       <mat-card-title>{{ t("steps.progressReport.step1") }}</mat-card-title>
       <mat-card-subtitle>Step 1</mat-card-subtitle>
     </mat-card-header>
-    <mat-card-content> step 1 content </mat-card-content>
+    <mat-card-content>
+      <mat-label class="drr-label">Project Progress</mat-label>
+      <drr-summary-item
+        [label]="t('progressReport.projectProgress')"
+        [rxFormControl]="progressReportForm.get('workplan.projectProgress')"
+        controlType="select"
+        translatePrefix="projectProgress"
+      ></drr-summary-item>
+      @if (progressReportForm.get('workplan.projectProgress')?.value ===
+      'AheadOfSchedule') {
+      <drr-summary-item
+        [label]="t('progressReport.aheadOfScheduleComments')"
+        [rxFormControl]="
+          progressReportForm.get('workplan.aheadOfScheduleComments')
+        "
+        controlType="textarea"
+      ></drr-summary-item
+      >} @if (progressReportForm.get('workplan.projectProgress')?.value ===
+      'BehindSchedule') {
+      <drr-summary-item
+        [label]="t('progressReport.delayReason')"
+        [rxFormControl]="progressReportForm.get('workplan.delayReason')"
+        controlType="select"
+        translatePrefix="delayReason"
+      ></drr-summary-item>
+
+      @if (progressReportForm.get('workplan.delayReason')?.value === 'Other') {
+      <drr-summary-item
+        [label]="t('progressReport.otherDelayReason')"
+        [rxFormControl]="progressReportForm.get('workplan.otherDelayReason')"
+        controlType="textarea"
+      ></drr-summary-item>
+      }
+
+      <drr-summary-item
+        [label]="t('progressReport.behindScheduleMitigatingComments')"
+        [rxFormControl]="
+          progressReportForm.get('workplan.behindScheduleMitigatingComments')
+        "
+        controlType="textarea"
+      ></drr-summary-item>
+      }
+    </mat-card-content>
   </mat-card>
   <mat-card>
     <mat-card-header>

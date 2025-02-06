@@ -45,13 +45,20 @@ export class SummaryItemComponent {
     }
 
     const controlValue = this.rxFormControl?.value;
+    if (controlValue === undefined || controlValue === null) {
+      return controlValue;
+    }
+
+    const translateKey = this.translatePrefix
+      ? `${this.translatePrefix}.${controlValue}`
+      : controlValue;
 
     switch (this.controlType) {
       case 'input':
       case 'textarea':
         return this.rxFormControl?.value;
       case 'select':
-        return this.translocoService.translate(controlValue);
+        return this.translocoService.translate(translateKey);
       case 'radio':
         return typeof controlValue === 'boolean'
           ? this.translocoService.translate(controlValue ? 'Yes' : 'No')
@@ -79,6 +86,7 @@ export class SummaryItemComponent {
   @Input() controlType: ControlType = 'input';
 
   @Input() translate = true;
+  @Input() translatePrefix = '';
 
   @Input() rxFormControl?: AbstractControl | null;
 

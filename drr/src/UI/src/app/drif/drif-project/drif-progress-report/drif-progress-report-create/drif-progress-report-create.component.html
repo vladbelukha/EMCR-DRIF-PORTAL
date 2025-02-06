@@ -81,7 +81,7 @@
 
         <drr-select
           class="drr-single-input"
-          label="Project Progress Status"
+          [label]="t('projectProgress')"
           [rxFormControl]="progressReportForm.get('workplan.projectProgress')"
           [options]="projectProgressOptions"
         >
@@ -91,7 +91,7 @@
         <div style="display: flex; gap: 1rem">
           <drr-select
             class="drr-single-input"
-            label="Reason for delay"
+            [label]="t('delayReason')"
             [rxFormControl]="progressReportForm.get('workplan.delayReason')"
             [options]="delayReasonOptions"
           >
@@ -99,7 +99,7 @@
           @if (isOtherDelayReasonSelected()) {
           <drr-input
             class="drr-single-input"
-            label="Provide other reason"
+            [label]="t('otherDelayReason')"
             [rxFormControl]="
               progressReportForm.get('workplan.otherDelayReason')
             "
@@ -109,7 +109,7 @@
         </div>
 
         <drr-textarea
-          label="Reasons for delay"
+          [label]="t('behindScheduleMitigatingComments')"
           [rxFormControl]="
             progressReportForm.get('workplan.behindScheduleMitigatingComments')
           "
@@ -117,7 +117,7 @@
         ></drr-textarea>
         } @if (isProjectAhead()) {
         <drr-textarea
-          label="Reasons for being ahead"
+          [label]="t('aheadOfScheduleComments')"
           [rxFormControl]="
             progressReportForm.get('workplan.aheadOfScheduleComments')
           "
@@ -701,9 +701,6 @@
     </mat-step>
     <mat-step label="Attachments">
       <div class="drr-stepper-actions">
-        <drif-progress-report-summary
-          [progressReportForm]="progressReportForm"
-        ></drif-progress-report-summary>
         <button mat-stroked-button color="primary" matStepperPrevious>
           Back
         </button>
@@ -719,6 +716,9 @@
       </div></mat-step
     >
     <mat-step label="Review & Declarations">
+      <drif-progress-report-summary
+        [progressReportForm]="progressReportForm"
+      ></drif-progress-report-summary>
       <div class="drr-stepper-actions">
         <button mat-stroked-button color="primary" matStepperPrevious>
           Back
