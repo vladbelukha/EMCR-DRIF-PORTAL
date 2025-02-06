@@ -5,8 +5,8 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type InterimReportStatus = typeof InterimReportStatus[keyof typeof InterimReportStatus];
-
+export type InterimReportStatus =
+  (typeof InterimReportStatus)[keyof typeof InterimReportStatus];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const InterimReportStatus = {

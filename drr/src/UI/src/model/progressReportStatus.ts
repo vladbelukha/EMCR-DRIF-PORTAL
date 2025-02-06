@@ -5,8 +5,8 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type ProgressReportStatus = typeof ProgressReportStatus[keyof typeof ProgressReportStatus];
-
+export type ProgressReportStatus =
+  (typeof ProgressReportStatus)[keyof typeof ProgressReportStatus];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ProgressReportStatus = {

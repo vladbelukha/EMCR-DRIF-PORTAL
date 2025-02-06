@@ -6,8 +6,8 @@
  */
 
 export type DRIFApplicationGetParams = {
-Page?: number;
-PageSize?: number;
-OrderBy?: string;
-Filter?: string;
+  Page?: number;
+  PageSize?: number;
+  OrderBy?: string;
+  Filter?: string;
 };

@@ -5,8 +5,7 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type Hazards = typeof Hazards[keyof typeof Hazards];
-
+export type Hazards = (typeof Hazards)[keyof typeof Hazards];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const Hazards = {

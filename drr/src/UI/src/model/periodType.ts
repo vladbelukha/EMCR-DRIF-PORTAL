@@ -5,8 +5,7 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type PeriodType = typeof PeriodType[keyof typeof PeriodType];
-
+export type PeriodType = (typeof PeriodType)[keyof typeof PeriodType];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PeriodType = {

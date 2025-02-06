@@ -4,62 +4,59 @@
  * DRR API
  * OpenAPI spec version: 1.0.0
  */
-import {
-  HttpClient
-} from '@angular/common/http'
+import { HttpClient } from '@angular/common/http';
 import type {
   HttpContext,
   HttpEvent,
   HttpHeaders,
   HttpParams,
-  HttpResponse as AngularHttpResponse
-} from '@angular/common/http'
-import {
-  Injectable
-} from '@angular/core'
-import {
-  Observable
-} from 'rxjs'
-import type {
-  VersionInformation
-} from '../../model'
-
+  HttpResponse as AngularHttpResponse,
+} from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import type { VersionInformation } from '../../model';
 
 type HttpClientOptions = {
-  headers?: HttpHeaders | {
-      [header: string]: string | string[];
-  };
+  headers?:
+    | HttpHeaders
+    | {
+        [header: string]: string | string[];
+      };
   context?: HttpContext;
   observe?: any;
-  params?: HttpParams | {
-    [param: string]: string | number | boolean | ReadonlyArray<string | number | boolean>;
-  };
+  params?:
+    | HttpParams
+    | {
+        [param: string]:
+          | string
+          | number
+          | boolean
+          | ReadonlyArray<string | number | boolean>;
+      };
   reportProgress?: boolean;
   responseType?: any;
   withCredentials?: boolean;
 };
 
-
-
 @Injectable({ providedIn: 'root' })
 export class VersionService {
-  constructor(
-    private http: HttpClient,
-  ) {} versionGetVersionInformation<TData = VersionInformation[]>(
-     options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
+  constructor(private http: HttpClient) {}
+  versionGetVersionInformation<TData = VersionInformation[]>(
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' },
   ): Observable<TData>;
-    versionGetVersionInformation<TData = VersionInformation[]>(
-     options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
+  versionGetVersionInformation<TData = VersionInformation[]>(
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' },
   ): Observable<AngularHttpResponse<TData>>;
-    versionGetVersionInformation<TData = VersionInformation[]>(
-     options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
-  ): Observable<HttpEvent<TData>>;versionGetVersionInformation<TData = VersionInformation[]>(
-     options?: HttpClientOptions
-  ): Observable<TData>  {
-    return this.http.get<TData>(
-      `/api/version`,options
-    );
+  versionGetVersionInformation<TData = VersionInformation[]>(
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' },
+  ): Observable<HttpEvent<TData>>;
+  versionGetVersionInformation<TData = VersionInformation[]>(
+    options?: HttpClientOptions,
+  ): Observable<TData> {
+    return this.http.get<TData>(`/api/version`, options);
   }
-};
+}
 
-export type VersionGetVersionInformationClientResult = NonNullable<VersionInformation[]>
+export type VersionGetVersionInformationClientResult = NonNullable<
+  VersionInformation[]
+>;

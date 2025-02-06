@@ -5,8 +5,7 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type AreaUnits = typeof AreaUnits[keyof typeof AreaUnits];
-
+export type AreaUnits = (typeof AreaUnits)[keyof typeof AreaUnits];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AreaUnits = {

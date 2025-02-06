@@ -5,8 +5,8 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type ReportingScheduleType = typeof ReportingScheduleType[keyof typeof ReportingScheduleType];
-
+export type ReportingScheduleType =
+  (typeof ReportingScheduleType)[keyof typeof ReportingScheduleType];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ReportingScheduleType = {

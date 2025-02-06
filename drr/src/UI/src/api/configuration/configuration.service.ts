@@ -4,79 +4,74 @@
  * DRR API
  * OpenAPI spec version: 1.0.0
  */
-import {
-  HttpClient
-} from '@angular/common/http'
+import { HttpClient } from '@angular/common/http';
 import type {
   HttpContext,
   HttpEvent,
   HttpHeaders,
   HttpParams,
-  HttpResponse as AngularHttpResponse
-} from '@angular/common/http'
-import {
-  Injectable
-} from '@angular/core'
-import {
-  Observable
-} from 'rxjs'
-import type {
-  Configuration,
-  EntitiesQueryResult
-} from '../../model'
-
+  HttpResponse as AngularHttpResponse,
+} from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import type { Configuration, EntitiesQueryResult } from '../../model';
 
 type HttpClientOptions = {
-  headers?: HttpHeaders | {
-      [header: string]: string | string[];
-  };
+  headers?:
+    | HttpHeaders
+    | {
+        [header: string]: string | string[];
+      };
   context?: HttpContext;
   observe?: any;
-  params?: HttpParams | {
-    [param: string]: string | number | boolean | ReadonlyArray<string | number | boolean>;
-  };
+  params?:
+    | HttpParams
+    | {
+        [param: string]:
+          | string
+          | number
+          | boolean
+          | ReadonlyArray<string | number | boolean>;
+      };
   reportProgress?: boolean;
   responseType?: any;
   withCredentials?: boolean;
 };
 
-
-
 @Injectable({ providedIn: 'root' })
 export class ConfigurationService {
-  constructor(
-    private http: HttpClient,
-  ) {} configurationGetConfiguration<TData = Configuration>(
-     options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
+  constructor(private http: HttpClient) {}
+  configurationGetConfiguration<TData = Configuration>(
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' },
   ): Observable<TData>;
-    configurationGetConfiguration<TData = Configuration>(
-     options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
+  configurationGetConfiguration<TData = Configuration>(
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' },
   ): Observable<AngularHttpResponse<TData>>;
-    configurationGetConfiguration<TData = Configuration>(
-     options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
-  ): Observable<HttpEvent<TData>>;configurationGetConfiguration<TData = Configuration>(
-     options?: HttpClientOptions
-  ): Observable<TData>  {
-    return this.http.get<TData>(
-      `/api/configuration`,options
-    );
+  configurationGetConfiguration<TData = Configuration>(
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' },
+  ): Observable<HttpEvent<TData>>;
+  configurationGetConfiguration<TData = Configuration>(
+    options?: HttpClientOptions,
+  ): Observable<TData> {
+    return this.http.get<TData>(`/api/configuration`, options);
   }
- configurationGetEntities<TData = EntitiesQueryResult>(
-     options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
+  configurationGetEntities<TData = EntitiesQueryResult>(
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' },
   ): Observable<TData>;
-    configurationGetEntities<TData = EntitiesQueryResult>(
-     options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
+  configurationGetEntities<TData = EntitiesQueryResult>(
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' },
   ): Observable<AngularHttpResponse<TData>>;
-    configurationGetEntities<TData = EntitiesQueryResult>(
-     options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
-  ): Observable<HttpEvent<TData>>;configurationGetEntities<TData = EntitiesQueryResult>(
-     options?: HttpClientOptions
-  ): Observable<TData>  {
-    return this.http.get<TData>(
-      `/api/configuration/options`,options
-    );
+  configurationGetEntities<TData = EntitiesQueryResult>(
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' },
+  ): Observable<HttpEvent<TData>>;
+  configurationGetEntities<TData = EntitiesQueryResult>(
+    options?: HttpClientOptions,
+  ): Observable<TData> {
+    return this.http.get<TData>(`/api/configuration/options`, options);
   }
-};
+}
 
-export type ConfigurationGetConfigurationClientResult = NonNullable<Configuration>
-export type ConfigurationGetEntitiesClientResult = NonNullable<EntitiesQueryResult>
+export type ConfigurationGetConfigurationClientResult =
+  NonNullable<Configuration>;
+export type ConfigurationGetEntitiesClientResult =
+  NonNullable<EntitiesQueryResult>;

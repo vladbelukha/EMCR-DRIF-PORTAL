@@ -4,22 +4,16 @@
  * DRR API
  * OpenAPI spec version: 1.0.0
  */
-import {
-  HttpClient
-} from '@angular/common/http'
+import { HttpClient } from '@angular/common/http';
 import type {
   HttpContext,
   HttpEvent,
   HttpHeaders,
   HttpParams,
-  HttpResponse as AngularHttpResponse
-} from '@angular/common/http'
-import {
-  Injectable
-} from '@angular/core'
-import {
-  Observable
-} from 'rxjs'
+  HttpResponse as AngularHttpResponse,
+} from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import type {
   ApplicationResult,
   DRIFApplicationCreateFPFromEOIParams,
@@ -30,300 +24,385 @@ import type {
   EoiApplication,
   FpApplication,
   ScreenerQuestions,
-  SubmissionResponse
-} from '../../model'
-
+  SubmissionResponse,
+} from '../../model';
 
 type HttpClientOptions = {
-  headers?: HttpHeaders | {
-      [header: string]: string | string[];
-  };
+  headers?:
+    | HttpHeaders
+    | {
+        [header: string]: string | string[];
+      };
   context?: HttpContext;
   observe?: any;
-  params?: HttpParams | {
-    [param: string]: string | number | boolean | ReadonlyArray<string | number | boolean>;
-  };
+  params?:
+    | HttpParams
+    | {
+        [param: string]:
+          | string
+          | number
+          | boolean
+          | ReadonlyArray<string | number | boolean>;
+      };
   reportProgress?: boolean;
   responseType?: any;
   withCredentials?: boolean;
 };
 
-
-
 @Injectable({ providedIn: 'root' })
 export class DrifapplicationService {
-  constructor(
-    private http: HttpClient,
-  ) {} dRIFApplicationGet<TData = SubmissionResponse>(
-    params?: DRIFApplicationGetParams, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
+  constructor(private http: HttpClient) {}
+  dRIFApplicationGet<TData = SubmissionResponse>(
+    params?: DRIFApplicationGetParams,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' },
   ): Observable<TData>;
-    dRIFApplicationGet<TData = SubmissionResponse>(
-    params?: DRIFApplicationGetParams, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
+  dRIFApplicationGet<TData = SubmissionResponse>(
+    params?: DRIFApplicationGetParams,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' },
   ): Observable<AngularHttpResponse<TData>>;
-    dRIFApplicationGet<TData = SubmissionResponse>(
-    params?: DRIFApplicationGetParams, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
-  ): Observable<HttpEvent<TData>>;dRIFApplicationGet<TData = SubmissionResponse>(
-    params?: DRIFApplicationGetParams, options?: HttpClientOptions
-  ): Observable<TData>  {
-    return this.http.get<TData>(
-      `/api/drifapplication`,{
-    ...options,
-        params: {...params, ...options?.params},}
-    );
+  dRIFApplicationGet<TData = SubmissionResponse>(
+    params?: DRIFApplicationGetParams,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' },
+  ): Observable<HttpEvent<TData>>;
+  dRIFApplicationGet<TData = SubmissionResponse>(
+    params?: DRIFApplicationGetParams,
+    options?: HttpClientOptions,
+  ): Observable<TData> {
+    return this.http.get<TData>(`/api/drifapplication`, {
+      ...options,
+      params: { ...params, ...options?.params },
+    });
   }
- dRIFApplicationGetDeclarations<TData = DeclarationResult>(
-     options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
+  dRIFApplicationGetDeclarations<TData = DeclarationResult>(
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' },
   ): Observable<TData>;
-    dRIFApplicationGetDeclarations<TData = DeclarationResult>(
-     options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
+  dRIFApplicationGetDeclarations<TData = DeclarationResult>(
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' },
   ): Observable<AngularHttpResponse<TData>>;
-    dRIFApplicationGetDeclarations<TData = DeclarationResult>(
-     options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
-  ): Observable<HttpEvent<TData>>;dRIFApplicationGetDeclarations<TData = DeclarationResult>(
-     options?: HttpClientOptions
-  ): Observable<TData>  {
-    return this.http.get<TData>(
-      `/api/drifapplication/declarations`,options
-    );
+  dRIFApplicationGetDeclarations<TData = DeclarationResult>(
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' },
+  ): Observable<HttpEvent<TData>>;
+  dRIFApplicationGetDeclarations<TData = DeclarationResult>(
+    options?: HttpClientOptions,
+  ): Observable<TData> {
+    return this.http.get<TData>(`/api/drifapplication/declarations`, options);
   }
- dRIFApplicationGetEOI<TData = DraftEoiApplication>(
-    id: string, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
+  dRIFApplicationGetEOI<TData = DraftEoiApplication>(
+    id: string,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' },
   ): Observable<TData>;
-    dRIFApplicationGetEOI<TData = DraftEoiApplication>(
-    id: string, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
+  dRIFApplicationGetEOI<TData = DraftEoiApplication>(
+    id: string,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' },
   ): Observable<AngularHttpResponse<TData>>;
-    dRIFApplicationGetEOI<TData = DraftEoiApplication>(
-    id: string, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
-  ): Observable<HttpEvent<TData>>;dRIFApplicationGetEOI<TData = DraftEoiApplication>(
-    id: string, options?: HttpClientOptions
-  ): Observable<TData>  {
-    return this.http.get<TData>(
-      `/api/drifapplication/eoi/${id}`,options
-    );
+  dRIFApplicationGetEOI<TData = DraftEoiApplication>(
+    id: string,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' },
+  ): Observable<HttpEvent<TData>>;
+  dRIFApplicationGetEOI<TData = DraftEoiApplication>(
+    id: string,
+    options?: HttpClientOptions,
+  ): Observable<TData> {
+    return this.http.get<TData>(`/api/drifapplication/eoi/${id}`, options);
   }
- dRIFApplicationUpdateApplication<TData = ApplicationResult>(
+  dRIFApplicationUpdateApplication<TData = ApplicationResult>(
     id: string,
-    draftEoiApplication: DraftEoiApplication, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
+    draftEoiApplication: DraftEoiApplication,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' },
   ): Observable<TData>;
-    dRIFApplicationUpdateApplication<TData = ApplicationResult>(
+  dRIFApplicationUpdateApplication<TData = ApplicationResult>(
     id: string,
-    draftEoiApplication: DraftEoiApplication, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
+    draftEoiApplication: DraftEoiApplication,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' },
   ): Observable<AngularHttpResponse<TData>>;
-    dRIFApplicationUpdateApplication<TData = ApplicationResult>(
+  dRIFApplicationUpdateApplication<TData = ApplicationResult>(
     id: string,
-    draftEoiApplication: DraftEoiApplication, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
-  ): Observable<HttpEvent<TData>>;dRIFApplicationUpdateApplication<TData = ApplicationResult>(
+    draftEoiApplication: DraftEoiApplication,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' },
+  ): Observable<HttpEvent<TData>>;
+  dRIFApplicationUpdateApplication<TData = ApplicationResult>(
     id: string,
-    draftEoiApplication: DraftEoiApplication, options?: HttpClientOptions
-  ): Observable<TData>  {
+    draftEoiApplication: DraftEoiApplication,
+    options?: HttpClientOptions,
+  ): Observable<TData> {
     return this.http.post<TData>(
       `/api/drifapplication/eoi/${id}`,
-      draftEoiApplication,options
+      draftEoiApplication,
+      options,
     );
   }
- dRIFApplicationDeleteApplication<TData = ApplicationResult>(
-    id: string, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
+  dRIFApplicationDeleteApplication<TData = ApplicationResult>(
+    id: string,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' },
   ): Observable<TData>;
-    dRIFApplicationDeleteApplication<TData = ApplicationResult>(
-    id: string, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
+  dRIFApplicationDeleteApplication<TData = ApplicationResult>(
+    id: string,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' },
   ): Observable<AngularHttpResponse<TData>>;
-    dRIFApplicationDeleteApplication<TData = ApplicationResult>(
-    id: string, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
-  ): Observable<HttpEvent<TData>>;dRIFApplicationDeleteApplication<TData = ApplicationResult>(
-    id: string, options?: HttpClientOptions
-  ): Observable<TData>  {
-    return this.http.delete<TData>(
-      `/api/drifapplication/eoi/${id}`,options
-    );
+  dRIFApplicationDeleteApplication<TData = ApplicationResult>(
+    id: string,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' },
+  ): Observable<HttpEvent<TData>>;
+  dRIFApplicationDeleteApplication<TData = ApplicationResult>(
+    id: string,
+    options?: HttpClientOptions,
+  ): Observable<TData> {
+    return this.http.delete<TData>(`/api/drifapplication/eoi/${id}`, options);
   }
- dRIFApplicationCreateEOIApplication<TData = ApplicationResult>(
-    draftEoiApplication: DraftEoiApplication, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
+  dRIFApplicationCreateEOIApplication<TData = ApplicationResult>(
+    draftEoiApplication: DraftEoiApplication,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' },
   ): Observable<TData>;
-    dRIFApplicationCreateEOIApplication<TData = ApplicationResult>(
-    draftEoiApplication: DraftEoiApplication, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
+  dRIFApplicationCreateEOIApplication<TData = ApplicationResult>(
+    draftEoiApplication: DraftEoiApplication,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' },
   ): Observable<AngularHttpResponse<TData>>;
-    dRIFApplicationCreateEOIApplication<TData = ApplicationResult>(
-    draftEoiApplication: DraftEoiApplication, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
-  ): Observable<HttpEvent<TData>>;dRIFApplicationCreateEOIApplication<TData = ApplicationResult>(
-    draftEoiApplication: DraftEoiApplication, options?: HttpClientOptions
-  ): Observable<TData>  {
+  dRIFApplicationCreateEOIApplication<TData = ApplicationResult>(
+    draftEoiApplication: DraftEoiApplication,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' },
+  ): Observable<HttpEvent<TData>>;
+  dRIFApplicationCreateEOIApplication<TData = ApplicationResult>(
+    draftEoiApplication: DraftEoiApplication,
+    options?: HttpClientOptions,
+  ): Observable<TData> {
     return this.http.post<TData>(
       `/api/drifapplication/eoi`,
-      draftEoiApplication,options
+      draftEoiApplication,
+      options,
     );
   }
- dRIFApplicationSubmitApplication<TData = ApplicationResult>(
-    eoiApplication: EoiApplication, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
+  dRIFApplicationSubmitApplication<TData = ApplicationResult>(
+    eoiApplication: EoiApplication,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' },
   ): Observable<TData>;
-    dRIFApplicationSubmitApplication<TData = ApplicationResult>(
-    eoiApplication: EoiApplication, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
+  dRIFApplicationSubmitApplication<TData = ApplicationResult>(
+    eoiApplication: EoiApplication,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' },
   ): Observable<AngularHttpResponse<TData>>;
-    dRIFApplicationSubmitApplication<TData = ApplicationResult>(
-    eoiApplication: EoiApplication, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
-  ): Observable<HttpEvent<TData>>;dRIFApplicationSubmitApplication<TData = ApplicationResult>(
-    eoiApplication: EoiApplication, options?: HttpClientOptions
-  ): Observable<TData>  {
+  dRIFApplicationSubmitApplication<TData = ApplicationResult>(
+    eoiApplication: EoiApplication,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' },
+  ): Observable<HttpEvent<TData>>;
+  dRIFApplicationSubmitApplication<TData = ApplicationResult>(
+    eoiApplication: EoiApplication,
+    options?: HttpClientOptions,
+  ): Observable<TData> {
     return this.http.post<TData>(
       `/api/drifapplication/eoi/submit`,
-      eoiApplication,options
+      eoiApplication,
+      options,
     );
   }
- dRIFApplicationSubmitApplication2<TData = ApplicationResult>(
+  dRIFApplicationSubmitApplication2<TData = ApplicationResult>(
     id: string,
-    eoiApplication: EoiApplication, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
+    eoiApplication: EoiApplication,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' },
   ): Observable<TData>;
-    dRIFApplicationSubmitApplication2<TData = ApplicationResult>(
+  dRIFApplicationSubmitApplication2<TData = ApplicationResult>(
     id: string,
-    eoiApplication: EoiApplication, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
+    eoiApplication: EoiApplication,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' },
   ): Observable<AngularHttpResponse<TData>>;
-    dRIFApplicationSubmitApplication2<TData = ApplicationResult>(
+  dRIFApplicationSubmitApplication2<TData = ApplicationResult>(
     id: string,
-    eoiApplication: EoiApplication, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
-  ): Observable<HttpEvent<TData>>;dRIFApplicationSubmitApplication2<TData = ApplicationResult>(
+    eoiApplication: EoiApplication,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' },
+  ): Observable<HttpEvent<TData>>;
+  dRIFApplicationSubmitApplication2<TData = ApplicationResult>(
     id: string,
-    eoiApplication: EoiApplication, options?: HttpClientOptions
-  ): Observable<TData>  {
+    eoiApplication: EoiApplication,
+    options?: HttpClientOptions,
+  ): Observable<TData> {
     return this.http.post<TData>(
       `/api/drifapplication/eoi/${id}/submit`,
-      eoiApplication,options
+      eoiApplication,
+      options,
     );
   }
- dRIFApplicationWithdrawApplication<TData = ApplicationResult>(
-    id: string, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
+  dRIFApplicationWithdrawApplication<TData = ApplicationResult>(
+    id: string,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' },
   ): Observable<TData>;
-    dRIFApplicationWithdrawApplication<TData = ApplicationResult>(
-    id: string, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
+  dRIFApplicationWithdrawApplication<TData = ApplicationResult>(
+    id: string,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' },
   ): Observable<AngularHttpResponse<TData>>;
-    dRIFApplicationWithdrawApplication<TData = ApplicationResult>(
-    id: string, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
-  ): Observable<HttpEvent<TData>>;dRIFApplicationWithdrawApplication<TData = ApplicationResult>(
-    id: string, options?: HttpClientOptions
-  ): Observable<TData>  {
+  dRIFApplicationWithdrawApplication<TData = ApplicationResult>(
+    id: string,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' },
+  ): Observable<HttpEvent<TData>>;
+  dRIFApplicationWithdrawApplication<TData = ApplicationResult>(
+    id: string,
+    options?: HttpClientOptions,
+  ): Observable<TData> {
     return this.http.post<TData>(
-      `/api/drifapplication/eoi/${id}/withdraw`,undefined,options
+      `/api/drifapplication/eoi/${id}/withdraw`,
+      undefined,
+      options,
     );
   }
- dRIFApplicationGetFP<TData = DraftFpApplication>(
-    id: string, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
+  dRIFApplicationGetFP<TData = DraftFpApplication>(
+    id: string,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' },
   ): Observable<TData>;
-    dRIFApplicationGetFP<TData = DraftFpApplication>(
-    id: string, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
+  dRIFApplicationGetFP<TData = DraftFpApplication>(
+    id: string,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' },
   ): Observable<AngularHttpResponse<TData>>;
-    dRIFApplicationGetFP<TData = DraftFpApplication>(
-    id: string, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
-  ): Observable<HttpEvent<TData>>;dRIFApplicationGetFP<TData = DraftFpApplication>(
-    id: string, options?: HttpClientOptions
-  ): Observable<TData>  {
-    return this.http.get<TData>(
-      `/api/drifapplication/fp/${id}`,options
-    );
+  dRIFApplicationGetFP<TData = DraftFpApplication>(
+    id: string,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' },
+  ): Observable<HttpEvent<TData>>;
+  dRIFApplicationGetFP<TData = DraftFpApplication>(
+    id: string,
+    options?: HttpClientOptions,
+  ): Observable<TData> {
+    return this.http.get<TData>(`/api/drifapplication/fp/${id}`, options);
   }
- dRIFApplicationUpdateFPApplication<TData = ApplicationResult>(
+  dRIFApplicationUpdateFPApplication<TData = ApplicationResult>(
     id: string,
-    draftFpApplication: DraftFpApplication, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
+    draftFpApplication: DraftFpApplication,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' },
   ): Observable<TData>;
-    dRIFApplicationUpdateFPApplication<TData = ApplicationResult>(
+  dRIFApplicationUpdateFPApplication<TData = ApplicationResult>(
     id: string,
-    draftFpApplication: DraftFpApplication, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
+    draftFpApplication: DraftFpApplication,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' },
   ): Observable<AngularHttpResponse<TData>>;
-    dRIFApplicationUpdateFPApplication<TData = ApplicationResult>(
+  dRIFApplicationUpdateFPApplication<TData = ApplicationResult>(
     id: string,
-    draftFpApplication: DraftFpApplication, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
-  ): Observable<HttpEvent<TData>>;dRIFApplicationUpdateFPApplication<TData = ApplicationResult>(
+    draftFpApplication: DraftFpApplication,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' },
+  ): Observable<HttpEvent<TData>>;
+  dRIFApplicationUpdateFPApplication<TData = ApplicationResult>(
     id: string,
-    draftFpApplication: DraftFpApplication, options?: HttpClientOptions
-  ): Observable<TData>  {
+    draftFpApplication: DraftFpApplication,
+    options?: HttpClientOptions,
+  ): Observable<TData> {
     return this.http.post<TData>(
       `/api/drifapplication/fp/${id}`,
-      draftFpApplication,options
+      draftFpApplication,
+      options,
     );
   }
- dRIFApplicationDeleteFPApplication<TData = ApplicationResult>(
-    id: string, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
+  dRIFApplicationDeleteFPApplication<TData = ApplicationResult>(
+    id: string,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' },
   ): Observable<TData>;
-    dRIFApplicationDeleteFPApplication<TData = ApplicationResult>(
-    id: string, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
+  dRIFApplicationDeleteFPApplication<TData = ApplicationResult>(
+    id: string,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' },
   ): Observable<AngularHttpResponse<TData>>;
-    dRIFApplicationDeleteFPApplication<TData = ApplicationResult>(
-    id: string, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
-  ): Observable<HttpEvent<TData>>;dRIFApplicationDeleteFPApplication<TData = ApplicationResult>(
-    id: string, options?: HttpClientOptions
-  ): Observable<TData>  {
-    return this.http.delete<TData>(
-      `/api/drifapplication/fp/${id}`,options
-    );
+  dRIFApplicationDeleteFPApplication<TData = ApplicationResult>(
+    id: string,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' },
+  ): Observable<HttpEvent<TData>>;
+  dRIFApplicationDeleteFPApplication<TData = ApplicationResult>(
+    id: string,
+    options?: HttpClientOptions,
+  ): Observable<TData> {
+    return this.http.delete<TData>(`/api/drifapplication/fp/${id}`, options);
   }
- dRIFApplicationCreateFPFromEOI<TData = ApplicationResult>(
+  dRIFApplicationCreateFPFromEOI<TData = ApplicationResult>(
     screenerQuestions: ScreenerQuestions,
-    params?: DRIFApplicationCreateFPFromEOIParams, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
+    params?: DRIFApplicationCreateFPFromEOIParams,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' },
   ): Observable<TData>;
-    dRIFApplicationCreateFPFromEOI<TData = ApplicationResult>(
+  dRIFApplicationCreateFPFromEOI<TData = ApplicationResult>(
     screenerQuestions: ScreenerQuestions,
-    params?: DRIFApplicationCreateFPFromEOIParams, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
+    params?: DRIFApplicationCreateFPFromEOIParams,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' },
   ): Observable<AngularHttpResponse<TData>>;
-    dRIFApplicationCreateFPFromEOI<TData = ApplicationResult>(
+  dRIFApplicationCreateFPFromEOI<TData = ApplicationResult>(
     screenerQuestions: ScreenerQuestions,
-    params?: DRIFApplicationCreateFPFromEOIParams, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
-  ): Observable<HttpEvent<TData>>;dRIFApplicationCreateFPFromEOI<TData = ApplicationResult>(
+    params?: DRIFApplicationCreateFPFromEOIParams,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' },
+  ): Observable<HttpEvent<TData>>;
+  dRIFApplicationCreateFPFromEOI<TData = ApplicationResult>(
     screenerQuestions: ScreenerQuestions,
-    params?: DRIFApplicationCreateFPFromEOIParams, options?: HttpClientOptions
-  ): Observable<TData>  {
-    return this.http.post<TData>(
-      `/api/drifapplication/fp`,
-      screenerQuestions,{
-    ...options,
-        params: {...params, ...options?.params},}
-    );
+    params?: DRIFApplicationCreateFPFromEOIParams,
+    options?: HttpClientOptions,
+  ): Observable<TData> {
+    return this.http.post<TData>(`/api/drifapplication/fp`, screenerQuestions, {
+      ...options,
+      params: { ...params, ...options?.params },
+    });
   }
- dRIFApplicationSubmitFPApplication<TData = ApplicationResult>(
+  dRIFApplicationSubmitFPApplication<TData = ApplicationResult>(
     id: string,
-    fpApplication: FpApplication, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
+    fpApplication: FpApplication,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' },
   ): Observable<TData>;
-    dRIFApplicationSubmitFPApplication<TData = ApplicationResult>(
+  dRIFApplicationSubmitFPApplication<TData = ApplicationResult>(
     id: string,
-    fpApplication: FpApplication, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
+    fpApplication: FpApplication,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' },
   ): Observable<AngularHttpResponse<TData>>;
-    dRIFApplicationSubmitFPApplication<TData = ApplicationResult>(
+  dRIFApplicationSubmitFPApplication<TData = ApplicationResult>(
     id: string,
-    fpApplication: FpApplication, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
-  ): Observable<HttpEvent<TData>>;dRIFApplicationSubmitFPApplication<TData = ApplicationResult>(
+    fpApplication: FpApplication,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' },
+  ): Observable<HttpEvent<TData>>;
+  dRIFApplicationSubmitFPApplication<TData = ApplicationResult>(
     id: string,
-    fpApplication: FpApplication, options?: HttpClientOptions
-  ): Observable<TData>  {
+    fpApplication: FpApplication,
+    options?: HttpClientOptions,
+  ): Observable<TData> {
     return this.http.post<TData>(
       `/api/drifapplication/fp/${id}/submit`,
-      fpApplication,options
+      fpApplication,
+      options,
     );
   }
- dRIFApplicationWithdrawFPApplication<TData = ApplicationResult>(
-    id: string, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' }
+  dRIFApplicationWithdrawFPApplication<TData = ApplicationResult>(
+    id: string,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' },
   ): Observable<TData>;
-    dRIFApplicationWithdrawFPApplication<TData = ApplicationResult>(
-    id: string, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' }
+  dRIFApplicationWithdrawFPApplication<TData = ApplicationResult>(
+    id: string,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' },
   ): Observable<AngularHttpResponse<TData>>;
-    dRIFApplicationWithdrawFPApplication<TData = ApplicationResult>(
-    id: string, options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' }
-  ): Observable<HttpEvent<TData>>;dRIFApplicationWithdrawFPApplication<TData = ApplicationResult>(
-    id: string, options?: HttpClientOptions
-  ): Observable<TData>  {
+  dRIFApplicationWithdrawFPApplication<TData = ApplicationResult>(
+    id: string,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' },
+  ): Observable<HttpEvent<TData>>;
+  dRIFApplicationWithdrawFPApplication<TData = ApplicationResult>(
+    id: string,
+    options?: HttpClientOptions,
+  ): Observable<TData> {
     return this.http.post<TData>(
-      `/api/drifapplication/fp/${id}/withdraw`,undefined,options
+      `/api/drifapplication/fp/${id}/withdraw`,
+      undefined,
+      options,
     );
   }
-};
+}
 
-export type DRIFApplicationGetClientResult = NonNullable<SubmissionResponse>
-export type DRIFApplicationGetDeclarationsClientResult = NonNullable<DeclarationResult>
-export type DRIFApplicationGetEOIClientResult = NonNullable<DraftEoiApplication>
-export type DRIFApplicationUpdateApplicationClientResult = NonNullable<ApplicationResult>
-export type DRIFApplicationDeleteApplicationClientResult = NonNullable<ApplicationResult>
-export type DRIFApplicationCreateEOIApplicationClientResult = NonNullable<ApplicationResult>
-export type DRIFApplicationSubmitApplicationClientResult = NonNullable<ApplicationResult>
-export type DRIFApplicationSubmitApplication2ClientResult = NonNullable<ApplicationResult>
-export type DRIFApplicationWithdrawApplicationClientResult = NonNullable<ApplicationResult>
-export type DRIFApplicationGetFPClientResult = NonNullable<DraftFpApplication>
-export type DRIFApplicationUpdateFPApplicationClientResult = NonNullable<ApplicationResult>
-export type DRIFApplicationDeleteFPApplicationClientResult = NonNullable<ApplicationResult>
-export type DRIFApplicationCreateFPFromEOIClientResult = NonNullable<ApplicationResult>
-export type DRIFApplicationSubmitFPApplicationClientResult = NonNullable<ApplicationResult>
-export type DRIFApplicationWithdrawFPApplicationClientResult = NonNullable<ApplicationResult>
+export type DRIFApplicationGetClientResult = NonNullable<SubmissionResponse>;
+export type DRIFApplicationGetDeclarationsClientResult =
+  NonNullable<DeclarationResult>;
+export type DRIFApplicationGetEOIClientResult =
+  NonNullable<DraftEoiApplication>;
+export type DRIFApplicationUpdateApplicationClientResult =
+  NonNullable<ApplicationResult>;
+export type DRIFApplicationDeleteApplicationClientResult =
+  NonNullable<ApplicationResult>;
+export type DRIFApplicationCreateEOIApplicationClientResult =
+  NonNullable<ApplicationResult>;
+export type DRIFApplicationSubmitApplicationClientResult =
+  NonNullable<ApplicationResult>;
+export type DRIFApplicationSubmitApplication2ClientResult =
+  NonNullable<ApplicationResult>;
+export type DRIFApplicationWithdrawApplicationClientResult =
+  NonNullable<ApplicationResult>;
+export type DRIFApplicationGetFPClientResult = NonNullable<DraftFpApplication>;
+export type DRIFApplicationUpdateFPApplicationClientResult =
+  NonNullable<ApplicationResult>;
+export type DRIFApplicationDeleteFPApplicationClientResult =
+  NonNullable<ApplicationResult>;
+export type DRIFApplicationCreateFPFromEOIClientResult =
+  NonNullable<ApplicationResult>;
+export type DRIFApplicationSubmitFPApplicationClientResult =
+  NonNullable<ApplicationResult>;
+export type DRIFApplicationWithdrawFPApplicationClientResult =
+  NonNullable<ApplicationResult>;

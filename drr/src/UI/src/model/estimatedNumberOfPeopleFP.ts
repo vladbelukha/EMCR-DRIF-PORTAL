@@ -5,8 +5,8 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type EstimatedNumberOfPeopleFP = typeof EstimatedNumberOfPeopleFP[keyof typeof EstimatedNumberOfPeopleFP];
-
+export type EstimatedNumberOfPeopleFP =
+  (typeof EstimatedNumberOfPeopleFP)[keyof typeof EstimatedNumberOfPeopleFP];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const EstimatedNumberOfPeopleFP = {

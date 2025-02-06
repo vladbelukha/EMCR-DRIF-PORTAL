@@ -250,7 +250,11 @@ export type DraftFpApplicationAllOf = {
    * @nullable
    */
   totalDrifFundingRequest?: number;
-  /** @nullable */
+  /**
+   * @minimum -999999999.99
+   * @maximum 999999999.99
+   * @nullable
+   */
   totalEligibleCosts?: number;
   /**
    * @minimum -999999999.99

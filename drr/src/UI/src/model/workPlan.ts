@@ -4,25 +4,41 @@
  * DRR API
  * OpenAPI spec version: 1.0.0
  */
-import type { DelayReason } from './delayReason';
+import type { Delay } from './delay';
 import type { FundingSignage } from './fundingSignage';
-import type { ProjectProgress } from './projectProgress';
+import type { ProjectProgressStatus } from './projectProgressStatus';
 import type { WorkplanActivity } from './workplanActivity';
 
 export interface Workplan {
-  /** @nullable */
+  /**
+   * @minLength 0
+   * @maxLength 2000
+   * @nullable
+   */
   aheadOfScheduleComments?: string;
-  /** @nullable */
+  /**
+   * @minLength 0
+   * @maxLength 2000
+   * @nullable
+   */
   behindScheduleMitigatingComments?: string;
-  /** @nullable */
+  /**
+   * @minimum 0
+   * @maximum 100
+   * @nullable
+   */
   constructionCompletionPercentage?: number;
   /** @nullable */
-  delayReason?: DelayReason;
+  delayReason?: Delay;
   /** @nullable */
   fundingSignage?: FundingSignage[];
   /** @nullable */
   fundingSourcesChanged?: boolean;
-  /** @nullable */
+  /**
+   * @minLength 0
+   * @maxLength 2000
+   * @nullable
+   */
   fundingSourcesChangedComment?: string;
   /** @nullable */
   mediaAnnouncement?: boolean;
@@ -30,17 +46,33 @@ export interface Workplan {
   mediaAnnouncementComment?: string;
   /** @nullable */
   mediaAnnouncementDate?: string;
-  /** @nullable */
+  /**
+   * @minLength 0
+   * @maxLength 50
+   * @nullable
+   */
   otherDelayReason?: string;
   /** @nullable */
   outstandingIssues?: boolean;
-  /** @nullable */
+  /**
+   * @minLength 0
+   * @maxLength 2000
+   * @nullable
+   */
   outstandingIssuesComments?: string;
-  /** @nullable */
+  /**
+   * @minimum 0
+   * @maximum 100
+   * @nullable
+   */
   projectCompletionPercentage?: number;
   /** @nullable */
-  projectProgress?: ProjectProgress;
-  /** @nullable */
+  projectProgress?: ProjectProgressStatus;
+  /**
+   * @minLength 0
+   * @maxLength 50
+   * @nullable
+   */
   signageNotRequiredComments?: string;
   /** @nullable */
   signageRequired?: boolean;

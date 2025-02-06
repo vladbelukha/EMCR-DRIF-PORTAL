@@ -14,7 +14,11 @@ export interface WorkplanActivity {
   actualCompletionDate?: string;
   /** @nullable */
   actualStartDate?: string;
-  /** @nullable */
+  /**
+   * @minLength 0
+   * @maxLength 250
+   * @nullable
+   */
   comment?: string;
   /** @nullable */
   id?: string;

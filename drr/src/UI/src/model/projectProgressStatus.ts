@@ -5,11 +5,11 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type ProjectProgress = typeof ProjectProgress[keyof typeof ProjectProgress];
-
+export type ProjectProgressStatus =
+  (typeof ProjectProgressStatus)[keyof typeof ProjectProgressStatus];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ProjectProgress = {
+export const ProjectProgressStatus = {
   OnSchedule: 'OnSchedule',
   AheadOfSchedule: 'AheadOfSchedule',
   BehindSchedule: 'BehindSchedule',
