@@ -277,6 +277,7 @@ namespace EMCR.DRR.API.Resources.Reports
             ctx.AttachTo(nameof(DRRContext.drr_projectprogresses), pr);
             var loadTasks = new List<Task>
             {
+                ctx.LoadPropertyAsync(pr, nameof(drr_projectprogress.drr_Project), ct),
                 ctx.LoadPropertyAsync(pr, nameof(drr_projectprogress.drr_drr_projectprogress_drr_projectworkplanactivity_ProjectProgressReport), ct),
                 ctx.LoadPropertyAsync(pr, nameof(drr_projectprogress.drr_drr_projectprogress_drr_projectevent_ProgressReport), ct),
                 ctx.LoadPropertyAsync(pr, nameof(drr_projectprogress.drr_drr_projectprogress_drr_temporaryprovincialfundingsignage_ProjectProgress), ct),
