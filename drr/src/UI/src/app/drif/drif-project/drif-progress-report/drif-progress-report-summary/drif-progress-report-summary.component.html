@@ -259,7 +259,40 @@
         ></drr-summary-item>
         }
       </div>
-      
+
+      <drr-summary-item
+        [label]="t('progressReport.outstandingIssues')"
+        [rxFormControl]="progressReportForm.get('workplan.outstandingIssues')"
+        controlType="radio"
+      ></drr-summary-item>
+      @if (progressReportForm.get('workplan.outstandingIssues')?.value === true)
+      {
+      <drr-summary-item
+        [label]="t('progressReport.outstandingIssuesComments')"
+        [rxFormControl]="
+          progressReportForm.get('workplan.outstandingIssuesComments')
+        "
+        controlType="textarea"
+      ></drr-summary-item>
+      }
+
+      <drr-summary-item
+        [label]="t('progressReport.fundingSourcesChanged')"
+        [rxFormControl]="
+          progressReportForm.get('workplan.fundingSourcesChanged')
+        "
+        controlType="radio"
+      ></drr-summary-item>
+      @if (progressReportForm.get('workplan.fundingSourcesChanged')?.value ===
+      true) {
+      <drr-summary-item
+        [label]="t('progressReport.fundingSourcesChangedComment')"
+        [rxFormControl]="
+          progressReportForm.get('workplan.fundingSourcesChangedComment')
+        "
+        controlType="textarea"
+      ></drr-summary-item>
+      }
     </mat-card-content>
   </mat-card>
   <mat-card>

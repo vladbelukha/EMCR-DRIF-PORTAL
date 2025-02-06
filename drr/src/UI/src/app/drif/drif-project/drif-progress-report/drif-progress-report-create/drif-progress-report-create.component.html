@@ -591,7 +591,7 @@
             </mat-label>
             <drr-radio-button
               class="drr-single-input"
-              label="Have there been changes to other funding sources in the last quarter?"
+              [label]="t('fundingSourcesChanged')"
               [rxFormControl]="workplanForm?.get('fundingSourcesChanged')"
               [options]="yesNoRadioOptions"
             ></drr-radio-button>
@@ -599,7 +599,7 @@
             (showMandatoryControl(workplanForm?.get('fundingSourcesChangedComment')))
             {
             <drr-textarea
-              label="Please provide details on any changes to other funding sources"
+              [label]="t('fundingSourcesChangedComment')"
               [rxFormControl]="
                 workplanForm?.get('fundingSourcesChangedComment')
               "
