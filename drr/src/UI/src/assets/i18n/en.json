@@ -585,7 +585,12 @@
     "projectCompletionPercentage": "Percentage of Project Complete as of report date",
     "constructionCompletionPercentage": "Percentage of Construction complete for the project as of report date",
     "activity": "Activity",
-    "status": "Status"
+    "status": "Status",
+    "signageRequired": "Is signage required?",
+    "beenApproved": "Is approved by Province?",
+    "signageType": "Signage Type",
+    "dateInstalled": "Date Installed",
+    "dateRemoved": "Date Removed"
   },
   "projectProgress": {
     "OnSchedule": "Project is on schedule",

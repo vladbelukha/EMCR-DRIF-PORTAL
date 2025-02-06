@@ -385,7 +385,7 @@
                     } @if (showPlannedCompletionDate(additionalActivity)) {
                     <drr-datepicker
                       class="drr-single-input"
-                      [label]="t('plannedEndDate')"
+                      [label]="t('plannedCompletionDate')"
                       [rxFormControl]="
                         additionalActivity.get('plannedCompletionDate')
                       "
@@ -461,7 +461,7 @@
 
         <drr-radio-button
           class="drr-single-input"
-          label="Is signage required?"
+          [label]="t('signageRequired')"
           [options]="yesNoRadioOptions"
           [rxFormControl]="workplanForm?.get('signageRequired')"
         ></drr-radio-button>
@@ -481,25 +481,25 @@
               <div style="display: flex; gap: 1rem; align-items: flex-end">
                 <drr-radio-button
                   class="drr-single-input"
-                  label="Is approved by Province?"
+                  [label]="t('beenApproved')"
                   [options]="yesNoRadioOptions"
                   [rxFormControl]="signage.get('beenApproved')"
                 ></drr-radio-button>
                 <drr-select
                   class="drr-single-input"
-                  label="Signage Type"
+                  [label]="t('signageType')"
                   [rxFormControl]="signage.get('signageType')"
                   [options]="signageTypeOptions"
                 >
                 </drr-select>
                 <drr-datepicker
                   class="drr-single-input"
-                  label="Date Installed"
+                  [label]="t('dateInstalled')"
                   [rxFormControl]="signage.get('dateInstalled')"
                 ></drr-datepicker>
                 <drr-datepicker
                   class="drr-single-input"
-                  label="Date Removed"
+                  [label]="t('dateRemoved')"
                   [rxFormControl]="signage.get('dateRemoved')"
                 ></drr-datepicker>
               </div>

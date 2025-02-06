@@ -187,6 +187,43 @@
           controlType="textarea"
         ></drr-summary-item>
       </div>
+
+      @if (progressReportForm.get('projectType')?.value === 'Stream2') {
+      <mat-label class="drr-label"
+        >Temporary Provincial Funding Signage</mat-label
+      >
+      <drr-summary-item
+        [label]="t('progressReport.signageRequired')"
+        [rxFormControl]="progressReportForm.get('workplan.signageRequired')"
+        controlType="radio"
+      ></drr-summary-item>
+      <div
+        class="summary-row"
+        *ngFor="let signage of getSignageFormArray().controls; let i = index"
+      >
+        <drr-summary-item
+          [label]="t('progressReport.beenApproved')"
+          [rxFormControl]="signage.get('beenApproved')"
+          controlType="radio"
+        ></drr-summary-item>
+        <drr-summary-item
+          [label]="t('progressReport.signageType')"
+          [rxFormControl]="signage.get('signageType')"
+          controlType="select"
+          translatePrefix="signageType"
+        ></drr-summary-item>
+        <drr-summary-item
+          [label]="t('progressReport.dateInstalled')"
+          [rxFormControl]="signage.get('dateInstalled')"
+          controlType="date"
+        ></drr-summary-item>
+        <drr-summary-item
+          [label]="t('progressReport.dateRemoved')"
+          [rxFormControl]="signage.get('dateRemoved')"
+          controlType="date"
+        ></drr-summary-item>
+      </div>
+      }
     </mat-card-content>
   </mat-card>
   <mat-card>

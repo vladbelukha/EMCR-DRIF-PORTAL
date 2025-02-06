@@ -79,4 +79,8 @@ export class DrifProgressReportSummaryComponent {
         return 0;
       });
   }
+
+  getSignageFormArray() {
+    return this.progressReportForm?.get('workplan.fundingSignage') as FormArray;
+  }
 }
