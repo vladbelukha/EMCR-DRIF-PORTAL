@@ -567,9 +567,9 @@
     "projectWorkplan": "Project Workplan",
     "eventInformation": "Event Information",
     "plannedStartDate": "Planned Start Date",
-    "plannedEndDate": "Planned Completion Date",
+    "plannedCompletionDate": "Planned Completion Date",
     "actualStartDate": "Actual Start Date",
-    "actualEndDate": "Actual Completion Date",
+    "actualCompletionDate": "Actual Completion Date",
     "explainDateChange": "Explain Date Change",
     "minStartDateError": "Start Date must be before End Date",
     "minEndDateError": "End Date must be after Start Date",
@@ -583,7 +583,9 @@
     "otherDelayReason": "Provide other reason",
     "behindScheduleMitigatingComments": "What mitigating steps are being taken to remove or reduce the delay?",
     "projectCompletionPercentage": "Percentage of Project Complete as of report date",
-    "constructionCompletionPercentage": "Percentage of Construction complete for the project as of report date"
+    "constructionCompletionPercentage": "Percentage of Construction complete for the project as of report date",
+    "activity": "Activity",
+    "status": "Status"
   },
   "projectProgress": {
     "OnSchedule": "Project is on schedule",

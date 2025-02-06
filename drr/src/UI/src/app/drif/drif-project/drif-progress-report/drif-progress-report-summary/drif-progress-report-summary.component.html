@@ -56,6 +56,7 @@
             ?.value + '%'
         "
       ></drr-summary-item>
+      @if (progressReportForm.get('projectType')?.value === 'Stream2') {
       <drr-summary-item
         [label]="t('progressReport.constructionCompletionPercentage')"
         [rxFormControl]="
@@ -65,7 +66,127 @@
           progressReportForm.get('workplan.constructionCompletionPercentage')
             ?.value + '%'
         "
-      ></drr-summary-item>
+      ></drr-summary-item
+      >}
+
+      <mat-label class="drr-label">Key Activities</mat-label>
+      <div
+        *ngFor="let activity of getPreDefinedActivitiesArray(); let i = index"
+      >
+        <div class="summary-row">
+          <drr-summary-item
+            [label]="t('progressReport.activity')"
+            [rxFormControl]="activity.get('activity')"
+            controlType="select"
+            translatePrefix="activityType"
+          ></drr-summary-item>
+          <drr-summary-item
+            [label]="t('progressReport.status')"
+            [rxFormControl]="activity.get('status')"
+            controlType="select"
+            translatePrefix="workplanStatus"
+          ></drr-summary-item>
+          <drr-summary-item
+            [label]="t('progressReport.plannedStartDate')"
+            [rxFormControl]="activity.get('plannedStartDate')"
+            controlType="date"
+          ></drr-summary-item>
+          <drr-summary-item
+            [label]="t('progressReport.plannedCompletionDate')"
+            [rxFormControl]="activity.get('plannedCompletionDate')"
+            controlType="date"
+          ></drr-summary-item>
+          <drr-summary-item
+            [label]="t('progressReport.actualStartDate')"
+            [rxFormControl]="activity.get('actualStartDate')"
+            controlType="date"
+          ></drr-summary-item>
+          <drr-summary-item
+            [label]="t('progressReport.actualCompletionDate')"
+            [rxFormControl]="activity.get('actualCompletionDate')"
+            controlType="date"
+          ></drr-summary-item>
+        </div>
+        <drr-summary-item
+          [label]="t('progressReport.keyActivityComment')"
+          [rxFormControl]="activity.get('comment')"
+          controlType="textarea"
+        ></drr-summary-item>
+      </div>
+
+      <mat-label class="drr-label">Milestones</mat-label>
+      <div
+        class="summary-row"
+        *ngFor="let activity of getMilestoneActivitiesArray(); let i = index"
+      >
+        <drr-summary-item
+          [label]="t('progressReport.activity')"
+          [rxFormControl]="activity.get('activity')"
+          controlType="select"
+          translatePrefix="activityType"
+        ></drr-summary-item>
+        <drr-summary-item
+          [label]="t('progressReport.status')"
+          [rxFormControl]="activity.get('status')"
+          controlType="select"
+          translatePrefix="workplanStatus"
+        ></drr-summary-item>
+        <drr-summary-item
+          [label]="t('progressReport.plannedStartDate')"
+          [rxFormControl]="activity.get('plannedStartDate')"
+          controlType="date"
+        ></drr-summary-item>
+        <drr-summary-item
+          [label]="t('progressReport.actualCompletionDate')"
+          [rxFormControl]="activity.get('actualCompletionDate')"
+          controlType="date"
+        ></drr-summary-item>
+      </div>
+
+      <mat-label class="drr-label">Additional Activities</mat-label>
+      <div
+        *ngFor="let activity of getAdditionalActivitiesArray(); let i = index"
+      >
+        <div class="summary-row">
+          <drr-summary-item
+            [label]="t('progressReport.activity')"
+            [rxFormControl]="activity.get('activity')"
+            controlType="select"
+            translatePrefix="activityType"
+          ></drr-summary-item>
+          <drr-summary-item
+            [label]="t('progressReport.status')"
+            [rxFormControl]="activity.get('status')"
+            controlType="select"
+            translatePrefix="workplanStatus"
+          ></drr-summary-item>
+          <drr-summary-item
+            [label]="t('progressReport.plannedStartDate')"
+            [rxFormControl]="activity.get('plannedStartDate')"
+            controlType="date"
+          ></drr-summary-item>
+          <drr-summary-item
+            [label]="t('progressReport.plannedCompletionDate')"
+            [rxFormControl]="activity.get('plannedCompletionDate')"
+            controlType="date"
+          ></drr-summary-item>
+          <drr-summary-item
+            [label]="t('progressReport.actualStartDate')"
+            [rxFormControl]="activity.get('actualStartDate')"
+            controlType="date"
+          ></drr-summary-item>
+          <drr-summary-item
+            [label]="t('progressReport.actualCompletionDate')"
+            [rxFormControl]="activity.get('actualCompletionDate')"
+            controlType="date"
+          ></drr-summary-item>
+        </div>
+        <drr-summary-item
+          [label]="t('progressReport.keyActivityComment')"
+          [rxFormControl]="activity.get('comment')"
+          controlType="textarea"
+        ></drr-summary-item>
+      </div>
     </mat-card-content>
   </mat-card>
   <mat-card>

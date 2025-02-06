@@ -449,7 +449,9 @@ export class DrifProgressReportCreateComponent {
     );
   }
 
-  showPlannedEndDate(activityControl: AbstractControl<WorkplanActivityForm>) {
+  showPlannedCompletionDate(
+    activityControl: AbstractControl<WorkplanActivityForm>
+  ) {
     const status = activityControl?.get('status')?.value as WorkplanStatus;
     return (
       status === WorkplanStatus.NotStarted ||
@@ -466,7 +468,9 @@ export class DrifProgressReportCreateComponent {
     );
   }
 
-  showActualEndDate(activityControl: AbstractControl<WorkplanActivityForm>) {
+  showActualCompletionDate(
+    activityControl: AbstractControl<WorkplanActivityForm>
+  ) {
     const status = activityControl?.get('status')?.value as WorkplanStatus;
     return status === WorkplanStatus.Completed;
   }
