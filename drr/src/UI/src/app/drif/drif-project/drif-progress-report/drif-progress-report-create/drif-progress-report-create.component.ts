@@ -48,6 +48,7 @@ import {
   EventProgressType,
   FundingSignageForm,
   ProgressReportForm,
+  ProjectEventForm,
   WorkplanActivityForm,
   WorkplanForm,
 } from '../drif-progress-report-form';
@@ -277,6 +278,40 @@ export class DrifProgressReportCreateComponent {
 
               date?.updateValueAndValidity();
               comment?.updateValueAndValidity();
+            });
+
+          report.eventInformation?.pastEvents?.map((event) => {
+            this.getPastEventsArray()?.push(
+              this.formBuilder.formGroup(new ProjectEventForm(event)),
+            );
+          });
+
+          report.eventInformation?.futureEvents?.map((event) => {
+            this.getFutureEventsArray()?.push(
+              this.formBuilder.formGroup(new ProjectEventForm(event)),
+            );
+          });
+
+          this.eventsForm
+            ?.get('haveEventsOccurred')
+            ?.valueChanges.subscribe((value) => {
+              if (value === true && this.getPastEventsArray()?.length === 0) {
+                this.addPastEvent();
+              }
+              if (value === false) {
+                this.getPastEventsArray()?.clear();
+              }
+            });
+
+          this.eventsForm
+            ?.get('haveUpcomingEvents')
+            ?.valueChanges.subscribe((value) => {
+              if (value === true && this.getFutureEventsArray()?.length === 0) {
+                this.addFutureEvent();
+              }
+              if (value === false) {
+                this.getFutureEventsArray()?.clear();
+              }
             });
 
           this.progressReportForm.patchValue(report);
@@ -545,5 +580,33 @@ export class DrifProgressReportCreateComponent {
     );
 
     this.getSignageFormArray()?.removeAt(index!);
+  }
+
+  getPastEventsArray() {
+    return this.eventsForm?.get('pastEvents') as FormArray;
+  }
+
+  addPastEvent() {
+    this.getPastEventsArray()?.push(
+      this.formBuilder.formGroup(new EventInformationForm({})),
+    );
+  }
+
+  removePastEvent(index: number) {
+    this.getPastEventsArray()?.removeAt(index);
+  }
+
+  getFutureEventsArray() {
+    return this.eventsForm?.get('futureEvents') as FormArray;
+  }
+
+  addFutureEvent() {
+    this.getFutureEventsArray()?.push(
+      this.formBuilder.formGroup(new EventInformationForm({})),
+    );
+  }
+
+  removeFutureEvent(index: number) {
+    this.getFutureEventsArray()?.removeAt(index);
   }
 }

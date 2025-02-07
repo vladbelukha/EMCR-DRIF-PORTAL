@@ -649,6 +649,36 @@
             progressReportForm.get('eventInformation.haveEventsOccurred')
           "
         ></drr-radio-button>
+        @if (
+          progressReportForm.get("eventInformation.haveEventsOccurred")
+            ?.value === true
+        ) {
+          <div
+            *ngFor="
+              let pastEvent of getPastEventsArray().controls;
+              let i = index
+            "
+          >
+            <i>past event</i>
+            @if (getPastEventsArray().controls.length > 1) {
+              <button
+                mat-raised-button
+                color="warn"
+                (click)="removePastEvent(i)"
+              >
+                Remove
+              </button>
+            }
+          </div>
+          <button
+            mat-raised-button
+            color="primary"
+            style="margin-top: 1rem"
+            (click)="addPastEvent()"
+          >
+            Add Past Event
+          </button>
+        }
 
         <h5>Upcoming Project Events</h5>
         <drr-radio-button
@@ -659,6 +689,36 @@
             progressReportForm.get('eventInformation.haveUpcomingEvents')
           "
         ></drr-radio-button>
+        @if (
+          progressReportForm.get("eventInformation.haveUpcomingEvents")
+            ?.value === true
+        ) {
+          <div
+            *ngFor="
+              let pastEvent of getFutureEventsArray().controls;
+              let i = index
+            "
+          >
+            <i>future event</i>
+            @if (getFutureEventsArray().controls.length > 1) {
+              <button
+                mat-raised-button
+                color="warn"
+                (click)="removeFutureEvent(i)"
+              >
+                Remove
+              </button>
+            }
+          </div>
+          <button
+            mat-raised-button
+            color="primary"
+            style="margin-top: 1rem"
+            (click)="addFutureEvent()"
+          >
+            Add Future Event
+          </button>
+        }
       </div>
       <div class="drr-stepper-actions">
         <button mat-stroked-button color="primary" matStepperPrevious>

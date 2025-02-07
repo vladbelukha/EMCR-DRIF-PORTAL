@@ -7,8 +7,9 @@
 import type { ProjectEvent } from './projectEvent';
 
 export interface EventInformation {
+  pastEvents?: ProjectEvent[];
   /** @nullable */
-  events?: ProjectEvent[];
+  futureEvents?: ProjectEvent[];
   /** @nullable */
   haveEventsOccurred?: boolean;
 }

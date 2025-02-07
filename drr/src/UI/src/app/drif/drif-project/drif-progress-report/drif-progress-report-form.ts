@@ -13,12 +13,14 @@ import {
   FundingSignage,
   InterimProjectType,
   ProgressReport,
+  ProjectEvent,
   ProjectProgressStatus,
   SignageType,
   Workplan,
   WorkplanActivity,
   WorkplanStatus,
 } from '../../../../model';
+import { ContactDetailsForm } from '../../drif-eoi/drif-eoi-form';
 
 export enum EventProgressType {
   NotStarted = 'Not Started',
@@ -193,20 +195,44 @@ export class WorkplanForm implements Workplan {
   }
 }
 
+export class ProjectEventForm implements ProjectEvent {
+  @prop()
+  id?: string;
+
+  @prop()
+  @required()
+  description?: string;
+
+  @prop()
+  @required()
+  date?: string;
+
+  @propObject(ContactDetailsForm)
+  eventContact?: ContactDetailsForm;  
+
+  @prop()
+  @required()
+  provincialRepresentativeInvited?: boolean;
+
+  constructor(values: ProjectEventForm) {
+    Object.assign(this, values);
+  }
+}
+
 export class EventInformationForm implements EventInformation {
   @prop()
   @required()
   haveEventsOccurred?: boolean | undefined;
 
-  @propArray()
-  pastEvents?: any;
+  @propArray(ProjectEventForm)
+  pastEvents?: ProjectEventForm[] = [];
 
   @prop()
   @required()
   haveUpcomingEvents?: boolean | undefined;
 
-  @propArray()
-  futureEvents?: any;
+  @propArray(ProjectEventForm)
+  futureEvents?: ProjectEventForm[] = [];
 
   constructor(values: EventInformationForm) {
     Object.assign(this, values);
