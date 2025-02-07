@@ -9,6 +9,7 @@ import {
 import {
   ActivityType,
   Delay,
+  EventInformation,
   FundingSignage,
   InterimProjectType,
   ProgressReport,
@@ -17,10 +18,7 @@ import {
   Workplan,
   WorkplanActivity,
   WorkplanStatus,
-  YesNoOption,
 } from '../../../../model';
-
-import { ContactDetailsForm } from '../../drif-eoi/drif-eoi-form';
 
 export enum EventProgressType {
   NotStarted = 'Not Started',
@@ -195,37 +193,22 @@ export class WorkplanForm implements Workplan {
   }
 }
 
-export class EventForm {
+export class EventInformationForm implements EventInformation {
   @prop()
-  groundBreaking?: EventProgressType;
+  @required()
+  haveEventsOccurred?: boolean | undefined;
 
-  @prop()
-  groundBreakingDate?: string;
-
-  @prop()
-  ribbonCutting?: EventProgressType;
+  @propArray()
+  pastEvents?: any;
 
   @prop()
-  ribbonCuttingDate?: string;
+  @required()
+  haveUpcomingEvents?: boolean | undefined;
 
-  @prop()
-  communityEngagement?: EventProgressType;
+  @propArray()
+  futureEvents?: any;
 
-  @prop()
-  communityEngagementDate?: string;
-
-  // TODO: other events
-
-  @prop()
-  eventContact?: ContactDetailsForm;
-
-  @prop()
-  provincialRepresentativeRequest?: YesNoOption;
-
-  @prop()
-  provincialRepresentativeRequestComment?: string;
-
-  constructor(values: EventForm) {
+  constructor(values: EventInformationForm) {
     Object.assign(this, values);
   }
 }
@@ -237,6 +220,6 @@ export class ProgressReportForm implements ProgressReport {
   @propObject(WorkplanForm)
   workplan?: WorkplanForm = new WorkplanForm({});
 
-  @propObject(EventForm)
-  event?: EventForm = new EventForm({});
+  @propObject(EventInformationForm)
+  eventInformation?: EventInformationForm = new EventInformationForm({});
 }

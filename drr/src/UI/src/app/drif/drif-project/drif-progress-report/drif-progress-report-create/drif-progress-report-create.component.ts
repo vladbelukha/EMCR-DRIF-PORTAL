@@ -44,7 +44,7 @@ import {
 } from '../../../../shared/controls/drr-select/drr-select.component';
 import { DrrTextareaComponent } from '../../../../shared/controls/drr-textarea/drr-textarea.component';
 import {
-  EventForm,
+  EventInformationForm,
   EventProgressType,
   FundingSignageForm,
   ProgressReportForm,
@@ -183,8 +183,10 @@ export class DrifProgressReportCreateComponent {
     return this.workplanForm?.get('workplanActivities') as FormArray;
   }
 
-  get eventForm(): IFormGroup<EventForm> | null {
-    return this.progressReportForm.get('event') as IFormGroup<EventForm>;
+  get eventsForm(): IFormGroup<EventInformationForm> | null {
+    return this.progressReportForm.get(
+      'eventInformation',
+    ) as IFormGroup<EventInformationForm>;
   }
 
   ngOnInit() {
