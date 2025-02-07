@@ -52,7 +52,7 @@ export class DrifFpStep4Component {
   translocoService = inject(TranslocoService);
 
   private allActivityOptions: DrrSelectOption[] = Object.values(
-    ActivityType
+    ActivityType,
   ).map((activity) => ({
     value: activity,
     label: this.translocoService.translate(`activityType.${activity}`),
@@ -79,13 +79,13 @@ export class DrifFpStep4Component {
 
   getPreDefinedActivitiesArray() {
     return this.getActivitiesFormArray()?.controls.filter(
-      (control) => control.get('preCreatedActivity')?.value
+      (control) => control.get('preCreatedActivity')?.value,
     );
   }
 
   getAdditionalActivitiesArray() {
     return this.getActivitiesFormArray()?.controls.filter(
-      (control) => !control.get('preCreatedActivity')?.value
+      (control) => !control.get('preCreatedActivity')?.value,
     );
   }
 
@@ -104,23 +104,23 @@ export class DrifFpStep4Component {
   removeActivity(id: string) {
     this.getActivitiesFormArray().removeAt(
       this.getActivitiesFormArray().controls.findIndex(
-        (control) => control.get('id')?.value === id
-      )
+        (control) => control.get('id')?.value === id,
+      ),
     );
   }
 
   getAvailableOptionsForActivity(selectedActivity: ActivityType) {
     const selectedActivities = this.getActivitiesFormArray()?.controls.map(
-      (control) => control.get('activity')?.value
+      (control) => control.get('activity')?.value,
     );
 
     const availableOptions = this.allActivityOptions.filter(
-      (option) => !selectedActivities.includes(option.value)
+      (option) => !selectedActivities.includes(option.value),
     );
 
     if (selectedActivity) {
       const selectedActivityOption = this.allActivityOptions.find(
-        (option) => option.value === selectedActivity
+        (option) => option.value === selectedActivity,
       );
 
       availableOptions.push(selectedActivityOption!);
@@ -132,8 +132,8 @@ export class DrifFpStep4Component {
 
   showStartDate(activityType: ActivityType) {
     return (
-      activityType !== 'ConstructionContractAward' &&
-      activityType !== 'PermitToConstruct'
+      activityType !== ActivityType.ConstructionContractAward &&
+      activityType !== ActivityType.PermitToConstruct
     );
   }
 }

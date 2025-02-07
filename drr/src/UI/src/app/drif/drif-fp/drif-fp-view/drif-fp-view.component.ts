@@ -12,7 +12,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IFormGroup, RxFormBuilder } from '@rxweb/reactive-form-validators';
 import { DrifapplicationService } from '../../../../api/drifapplication/drifapplication.service';
-import { DocumentType } from '../../../../model';
+import { ActivityType, DocumentType } from '../../../../model';
 import { DraftFpApplication } from '../../../../model/draftFpApplication';
 import { OptionsStore } from '../../../store/options.store';
 import {
@@ -54,7 +54,7 @@ export class DrifFpViewComponent {
   optionsStore = inject(OptionsStore);
 
   fullProposalForm = this.formBuilder.formGroup(
-    DrifFpForm
+    DrifFpForm,
   ) as IFormGroup<DrifFpForm>;
   id!: string;
 
@@ -205,7 +205,7 @@ export class DrifFpViewComponent {
       response.partneringProponents?.forEach((proponent) => {
         partneringProponentsArray?.push(
           this.formBuilder.formGroup(new StringItem({ value: proponent })),
-          { emitEvent: false }
+          { emitEvent: false },
         );
       });
 
@@ -218,7 +218,7 @@ export class DrifFpViewComponent {
       response.additionalContacts?.forEach((contact) => {
         additionalContactsArray?.push(
           this.formBuilder.formGroup(new ContactDetailsForm(contact)),
-          { emitEvent: false }
+          { emitEvent: false },
         );
       });
       if (
@@ -244,9 +244,9 @@ export class DrifFpViewComponent {
       response.infrastructureImpacted?.forEach((infrastructure) => {
         infrastructureImpacted?.push(
           this.formBuilder.formGroup(
-            new ImpactedInfrastructureForm(infrastructure)
+            new ImpactedInfrastructureForm(infrastructure),
           ),
-          { emitEvent: false }
+          { emitEvent: false },
         );
       });
       const proposedActivitiesArray = this.fullProposalForm
@@ -256,10 +256,16 @@ export class DrifFpViewComponent {
         proposedActivitiesArray.clear({ emitEvent: false });
       }
       response.proposedActivities?.forEach((activity) => {
-        proposedActivitiesArray?.push(
-          this.formBuilder.formGroup(new ProposedActivityForm(activity)),
-          { emitEvent: false }
+        const proposedActivity = this.formBuilder.formGroup(
+          new ProposedActivityForm(activity),
         );
+        if (
+          activity.activity !== ActivityType.ConstructionContractAward &&
+          activity.activity !== ActivityType.PermitToConstruct
+        ) {
+          proposedActivity.get('startDate')?.addValidators(Validators.required);
+        }
+        proposedActivitiesArray?.push(proposedActivity, { emitEvent: false });
       });
       const fundingInformationItemFormArray = this.fullProposalForm
         .get('budget')
@@ -270,11 +276,11 @@ export class DrifFpViewComponent {
       response.otherFunding?.forEach((funding) => {
         fundingInformationItemFormArray?.push(
           this.formBuilder.formGroup(new FundingInformationItemForm(funding)),
-          { emitEvent: false }
+          { emitEvent: false },
         );
       });
       const yearOverYearFormArray = this.fullProposalForm?.get(
-        'budget.yearOverYearFunding'
+        'budget.yearOverYearFunding',
       ) as FormArray;
       if (response.yearOverYearFunding?.length! > 0) {
         yearOverYearFormArray.clear({ emitEvent: false });
@@ -282,12 +288,12 @@ export class DrifFpViewComponent {
       response.yearOverYearFunding?.forEach((funding) => {
         yearOverYearFormArray?.push(
           this.formBuilder.formGroup(new YearOverYearFundingForm(funding)),
-          { emitEvent: false }
+          { emitEvent: false },
         );
       });
 
       const costEstimateArray = this.fullProposalForm.get(
-        'budget.costEstimates'
+        'budget.costEstimates',
       ) as FormArray;
       if (response.costEstimates?.length! > 0) {
         costEstimateArray.clear({ emitEvent: false });
@@ -295,7 +301,7 @@ export class DrifFpViewComponent {
       response.costEstimates?.forEach((costEstimate) => {
         costEstimateArray?.push(
           this.formBuilder.formGroup(new CostEstimateForm(costEstimate)),
-          { emitEvent: false }
+          { emitEvent: false },
         );
       });
 
@@ -304,13 +310,13 @@ export class DrifFpViewComponent {
         ?.get('standards') as FormArray;
       this.optionsStore.standards?.()?.forEach((standard) => {
         const standardsInfo = response.standards?.find(
-          (s) => s.category === standard.category
+          (s) => s.category === standard.category,
         );
         const standardInfo = new StandardInfoForm({
           isCategorySelected: standardsInfo?.isCategorySelected,
           category: standard.category,
           standards: standardsInfo?.isCategorySelected
-            ? standardsInfo?.standards ?? []
+            ? (standardsInfo?.standards ?? [])
             : [],
         });
         const standardInfoForm = this.formBuilder.formGroup(standardInfo);
@@ -318,7 +324,7 @@ export class DrifFpViewComponent {
       });
 
       const permitsArray = this.fullProposalForm.get(
-        'permitsRegulationsAndStandards.permitsArray'
+        'permitsRegulationsAndStandards.permitsArray',
       ) as FormArray;
       if (
         response.permits?.length! > 0 ||
@@ -329,7 +335,7 @@ export class DrifFpViewComponent {
       response.permits?.forEach((permit) => {
         permitsArray?.push(
           this.formBuilder.formGroup(new StringItem({ value: permit })),
-          { emitEvent: false }
+          { emitEvent: false },
         );
       });
 
@@ -339,15 +345,15 @@ export class DrifFpViewComponent {
 
   initStep11(response: DraftFpApplication) {
     const attachmentsArray = this.fullProposalForm.get(
-      'attachments.attachments'
+      'attachments.attachments',
     ) as FormArray;
 
     if (response.haveResolution === true) {
       attachmentsArray?.push(
         this.formBuilder.formGroup(
-          new AttachmentForm({ documentType: DocumentType.Resolution })
+          new AttachmentForm({ documentType: DocumentType.Resolution }),
         ),
-        { emitEvent: false }
+        { emitEvent: false },
       );
     }
 
@@ -356,7 +362,7 @@ export class DrifFpViewComponent {
         attachmentsArray.controls
           .find(
             (control) =>
-              control.value.documentType === DocumentType.DetailedCostEstimate
+              control.value.documentType === DocumentType.DetailedCostEstimate,
           )
           ?.patchValue(attachment, { emitEvent: false });
         return;
@@ -365,7 +371,7 @@ export class DrifFpViewComponent {
       if (attachment.documentType === DocumentType.Resolution) {
         attachmentsArray.controls
           .find(
-            (control) => control.value.documentType === DocumentType.Resolution
+            (control) => control.value.documentType === DocumentType.Resolution,
           )
           ?.patchValue(attachment, { emitEvent: false });
         return;
@@ -373,7 +379,7 @@ export class DrifFpViewComponent {
 
       attachmentsArray?.push(
         this.formBuilder.formGroup(new AttachmentForm(attachment)),
-        { emitEvent: false }
+        { emitEvent: false },
       );
     });
   }

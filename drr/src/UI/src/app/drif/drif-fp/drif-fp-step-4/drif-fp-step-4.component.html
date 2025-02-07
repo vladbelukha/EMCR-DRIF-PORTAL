@@ -62,13 +62,15 @@
             style="display: flex; flex-direction: column; gap: 1rem"
           >
             <div style="display: flex; gap: 1rem; margin-top: 1rem">
-              <drr-datepicker
-                style="width: 24%"
-                [label]="t('activityStartDate')"
-                [rxFormControl]="activity.get('startDate')"
-                [min]="minStartDate"
-                [minErrorLabel]="t('minStartDateError')"
-              ></drr-datepicker>
+              @if (showStartDate(activity.get("activity")?.value)) {
+                <drr-datepicker
+                  style="width: 24%"
+                  [label]="t('activityStartDate')"
+                  [rxFormControl]="activity.get('startDate')"
+                  [min]="minStartDate"
+                  [minErrorLabel]="t('minStartDateError')"
+                ></drr-datepicker>
+              }
               <drr-datepicker
                 style="width: 24%"
                 [label]="t('activityEndDate')"
@@ -128,15 +130,15 @@
                   )
                 "
               ></drr-select>
-              @if (showStartDate(activity.get('activity')?.value)) {
-              <drr-datepicker
-                style="width: 24%"
-                [label]="t('activityStartDate')"
-                [rxFormControl]="activity.get('startDate')"
-                [min]="minStartDate"
-                [minErrorLabel]="t('minStartDateError')"
-              ></drr-datepicker
-              >}
+              @if (showStartDate(activity.get("activity")?.value)) {
+                <drr-datepicker
+                  style="width: 24%"
+                  [label]="t('activityStartDate')"
+                  [rxFormControl]="activity.get('startDate')"
+                  [min]="minStartDate"
+                  [minErrorLabel]="t('minStartDateError')"
+                ></drr-datepicker>
+              }
               <drr-datepicker
                 style="width: 24%"
                 [label]="t('activityEndDate')"
