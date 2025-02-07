@@ -249,7 +249,8 @@ namespace EMCR.DRR.Managers.Intake
     public class AttachmentInfo
     {
         public string? Id { get; set; }
-        public required string ApplicationId { get; set; }
+        public required string RecordId { get; set; }
+        public required RecordType RecordType { get; set; }
         public required S3File File { get; set; }
         public DocumentType DocumentType { get; set; } = DocumentType.OtherSupportingDocument;
     }
@@ -260,6 +261,15 @@ namespace EMCR.DRR.Managers.Intake
         public required string ApplicationId { get; set; }
         public required S3FileStream FileStream { get; set; }
         public DocumentType DocumentType { get; set; } = DocumentType.OtherSupportingDocument;
+    }
+
+    public enum RecordType
+    {
+        [Description("drr_application")]
+        FullProposal,
+        [Description("drr_projectprogress")]
+        ProgressReport,
+        None,
     }
 
     public enum DocumentType
@@ -705,6 +715,7 @@ namespace EMCR.DRR.Managers.Intake
     public class ProgressReport
     {
         public string? Id { get; set; }
+        public string? CrmId { get; set; }
         public DateTime? DateSubmitted { get; set; }
         public DateTime? DateApproved { get; set; }
         public DateTime? DueDate { get; set; }
@@ -756,6 +767,7 @@ namespace EMCR.DRR.Managers.Intake
         public InterimProjectType? ProjectType { get; set; }
         public WorkplanDetails? Workplan { get; set; }
         public EventInformationDetails? EventInformation { get; set; }
+        public IEnumerable<BcGovDocument>? Attachments { get; set; }
     }
 
     public class ForecastDetails : Forecast
@@ -806,7 +818,7 @@ namespace EMCR.DRR.Managers.Intake
         public string? Name { get; set; }
         public bool? PreCreatedActivity { get; set; }
     }
-    
+
     public class FundingSignage
     {
         public string? Id { get; set; }
@@ -826,15 +838,18 @@ namespace EMCR.DRR.Managers.Intake
     public enum CostCategory
     {
         ProjectAdministration,
+        ProjectPlanning,
         Design,
         Assessment,
         Mapping,
         ConstructionMaterials,
         FirstNationsEngagement,
-        CommunityEngagement,
+        NeighbouringJurisdictions,
+        ProponentCommunities,
         IncrementalStaffing,
         ShortTermInterest,
         LandAcquisition,
+        Communications,
         ApprovalsPermitting,
         Contingency,
         Other,
@@ -916,7 +931,7 @@ namespace EMCR.DRR.Managers.Intake
         InProgress,
         Completed
     }
-    
+
     public enum ProjectProgress
     {
         OnSchedule,
@@ -936,7 +951,7 @@ namespace EMCR.DRR.Managers.Intake
         Awarded,
         NotAwarded,
     }
-    
+
     public enum DelayReason
     {
         Tendering,

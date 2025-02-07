@@ -64,10 +64,12 @@ namespace EMCR.DRR.API.Resources.Reports
                 .ForMember(dest => dest.drr_changestofundingsources, opt => opt.MapFrom(src => src.Workplan.FundingSourcesChanged.HasValue ? src.Workplan.FundingSourcesChanged.Value ? (int?)DRRTwoOptions.Yes : (int?)DRRTwoOptions.No : null))
                 .ForMember(dest => dest.drr_commentschangestofundingsources, opt => opt.MapFrom(src => src.Workplan.FundingSourcesChangedComment))
                 .ForMember(dest => dest.drr_drr_projectprogress_drr_projectevent_ProjectProgress, opt => opt.MapFrom(src => src.EventInformation.Events))
+                .ForMember(dest => dest.bcgov_drr_projectprogress_bcgov_documenturl_ProgressReport, opt => opt.MapFrom(src => src.Attachments))
                 //.ForMember(dest => dest.statuscode, opt => opt.MapFrom(src => (int?)Enum.Parse<ProjectProgressReportStatusOptionSet>(src.Status.ToString())))
                 .ReverseMap()
                 .ValidateMemberList(MemberList.Destination)
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.drr_name))
+                .ForMember(dest => dest.CrmId, opt => opt.MapFrom(src => src.drr_projectprogressid))
                 .ForMember(dest => dest.DateApproved, opt => opt.MapFrom(src => src.drr_dateapproved.HasValue ? src.drr_dateapproved.Value.UtcDateTime : (DateTime?)null))
                 .ForMember(dest => dest.DateSubmitted, opt => opt.MapFrom(src => src.drr_datesubmitted.HasValue ? src.drr_datesubmitted.Value.UtcDateTime : (DateTime?)null))
                 .ForMember(dest => dest.DueDate, opt => opt.MapFrom(src => src.drr_duedate.HasValue ? src.drr_duedate.Value.UtcDateTime : (DateTime?)null))
@@ -91,6 +93,7 @@ namespace EMCR.DRR.API.Resources.Reports
                 .ForPath(dest => dest.Workplan.FundingSourcesChanged, opt => opt.MapFrom(src => src.drr_changestofundingsources.HasValue ? src.drr_changestofundingsources.Value == (int)DRRTwoOptions.Yes : (bool?)null))
                 .ForPath(dest => dest.Workplan.FundingSourcesChangedComment, opt => opt.MapFrom(src => src.drr_commentschangestofundingsources))
                 .ForPath(dest => dest.EventInformation.Events, opt => opt.MapFrom(src => src.drr_drr_projectprogress_drr_projectevent_ProjectProgress.Where(c => c.statecode == (int)EntityState.Active)))
+                .ForMember(dest => dest.Attachments, opt => opt.MapFrom(src => src.bcgov_drr_projectprogress_bcgov_documenturl_ProgressReport.Where(c => c.statecode == (int)EntityState.Active)))
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.statuscode.HasValue ? (int?)Enum.Parse<ProgressReportStatus>(((ProjectProgressReportStatusOptionSet)src.statuscode).ToString()) : null))
             ;
 #pragma warning restore CS8604 // Possible null reference argument.

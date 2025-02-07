@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using System.Text;
+using AutoMapper;
+using EMCR.DRR.API.Services.S3;
 using EMCR.DRR.Controllers;
 using EMCR.DRR.Managers.Intake;
 using Microsoft.Extensions.DependencyInjection;
@@ -91,6 +93,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
 
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
 #pragma warning disable CS8604 // Possible null reference argument.
+#pragma warning disable CS8601 // Possible null reference assignment.
         [Test]
         public async Task CanUpdateProgressReport()
         {
@@ -147,6 +150,28 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             updatedProgressReport.Workplan.MediaAnnouncement.ShouldBe(progressReport.Workplan.MediaAnnouncement);
             updatedProgressReport.Workplan.OtherDelayReason.ShouldBe(progressReport.Workplan.OtherDelayReason);
         }
+
+        [Test]
+        public async Task CanAddAttachment()
+        {
+            var progressReport = mapper.Map<EMCR.DRR.Controllers.ProgressReport>((await manager.Handle(new DrrProgressReportsQuery { Id = "DRIF-PR-1058", BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault());
+            foreach (var doc in progressReport.Attachments)
+            {
+                await manager.Handle(new DeleteAttachmentCommand { Id = doc.Id, UserInfo = GetTestUserInfo() });
+            }
+
+            var body = DateTime.Now.ToString();
+            var fileName = "autotest.txt";
+            byte[] bytes = Encoding.ASCII.GetBytes(body);
+            var file = new S3File { FileName = fileName, Content = bytes, ContentType = "text/plain", };
+
+            var documentId = await manager.Handle(new UploadAttachmentCommand { AttachmentInfo = new AttachmentInfo { RecordId = progressReport.Id, RecordType = EMCR.DRR.Managers.Intake.RecordType.ProgressReport, File = file, DocumentType = EMCR.DRR.Managers.Intake.DocumentType.OtherSupportingDocument }, UserInfo = GetTestUserInfo() });
+
+            var updatedProgressReport = mapper.Map<EMCR.DRR.Controllers.ProgressReport>((await manager.Handle(new DrrProgressReportsQuery { Id = "DRIF-PR-1058", BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault());
+            updatedProgressReport.Attachments.Count().ShouldBeGreaterThan(0);
+
+        }
+#pragma warning restore CS8601 // Possible null reference assignment.
 #pragma warning restore CS8604 // Possible null reference argument.
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
     }

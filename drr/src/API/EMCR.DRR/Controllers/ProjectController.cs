@@ -273,6 +273,7 @@ namespace EMCR.DRR.Controllers
         public Workplan? Workplan { get; set; }
         public EventInformation? EventInformation { get; set; }
         public ProgressReportStatus? Status { get; set; }
+        public IEnumerable<Attachment>? Attachments { get; set; }
     }
 
     public class EventInformation

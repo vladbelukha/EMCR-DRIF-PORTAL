@@ -47,6 +47,13 @@ namespace EMCR.DRR.API.Resources.Reports
             ctx.DetachAll();
             var drrProgressReport = mapper.Map<drr_projectprogress>(cmd.ProgressReport);
             drrProgressReport.drr_projectprogressid = existingProgressReport.drr_projectprogressid;
+            foreach (var doc in existingProgressReport.bcgov_drr_projectprogress_bcgov_documenturl_ProgressReport)
+            {
+                var curr = drrProgressReport.bcgov_drr_projectprogress_bcgov_documenturl_ProgressReport.SingleOrDefault(d => d.bcgov_documenturlid == doc.bcgov_documenturlid);
+                if (curr != null) curr.bcgov_documentcomments = doc.bcgov_documentcomments;
+            }
+
+            drrProgressReport.bcgov_drr_projectprogress_bcgov_documenturl_ProgressReport = existingProgressReport.bcgov_drr_projectprogress_bcgov_documenturl_ProgressReport;
 
             RemoveOldData(ctx, existingProgressReport, drrProgressReport);
             ctx.AttachTo(nameof(ctx.drr_projectprogresses), drrProgressReport);
@@ -156,6 +163,18 @@ namespace EMCR.DRR.API.Resources.Reports
                         drrContext.AttachTo(nameof(drrContext.drr_temporaryprovincialfundingsignages), signage);
                         drrContext.UpdateObject(signage);
                     }
+                }
+            }
+        }
+
+        private static void UpdateDocuments(DRRContext drrContext, drr_projectprogress progressReport)
+        {
+            foreach (var doc in progressReport.bcgov_drr_projectprogress_bcgov_documenturl_ProgressReport)
+            {
+                if (doc != null)
+                {
+                    drrContext.AttachTo(nameof(drrContext.bcgov_documenturls), doc);
+                    drrContext.UpdateObject(doc);
                 }
             }
         }
@@ -281,6 +300,7 @@ namespace EMCR.DRR.API.Resources.Reports
                 ctx.LoadPropertyAsync(pr, nameof(drr_projectprogress.drr_drr_projectprogress_drr_projectworkplanactivity_ProjectProgressReport), ct),
                 ctx.LoadPropertyAsync(pr, nameof(drr_projectprogress.drr_drr_projectprogress_drr_projectevent_ProjectProgress), ct),
                 ctx.LoadPropertyAsync(pr, nameof(drr_projectprogress.drr_drr_projectprogress_drr_temporaryprovincialfundingsignage_ProjectProgress), ct),
+                ctx.LoadPropertyAsync(pr, nameof(drr_projectprogress.bcgov_drr_projectprogress_bcgov_documenturl_ProgressReport), ct),
             };
 
             await Task.WhenAll(loadTasks);
@@ -288,6 +308,7 @@ namespace EMCR.DRR.API.Resources.Reports
             await Task.WhenAll([
                 ParallelLoadActivityTypes(ctx, pr, ct),
                 ParallelLoadEventContacts(ctx, pr, ct),
+                ParallelLoadDocumentTypes(ctx, pr, ct),
                 ]);
         }
 
@@ -307,6 +328,15 @@ namespace EMCR.DRR.API.Resources.Reports
             {
                 ctx.AttachTo(nameof(DRRContext.drr_projectevents), e);
                 await ctx.LoadPropertyAsync(e, nameof(drr_projectevent.drr_EventContact), ct);
+            });
+        }
+
+        private static async Task ParallelLoadDocumentTypes(DRRContext ctx, drr_projectprogress pr, CancellationToken ct)
+        {
+            await pr.bcgov_drr_projectprogress_bcgov_documenturl_ProgressReport.ForEachAsync(5, async doc =>
+            {
+                ctx.AttachTo(nameof(DRRContext.bcgov_documenturls), doc);
+                await ctx.LoadPropertyAsync(doc, nameof(bcgov_documenturl.bcgov_DocumentType), ct);
             });
         }
 
