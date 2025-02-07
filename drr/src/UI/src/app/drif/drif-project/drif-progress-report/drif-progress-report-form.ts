@@ -89,7 +89,7 @@ export class FundingSignageForm implements FundingSignage {
 
   @prop()
   @required()
-  signageType?: SignageType | undefined;
+  type?: SignageType | undefined;
 
   @prop()
   @required()
@@ -208,7 +208,7 @@ export class ProjectEventForm implements ProjectEvent {
   date?: string;
 
   @propObject(ContactDetailsForm)
-  eventContact?: ContactDetailsForm;  
+  eventContact?: ContactDetailsForm;
 
   @prop()
   @required()
