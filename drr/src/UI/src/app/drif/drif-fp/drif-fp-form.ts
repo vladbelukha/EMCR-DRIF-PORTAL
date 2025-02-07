@@ -487,7 +487,6 @@ export class ProposedActivityForm implements ProposedActivity {
   activity?: ActivityType;
 
   @prop()
-  @required()
   startDate?: string;
 
   @prop()

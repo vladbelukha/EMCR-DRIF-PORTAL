@@ -9,17 +9,17 @@ import {
 import {
   ActivityType,
   Delay,
+  EventInformation,
   FundingSignage,
   InterimProjectType,
   ProgressReport,
+  ProjectEvent,
   ProjectProgressStatus,
   SignageType,
   Workplan,
   WorkplanActivity,
   WorkplanStatus,
-  YesNoOption,
 } from '../../../../model';
-
 import { ContactDetailsForm } from '../../drif-eoi/drif-eoi-form';
 
 export enum EventProgressType {
@@ -195,37 +195,46 @@ export class WorkplanForm implements Workplan {
   }
 }
 
-export class EventForm {
+export class ProjectEventForm implements ProjectEvent {
   @prop()
-  groundBreaking?: EventProgressType;
-
-  @prop()
-  groundBreakingDate?: string;
+  id?: string;
 
   @prop()
-  ribbonCutting?: EventProgressType;
+  @required()
+  description?: string;
 
   @prop()
-  ribbonCuttingDate?: string;
+  @required()
+  date?: string;
+
+  @propObject(ContactDetailsForm)
+  eventContact?: ContactDetailsForm;  
 
   @prop()
-  communityEngagement?: EventProgressType;
+  @required()
+  provincialRepresentativeInvited?: boolean;
+
+  constructor(values: ProjectEventForm) {
+    Object.assign(this, values);
+  }
+}
+
+export class EventInformationForm implements EventInformation {
+  @prop()
+  @required()
+  haveEventsOccurred?: boolean | undefined;
+
+  @propArray(ProjectEventForm)
+  pastEvents?: ProjectEventForm[] = [];
 
   @prop()
-  communityEngagementDate?: string;
+  @required()
+  haveUpcomingEvents?: boolean | undefined;
 
-  // TODO: other events
+  @propArray(ProjectEventForm)
+  futureEvents?: ProjectEventForm[] = [];
 
-  @prop()
-  eventContact?: ContactDetailsForm;
-
-  @prop()
-  provincialRepresentativeRequest?: YesNoOption;
-
-  @prop()
-  provincialRepresentativeRequestComment?: string;
-
-  constructor(values: EventForm) {
+  constructor(values: EventInformationForm) {
     Object.assign(this, values);
   }
 }
@@ -237,6 +246,6 @@ export class ProgressReportForm implements ProgressReport {
   @propObject(WorkplanForm)
   workplan?: WorkplanForm = new WorkplanForm({});
 
-  @propObject(EventForm)
-  event?: EventForm = new EventForm({});
+  @propObject(EventInformationForm)
+  eventInformation?: EventInformationForm = new EventInformationForm({});
 }

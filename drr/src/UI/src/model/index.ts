@@ -78,6 +78,7 @@ export * from './projectStatus';
 export * from './projectType';
 export * from './proponentType';
 export * from './proposedActivity';
+export * from './recordType';
 export * from './reportingScheduleType';
 export * from './resourceCategory';
 export * from './s3File';

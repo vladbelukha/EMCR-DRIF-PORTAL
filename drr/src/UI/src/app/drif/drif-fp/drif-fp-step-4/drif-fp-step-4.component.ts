@@ -10,7 +10,7 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { IFormGroup, RxFormBuilder } from '@rxweb/reactive-form-validators';
 import { v4 as uuidv4 } from 'uuid';
-import { ActivityType } from '../../../../model';
+import { ActivityType, FundingStream } from '../../../../model';
 import { DrrChipAutocompleteComponent } from '../../../shared/controls/drr-chip-autocomplete/drr-chip-autocomplete.component';
 import { DrrDatepickerComponent } from '../../../shared/controls/drr-datepicker/drr-datepicker.component';
 import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
@@ -52,14 +52,47 @@ export class DrifFpStep4Component {
   translocoService = inject(TranslocoService);
 
   private allActivityOptions: DrrSelectOption[] = Object.values(
-    ActivityType
+    ActivityType,
   ).map((activity) => ({
     value: activity,
     label: this.translocoService.translate(`activityType.${activity}`),
   }));
-  availableActivityOptions: DrrSelectOption[] = [...this.allActivityOptions];
+
+  private nonStructuralActivityOptions: DrrSelectOption[] =
+    this.allActivityOptions.filter(
+      (option) =>
+        option.value === ActivityType.Project ||
+        option.value === ActivityType.FirstNationsEngagement ||
+        option.value === ActivityType.Administration ||
+        option.value === ActivityType.ProjectPlanning ||
+        option.value === ActivityType.Assessment ||
+        option.value === ActivityType.Mapping ||
+        option.value === ActivityType.LandAcquisition ||
+        option.value === ActivityType.ApprovalsPermitting ||
+        option.value === ActivityType.Communications,
+    );
+
+  private structuralActivityOptions: DrrSelectOption[] =
+    this.allActivityOptions.filter(
+      (option) =>
+        option.value === ActivityType.Project ||
+        option.value === ActivityType.FirstNationsEngagement ||
+        option.value === ActivityType.Design ||
+        option.value === ActivityType.ConstructionTender ||
+        option.value === ActivityType.Construction ||
+        option.value === ActivityType.ConstructionContractAward ||
+        option.value === ActivityType.PermitToConstruct ||
+        option.value === ActivityType.Administration ||
+        option.value === ActivityType.ProjectPlanning ||
+        option.value === ActivityType.Assessment ||
+        option.value === ActivityType.Mapping ||
+        option.value === ActivityType.LandAcquisition ||
+        option.value === ActivityType.ApprovalsPermitting ||
+        option.value === ActivityType.Communications,
+    );
 
   @Input() projectPlanForm!: IFormGroup<ProjectPlanForm>;
+  @Input() fundingStream?: string;
 
   minStartDate = new Date();
 
@@ -79,13 +112,13 @@ export class DrifFpStep4Component {
 
   getPreDefinedActivitiesArray() {
     return this.getActivitiesFormArray()?.controls.filter(
-      (control) => control.get('preCreatedActivity')?.value
+      (control) => control.get('preCreatedActivity')?.value,
     );
   }
 
   getAdditionalActivitiesArray() {
     return this.getActivitiesFormArray()?.controls.filter(
-      (control) => !control.get('preCreatedActivity')?.value
+      (control) => !control.get('preCreatedActivity')?.value,
     );
   }
 
@@ -104,24 +137,25 @@ export class DrifFpStep4Component {
   removeActivity(id: string) {
     this.getActivitiesFormArray().removeAt(
       this.getActivitiesFormArray().controls.findIndex(
-        (control) => control.get('id')?.value === id
-      )
+        (control) => control.get('id')?.value === id,
+      ),
     );
   }
 
   getAvailableOptionsForActivity(selectedActivity: ActivityType) {
     const selectedActivities = this.getActivitiesFormArray()?.controls.map(
-      (control) => control.get('activity')?.value
+      (control) => control.get('activity')?.value,
     );
 
-    const availableOptions = this.allActivityOptions.filter(
-      (option) => !selectedActivities.includes(option.value)
+    const availableOptions = this.getAvailableOptionsFundingStream().filter(
+      (option) => !selectedActivities.includes(option.value),
     );
 
     if (selectedActivity) {
-      const selectedActivityOption = this.allActivityOptions.find(
-        (option) => option.value === selectedActivity
-      );
+      const selectedActivityOption =
+        this.getAvailableOptionsFundingStream().find(
+          (option) => option.value === selectedActivity,
+        );
 
       availableOptions.push(selectedActivityOption!);
       availableOptions.sort((a, b) => a.label.localeCompare(b.label));
@@ -132,8 +166,14 @@ export class DrifFpStep4Component {
 
   showStartDate(activityType: ActivityType) {
     return (
-      activityType !== 'ConstructionContractAward' &&
-      activityType !== 'PermitToConstruct'
+      activityType !== ActivityType.ConstructionContractAward &&
+      activityType !== ActivityType.PermitToConstruct
     );
+  }
+
+  private getAvailableOptionsFundingStream() {
+    return this.fundingStream === FundingStream.Stream2
+      ? this.structuralActivityOptions
+      : this.nonStructuralActivityOptions;
   }
 }

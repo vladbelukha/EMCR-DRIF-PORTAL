@@ -37,7 +37,7 @@
                 lastSavedAt &&
                 (autoSaveCountdown === 0 || autoSaveCountdown > 30)
               "
-              >Saved at {{ lastSavedAt | date : "mediumTime" }}</i
+              >Saved at {{ lastSavedAt | date: "mediumTime" }}</i
             >
           </div>
         </div>
@@ -131,6 +131,7 @@
       >
         <drif-fp-step-4
           [projectPlanForm]="getFormGroup('projectPlan')"
+          [fundingStream]="fullProposalForm.get('fundingStream')?.value"
         ></drif-fp-step-4>
         <div class="drr-stepper-actions">
           <button mat-stroked-button color="primary" matStepperPrevious>
