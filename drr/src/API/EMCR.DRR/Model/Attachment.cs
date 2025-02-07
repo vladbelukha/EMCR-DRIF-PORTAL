@@ -6,7 +6,8 @@ namespace EMCR.DRR.API.Model
 {
     public class FileData
     {
-        public required string ApplicationId { get; set; }
+        public required string RecordId { get; set; }
+        public required RecordType RecordType { get; set; }
         public required string Name { get; set; }
         public required string ContentType { get; set; }
         public required byte[] Content { get; set; }
@@ -25,7 +26,7 @@ namespace EMCR.DRR.API.Model
     public class DeleteAttachment
     {
         public required string Id { get; set; }
-        public required string ApplicationId { get; set; }
+        public required string RecordId { get; set; }
     }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
@@ -36,5 +37,12 @@ namespace EMCR.DRR.API.Model
         DetailedCostEstimate,
         PreliminaryDesign,
         SitePlan,
+    }
+
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public enum RecordType
+    {
+        FullProposal,
+        ProgressReport,
     }
 }

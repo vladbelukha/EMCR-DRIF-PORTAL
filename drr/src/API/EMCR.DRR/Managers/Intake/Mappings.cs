@@ -141,6 +141,7 @@ namespace EMCR.DRR.Managers.Intake
                 ;
 
             CreateMap<Controllers.ProgressReport, ProgressReport>()
+                .ForMember(dest => dest.CrmId, opt => opt.Ignore())
                 .ReverseMap()
                 ;
 
@@ -157,6 +158,7 @@ namespace EMCR.DRR.Managers.Intake
                 ;
 
             CreateMap<Controllers.ProgressReport, ProgressReportDetails>()
+                .ForMember(dest => dest.CrmId, opt => opt.Ignore())
                 .ReverseMap()
                 ;
 

@@ -99,7 +99,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             var costEstimateFile = new S3File { FileName = "autotest-dce.txt", Content = bytes, ContentType = "text/plain", };
 
             //await manager.Handle(new UploadAttachmentCommand { AttachmentInfo = new AttachmentInfo { ApplicationId = fpId, File = projectWorkplanFile, DocumentType = EMCR.DRR.Managers.Intake.DocumentType.DetailedProjectWorkplan }, UserInfo = GetTestUserInfo() });
-            await manager.Handle(new UploadAttachmentCommand { AttachmentInfo = new AttachmentInfo { ApplicationId = fpId, File = costEstimateFile, DocumentType = EMCR.DRR.Managers.Intake.DocumentType.DetailedCostEstimate }, UserInfo = GetTestUserInfo() });
+            await manager.Handle(new UploadAttachmentCommand { AttachmentInfo = new AttachmentInfo { RecordId = fpId, RecordType = EMCR.DRR.Managers.Intake.RecordType.FullProposal, File = costEstimateFile, DocumentType = EMCR.DRR.Managers.Intake.DocumentType.DetailedCostEstimate }, UserInfo = GetTestUserInfo() });
 
             var fullProposal = (await manager.Handle(new DrrApplicationsQuery { Id = fpId, BusinessId = userInfo.BusinessId })).Items.SingleOrDefault();
             fullProposal.Id.ShouldBe(fpId);
@@ -611,7 +611,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             byte[] bytes = Encoding.ASCII.GetBytes(body);
             var file = new S3File { FileName = fileName, Content = bytes, ContentType = "text/plain", };
 
-            var documentId = await manager.Handle(new UploadAttachmentCommand { AttachmentInfo = new AttachmentInfo { ApplicationId = fpId, File = file, DocumentType = EMCR.DRR.Managers.Intake.DocumentType.SitePlan }, UserInfo = GetTestUserInfo() });
+            var documentId = await manager.Handle(new UploadAttachmentCommand { AttachmentInfo = new AttachmentInfo { RecordId = fpId, RecordType = EMCR.DRR.Managers.Intake.RecordType.FullProposal, File = file, DocumentType = EMCR.DRR.Managers.Intake.DocumentType.SitePlan }, UserInfo = GetTestUserInfo() });
             var fullProposal = mapper.Map<DraftFpApplication>((await manager.Handle(new DrrApplicationsQuery { Id = fpId, BusinessId = userInfo.BusinessId })).Items.SingleOrDefault());
             fullProposal.HaveResolution = true;
             fullProposal.Attachments.Count().ShouldBe(1);
@@ -653,7 +653,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             byte[] bytes = Encoding.ASCII.GetBytes(body);
             var file = new S3File { FileName = fileName, Content = bytes, ContentType = "text/plain", };
 
-            var documentId = await manager.Handle(new UploadAttachmentCommand { AttachmentInfo = new AttachmentInfo { ApplicationId = fpId, File = file, DocumentType = EMCR.DRR.Managers.Intake.DocumentType.SitePlan }, UserInfo = GetTestUserInfo() });
+            var documentId = await manager.Handle(new UploadAttachmentCommand { AttachmentInfo = new AttachmentInfo { RecordId = fpId, RecordType = EMCR.DRR.Managers.Intake.RecordType.FullProposal, File = file, DocumentType = EMCR.DRR.Managers.Intake.DocumentType.SitePlan }, UserInfo = GetTestUserInfo() });
             var fullProposal = mapper.Map<DraftFpApplication>((await manager.Handle(new DrrApplicationsQuery { Id = fpId, BusinessId = userInfo.BusinessId })).Items.SingleOrDefault());
             fullProposal.Attachments.Count().ShouldBe(1);
 
@@ -691,7 +691,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             byte[] bytes = Encoding.ASCII.GetBytes(body);
             var file = new S3File { FileName = fileName, Content = bytes, ContentType = "text/plain", };
 
-            var documentId = await manager.Handle(new UploadAttachmentCommand { AttachmentInfo = new AttachmentInfo { ApplicationId = fpId, File = file }, UserInfo = GetTestUserInfo() });
+            var documentId = await manager.Handle(new UploadAttachmentCommand { AttachmentInfo = new AttachmentInfo { RecordId = fpId, RecordType = EMCR.DRR.Managers.Intake.RecordType.FullProposal, File = file }, UserInfo = GetTestUserInfo() });
             var fullProposal = mapper.Map<DraftFpApplication>((await manager.Handle(new DrrApplicationsQuery { Id = fpId, BusinessId = userInfo.BusinessId })).Items.SingleOrDefault());
             fullProposal.HaveResolution = true;
             fullProposal.Attachments.Count().ShouldBe(1);
@@ -725,8 +725,8 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             byte[] bytes = Encoding.ASCII.GetBytes(body);
             var file = new S3File { FileName = fileName, Content = bytes, ContentType = "text/plain", };
 
-            var documentId = await manager.Handle(new UploadAttachmentCommand { AttachmentInfo = new AttachmentInfo { ApplicationId = fpId, File = file, DocumentType = EMCR.DRR.Managers.Intake.DocumentType.SitePlan }, UserInfo = GetTestUserInfo() });
-            Should.Throw<Exception>(() => manager.Handle(new UploadAttachmentCommand { AttachmentInfo = new AttachmentInfo { ApplicationId = fpId, File = file, DocumentType = EMCR.DRR.Managers.Intake.DocumentType.SitePlan }, UserInfo = GetTestUserInfo() }));
+            var documentId = await manager.Handle(new UploadAttachmentCommand { AttachmentInfo = new AttachmentInfo { RecordId = fpId, RecordType = EMCR.DRR.Managers.Intake.RecordType.FullProposal, File = file, DocumentType = EMCR.DRR.Managers.Intake.DocumentType.SitePlan }, UserInfo = GetTestUserInfo() });
+            Should.Throw<Exception>(() => manager.Handle(new UploadAttachmentCommand { AttachmentInfo = new AttachmentInfo { RecordId = fpId, RecordType = EMCR.DRR.Managers.Intake.RecordType.FullProposal, File = file, DocumentType = EMCR.DRR.Managers.Intake.DocumentType.SitePlan }, UserInfo = GetTestUserInfo() }));
         }
 
 #pragma warning restore CS8604 // Possible null reference argument.
@@ -963,7 +963,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             application.CostConsiderationsComments = "cost consideration comments";
             application.CostEstimates = application.CostEstimates.Concat(new[] { new EMCR.DRR.Controllers.CostEstimate {
                 TaskName = "cost estimate task 1",
-                CostCategory = EMCR.DRR.Controllers.CostCategory.CommunityEngagement,
+                CostCategory = EMCR.DRR.Controllers.CostCategory.Communications,
                 Description = "cost estimate description",
                 Resources = EMCR.DRR.Controllers.ResourceCategory.ProjectSupport,
                 Units = EMCR.DRR.Controllers.CostUnit.SquareKilometer,

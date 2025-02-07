@@ -308,30 +308,24 @@ namespace EMCR.DRR.Managers.Intake
 
         public async Task<string> Handle(UploadAttachmentCommand cmd)
         {
-            var canAccess = await CanAccessApplication(cmd.AttachmentInfo.ApplicationId, cmd.UserInfo.BusinessId);
-            if (!canAccess) throw new ForbiddenException("Not allowed to access this application.");
-            var application = (await applicationRepository.Query(new ApplicationsQuery { Id = cmd.AttachmentInfo.ApplicationId })).Items.SingleOrDefault();
-            if (application == null) throw new NotFoundException("Application not found");
-            if (!ApplicationInEditableStatus(application)) throw new BusinessValidationException("Can only edit attachments when application is in Draft");
-            if (cmd.AttachmentInfo.DocumentType != DocumentType.OtherSupportingDocument && application.Attachments != null && application.Attachments.Any(a => a.DocumentType == cmd.AttachmentInfo.DocumentType))
+            switch (cmd.AttachmentInfo.RecordType)
             {
-                throw new BusinessValidationException($"A document with type {cmd.AttachmentInfo.DocumentType.ToDescriptionString()} already exists on the application {cmd.AttachmentInfo.ApplicationId}");
+                case RecordType.FullProposal: return await UploadApplicationDocument(cmd);
+                case RecordType.ProgressReport: return await UploadProgressReportDocument(cmd);
+                default: throw new BusinessValidationException("Unsupported Record Type");
             }
-
-            var newDocId = Guid.NewGuid().ToString();
-
-            await s3Provider.HandleCommand(new UploadFileCommand { Key = newDocId, File = cmd.AttachmentInfo.File, Folder = $"drr_application/{application.CrmId}" });
-            var documentRes = (await documentRepository.Manage(new CreateDocument { NewDocId = newDocId, ApplicationId = cmd.AttachmentInfo.ApplicationId, Document = new Document { Name = cmd.AttachmentInfo.File.FileName, DocumentType = cmd.AttachmentInfo.DocumentType, Size = GetFileSize(cmd.AttachmentInfo.File.Content) } }));
-            return documentRes.Id;
         }
 
         public async Task<string> Handle(DeleteAttachmentCommand cmd)
         {
-            var canAccess = await CanAccessApplicationFromDocumentId(cmd.Id, cmd.UserInfo.BusinessId);
-            if (!canAccess) throw new ForbiddenException("Not allowed to access this application.");
-            var documentRes = await documentRepository.Manage(new DeleteDocument { Id = cmd.Id });
-            await s3Provider.HandleCommand(new UpdateTagsCommand { Key = cmd.Id, Folder = $"drr_application/{documentRes.ApplicationId}", FileTag = GetDeletedFileTag() });
-            return documentRes.Id;
+            var recordType = (await documentRepository.Query(new DocumentQuery { Id = cmd.Id })).Document.RecordType;
+
+            switch (recordType)
+            {
+                case RecordType.FullProposal: return await DeleteApplicationDocument(cmd);
+                case RecordType.ProgressReport: return await DeleteProgressReportDocument(cmd);
+                default: throw new BusinessValidationException("Unsupported Record Type");
+            }
         }
 
         public async Task<string> Handle(SaveProjectCommand cmd)
@@ -356,7 +350,7 @@ namespace EMCR.DRR.Managers.Intake
             var id = Guid.NewGuid().ToString();
             return id;
         }
-        
+
         public async Task<string> Handle(SaveProgressReportCommand cmd)
         {
             var canAccess = await CanAccessProgressReport(cmd.ProgressReport.Id, cmd.UserInfo.BusinessId);
@@ -371,12 +365,14 @@ namespace EMCR.DRR.Managers.Intake
 
         public async Task<FileQueryResult> Handle(DownloadAttachment cmd)
         {
-            var canAccess = await CanAccessApplicationFromDocumentId(cmd.Id, cmd.UserInfo.BusinessId);
-            if (!canAccess) throw new ForbiddenException("Not allowed to access this application.");
-            var applicationId = (await documentRepository.Query(new DocumentQuery { Id = cmd.Id })).ApplicationId;
+            var recordType = (await documentRepository.Query(new DocumentQuery { Id = cmd.Id })).Document.RecordType;
 
-            var res = await s3Provider.HandleQuery(new FileQuery { Key = cmd.Id, Folder = $"drr_application/{applicationId}" });
-            return (FileQueryResult)res;
+            switch (recordType)
+            {
+                case RecordType.FullProposal: return await DownloadApplicationDocument(cmd);
+                case RecordType.ProgressReport: return await DownloadProgressReportDocument(cmd);
+                default: throw new BusinessValidationException("Unsupported Record Type");
+            }
         }
 
         public async Task<DeclarationQueryResult> Handle(DeclarationQuery _)
@@ -389,6 +385,82 @@ namespace EMCR.DRR.Managers.Intake
         {
             var res = await applicationRepository.Query(new Resources.Applications.EntitiesQuery());
             return mapper.Map<EntitiesQueryResult>(res);
+        }
+
+        private async Task<FileQueryResult> DownloadApplicationDocument(DownloadAttachment cmd)
+        {
+            var canAccess = await CanAccessApplicationFromDocumentId(cmd.Id, cmd.UserInfo.BusinessId);
+            if (!canAccess) throw new ForbiddenException("Not allowed to access this application.");
+            var recordId = (await documentRepository.Query(new DocumentQuery { Id = cmd.Id })).RecordId;
+
+            var res = await s3Provider.HandleQuery(new FileQuery { Key = cmd.Id, Folder = $"{RecordType.FullProposal.ToDescriptionString()}/{recordId}" });
+            return (FileQueryResult)res;
+        }
+
+        private async Task<FileQueryResult> DownloadProgressReportDocument(DownloadAttachment cmd)
+        {
+            var canAccess = await CanAccessProgressReportFromDocumentId(cmd.Id, cmd.UserInfo.BusinessId);
+            if (!canAccess) throw new ForbiddenException("Not allowed to access this progress report.");
+            var recordId = (await documentRepository.Query(new DocumentQuery { Id = cmd.Id })).RecordId;
+
+            var res = await s3Provider.HandleQuery(new FileQuery { Key = cmd.Id, Folder = $"{RecordType.ProgressReport.ToDescriptionString()}/{recordId}" });
+            return (FileQueryResult)res;
+        }
+
+        private async Task<string> UploadApplicationDocument(UploadAttachmentCommand cmd)
+        {
+            var canAccess = await CanAccessApplication(cmd.AttachmentInfo.RecordId, cmd.UserInfo.BusinessId);
+            if (!canAccess) throw new ForbiddenException("Not allowed to access this application.");
+            var application = (await applicationRepository.Query(new ApplicationsQuery { Id = cmd.AttachmentInfo.RecordId })).Items.SingleOrDefault();
+            if (application == null) throw new NotFoundException("Application not found");
+            if (!ApplicationInEditableStatus(application)) throw new BusinessValidationException("Can only edit attachments when application is in Draft");
+            if (cmd.AttachmentInfo.DocumentType != DocumentType.OtherSupportingDocument && application.Attachments != null && application.Attachments.Any(a => a.DocumentType == cmd.AttachmentInfo.DocumentType))
+            {
+                throw new BusinessValidationException($"A document with type {cmd.AttachmentInfo.DocumentType.ToDescriptionString()} already exists on the application {cmd.AttachmentInfo.RecordId}");
+            }
+
+            var newDocId = Guid.NewGuid().ToString();
+
+            await s3Provider.HandleCommand(new UploadFileCommand { Key = newDocId, File = cmd.AttachmentInfo.File, Folder = $"{cmd.AttachmentInfo.RecordType.ToDescriptionString()}/{application.CrmId}" });
+            var documentRes = (await documentRepository.Manage(new CreateApplicationDocument { NewDocId = newDocId, ApplicationId = cmd.AttachmentInfo.RecordId, Document = new Document { Name = cmd.AttachmentInfo.File.FileName, DocumentType = cmd.AttachmentInfo.DocumentType, Size = GetFileSize(cmd.AttachmentInfo.File.Content) } }));
+            return documentRes.Id;
+        }
+
+        private async Task<string> UploadProgressReportDocument(UploadAttachmentCommand cmd)
+        {
+            var canAccess = await CanAccessProgressReport(cmd.AttachmentInfo.RecordId, cmd.UserInfo.BusinessId);
+            if (!canAccess) throw new ForbiddenException("Not allowed to access this progress report.");
+            var progressReport = (await reportRepository.Query(new ProgressReportsQuery { Id = cmd.AttachmentInfo.RecordId })).Items.SingleOrDefault();
+            if (progressReport == null) throw new NotFoundException("Progress Report not found");
+            //if (!ApplicationInEditableStatus(progressReport)) throw new BusinessValidationException("Can only edit attachments when application is in Draft");
+            if (cmd.AttachmentInfo.DocumentType != DocumentType.OtherSupportingDocument && progressReport.Attachments != null && progressReport.Attachments.Any(a => a.DocumentType == cmd.AttachmentInfo.DocumentType))
+            {
+                throw new BusinessValidationException($"A document with type {cmd.AttachmentInfo.DocumentType.ToDescriptionString()} already exists on the application {cmd.AttachmentInfo.RecordId}");
+            }
+
+            var newDocId = Guid.NewGuid().ToString();
+
+            await s3Provider.HandleCommand(new UploadFileCommand { Key = newDocId, File = cmd.AttachmentInfo.File, Folder = $"{cmd.AttachmentInfo.RecordType.ToDescriptionString()}/{progressReport.CrmId}" });
+            var documentRes = (await documentRepository.Manage(new CreateProgressReportDocument { NewDocId = newDocId, ProgressReportId = cmd.AttachmentInfo.RecordId, Document = new Document { Name = cmd.AttachmentInfo.File.FileName, DocumentType = cmd.AttachmentInfo.DocumentType, Size = GetFileSize(cmd.AttachmentInfo.File.Content) } }));
+            return documentRes.Id;
+        }
+
+        private async Task<string> DeleteApplicationDocument(DeleteAttachmentCommand cmd)
+        {
+            var canAccess = await CanAccessApplicationFromDocumentId(cmd.Id, cmd.UserInfo.BusinessId);
+            if (!canAccess) throw new ForbiddenException("Not allowed to access this application.");
+            var documentRes = await documentRepository.Manage(new DeleteApplicationDocument { Id = cmd.Id });
+            await s3Provider.HandleCommand(new UpdateTagsCommand { Key = cmd.Id, Folder = $"{RecordType.FullProposal.ToDescriptionString()}/{documentRes.RecordId}", FileTag = GetDeletedFileTag() });
+            return documentRes.Id;
+        }
+        
+        private async Task<string> DeleteProgressReportDocument(DeleteAttachmentCommand cmd)
+        {
+            var canAccess = await CanAccessProgressReportFromDocumentId(cmd.Id, cmd.UserInfo.BusinessId);
+            if (!canAccess) throw new ForbiddenException("Not allowed to access this progress report.");
+            var documentRes = await documentRepository.Manage(new DeleteProgressReportDocument { Id = cmd.Id });
+            await s3Provider.HandleCommand(new UpdateTagsCommand { Key = cmd.Id, Folder = $"{RecordType.ProgressReport.ToDescriptionString()}/{documentRes.RecordId}", FileTag = GetDeletedFileTag() });
+            return documentRes.Id;
         }
 
         private string GetFileSize(byte[] file)
@@ -455,6 +527,15 @@ namespace EMCR.DRR.Managers.Intake
             if (string.IsNullOrEmpty(id)) return true;
             logger.LogDebug("CanAccessProgressReport not implemented");
             //return await reportRepository.CanAccessProgressReport(id, businessId);
+            return await Task.FromResult(true);
+        }
+
+        private async Task<bool> CanAccessProgressReportFromDocumentId(string? id, string? businessId)
+        {
+            if (string.IsNullOrEmpty(businessId)) throw new ArgumentNullException("Missing user's BusinessId");
+            if (string.IsNullOrEmpty(id)) return true;
+            logger.LogDebug("CanAccessProgressReportFromDocumentId not implemented");
+            //return await reportRepository.CanAccessProgressReportFromDocumentId(id, businessId);
             return await Task.FromResult(true);
         }
 
