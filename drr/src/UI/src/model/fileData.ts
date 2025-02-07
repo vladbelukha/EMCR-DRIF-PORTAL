@@ -5,11 +5,13 @@
  * OpenAPI spec version: 1.0.0
  */
 import type { DocumentType } from './documentType';
+import type { RecordType } from './recordType';
 
 export interface FileData {
-  applicationId?: string;
   content?: string;
   contentType?: string;
   documentType?: DocumentType;
   name?: string;
+  recordId?: string;
+  recordType?: RecordType;
 }

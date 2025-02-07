@@ -16,7 +16,7 @@ import {
 } from '@rxweb/reactive-form-validators';
 import { distinctUntilChanged } from 'rxjs';
 import { AttachmentService } from '../../../../api/attachment/attachment.service';
-import { DocumentType } from '../../../../model';
+import { DocumentType, RecordType } from '../../../../model';
 import { DrrFileUploadComponent } from '../../../shared/controls/drr-file-upload/drr-file-upload.component';
 import { DrrRadioButtonComponent } from '../../../shared/controls/drr-radio-button/drr-radio-button.component';
 import { FileService } from '../../../shared/services/file.service';
@@ -63,24 +63,24 @@ export class DrifFpStep11Component {
       ?.valueChanges.pipe(distinctUntilChanged())
       .subscribe((value) => {
         const attachmentsFormArray = this.attachmentsForm.get(
-          'attachments'
+          'attachments',
         ) as FormArray;
         if (value === true) {
           attachmentsFormArray.push(
             this.formBuilder.formGroup(AttachmentForm, {
               documentType: DocumentType.Resolution,
-            })
+            }),
           );
         } else {
           const resolutionForm = attachmentsFormArray.controls.find(
-            (control) => control.value.documentType === DocumentType.Resolution
+            (control) => control.value.documentType === DocumentType.Resolution,
           );
 
           if (resolutionForm && resolutionForm.value.id) {
             this.removeFile(resolutionForm.value.id);
           } else {
             const resolutionIndex = attachmentsFormArray.controls.findIndex(
-              (c) => c.value.documentType === DocumentType.Resolution
+              (c) => c.value.documentType === DocumentType.Resolution,
             );
             if (resolutionIndex >= 0) {
               attachmentsFormArray.removeAt(resolutionIndex);
@@ -100,7 +100,8 @@ export class DrifFpStep11Component {
 
       this.attachmentsService
         .attachmentUploadAttachment({
-          applicationId: this.applicationId,
+          recordId: this.applicationId,
+          recordType: RecordType.FullProposal,
           documentType: event.documentType,
           name: file.name,
           contentType:
@@ -119,7 +120,7 @@ export class DrifFpStep11Component {
             } as AttachmentForm;
 
             const attachmentsArray = this.attachmentsForm.get(
-              'attachments'
+              'attachments',
             ) as FormArray;
 
             // if other supporting document, add a new form
@@ -130,7 +131,7 @@ export class DrifFpStep11Component {
 
             // if it's a mandatory document, update the existing form if it pre-exists
             const mathcingAttachment = attachmentsArray.controls.find(
-              (control) => control.value.documentType === event.documentType
+              (control) => control.value.documentType === event.documentType,
             );
             if (mathcingAttachment) {
               mathcingAttachment.patchValue(attachmentFormData);
@@ -148,12 +149,12 @@ export class DrifFpStep11Component {
 
   private addAttachmentForm(attachmentForm: AttachmentForm) {
     const attachmentsArray = this.attachmentsForm.get(
-      'attachments'
+      'attachments',
     ) as FormArray;
 
     const fileForm = this.formBuilder.formGroup(
       AttachmentForm,
-      attachmentForm
+      attachmentForm,
     ) as RxFormGroup;
     attachmentsArray.push(fileForm);
   }
@@ -177,16 +178,16 @@ export class DrifFpStep11Component {
   removeFile(fileId: string) {
     this.attachmentsService
       .attachmentDeleteAttachment(fileId, {
-        applicationId: this.applicationId,
+        recordId: this.applicationId,
         id: fileId,
       })
       .subscribe({
         next: () => {
           const attachmentsArray = this.attachmentsForm.get(
-            'attachments'
+            'attachments',
           ) as FormArray;
           const fileIndex = attachmentsArray.controls.findIndex(
-            (control) => control.value.id === fileId
+            (control) => control.value.id === fileId,
           );
 
           const documentType = attachmentsArray.controls[fileIndex].value
@@ -220,22 +221,22 @@ export class DrifFpStep11Component {
 
   getFormByDocumentType(documentType: DocumentType) {
     const attachmentsArray = this.attachmentsForm.get(
-      'attachments'
+      'attachments',
     ) as FormArray;
 
     return attachmentsArray.controls.find(
-      (control) => control.value.documentType === documentType
+      (control) => control.value.documentType === documentType,
     ) as IFormGroup<AttachmentForm>;
   }
 
   getOtherFormArray() {
     const attachmentsArray = this.attachmentsForm.get(
-      'attachments'
+      'attachments',
     ) as FormArray;
 
     return attachmentsArray.controls.filter(
       (control) =>
-        control.value.documentType === DocumentType.OtherSupportingDocument
+        control.value.documentType === DocumentType.OtherSupportingDocument,
     );
   }
 

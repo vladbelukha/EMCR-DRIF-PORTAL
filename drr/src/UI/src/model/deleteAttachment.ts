@@ -6,6 +6,6 @@
  */
 
 export interface DeleteAttachment {
-  applicationId?: string;
   id?: string;
+  recordId?: string;
 }
