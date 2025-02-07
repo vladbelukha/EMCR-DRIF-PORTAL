@@ -208,7 +208,7 @@ export class ProjectEventForm implements ProjectEvent {
   date?: string;
 
   @propObject(ContactDetailsForm)
-  eventContact?: ContactDetailsForm;
+  eventContact?: ContactDetailsForm = new ContactDetailsForm({});
 
   @prop()
   @required()
