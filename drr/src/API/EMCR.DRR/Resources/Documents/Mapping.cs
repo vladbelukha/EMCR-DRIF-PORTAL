@@ -15,6 +15,13 @@ namespace EMCR.DRR.API.Resources.Cases
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.bcgov_filename))
                 .ForMember(dest => dest.Size, opt => opt.MapFrom(src => src.bcgov_filesize))
                 .ForMember(dest => dest.DocumentType, opt => opt.Ignore())
+                .ForMember(dest => dest.RecordType, opt => opt.Ignore())
+                .AfterMap((src, dest) =>
+                {
+                    if (src._bcgov_application_value != null) { dest.RecordType = Managers.Intake.RecordType.FullProposal; }
+                    else if (src._bcgov_progressreport_value != null) { dest.RecordType = Managers.Intake.RecordType.ProgressReport; }
+                    else { dest.RecordType = Managers.Intake.RecordType.None; }
+                })
                 ;
         }
     }

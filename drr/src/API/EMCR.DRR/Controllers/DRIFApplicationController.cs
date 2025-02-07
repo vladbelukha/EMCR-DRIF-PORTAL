@@ -660,6 +660,9 @@ namespace EMCR.DRR.Controllers
         [Description("Project Administration (up to 10%)")]
         ProjectAdministration,
 
+        [Description("Project Planning")]
+        ProjectPlanning,
+        
         [Description("Design")]
         Design,
 
@@ -675,8 +678,11 @@ namespace EMCR.DRR.Controllers
         [Description("First Nations Engagement")]
         FirstNationsEngagement,
 
-        [Description("Community/Education/Public Engagement")]
-        CommunityEngagement,
+        [Description("Neighbouring Jurisdictions and Other Impacted or Affected Parties Engagement")]
+        NeighbouringJurisdictions,
+
+        [Description("Proponent Community(ies) Engagement and Public Education")]
+        ProponentCommunities,
 
         [Description("Incremental Staffing")]
         IncrementalStaffing,
@@ -686,6 +692,9 @@ namespace EMCR.DRR.Controllers
 
         [Description("Land Acquisition/Property Purchase")]
         LandAcquisition,
+
+        [Description("Communications")]
+        Communications,
 
         [Description("Approvals/Permitting")]
         ApprovalsPermitting,
