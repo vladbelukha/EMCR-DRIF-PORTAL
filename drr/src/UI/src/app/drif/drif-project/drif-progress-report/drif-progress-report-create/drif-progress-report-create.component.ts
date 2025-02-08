@@ -588,7 +588,7 @@ export class DrifProgressReportCreateComponent {
 
   addPastEvent() {
     this.getPastEventsArray()?.push(
-      this.formBuilder.formGroup(new EventInformationForm({})),
+      this.formBuilder.formGroup(new ProjectEventForm({})),
     );
   }
 
@@ -602,7 +602,7 @@ export class DrifProgressReportCreateComponent {
 
   addFutureEvent() {
     this.getFutureEventsArray()?.push(
-      this.formBuilder.formGroup(new EventInformationForm({})),
+      this.formBuilder.formGroup(new ProjectEventForm({})),
     );
   }
 

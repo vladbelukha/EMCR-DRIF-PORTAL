@@ -41,26 +41,23 @@
     <mat-step label="Instructions">
       <div>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras a
-          suscipit lectus. Sed molestie dolor nec tortor hendrerit consequat. In
-          at mauris vel lorem molestie rutrum. Curabitur dictum ligula id
-          fermentum ultrices. In vel tortor volutpat, ultrices ipsum vel,
-          lacinia eros. Curabitur quis lectus et ipsum sagittis semper et
-          commodo turpis. Curabitur viverra felis vel consectetur fringilla.
-          Nunc eu egestas magna, eget tincidunt ex. Integer accumsan, velit eget
-          faucibus ornare, enim risus accumsan dui, congue luctus dui eros sed
-          nunc. Vestibulum et blandit libero. Fusce nec mauris interdum, cursus
-          nibh ut, tristique leo. Nullam rhoncus, lectus ac euismod semper,
-          massa lacus elementum ipsum, vel mollis lacus sem in ante. Mauris a
-          dignissim nunc. Duis mollis facilisis odio, nec interdum enim
-          malesuada sed. Fusce congue tristique fermentum.
+          This form captures the overall progress on your project, as well as
+          information about any events you may have planned.
         </p>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras a
-          suscipit lectus. Sed molestie dolor nec tortor hendrerit consequat. In
-          at mauris vel lorem molestie rutrum. Curabitur dictum ligula id
-          fermentum ultrices. In vel tortor volutpat, ultrices ipsum vel,
-          lacinia eros.
+          You will report your status against the specific activities you listed
+          in the Project Plan on your full proposal. You will also be able to
+          add new activities if needed.
+        </p>
+        <p>
+          If this is your first time completing a progress report for this
+          project, most of the values will be blank. Otherwise, many of the
+          values will be copied over from your previous report to help you
+          complete it more quickly.
+        </p>
+        <p>
+          Please be sure to review all information thoroughly and to update it
+          where needed.
         </p>
       </div>
       <div class="drr-stepper-action">
@@ -508,7 +505,7 @@
                     <drr-select
                       class="drr-single-input"
                       [label]="t('signageType')"
-                      [rxFormControl]="signage.get('signageType')"
+                      [rxFormControl]="signage.get('type')"
                       [options]="signageTypeOptions"
                     >
                     </drr-select>
@@ -659,21 +656,44 @@
               let i = index
             "
           >
-            <i>past event</i>
-            @if (getPastEventsArray().controls.length > 1) {
-              <button
-                mat-raised-button
-                color="warn"
-                (click)="removePastEvent(i)"
+            <mat-card>
+              <mat-card-header>
+                <mat-card-title-group>
+                  <mat-card-subtitle>
+                    Past Event {{ i + 1 }}
+                  </mat-card-subtitle>
+                </mat-card-title-group></mat-card-header
               >
-                Remove
-              </button>
-            }
+              <mat-card-content style="display: flex; gap: 1rem">
+                <drr-input
+                  class="drr-single-input"
+                  [label]="t('eventName')"
+                  [rxFormControl]="pastEvent.get('description')"
+                  [maxlength]="50"
+                ></drr-input>
+                <drr-datepicker
+                  class="drr-single-input"
+                  [label]="t('eventDate')"
+                  [rxFormControl]="pastEvent.get('date')"
+                ></drr-datepicker>
+              </mat-card-content>
+              @if (getPastEventsArray().controls.length > 1) {
+                <mat-card-actions align="end">
+                  <button
+                    mat-raised-button
+                    color="warn"
+                    (click)="removePastEvent(i)"
+                  >
+                    Remove
+                  </button>
+                </mat-card-actions>
+              }
+            </mat-card>
           </div>
           <button
+            style="margin-top: 1rem; align-self: flex-start"
             mat-raised-button
             color="primary"
-            style="margin-top: 1rem"
             (click)="addPastEvent()"
           >
             Add Past Event
@@ -699,21 +719,102 @@
               let i = index
             "
           >
-            <i>future event</i>
-            @if (getFutureEventsArray().controls.length > 1) {
-              <button
-                mat-raised-button
-                color="warn"
-                (click)="removeFutureEvent(i)"
+            <mat-card>
+              <mat-card-header>
+                <mat-card-title-group>
+                  <mat-card-subtitle>
+                    Future Event {{ i + 1 }}
+                  </mat-card-subtitle>
+                </mat-card-title-group></mat-card-header
               >
-                Remove
-              </button>
-            }
+              <mat-card-content
+                style="display: flex; flex-direction: column; gap: 1rem"
+              >
+                <div style="display: flex; gap: 1rem">
+                  <drr-input
+                    class="drr-single-input"
+                    [label]="t('eventName')"
+                    [rxFormControl]="pastEvent.get('description')"
+                    [maxlength]="50"
+                  ></drr-input>
+                  <drr-datepicker
+                    class="drr-single-input"
+                    [label]="t('eventDate')"
+                    [rxFormControl]="pastEvent.get('date')"
+                  ></drr-datepicker>
+                </div>
+                <mat-label class="drr-label">{{ t("eventContact") }}</mat-label>
+                <div style="display: flex; gap: 1rem">
+                  <drr-input
+                    [label]="t('firstName')"
+                    [rxFormControl]="pastEvent.get('eventContact.firstName')"
+                    [maxlength]="40"
+                  ></drr-input>
+                  <drr-input
+                    [label]="t('lastName')"
+                    [rxFormControl]="pastEvent.get('eventContact.lastName')"
+                    [maxlength]="40"
+                  ></drr-input>
+                  <drr-input
+                    [label]="t('title')"
+                    [rxFormControl]="pastEvent.get('eventContact.title')"
+                    [maxlength]="100"
+                  ></drr-input>
+                  <drr-input
+                    [label]="t('department')"
+                    [rxFormControl]="pastEvent.get('eventContact.department')"
+                    [maxlength]="40"
+                  ></drr-input>
+                  <drr-input
+                    [label]="t('phone')"
+                    [rxFormControl]="pastEvent.get('eventContact.phone')"
+                    [maxlength]="10"
+                    type="tel"
+                  ></drr-input>
+                  <drr-input
+                    [label]="t('email')"
+                    [rxFormControl]="pastEvent.get('eventContact.email')"
+                    [maxlength]="100"
+                    type="email"
+                  ></drr-input>
+                </div>
+                <div>
+                  <drr-radio-button
+                    class="drr-single-input"
+                    [label]="t('provincialRepresentativeInvited')"
+                    [options]="yesNoRadioOptions"
+                    [rxFormControl]="
+                      pastEvent.get('provincialRepresentativeInvited')
+                    "
+                  ></drr-radio-button>
+                  @if (
+                    pastEvent.get("provincialRepresentativeInvited")?.value ===
+                    true
+                  ) {
+                    <i style="margin-left: 1rem"
+                      >A DMAP team member will be in contact with you regarding
+                      the event.</i
+                    >
+                  }
+                </div>
+              </mat-card-content>
+              @if (getFutureEventsArray().controls.length > 1) {
+                <mat-card-actions align="end">
+                  <button
+                    mat-raised-button
+                    color="warn"
+                    (click)="removeFutureEvent(i)"
+                  >
+                    Remove
+                  </button>
+                </mat-card-actions>
+              }
+            </mat-card>
           </div>
           <button
+            style="margin-top: 1rem; align-self: flex-start"
             mat-raised-button
             color="primary"
-            style="margin-top: 1rem"
             (click)="addFutureEvent()"
           >
             Add Future Event

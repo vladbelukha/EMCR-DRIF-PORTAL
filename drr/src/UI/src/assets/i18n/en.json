@@ -601,7 +601,17 @@
     "fundingSourcesChanged": "Have there been changes to other funding sources in the last quarter?",
     "fundingSourcesChangedComment": "Please provide details on any changes to other funding sources",
     "haveEventsOccurred": "Have any project events occurred since the last progress report?",
-    "haveUpcomingEvents": "Are there any upcoming project events in the next quarter?"
+    "haveUpcomingEvents": "Are there any upcoming project events in the next quarter?",
+    "eventName": "Event Name/Description",
+    "eventDate": "Date Occurred",
+    "eventContact": "Contact",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "title": "Title",
+    "department": "Department",
+    "phone": "Phone",
+    "email": "Email",
+    "provincialRepresentativeInvited": "Was a provincial representative invited to the event?"
   },
   "projectProgress": {
     "OnSchedule": "Project is on schedule",
