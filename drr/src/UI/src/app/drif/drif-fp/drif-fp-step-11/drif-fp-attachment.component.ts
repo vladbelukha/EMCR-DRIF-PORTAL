@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AbstractControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -131,7 +131,7 @@ export class DrrAttahcmentComponent {
 
   @Input() filename?: string;
 
-  @Input() attachmentForm?: IFormGroup<AttachmentForm>;
+  @Input() attachmentForm?: AbstractControl<AttachmentForm>;
 
   @Input() documentType?: DocumentType;
 

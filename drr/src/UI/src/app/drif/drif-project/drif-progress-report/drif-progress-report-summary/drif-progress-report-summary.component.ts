@@ -40,7 +40,7 @@ export class DrifProgressReportSummaryComponent {
 
   getWorkplanItems(): FormArray | null {
     return this.progressReportForm.get(
-      'workplan.workplanActivities'
+      'workplan.workplanActivities',
     ) as FormArray;
   }
 
@@ -50,7 +50,7 @@ export class DrifProgressReportSummaryComponent {
         control.get('preCreatedActivity')?.value &&
         control.get('activity')?.value !== ActivityType.PermitToConstruct &&
         control.get('activity')?.value !==
-          ActivityType.ConstructionContractAward
+          ActivityType.ConstructionContractAward,
     );
   }
 
@@ -60,7 +60,7 @@ export class DrifProgressReportSummaryComponent {
         control.get('preCreatedActivity')?.value &&
         (control.get('activity')?.value === ActivityType.PermitToConstruct ||
           control.get('activity')?.value ===
-            ActivityType.ConstructionContractAward)
+            ActivityType.ConstructionContractAward),
     );
   }
 
@@ -96,7 +96,7 @@ export class DrifProgressReportSummaryComponent {
   }
 
   showPlannedCompletionDate(
-    activityControl: AbstractControl<WorkplanActivityForm>
+    activityControl: AbstractControl<WorkplanActivityForm>,
   ) {
     const status = activityControl?.get('status')?.value as WorkplanStatus;
     return (
@@ -115,9 +115,33 @@ export class DrifProgressReportSummaryComponent {
   }
 
   showActualCompletionDate(
-    activityControl: AbstractControl<WorkplanActivityForm>
+    activityControl: AbstractControl<WorkplanActivityForm>,
   ) {
     const status = activityControl?.get('status')?.value as WorkplanStatus;
     return status === WorkplanStatus.Completed;
+  }
+
+  getPastEventsArray() {
+    return this.progressReportForm?.get(
+      'eventInformation.pastEvents',
+    ) as FormArray;
+  }
+
+  getFutureEventsArray() {
+    return this.progressReportForm?.get(
+      'eventInformation.futureEvents',
+    ) as FormArray;
+  }
+
+  getAttachmentsFormArray(): FormArray {
+    return this.progressReportForm.get('attachments') as FormArray;
+  }
+
+  hasAttachments(): boolean {
+    return this.getAttachmentsFormArray().length > 0;
+  }
+
+  onDownloadFile(fileId: string) {
+    this.fileService.downloadFile(fileId);
   }
 }

@@ -61,6 +61,15 @@ export class FileService {
     }
   }
 
+  fileToBase64(file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = (error) => reject(error);
+    });
+  }
+
   private base64ToByteArray(base64: string): Uint8Array {
     const binaryString = window.atob(base64);
     const len = binaryString.length;
