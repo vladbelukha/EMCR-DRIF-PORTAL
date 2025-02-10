@@ -96,7 +96,7 @@ export class DrifFpStep11Component {
         return;
       }
 
-      const base64Content = await this.fileToBase64(file);
+      const base64Content = await this.fileService.fileToBase64(file);
 
       this.attachmentsService
         .attachmentUploadAttachment({
@@ -157,15 +157,6 @@ export class DrifFpStep11Component {
       attachmentForm,
     ) as RxFormGroup;
     attachmentsArray.push(fileForm);
-  }
-
-  private fileToBase64(file: File): Promise<string> {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result as string);
-      reader.onerror = (error) => reject(error);
-    });
   }
 
   uploadOtherFiles(event: File[]) {

@@ -341,13 +341,128 @@
       <mat-card-title>{{ t("steps.progressReport.step3") }}</mat-card-title>
       <mat-card-subtitle>Step 3</mat-card-subtitle>
     </mat-card-header>
-    <mat-card-content> step 3 content </mat-card-content>
+    <mat-card-content>
+      <drr-summary-item
+        [label]="t('progressReport.haveEventsOccurred')"
+        [rxFormControl]="
+          progressReportForm.get('eventInformation.haveEventsOccurred')
+        "
+        controlType="radio"
+      ></drr-summary-item>
+      @if (
+        progressReportForm.get("eventInformation.haveEventsOccurred")?.value ===
+        true
+      ) {
+        <div
+          class="summary-row"
+          *ngFor="let event of getPastEventsArray().controls; let i = index"
+        >
+          <drr-summary-item
+            [label]="t('progressReport.eventName')"
+            [rxFormControl]="event.get('description')"
+          ></drr-summary-item>
+          <drr-summary-item
+            [label]="t('progressReport.eventDate')"
+            [rxFormControl]="event.get('date')"
+            controlType="date"
+          ></drr-summary-item>
+        </div>
+      }
+      <drr-summary-item
+        [label]="t('progressReport.haveUpcomingEvents')"
+        [rxFormControl]="
+          progressReportForm.get('eventInformation.haveUpcomingEvents')
+        "
+        controlType="radio"
+      ></drr-summary-item>
+      @if (
+        progressReportForm.get("eventInformation.haveUpcomingEvents")?.value ===
+        true
+      ) {
+        <div
+          *ngFor="let event of getFutureEventsArray().controls; let i = index"
+          style="display: flex; flex-direction: column; gap: 1rem"
+        >
+          <div class="summary-row">
+            <drr-summary-item
+              [label]="t('progressReport.eventName')"
+              [rxFormControl]="event.get('description')"
+            ></drr-summary-item>
+            <drr-summary-item
+              [label]="t('progressReport.eventDate')"
+              [rxFormControl]="event.get('date')"
+              controlType="date"
+            ></drr-summary-item>
+          </div>
+          <mat-label class="drr-label" style="margin: 1rem 0 0 1rem">{{
+            t("progressReport.eventContact")
+          }}</mat-label>
+          <div class="summary-row">
+            <drr-summary-item
+              [label]="t('progressReport.firstName')"
+              [rxFormControl]="event.get('eventContact.firstName')"
+            ></drr-summary-item>
+            <drr-summary-item
+              [label]="t('progressReport.lastName')"
+              [rxFormControl]="event.get('eventContact.lastName')"
+            ></drr-summary-item>
+            <drr-summary-item
+              [label]="t('progressReport.title')"
+              [rxFormControl]="event.get('eventContact.title')"
+            ></drr-summary-item>
+            <drr-summary-item
+              [label]="t('progressReport.department')"
+              [rxFormControl]="event.get('eventContact.department')"
+            ></drr-summary-item>
+            <drr-summary-item
+              [label]="t('progressReport.phone')"
+              [rxFormControl]="event.get('eventContact.phone')"
+            ></drr-summary-item>
+            <drr-summary-item
+              [label]="t('progressReport.email')"
+              [rxFormControl]="event.get('eventContact.email')"
+            ></drr-summary-item>
+          </div>
+          <drr-summary-item
+            style="margin-left: 1rem"
+            [label]="t('progressReport.provincialRepresentativeInvited')"
+            [rxFormControl]="event.get('provincialRepresentativeInvited')"
+            controlType="radio"
+          ></drr-summary-item>
+        </div>
+      }
+    </mat-card-content>
   </mat-card>
   <mat-card>
     <mat-card-header>
       <mat-card-title>{{ t("steps.progressReport.step4") }}</mat-card-title>
       <mat-card-subtitle>Step 4</mat-card-subtitle>
     </mat-card-header>
-    <mat-card-content> step 4 content </mat-card-content>
+    <mat-card-content>
+      <div
+        class="summary-row"
+        *ngFor="let attachment of getAttachmentsFormArray().controls"
+      >
+        <drr-summary-item
+          [label]="t('attachments.name')"
+          [rxFormControl]="attachment.get('name')"
+        >
+        </drr-summary-item>
+        <drr-summary-item
+          [label]="t('attachments.comments')"
+          [rxFormControl]="attachment.get('comments')"
+        >
+        </drr-summary-item>
+        <button
+          *ngIf="isReadOnlyView"
+          style="align-self: center"
+          mat-button
+          color="primary"
+          (click)="onDownloadFile(attachment.get('id')?.value)"
+        >
+          Download
+        </button>
+      </div>
+    </mat-card-content>
   </mat-card>
 </div>

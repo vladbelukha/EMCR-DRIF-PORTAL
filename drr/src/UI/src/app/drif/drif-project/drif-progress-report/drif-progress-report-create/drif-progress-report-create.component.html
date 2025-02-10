@@ -837,6 +837,35 @@
       </div>
     </mat-step>
     <mat-step label="Attachments">
+      <div class="attachments-container">
+        <drr-attachment
+          *ngFor="
+            let attachmentControl of getAttachmentsFormArray().controls;
+            let i = index
+          "
+          [title]="i == 0 ? t('attachments') : ''"
+          [attachmentForm]="attachmentControl"
+          (removeFile)="removeFile($event)"
+          (downloadFile)="downloadFile($event)"
+        ></drr-attachment>
+
+        <div style="display: flex; flex-direction: column; gap: 1rem">
+          <div>
+            <mat-label class="drr-label">
+              {{ t("attachmentUploadText") }}
+            </mat-label>
+            <br />
+            <!-- <mat-label style="display: block; margin-top: 1rem">{{
+                t("attachmentUploadOptionalText")
+              }}</mat-label> -->
+          </div>
+
+          <drr-file-upload
+            (filesSelected)="uploadFiles($event)"
+            [attachButtonLabel]="t('uploadAttachment')"
+          ></drr-file-upload>
+        </div>
+      </div>
       <div class="drr-stepper-actions">
         <button mat-stroked-button color="primary" matStepperPrevious>
           Back
