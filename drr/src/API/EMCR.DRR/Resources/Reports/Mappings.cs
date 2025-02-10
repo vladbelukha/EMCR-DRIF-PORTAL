@@ -63,7 +63,7 @@ namespace EMCR.DRR.API.Resources.Reports
                 .ForMember(dest => dest.drr_outstandingissues, opt => opt.MapFrom(src => src.Workplan.OutstandingIssuesComments))
                 .ForMember(dest => dest.drr_changestofundingsources, opt => opt.MapFrom(src => src.Workplan.FundingSourcesChanged.HasValue ? src.Workplan.FundingSourcesChanged.Value ? (int?)DRRTwoOptions.Yes : (int?)DRRTwoOptions.No : null))
                 .ForMember(dest => dest.drr_commentschangestofundingsources, opt => opt.MapFrom(src => src.Workplan.FundingSourcesChangedComment))
-                .ForMember(dest => dest.drr_drr_projectprogress_drr_projectevent_ProjectProgress, opt => opt.MapFrom(src => src.EventInformation.Events))
+                .ForMember(dest => dest.drr_drr_projectprogress_drr_projectevent_ProjectProgress, opt => opt.MapFrom(src => src.EventInformation.PastEvents))
                 .ForMember(dest => dest.bcgov_drr_projectprogress_bcgov_documenturl_ProgressReport, opt => opt.MapFrom(src => src.Attachments))
                 //.ForMember(dest => dest.statuscode, opt => opt.MapFrom(src => (int?)Enum.Parse<ProjectProgressReportStatusOptionSet>(src.Status.ToString())))
                 .ReverseMap()
@@ -92,7 +92,7 @@ namespace EMCR.DRR.API.Resources.Reports
                 .ForPath(dest => dest.Workplan.OutstandingIssuesComments, opt => opt.MapFrom(src => src.drr_outstandingissues))
                 .ForPath(dest => dest.Workplan.FundingSourcesChanged, opt => opt.MapFrom(src => src.drr_changestofundingsources.HasValue ? src.drr_changestofundingsources.Value == (int)DRRTwoOptions.Yes : (bool?)null))
                 .ForPath(dest => dest.Workplan.FundingSourcesChangedComment, opt => opt.MapFrom(src => src.drr_commentschangestofundingsources))
-                .ForPath(dest => dest.EventInformation.Events, opt => opt.MapFrom(src => src.drr_drr_projectprogress_drr_projectevent_ProjectProgress.Where(c => c.statecode == (int)EntityState.Active)))
+                .ForPath(dest => dest.EventInformation.PastEvents, opt => opt.MapFrom(src => src.drr_drr_projectprogress_drr_projectevent_ProjectProgress.Where(c => c.statecode == (int)EntityState.Active)))
                 .ForMember(dest => dest.Attachments, opt => opt.MapFrom(src => src.bcgov_drr_projectprogress_bcgov_documenturl_ProgressReport.Where(c => c.statecode == (int)EntityState.Active)))
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.statuscode.HasValue ? (int?)Enum.Parse<ProgressReportStatus>(((ProjectProgressReportStatusOptionSet)src.statuscode).ToString()) : null))
             ;

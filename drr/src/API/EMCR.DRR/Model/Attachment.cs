@@ -37,6 +37,7 @@ namespace EMCR.DRR.API.Model
         DetailedCostEstimate,
         PreliminaryDesign,
         SitePlan,
+        ProgressReport,
     }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
