@@ -633,10 +633,6 @@ export class DrifProgressReportCreateComponent {
     return this.progressReportForm.get('attachments') as FormArray;
   }
 
-  hasAttachments(): boolean {
-    return this.getAttachmentsFormArray().length > 0;
-  }
-
   async uploadFiles(files: File[]) {
     files.forEach(async (file) => {
       if (file == null) {

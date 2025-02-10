@@ -132,4 +132,16 @@ export class DrifProgressReportSummaryComponent {
       'eventInformation.futureEvents',
     ) as FormArray;
   }
+
+  getAttachmentsFormArray(): FormArray {
+    return this.progressReportForm.get('attachments') as FormArray;
+  }
+
+  hasAttachments(): boolean {
+    return this.getAttachmentsFormArray().length > 0;
+  }
+
+  onDownloadFile(fileId: string) {
+    this.fileService.downloadFile(fileId);
+  }
 }

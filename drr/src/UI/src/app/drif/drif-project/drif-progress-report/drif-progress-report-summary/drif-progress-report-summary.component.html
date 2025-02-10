@@ -438,6 +438,31 @@
       <mat-card-title>{{ t("steps.progressReport.step4") }}</mat-card-title>
       <mat-card-subtitle>Step 4</mat-card-subtitle>
     </mat-card-header>
-    <mat-card-content> step 4 content </mat-card-content>
+    <mat-card-content>
+      <div
+        class="summary-row"
+        *ngFor="let attachment of getAttachmentsFormArray().controls"
+      >
+        <drr-summary-item
+          [label]="t('attachments.name')"
+          [rxFormControl]="attachment.get('name')"
+        >
+        </drr-summary-item>
+        <drr-summary-item
+          [label]="t('attachments.comments')"
+          [rxFormControl]="attachment.get('comments')"
+        >
+        </drr-summary-item>
+        <button
+          *ngIf="isReadOnlyView"
+          style="align-self: center"
+          mat-button
+          color="primary"
+          (click)="onDownloadFile(attachment.get('id')?.value)"
+        >
+          Download
+        </button>
+      </div>
+    </mat-card-content>
   </mat-card>
 </div>
