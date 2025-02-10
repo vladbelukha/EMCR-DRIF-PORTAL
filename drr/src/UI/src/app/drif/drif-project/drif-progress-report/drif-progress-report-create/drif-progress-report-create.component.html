@@ -715,7 +715,7 @@
         ) {
           <div
             *ngFor="
-              let pastEvent of getFutureEventsArray().controls;
+              let pastEvent of getUpcomingEventsArray().controls;
               let i = index
             "
           >
@@ -798,7 +798,7 @@
                   }
                 </div>
               </mat-card-content>
-              @if (getFutureEventsArray().controls.length > 1) {
+              @if (getUpcomingEventsArray().controls.length > 1) {
                 <mat-card-actions align="end">
                   <button
                     mat-raised-button
@@ -854,10 +854,6 @@
             <mat-label class="drr-label">
               {{ t("attachmentUploadText") }}
             </mat-label>
-            <br />
-            <!-- <mat-label style="display: block; margin-top: 1rem">{{
-                t("attachmentUploadOptionalText")
-              }}</mat-label> -->
           </div>
 
           <drr-file-upload

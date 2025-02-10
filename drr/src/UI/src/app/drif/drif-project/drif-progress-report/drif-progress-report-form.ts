@@ -233,7 +233,7 @@ export class EventInformationForm implements EventInformation {
   haveUpcomingEvents?: boolean | undefined;
 
   @propArray(ProjectEventForm)
-  futureEvents?: ProjectEventForm[] = [];
+  upcomingEvents?: ProjectEventForm[] = [];
 
   constructor(values: EventInformationForm) {
     Object.assign(this, values);

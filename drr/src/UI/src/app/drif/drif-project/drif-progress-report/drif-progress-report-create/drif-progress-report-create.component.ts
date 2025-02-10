@@ -297,8 +297,8 @@ export class DrifProgressReportCreateComponent {
             );
           });
 
-          report.eventInformation?.futureEvents?.map((event) => {
-            this.getFutureEventsArray()?.push(
+          report.eventInformation?.upcomingEvents?.map((event) => {
+            this.getUpcomingEventsArray()?.push(
               this.formBuilder.formGroup(new ProjectEventForm(event)),
             );
           });
@@ -317,11 +317,14 @@ export class DrifProgressReportCreateComponent {
           this.eventsForm
             ?.get('haveUpcomingEvents')
             ?.valueChanges.subscribe((value) => {
-              if (value === true && this.getFutureEventsArray()?.length === 0) {
+              if (
+                value === true &&
+                this.getUpcomingEventsArray()?.length === 0
+              ) {
                 this.addFutureEvent();
               }
               if (value === false) {
-                this.getFutureEventsArray()?.clear();
+                this.getUpcomingEventsArray()?.clear();
               }
             });
 
@@ -615,18 +618,18 @@ export class DrifProgressReportCreateComponent {
     this.getPastEventsArray()?.removeAt(index);
   }
 
-  getFutureEventsArray() {
-    return this.eventsForm?.get('futureEvents') as FormArray;
+  getUpcomingEventsArray() {
+    return this.eventsForm?.get('upcomingEvents') as FormArray;
   }
 
   addFutureEvent() {
-    this.getFutureEventsArray()?.push(
+    this.getUpcomingEventsArray()?.push(
       this.formBuilder.formGroup(new ProjectEventForm({})),
     );
   }
 
   removeFutureEvent(index: number) {
-    this.getFutureEventsArray()?.removeAt(index);
+    this.getUpcomingEventsArray()?.removeAt(index);
   }
 
   getAttachmentsFormArray(): FormArray {
@@ -645,7 +648,7 @@ export class DrifProgressReportCreateComponent {
         .attachmentUploadAttachment({
           recordId: this.progressReportId,
           recordType: RecordType.ProgressReport,
-          // documentType: DocumentType.,
+          documentType: DocumentType.ProgressReport,
           name: file.name,
           contentType:
             file.type === ''
@@ -659,7 +662,7 @@ export class DrifProgressReportCreateComponent {
               name: file.name,
               comments: '',
               id: attachment.id,
-              // documentType: event.documentType,
+              documentType: DocumentType.ProgressReport,
             } as AttachmentForm;
 
             this.getAttachmentsFormArray().push(
