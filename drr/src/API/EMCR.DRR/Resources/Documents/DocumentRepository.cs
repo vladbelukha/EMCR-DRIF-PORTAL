@@ -44,7 +44,20 @@ namespace EMCR.DRR.API.Resources.Documents
         {
             var readCtx = dRRContextFactory.CreateReadOnly();
             var document = await readCtx.bcgov_documenturls.Where(d => d.bcgov_documenturlid == Guid.Parse(query.Id)).SingleOrDefaultAsync();
-            return new QueryDocumentCommandResult { RecordId = document._bcgov_application_value.ToString(), Document = mapper.Map<Document>(document) };
+            var ret = mapper.Map<Document>(document);
+            var recordId = document._bcgov_application_value.ToString();
+            switch (ret.RecordType)
+            {
+                case RecordType.FullProposal:
+                    recordId = document._bcgov_application_value.ToString();
+                    break;
+                case RecordType.ProgressReport:
+                    recordId = document._bcgov_progressreport_value.ToString();
+                    break;
+                default:
+                    break;
+            }
+            return new QueryDocumentCommandResult { RecordId = recordId, Document = ret };
         }
 
         public async Task<ManageDocumentCommandResult> Handle(CreateApplicationDocument cmd)

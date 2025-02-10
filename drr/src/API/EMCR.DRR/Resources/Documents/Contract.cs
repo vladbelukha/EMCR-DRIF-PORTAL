@@ -62,15 +62,6 @@ namespace EMCR.DRR.API.Resources.Documents
         public RecordType RecordType { get; set; }
     }
 
-    public enum DocumentTypeOptionSet
-    {
-        DetailedCostEstimate = 172580002,
-        SitePlan = 172580003,
-        PreliminaryDesign = 172580004,
-        Resolution = 172580005,
-        OtherSupportingDocument = 172580006
-    }
-
     public enum OriginOptionSet
     {
         Web = 931490000,

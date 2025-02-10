@@ -278,7 +278,8 @@ namespace EMCR.DRR.Controllers
 
     public class EventInformation
     {
-        public IEnumerable<ProjectEvent>? Events { get; set; }
+        public IEnumerable<ProjectEvent>? UpcomingEvents { get; set; }
+        public IEnumerable<ProjectEvent>? PastEvents { get; set; }
         public bool? HaveEventsOccurred { get; set; }
     }
 

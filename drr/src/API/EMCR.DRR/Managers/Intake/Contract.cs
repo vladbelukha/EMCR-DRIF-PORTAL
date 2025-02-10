@@ -288,6 +288,8 @@ namespace EMCR.DRR.Managers.Intake
         SitePlan,
         [Description("SME Feedback")]
         SMEFeedback,
+        [Description("Progress Report")]
+        ProgressReport,
     }
 
     public class Application
@@ -488,14 +490,14 @@ namespace EMCR.DRR.Managers.Intake
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public ProjectStatus Status { get; set; }
-        public PaymentCondition[]? Conditions { get; set; }
-        public ContactDetails[]? Contacts { get; set; }
-        public InterimReport[]? InterimReports { get; set; }
-        public ProjectClaim[]? Claims { get; set; }
-        public ProgressReport[]? ProgressReports { get; set; }
-        public Forecast[]? Forecast { get; set; }
-        public ProjectEvent[]? Events { get; set; }
-        public Attachment[]? Attachments { get; set; }
+        public IEnumerable<PaymentCondition>? Conditions { get; set; }
+        public IEnumerable<ContactDetails>? Contacts { get; set; }
+        public IEnumerable<InterimReport>? InterimReports { get; set; }
+        public IEnumerable<ProjectClaim>    ? Claims { get; set; }
+        public IEnumerable<ProgressReport>? ProgressReports { get; set; }
+        public IEnumerable<Forecast>? Forecast { get; set; }
+        public IEnumerable<ProjectEvent>? Events { get; set; }
+        public IEnumerable<Attachment>? Attachments { get; set; }
     }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
@@ -729,7 +731,8 @@ namespace EMCR.DRR.Managers.Intake
 
     public class EventInformationDetails
     {
-        public ProjectEventDetails[]? Events { get; set; }
+        public IEnumerable<ProjectEventDetails>? UpcomingEvents { get; set; }
+        public IEnumerable<ProjectEventDetails>? PastEvents { get; set; }
     }
 
     public class ProjectEventDetails : ProjectEvent
@@ -776,7 +779,7 @@ namespace EMCR.DRR.Managers.Intake
 
     public class WorkplanDetails
     {
-        public WorkplanActivityDetails[]? WorkplanActivities { get; set; }
+        public IEnumerable<WorkplanActivityDetails>? WorkplanActivities { get; set; }
         public ProjectProgress? ProjectProgress { get; set; }
         public string? AheadOfScheduleComments { get; set; }
         public DelayReason? DelayReason { get; set; }
@@ -786,7 +789,7 @@ namespace EMCR.DRR.Managers.Intake
         public decimal? ConstructionCompletionPercentage { get; set; }
         public bool? SignageRequired { get; set; }
         public string? SignageNotRequiredComments { get; set; }
-        public FundingSignage[]? FundingSignage { get; set; }
+        public IEnumerable<FundingSignage>? FundingSignage { get; set; }
         public bool? MediaAnnouncement { get; set; }
         public DateTime? MediaAnnouncementDate { get; set; }
         public string? MediaAnnouncementComment { get; set; }

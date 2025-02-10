@@ -165,10 +165,18 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             byte[] bytes = Encoding.ASCII.GetBytes(body);
             var file = new S3File { FileName = fileName, Content = bytes, ContentType = "text/plain", };
 
-            var documentId = await manager.Handle(new UploadAttachmentCommand { AttachmentInfo = new AttachmentInfo { RecordId = progressReport.Id, RecordType = EMCR.DRR.Managers.Intake.RecordType.ProgressReport, File = file, DocumentType = EMCR.DRR.Managers.Intake.DocumentType.OtherSupportingDocument }, UserInfo = GetTestUserInfo() });
+            var documentId = await manager.Handle(new UploadAttachmentCommand { AttachmentInfo = new AttachmentInfo { RecordId = progressReport.Id, RecordType = EMCR.DRR.Managers.Intake.RecordType.ProgressReport, File = file, DocumentType = EMCR.DRR.Managers.Intake.DocumentType.ProgressReport }, UserInfo = GetTestUserInfo() });
 
             var updatedProgressReport = mapper.Map<EMCR.DRR.Controllers.ProgressReport>((await manager.Handle(new DrrProgressReportsQuery { Id = "DRIF-PR-1058", BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault());
             updatedProgressReport.Attachments.Count().ShouldBeGreaterThan(0);
+
+        }
+
+        [Test]
+        public async Task CanDownloadAttachment()
+        {
+            var document = (FileQueryResult)(await manager.Handle(new DownloadAttachment { Id = "fed185a3-b079-4a4c-9680-36b220352cdc", UserInfo = GetTestUserInfo() }));
+            document.File.FileName.ShouldNotBeNull();
 
         }
 #pragma warning restore CS8601 // Possible null reference assignment.
