@@ -21,6 +21,7 @@ import {
   WorkplanStatus,
 } from '../../../../model';
 import { ContactDetailsForm } from '../../drif-eoi/drif-eoi-form';
+import { AttachmentForm } from '../../drif-fp/drif-fp-form';
 
 export enum EventProgressType {
   NotStarted = 'Not Started',
@@ -248,4 +249,7 @@ export class ProgressReportForm implements ProgressReport {
 
   @propObject(EventInformationForm)
   eventInformation?: EventInformationForm = new EventInformationForm({});
+
+  @propArray(AttachmentForm)
+  attachments?: AttachmentForm[] = [];
 }

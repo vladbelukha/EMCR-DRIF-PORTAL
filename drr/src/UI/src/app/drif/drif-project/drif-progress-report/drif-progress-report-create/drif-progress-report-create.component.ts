@@ -16,9 +16,11 @@ import {
 import {
   ActivityType,
   Delay,
+  DocumentType,
   InterimProjectType,
   ProgressReport,
   ProjectProgressStatus,
+  RecordType,
   SignageType,
   WorkplanStatus,
   YesNoOption,
@@ -30,8 +32,10 @@ import { MatDividerModule } from '@angular/material/divider';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HotToastService } from '@ngxpert/hot-toast';
 import { Subscription } from 'rxjs';
+import { AttachmentService } from '../../../../../api/attachment/attachment.service';
 import { ProjectService } from '../../../../../api/project/project.service';
 import { DrrDatepickerComponent } from '../../../../shared/controls/drr-datepicker/drr-datepicker.component';
+import { DrrFileUploadComponent } from '../../../../shared/controls/drr-file-upload/drr-file-upload.component';
 import { DrrInputComponent } from '../../../../shared/controls/drr-input/drr-input.component';
 import { DrrNumericInputComponent } from '../../../../shared/controls/drr-number-input/drr-number-input.component';
 import {
@@ -43,6 +47,9 @@ import {
   DrrSelectOption,
 } from '../../../../shared/controls/drr-select/drr-select.component';
 import { DrrTextareaComponent } from '../../../../shared/controls/drr-textarea/drr-textarea.component';
+import { FileService } from '../../../../shared/services/file.service';
+import { AttachmentForm } from '../../../drif-fp/drif-fp-form';
+import { DrrAttahcmentComponent } from '../../../drif-fp/drif-fp-step-11/drif-fp-attachment.component';
 import {
   EventInformationForm,
   EventProgressType,
@@ -71,6 +78,8 @@ import { DrifProgressReportSummaryComponent } from '../drif-progress-report-summ
     DrrSelectComponent,
     DrrRadioButtonComponent,
     DrrTextareaComponent,
+    DrrAttahcmentComponent,
+    DrrFileUploadComponent,
     RxReactiveFormsModule,
     MatDividerModule,
     DrifProgressReportSummaryComponent,
@@ -86,6 +95,8 @@ export class DrifProgressReportCreateComponent {
   projectService = inject(ProjectService);
   translocoService = inject(TranslocoService);
   toastService = inject(HotToastService);
+  attachmentsService = inject(AttachmentService);
+  fileService = inject(FileService);
 
   projectId!: string;
   reportId!: string;
@@ -313,6 +324,14 @@ export class DrifProgressReportCreateComponent {
                 this.getFutureEventsArray()?.clear();
               }
             });
+
+          report.attachments?.map((attachment) => {
+            const attachmentForm = this.formBuilder.formGroup(
+              new AttachmentForm(attachment),
+            );
+
+            this.getAttachmentsFormArray().push(attachmentForm);
+          });
 
           this.progressReportForm.patchValue(report);
         });
@@ -608,5 +627,85 @@ export class DrifProgressReportCreateComponent {
 
   removeFutureEvent(index: number) {
     this.getFutureEventsArray()?.removeAt(index);
+  }
+
+  getAttachmentsFormArray(): FormArray {
+    return this.progressReportForm.get('attachments') as FormArray;
+  }
+
+  hasAttachments(): boolean {
+    return this.getAttachmentsFormArray().length > 0;
+  }
+
+  async uploadFiles(files: File[]) {
+    files.forEach(async (file) => {
+      if (file == null) {
+        return;
+      }
+
+      const base64Content = await this.fileService.fileToBase64(file);
+
+      this.attachmentsService
+        .attachmentUploadAttachment({
+          recordId: this.progressReportId,
+          recordType: RecordType.ProgressReport,
+          // documentType: DocumentType.,
+          name: file.name,
+          contentType:
+            file.type === ''
+              ? this.fileService.getCustomContentType(file)
+              : file.type,
+          content: base64Content.split(',')[1],
+        })
+        .subscribe({
+          next: (attachment) => {
+            const attachmentFormData = {
+              name: file.name,
+              comments: '',
+              id: attachment.id,
+              // documentType: event.documentType,
+            } as AttachmentForm;
+
+            this.getAttachmentsFormArray().push(
+              this.formBuilder.formGroup(AttachmentForm, attachmentFormData),
+            );
+          },
+          error: () => {
+            this.toastService.close();
+            this.toastService.error('File upload failed');
+          },
+        });
+    });
+  }
+
+  downloadFile(fileId: string) {
+    this.fileService.downloadFile(fileId);
+  }
+
+  removeFile(fileId: string) {
+    this.attachmentsService
+      .attachmentDeleteAttachment(fileId, {
+        recordId: this.progressReportId,
+        id: fileId,
+      })
+      .subscribe({
+        next: () => {
+          const attachmentsArray = this.progressReportForm.get(
+            'attachments',
+          ) as FormArray;
+          const fileIndex = attachmentsArray.controls.findIndex(
+            (control) => control.value.id === fileId,
+          );
+
+          const documentType = attachmentsArray.controls[fileIndex].value
+            .documentType as DocumentType;
+
+          attachmentsArray.removeAt(fileIndex);
+        },
+        error: () => {
+          this.toastService.close();
+          this.toastService.error('File deletion failed');
+        },
+      });
   }
 }

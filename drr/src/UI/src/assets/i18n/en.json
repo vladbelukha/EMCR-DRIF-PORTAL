@@ -611,7 +611,10 @@
     "department": "Department",
     "phone": "Phone",
     "email": "Email",
-    "provincialRepresentativeInvited": "Was a provincial representative invited to the event?"
+    "provincialRepresentativeInvited": "Was a provincial representative invited to the event?",
+    "attachments": "Attachments",
+    "attachmentUploadText": "Upload any supporting attachments",
+    "uploadAttachment": "Add Attachment"
   },
   "projectProgress": {
     "OnSchedule": "Project is on schedule",
