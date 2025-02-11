@@ -140,6 +140,29 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
                 BeenApproved = false,
             }).ToArray();
 
+
+            progressReport.EventInformation.EventsOccurredSinceLastReport = true;
+            if (progressReport.EventInformation.PastEvents.Count() > 0) progressReport.EventInformation.PastEvents = progressReport.EventInformation.PastEvents.Take(progressReport.EventInformation.PastEvents.Count() - 1).ToArray();
+            progressReport.EventInformation.PastEvents = progressReport.EventInformation.PastEvents.Append(new EMCR.DRR.Controllers.ProjectEvent
+            {
+                Details = $"{uniqueSignature} - past event details",
+                Date = DateTime.UtcNow.AddDays(-2),
+            }).ToArray();
+
+            progressReport.EventInformation.AnyUpcomingEvents = true;
+            if (progressReport.EventInformation.UpcomingEvents.Count() > 0) progressReport.EventInformation.UpcomingEvents = progressReport.EventInformation.UpcomingEvents.Take(progressReport.EventInformation.UpcomingEvents.Count() - 1).ToArray();
+            progressReport.EventInformation.UpcomingEvents = progressReport.EventInformation.UpcomingEvents.Append(new EMCR.DRR.Controllers.ProjectEvent
+            {
+                Details = $"{uniqueSignature} - upcoming event details",
+                Date = DateTime.UtcNow.AddDays(2),
+                ProvincialRepresentativeRequest = true,
+                //ProvincialRepresentativeRequestComment = "representative comment",
+                Contact = CreateNewTestContact(uniqueSignature, "event")
+            }).ToArray();
+
+            //progressReport.EventInformation.UpcomingEvents.First().Contact.FirstName = "updated";
+            //progressReport.EventInformation.UpcomingEvents.First().Contact.LastName = "name";
+
             //Console.WriteLine(progressReport.Id);
             await manager.Handle(new SaveProgressReportCommand { ProgressReport = progressReport, UserInfo = GetTestUserInfo() });
 
@@ -178,6 +201,19 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             var document = (FileQueryResult)(await manager.Handle(new DownloadAttachment { Id = "fed185a3-b079-4a4c-9680-36b220352cdc", UserInfo = GetTestUserInfo() }));
             document.File.FileName.ShouldNotBeNull();
 
+        }
+
+        private EMCR.DRR.Controllers.ContactDetails CreateNewTestContact(string uniqueSignature, string namePrefix)
+        {
+            return new EMCR.DRR.Controllers.ContactDetails
+            {
+                FirstName = $"{uniqueSignature}_{namePrefix}_first",
+                LastName = $"{uniqueSignature}_{namePrefix}_last",
+                Email = "test@test.com",
+                Phone = "604-123-4567",
+                Department = "Position",
+                Title = "Title"
+            };
         }
 #pragma warning restore CS8601 // Possible null reference assignment.
 #pragma warning restore CS8604 // Possible null reference argument.

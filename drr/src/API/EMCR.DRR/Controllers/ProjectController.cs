@@ -278,22 +278,21 @@ namespace EMCR.DRR.Controllers
 
     public class EventInformation
     {
-        public IEnumerable<ProjectEvent>? UpcomingEvents { get; set; }
+        public bool? EventsOccurredSinceLastReport { get; set; }
         public IEnumerable<ProjectEvent>? PastEvents { get; set; }
-        public bool? HaveEventsOccurred { get; set; }
+        public bool? AnyUpcomingEvents { get; set; }
+        public IEnumerable<ProjectEvent>? UpcomingEvents { get; set; }
     }
 
     public class ProjectEvent
     {
         public string? Id { get; set; }
-        public EventType? Type { get; set; }
-        public EventStatus? Status { get; set; }
-        public DateTime? PlannedEventDate { get; set; }
-        public DateTime? ActualEventDate { get; set; }
-        public string? NextEventDescription { get; set; }
-        public ContactDetails? EventContact { get; set; }
+        public string? Details { get; set; }
+        public DateTime? Date { get; set; }
+        public ContactDetails? Contact { get; set; }
         public bool? ProvincialRepresentativeRequest { get; set; }
-        public string? ProvincialRepresentativeRequestComment { get; set; }
+        //public EventStatus? Status { get; set; }
+        //public EventType? Type { get; set; }
     }
 
     public class Workplan

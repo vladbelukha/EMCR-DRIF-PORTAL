@@ -38,6 +38,7 @@ namespace EMCR.DRR.API.Resources.Reports
             var loadTasks = new List<Task>
             {
                 ctx.LoadPropertyAsync(existingProgressReport, nameof(drr_projectprogress.drr_drr_projectprogress_drr_projectworkplanactivity_ProjectProgressReport)),
+                ctx.LoadPropertyAsync(existingProgressReport, nameof(drr_projectprogress.drr_drr_projectprogress_drr_projectpastevent_ProjectProgress)),
                 ctx.LoadPropertyAsync(existingProgressReport, nameof(drr_projectprogress.drr_drr_projectprogress_drr_projectevent_ProjectProgress)),
                 ctx.LoadPropertyAsync(existingProgressReport, nameof(drr_projectprogress.drr_drr_projectprogress_drr_temporaryprovincialfundingsignage_ProjectProgress)),
             };
@@ -65,7 +66,8 @@ namespace EMCR.DRR.API.Resources.Reports
             var projectActivityMasterList = projectActivityMasterListTask.Result;
 
             AddWorkplanActivities(ctx, drrProgressReport, projectActivityMasterList, existingProgressReport);
-            //AddEvents(ctx, drrProgressReport);
+            AddPastEvents(ctx, drrProgressReport, existingProgressReport);
+            await AddUpcomingEvents(ctx, drrProgressReport, existingProgressReport);
             AddFundingSignage(ctx, drrProgressReport, existingProgressReport);
 
             ctx.UpdateObject(drrProgressReport);
@@ -88,13 +90,22 @@ namespace EMCR.DRR.API.Resources.Reports
                 ctx.DeleteObject(activity);
             }
 
-            var eventsToRemove = existingProgressReport.drr_drr_projectprogress_drr_projectevent_ProjectProgress.Where(curr =>
+            var upcomingEventsToRemove = existingProgressReport.drr_drr_projectprogress_drr_projectevent_ProjectProgress.Where(curr =>
             !drrProgressReport.drr_drr_projectprogress_drr_projectevent_ProjectProgress.Any(updated => updated.drr_projecteventid == curr.drr_projecteventid)).ToList();
 
-            foreach (var projectEvent in eventsToRemove)
+            foreach (var projectEvent in upcomingEventsToRemove)
             {
                 ctx.AttachTo(nameof(ctx.drr_projectevents), projectEvent);
                 ctx.DeleteObject(projectEvent);
+            }
+
+            var pastEventsToRemove = existingProgressReport.drr_drr_projectprogress_drr_projectpastevent_ProjectProgress.Where(curr =>
+            !drrProgressReport.drr_drr_projectprogress_drr_projectpastevent_ProjectProgress.Any(updated => updated.drr_projectpasteventid == curr.drr_projectpasteventid)).ToList();
+
+            foreach (var pastEvent in pastEventsToRemove)
+            {
+                ctx.AttachTo(nameof(ctx.drr_projectpastevents), pastEvent);
+                ctx.DeleteObject(pastEvent);
             }
 
             var signageToRemove = existingProgressReport.drr_drr_projectprogress_drr_temporaryprovincialfundingsignage_ProjectProgress.Where(curr =>
@@ -140,6 +151,69 @@ namespace EMCR.DRR.API.Resources.Reports
                         drrContext.AttachTo(nameof(drrContext.drr_projectworkplanactivities), activity);
                         drrContext.UpdateObject(activity);
                         drrContext.SetLink(activity, nameof(activity.drr_ActivityType), masterVal);
+                    }
+                }
+            }
+        }
+
+        private static void AddPastEvents(DRRContext drrContext, drr_projectprogress progressReport, drr_projectprogress oldReport)
+        {
+            foreach (var pastEvent in progressReport.drr_drr_projectprogress_drr_projectpastevent_ProjectProgress)
+            {
+                if (pastEvent != null)
+                {
+                    if (pastEvent.drr_projectpasteventid == null ||
+                        (oldReport != null && !oldReport.drr_drr_projectprogress_drr_projectpastevent_ProjectProgress.Any(a => a.drr_projectpasteventid == pastEvent.drr_projectpasteventid)))
+                    {
+                        drrContext.AddTodrr_projectpastevents(pastEvent);
+                        drrContext.AddLink(progressReport, nameof(progressReport.drr_drr_projectprogress_drr_projectpastevent_ProjectProgress), pastEvent);
+                        drrContext.SetLink(pastEvent, nameof(pastEvent.drr_ProjectProgress), progressReport);
+                    }
+                    else
+                    {
+                        drrContext.AttachTo(nameof(drrContext.drr_projectpastevents), pastEvent);
+                        drrContext.UpdateObject(pastEvent);
+                    }
+                }
+            }
+        }
+        
+        private async static Task AddUpcomingEvents(DRRContext drrContext, drr_projectprogress progressReport, drr_projectprogress oldReport)
+        {
+            foreach (var upcomingEvent in progressReport.drr_drr_projectprogress_drr_projectevent_ProjectProgress)
+            {
+                if (upcomingEvent != null)
+                {
+                    if (upcomingEvent.drr_projecteventid == null ||
+                        (oldReport != null && !oldReport.drr_drr_projectprogress_drr_projectevent_ProjectProgress.Any(a => a.drr_projecteventid == upcomingEvent.drr_projecteventid)))
+                    {
+                        drrContext.AddTodrr_projectevents(upcomingEvent);
+                        drrContext.AddLink(progressReport, nameof(progressReport.drr_drr_projectprogress_drr_projectevent_ProjectProgress), upcomingEvent);
+                        drrContext.SetLink(upcomingEvent, nameof(upcomingEvent.drr_ProjectProgress), progressReport);
+                    }
+                    else
+                    {
+                        drrContext.AttachTo(nameof(drrContext.drr_projectevents), upcomingEvent);
+                        drrContext.UpdateObject(upcomingEvent);
+                    }
+
+                    var eventContact = upcomingEvent.drr_EventContact;
+
+                    if (eventContact != null)
+                    {
+                        var existingContact = await drrContext.contacts.Where(c => c.contactid == eventContact.contactid).SingleOrDefaultAsync();
+                        if (existingContact == null)
+                        {
+                            drrContext.AddTocontacts(eventContact);
+                            drrContext.SetLink(upcomingEvent, nameof(upcomingEvent.drr_EventContact), eventContact);
+                        }
+                        else
+                        {
+                            eventContact.contactid = existingContact.contactid;
+                            drrContext.Detach(existingContact);
+                            drrContext.AttachTo(nameof(drrContext.contacts), eventContact);
+                            drrContext.UpdateObject(eventContact);
+                        }
                     }
                 }
             }

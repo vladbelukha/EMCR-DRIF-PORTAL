@@ -345,6 +345,7 @@ namespace EMCR.DRR.Resources.Applications
             ;
 
             CreateMap<ContactDetails, contact>(MemberList.None)
+                .ForMember(dest => dest.contactid, opt => opt.MapFrom(src => !string.IsNullOrEmpty(src.Id) ? Guid.Parse(src.Id) : (Guid?)null))
                 .ForMember(dest => dest.drr_userid, opt => opt.MapFrom(src => src.BCeId))
                 .ForMember(dest => dest.firstname, opt => opt.MapFrom(src => src.FirstName))
                 .ForMember(dest => dest.lastname, opt => opt.MapFrom(src => src.LastName))
@@ -354,6 +355,7 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.emailaddress1, opt => opt.MapFrom(src => src.Email))
                 .ReverseMap()
                 .ValidateMemberList(MemberList.Destination)
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.contactid.ToString()))
                 .ForMember(dest => dest.BCeId, opt => opt.MapFrom(src => src.drr_userid))
                 .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.firstname))
                 .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.lastname))
@@ -392,6 +394,7 @@ namespace EMCR.DRR.Resources.Applications
 
             CreateMap<drr_legaldeclaration, DeclarationInfo>()
                 .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.drr_declarationtype.HasValue ? (int?)Enum.Parse<DeclarationType>(((DeclarationTypeOptionSet)src.drr_declarationtype).ToString()) : null))
+                .ForMember(dest => dest.FormType, opt => opt.MapFrom(src => src.drr_formtype.HasValue ? (int?)Enum.Parse<FormType>(((FormTypeOptionSet)src.drr_formtype).ToString()) : null))
                 .ForMember(dest => dest.ApplicationTypeName, opt => opt.MapFrom(src => src.drr_ApplicationType.drr_name))
                 .ForMember(dest => dest.Text, opt => opt.MapFrom(src => src.drr_declarationtext));
 

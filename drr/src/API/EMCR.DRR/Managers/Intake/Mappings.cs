@@ -176,10 +176,11 @@ namespace EMCR.DRR.Managers.Intake
 
             CreateMap<EventInformation, EventInformationDetails>()
                 .ReverseMap()
-                .ForMember(dest => dest.HaveEventsOccurred, opt => opt.Ignore())
                 ;
 
             CreateMap<Controllers.ProjectEvent, ProjectEventDetails>()
+                .ForMember(dest => dest.Status, opt => opt.Ignore())
+                .ForMember(dest => dest.Type, opt => opt.Ignore())
                 .ReverseMap()
                 ;
 
@@ -217,6 +218,7 @@ namespace EMCR.DRR.Managers.Intake
                 ;
 
             CreateMap<Controllers.ProjectEvent, ProjectEvent>()
+                .ForMember(dest => dest.Status, opt => opt.Ignore())
                 .ReverseMap()
                 ;
 
