@@ -373,6 +373,7 @@ namespace EMCR.DRR.API.Resources.Reports
                 ctx.LoadPropertyAsync(pr, nameof(drr_projectprogress.drr_Project), ct),
                 ctx.LoadPropertyAsync(pr, nameof(drr_projectprogress.drr_drr_projectprogress_drr_projectworkplanactivity_ProjectProgressReport), ct),
                 ctx.LoadPropertyAsync(pr, nameof(drr_projectprogress.drr_drr_projectprogress_drr_projectevent_ProjectProgress), ct),
+                ctx.LoadPropertyAsync(pr, nameof(drr_projectprogress.drr_drr_projectprogress_drr_projectpastevent_ProjectProgress), ct),
                 ctx.LoadPropertyAsync(pr, nameof(drr_projectprogress.drr_drr_projectprogress_drr_temporaryprovincialfundingsignage_ProjectProgress), ct),
                 ctx.LoadPropertyAsync(pr, nameof(drr_projectprogress.bcgov_drr_projectprogress_bcgov_documenturl_ProgressReport), ct),
             };

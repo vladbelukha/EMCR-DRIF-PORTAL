@@ -195,7 +195,7 @@ namespace EMCR.DRR.Managers.Intake
         {
             if (!string.IsNullOrEmpty(q.Id))
             {
-                var canAccess = await CanAccessClaim(q.Id, q.BusinessId);
+                var canAccess = await CanAccessProgressReport(q.Id, q.BusinessId);
                 if (!canAccess) throw new ForbiddenException("Not allowed to access this progress report.");
             }
             var res = await reportRepository.Query(new ProgressReportsQuery { Id = q.Id, BusinessId = q.BusinessId });
