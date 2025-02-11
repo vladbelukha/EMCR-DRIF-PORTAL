@@ -4,6 +4,7 @@ import {
   DeclarationInfo,
   DeclarationType,
   EntitiesQueryResult,
+  FormType,
 } from '../../model';
 
 export type OptionsState = EntitiesQueryResult;
@@ -51,12 +52,15 @@ export const OptionsStore = signalStore(
     getDeclarations(
       declarationType: DeclarationType,
       applicationType: ApplicationType,
+      formType: FormType,
     ): string | undefined {
       return store
         .declarations()
         .find(
           (d) =>
-            d.type === declarationType && d.applicationType === applicationType,
+            d.type === declarationType &&
+            d.applicationType === applicationType &&
+            d.formType === formType,
         )?.text;
     },
   })),

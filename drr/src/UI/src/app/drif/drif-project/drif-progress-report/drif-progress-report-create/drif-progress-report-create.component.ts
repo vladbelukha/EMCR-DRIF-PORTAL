@@ -306,7 +306,7 @@ export class DrifProgressReportCreateComponent {
           });
 
           this.eventsForm
-            ?.get('haveEventsOccurred')
+            ?.get('eventsOccurredSinceLastReport')
             ?.valueChanges.subscribe((value) => {
               if (value === true && this.getPastEventsArray()?.length === 0) {
                 this.addPastEvent();
@@ -317,7 +317,7 @@ export class DrifProgressReportCreateComponent {
             });
 
           this.eventsForm
-            ?.get('haveUpcomingEvents')
+            ?.get('anyUpcomingEvents')
             ?.valueChanges.subscribe((value) => {
               if (
                 value === true &&

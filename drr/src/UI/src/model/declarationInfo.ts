@@ -5,10 +5,13 @@
  * OpenAPI spec version: 1.0.0
  */
 import type { ApplicationType } from './applicationType';
+import type { FormType } from './formType';
 import type { DeclarationType } from './declarationType';
 
 export interface DeclarationInfo {
+  /** @nullable */
   applicationType?: ApplicationType;
+  formType?: FormType;
   text?: string;
   type?: DeclarationType;
 }

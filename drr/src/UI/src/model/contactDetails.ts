@@ -24,6 +24,8 @@ export interface ContactDetails {
    * @nullable
    */
   firstName?: string;
+  /** @nullable */
+  id?: string;
   /**
    * @minLength 0
    * @maxLength 40

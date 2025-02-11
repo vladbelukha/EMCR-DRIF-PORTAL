@@ -343,15 +343,17 @@
     </mat-card-header>
     <mat-card-content>
       <drr-summary-item
-        [label]="t('progressReport.haveEventsOccurred')"
+        [label]="t('progressReport.eventsOccurredSinceLastReport')"
         [rxFormControl]="
-          progressReportForm.get('eventInformation.haveEventsOccurred')
+          progressReportForm.get(
+            'eventInformation.eventsOccurredSinceLastReport'
+          )
         "
         controlType="radio"
       ></drr-summary-item>
       @if (
-        progressReportForm.get("eventInformation.haveEventsOccurred")?.value ===
-        true
+        progressReportForm.get("eventInformation.eventsOccurredSinceLastReport")
+          ?.value === true
       ) {
         <div
           class="summary-row"
@@ -359,7 +361,7 @@
         >
           <drr-summary-item
             [label]="t('progressReport.eventName')"
-            [rxFormControl]="event.get('description')"
+            [rxFormControl]="event.get('details')"
           ></drr-summary-item>
           <drr-summary-item
             [label]="t('progressReport.eventDate')"
@@ -369,14 +371,14 @@
         </div>
       }
       <drr-summary-item
-        [label]="t('progressReport.haveUpcomingEvents')"
+        [label]="t('progressReport.anyUpcomingEvents')"
         [rxFormControl]="
-          progressReportForm.get('eventInformation.haveUpcomingEvents')
+          progressReportForm.get('eventInformation.anyUpcomingEvents')
         "
         controlType="radio"
       ></drr-summary-item>
       @if (
-        progressReportForm.get("eventInformation.haveUpcomingEvents")?.value ===
+        progressReportForm.get("eventInformation.anyUpcomingEvents")?.value ===
         true
       ) {
         <div
@@ -386,7 +388,7 @@
           <div class="summary-row">
             <drr-summary-item
               [label]="t('progressReport.eventName')"
-              [rxFormControl]="event.get('description')"
+              [rxFormControl]="event.get('details')"
             ></drr-summary-item>
             <drr-summary-item
               [label]="t('progressReport.eventDate')"
@@ -395,38 +397,38 @@
             ></drr-summary-item>
           </div>
           <mat-label class="drr-label" style="margin: 1rem 0 0 1rem">{{
-            t("progressReport.eventContact")
+            t("progressReport.contact")
           }}</mat-label>
           <div class="summary-row">
             <drr-summary-item
               [label]="t('progressReport.firstName')"
-              [rxFormControl]="event.get('eventContact.firstName')"
+              [rxFormControl]="event.get('contact.firstName')"
             ></drr-summary-item>
             <drr-summary-item
               [label]="t('progressReport.lastName')"
-              [rxFormControl]="event.get('eventContact.lastName')"
+              [rxFormControl]="event.get('contact.lastName')"
             ></drr-summary-item>
             <drr-summary-item
               [label]="t('progressReport.title')"
-              [rxFormControl]="event.get('eventContact.title')"
+              [rxFormControl]="event.get('contact.title')"
             ></drr-summary-item>
             <drr-summary-item
               [label]="t('progressReport.department')"
-              [rxFormControl]="event.get('eventContact.department')"
+              [rxFormControl]="event.get('contact.department')"
             ></drr-summary-item>
             <drr-summary-item
               [label]="t('progressReport.phone')"
-              [rxFormControl]="event.get('eventContact.phone')"
+              [rxFormControl]="event.get('contact.phone')"
             ></drr-summary-item>
             <drr-summary-item
               [label]="t('progressReport.email')"
-              [rxFormControl]="event.get('eventContact.email')"
+              [rxFormControl]="event.get('contact.email')"
             ></drr-summary-item>
           </div>
           <drr-summary-item
             style="margin-left: 1rem"
-            [label]="t('progressReport.provincialRepresentativeInvited')"
-            [rxFormControl]="event.get('provincialRepresentativeInvited')"
+            [label]="t('progressReport.provincialRepresentativeRequest')"
+            [rxFormControl]="event.get('provincialRepresentativeRequest')"
             controlType="radio"
           ></drr-summary-item>
         </div>

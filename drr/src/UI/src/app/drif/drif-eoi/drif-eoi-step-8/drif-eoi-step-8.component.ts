@@ -8,7 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { TranslocoModule } from '@ngneat/transloco';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { IFormGroup } from '@rxweb/reactive-form-validators';
-import { ApplicationType, DeclarationType } from '../../../../model';
+import { ApplicationType, DeclarationType, FormType } from '../../../../model';
 import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
 import { OptionsStore } from '../../../store/options.store';
 import { ProfileStore } from '../../../store/profile.store';
@@ -56,11 +56,13 @@ export class DrifEoiStep8Component {
     this.authorizedRepresentativeText = this.optionsStore.getDeclarations?.(
       DeclarationType.AuthorizedRepresentative,
       ApplicationType.EOI,
+      FormType.Application,
     );
 
     this.accuracyOfInformationText = this.optionsStore.getDeclarations?.(
       DeclarationType.AccuracyOfInformation,
       ApplicationType.EOI,
+      FormType.Application,
     );
 
     const profileData = this.profileStore.getProfile();
