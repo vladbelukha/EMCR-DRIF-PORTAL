@@ -96,7 +96,7 @@ namespace EMCR.DRR.API.Resources.Projects
                 .ForMember(dest => dest.drr_name, opt => opt.Ignore())
                 .ReverseMap()
                 .ValidateMemberList(MemberList.Destination)
-                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.drr_eventstatus.HasValue ? (int?)Enum.Parse<EventStatus>(((EventStatusOptionSet)src.drr_eventstatus).ToString()) : null))
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.statuscode.HasValue ? (int?)Enum.Parse<EventStatus>(((EventStatusOptionSet)src.statuscode).ToString()) : null))
             ;
 
             //CreateMap<WorkplanActivity, drr_projectworkplanactivity>(MemberList.None)
