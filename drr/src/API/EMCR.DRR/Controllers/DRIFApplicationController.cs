@@ -105,7 +105,8 @@ namespace EMCR.DRR.Controllers
     public class DeclarationInfo
     {
         public required DeclarationType Type { get; set; }
-        public required ApplicationType ApplicationType { get; set; }
+        public required FormType FormType { get; set; }
+        public ApplicationType? ApplicationType { get; set; }
         public required string Text { get; set; }
     }
 
@@ -512,6 +513,7 @@ namespace EMCR.DRR.Controllers
 
     public class ContactDetails
     {
+        public string? Id { get; set; }
         [StringLength(ApplicationValidators.CONTACT_MAX_LENGTH)]
         public string? FirstName { get; set; }
         [StringLength(ApplicationValidators.CONTACT_MAX_LENGTH)]

@@ -52,7 +52,8 @@ namespace EMCR.DRR.Managers.Intake
     public class DeclarationInfo
     {
         public required DeclarationType Type { get; set; }
-        public required string ApplicationTypeName { get; set; }
+        public string? ApplicationTypeName { get; set; }
+        public required FormType FormType { get; set; }
         public required string Text { get; set; }
     }
 
@@ -60,6 +61,12 @@ namespace EMCR.DRR.Managers.Intake
     {
         AuthorizedRepresentative,
         AccuracyOfInformation
+    }
+    
+    public enum FormType
+    {
+        Application,
+        Report
     }
 
     public class ApplicationQueryResponse
@@ -526,6 +533,7 @@ namespace EMCR.DRR.Managers.Intake
 
     public class ContactDetails
     {
+        public string? Id { get; set; }
         public string? BCeId { get; set; }
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
@@ -731,20 +739,20 @@ namespace EMCR.DRR.Managers.Intake
 
     public class EventInformationDetails
     {
-        public IEnumerable<ProjectEventDetails>? UpcomingEvents { get; set; }
+        public bool? EventsOccurredSinceLastReport { get; set; }
         public IEnumerable<ProjectEventDetails>? PastEvents { get; set; }
+        public bool? AnyUpcomingEvents { get; set; }
+        public IEnumerable<ProjectEventDetails>? UpcomingEvents { get; set; }
     }
 
     public class ProjectEventDetails : ProjectEvent
     {
         public string? Id { get; set; }
-        public EventType? Type { get; set; }
-        public DateTime? PlannedEventDate { get; set; }
-        public DateTime? ActualEventDate { get; set; }
-        public string? NextEventDescription { get; set; }
-        public ContactDetails? EventContact { get; set; }
+        public string? Details { get; set; }
+        public DateTime? Date { get; set; }
+        public ContactDetails? Contact { get; set; }
         public bool? ProvincialRepresentativeRequest { get; set; }
-        public string? ProvincialRepresentativeRequestComment { get; set; }
+        public EventType? Type { get; set; }
     }
 
     public class Forecast

@@ -33,9 +33,11 @@ namespace EMCR.DRR.API.Mappers
                 .ForMember(dest => dest.Actions, opt => opt.MapFrom(src => DRRActionsMapper(src)))
                 ;
 
+#pragma warning disable CS8604 // Possible null reference argument.
             CreateMap<Managers.Intake.DeclarationInfo, DeclarationInfo>()
                 .ForMember(dest => dest.ApplicationType, opt => opt.MapFrom(src => DRRApplicationTypeMapper(src.ApplicationTypeName)))
                 ;
+#pragma warning restore CS8604 // Possible null reference argument.
 
 
             CreateMap<AccountDetails, ProfileDetails>()
@@ -69,7 +71,7 @@ namespace EMCR.DRR.API.Mappers
         }
 #pragma warning restore CS8603 // Possible null reference return.
 
-        private ApplicationType DRRApplicationTypeMapper(string type)
+        private ApplicationType? DRRApplicationTypeMapper(string type)
         {
             switch (type)
             {
@@ -77,7 +79,7 @@ namespace EMCR.DRR.API.Mappers
                     return ApplicationType.EOI;
                 case "Full Proposal":
                     return ApplicationType.FP;
-                default: return ApplicationType.EOI;
+                default: return null;
             }
         }
 

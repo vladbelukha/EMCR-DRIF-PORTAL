@@ -109,6 +109,12 @@ namespace EMCR.DRR.Resources.Applications
         AccuracyOfInformation = 172580001
     }
 
+    public enum FormTypeOptionSet
+    {
+        Application = 172580000,
+        Report = 172580001
+    }
+
     public enum ApplicantTypeOptionSet
     {
         FirstNation = 172580000,

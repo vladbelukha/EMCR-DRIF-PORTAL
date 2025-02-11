@@ -12,12 +12,14 @@ namespace EMCR.DRR.Resources.Applications
 {
     public class ApplicationRepository : IApplicationRepository
     {
+        private readonly ILogger<ApplicationRepository> logger;
         private readonly IDRRContextFactory dRRContextFactory;
         private readonly IMapper mapper;
         private readonly CRMWebAPI api;
 
-        public ApplicationRepository(IDRRContextFactory dRRContextFactory, IMapper mapper, CRMWebAPI api)
+        public ApplicationRepository(ILogger<ApplicationRepository> logger, IDRRContextFactory dRRContextFactory, IMapper mapper, CRMWebAPI api)
         {
+            this.logger = logger;
             this.mapper = mapper;
             this.dRRContextFactory = dRRContextFactory;
             this.api = api;
@@ -472,6 +474,7 @@ namespace EMCR.DRR.Resources.Applications
             var additionalContact2 = drrApplication.drr_AdditionalContact2;
 
             AssignPrimaryProponent(ctx, drrApplication, primaryProponent);
+            logger.LogDebug("TODO - update handling of contact");
             if (submitter != null) AddSubmitter(ctx, drrApplication, submitter);
             if (primaryProjectContact != null) AddPrimaryProjectContact(ctx, drrApplication, primaryProjectContact);
             if (additionalContact1 != null) AddAdditionalContact1(ctx, drrApplication, additionalContact1);
@@ -724,12 +727,14 @@ namespace EMCR.DRR.Resources.Applications
 
         private static void AddSubmitter(DRRContext drrContext, drr_application application, contact submitter)
         {
+            submitter.contactid = null;
             drrContext.AddTocontacts(submitter);
             drrContext.AddLink(submitter, nameof(submitter.drr_contact_drr_application_SubmitterContact), application);
         }
 
         private static void AddPrimaryProjectContact(DRRContext drrContext, drr_application application, contact primaryProjectContact)
         {
+            primaryProjectContact.contactid = null;
             drrContext.AddTocontacts(primaryProjectContact);
             drrContext.AddLink(primaryProjectContact, nameof(primaryProjectContact.drr_contact_drr_application_PrimaryProjectContact), application);
         }
@@ -737,6 +742,7 @@ namespace EMCR.DRR.Resources.Applications
         private static void AddAdditionalContact1(DRRContext drrContext, drr_application application, contact additionalContact1)
         {
             if (additionalContact1 == null || string.IsNullOrEmpty(additionalContact1.firstname)) return;
+            additionalContact1.contactid = null;
             drrContext.AddTocontacts(additionalContact1);
             drrContext.AddLink(additionalContact1, nameof(additionalContact1.drr_contact_drr_application_AdditionalContact1), application);
         }
@@ -744,6 +750,7 @@ namespace EMCR.DRR.Resources.Applications
         private static void AddAdditionalContact2(DRRContext drrContext, drr_application application, contact additionalContact2)
         {
             if (additionalContact2 == null || string.IsNullOrEmpty(additionalContact2.firstname)) return;
+            additionalContact2.contactid = null;
             drrContext.AddTocontacts(additionalContact2);
             drrContext.AddLink(additionalContact2, nameof(additionalContact2.drr_contact_drr_application_AdditionalContact2), application);
         }
