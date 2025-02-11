@@ -172,6 +172,8 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             updatedProgressReport.Workplan.ProjectProgress.ShouldBe(progressReport.Workplan.ProjectProgress);
             updatedProgressReport.Workplan.MediaAnnouncement.ShouldBe(progressReport.Workplan.MediaAnnouncement);
             updatedProgressReport.Workplan.OtherDelayReason.ShouldBe(progressReport.Workplan.OtherDelayReason);
+            updatedProgressReport.EventInformation.PastEvents.Count().ShouldBe(1);
+            updatedProgressReport.EventInformation.UpcomingEvents.Count().ShouldBe(1);
         }
 
         [Test]
@@ -190,8 +192,16 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
 
             var documentId = await manager.Handle(new UploadAttachmentCommand { AttachmentInfo = new AttachmentInfo { RecordId = progressReport.Id, RecordType = EMCR.DRR.Managers.Intake.RecordType.ProgressReport, File = file, DocumentType = EMCR.DRR.Managers.Intake.DocumentType.ProgressReport }, UserInfo = GetTestUserInfo() });
 
-            var updatedProgressReport = mapper.Map<EMCR.DRR.Controllers.ProgressReport>((await manager.Handle(new DrrProgressReportsQuery { Id = "DRIF-PR-1058", BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault());
-            updatedProgressReport.Attachments.Count().ShouldBeGreaterThan(0);
+            var progressReportToUpdate = mapper.Map<EMCR.DRR.Controllers.ProgressReport>((await manager.Handle(new DrrProgressReportsQuery { Id = "DRIF-PR-1058", BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault());
+            progressReportToUpdate.Attachments.Count().ShouldBe(1);
+            progressReportToUpdate.Attachments.First().DocumentType.ShouldBe(EMCR.DRR.API.Model.DocumentType.ProgressReport);
+            progressReportToUpdate.Attachments.First().Comments = "progress report comments";
+
+            await manager.Handle(new SaveProgressReportCommand { ProgressReport = progressReportToUpdate, UserInfo = GetTestUserInfo() });
+
+
+            var updatedProgressReport = mapper.Map<EMCR.DRR.Controllers.ProgressReport>((await manager.Handle(new DrrProgressReportsQuery { Id = progressReportToUpdate.Id, BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault());
+            updatedProgressReport.Attachments.First().Comments.ShouldBe(progressReportToUpdate.Attachments.First().Comments);
 
         }
 
