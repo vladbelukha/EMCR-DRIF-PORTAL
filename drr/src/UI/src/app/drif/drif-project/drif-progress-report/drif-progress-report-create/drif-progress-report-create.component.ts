@@ -15,8 +15,10 @@ import {
 } from '@rxweb/reactive-form-validators';
 import {
   ActivityType,
+  DeclarationType,
   Delay,
   DocumentType,
+  FormType,
   InterimProjectType,
   ProgressReport,
   ProjectProgressStatus,
@@ -49,6 +51,7 @@ import {
 } from '../../../../shared/controls/drr-select/drr-select.component';
 import { DrrTextareaComponent } from '../../../../shared/controls/drr-textarea/drr-textarea.component';
 import { FileService } from '../../../../shared/services/file.service';
+import { OptionsStore } from '../../../../store/options.store';
 import { AttachmentForm } from '../../../drif-fp/drif-fp-form';
 import { DrrAttahcmentComponent } from '../../../drif-fp/drif-fp-step-11/drif-fp-attachment.component';
 import {
@@ -99,6 +102,7 @@ export class DrifProgressReportCreateComponent {
   toastService = inject(HotToastService);
   attachmentsService = inject(AttachmentService);
   fileService = inject(FileService);
+  optionsStore = inject(OptionsStore);
 
   projectId!: string;
   reportId!: string;
@@ -110,6 +114,9 @@ export class DrifProgressReportCreateComponent {
     ProgressReportForm,
     {},
   ) as IFormGroup<ProgressReportForm>;
+
+  authorizedRepresentativeText?: string;
+  accuracyOfInformationText?: string;
 
   private allActivityTypeOptions: DrrSelectOption[] = Object.values(
     ActivityType,
@@ -208,6 +215,16 @@ export class DrifProgressReportCreateComponent {
       this.projectId = params['projectId'];
       this.reportId = params['reportId'];
       this.progressReportId = params['progressReportId'];
+
+      this.authorizedRepresentativeText = this.optionsStore.getDeclarations?.(
+        DeclarationType.AuthorizedRepresentative,
+        FormType.Report,
+      );
+
+      this.accuracyOfInformationText = this.optionsStore.getDeclarations?.(
+        DeclarationType.AccuracyOfInformation,
+        FormType.Report,
+      );
 
       this.projectService
         .projectGetProgressReport(

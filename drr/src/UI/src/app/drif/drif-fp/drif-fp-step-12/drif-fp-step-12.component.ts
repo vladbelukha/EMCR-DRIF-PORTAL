@@ -49,14 +49,14 @@ export class DrifFpStep12Component {
   ngOnInit() {
     this.authorizedRepresentativeText = this.optionsStore.getDeclarations?.(
       DeclarationType.AuthorizedRepresentative,
-      ApplicationType.FP,
       FormType.Application,
+      ApplicationType.FP,
     );
 
     this.accuracyOfInformationText = this.optionsStore.getDeclarations?.(
       DeclarationType.AccuracyOfInformation,
-      ApplicationType.FP,
       FormType.Application,
+      ApplicationType.FP,
     );
 
     const profileData = this.profileStore.getProfile();

@@ -51,15 +51,16 @@ export const OptionsStore = signalStore(
     },
     getDeclarations(
       declarationType: DeclarationType,
-      applicationType: ApplicationType,
       formType: FormType,
+      applicationType?: ApplicationType,
     ): string | undefined {
       return store
         .declarations()
         .find(
           (d) =>
             d.type === declarationType &&
-            d.applicationType === applicationType &&
+            (applicationType === undefined ||
+              d.applicationType === applicationType) &&
             d.formType === formType,
         )?.text;
     },

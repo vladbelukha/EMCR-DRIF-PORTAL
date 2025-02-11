@@ -55,14 +55,14 @@ export class DrifEoiStep8Component {
   ngOnInit() {
     this.authorizedRepresentativeText = this.optionsStore.getDeclarations?.(
       DeclarationType.AuthorizedRepresentative,
-      ApplicationType.EOI,
       FormType.Application,
+      ApplicationType.EOI,
     );
 
     this.accuracyOfInformationText = this.optionsStore.getDeclarations?.(
       DeclarationType.AccuracyOfInformation,
-      ApplicationType.EOI,
       FormType.Application,
+      ApplicationType.EOI,
     );
 
     const profileData = this.profileStore.getProfile();
