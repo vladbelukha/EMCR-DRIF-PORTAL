@@ -52,6 +52,7 @@ import {
 import { DrrTextareaComponent } from '../../../../shared/controls/drr-textarea/drr-textarea.component';
 import { FileService } from '../../../../shared/services/file.service';
 import { OptionsStore } from '../../../../store/options.store';
+import { ProfileStore } from '../../../../store/profile.store';
 import { AttachmentForm } from '../../../drif-fp/drif-fp-form';
 import { DrrAttahcmentComponent } from '../../../drif-fp/drif-fp-step-11/drif-fp-attachment.component';
 import {
@@ -103,6 +104,7 @@ export class DrifProgressReportCreateComponent {
   attachmentsService = inject(AttachmentService);
   fileService = inject(FileService);
   optionsStore = inject(OptionsStore);
+  profileStore = inject(ProfileStore);
 
   projectId!: string;
   reportId!: string;
@@ -225,6 +227,44 @@ export class DrifProgressReportCreateComponent {
         DeclarationType.AccuracyOfInformation,
         FormType.Report,
       );
+
+      const profileData = this.profileStore.getProfile();
+
+      const submitterForm = this.progressReportForm.get(
+        'declaration.submitter',
+      );
+      if (profileData.firstName?.()) {
+        submitterForm
+          ?.get('firstName')
+          ?.setValue(profileData.firstName(), { emitEvent: false });
+        submitterForm?.get('firstName')?.disable();
+      }
+      if (profileData.lastName?.()) {
+        submitterForm
+          ?.get('lastName')
+          ?.setValue(profileData.lastName(), { emitEvent: false });
+        submitterForm?.get('lastName')?.disable();
+      }
+      if (profileData.title?.()) {
+        submitterForm?.get('title')?.setValue(profileData.title(), {
+          emitEvent: false,
+        });
+      }
+      if (profileData.department?.()) {
+        submitterForm?.get('department')?.setValue(profileData.department(), {
+          emitEvent: false,
+        });
+      }
+      if (profileData.phone?.()) {
+        submitterForm?.get('phone')?.setValue(profileData.phone(), {
+          emitEvent: false,
+        });
+      }
+      if (profileData.email?.()) {
+        submitterForm?.get('email')?.setValue(profileData.email(), {
+          emitEvent: false,
+        });
+      }
 
       this.projectService
         .projectGetProgressReport(
