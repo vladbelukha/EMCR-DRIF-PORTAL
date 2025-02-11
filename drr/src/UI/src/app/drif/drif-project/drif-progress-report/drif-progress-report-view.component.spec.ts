@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DrifProgressReportViewComponent } from './drif-progress-report.component';
+import { DrifProgressReportViewComponent } from './drif-progress-report-view.component';
 
 describe('DrifProgressReportViewComponent', () => {
   let component: DrifProgressReportViewComponent;

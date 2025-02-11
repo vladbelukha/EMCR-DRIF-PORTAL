@@ -5,8 +5,8 @@ import { ActivatedRoute } from '@angular/router';
   selector: 'drr-drif-progress-report-view',
   standalone: true,
   imports: [],
-  templateUrl: './drif-progress-report.component.html',
-  styleUrl: './drif-progress-report.component.scss',
+  templateUrl: './drif-progress-report-view.component.html',
+  styleUrl: './drif-progress-report-view.component.scss',
 })
 export class DrifProgressReportViewComponent {
   route = inject(ActivatedRoute);
