@@ -620,6 +620,10 @@
     "informationAccuracyStatement": "Information Accuracy Statement",
     "agree": "Agree"
   },
+  "progressReportDetails": {
+    "header": "Progress Report Details",
+    "back": "Back to the Project"
+  },
   "projectProgress": {
     "OnSchedule": "Project is on schedule",
     "AheadOfSchedule": "Project is ahead of schedule",

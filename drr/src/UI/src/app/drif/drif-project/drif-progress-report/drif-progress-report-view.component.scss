@@ -1,0 +1,9 @@
+.progress-report-details {
+  margin: 1rem;
+
+  &__header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
