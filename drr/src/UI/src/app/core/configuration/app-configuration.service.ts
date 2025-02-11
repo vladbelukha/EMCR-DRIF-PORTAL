@@ -39,10 +39,17 @@ export class AppConfigurationService {
   }
 
   async loadDeclarations() {
-    return this.drifAppService
-      .dRIFApplicationGetDeclarations()
-      .subscribe((declarations) => {
-        this.optionsStore.setDeclarations(declarations.items!);
-      });
+    return new Promise((resolve) =>
+      this.drifAppService.dRIFApplicationGetDeclarations().subscribe(
+        (declarations) => {
+          this.optionsStore.setDeclarations(declarations.items!);
+          resolve(true);
+        },
+        (error) => {
+          console.error('Error fetching declarations', error);
+          resolve(false);
+        },
+      ),
+    );
   }
 }

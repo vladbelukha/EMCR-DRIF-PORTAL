@@ -8,7 +8,6 @@ import { MatInputModule } from '@angular/material/input';
 import { TranslocoModule } from '@ngneat/transloco';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { IFormGroup } from '@rxweb/reactive-form-validators';
-import { DrifapplicationService } from '../../../../api/drifapplication/drifapplication.service';
 import { ApplicationType, DeclarationType } from '../../../../model';
 import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
 import { OptionsStore } from '../../../store/options.store';
@@ -36,7 +35,6 @@ import { DrifEoiSummaryComponent } from '../drif-eoi-summary/drif-eoi-summary.co
   styleUrl: './drif-eoi-step-8.component.scss',
 })
 export class DrifEoiStep8Component {
-  drifAppService = inject(DrifapplicationService);
   profileStore = inject(ProfileStore);
   optionsStore = inject(OptionsStore);
 
@@ -55,21 +53,15 @@ export class DrifEoiStep8Component {
   accuracyOfInformationText?: string;
 
   ngOnInit() {
-    this.authorizedRepresentativeText = this.optionsStore
-      .declarations?.()
-      .find(
-        (d) =>
-          d.type === DeclarationType.AuthorizedRepresentative &&
-          d.applicationType === ApplicationType.EOI,
-      )?.text;
+    this.authorizedRepresentativeText = this.optionsStore.getDeclarations?.(
+      DeclarationType.AuthorizedRepresentative,
+      ApplicationType.EOI,
+    );
 
-    this.accuracyOfInformationText = this.optionsStore
-      .declarations?.()
-      .find(
-        (d) =>
-          d.type === DeclarationType.AccuracyOfInformation &&
-          d.applicationType === ApplicationType.EOI,
-      )?.text;
+    this.accuracyOfInformationText = this.optionsStore.getDeclarations?.(
+      DeclarationType.AccuracyOfInformation,
+      ApplicationType.EOI,
+    );
 
     const profileData = this.profileStore.getProfile();
 

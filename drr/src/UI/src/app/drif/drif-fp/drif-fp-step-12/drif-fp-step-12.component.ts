@@ -6,7 +6,6 @@ import { MatInputModule } from '@angular/material/input';
 import { TranslocoModule } from '@ngneat/transloco';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { IFormGroup } from '@rxweb/reactive-form-validators';
-import { DrifapplicationService } from '../../../../api/drifapplication/drifapplication.service';
 import { ApplicationType, DeclarationType } from '../../../../model';
 import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
 import { OptionsStore } from '../../../store/options.store';
@@ -32,7 +31,6 @@ import { DrifFpSummaryComponent } from '../drif-fp-summary/drif-fp-summary.compo
   styleUrl: './drif-fp-step-12.component.scss',
 })
 export class DrifFpStep12Component {
-  drifAppService = inject(DrifapplicationService);
   profileStore = inject(ProfileStore);
   optionsStore = inject(OptionsStore);
 
@@ -54,13 +52,10 @@ export class DrifFpStep12Component {
       ApplicationType.FP,
     );
 
-    this.accuracyOfInformationText = this.optionsStore
-      .declarations?.()
-      .find(
-        (d) =>
-          d.type === DeclarationType.AccuracyOfInformation &&
-          d.applicationType === ApplicationType.FP,
-      )?.text;
+    this.accuracyOfInformationText = this.optionsStore.getDeclarations?.(
+      DeclarationType.AccuracyOfInformation,
+      ApplicationType.FP,
+    );
 
     const profileData = this.profileStore.getProfile();
 
