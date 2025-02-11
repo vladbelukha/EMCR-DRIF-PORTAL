@@ -23,24 +23,18 @@
       >
         <mat-card>
           <mat-card-header>
-            <mat-card-subtitle>Contract Details</mat-card-subtitle>
+            <mat-card-title>Project Details</mat-card-title>
+            <mat-card-subtitle>{{ projectId }} </mat-card-subtitle>
           </mat-card-header>
           <mat-card-content>
-            <p>
+            <!-- <p>
               <strong>Project ID:</strong>
               {{ project?.id }}
-            </p>
+            </p> -->
             <p>
               <strong>Contract ID:</strong>
               {{ project?.contractNumber }}
             </p>
-          </mat-card-content>
-        </mat-card>
-        <mat-card>
-          <mat-card-header>
-            <mat-card-subtitle>Project Properties</mat-card-subtitle>
-          </mat-card-header>
-          <mat-card-content>
             <p>
               <strong> Funding Program: </strong>
               {{ project?.programType | transloco }}
@@ -50,16 +44,21 @@
               {{ t(project?.fundingStream!) }}
             </p>
             <p>
+              <strong>Funding Amount</strong>
+              {{ project?.fundingAmount | currency: "" : "symbol" : "1.0-0" }}
+            </p>
+            <p>
               <strong>Reporting Schedule:</strong>
               {{ t(project?.reportingScheduleType!) }}
             </p>
-          </mat-card-content>
-        </mat-card>
-        <mat-card>
-          <mat-card-header>
-            <mat-card-subtitle>Related Items</mat-card-subtitle>
-          </mat-card-header>
-          <mat-card-content>
+            <p>
+              <strong>Planned Start Date:</strong>
+              {{ project?.startDate | date: "yyyy-MM-dd" }}
+            </p>
+            <p>
+              <strong>Planned Start Date:</strong>
+              {{ project?.endDate | date: "yyyy-MM-dd" }}
+            </p>
             <p>
               <strong>EOI:</strong><a href=""> {{ project?.eoiId }} </a>
             </p>
@@ -70,21 +69,6 @@
           </mat-card-content>
         </mat-card>
       </div>
-      <mat-card style="align-self: start">
-        <mat-card-header>
-          <mat-card-subtitle>Project Dates</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
-          <p>
-            <strong>Planned Start Date:</strong>
-            {{ project?.startDate | date: "yyyy-MM-dd" }}
-          </p>
-          <p>
-            <strong>Planned Start Date:</strong>
-            {{ project?.endDate | date: "yyyy-MM-dd" }}
-          </p>
-        </mat-card-content>
-      </mat-card>
       <div>
         <mat-card>
           <mat-card-header>
@@ -139,10 +123,6 @@
             </table>
           </mat-card-content>
         </mat-card>
-        <p style="text-align: end">
-          <strong>Funding Amount</strong>
-          {{ project?.fundingAmount | currency: "" : "symbol" : "1.0-0" }}
-        </p>
       </div>
     </mat-card-content>
   </mat-card>
