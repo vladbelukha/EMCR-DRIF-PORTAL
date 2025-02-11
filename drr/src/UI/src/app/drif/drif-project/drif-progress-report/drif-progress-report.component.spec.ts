@@ -1,18 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DrifProgressReportComponent } from './drif-progress-report.component';
+import { DrifProgressReportViewComponent } from './drif-progress-report.component';
 
-describe('DrifProgressReportComponent', () => {
-  let component: DrifProgressReportComponent;
-  let fixture: ComponentFixture<DrifProgressReportComponent>;
+describe('DrifProgressReportViewComponent', () => {
+  let component: DrifProgressReportViewComponent;
+  let fixture: ComponentFixture<DrifProgressReportViewComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DrifProgressReportComponent]
-    })
-    .compileComponents();
+      imports: [DrifProgressReportViewComponent],
+    }).compileComponents();
 
-    fixture = TestBed.createComponent(DrifProgressReportComponent);
+    fixture = TestBed.createComponent(DrifProgressReportViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

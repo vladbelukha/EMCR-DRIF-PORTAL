@@ -2,13 +2,13 @@ import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'drr-drif-progress-report',
+  selector: 'drr-drif-progress-report-view',
   standalone: true,
   imports: [],
   templateUrl: './drif-progress-report.component.html',
   styleUrl: './drif-progress-report.component.scss',
 })
-export class DrifProgressReportComponent {
+export class DrifProgressReportViewComponent {
   route = inject(ActivatedRoute);
 
   projectId?: string;
