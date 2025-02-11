@@ -465,4 +465,65 @@
       </div>
     </mat-card-content>
   </mat-card>
+  <mat-card *ngIf="isReadOnlyView">
+    <mat-card-header>
+      <mat-card-title>{{ t("steps.progressReport.step5") }}</mat-card-title>
+      <mat-card-subtitle>Step 5</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div>
+        <mat-label class="drr-label">{{ t("submitter") }}</mat-label>
+        <div class="summary-row">
+          <drr-summary-item
+            [label]="t('firstName')"
+            [rxFormControl]="
+              progressReportForm.get('declaration.submitter.firstName')
+            "
+          >
+          </drr-summary-item>
+
+          <drr-summary-item
+            [label]="t('lastName')"
+            [rxFormControl]="
+              progressReportForm.get('declaration.submitter.lastName')
+            "
+          >
+          </drr-summary-item>
+
+          <drr-summary-item
+            [label]="t('title')"
+            [rxFormControl]="
+              progressReportForm.get('declaration.submitter.title')
+            "
+          >
+          </drr-summary-item>
+
+          <drr-summary-item
+            [label]="t('department')"
+            [rxFormControl]="
+              progressReportForm.get('declaration.submitter.department')
+            "
+          >
+          </drr-summary-item>
+
+          <drr-summary-item
+            [label]="t('phone')"
+            [rxFormControl]="
+              progressReportForm.get('declaration.submitter.phone')
+            "
+            controlType="phone"
+          >
+          </drr-summary-item>
+
+          <drr-summary-item
+            [label]="t('email')"
+            [rxFormControl]="
+              progressReportForm.get('declaration.submitter.email')
+            "
+          >
+          </drr-summary-item>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
 </div>

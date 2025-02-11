@@ -46,10 +46,10 @@ export class DrifFpStep9Component {
   @Input()
   projectRisksForm!: IFormGroup<ProjectRisksForm>;
 
-  complexityRiskOptions = this.optionsStore.complexityRisks?.();
-  readinessRiskOptions = this.optionsStore.readinessRisks?.();
-  sensitivityRiskOptions = this.optionsStore.sensitivityRisks?.();
-  capacityRiskOptions = this.optionsStore.capacityRisks?.();
+  complexityRiskOptions = this.optionsStore.options.complexityRisks?.();
+  readinessRiskOptions = this.optionsStore.options.readinessRisks?.();
+  sensitivityRiskOptions = this.optionsStore.options.sensitivityRisks?.();
+  capacityRiskOptions = this.optionsStore.options.capacityRisks?.();
   increasedOrTransferredOptions: DrrSelectOption[] = [
     {
       value: IncreasedOrTransferred.Increased,
@@ -69,7 +69,7 @@ export class DrifFpStep9Component {
         const complexityRisksControl =
           this.projectRisksForm.get('complexityRisks');
         const complexityRiskCommentsControl = this.projectRisksForm.get(
-          'complexityRiskComments'
+          'complexityRiskComments',
         );
         if (value === false) {
           complexityRisksControl?.reset();
@@ -91,7 +91,7 @@ export class DrifFpStep9Component {
         const readinessRisksControl =
           this.projectRisksForm.get('readinessRisks');
         const readinessRiskCommentsControl = this.projectRisksForm.get(
-          'readinessRiskComments'
+          'readinessRiskComments',
         );
         if (value === false) {
           readinessRisksControl?.reset();
@@ -113,7 +113,7 @@ export class DrifFpStep9Component {
         const sensitivityRisksControl =
           this.projectRisksForm.get('sensitivityRisks');
         const sensitivityRiskCommentsControl = this.projectRisksForm.get(
-          'sensitivityRiskComments'
+          'sensitivityRiskComments',
         );
         if (value === false) {
           sensitivityRisksControl?.reset();
@@ -134,7 +134,7 @@ export class DrifFpStep9Component {
       .subscribe((value) => {
         const capacityRisksControl = this.projectRisksForm.get('capacityRisks');
         const capacityRiskCommentsControl = this.projectRisksForm.get(
-          'capacityRiskComments'
+          'capacityRiskComments',
         );
         if (value === false) {
           capacityRisksControl?.reset();
@@ -154,10 +154,10 @@ export class DrifFpStep9Component {
       ?.valueChanges.pipe(distinctUntilChanged())
       .subscribe((value) => {
         const increasedOrTransferredControl = this.projectRisksForm.get(
-          'increasedOrTransferred'
+          'increasedOrTransferred',
         );
         const increasedOrTransferredCommentsControl = this.projectRisksForm.get(
-          'increasedOrTransferredComments'
+          'increasedOrTransferredComments',
         );
         if (value === false) {
           increasedOrTransferredControl?.reset();
@@ -167,7 +167,7 @@ export class DrifFpStep9Component {
         } else {
           increasedOrTransferredControl?.addValidators(Validators.required);
           increasedOrTransferredCommentsControl?.addValidators(
-            Validators.required
+            Validators.required,
           );
         }
         increasedOrTransferredControl?.updateValueAndValidity();

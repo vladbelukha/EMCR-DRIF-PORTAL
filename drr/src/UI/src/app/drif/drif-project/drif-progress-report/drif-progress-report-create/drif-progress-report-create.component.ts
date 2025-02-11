@@ -28,6 +28,7 @@ import {
 
 import { AbstractControl, FormArray, Validators } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDividerModule } from '@angular/material/divider';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HotToastService } from '@ngxpert/hot-toast';
@@ -71,6 +72,7 @@ import { DrifProgressReportSummaryComponent } from '../drif-progress-report-summ
     MatButtonModule,
     MatInputModule,
     MatCardModule,
+    MatCheckboxModule,
     TranslocoModule,
     DrrDatepickerComponent,
     DrrInputComponent,
@@ -706,5 +708,9 @@ export class DrifProgressReportCreateComponent {
           this.toastService.error('File deletion failed');
         },
       });
+  }
+
+  getDelcarationForm() {
+    return this.progressReportForm.get('declaration') as IFormGroup<any>;
   }
 }

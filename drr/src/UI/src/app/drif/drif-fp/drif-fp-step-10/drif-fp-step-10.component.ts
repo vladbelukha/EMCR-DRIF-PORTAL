@@ -84,7 +84,7 @@ export class DrifFpStep10Component {
   isMobile = false;
 
   fiscalYearsOptions =
-    this.optionsStore.fiscalYears?.()?.map((value) => ({
+    this.optionsStore.options.fiscalYears?.()?.map((value) => ({
       value,
       label: value,
     })) ?? [];
@@ -96,7 +96,8 @@ export class DrifFpStep10Component {
     },
     { value: YesNoOption.No, label: 'No' },
   ];
-  costConsiderationsOptions = this.optionsStore.costConsiderations?.() ?? [];
+  costConsiderationsOptions =
+    this.optionsStore.options.costConsiderations?.() ?? [];
 
   costCategoriesOptions = Object.values(CostCategory)
     .map((value) => ({
@@ -166,7 +167,7 @@ export class DrifFpStep10Component {
           this.getFormArray('otherFunding').enable();
           if (this.getFormArray('otherFunding').length === 0) {
             this.getFormArray('otherFunding').push(
-              this.formBuilder.formGroup(FundingInformationItemForm)
+              this.formBuilder.formGroup(FundingInformationItemForm),
             );
           }
         } else {
@@ -180,10 +181,10 @@ export class DrifFpStep10Component {
       ?.valueChanges.pipe(distinctUntilChanged())
       .subscribe((value) => {
         const previousResponseCost = this.budgetForm.get(
-          'previousResponseCost'
+          'previousResponseCost',
         );
         const previousResponseComments = this.budgetForm.get(
-          'previousResponseComments'
+          'previousResponseComments',
         );
 
         switch (value) {
@@ -217,7 +218,7 @@ export class DrifFpStep10Component {
       .subscribe((value) => {
         const costConsiderations = this.budgetForm.get('costConsiderations');
         const costConsiderationsComments = this.budgetForm.get(
-          'costConsiderationsComments'
+          'costConsiderationsComments',
         );
         if (value) {
           costConsiderations?.setValidators(Validators.required);
@@ -263,7 +264,7 @@ export class DrifFpStep10Component {
 
         this.budgetForm.get('totalEligibleCosts')?.setValue(totalEligibleCosts);
         const totalDrifFundingRequest = this.budgetForm?.get(
-          'totalDrifFundingRequest'
+          'totalDrifFundingRequest',
         )?.value;
         this.budgetForm
           .get('estimatesMatchFundingRequest')
@@ -295,7 +296,7 @@ export class DrifFpStep10Component {
     // how much I'm covering with other funding
     let otherFundingSum = this.getFormArray('otherFunding').controls.reduce(
       (total, funding) => total + Number(funding.value.amount),
-      0
+      0,
     );
     // check if number
     if (isNaN(otherFundingSum)) {
@@ -333,7 +334,7 @@ export class DrifFpStep10Component {
 
   addYear() {
     this.getFormArray('yearOverYearFunding').push(
-      this.formBuilder.formGroup(YearOverYearFundingForm)
+      this.formBuilder.formGroup(YearOverYearFundingForm),
     );
   }
 
@@ -351,7 +352,7 @@ export class DrifFpStep10Component {
 
   addOtherFunding() {
     this.getFormArray('otherFunding').push(
-      this.formBuilder.formGroup(FundingInformationItemForm)
+      this.formBuilder.formGroup(FundingInformationItemForm),
     );
   }
 
@@ -378,8 +379,8 @@ export class DrifFpStep10Component {
   removeCost(id: string) {
     this.getFormArray('costEstimates').removeAt(
       this.getFormArray('costEstimates').controls.findIndex(
-        (control) => control.get('id')?.value === id
-      )
+        (control) => control.get('id')?.value === id,
+      ),
     );
   }
 }

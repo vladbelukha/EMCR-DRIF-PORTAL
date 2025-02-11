@@ -308,7 +308,7 @@ export class DrifFpViewComponent {
       const standardsFormArray = this.fullProposalForm
         .get('permitsRegulationsAndStandards')
         ?.get('standards') as FormArray;
-      this.optionsStore.standards?.()?.forEach((standard) => {
+      this.optionsStore.options.standards?.()?.forEach((standard) => {
         const standardsInfo = response.standards?.find(
           (s) => s.category === standard.category,
         );

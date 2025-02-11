@@ -5,6 +5,7 @@ import {
   propArray,
   propObject,
   required,
+  requiredTrue,
 } from '@rxweb/reactive-form-validators';
 import {
   ActivityType,
@@ -240,6 +241,26 @@ export class EventInformationForm implements EventInformation {
   }
 }
 
+export class DeclarationForm {
+  @required()
+  @propObject(ContactDetailsForm)
+  submitter?: ContactDetailsForm = new ContactDetailsForm({});
+
+  @prop()
+  @required()
+  @requiredTrue()
+  authorizedRepresentativeStatement?: boolean;
+
+  @prop()
+  @required()
+  @requiredTrue()
+  informationAccuracyStatement?: boolean;
+
+  constructor(values: DeclarationForm) {
+    Object.assign(this, values);
+  }
+}
+
 export class ProgressReportForm implements ProgressReport {
   @prop()
   projectType?: InterimProjectType | undefined;
@@ -252,4 +273,7 @@ export class ProgressReportForm implements ProgressReport {
 
   @propArray(AttachmentForm)
   attachments?: AttachmentForm[] = [];
+
+  @propObject(DeclarationForm)
+  declaration?: DeclarationForm = new DeclarationForm({});
 }

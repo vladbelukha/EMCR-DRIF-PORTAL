@@ -11,6 +11,7 @@ import { IFormGroup } from '@rxweb/reactive-form-validators';
 import { DrifapplicationService } from '../../../../api/drifapplication/drifapplication.service';
 import { ApplicationType, DeclarationType } from '../../../../model';
 import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
+import { OptionsStore } from '../../../store/options.store';
 import { ProfileStore } from '../../../store/profile.store';
 import { DeclarationForm, EOIApplicationForm } from '../drif-eoi-form';
 import { DrifEoiSummaryComponent } from '../drif-eoi-summary/drif-eoi-summary.component';
@@ -37,6 +38,7 @@ import { DrifEoiSummaryComponent } from '../drif-eoi-summary/drif-eoi-summary.co
 export class DrifEoiStep8Component {
   drifAppService = inject(DrifapplicationService);
   profileStore = inject(ProfileStore);
+  optionsStore = inject(OptionsStore);
 
   isDevMode = isDevMode();
   private _formGroup!: IFormGroup<EOIApplicationForm>;
@@ -45,7 +47,7 @@ export class DrifEoiStep8Component {
   set eoiApplicationForm(eoiApplicationForm: IFormGroup<EOIApplicationForm>) {
     this._formGroup = eoiApplicationForm;
     this.declarationForm = eoiApplicationForm.get(
-      'declaration'
+      'declaration',
     ) as IFormGroup<DeclarationForm>;
   }
 
@@ -53,20 +55,21 @@ export class DrifEoiStep8Component {
   accuracyOfInformationText?: string;
 
   ngOnInit() {
-    this.drifAppService
-      .dRIFApplicationGetDeclarations()
-      .subscribe((declarations) => {
-        this.authorizedRepresentativeText = declarations.items?.find(
-          (d) =>
-            d.type === DeclarationType.AuthorizedRepresentative &&
-            d.applicationType === ApplicationType.EOI
-        )?.text;
-        this.accuracyOfInformationText = declarations.items?.find(
-          (d) =>
-            d.type === DeclarationType.AccuracyOfInformation &&
-            d.applicationType === ApplicationType.EOI
-        )?.text;
-      });
+    this.authorizedRepresentativeText = this.optionsStore
+      .declarations?.()
+      .find(
+        (d) =>
+          d.type === DeclarationType.AuthorizedRepresentative &&
+          d.applicationType === ApplicationType.EOI,
+      )?.text;
+
+    this.accuracyOfInformationText = this.optionsStore
+      .declarations?.()
+      .find(
+        (d) =>
+          d.type === DeclarationType.AccuracyOfInformation &&
+          d.applicationType === ApplicationType.EOI,
+      )?.text;
 
     const profileData = this.profileStore.getProfile();
 

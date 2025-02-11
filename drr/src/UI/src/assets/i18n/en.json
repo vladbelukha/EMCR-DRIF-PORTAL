@@ -614,7 +614,11 @@
     "provincialRepresentativeInvited": "Was a provincial representative invited to the event?",
     "attachments": "Attachments",
     "attachmentUploadText": "Upload any supporting attachments",
-    "uploadAttachment": "Add Attachment"
+    "uploadAttachment": "Add Attachment",
+    "submitter": "Submitter",
+    "authorizedRepresentativeStatement": "Authorized Representative Statement",
+    "informationAccuracyStatement": "Information Accuracy Statement",
+    "agree": "Agree"
   },
   "projectProgress": {
     "OnSchedule": "Project is on schedule",
