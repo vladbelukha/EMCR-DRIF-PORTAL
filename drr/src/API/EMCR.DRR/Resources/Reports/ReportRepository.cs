@@ -41,6 +41,7 @@ namespace EMCR.DRR.API.Resources.Reports
                 ctx.LoadPropertyAsync(existingProgressReport, nameof(drr_projectprogress.drr_drr_projectprogress_drr_projectpastevent_ProjectProgress)),
                 ctx.LoadPropertyAsync(existingProgressReport, nameof(drr_projectprogress.drr_drr_projectprogress_drr_projectevent_ProjectProgress)),
                 ctx.LoadPropertyAsync(existingProgressReport, nameof(drr_projectprogress.drr_drr_projectprogress_drr_temporaryprovincialfundingsignage_ProjectProgress)),
+                ctx.LoadPropertyAsync(existingProgressReport, nameof(drr_projectprogress.bcgov_drr_projectprogress_bcgov_documenturl_ProgressReport)),
             };
 
             await Task.WhenAll(loadTasks);
@@ -48,9 +49,9 @@ namespace EMCR.DRR.API.Resources.Reports
             ctx.DetachAll();
             var drrProgressReport = mapper.Map<drr_projectprogress>(cmd.ProgressReport);
             drrProgressReport.drr_projectprogressid = existingProgressReport.drr_projectprogressid;
-            foreach (var doc in existingProgressReport.bcgov_drr_projectprogress_bcgov_documenturl_ProgressReport)
+            foreach (var doc in drrProgressReport.bcgov_drr_projectprogress_bcgov_documenturl_ProgressReport)
             {
-                var curr = drrProgressReport.bcgov_drr_projectprogress_bcgov_documenturl_ProgressReport.SingleOrDefault(d => d.bcgov_documenturlid == doc.bcgov_documenturlid);
+                var curr = existingProgressReport.bcgov_drr_projectprogress_bcgov_documenturl_ProgressReport.SingleOrDefault(d => d.bcgov_documenturlid == doc.bcgov_documenturlid);
                 if (curr != null) curr.bcgov_documentcomments = doc.bcgov_documentcomments;
             }
 
@@ -69,6 +70,7 @@ namespace EMCR.DRR.API.Resources.Reports
             AddPastEvents(ctx, drrProgressReport, existingProgressReport);
             await AddUpcomingEvents(ctx, drrProgressReport, existingProgressReport);
             AddFundingSignage(ctx, drrProgressReport, existingProgressReport);
+            UpdateDocuments(ctx, drrProgressReport);
 
             ctx.UpdateObject(drrProgressReport);
             await ctx.SaveChangesAsync();
