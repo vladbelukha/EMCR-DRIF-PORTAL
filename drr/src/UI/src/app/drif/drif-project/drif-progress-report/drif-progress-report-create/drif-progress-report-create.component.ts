@@ -127,15 +127,20 @@ export class DrifProgressReportCreateComponent {
   reportId!: string;
   progressReportId!: string;
 
+  @ViewChild(MatStepper) stepper!: MatStepper;
   stepperOrientation: StepperOrientation = 'horizontal';
+  private formToStepMap: Record<string, string> = {
+    workplan: 'Step 1',
+    eventInformation: 'Step 2',
+    attachments: 'Step 3',
+    declaration: 'Step 4',
+  };
 
   progressReportForm = this.formBuilder.formGroup(
     ProgressReportForm,
   ) as IFormGroup<ProgressReportForm>;
   formChanged = false;
   lastSavedAt?: Date;
-
-  @ViewChild(MatStepper) stepper!: MatStepper;
 
   authorizedRepresentativeText?: string;
   accuracyOfInformationText?: string;
@@ -620,7 +625,55 @@ export class DrifProgressReportCreateComponent {
     this.router.navigate(['drif-projects', this.projectId]);
   }
 
-  submit() {}
+  submit() {
+    this.progressReportForm.markAllAsTouched();
+    this.stepper.steps.forEach((step) => step._markAsInteracted());
+    this.stepper._stateChanged();
+
+    if (this.progressReportForm.invalid) {
+      const invalidSteps = Object.keys(this.progressReportForm.controls)
+        .filter((key) => this.progressReportForm.get(key)?.invalid)
+        .map((key) => this.formToStepMap[key]);
+
+      const lastStep = invalidSteps.pop();
+
+      const stepsErrorMessage =
+        invalidSteps.length > 0
+          ? `${invalidSteps.join(', ')} and ${lastStep}`
+          : lastStep;
+
+      this.toastService.close();
+      this.toastService.error(
+        `Please fill all the required fields in ${stepsErrorMessage}.`,
+      );
+
+      return;
+    }
+
+    this.projectService
+      // TODO: change after submit endpoint introduced
+      .projectUpdateProgressReport(
+        this.projectId,
+        this.reportId,
+        this.progressReportId,
+        this.progressReportForm.getRawValue(),
+      )
+
+      .subscribe({
+        next: (response) => {
+          this.toastService.close();
+          this.toastService.success(
+            `Your submission has been received. \nID #: ${response.id}.`,
+          );
+
+          this.router.navigate(['/dashboard']);
+        },
+        error: (error) => {
+          this.toastService.close();
+          this.toastService.error('Failed to submit application');
+        },
+      });
+  }
 
   getActivitiesFormArray() {
     return this.workplanForm?.get('workplanActivities') as FormArray;
