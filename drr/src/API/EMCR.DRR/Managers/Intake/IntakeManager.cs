@@ -116,6 +116,7 @@ namespace EMCR.DRR.Managers.Intake
                 SaveProjectCommand c => await Handle(c),
                 SubmitProjectCommand c => await Handle(c),
                 SaveProgressReportCommand c => await Handle(c),
+                SubmitProgressReportCommand c => await Handle(c),
                 _ => throw new NotSupportedException($"{cmd.GetType().Name} is not supported")
             };
         }
@@ -362,6 +363,20 @@ namespace EMCR.DRR.Managers.Intake
             //var id = Guid.NewGuid().ToString();
             return id;
         }
+        
+        public async Task<string> Handle(SubmitProgressReportCommand cmd)
+        {
+            var canAccess = await CanAccessProgressReport(cmd.ProgressReport.Id, cmd.UserInfo.BusinessId);
+            if (!canAccess) throw new ForbiddenException("Not allowed to access this progress report.");
+            var progressReport = mapper.Map<ProgressReportDetails>(cmd.ProgressReport);
+            //progressReport.ProponentName = cmd.UserInfo.BusinessName;
+            var id = (await reportRepository.Manage(new SaveProgressReport { ProgressReport = progressReport })).Id;
+            await reportRepository.Manage(new SubmitProgressReport { Id = id });
+            //await projectRepository.Manage(new SubmitProject { Id = id });
+            //var id = Guid.NewGuid().ToString();
+            return id;
+        }
+
 
         public async Task<FileQueryResult> Handle(DownloadAttachment cmd)
         {

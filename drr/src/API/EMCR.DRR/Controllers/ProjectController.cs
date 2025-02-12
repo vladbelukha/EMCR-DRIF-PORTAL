@@ -167,6 +167,23 @@ namespace EMCR.DRR.Controllers
             }
         }
 
+        [HttpPatch("{projectId}/interim-reports/{reportId}/progress-reports/{progressId}/submit")]
+        public async Task<ActionResult<ProgressReportResult>> SubmitProgressReport([FromBody] DraftProgressReport progressReport, string progressId)
+        {
+            try
+            {
+                progressReport.Id = progressId;
+                progressReport.Status = ProgressReportStatus.Draft; //Need to set the status after final update save
+
+                var drr_id = await intakeManager.Handle(new SubmitProgressReportCommand { ProgressReport = mapper.Map<ProgressReport>(progressReport), UserInfo = GetCurrentUser() });
+                return Ok(new ProgressReportResult { Id = drr_id });
+            }
+            catch (Exception e)
+            {
+                return errorParser.Parse(e, logger);
+            }
+        }
+
         [HttpGet("{projectId}/interim-reports/{reportId}/forecasts/{forecastId}")]
         public async Task<ActionResult<Forecast>> GetForecastReport(string projectId, string reportId, string forecastId)
         {

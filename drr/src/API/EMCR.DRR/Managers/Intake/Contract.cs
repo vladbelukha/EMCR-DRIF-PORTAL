@@ -243,6 +243,12 @@ namespace EMCR.DRR.Managers.Intake
         public Controllers.ProgressReport ProgressReport { get; set; } = null!;
         public UserInfo UserInfo { get; set; }
     }
+    
+    public class SubmitProgressReportCommand : IntakeCommand
+    {
+        public Controllers.ProgressReport ProgressReport { get; set; } = null!;
+        public UserInfo UserInfo { get; set; }
+    }
 
     public abstract class AttachmentQuery
     { }
