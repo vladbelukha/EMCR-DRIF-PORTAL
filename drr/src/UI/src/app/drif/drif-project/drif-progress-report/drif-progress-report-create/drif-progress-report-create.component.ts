@@ -12,6 +12,7 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import {
   IFormGroup,
   RxFormBuilder,
+  RxFormGroup,
   RxReactiveFormsModule,
 } from '@rxweb/reactive-form-validators';
 import {
@@ -40,6 +41,7 @@ import {
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HotToastService } from '@ngxpert/hot-toast';
 import { distinctUntilChanged, pairwise, startWith, Subscription } from 'rxjs';
@@ -83,16 +85,17 @@ import { DrifProgressReportSummaryComponent } from '../drif-progress-report-summ
     MatStepperModule,
     FormsModule,
     ReactiveFormsModule,
-    TranslocoModule,
+    MatFormFieldModule,
     MatInputModule,
     MatCheckboxModule,
-    DrrInputComponent,
     MatIconModule,
     MatButtonModule,
     MatInputModule,
     MatCardModule,
     MatCheckboxModule,
+    MatDividerModule,
     TranslocoModule,
+    DrrInputComponent,
     DrrDatepickerComponent,
     DrrInputComponent,
     DrrNumericInputComponent,
@@ -102,7 +105,6 @@ import { DrifProgressReportSummaryComponent } from '../drif-progress-report-summ
     DrrAttahcmentComponent,
     DrrFileUploadComponent,
     RxReactiveFormsModule,
-    MatDividerModule,
     DrifProgressReportSummaryComponent,
   ],
   templateUrl: './drif-progress-report-create.component.html',
@@ -129,7 +131,6 @@ export class DrifProgressReportCreateComponent {
 
   progressReportForm = this.formBuilder.formGroup(
     ProgressReportForm,
-    {},
   ) as IFormGroup<ProgressReportForm>;
   formChanged = false;
   lastSavedAt?: Date;
@@ -217,15 +218,15 @@ export class DrifProgressReportCreateComponent {
     }),
   );
 
-  get workplanForm(): IFormGroup<WorkplanForm> | null {
+  get workplanForm(): IFormGroup<WorkplanForm> {
     return this.progressReportForm.get('workplan') as IFormGroup<WorkplanForm>;
   }
 
-  get workplanItems(): FormArray | null {
+  get workplanActivitiesArray(): FormArray {
     return this.workplanForm?.get('workplanActivities') as FormArray;
   }
 
-  get eventsForm(): IFormGroup<EventInformationForm> | null {
+  get eventInformationForm(): IFormGroup<EventInformationForm> {
     return this.progressReportForm.get(
       'eventInformation',
     ) as IFormGroup<EventInformationForm>;
@@ -370,7 +371,7 @@ export class DrifProgressReportCreateComponent {
                 new WorkplanActivityForm(activity),
               );
 
-              this.workplanItems?.push(activityForm);
+              this.workplanActivitiesArray?.push(activityForm);
             });
 
             if (
@@ -454,7 +455,7 @@ export class DrifProgressReportCreateComponent {
               );
             });
 
-            this.eventsForm
+            this.eventInformationForm
               ?.get('eventsOccurredSinceLastReport')
               ?.valueChanges.subscribe((value) => {
                 if (value === true && this.getPastEventsArray()?.length === 0) {
@@ -465,7 +466,7 @@ export class DrifProgressReportCreateComponent {
                 }
               });
 
-            this.eventsForm
+            this.eventInformationForm
               ?.get('anyUpcomingEvents')
               ?.valueChanges.subscribe((value) => {
                 if (
@@ -557,9 +558,13 @@ export class DrifProgressReportCreateComponent {
   }
 
   stepperSelectionChange(event: StepperSelectionEvent) {
+    if (event.previouslySelectedIndex === 0) {
+      return;
+    }
+
     this.save();
 
-    event.previouslySelectedStep.stepControl?.markAllAsTouched();
+    event.previouslySelectedStep.stepControl.markAllAsTouched();
 
     if (this.stepperOrientation === 'horizontal') {
       return;
@@ -622,7 +627,7 @@ export class DrifProgressReportCreateComponent {
   }
 
   getPreDefinedActivitiesArray() {
-    return this.workplanItems?.controls.filter(
+    return this.workplanActivitiesArray?.controls.filter(
       (control) =>
         control.get('preCreatedActivity')?.value &&
         control.get('activity')?.value !== ActivityType.PermitToConstruct &&
@@ -632,7 +637,7 @@ export class DrifProgressReportCreateComponent {
   }
 
   getMilestoneActivitiesArray() {
-    return this.workplanItems?.controls.filter(
+    return this.workplanActivitiesArray?.controls.filter(
       (control) =>
         control.get('preCreatedActivity')?.value &&
         (control.get('activity')?.value === ActivityType.PermitToConstruct ||
@@ -653,7 +658,7 @@ export class DrifProgressReportCreateComponent {
   }
 
   getAdditionalActivitiesArray() {
-    return this.workplanItems?.controls
+    return this.workplanActivitiesArray?.controls
       .filter((control) => !control.get('preCreatedActivity')?.value)
       .sort((a, b) => {
         const aMandatory = a.get('isMandatory')?.value;
@@ -672,7 +677,7 @@ export class DrifProgressReportCreateComponent {
   }
 
   addAdditionalActivity() {
-    this.workplanItems?.push(
+    this.workplanActivitiesArray?.push(
       this.formBuilder.formGroup(
         new WorkplanActivityForm({
           isMandatory: false,
@@ -694,7 +699,7 @@ export class DrifProgressReportCreateComponent {
   }
 
   removeAdditionalActivity(index: number) {
-    this.workplanItems?.removeAt(index);
+    this.workplanActivitiesArray?.removeAt(index);
   }
 
   showPlannedStartDate(activityControl: AbstractControl<WorkplanActivityForm>) {
@@ -804,7 +809,7 @@ export class DrifProgressReportCreateComponent {
   }
 
   getPastEventsArray() {
-    return this.eventsForm?.get('pastEvents') as FormArray;
+    return this.eventInformationForm?.get('pastEvents') as FormArray;
   }
 
   addPastEvent() {
@@ -818,7 +823,7 @@ export class DrifProgressReportCreateComponent {
   }
 
   getUpcomingEventsArray() {
-    return this.eventsForm?.get('upcomingEvents') as FormArray;
+    return this.eventInformationForm?.get('upcomingEvents') as FormArray;
   }
 
   addFutureEvent() {
@@ -911,5 +916,9 @@ export class DrifProgressReportCreateComponent {
     return this.progressReportForm.get(
       'declaration',
     ) as IFormGroup<DeclarationForm>;
+  }
+
+  getFormGroup(groupName: string) {
+    return this.progressReportForm?.get(groupName) as RxFormGroup;
   }
 }

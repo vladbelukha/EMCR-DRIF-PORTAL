@@ -619,7 +619,8 @@
     "authorizedRepresentativeStatement": "Authorized Representative Statement",
     "informationAccuracyStatement": "Information Accuracy Statement",
     "agree": "Agree",
-    "required": "Required"
+    "required": "Required",
+    "stepError": "Missing fields"
   },
   "progressReportDetails": {
     "header": "Progress Report Details",

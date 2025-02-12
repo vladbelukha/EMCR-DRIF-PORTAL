@@ -1,8 +1,5 @@
 import { BreakpointObserver, LayoutModule } from '@angular/cdk/layout';
-import {
-  STEPPER_GLOBAL_OPTIONS,
-  StepperSelectionEvent,
-} from '@angular/cdk/stepper';
+import { StepperSelectionEvent } from '@angular/cdk/stepper';
 import { CommonModule } from '@angular/common';
 import { Component, HostListener, inject, ViewChild } from '@angular/core';
 import {
@@ -97,13 +94,7 @@ import { DrifFpStep9Component } from './drif-fp-step-9/drif-fp-step-9.component'
     DrifFpStep11Component,
     DrifFpStep12Component,
   ],
-  providers: [
-    RxFormBuilder,
-    {
-      provide: STEPPER_GLOBAL_OPTIONS,
-      useValue: { showError: true },
-    },
-  ],
+  providers: [RxFormBuilder],
   templateUrl: './drif-fp.component.html',
   styleUrl: './drif-fp.component.scss',
 })

@@ -72,14 +72,18 @@
         </button>
       </div>
     </mat-step>
-    <mat-step [label]="t('projectWorkplan')">
+    <mat-step
+      [label]="t('projectWorkplan')"
+      [stepControl]="workplanForm"
+      [errorMessage]="t('stepError')"
+    >
       <div style="display: flex; flex-direction: column; gap: 1rem">
         <h5>Project Progress</h5>
 
         <drr-select
           class="drr-single-input"
           [label]="t('projectProgress')"
-          [rxFormControl]="progressReportForm.get('workplan.projectProgress')"
+          [rxFormControl]="workplanForm.get('projectProgress')"
           [options]="projectProgressOptions"
         >
         </drr-select>
@@ -89,7 +93,7 @@
             <drr-select
               class="drr-single-input"
               [label]="t('delayReason')"
-              [rxFormControl]="progressReportForm.get('workplan.delayReason')"
+              [rxFormControl]="workplanForm.get('delayReason')"
               [options]="delayReasonOptions"
             >
             </drr-select>
@@ -97,9 +101,7 @@
               <drr-input
                 class="drr-single-input"
                 [label]="t('otherDelayReason')"
-                [rxFormControl]="
-                  progressReportForm.get('workplan.otherDelayReason')
-                "
+                [rxFormControl]="workplanForm.get('otherDelayReason')"
                 [maxlength]="50"
               ></drr-input>
             }
@@ -108,9 +110,7 @@
           <drr-textarea
             [label]="t('behindScheduleMitigatingComments')"
             [rxFormControl]="
-              progressReportForm.get(
-                'workplan.behindScheduleMitigatingComments'
-              )
+              workplanForm.get('behindScheduleMitigatingComments')
             "
             [maxlength]="2000"
           ></drr-textarea>
@@ -118,9 +118,7 @@
         @if (isProjectAhead()) {
           <drr-textarea
             [label]="t('aheadOfScheduleComments')"
-            [rxFormControl]="
-              progressReportForm.get('workplan.aheadOfScheduleComments')
-            "
+            [rxFormControl]="workplanForm.get('aheadOfScheduleComments')"
             [maxlength]="2000"
           ></drr-textarea>
         }
@@ -132,7 +130,7 @@
           <drr-numeric-input
             style="align-self: flex-start"
             label="Percentage"
-            [rxFormControl]="workplanForm?.get('projectCompletionPercentage')"
+            [rxFormControl]="workplanForm.get('projectCompletionPercentage')"
             numericType="percentage"
           ></drr-numeric-input>
         </div>
@@ -146,7 +144,7 @@
               style="align-self: flex-start"
               label="Percentage"
               [rxFormControl]="
-                workplanForm?.get('constructionCompletionPercentage')
+                workplanForm.get('constructionCompletionPercentage')
               "
               numericType="percentage"
             ></drr-numeric-input>
@@ -477,10 +475,10 @@
             class="drr-single-input"
             [label]="t('signageRequired')"
             [options]="yesNoRadioOptions"
-            [rxFormControl]="workplanForm?.get('signageRequired')"
+            [rxFormControl]="workplanForm.get('signageRequired')"
           ></drr-radio-button>
 
-          @if (workplanForm?.get("signageRequired")?.value === true) {
+          @if (workplanForm.get("signageRequired")?.value === true) {
             <div
               *ngFor="
                 let signage of getSignageFormArray().controls;
@@ -543,10 +541,10 @@
               Add Signage
             </button>
           }
-          @if (workplanForm?.get("signageRequired")?.value === false) {
+          @if (workplanForm.get("signageRequired")?.value === false) {
             <drr-textarea
               [label]="t('signageNotRequiredComments')"
-              [rxFormControl]="workplanForm?.get('signageNotRequiredComments')"
+              [rxFormControl]="workplanForm.get('signageNotRequiredComments')"
               [maxlength]="2000"
             ></drr-textarea>
           }
@@ -567,17 +565,17 @@
               class="drr-single-input"
               label="Please select below"
               [options]="yesNoRadioOptions"
-              [rxFormControl]="workplanForm?.get('mediaAnnouncement')"
+              [rxFormControl]="workplanForm.get('mediaAnnouncement')"
             ></drr-radio-button>
-            @if (workplanForm?.get("mediaAnnouncement")?.value === true) {
+            @if (workplanForm.get("mediaAnnouncement")?.value === true) {
               <drr-datepicker
                 class="drr-single-input"
                 label="Date of Announcement"
-                [rxFormControl]="workplanForm?.get('mediaAnnouncementDate')"
+                [rxFormControl]="workplanForm.get('mediaAnnouncementDate')"
               ></drr-datepicker>
               <drr-textarea
                 label="Comments"
-                [rxFormControl]="workplanForm?.get('mediaAnnouncementComment')"
+                [rxFormControl]="workplanForm.get('mediaAnnouncementComment')"
                 [maxlength]="2000"
               ></drr-textarea>
             }
@@ -587,13 +585,13 @@
             <drr-radio-button
               class="drr-single-input"
               [label]="t('outstandingIssues')"
-              [rxFormControl]="workplanForm?.get('outstandingIssues')"
+              [rxFormControl]="workplanForm.get('outstandingIssues')"
               [options]="yesNoRadioOptions"
             ></drr-radio-button>
-            @if (workplanForm?.get("outstandingIssues")?.value === true) {
+            @if (workplanForm.get("outstandingIssues")?.value === true) {
               <drr-textarea
                 [label]="t('outstandingIssuesComments')"
-                [rxFormControl]="workplanForm?.get('outstandingIssuesComments')"
+                [rxFormControl]="workplanForm.get('outstandingIssuesComments')"
                 [maxlength]="2000"
               ></drr-textarea>
             }
@@ -605,14 +603,14 @@
             <drr-radio-button
               class="drr-single-input"
               [label]="t('fundingSourcesChanged')"
-              [rxFormControl]="workplanForm?.get('fundingSourcesChanged')"
+              [rxFormControl]="workplanForm.get('fundingSourcesChanged')"
               [options]="yesNoRadioOptions"
             ></drr-radio-button>
-            @if (workplanForm?.get("fundingSourcesChanged")?.value === true) {
+            @if (workplanForm.get("fundingSourcesChanged")?.value === true) {
               <drr-textarea
                 [label]="t('fundingSourcesChangedComment')"
                 [rxFormControl]="
-                  workplanForm?.get('fundingSourcesChangedComment')
+                  workplanForm.get('fundingSourcesChangedComment')
                 "
                 [maxlength]="2000"
               ></drr-textarea>
@@ -635,7 +633,11 @@
         </button>
       </div></mat-step
     >
-    <mat-step [label]="t('eventInformation')">
+    <mat-step
+      [label]="t('eventInformation')"
+      [stepControl]="eventInformationForm"
+      [errorMessage]="t('stepError')"
+    >
       <div style="display: flex; flex-direction: column; gap: 1rem">
         <h5>Past Project Events</h5>
         <drr-radio-button
@@ -643,15 +645,12 @@
           [label]="t('eventsOccurredSinceLastReport')"
           [options]="yesNoRadioOptions"
           [rxFormControl]="
-            progressReportForm.get(
-              'eventInformation.eventsOccurredSinceLastReport'
-            )
+            eventInformationForm.get('eventsOccurredSinceLastReport')
           "
         ></drr-radio-button>
         @if (
-          progressReportForm.get(
-            "eventInformation.eventsOccurredSinceLastReport"
-          )?.value === true
+          eventInformationForm.get("eventsOccurredSinceLastReport")?.value ===
+          true
         ) {
           <div
             *ngFor="
@@ -708,14 +707,9 @@
           class="drr-single-input"
           [label]="t('anyUpcomingEvents')"
           [options]="yesNoRadioOptions"
-          [rxFormControl]="
-            progressReportForm.get('eventInformation.anyUpcomingEvents')
-          "
+          [rxFormControl]="eventInformationForm.get('anyUpcomingEvents')"
         ></drr-radio-button>
-        @if (
-          progressReportForm.get("eventInformation.anyUpcomingEvents")
-            ?.value === true
-        ) {
+        @if (eventInformationForm.get("anyUpcomingEvents")?.value === true) {
           <div
             *ngFor="
               let upcomingEvent of getUpcomingEventsArray().controls;
@@ -839,7 +833,11 @@
         </button>
       </div>
     </mat-step>
-    <mat-step label="Attachments">
+    <mat-step
+      label="Attachments"
+      [stepControl]="progressReportForm.get('attachments')!"
+      [errorMessage]="t('stepError')"
+    >
       <div class="attachments-container">
         <drr-attachment
           *ngFor="
@@ -880,13 +878,20 @@
         </button>
       </div></mat-step
     >
-    <mat-step label="Review & Declarations">
+    <mat-step
+      label="Review & Declarations"
+      [stepControl]="progressReportForm.get('declaration')!"
+      [errorMessage]="t('stepError')"
+    >
       <div class="drr-step-container">
         <drif-progress-report-summary
           [progressReportForm]="progressReportForm"
           [isReadOnlyView]="false"
         ></drif-progress-report-summary>
-        <form [formGroup]="getDelcarationForm()" style="display: flex; flex-direction: column; gap: 1rem">
+        <form
+          [formGroup]="getDelcarationForm()"
+          style="display: flex; flex-direction: column; gap: 1rem"
+        >
           <mat-label class="drr-label">{{ t("submitter") }}</mat-label>
           <div class="contacts-container">
             <drr-input

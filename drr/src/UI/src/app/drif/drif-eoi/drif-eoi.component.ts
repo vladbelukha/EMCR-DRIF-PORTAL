@@ -1,8 +1,5 @@
 import { BreakpointObserver, LayoutModule } from '@angular/cdk/layout';
-import {
-  STEPPER_GLOBAL_OPTIONS,
-  StepperSelectionEvent,
-} from '@angular/cdk/stepper';
+import { StepperSelectionEvent } from '@angular/cdk/stepper';
 import { CommonModule } from '@angular/common';
 import { Component, HostListener, ViewChild, inject } from '@angular/core';
 import {
@@ -91,13 +88,7 @@ import { DrifEoiStep8Component } from './drif-eoi-step-8/drif-eoi-step-8.compone
   ],
   templateUrl: './drif-eoi.component.html',
   styleUrl: './drif-eoi.component.scss',
-  providers: [
-    RxFormBuilder,
-    {
-      provide: STEPPER_GLOBAL_OPTIONS,
-      useValue: { showError: true },
-    },
-  ],
+  providers: [RxFormBuilder],
 })
 export class EOIApplicationComponent {
   formBuilder = inject(RxFormBuilder);
@@ -113,7 +104,7 @@ export class EOIApplicationComponent {
   hazardsOptions = Object.values(Hazards);
 
   eoiApplicationForm = this.formBuilder.formGroup(
-    EOIApplicationForm
+    EOIApplicationForm,
   ) as IFormGroup<EOIApplicationForm>;
 
   @ViewChild(MatStepper) stepper!: MatStepper;
@@ -282,7 +273,7 @@ export class EOIApplicationComponent {
             delete b[1].declaration.informationAccuracyStatement;
 
             return JSON.stringify(a[1]) === JSON.stringify(b[1]);
-          })
+          }),
         )
         .subscribe(([prev, curr]) => {
           if (
@@ -315,7 +306,7 @@ export class EOIApplicationComponent {
 
   initStep1(response: DraftEoiApplication) {
     const partneringProponentsArray = this.eoiApplicationForm.get(
-      'proponentInformation.partneringProponentsArray'
+      'proponentInformation.partneringProponentsArray',
     ) as FormArray;
     if (response.partneringProponents?.length! > 0) {
       partneringProponentsArray.clear({ emitEvent: false });
@@ -323,12 +314,12 @@ export class EOIApplicationComponent {
     response.partneringProponents?.forEach((proponent) => {
       partneringProponentsArray?.push(
         this.formBuilder.formGroup(new StringItem({ value: proponent })),
-        { emitEvent: false }
+        { emitEvent: false },
       );
     });
 
     const additionalContactsArray = this.eoiApplicationForm.get(
-      'proponentInformation.additionalContacts'
+      'proponentInformation.additionalContacts',
     ) as FormArray;
     if (response.additionalContacts?.length! > 0) {
       additionalContactsArray.clear({ emitEvent: false });
@@ -336,21 +327,21 @@ export class EOIApplicationComponent {
     response.additionalContacts?.forEach((contact) => {
       additionalContactsArray?.push(
         this.formBuilder.formGroup(new ContactDetailsForm(contact)),
-        { emitEvent: false }
+        { emitEvent: false },
       );
     });
   }
 
   initStep3(response: DraftEoiApplication) {
     const fundingInformationItemFormArray = this.eoiApplicationForm.get(
-      'fundingInformation.otherFunding'
+      'fundingInformation.otherFunding',
     ) as FormArray;
     if (response.otherFunding?.length! > 0) {
       fundingInformationItemFormArray.clear({ emitEvent: false });
     }
     response.otherFunding?.forEach((funding) => {
       const fundingInformationItemForm = this.formBuilder.formGroup(
-        new FundingInformationItemForm(funding)
+        new FundingInformationItemForm(funding),
       );
       fundingInformationItemFormArray?.push(fundingInformationItemForm, {
         emitEvent: false,
@@ -366,7 +357,7 @@ export class EOIApplicationComponent {
 
   initStep5(response: DraftEoiApplication) {
     const infrastructureImpactedArray = this.eoiApplicationForm.get(
-      'projectDetails.infrastructureImpacted'
+      'projectDetails.infrastructureImpacted',
     ) as FormArray;
     if (
       response.isInfrastructureImpacted === false ||
@@ -379,9 +370,9 @@ export class EOIApplicationComponent {
       if (infrastructure) {
         infrastructureImpactedArray?.push(
           this.formBuilder.formGroup(
-            new InfrastructureImpactedForm(infrastructure)
+            new InfrastructureImpactedForm(infrastructure),
           ),
-          { emitEvent: false }
+          { emitEvent: false },
         );
       }
     });
@@ -480,7 +471,7 @@ export class EOIApplicationComponent {
     // check if the only invalid control is remaining amount
     const budgetForm = this.getFormGroup('fundingInformation');
     const invalidControls = Object.keys(budgetForm?.controls).filter(
-      (key) => budgetForm?.get(key)?.invalid
+      (key) => budgetForm?.get(key)?.invalid,
     );
 
     return (
@@ -518,7 +509,7 @@ export class EOIApplicationComponent {
 
       this.hotToast.close();
       this.hotToast.error(
-        `Please fill all the required fields in ${stepsErrorMessage}.`
+        `Please fill all the required fields in ${stepsErrorMessage}.`,
       );
 
       return;
@@ -558,7 +549,7 @@ export class EOIApplicationComponent {
   onSubmitSuccess = (response: ApplicationResult) => {
     this.hotToast.close();
     this.hotToast.success(
-      `Your submission has been received. \nID #: ${response.id}.`
+      `Your submission has been received. \nID #: ${response.id}.`,
     );
     this.router.navigate(['/dashboard']);
   };
