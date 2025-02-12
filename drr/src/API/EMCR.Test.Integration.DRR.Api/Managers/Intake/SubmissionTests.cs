@@ -47,8 +47,11 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
         [Test]
         public async Task CanCreateEOIApplication()
         {
-            var application = CreateNewTestEOIApplication();
-            var id = await manager.Handle(new EoiSaveApplicationCommand { Application = mapper.Map<EoiApplication>(application), UserInfo = GetTestUserInfo() });
+            var userInfo = GetTestUserInfo();
+            //var userInfo = GetCRAFTUserInfo();
+
+            var application = TestHelper.CreateNewTestEOIApplication();
+            var id = await manager.Handle(new EoiSaveApplicationCommand { Application = mapper.Map<EoiApplication>(application), UserInfo = userInfo });
             id.ShouldNotBeEmpty();
         }
 
@@ -275,7 +278,8 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             var userInfo = GetTestUserInfo();
             //var userInfo = GetCRAFTUserInfo();
 
-            var eoi = mapper.Map<EoiApplication>(CreateNewTestEOIApplication());
+            var eoi = mapper.Map<EoiApplication>(TestHelper.CreateNewTestEOIApplication());
+            //var eoi = mapper.Map<EoiApplication>(CreateNewTestEOIApplication());
             eoi.Status = SubmissionPortalStatus.EligibleInvited;
             eoi.AuthorizedRepresentativeStatement = true;
             eoi.FOIPPAConfirmation = true;
@@ -305,7 +309,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             fullProposal.IncorporateFutureClimateConditions.ShouldBe(screenerQuestions.IncorporateFutureClimateConditions);
             fullProposal.MeetsRegulatoryRequirements.ShouldBe(screenerQuestions.MeetsRegulatoryRequirements);
             fullProposal.MeetsEligibilityRequirements.ShouldBe(screenerQuestions.MeetsEligibilityRequirements);
-            fullProposal.InfrastructureImpacted.ShouldHaveSingleItem();
+            fullProposal.InfrastructureImpacted.Count().ShouldBe(eoi.InfrastructureImpacted.Count());
         }
 
         [Test]

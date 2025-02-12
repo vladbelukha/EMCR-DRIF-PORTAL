@@ -24,6 +24,7 @@ namespace EMCR.DRR.API.Resources.Reports
             return cmd switch
             {
                 SaveProgressReport c => await HandleSaveProgressReport(c),
+                SubmitProgressReport c => await HandleSubmitProgressReport(c),
                 _ => throw new NotSupportedException($"{cmd.GetType().Name} is not supported")
             };
         }
@@ -78,6 +79,18 @@ namespace EMCR.DRR.API.Resources.Reports
 
             return new ManageReportCommandResult { Id = existingProgressReport.drr_name };
 
+        }
+
+        public async Task<ManageReportCommandResult> HandleSubmitProgressReport(SubmitProgressReport cmd)
+        {
+            var ctx = dRRContextFactory.Create();
+            var progressReport = await ctx.drr_projectprogresses.Where(a => a.drr_name == cmd.Id).SingleOrDefaultAsync();
+            progressReport.statuscode = (int)ProjectProgressReportStatusOptionSet.Submitted;
+            progressReport.drr_datesubmitted = DateTime.UtcNow;
+            ctx.UpdateObject(progressReport);
+            await ctx.SaveChangesAsync();
+            ctx.DetachAll();
+            return new ManageReportCommandResult { Id = cmd.Id };
         }
 #pragma warning restore CS8604 // Possible null reference argument.
 

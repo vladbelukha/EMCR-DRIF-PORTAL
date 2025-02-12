@@ -9,7 +9,6 @@ namespace EMCR.Tests.Integration
         public static DraftEoiApplication CreateNewTestEOIApplication(ContactDetails? submitter = null)
         {
             var eoi = new Faker<DraftEoiApplication>("en_CA").WithApplicationRules(submitter).Generate();
-            eoi.Id = null;
             return eoi;
         }
     }

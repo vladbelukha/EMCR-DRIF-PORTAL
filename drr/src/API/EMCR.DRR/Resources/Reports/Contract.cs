@@ -25,6 +25,11 @@ namespace EMCR.DRR.API.Resources.Reports
         public required ProgressReportDetails ProgressReport { get; set; }
     }
 
+    public class SubmitProgressReport : ManageReportCommand
+    {
+        public required string Id { get; set; }
+    }
+
     public abstract class ReportQuery
     { }
 
