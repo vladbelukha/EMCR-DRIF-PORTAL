@@ -12,6 +12,7 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import {
   IFormGroup,
   RxFormBuilder,
+  RxFormGroup,
   RxReactiveFormsModule,
 } from '@rxweb/reactive-form-validators';
 import {
@@ -29,10 +30,18 @@ import {
   YesNoOption,
 } from '../../../../../model';
 
-import { AbstractControl, FormArray, Validators } from '@angular/forms';
+import { StepperSelectionEvent } from '@angular/cdk/stepper';
+import {
+  AbstractControl,
+  FormArray,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HotToastService } from '@ngxpert/hot-toast';
 import { distinctUntilChanged, pairwise, startWith, Subscription } from 'rxjs';
@@ -57,6 +66,7 @@ import { ProfileStore } from '../../../../store/profile.store';
 import { AttachmentForm } from '../../../drif-fp/drif-fp-form';
 import { DrrAttahcmentComponent } from '../../../drif-fp/drif-fp-step-11/drif-fp-attachment.component';
 import {
+  DeclarationForm,
   EventInformationForm,
   EventProgressType,
   FundingSignageForm,
@@ -73,12 +83,19 @@ import { DrifProgressReportSummaryComponent } from '../drif-progress-report-summ
   imports: [
     CommonModule,
     MatStepperModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCheckboxModule,
     MatIconModule,
     MatButtonModule,
     MatInputModule,
     MatCardModule,
     MatCheckboxModule,
+    MatDividerModule,
     TranslocoModule,
+    DrrInputComponent,
     DrrDatepickerComponent,
     DrrInputComponent,
     DrrNumericInputComponent,
@@ -88,7 +105,6 @@ import { DrifProgressReportSummaryComponent } from '../drif-progress-report-summ
     DrrAttahcmentComponent,
     DrrFileUploadComponent,
     RxReactiveFormsModule,
-    MatDividerModule,
     DrifProgressReportSummaryComponent,
   ],
   templateUrl: './drif-progress-report-create.component.html',
@@ -111,16 +127,20 @@ export class DrifProgressReportCreateComponent {
   reportId!: string;
   progressReportId!: string;
 
+  @ViewChild(MatStepper) stepper!: MatStepper;
   stepperOrientation: StepperOrientation = 'horizontal';
+  private formToStepMap: Record<string, string> = {
+    workplan: 'Step 1',
+    eventInformation: 'Step 2',
+    attachments: 'Step 3',
+    declaration: 'Step 4',
+  };
 
   progressReportForm = this.formBuilder.formGroup(
     ProgressReportForm,
-    {},
   ) as IFormGroup<ProgressReportForm>;
   formChanged = false;
   lastSavedAt?: Date;
-
-  @ViewChild(MatStepper) stepper!: MatStepper;
 
   authorizedRepresentativeText?: string;
   accuracyOfInformationText?: string;
@@ -203,15 +223,15 @@ export class DrifProgressReportCreateComponent {
     }),
   );
 
-  get workplanForm(): IFormGroup<WorkplanForm> | null {
+  get workplanForm(): IFormGroup<WorkplanForm> {
     return this.progressReportForm.get('workplan') as IFormGroup<WorkplanForm>;
   }
 
-  get workplanItems(): FormArray | null {
+  get workplanActivitiesArray(): FormArray {
     return this.workplanForm?.get('workplanActivities') as FormArray;
   }
 
-  get eventsForm(): IFormGroup<EventInformationForm> | null {
+  get eventInformationForm(): IFormGroup<EventInformationForm> {
     return this.progressReportForm.get(
       'eventInformation',
     ) as IFormGroup<EventInformationForm>;
@@ -325,15 +345,6 @@ export class DrifProgressReportCreateComponent {
                 return;
               }
 
-              console.log(
-                'before: ',
-                this.progressReportForm?.get(
-                  'declaration.authorizedRepresentativeStatement',
-                )?.value,
-                this.progressReportForm?.get(
-                  'declaration.informationAccuracyStatement',
-                )?.value,
-              );
               this.progressReportForm
                 ?.get('declaration.authorizedRepresentativeStatement')
                 ?.reset();
@@ -341,15 +352,6 @@ export class DrifProgressReportCreateComponent {
               this.progressReportForm
                 ?.get('declaration.informationAccuracyStatement')
                 ?.reset();
-              console.log(
-                'after: ',
-                this.progressReportForm?.get(
-                  'declaration.authorizedRepresentativeStatement',
-                )?.value,
-                this.progressReportForm?.get(
-                  'declaration.informationAccuracyStatement',
-                )?.value,
-              );
 
               this.formChanged = true;
               this.resetAutoSaveTimer();
@@ -374,7 +376,7 @@ export class DrifProgressReportCreateComponent {
                 new WorkplanActivityForm(activity),
               );
 
-              this.workplanItems?.push(activityForm);
+              this.workplanActivitiesArray?.push(activityForm);
             });
 
             if (
@@ -458,7 +460,7 @@ export class DrifProgressReportCreateComponent {
               );
             });
 
-            this.eventsForm
+            this.eventInformationForm
               ?.get('eventsOccurredSinceLastReport')
               ?.valueChanges.subscribe((value) => {
                 if (value === true && this.getPastEventsArray()?.length === 0) {
@@ -469,7 +471,7 @@ export class DrifProgressReportCreateComponent {
                 }
               });
 
-            this.eventsForm
+            this.eventInformationForm
               ?.get('anyUpcomingEvents')
               ?.valueChanges.subscribe((value) => {
                 if (
@@ -560,9 +562,37 @@ export class DrifProgressReportCreateComponent {
     });
   }
 
-  stepperSelectionChange(event: any) {}
+  stepperSelectionChange(event: StepperSelectionEvent) {
+    if (event.previouslySelectedIndex === 0) {
+      return;
+    }
+
+    this.save();
+
+    event.previouslySelectedStep.stepControl.markAllAsTouched();
+
+    if (this.stepperOrientation === 'horizontal') {
+      return;
+    }
+
+    const stepId = this.stepper._getStepLabelId(event.selectedIndex);
+    const stepElement = document.getElementById(stepId);
+    if (stepElement) {
+      setTimeout(() => {
+        stepElement.scrollIntoView({
+          block: 'start',
+          inline: 'nearest',
+          behavior: 'smooth',
+        });
+      }, 250);
+    }
+  }
 
   save() {
+    if (!this.formChanged) {
+      return;
+    }
+
     this.lastSavedAt = undefined;
 
     this.projectService
@@ -590,19 +620,67 @@ export class DrifProgressReportCreateComponent {
   }
 
   goBack() {
-    // TODO: save
+    this.save();
 
     this.router.navigate(['drif-projects', this.projectId]);
   }
 
-  submit() {}
+  submit() {
+    this.progressReportForm.markAllAsTouched();
+    this.stepper.steps.forEach((step) => step._markAsInteracted());
+    this.stepper._stateChanged();
+
+    if (this.progressReportForm.invalid) {
+      const invalidSteps = Object.keys(this.progressReportForm.controls)
+        .filter((key) => this.progressReportForm.get(key)?.invalid)
+        .map((key) => this.formToStepMap[key]);
+
+      const lastStep = invalidSteps.pop();
+
+      const stepsErrorMessage =
+        invalidSteps.length > 0
+          ? `${invalidSteps.join(', ')} and ${lastStep}`
+          : lastStep;
+
+      this.toastService.close();
+      this.toastService.error(
+        `Please fill all the required fields in ${stepsErrorMessage}.`,
+      );
+
+      return;
+    }
+
+    this.projectService
+      // TODO: change after submit endpoint introduced
+      .projectUpdateProgressReport(
+        this.projectId,
+        this.reportId,
+        this.progressReportId,
+        this.progressReportForm.getRawValue(),
+      )
+
+      .subscribe({
+        next: (response) => {
+          this.toastService.close();
+          this.toastService.success(
+            `Your submission has been received. \nID #: ${response.id}.`,
+          );
+
+          this.router.navigate(['/dashboard']);
+        },
+        error: (error) => {
+          this.toastService.close();
+          this.toastService.error('Failed to submit application');
+        },
+      });
+  }
 
   getActivitiesFormArray() {
     return this.workplanForm?.get('workplanActivities') as FormArray;
   }
 
   getPreDefinedActivitiesArray() {
-    return this.workplanItems?.controls.filter(
+    return this.workplanActivitiesArray?.controls.filter(
       (control) =>
         control.get('preCreatedActivity')?.value &&
         control.get('activity')?.value !== ActivityType.PermitToConstruct &&
@@ -612,7 +690,7 @@ export class DrifProgressReportCreateComponent {
   }
 
   getMilestoneActivitiesArray() {
-    return this.workplanItems?.controls.filter(
+    return this.workplanActivitiesArray?.controls.filter(
       (control) =>
         control.get('preCreatedActivity')?.value &&
         (control.get('activity')?.value === ActivityType.PermitToConstruct ||
@@ -633,7 +711,7 @@ export class DrifProgressReportCreateComponent {
   }
 
   getAdditionalActivitiesArray() {
-    return this.workplanItems?.controls
+    return this.workplanActivitiesArray?.controls
       .filter((control) => !control.get('preCreatedActivity')?.value)
       .sort((a, b) => {
         const aMandatory = a.get('isMandatory')?.value;
@@ -652,7 +730,7 @@ export class DrifProgressReportCreateComponent {
   }
 
   addAdditionalActivity() {
-    this.workplanItems?.push(
+    this.workplanActivitiesArray?.push(
       this.formBuilder.formGroup(
         new WorkplanActivityForm({
           isMandatory: false,
@@ -674,7 +752,7 @@ export class DrifProgressReportCreateComponent {
   }
 
   removeAdditionalActivity(index: number) {
-    this.workplanItems?.removeAt(index);
+    this.workplanActivitiesArray?.removeAt(index);
   }
 
   showPlannedStartDate(activityControl: AbstractControl<WorkplanActivityForm>) {
@@ -784,7 +862,7 @@ export class DrifProgressReportCreateComponent {
   }
 
   getPastEventsArray() {
-    return this.eventsForm?.get('pastEvents') as FormArray;
+    return this.eventInformationForm?.get('pastEvents') as FormArray;
   }
 
   addPastEvent() {
@@ -798,7 +876,7 @@ export class DrifProgressReportCreateComponent {
   }
 
   getUpcomingEventsArray() {
-    return this.eventsForm?.get('upcomingEvents') as FormArray;
+    return this.eventInformationForm?.get('upcomingEvents') as FormArray;
   }
 
   addFutureEvent() {
@@ -888,6 +966,12 @@ export class DrifProgressReportCreateComponent {
   }
 
   getDelcarationForm() {
-    return this.progressReportForm.get('declaration') as IFormGroup<any>;
+    return this.progressReportForm.get(
+      'declaration',
+    ) as IFormGroup<DeclarationForm>;
+  }
+
+  getFormGroup(groupName: string) {
+    return this.progressReportForm?.get(groupName) as RxFormGroup;
   }
 }

@@ -1,3 +1,4 @@
+import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import {
   provideHttpClient,
   withFetch,
@@ -102,6 +103,10 @@ export const appConfig: ApplicationConfig = {
         floatLabel: 'always',
         appearance: 'outline',
       },
+    },
+    {
+      provide: STEPPER_GLOBAL_OPTIONS,
+      useValue: { showError: true },
     },
     provideNgxMask(),
   ],

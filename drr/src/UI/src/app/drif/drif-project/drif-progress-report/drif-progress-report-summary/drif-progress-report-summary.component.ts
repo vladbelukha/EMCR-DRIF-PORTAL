@@ -38,14 +38,14 @@ export class DrifProgressReportSummaryComponent {
   @Input() progressReportForm!: IFormGroup<ProgressReportForm>;
   @Input() isReadOnlyView = true;
 
-  getWorkplanItems(): FormArray | null {
+  getWorkplanActivities(): FormArray | null {
     return this.progressReportForm.get(
       'workplan.workplanActivities',
     ) as FormArray;
   }
 
   getPreDefinedActivitiesArray() {
-    return this.getWorkplanItems()?.controls.filter(
+    return this.getWorkplanActivities()?.controls.filter(
       (control) =>
         control.get('preCreatedActivity')?.value &&
         control.get('activity')?.value !== ActivityType.PermitToConstruct &&
@@ -55,7 +55,7 @@ export class DrifProgressReportSummaryComponent {
   }
 
   getMilestoneActivitiesArray() {
-    return this.getWorkplanItems()?.controls.filter(
+    return this.getWorkplanActivities()?.controls.filter(
       (control) =>
         control.get('preCreatedActivity')?.value &&
         (control.get('activity')?.value === ActivityType.PermitToConstruct ||
@@ -65,7 +65,7 @@ export class DrifProgressReportSummaryComponent {
   }
 
   getAdditionalActivitiesArray() {
-    return this.getWorkplanItems()
+    return this.getWorkplanActivities()
       ?.controls.filter((control) => !control.get('preCreatedActivity')?.value)
       .sort((a, b) => {
         const aMandatory = a.get('isMandatory')?.value;
