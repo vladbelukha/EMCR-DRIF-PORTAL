@@ -14,20 +14,20 @@
           Save
         </button>
       </div>
-      <!-- <div class="save-info">
-          <div style="display: flex; flex-direction: row; gap: 1rem">
-            <i *ngIf="autoSaveCountdown <= 30 && autoSaveCountdown > 0"
-              >Saving in {{ autoSaveCountdown }}
-              {{ autoSaveCountdown === 1 ? "second" : "seconds" }}...
-            </i>
-            <i
-              *ngIf="
-                lastSavedAt && (autoSaveCountdown === 0 || autoSaveCountdown > 30)
-              "
-              >Saved at {{ lastSavedAt | date : "mediumTime" }}</i
-            >
-          </div>
-        </div> -->
+      <div class="save-info">
+        <div style="display: flex; flex-direction: row; gap: 1rem">
+          <i *ngIf="autoSaveCountdown <= 30 && autoSaveCountdown > 0"
+            >Saving in {{ autoSaveCountdown }}
+            {{ autoSaveCountdown === 1 ? "second" : "seconds" }}...
+          </i>
+          <i
+            *ngIf="
+              lastSavedAt && (autoSaveCountdown === 0 || autoSaveCountdown > 30)
+            "
+            >Saved at {{ lastSavedAt | date: "mediumTime" }}</i
+          >
+        </div>
+      </div>
     </div>
   </div>
   <mat-stepper
@@ -886,7 +886,10 @@
           [progressReportForm]="progressReportForm"
           [isReadOnlyView]="false"
         ></drif-progress-report-summary>
-        <div style="display: flex; flex-direction: column; gap: 1rem">
+        <form
+          style="display: flex; flex-direction: column; gap: 1rem"
+          [formGroup]="getDelcarationForm()"
+        >
           <mat-label class="drr-label">{{ t("submitter") }}</mat-label>
           <div class="contacts-container">
             <drr-input
@@ -948,11 +951,7 @@
             <mat-label> {{ authorizedRepresentativeText }} *</mat-label>
             <mat-checkbox
               id="authorizedRepresentativeStatement"
-              [formControl]="
-                progressReportForm.get(
-                  'declaration.authorizedRepresentativeStatement'
-                )!
-              "
+              formControlName="authorizedRepresentativeStatement"
             >
               {{ t("agree") }}
             </mat-checkbox>
@@ -976,11 +975,7 @@
             <mat-label> {{ accuracyOfInformationText }} *</mat-label>
             <mat-checkbox
               id="informationAccuracyStatement"
-              [formControl]="
-                progressReportForm.get(
-                  'declaration.informationAccuracyStatement'
-                )!
-              "
+              formControlName="informationAccuracyStatement"
             >
               {{ t("agree") }}
             </mat-checkbox>
@@ -996,7 +991,7 @@
               >{{ t("required") }}</mat-error
             >
           </div>
-        </div>
+        </form>
       </div>
       <div class="drr-stepper-actions">
         <button mat-stroked-button color="primary" matStepperPrevious>
