@@ -14,7 +14,7 @@ import { DrifForecastComponent } from './drif/drif-project/drif-forecast/drif-fo
 import { DrifInterimReportCreateComponent } from './drif/drif-project/drif-interim-report/drif-interim-report-create/drif-interim-report-create.component';
 import { DrifInterimReportComponent } from './drif/drif-project/drif-interim-report/drif-interim-report.component';
 import { DrifProgressReportCreateComponent } from './drif/drif-project/drif-progress-report/drif-progress-report-create/drif-progress-report-create.component';
-import { DrifProgressReportComponent } from './drif/drif-project/drif-progress-report/drif-progress-report.component';
+import { DrifProgressReportViewComponent } from './drif/drif-project/drif-progress-report/drif-progress-report-view.component';
 import { DrifProjectComponent } from './drif/drif-project/drif-project.component';
 
 export const routes: Routes = [
@@ -78,8 +78,8 @@ export const routes: Routes = [
     canActivate: [AuthenticationGuard],
   },
   {
-    path: 'drif-projects/:projectId/interim-reports/:reportId/progress-reports/:progressReportId',
-    component: DrifProgressReportComponent,
+    path: 'drif-projects/:projectId/interim-reports/:reportId/progress-reports/:progressReportId/view',
+    component: DrifProgressReportViewComponent,
     canActivate: [AuthenticationGuard],
   },
   {

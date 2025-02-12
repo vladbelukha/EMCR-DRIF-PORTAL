@@ -1,5 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { ConfigurationService } from '../../../api/configuration/configuration.service';
+import { DrifapplicationService } from '../../../api/drifapplication/drifapplication.service';
 import { ConfigurationStore } from '../../store/configuration.store';
 import { OptionsStore } from '../../store/options.store';
 
@@ -8,6 +9,7 @@ import { OptionsStore } from '../../store/options.store';
 })
 export class AppConfigurationService {
   configurationService = inject(ConfigurationService);
+  drifAppService = inject(DrifapplicationService);
   configurationStore = inject(ConfigurationStore);
   optionsStore = inject(OptionsStore);
 
@@ -21,8 +23,8 @@ export class AppConfigurationService {
         (error) => {
           console.error('Error fetching appConfig', error);
           resolve(false);
-        }
-      )
+        },
+      ),
     );
   }
 
@@ -34,5 +36,20 @@ export class AppConfigurationService {
           ...entities,
         });
       });
+  }
+
+  async loadDeclarations() {
+    return new Promise((resolve) =>
+      this.drifAppService.dRIFApplicationGetDeclarations().subscribe(
+        (declarations) => {
+          this.optionsStore.setDeclarations(declarations.items!);
+          resolve(true);
+        },
+        (error) => {
+          console.error('Error fetching declarations', error);
+          resolve(false);
+        },
+      ),
+    );
   }
 }

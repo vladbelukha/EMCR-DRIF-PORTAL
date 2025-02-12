@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, HostListener, inject, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import {
+  MatStepper,
   MatStepperModule,
   StepperOrientation,
 } from '@angular/material/stepper';
@@ -15,8 +16,10 @@ import {
 } from '@rxweb/reactive-form-validators';
 import {
   ActivityType,
+  DeclarationType,
   Delay,
   DocumentType,
+  FormType,
   InterimProjectType,
   ProgressReport,
   ProjectProgressStatus,
@@ -28,10 +31,11 @@ import {
 
 import { AbstractControl, FormArray, Validators } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDividerModule } from '@angular/material/divider';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HotToastService } from '@ngxpert/hot-toast';
-import { Subscription } from 'rxjs';
+import { distinctUntilChanged, pairwise, startWith, Subscription } from 'rxjs';
 import { AttachmentService } from '../../../../../api/attachment/attachment.service';
 import { ProjectService } from '../../../../../api/project/project.service';
 import { DrrDatepickerComponent } from '../../../../shared/controls/drr-datepicker/drr-datepicker.component';
@@ -48,6 +52,8 @@ import {
 } from '../../../../shared/controls/drr-select/drr-select.component';
 import { DrrTextareaComponent } from '../../../../shared/controls/drr-textarea/drr-textarea.component';
 import { FileService } from '../../../../shared/services/file.service';
+import { OptionsStore } from '../../../../store/options.store';
+import { ProfileStore } from '../../../../store/profile.store';
 import { AttachmentForm } from '../../../drif-fp/drif-fp-form';
 import { DrrAttahcmentComponent } from '../../../drif-fp/drif-fp-step-11/drif-fp-attachment.component';
 import {
@@ -71,6 +77,7 @@ import { DrifProgressReportSummaryComponent } from '../drif-progress-report-summ
     MatButtonModule,
     MatInputModule,
     MatCardModule,
+    MatCheckboxModule,
     TranslocoModule,
     DrrDatepickerComponent,
     DrrInputComponent,
@@ -97,6 +104,8 @@ export class DrifProgressReportCreateComponent {
   toastService = inject(HotToastService);
   attachmentsService = inject(AttachmentService);
   fileService = inject(FileService);
+  optionsStore = inject(OptionsStore);
+  profileStore = inject(ProfileStore);
 
   projectId!: string;
   reportId!: string;
@@ -108,6 +117,13 @@ export class DrifProgressReportCreateComponent {
     ProgressReportForm,
     {},
   ) as IFormGroup<ProgressReportForm>;
+  formChanged = false;
+  lastSavedAt?: Date;
+
+  @ViewChild(MatStepper) stepper!: MatStepper;
+
+  authorizedRepresentativeText?: string;
+  accuracyOfInformationText?: string;
 
   private allActivityTypeOptions: DrrSelectOption[] = Object.values(
     ActivityType,
@@ -201,193 +217,345 @@ export class DrifProgressReportCreateComponent {
     ) as IFormGroup<EventInformationForm>;
   }
 
+  autoSaveCountdown = 0;
+  autoSaveTimer: any;
+  autoSaveInterval = 60;
+
+  @HostListener('window:mousemove')
+  @HostListener('window:mousedown')
+  @HostListener('window:keypress')
+  @HostListener('window:scroll')
+  @HostListener('window:touchmove')
+  resetAutoSaveTimer() {
+    if (!this.formChanged) {
+      this.autoSaveCountdown = 0;
+      clearInterval(this.autoSaveTimer);
+      return;
+    }
+
+    this.autoSaveCountdown = this.autoSaveInterval;
+    clearInterval(this.autoSaveTimer);
+    this.autoSaveTimer = setInterval(() => {
+      this.autoSaveCountdown -= 1;
+      if (this.autoSaveCountdown === 0) {
+        this.save();
+        clearInterval(this.autoSaveTimer);
+      }
+    }, 1000);
+  }
+
   ngOnInit() {
     this.route.params.subscribe((params) => {
       this.projectId = params['projectId'];
       this.reportId = params['reportId'];
       this.progressReportId = params['progressReportId'];
 
+      this.authorizedRepresentativeText = this.optionsStore.getDeclarations?.(
+        DeclarationType.AuthorizedRepresentative,
+        FormType.Report,
+      );
+
+      this.accuracyOfInformationText = this.optionsStore.getDeclarations?.(
+        DeclarationType.AccuracyOfInformation,
+        FormType.Report,
+      );
+
+      const profileData = this.profileStore.getProfile();
+
+      const submitterForm = this.progressReportForm.get(
+        'declaration.submitter',
+      );
+      if (profileData.firstName?.()) {
+        submitterForm
+          ?.get('firstName')
+          ?.setValue(profileData.firstName(), { emitEvent: false });
+        submitterForm?.get('firstName')?.disable();
+      }
+      if (profileData.lastName?.()) {
+        submitterForm
+          ?.get('lastName')
+          ?.setValue(profileData.lastName(), { emitEvent: false });
+        submitterForm?.get('lastName')?.disable();
+      }
+      if (profileData.title?.()) {
+        submitterForm?.get('title')?.setValue(profileData.title(), {
+          emitEvent: false,
+        });
+      }
+      if (profileData.department?.()) {
+        submitterForm?.get('department')?.setValue(profileData.department(), {
+          emitEvent: false,
+        });
+      }
+      if (profileData.phone?.()) {
+        submitterForm?.get('phone')?.setValue(profileData.phone(), {
+          emitEvent: false,
+        });
+      }
+      if (profileData.email?.()) {
+        submitterForm?.get('email')?.setValue(profileData.email(), {
+          emitEvent: false,
+        });
+      }
+
+      this.load().then(() => {
+        this.formChanged = false;
+        setTimeout(() => {
+          this.progressReportForm.valueChanges
+            .pipe(
+              startWith(this.progressReportForm.value),
+              pairwise(),
+              distinctUntilChanged((a, b) => {
+                // compare objects but ignore declaration changes
+                delete a[1].declaration.authorizedRepresentativeStatement;
+                delete a[1].declaration.informationAccuracyStatement;
+                delete b[1].declaration.authorizedRepresentativeStatement;
+                delete b[1].declaration.informationAccuracyStatement;
+
+                return JSON.stringify(a[1]) == JSON.stringify(b[1]);
+              }),
+            )
+            .subscribe(([prev, curr]) => {
+              if (
+                prev.declaration.authorizedRepresentativeStatement !==
+                  curr.declaration.authorizedRepresentativeStatement ||
+                prev.declaration.informationAccuracyStatement !==
+                  curr.declaration.informationAccuracyStatement
+              ) {
+                return;
+              }
+
+              console.log(
+                'before: ',
+                this.progressReportForm?.get(
+                  'declaration.authorizedRepresentativeStatement',
+                )?.value,
+                this.progressReportForm?.get(
+                  'declaration.informationAccuracyStatement',
+                )?.value,
+              );
+              this.progressReportForm
+                ?.get('declaration.authorizedRepresentativeStatement')
+                ?.reset();
+
+              this.progressReportForm
+                ?.get('declaration.informationAccuracyStatement')
+                ?.reset();
+              console.log(
+                'after: ',
+                this.progressReportForm?.get(
+                  'declaration.authorizedRepresentativeStatement',
+                )?.value,
+                this.progressReportForm?.get(
+                  'declaration.informationAccuracyStatement',
+                )?.value,
+              );
+
+              this.formChanged = true;
+              this.resetAutoSaveTimer();
+            });
+        }, 1000);
+      });
+    });
+  }
+
+  load(): Promise<void> {
+    return new Promise((resolve, reject) => {
       this.projectService
         .projectGetProgressReport(
           this.projectId,
           this.reportId,
           this.progressReportId,
         )
-        .subscribe((report: ProgressReport) => {
-          report.workplan?.workplanActivities?.map((activity) => {
-            const activityForm = this.formBuilder.formGroup(
-              new WorkplanActivityForm(activity),
-            );
-
-            this.workplanItems?.push(activityForm);
-          });
-
-          if (
-            report?.workplan?.fundingSignage
-              ? report?.workplan?.fundingSignage.length > 0
-              : false
-          ) {
-            this.getSignageFormArray().clear();
-          }
-          report.workplan?.fundingSignage?.map((signage) => {
-            const signageForm = this.formBuilder.formGroup(
-              new FundingSignageForm(signage),
-            );
-
-            this.getSignageFormArray()?.push(signageForm);
-          });
-
-          this.progressReportForm
-            .get('workplan.fundingSourcesChanged')
-            ?.valueChanges.subscribe((value) => {
-              const comment = this.progressReportForm.get(
-                'workplan.fundingSourcesChangedComment',
+        .subscribe({
+          next: (report: ProgressReport) => {
+            report.workplan?.workplanActivities?.map((activity) => {
+              const activityForm = this.formBuilder.formGroup(
+                new WorkplanActivityForm(activity),
               );
 
-              if (value) {
-                comment?.addValidators(Validators.required);
-              } else {
-                comment?.removeValidators(Validators.required);
-              }
-
-              comment?.updateValueAndValidity();
+              this.workplanItems?.push(activityForm);
             });
 
-          this.progressReportForm
-            .get('workplan.outstandingIssues')
-            ?.valueChanges.subscribe((value) => {
-              const comment = this.progressReportForm.get(
-                'workplan.outstandingIssuesComments',
+            if (
+              report?.workplan?.fundingSignage
+                ? report?.workplan?.fundingSignage.length > 0
+                : false
+            ) {
+              this.getSignageFormArray().clear();
+            }
+            report.workplan?.fundingSignage?.map((signage) => {
+              const signageForm = this.formBuilder.formGroup(
+                new FundingSignageForm(signage),
               );
 
-              if (value) {
-                comment?.addValidators(Validators.required);
-              } else {
-                comment?.removeValidators(Validators.required);
-              }
-
-              comment?.updateValueAndValidity();
+              this.getSignageFormArray()?.push(signageForm);
             });
 
-          this.progressReportForm
-            .get('workplan.mediaAnnouncement')
-            ?.valueChanges.subscribe((value) => {
-              const date = this.progressReportForm.get(
-                'workplan.mediaAnnouncementDate',
+            this.progressReportForm
+              .get('workplan.fundingSourcesChanged')
+              ?.valueChanges.subscribe((value) => {
+                const comment = this.progressReportForm.get(
+                  'workplan.fundingSourcesChangedComment',
+                );
+
+                if (value) {
+                  comment?.addValidators(Validators.required);
+                } else {
+                  comment?.removeValidators(Validators.required);
+                }
+
+                comment?.updateValueAndValidity();
+              });
+
+            this.progressReportForm
+              .get('workplan.outstandingIssues')
+              ?.valueChanges.subscribe((value) => {
+                const comment = this.progressReportForm.get(
+                  'workplan.outstandingIssuesComments',
+                );
+
+                if (value) {
+                  comment?.addValidators(Validators.required);
+                } else {
+                  comment?.removeValidators(Validators.required);
+                }
+
+                comment?.updateValueAndValidity();
+              });
+
+            this.progressReportForm
+              .get('workplan.mediaAnnouncement')
+              ?.valueChanges.subscribe((value) => {
+                const date = this.progressReportForm.get(
+                  'workplan.mediaAnnouncementDate',
+                );
+                const comment = this.progressReportForm.get(
+                  'workplan.mediaAnnouncementComment',
+                );
+
+                if (value) {
+                  date?.addValidators(Validators.required);
+                  comment?.addValidators(Validators.required);
+                } else {
+                  date?.removeValidators(Validators.required);
+                  comment?.removeValidators(Validators.required);
+                }
+
+                date?.updateValueAndValidity();
+                comment?.updateValueAndValidity();
+              });
+
+            report.eventInformation?.pastEvents?.map((event) => {
+              this.getPastEventsArray()?.push(
+                this.formBuilder.formGroup(new ProjectEventForm(event)),
               );
-              const comment = this.progressReportForm.get(
-                'workplan.mediaAnnouncementComment',
+            });
+
+            report.eventInformation?.upcomingEvents?.map((event) => {
+              this.getUpcomingEventsArray()?.push(
+                this.formBuilder.formGroup(new ProjectEventForm(event)),
+              );
+            });
+
+            this.eventsForm
+              ?.get('eventsOccurredSinceLastReport')
+              ?.valueChanges.subscribe((value) => {
+                if (value === true && this.getPastEventsArray()?.length === 0) {
+                  this.addPastEvent();
+                }
+                if (value === false) {
+                  this.getPastEventsArray()?.clear();
+                }
+              });
+
+            this.eventsForm
+              ?.get('anyUpcomingEvents')
+              ?.valueChanges.subscribe((value) => {
+                if (
+                  value === true &&
+                  this.getUpcomingEventsArray()?.length === 0
+                ) {
+                  this.addFutureEvent();
+                }
+                if (value === false) {
+                  this.getUpcomingEventsArray()?.clear();
+                }
+              });
+
+            report.attachments?.map((attachment) => {
+              const attachmentForm = this.formBuilder.formGroup(
+                new AttachmentForm(attachment),
               );
 
-              if (value) {
-                date?.addValidators(Validators.required);
-                comment?.addValidators(Validators.required);
-              } else {
-                date?.removeValidators(Validators.required);
-                comment?.removeValidators(Validators.required);
-              }
-
-              date?.updateValueAndValidity();
-              comment?.updateValueAndValidity();
+              this.getAttachmentsFormArray().push(attachmentForm);
             });
 
-          report.eventInformation?.pastEvents?.map((event) => {
-            this.getPastEventsArray()?.push(
-              this.formBuilder.formGroup(new ProjectEventForm(event)),
-            );
-          });
+            this.progressReportForm
+              .get('workplan.projectProgress')
+              ?.valueChanges.subscribe((value) => {
+                const delayReason = this.progressReportForm.get(
+                  'workplan.delayReason',
+                );
+                const otherDelayReason = this.progressReportForm.get(
+                  'workplan.otherDelayReason',
+                );
+                const behindScheduleMitigatingComments =
+                  this.progressReportForm.get(
+                    'workplan.behindScheduleMitigatingComments',
+                  );
+                const aheadOfScheduleComments = this.progressReportForm.get(
+                  'workplan.aheadOfScheduleComments',
+                );
 
-          report.eventInformation?.futureEvents?.map((event) => {
-            this.getFutureEventsArray()?.push(
-              this.formBuilder.formGroup(new ProjectEventForm(event)),
-            );
-          });
+                let delayReasonSub: Subscription | undefined;
 
-          this.eventsForm
-            ?.get('haveEventsOccurred')
-            ?.valueChanges.subscribe((value) => {
-              if (value === true && this.getPastEventsArray()?.length === 0) {
-                this.addPastEvent();
-              }
-              if (value === false) {
-                this.getPastEventsArray()?.clear();
-              }
-            });
+                if (value === ProjectProgressStatus.BehindSchedule) {
+                  delayReason?.addValidators(Validators.required);
+                  delayReasonSub = delayReason?.valueChanges.subscribe(
+                    (reason) => {
+                      if (reason === Delay.Other) {
+                        otherDelayReason?.addValidators(Validators.required);
+                      } else {
+                        otherDelayReason?.removeValidators(Validators.required);
+                        otherDelayReason?.reset();
+                      }
+                    },
+                  );
+                  behindScheduleMitigatingComments?.addValidators(
+                    Validators.required,
+                  );
+                } else {
+                  delayReason?.removeValidators(Validators.required);
+                  delayReason?.reset();
+                  delayReasonSub?.unsubscribe();
+                  behindScheduleMitigatingComments?.removeValidators(
+                    Validators.required,
+                  );
+                  behindScheduleMitigatingComments?.reset();
+                }
 
-          this.eventsForm
-            ?.get('haveUpcomingEvents')
-            ?.valueChanges.subscribe((value) => {
-              if (value === true && this.getFutureEventsArray()?.length === 0) {
-                this.addFutureEvent();
-              }
-              if (value === false) {
-                this.getFutureEventsArray()?.clear();
-              }
-            });
+                if (value === ProjectProgressStatus.AheadOfSchedule) {
+                  aheadOfScheduleComments?.addValidators(Validators.required);
+                } else {
+                  aheadOfScheduleComments?.removeValidators(
+                    Validators.required,
+                  );
+                  aheadOfScheduleComments?.reset();
+                }
 
-          report.attachments?.map((attachment) => {
-            const attachmentForm = this.formBuilder.formGroup(
-              new AttachmentForm(attachment),
-            );
+                delayReason?.updateValueAndValidity();
+                otherDelayReason?.updateValueAndValidity();
+                behindScheduleMitigatingComments?.updateValueAndValidity();
+                aheadOfScheduleComments?.updateValueAndValidity();
+              });
 
-            this.getAttachmentsFormArray().push(attachmentForm);
-          });
-
-          this.progressReportForm.patchValue(report);
-        });
-
-      this.progressReportForm
-        .get('workplan.projectProgress')
-        ?.valueChanges.subscribe((value) => {
-          const delayReason = this.progressReportForm.get(
-            'workplan.delayReason',
-          );
-          const otherDelayReason = this.progressReportForm.get(
-            'workplan.otherDelayReason',
-          );
-          const behindScheduleMitigatingComments = this.progressReportForm.get(
-            'workplan.behindScheduleMitigatingComments',
-          );
-          const aheadOfScheduleComments = this.progressReportForm.get(
-            'workplan.aheadOfScheduleComments',
-          );
-
-          let delayReasonSub: Subscription | undefined;
-
-          if (value === ProjectProgressStatus.BehindSchedule) {
-            delayReason?.addValidators(Validators.required);
-            delayReasonSub = delayReason?.valueChanges.subscribe((reason) => {
-              if (reason === Delay.Other) {
-                otherDelayReason?.addValidators(Validators.required);
-              } else {
-                otherDelayReason?.removeValidators(Validators.required);
-                otherDelayReason?.reset();
-              }
-            });
-            behindScheduleMitigatingComments?.addValidators(
-              Validators.required,
-            );
-          } else {
-            delayReason?.removeValidators(Validators.required);
-            delayReason?.reset();
-            delayReasonSub?.unsubscribe();
-            behindScheduleMitigatingComments?.removeValidators(
-              Validators.required,
-            );
-            behindScheduleMitigatingComments?.reset();
-          }
-
-          if (value === ProjectProgressStatus.AheadOfSchedule) {
-            aheadOfScheduleComments?.addValidators(Validators.required);
-          } else {
-            aheadOfScheduleComments?.removeValidators(Validators.required);
-            aheadOfScheduleComments?.reset();
-          }
-
-          delayReason?.updateValueAndValidity();
-          otherDelayReason?.updateValueAndValidity();
-          behindScheduleMitigatingComments?.updateValueAndValidity();
-          aheadOfScheduleComments?.updateValueAndValidity();
+            this.progressReportForm.patchValue(report);
+            resolve();
+          },
+          error: () => {
+            reject();
+          },
         });
     });
   }
@@ -395,6 +563,8 @@ export class DrifProgressReportCreateComponent {
   stepperSelectionChange(event: any) {}
 
   save() {
+    this.lastSavedAt = undefined;
+
     this.projectService
       .projectUpdateProgressReport(
         this.projectId,
@@ -402,8 +572,20 @@ export class DrifProgressReportCreateComponent {
         this.progressReportId,
         this.progressReportForm.getRawValue(),
       )
-      .subscribe(() => {
-        this.toastService.success('Progress report saved');
+      .subscribe({
+        next: () => {
+          this.lastSavedAt = new Date();
+
+          this.toastService.close();
+          this.toastService.success('Report saved successfully');
+
+          this.formChanged = false;
+          this.resetAutoSaveTimer();
+        },
+        error: () => {
+          this.toastService.close();
+          this.toastService.error('Failed to save report');
+        },
       });
   }
 
@@ -615,18 +797,18 @@ export class DrifProgressReportCreateComponent {
     this.getPastEventsArray()?.removeAt(index);
   }
 
-  getFutureEventsArray() {
-    return this.eventsForm?.get('futureEvents') as FormArray;
+  getUpcomingEventsArray() {
+    return this.eventsForm?.get('upcomingEvents') as FormArray;
   }
 
   addFutureEvent() {
-    this.getFutureEventsArray()?.push(
+    this.getUpcomingEventsArray()?.push(
       this.formBuilder.formGroup(new ProjectEventForm({})),
     );
   }
 
   removeFutureEvent(index: number) {
-    this.getFutureEventsArray()?.removeAt(index);
+    this.getUpcomingEventsArray()?.removeAt(index);
   }
 
   getAttachmentsFormArray(): FormArray {
@@ -645,7 +827,7 @@ export class DrifProgressReportCreateComponent {
         .attachmentUploadAttachment({
           recordId: this.progressReportId,
           recordType: RecordType.ProgressReport,
-          // documentType: DocumentType.,
+          documentType: DocumentType.ProgressReport,
           name: file.name,
           contentType:
             file.type === ''
@@ -659,7 +841,7 @@ export class DrifProgressReportCreateComponent {
               name: file.name,
               comments: '',
               id: attachment.id,
-              // documentType: event.documentType,
+              documentType: DocumentType.ProgressReport,
             } as AttachmentForm;
 
             this.getAttachmentsFormArray().push(
@@ -703,5 +885,9 @@ export class DrifProgressReportCreateComponent {
           this.toastService.error('File deletion failed');
         },
       });
+  }
+
+  getDelcarationForm() {
+    return this.progressReportForm.get('declaration') as IFormGroup<any>;
   }
 }

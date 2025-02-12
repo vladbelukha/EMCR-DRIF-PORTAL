@@ -5,6 +5,7 @@ import {
   propArray,
   propObject,
   required,
+  requiredTrue,
 } from '@rxweb/reactive-form-validators';
 import {
   ActivityType,
@@ -202,18 +203,18 @@ export class ProjectEventForm implements ProjectEvent {
 
   @prop()
   @required()
-  description?: string;
+  details?: string;
 
   @prop()
   @required()
   date?: string;
 
   @propObject(ContactDetailsForm)
-  eventContact?: ContactDetailsForm = new ContactDetailsForm({});
+  contact?: ContactDetailsForm = new ContactDetailsForm({});
 
   @prop()
   @required()
-  provincialRepresentativeInvited?: boolean;
+  provincialRepresentativeRequest?: boolean;
 
   constructor(values: ProjectEventForm) {
     Object.assign(this, values);
@@ -223,19 +224,39 @@ export class ProjectEventForm implements ProjectEvent {
 export class EventInformationForm implements EventInformation {
   @prop()
   @required()
-  haveEventsOccurred?: boolean | undefined;
+  eventsOccurredSinceLastReport?: boolean | undefined;
 
   @propArray(ProjectEventForm)
   pastEvents?: ProjectEventForm[] = [];
 
   @prop()
   @required()
-  haveUpcomingEvents?: boolean | undefined;
+  anyUpcomingEvents?: boolean | undefined;
 
   @propArray(ProjectEventForm)
-  futureEvents?: ProjectEventForm[] = [];
+  upcomingEvents?: ProjectEventForm[] = [];
 
   constructor(values: EventInformationForm) {
+    Object.assign(this, values);
+  }
+}
+
+export class DeclarationForm {
+  @required()
+  @propObject(ContactDetailsForm)
+  submitter?: ContactDetailsForm = new ContactDetailsForm({});
+
+  @prop()
+  @required()
+  @requiredTrue()
+  authorizedRepresentativeStatement?: boolean;
+
+  @prop()
+  @required()
+  @requiredTrue()
+  informationAccuracyStatement?: boolean;
+
+  constructor(values: DeclarationForm) {
     Object.assign(this, values);
   }
 }
@@ -252,4 +273,7 @@ export class ProgressReportForm implements ProgressReport {
 
   @propArray(AttachmentForm)
   attachments?: AttachmentForm[] = [];
+
+  @propObject(DeclarationForm)
+  declaration?: DeclarationForm = new DeclarationForm({});
 }

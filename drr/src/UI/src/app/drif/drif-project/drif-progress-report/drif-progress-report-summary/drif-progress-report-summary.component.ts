@@ -127,9 +127,9 @@ export class DrifProgressReportSummaryComponent {
     ) as FormArray;
   }
 
-  getFutureEventsArray() {
+  getUpcomingEventsArray() {
     return this.progressReportForm?.get(
-      'eventInformation.futureEvents',
+      'eventInformation.upcomingEvents',
     ) as FormArray;
   }
 

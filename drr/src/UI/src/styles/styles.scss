@@ -299,3 +299,12 @@ h6 {
     min-height: 2rem;
   }
 }
+
+.contacts-container {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 10px;
+}

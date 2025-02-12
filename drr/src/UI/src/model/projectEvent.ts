@@ -5,26 +5,16 @@
  * OpenAPI spec version: 1.0.0
  */
 import type { ContactDetails } from './contactDetails';
-import type { EventStatus } from './eventStatus';
-import type { EventType } from './eventType';
 
 export interface ProjectEvent {
   /** @nullable */
-  actualEventDate?: string;
+  contact?: ContactDetails;
   /** @nullable */
-  eventContact?: ContactDetails;
+  date?: string;
+  /** @nullable */
+  details?: string;
   /** @nullable */
   id?: string;
   /** @nullable */
-  nextEventDescription?: string;
-  /** @nullable */
-  plannedEventDate?: string;
-  /** @nullable */
   provincialRepresentativeRequest?: boolean;
-  /** @nullable */
-  provincialRepresentativeRequestComment?: string;
-  /** @nullable */
-  status?: EventStatus;
-  /** @nullable */
-  type?: EventType;
 }

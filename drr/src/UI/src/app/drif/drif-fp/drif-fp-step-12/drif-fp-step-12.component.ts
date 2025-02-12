@@ -6,9 +6,9 @@ import { MatInputModule } from '@angular/material/input';
 import { TranslocoModule } from '@ngneat/transloco';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { IFormGroup } from '@rxweb/reactive-form-validators';
-import { DrifapplicationService } from '../../../../api/drifapplication/drifapplication.service';
-import { ApplicationType, DeclarationType } from '../../../../model';
+import { ApplicationType, DeclarationType, FormType } from '../../../../model';
 import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
+import { OptionsStore } from '../../../store/options.store';
 import { ProfileStore } from '../../../store/profile.store';
 import { DeclarationForm, DrifFpForm } from '../drif-fp-form';
 import { DrifFpSummaryComponent } from '../drif-fp-summary/drif-fp-summary.component';
@@ -31,15 +31,15 @@ import { DrifFpSummaryComponent } from '../drif-fp-summary/drif-fp-summary.compo
   styleUrl: './drif-fp-step-12.component.scss',
 })
 export class DrifFpStep12Component {
-  drifAppService = inject(DrifapplicationService);
   profileStore = inject(ProfileStore);
+  optionsStore = inject(OptionsStore);
 
   @Input()
   fullProposalForm!: IFormGroup<DrifFpForm>;
 
   get declarationForm(): IFormGroup<DeclarationForm> {
     return this.fullProposalForm.get(
-      'declaration'
+      'declaration',
     ) as IFormGroup<DeclarationForm>;
   }
 
@@ -47,20 +47,17 @@ export class DrifFpStep12Component {
   accuracyOfInformationText?: string;
 
   ngOnInit() {
-    this.drifAppService
-      .dRIFApplicationGetDeclarations()
-      .subscribe((declarations) => {
-        this.authorizedRepresentativeText = declarations.items?.find(
-          (d) =>
-            d.type === DeclarationType.AuthorizedRepresentative &&
-            d.applicationType === ApplicationType.FP
-        )?.text;
-        this.accuracyOfInformationText = declarations.items?.find(
-          (d) =>
-            d.type === DeclarationType.AccuracyOfInformation &&
-            d.applicationType === ApplicationType.FP
-        )?.text;
-      });
+    this.authorizedRepresentativeText = this.optionsStore.getDeclarations?.(
+      DeclarationType.AuthorizedRepresentative,
+      FormType.Application,
+      ApplicationType.FP,
+    );
+
+    this.accuracyOfInformationText = this.optionsStore.getDeclarations?.(
+      DeclarationType.AccuracyOfInformation,
+      FormType.Application,
+      ApplicationType.FP,
+    );
 
     const profileData = this.profileStore.getProfile();
 

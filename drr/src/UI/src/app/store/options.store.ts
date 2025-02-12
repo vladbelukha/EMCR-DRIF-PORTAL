@@ -1,39 +1,68 @@
 import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
-import { EntitiesQueryResult } from '../../model';
+import {
+  ApplicationType,
+  DeclarationInfo,
+  DeclarationType,
+  EntitiesQueryResult,
+  FormType,
+} from '../../model';
 
 export type OptionsState = EntitiesQueryResult;
+export type DeclarationState = DeclarationInfo[];
 
 type OptionsStore = {
-  entities: OptionsState;
+  options: OptionsState;
+  declarations: DeclarationState;
 };
 
-const initialState: OptionsState = {
-  affectedParties: [],
-  capacityRisks: [],
-  coBenefits: [],
-  complexityRisks: [],
-  costConsiderations: [],
-  costReductions: [],
-  fiscalYears: [],
-  increasedResiliency: [],
-  professionals: [],
-  readinessRisks: [],
-  sensitivityRisks: [],
-  standards: [],
-  foundationalOrPreviousWorks: [],
-  climateAssessmentToolOptions: [],
-  projectActivities: [],
+const initialState: OptionsStore = {
+  options: {
+    affectedParties: [],
+    capacityRisks: [],
+    coBenefits: [],
+    complexityRisks: [],
+    costConsiderations: [],
+    costReductions: [],
+    fiscalYears: [],
+    increasedResiliency: [],
+    professionals: [],
+    readinessRisks: [],
+    sensitivityRisks: [],
+    standards: [],
+    foundationalOrPreviousWorks: [],
+    climateAssessmentToolOptions: [],
+    projectActivities: [],
+  },
+  declarations: [],
 };
 
 export const OptionsStore = signalStore(
   { providedIn: 'root' },
   withState(initialState),
   withMethods((store) => ({
-    setOptions(entities: OptionsState) {
-      patchState(store, entities);
+    setOptions(options: OptionsState) {
+      patchState(store, { options });
     },
     getOptions() {
-      return store;
+      return store.options;
     },
-  }))
+    setDeclarations(declarations: DeclarationState) {
+      patchState(store, { declarations });
+    },
+    getDeclarations(
+      declarationType: DeclarationType,
+      formType: FormType,
+      applicationType?: ApplicationType,
+    ): string | undefined {
+      return store
+        .declarations()
+        .find(
+          (d) =>
+            d.type === declarationType &&
+            (applicationType === undefined ||
+              d.applicationType === applicationType) &&
+            d.formType === formType,
+        )?.text;
+    },
+  })),
 );

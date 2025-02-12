@@ -47,7 +47,11 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(),
     provideHttpClient(
       withFetch(),
-      withInterceptors([LoadingInterceptor, TokenInterceptor, ErrorInterceptor])
+      withInterceptors([
+        LoadingInterceptor,
+        TokenInterceptor,
+        ErrorInterceptor,
+      ]),
     ),
     provideOAuthClient(),
     provideAnimations(),
@@ -78,12 +82,13 @@ export const appConfig: ApplicationConfig = {
       useFactory:
         (
           appConfigurationService: AppConfigurationService,
-          authService: AuthService
+          authService: AuthService,
         ) =>
         async () => {
           await appConfigurationService.loadConfiguration();
           await authService.init();
           await appConfigurationService.loadOptions();
+          await appConfigurationService.loadDeclarations();
 
           return Promise.resolve();
         },

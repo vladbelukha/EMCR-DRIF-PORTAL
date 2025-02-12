@@ -14,20 +14,20 @@
           Save
         </button>
       </div>
-      <!-- <div class="save-info">
-          <div style="display: flex; flex-direction: row; gap: 1rem">
-            <i *ngIf="autoSaveCountdown <= 30 && autoSaveCountdown > 0"
-              >Saving in {{ autoSaveCountdown }}
-              {{ autoSaveCountdown === 1 ? "second" : "seconds" }}...
-            </i>
-            <i
-              *ngIf="
-                lastSavedAt && (autoSaveCountdown === 0 || autoSaveCountdown > 30)
-              "
-              >Saved at {{ lastSavedAt | date : "mediumTime" }}</i
-            >
-          </div>
-        </div> -->
+      <div class="save-info">
+        <div style="display: flex; flex-direction: row; gap: 1rem">
+          <i *ngIf="autoSaveCountdown <= 30 && autoSaveCountdown > 0"
+            >Saving in {{ autoSaveCountdown }}
+            {{ autoSaveCountdown === 1 ? "second" : "seconds" }}...
+          </i>
+          <i
+            *ngIf="
+              lastSavedAt && (autoSaveCountdown === 0 || autoSaveCountdown > 30)
+            "
+            >Saved at {{ lastSavedAt | date: "mediumTime" }}</i
+          >
+        </div>
+      </div>
     </div>
   </div>
   <mat-stepper
@@ -640,15 +640,18 @@
         <h5>Past Project Events</h5>
         <drr-radio-button
           class="drr-single-input"
-          [label]="t('haveEventsOccurred')"
+          [label]="t('eventsOccurredSinceLastReport')"
           [options]="yesNoRadioOptions"
           [rxFormControl]="
-            progressReportForm.get('eventInformation.haveEventsOccurred')
+            progressReportForm.get(
+              'eventInformation.eventsOccurredSinceLastReport'
+            )
           "
         ></drr-radio-button>
         @if (
-          progressReportForm.get("eventInformation.haveEventsOccurred")
-            ?.value === true
+          progressReportForm.get(
+            "eventInformation.eventsOccurredSinceLastReport"
+          )?.value === true
         ) {
           <div
             *ngFor="
@@ -668,7 +671,7 @@
                 <drr-input
                   class="drr-single-input"
                   [label]="t('eventName')"
-                  [rxFormControl]="pastEvent.get('description')"
+                  [rxFormControl]="pastEvent.get('details')"
                   [maxlength]="50"
                 ></drr-input>
                 <drr-datepicker
@@ -703,19 +706,19 @@
         <h5>Upcoming Project Events</h5>
         <drr-radio-button
           class="drr-single-input"
-          [label]="t('haveUpcomingEvents')"
+          [label]="t('anyUpcomingEvents')"
           [options]="yesNoRadioOptions"
           [rxFormControl]="
-            progressReportForm.get('eventInformation.haveUpcomingEvents')
+            progressReportForm.get('eventInformation.anyUpcomingEvents')
           "
         ></drr-radio-button>
         @if (
-          progressReportForm.get("eventInformation.haveUpcomingEvents")
+          progressReportForm.get("eventInformation.anyUpcomingEvents")
             ?.value === true
         ) {
           <div
             *ngFor="
-              let pastEvent of getFutureEventsArray().controls;
+              let upcomingEvent of getUpcomingEventsArray().controls;
               let i = index
             "
           >
@@ -734,46 +737,46 @@
                   <drr-input
                     class="drr-single-input"
                     [label]="t('eventName')"
-                    [rxFormControl]="pastEvent.get('description')"
+                    [rxFormControl]="upcomingEvent.get('details')"
                     [maxlength]="50"
                   ></drr-input>
                   <drr-datepicker
                     class="drr-single-input"
                     [label]="t('eventDate')"
-                    [rxFormControl]="pastEvent.get('date')"
+                    [rxFormControl]="upcomingEvent.get('date')"
                   ></drr-datepicker>
                 </div>
-                <mat-label class="drr-label">{{ t("eventContact") }}</mat-label>
+                <mat-label class="drr-label">{{ t("contact") }}</mat-label>
                 <div style="display: flex; gap: 1rem">
                   <drr-input
                     [label]="t('firstName')"
-                    [rxFormControl]="pastEvent.get('eventContact.firstName')"
+                    [rxFormControl]="upcomingEvent.get('contact.firstName')"
                     [maxlength]="40"
                   ></drr-input>
                   <drr-input
                     [label]="t('lastName')"
-                    [rxFormControl]="pastEvent.get('eventContact.lastName')"
+                    [rxFormControl]="upcomingEvent.get('contact.lastName')"
                     [maxlength]="40"
                   ></drr-input>
                   <drr-input
                     [label]="t('title')"
-                    [rxFormControl]="pastEvent.get('eventContact.title')"
+                    [rxFormControl]="upcomingEvent.get('contact.title')"
                     [maxlength]="100"
                   ></drr-input>
                   <drr-input
                     [label]="t('department')"
-                    [rxFormControl]="pastEvent.get('eventContact.department')"
+                    [rxFormControl]="upcomingEvent.get('contact.department')"
                     [maxlength]="40"
                   ></drr-input>
                   <drr-input
                     [label]="t('phone')"
-                    [rxFormControl]="pastEvent.get('eventContact.phone')"
+                    [rxFormControl]="upcomingEvent.get('contact.phone')"
                     [maxlength]="10"
                     type="tel"
                   ></drr-input>
                   <drr-input
                     [label]="t('email')"
-                    [rxFormControl]="pastEvent.get('eventContact.email')"
+                    [rxFormControl]="upcomingEvent.get('contact.email')"
                     [maxlength]="100"
                     type="email"
                   ></drr-input>
@@ -781,15 +784,15 @@
                 <div>
                   <drr-radio-button
                     class="drr-single-input"
-                    [label]="t('provincialRepresentativeInvited')"
+                    [label]="t('provincialRepresentativeRequest')"
                     [options]="yesNoRadioOptions"
                     [rxFormControl]="
-                      pastEvent.get('provincialRepresentativeInvited')
+                      upcomingEvent.get('provincialRepresentativeRequest')
                     "
                   ></drr-radio-button>
                   @if (
-                    pastEvent.get("provincialRepresentativeInvited")?.value ===
-                    true
+                    upcomingEvent.get("provincialRepresentativeRequest")
+                      ?.value === true
                   ) {
                     <i style="margin-left: 1rem"
                       >A DMAP team member will be in contact with you regarding
@@ -798,7 +801,7 @@
                   }
                 </div>
               </mat-card-content>
-              @if (getFutureEventsArray().controls.length > 1) {
+              @if (getUpcomingEventsArray().controls.length > 1) {
                 <mat-card-actions align="end">
                   <button
                     mat-raised-button
@@ -854,10 +857,6 @@
             <mat-label class="drr-label">
               {{ t("attachmentUploadText") }}
             </mat-label>
-            <br />
-            <!-- <mat-label style="display: block; margin-top: 1rem">{{
-                t("attachmentUploadOptionalText")
-              }}</mat-label> -->
           </div>
 
           <drr-file-upload
@@ -882,9 +881,121 @@
       </div></mat-step
     >
     <mat-step label="Review & Declarations">
-      <drif-progress-report-summary
-        [progressReportForm]="progressReportForm"
-      ></drif-progress-report-summary>
+      <div class="drr-step-container">
+        <drif-progress-report-summary
+          [progressReportForm]="progressReportForm"
+          [isReadOnlyView]="false"
+        ></drif-progress-report-summary>
+        <div style="display: flex; flex-direction: column; gap: 1rem">
+          <mat-label class="drr-label">{{ t("submitter") }}</mat-label>
+          <div class="contacts-container">
+            <drr-input
+              [id]="'submitter_firstName'"
+              [label]="t('firstName')"
+              [rxFormControl]="
+                progressReportForm.get('declaration.submitter.firstName')
+              "
+              [maxlength]="40"
+            ></drr-input>
+            <drr-input
+              [id]="'submitter_lastName'"
+              [label]="t('lastName')"
+              [rxFormControl]="
+                progressReportForm.get('declaration.submitter.lastName')
+              "
+              [maxlength]="40"
+            ></drr-input>
+            <drr-input
+              [id]="'submitter_title'"
+              [label]="t('title')"
+              [rxFormControl]="
+                progressReportForm.get('declaration.submitter.title')
+              "
+              [maxlength]="100"
+            ></drr-input>
+            <drr-input
+              [id]="'submitter_department'"
+              [label]="t('department')"
+              [rxFormControl]="
+                progressReportForm.get('declaration.submitter.department')
+              "
+              [maxlength]="40"
+            ></drr-input>
+            <drr-input
+              [id]="'submitter_phone'"
+              [label]="t('phone')"
+              [rxFormControl]="
+                progressReportForm.get('declaration.submitter.phone')
+              "
+              [maxlength]="10"
+              [type]="'tel'"
+            ></drr-input>
+            <drr-input
+              [id]="'submitter_email'"
+              [label]="t('email')"
+              [rxFormControl]="
+                progressReportForm.get('declaration.submitter.email')
+              "
+              [maxlength]="100"
+              [type]="'email'"
+            ></drr-input>
+          </div>
+
+          <mat-label class="drr-label">
+            {{ t("authorizedRepresentativeStatement") }}
+          </mat-label>
+          <div style="display: flex; flex-direction: column">
+            <mat-label> {{ authorizedRepresentativeText }} *</mat-label>
+            <mat-checkbox
+              [formControl]="
+                progressReportForm.get(
+                  'declaration.authorizedRepresentativeStatement'
+                )!
+              "
+            >
+              {{ t("agree") }}
+            </mat-checkbox>
+            <mat-error
+              *ngIf="
+                progressReportForm.get(
+                  'declaration.authorizedRepresentativeStatement'
+                )?.touched &&
+                progressReportForm
+                  .get('declaration.authorizedRepresentativeStatement')
+                  ?.hasError('requiredTrue')
+              "
+              >{{ t("required") }}</mat-error
+            >
+          </div>
+
+          <mat-label class="drr-label">{{
+            t("informationAccuracyStatement")
+          }}</mat-label>
+          <div style="display: flex; flex-direction: column">
+            <mat-label> {{ accuracyOfInformationText }} *</mat-label>
+            <mat-checkbox
+              [formControl]="
+                progressReportForm.get(
+                  'declaration.informationAccuracyStatement'
+                )!
+              "
+            >
+              {{ t("agree") }}
+            </mat-checkbox>
+            <mat-error
+              *ngIf="
+                progressReportForm.get(
+                  'declaration.informationAccuracyStatement'
+                )?.touched &&
+                progressReportForm
+                  .get('declaration.informationAccuracyStatement')
+                  ?.hasError('requiredTrue')
+              "
+              >{{ t("required") }}</mat-error
+            >
+          </div>
+        </div>
+      </div>
       <div class="drr-stepper-actions">
         <button mat-stroked-button color="primary" matStepperPrevious>
           Back

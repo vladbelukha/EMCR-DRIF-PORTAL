@@ -23,24 +23,18 @@
       >
         <mat-card>
           <mat-card-header>
-            <mat-card-subtitle>Contract Details</mat-card-subtitle>
+            <mat-card-title>Project Details</mat-card-title>
+            <mat-card-subtitle>{{ projectId }} </mat-card-subtitle>
           </mat-card-header>
           <mat-card-content>
-            <p>
+            <!-- <p>
               <strong>Project ID:</strong>
               {{ project?.id }}
-            </p>
+            </p> -->
             <p>
               <strong>Contract ID:</strong>
               {{ project?.contractNumber }}
             </p>
-          </mat-card-content>
-        </mat-card>
-        <mat-card>
-          <mat-card-header>
-            <mat-card-subtitle>Project Properties</mat-card-subtitle>
-          </mat-card-header>
-          <mat-card-content>
             <p>
               <strong> Funding Program: </strong>
               {{ project?.programType | transloco }}
@@ -50,16 +44,21 @@
               {{ t(project?.fundingStream!) }}
             </p>
             <p>
+              <strong>Funding Amount</strong>
+              {{ project?.fundingAmount | currency: "" : "symbol" : "1.0-0" }}
+            </p>
+            <p>
               <strong>Reporting Schedule:</strong>
               {{ t(project?.reportingScheduleType!) }}
             </p>
-          </mat-card-content>
-        </mat-card>
-        <mat-card>
-          <mat-card-header>
-            <mat-card-subtitle>Related Items</mat-card-subtitle>
-          </mat-card-header>
-          <mat-card-content>
+            <p>
+              <strong>Planned Start Date:</strong>
+              {{ project?.startDate | date: "yyyy-MM-dd" }}
+            </p>
+            <p>
+              <strong>Planned Start Date:</strong>
+              {{ project?.endDate | date: "yyyy-MM-dd" }}
+            </p>
             <p>
               <strong>EOI:</strong><a href=""> {{ project?.eoiId }} </a>
             </p>
@@ -70,21 +69,6 @@
           </mat-card-content>
         </mat-card>
       </div>
-      <mat-card style="align-self: start">
-        <mat-card-header>
-          <mat-card-subtitle>Project Dates</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
-          <p>
-            <strong>Planned Start Date:</strong>
-            {{ project?.startDate | date : "yyyy-MM-dd" }}
-          </p>
-          <p>
-            <strong>Planned Start Date:</strong>
-            {{ project?.endDate | date : "yyyy-MM-dd" }}
-          </p>
-        </mat-card-content>
-      </mat-card>
       <div>
         <mat-card>
           <mat-card-header>
@@ -117,7 +101,7 @@
               <ng-container matColumnDef="dateMet">
                 <th mat-header-cell *matHeaderCellDef>Date Met</th>
                 <td mat-cell *matCellDef="let condition">
-                  {{ condition.dateMet | date : "yyyy-MM-dd" }}
+                  {{ condition.dateMet | date: "yyyy-MM-dd" }}
                 </td>
               </ng-container>
               <tr
@@ -126,7 +110,7 @@
                   'conditionName',
                   'limit',
                   'conditionMet',
-                  'dateMet'
+                  'dateMet',
                 ]"
               ></tr>
               <tr
@@ -139,10 +123,6 @@
             </table>
           </mat-card-content>
         </mat-card>
-        <p style="text-align: end">
-          <strong>Funding Amount</strong>
-          {{ project?.fundingAmount | currency : "" : "symbol" : "1.0-0" }}
-        </p>
       </div>
     </mat-card-content>
   </mat-card>
@@ -178,14 +158,14 @@
             <ng-container matColumnDef="dueDate">
               <th mat-header-cell *matHeaderCellDef>Due Date</th>
               <td mat-cell *matCellDef="let element">
-                {{ element.dueDate | date : "yyyy-MM-dd" }}
+                {{ element.dueDate | date: "yyyy-MM-dd" }}
               </td>
             </ng-container>
 
             <ng-container matColumnDef="submitDate">
               <th mat-header-cell *matHeaderCellDef>Submitted Date</th>
               <td mat-cell *matCellDef="let element">
-                {{ element.submitDate | date : "yyyy-MM-dd" }}
+                {{ element.submitDate | date: "yyyy-MM-dd" }}
               </td>
             </ng-container>
 
@@ -204,9 +184,9 @@
                   "
                 >
                   @if (expandedInterimReport === element) {
-                  <mat-icon>keyboard_arrow_up</mat-icon>
+                    <mat-icon>keyboard_arrow_up</mat-icon>
                   } @else {
-                  <mat-icon>keyboard_arrow_down</mat-icon>
+                    <mat-icon>keyboard_arrow_down</mat-icon>
                   }
                 </button>
               </td>
@@ -230,47 +210,47 @@
                       <div class="interim-element-detail-container__info">
                         <b>Claim</b>
                         @if (element.projectClaim) {
-                        <div>
-                          Claim ID:
+                          <div>
+                            Claim ID:
+                            <a
+                              [routerLink]="[
+                                '/drif-projects',
+                                projectId,
+                                'interim-reports',
+                                element.id,
+                                'claims',
+                                element.projectClaim.id,
+                              ]"
+                              >{{ element.projectClaim.id }}</a
+                            >
+                          </div>
+                          <div>
+                            Due Date: {{ element.projectClaim.claimDate }}
+                          </div>
+                          <div>Status: {{ element.projectClaim.status }}</div>
+                        } @else {
+                          <div>
+                            <i>No claim associated with this report</i>
+                          </div>
+                        }
+                      </div>
+                      @if (element.projectClaim) {
+                        <div class="interim-element-detail-container__actions">
                           <a
+                            mat-raised-button
+                            color="primary"
                             [routerLink]="[
                               '/drif-projects',
                               projectId,
                               'interim-reports',
                               element.id,
                               'claims',
-                              element.projectClaim.id
+                              element.projectClaim.id,
+                              'edit',
                             ]"
-                            >{{ element.projectClaim.id }}</a
+                            >Edit</a
                           >
                         </div>
-                        <div>
-                          Due Date: {{ element.projectClaim.claimDate }}
-                        </div>
-                        <div>Status: {{ element.projectClaim.status }}</div>
-                        } @else {
-                        <div>
-                          <i>No claim associated with this report</i>
-                        </div>
-                        }
-                      </div>
-                      @if (element.projectClaim) {
-                      <div class="interim-element-detail-container__actions">
-                        <a
-                          mat-raised-button
-                          color="primary"
-                          [routerLink]="[
-                            '/drif-projects',
-                            projectId,
-                            'interim-reports',
-                            element.id,
-                            'claims',
-                            element.projectClaim.id,
-                            'edit'
-                          ]"
-                          >Edit</a
-                        >
-                      </div>
                       }
                     </div>
 
@@ -280,48 +260,51 @@
                       <div class="interim-element-detail-container__info">
                         <b>Progress Report</b>
                         @if (element.progressReport) {
-                        <div>
-                          Report ID:
+                          <div>
+                            Report ID:
+                            <a
+                              [routerLink]="[
+                                '/drif-projects',
+                                projectId,
+                                'interim-reports',
+                                element.id,
+                                'progress-reports',
+                                element.progressReport.id,
+                                'view',
+                              ]"
+                              >{{ element.progressReport.id }}</a
+                            >
+                          </div>
+                          <div>
+                            Due Date: {{ element.progressReport.reportDate }}
+                          </div>
+                          <div>Status: {{ element.progressReport.status }}</div>
+                        } @else {
+                          <div>
+                            <i
+                              >No progress report associated with this report</i
+                            >
+                          </div>
+                        }
+                      </div>
+                      @if (element.progressReport) {
+                        <div class="interim-element-detail-container__actions">
                           <a
+                            mat-raised-button
+                            color="primary"
                             [routerLink]="[
                               '/drif-projects',
                               projectId,
                               'interim-reports',
                               element.id,
                               'progress-reports',
-                              element.progressReport.id
+                              element.progressReport.id,
+                              'edit',
                             ]"
-                            >{{ element.progressReport.id }}</a
                           >
+                            Edit
+                          </a>
                         </div>
-                        <div>
-                          Due Date: {{ element.progressReport.reportDate }}
-                        </div>
-                        <div>Status: {{ element.progressReport.status }}</div>
-                        } @else {
-                        <div>
-                          <i>No progress report associated with this report</i>
-                        </div>
-                        }
-                      </div>
-                      @if (element.progressReport) {
-                      <div class="interim-element-detail-container__actions">
-                        <a
-                          mat-raised-button
-                          color="primary"
-                          [routerLink]="[
-                            '/drif-projects',
-                            projectId,
-                            'interim-reports',
-                            element.id,
-                            'progress-reports',
-                            element.progressReport.id,
-                            'edit'
-                          ]"
-                        >
-                          Edit
-                        </a>
-                      </div>
                       }
                     </div>
 
@@ -331,45 +314,47 @@
                       <div class="interim-element-detail-container__info">
                         <b>Forecast</b>
                         @if (element.forecast) {
-                        <div>
-                          Forecast ID:
+                          <div>
+                            Forecast ID:
+                            <a
+                              [routerLink]="[
+                                '/drif-projects',
+                                projectId,
+                                'interim-reports',
+                                element.id,
+                                'forecasts',
+                                element.forecast.id,
+                              ]"
+                              >{{ element.forecast.id }}</a
+                            >
+                          </div>
+                          <div>
+                            Due Date: {{ element.forecast.forecastDate }}
+                          </div>
+                          <div>Status: {{ element.forecast.status }}</div>
+                        } @else {
+                          <div>
+                            <i>No forecast associated with this report</i>
+                          </div>
+                        }
+                      </div>
+                      @if (element.forecast) {
+                        <div class="interim-element-detail-container__actions">
                           <a
+                            mat-raised-button
+                            color="primary"
                             [routerLink]="[
                               '/drif-projects',
                               projectId,
                               'interim-reports',
                               element.id,
                               'forecasts',
-                              element.forecast.id
+                              element.forecast.id,
+                              'edit',
                             ]"
-                            >{{ element.forecast.id }}</a
+                            >Edit</a
                           >
                         </div>
-                        <div>Due Date: {{ element.forecast.forecastDate }}</div>
-                        <div>Status: {{ element.forecast.status }}</div>
-                        } @else {
-                        <div>
-                          <i>No forecast associated with this report</i>
-                        </div>
-                        }
-                      </div>
-                      @if (element.forecast) {
-                      <div class="interim-element-detail-container__actions">
-                        <a
-                          mat-raised-button
-                          color="primary"
-                          [routerLink]="[
-                            '/drif-projects',
-                            projectId,
-                            'interim-reports',
-                            element.id,
-                            'forecasts',
-                            element.forecast.id,
-                            'edit'
-                          ]"
-                          >Edit</a
-                        >
-                      </div>
                       }
                     </div>
                   </mat-card>
@@ -384,7 +369,7 @@
                 'status',
                 'dueDate',
                 'submitDate',
-                'expand'
+                'expand',
               ]"
             ></tr>
             <tr
@@ -473,7 +458,7 @@
               'limit',
               'conditionMet',
               'dateMet',
-              'actions'
+              'actions',
             ]"
           ></tr>
           <tr
@@ -485,7 +470,7 @@
                 'limit',
                 'conditionMet',
                 'dateMet',
-                'actions'
+                'actions',
               ]
             "
           ></tr>
@@ -533,7 +518,7 @@
               'fileName',
               'fileType',
               'fileSize',
-              'uploadDate'
+              'uploadDate',
             ]"
           ></tr>
           <tr
@@ -593,7 +578,7 @@
               'title',
               'department',
               'phone',
-              'email'
+              'email',
             ]"
           ></tr>
           <tr
@@ -606,7 +591,7 @@
                 'title',
                 'department',
                 'phone',
-                'email'
+                'email',
               ]
             "
           ></tr>
@@ -627,7 +612,7 @@
                   '/drif-projects',
                   projectId,
                   'interim-reports',
-                  report.id
+                  report.id,
                 ]"
                 >{{ report.id }}</a
               >
