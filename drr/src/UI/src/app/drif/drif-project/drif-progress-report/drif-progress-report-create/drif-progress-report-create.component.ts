@@ -29,6 +29,7 @@ import {
   YesNoOption,
 } from '../../../../../model';
 
+import { StepperSelectionEvent } from '@angular/cdk/stepper';
 import { AbstractControl, FormArray, Validators } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -560,9 +561,33 @@ export class DrifProgressReportCreateComponent {
     });
   }
 
-  stepperSelectionChange(event: any) {}
+  stepperSelectionChange(event: StepperSelectionEvent) {
+    this.save();
+
+    event.previouslySelectedStep.stepControl.markAllAsTouched();
+
+    if (this.stepperOrientation === 'horizontal') {
+      return;
+    }
+
+    const stepId = this.stepper._getStepLabelId(event.selectedIndex);
+    const stepElement = document.getElementById(stepId);
+    if (stepElement) {
+      setTimeout(() => {
+        stepElement.scrollIntoView({
+          block: 'start',
+          inline: 'nearest',
+          behavior: 'smooth',
+        });
+      }, 250);
+    }
+  }
 
   save() {
+    if (!this.formChanged) {
+      return;
+    }
+
     this.lastSavedAt = undefined;
 
     this.projectService
@@ -590,7 +615,7 @@ export class DrifProgressReportCreateComponent {
   }
 
   goBack() {
-    // TODO: save
+    this.save();
 
     this.router.navigate(['drif-projects', this.projectId]);
   }
