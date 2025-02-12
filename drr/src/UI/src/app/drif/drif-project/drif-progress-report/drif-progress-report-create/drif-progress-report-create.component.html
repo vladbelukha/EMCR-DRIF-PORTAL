@@ -886,10 +886,7 @@
           [progressReportForm]="progressReportForm"
           [isReadOnlyView]="false"
         ></drif-progress-report-summary>
-        <form
-          style="display: flex; flex-direction: column; gap: 1rem"
-          [formGroup]="getDelcarationForm()"
-        >
+        <div style="display: flex; flex-direction: column; gap: 1rem">
           <mat-label class="drr-label">{{ t("submitter") }}</mat-label>
           <div class="contacts-container">
             <drr-input
@@ -950,8 +947,11 @@
           <div style="display: flex; flex-direction: column">
             <mat-label> {{ authorizedRepresentativeText }} *</mat-label>
             <mat-checkbox
-              id="authorizedRepresentativeStatement"
-              formControlName="authorizedRepresentativeStatement"
+              [formControl]="
+                progressReportForm.get(
+                  'declaration.authorizedRepresentativeStatement'
+                )!
+              "
             >
               {{ t("agree") }}
             </mat-checkbox>
@@ -974,8 +974,11 @@
           <div style="display: flex; flex-direction: column">
             <mat-label> {{ accuracyOfInformationText }} *</mat-label>
             <mat-checkbox
-              id="informationAccuracyStatement"
-              formControlName="informationAccuracyStatement"
+              [formControl]="
+                progressReportForm.get(
+                  'declaration.informationAccuracyStatement'
+                )!
+              "
             >
               {{ t("agree") }}
             </mat-checkbox>
@@ -991,7 +994,7 @@
               >{{ t("required") }}</mat-error
             >
           </div>
-        </form>
+        </div>
       </div>
       <div class="drr-stepper-actions">
         <button mat-stroked-button color="primary" matStepperPrevious>
