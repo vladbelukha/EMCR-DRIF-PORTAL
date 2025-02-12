@@ -51,45 +51,52 @@ export class DrifFpStep4Component {
   optionsStore = inject(OptionsStore);
   translocoService = inject(TranslocoService);
 
-  private allActivityOptions: DrrSelectOption[] = Object.values(
-    ActivityType,
-  ).map((activity) => ({
-    value: activity,
-    label: this.translocoService.translate(`activityType.${activity}`),
-  }));
+  private commonActivityOptions: DrrSelectOption[] = Object.values(ActivityType)
+    .filter(
+      (activity) =>
+        activity === ActivityType.Administration ||
+        activity === ActivityType.ProjectPlanning ||
+        activity === ActivityType.Assessment ||
+        activity === ActivityType.Mapping ||
+        activity === ActivityType.LandAcquisition ||
+        activity === ActivityType.ApprovalsPermitting ||
+        activity === ActivityType.Communications ||
+        activity === ActivityType.AffectedPartiesEngagement ||
+        activity === ActivityType.CommunityEngagement,
+    )
+    .map((activity) => ({
+      value: activity,
+      label: this.translocoService.translate(`activityType.${activity}`),
+    }));
 
-  private nonStructuralActivityOptions: DrrSelectOption[] =
-    this.allActivityOptions.filter(
-      (option) =>
-        option.value === ActivityType.Project ||
-        option.value === ActivityType.FirstNationsEngagement ||
-        option.value === ActivityType.Administration ||
-        option.value === ActivityType.ProjectPlanning ||
-        option.value === ActivityType.Assessment ||
-        option.value === ActivityType.Mapping ||
-        option.value === ActivityType.LandAcquisition ||
-        option.value === ActivityType.ApprovalsPermitting ||
-        option.value === ActivityType.Communications,
-    );
+  private nonStructuralActivities: ActivityType[] = [
+    ActivityType.Project,
+    ActivityType.FirstNationsEngagement,
+  ];
+  private nonStructuralActivityOptions: DrrSelectOption[] = [
+    ...this.commonActivityOptions,
+    ...this.nonStructuralActivities.map((activity) => ({
+      value: activity,
+      label: this.translocoService.translate(`activityType.${activity}`),
+    })),
+  ];
 
-  private structuralActivityOptions: DrrSelectOption[] =
-    this.allActivityOptions.filter(
-      (option) =>
-        option.value === ActivityType.Project ||
-        option.value === ActivityType.FirstNationsEngagement ||
-        option.value === ActivityType.Design ||
-        option.value === ActivityType.ConstructionTender ||
-        option.value === ActivityType.Construction ||
-        option.value === ActivityType.ConstructionContractAward ||
-        option.value === ActivityType.PermitToConstruct ||
-        option.value === ActivityType.Administration ||
-        option.value === ActivityType.ProjectPlanning ||
-        option.value === ActivityType.Assessment ||
-        option.value === ActivityType.Mapping ||
-        option.value === ActivityType.LandAcquisition ||
-        option.value === ActivityType.ApprovalsPermitting ||
-        option.value === ActivityType.Communications,
-    );
+  private structuralActivities: ActivityType[] = [
+    ActivityType.Project,
+    ActivityType.FirstNationsEngagement,
+    ActivityType.Design,
+    ActivityType.ConstructionTender,
+    ActivityType.Construction,
+    ActivityType.ConstructionContractAward,
+    ActivityType.PermitToConstruct,
+  ];
+  private structuralActivityOptions: DrrSelectOption[] = [
+    ...this.commonActivityOptions,
+    ...this.structuralActivities.map((activity) => ({
+      value: activity,
+      label: this.translocoService.translate(`activityType.${activity}`),
+    })),
+  ];
 
   @Input() projectPlanForm!: IFormGroup<ProjectPlanForm>;
   @Input() fundingStream?: string;

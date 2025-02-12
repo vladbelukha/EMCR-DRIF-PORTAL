@@ -553,10 +553,10 @@
     "FirstNationsEngagement": "First Nations Engagement",
     "LandAcquisition": "Land Acquisition/Property Purchase",
     "Mapping": "Mapping",
-    "AffectedPartiesEngagement": "Affected Parties Engagement",
+    "AffectedPartiesEngagement": "Neighbouring Jurisdictions and Other Impacted or Affected Parties Engagement",
     "PermitToConstruct": "Permit to Construct",
     "ProjectPlanning": "Project Planning",
-    "CommunityEngagement": "Community Engagement"
+    "CommunityEngagement": "Proponent Community(ies) Engagement and Public Education"
   },
   "workplanStatus": {
     "NotStarted": "Not Started",
