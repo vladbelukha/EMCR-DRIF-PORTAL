@@ -618,7 +618,8 @@
     "submitter": "Submitter",
     "authorizedRepresentativeStatement": "Authorized Representative Statement",
     "informationAccuracyStatement": "Information Accuracy Statement",
-    "agree": "Agree"
+    "agree": "Agree",
+    "required": "Required"
   },
   "progressReportDetails": {
     "header": "Progress Report Details",

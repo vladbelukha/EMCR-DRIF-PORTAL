@@ -30,7 +30,13 @@ import {
 } from '../../../../../model';
 
 import { StepperSelectionEvent } from '@angular/cdk/stepper';
-import { AbstractControl, FormArray, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormArray,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDividerModule } from '@angular/material/divider';
@@ -58,6 +64,7 @@ import { ProfileStore } from '../../../../store/profile.store';
 import { AttachmentForm } from '../../../drif-fp/drif-fp-form';
 import { DrrAttahcmentComponent } from '../../../drif-fp/drif-fp-step-11/drif-fp-attachment.component';
 import {
+  DeclarationForm,
   EventInformationForm,
   EventProgressType,
   FundingSignageForm,
@@ -74,6 +81,12 @@ import { DrifProgressReportSummaryComponent } from '../drif-progress-report-summ
   imports: [
     CommonModule,
     MatStepperModule,
+    FormsModule,
+    ReactiveFormsModule,
+    TranslocoModule,
+    MatInputModule,
+    MatCheckboxModule,
+    DrrInputComponent,
     MatIconModule,
     MatButtonModule,
     MatInputModule,
@@ -326,15 +339,6 @@ export class DrifProgressReportCreateComponent {
                 return;
               }
 
-              console.log(
-                'before: ',
-                this.progressReportForm?.get(
-                  'declaration.authorizedRepresentativeStatement',
-                )?.value,
-                this.progressReportForm?.get(
-                  'declaration.informationAccuracyStatement',
-                )?.value,
-              );
               this.progressReportForm
                 ?.get('declaration.authorizedRepresentativeStatement')
                 ?.reset();
@@ -342,15 +346,6 @@ export class DrifProgressReportCreateComponent {
               this.progressReportForm
                 ?.get('declaration.informationAccuracyStatement')
                 ?.reset();
-              console.log(
-                'after: ',
-                this.progressReportForm?.get(
-                  'declaration.authorizedRepresentativeStatement',
-                )?.value,
-                this.progressReportForm?.get(
-                  'declaration.informationAccuracyStatement',
-                )?.value,
-              );
 
               this.formChanged = true;
               this.resetAutoSaveTimer();
@@ -564,7 +559,7 @@ export class DrifProgressReportCreateComponent {
   stepperSelectionChange(event: StepperSelectionEvent) {
     this.save();
 
-    event.previouslySelectedStep.stepControl.markAllAsTouched();
+    event.previouslySelectedStep.stepControl?.markAllAsTouched();
 
     if (this.stepperOrientation === 'horizontal') {
       return;
@@ -913,6 +908,8 @@ export class DrifProgressReportCreateComponent {
   }
 
   getDelcarationForm() {
-    return this.progressReportForm.get('declaration') as IFormGroup<any>;
+    return this.progressReportForm.get(
+      'declaration',
+    ) as IFormGroup<DeclarationForm>;
   }
 }
