@@ -131,10 +131,10 @@ export class DrifProgressReportCreateComponent {
   @ViewChild(MatStepper) stepper!: MatStepper;
   stepperOrientation: StepperOrientation = 'horizontal';
   private formToStepMap: Record<string, string> = {
-    workplan: 'Step 1',
-    eventInformation: 'Step 2',
-    attachments: 'Step 3',
-    declaration: 'Step 4',
+    workplan: 'Step 2',
+    eventInformation: 'Step 3',
+    attachments: 'Step 4',
+    declaration: 'Step 5',
   };
 
   progressReportForm = this.formBuilder.formGroup(
@@ -637,14 +637,6 @@ export class DrifProgressReportCreateComponent {
         .filter((key) => this.progressReportForm.get(key)?.invalid)
         .map((key) => this.formToStepMap[key]);
 
-      // TODO: temporary console log failed controls in workplan
-      // const control = this.eventInformationForm as RxFormGroup;
-      // const controlKeys = Object.keys(control.controls);
-      // const invalidControls = controlKeys.filter(
-      //   (key) => control.get(key)?.invalid,
-      // );
-      // console.log('invalid controls: ', invalidControls);
-
       const lastStep = invalidSteps.pop();
 
       const stepsErrorMessage =
@@ -670,15 +662,13 @@ export class DrifProgressReportCreateComponent {
       .subscribe({
         next: (response) => {
           this.toastService.close();
-          this.toastService.success(
-            `Your submission has been received. \nID #: ${response.id}.`,
-          );
+          this.toastService.success('Your report has been received.');
 
-          this.router.navigate(['/dashboard']);
+          this.goBack();
         },
         error: (error) => {
           this.toastService.close();
-          this.toastService.error('Failed to submit application');
+          this.toastService.error('Failed to submit report');
         },
       });
   }
