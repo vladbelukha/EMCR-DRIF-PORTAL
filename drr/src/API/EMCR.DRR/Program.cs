@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Text.Json.Serialization;
 using EMCR.DRR.API.Services;
 using EMCR.DRR.API.Services.S3;
+using EMCR.DRR.API.Utilities.Converters;
 using EMCR.DRR.Controllers;
 using EMCR.DRR.Dynamics;
 using EMCR.DRR.Managers.Intake;
@@ -91,6 +92,9 @@ services.AddControllers()
     .AddJsonOptions(x =>
     {
         x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+        x.JsonSerializerOptions.Converters.Add(new NullableDecimalConverter());
+        x.JsonSerializerOptions.Converters.Add(new NullableIntConverter());
+        x.JsonSerializerOptions.Converters.Add(new NullToEmptyStringConverter());
     });
 services.AddRouting(o => o.LowercaseUrls = true);
 services.AddEndpointsApiExplorer();
