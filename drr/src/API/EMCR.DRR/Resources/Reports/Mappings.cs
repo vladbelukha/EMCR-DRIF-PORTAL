@@ -188,7 +188,7 @@ namespace EMCR.DRR.API.Resources.Reports
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.statuscode.HasValue ? (int?)Enum.Parse<EventStatus>(((EventStatusOptionSet)src.statuscode).ToString()) : null))
             ;
 
-            CreateMap<ProjectEventDetails, drr_projectpastevent>(MemberList.None)
+            CreateMap<PastEventDetails, drr_projectpastevent>(MemberList.None)
                 .ForMember(dest => dest.drr_projectpasteventid, opt => opt.MapFrom(src => !string.IsNullOrEmpty(src.Id) ? Guid.Parse(src.Id) : (Guid?)null))
                 .ForMember(dest => dest.drr_eventdetails, opt => opt.MapFrom(src => src.Details))
                 .ForMember(dest => dest.drr_dateoccurred, opt => opt.MapFrom(src => src.Date.HasValue ? src.Date.Value.ToUniversalTime() : (DateTimeOffset?)null))
@@ -198,10 +198,6 @@ namespace EMCR.DRR.API.Resources.Reports
                 .ForMember(dest => dest.Details, opt => opt.MapFrom(src => src.drr_eventdetails))
                 .ForMember(dest => dest.Date, opt => opt.Ignore())
                 .ForMember(dest => dest.Date, opt => opt.MapFrom(src => src.drr_dateoccurred.HasValue ? src.drr_dateoccurred.Value.UtcDateTime : (DateTime?)null))
-                .ForMember(dest => dest.Contact, opt => opt.Ignore())
-                .ForMember(dest => dest.ProvincialRepresentativeRequest, opt => opt.Ignore())
-                .ForMember(dest => dest.Type, opt => opt.Ignore())
-                .ForMember(dest => dest.Status, opt => opt.Ignore())
             ;
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
 #pragma warning restore CS8629 // Nullable value type may be null.

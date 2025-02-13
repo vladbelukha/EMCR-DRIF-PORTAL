@@ -350,6 +350,20 @@ namespace EMCR.DRR.Managers.Intake
                 .ReverseMap()
                 ;
 
+            CreateMap<PastEvent, PastEventDetails>()
+                .AfterMap((src, dest) =>
+                {
+                    foreach (var prop in typeof(PastEventDetails).GetProperties())
+                    {
+                        if (prop.PropertyType == typeof(string) && prop.GetValue(dest) == null)
+                        {
+                            prop.SetValue(dest, "");
+                        }
+                    }
+                })
+                .ReverseMap()
+                ;
+
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
 #pragma warning disable CS8604 // Possible null reference argument.
 #pragma warning disable CS8629 // Nullable value type may be null.
@@ -414,7 +428,7 @@ namespace EMCR.DRR.Managers.Intake
                 })
                 .ReverseMap()
                 ;
-
+            
             CreateMap<Controllers.FundingInformation, FundingInformation>()
                 .AfterMap((src, dest) =>
                 {

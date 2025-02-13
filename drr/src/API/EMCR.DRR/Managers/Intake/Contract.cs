@@ -746,7 +746,7 @@ namespace EMCR.DRR.Managers.Intake
     public class EventInformationDetails
     {
         public bool? EventsOccurredSinceLastReport { get; set; }
-        public IEnumerable<ProjectEventDetails>? PastEvents { get; set; }
+        public IEnumerable<PastEventDetails>? PastEvents { get; set; }
         public bool? AnyUpcomingEvents { get; set; }
         public IEnumerable<ProjectEventDetails>? UpcomingEvents { get; set; }
     }
@@ -759,6 +759,13 @@ namespace EMCR.DRR.Managers.Intake
         public ContactDetails? Contact { get; set; }
         public bool? ProvincialRepresentativeRequest { get; set; }
         public EventType? Type { get; set; }
+    }
+
+    public class PastEventDetails
+    {
+        public string? Id { get; set; }
+        public string? Details { get; set; }
+        public DateTime? Date { get; set; }
     }
 
     public class Forecast

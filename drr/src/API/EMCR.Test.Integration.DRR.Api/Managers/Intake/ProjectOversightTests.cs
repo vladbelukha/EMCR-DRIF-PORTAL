@@ -225,7 +225,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
 
             progressReport.EventInformation.EventsOccurredSinceLastReport = true;
             if (progressReport.EventInformation.PastEvents.Count() > 0) progressReport.EventInformation.PastEvents = progressReport.EventInformation.PastEvents.Take(progressReport.EventInformation.PastEvents.Count() - 1).ToArray();
-            progressReport.EventInformation.PastEvents = progressReport.EventInformation.PastEvents.Append(new EMCR.DRR.Controllers.ProjectEvent
+            progressReport.EventInformation.PastEvents = progressReport.EventInformation.PastEvents.Append(new PastEvent
             {
                 Details = $"{uniqueSignature} - past event details",
                 Date = DateTime.UtcNow.AddDays(-2),
