@@ -29,7 +29,10 @@ import { DrrChipAutocompleteComponent } from '../../../shared/controls/drr-chip-
 import { DrrCurrencyInputComponent } from '../../../shared/controls/drr-currency-input/drr-currency-input.component';
 import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
 import { DrrRadioButtonComponent } from '../../../shared/controls/drr-radio-button/drr-radio-button.component';
-import { DrrSelectComponent } from '../../../shared/controls/drr-select/drr-select.component';
+import {
+  DrrSelectComponent,
+  DrrSelectOption,
+} from '../../../shared/controls/drr-select/drr-select.component';
 import { DrrTextareaComponent } from '../../../shared/controls/drr-textarea/drr-textarea.component';
 import { OptionsStore } from '../../../store/options.store';
 import { FundingInformationItemForm } from '../../drif-eoi/drif-eoi-form';
@@ -99,19 +102,19 @@ export class DrifFpStep10Component {
   costConsiderationsOptions =
     this.optionsStore.options.costConsiderations?.() ?? [];
 
-  costCategoriesOptions = Object.values(CostCategory)
+  costCategoriesOptions: DrrSelectOption[] = Object.values(CostCategory)
     .map((value) => ({
       value,
       label: this.translocoService.translate(value),
     }))
     .sort((a, b) => a.label.localeCompare(b.label));
-  resourcesOptions = Object.values(ResourceCategory)
+  resourcesOptions: DrrSelectOption[] = Object.values(ResourceCategory)
     .map((value) => ({
       value,
       label: this.translocoService.translate(value),
     }))
     .sort((a, b) => a.label.localeCompare(b.label));
-  unitsOptions = Object.values(CostUnit)
+  unitsOptions: DrrSelectOption[] = Object.values(CostUnit)
     .map((value) => ({
       value,
       label: this.translocoService.translate(value),
