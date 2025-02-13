@@ -4,6 +4,7 @@
  * DRR API
  * OpenAPI spec version: 1.0.0
  */
+import type { PastEvent } from './pastEvent';
 import type { ProjectEvent } from './projectEvent';
 
 export interface EventInformation {
@@ -12,7 +13,7 @@ export interface EventInformation {
   /** @nullable */
   eventsOccurredSinceLastReport?: boolean;
   /** @nullable */
-  pastEvents?: ProjectEvent[];
+  pastEvents?: PastEvent[];
   /** @nullable */
   upcomingEvents?: ProjectEvent[];
 }

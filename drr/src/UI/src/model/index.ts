@@ -61,6 +61,7 @@ export * from './interimProjectType';
 export * from './interimReport';
 export * from './interimReportStatus';
 export * from './oidcConfiguration';
+export * from './pastEvent';
 export * from './paymentCondition';
 export * from './periodType';
 export * from './profileDetails';

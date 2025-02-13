@@ -70,6 +70,7 @@ import {
   EventInformationForm,
   EventProgressType,
   FundingSignageForm,
+  PastEventForm,
   ProgressReportForm,
   ProjectEventForm,
   WorkplanActivityForm,
@@ -451,7 +452,7 @@ export class DrifProgressReportCreateComponent {
 
             report.eventInformation?.pastEvents?.map((event) => {
               this.getPastEventsArray()?.push(
-                this.formBuilder.formGroup(new ProjectEventForm(event)),
+                this.formBuilder.formGroup(new PastEventForm(event)),
               );
             });
 
@@ -929,7 +930,7 @@ export class DrifProgressReportCreateComponent {
 
   addPastEvent() {
     this.getPastEventsArray()?.push(
-      this.formBuilder.formGroup(new ProjectEventForm({})),
+      this.formBuilder.formGroup(new PastEventForm({})),
     );
   }
 
