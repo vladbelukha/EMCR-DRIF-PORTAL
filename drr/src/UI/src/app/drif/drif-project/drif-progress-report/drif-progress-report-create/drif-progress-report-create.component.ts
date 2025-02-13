@@ -651,14 +651,12 @@ export class DrifProgressReportCreateComponent {
     }
 
     this.projectService
-      // TODO: change after submit endpoint introduced
-      .projectUpdateProgressReport(
+      .projectSubmitProgressReport(
         this.projectId,
         this.reportId,
         this.progressReportId,
         this.progressReportForm.getRawValue(),
       )
-
       .subscribe({
         next: (response) => {
           this.toastService.close();
