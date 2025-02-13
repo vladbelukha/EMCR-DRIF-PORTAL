@@ -296,9 +296,16 @@ namespace EMCR.DRR.Controllers
     public class EventInformation
     {
         public bool? EventsOccurredSinceLastReport { get; set; }
-        public IEnumerable<ProjectEvent>? PastEvents { get; set; }
+        public IEnumerable<PastEvent>? PastEvents { get; set; }
         public bool? AnyUpcomingEvents { get; set; }
         public IEnumerable<ProjectEvent>? UpcomingEvents { get; set; }
+    }
+
+    public class PastEvent
+    {
+        public string? Id { get; set; }
+        public string? Details { get; set; }
+        public DateTime? Date { get; set; }
     }
 
     public class ProjectEvent
@@ -308,8 +315,6 @@ namespace EMCR.DRR.Controllers
         public DateTime? Date { get; set; }
         public ContactDetails? Contact { get; set; }
         public bool? ProvincialRepresentativeRequest { get; set; }
-        //public EventStatus? Status { get; set; }
-        //public EventType? Type { get; set; }
     }
 
     public class Workplan

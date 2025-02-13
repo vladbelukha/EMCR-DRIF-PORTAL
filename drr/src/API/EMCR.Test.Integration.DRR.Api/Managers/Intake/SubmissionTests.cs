@@ -988,7 +988,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
         {
             //Proponent & Project Information - 1
             application.RegionalProject = null;
-            application.RegionalProjectComments = string.Empty;
+            application.RegionalProjectComments = null;
             application.MainDeliverable = string.Empty;
 
             //Ownership & Authorization - 2

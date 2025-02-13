@@ -17,6 +17,16 @@ namespace EMCR.DRR.Managers.Intake
                 .ForMember(dest => dest.ApplicationTypeName, opt => opt.MapFrom(src => "EOI"))
                 .ForMember(dest => dest.ProgramName, opt => opt.MapFrom(src => "DRIF"))
                 .ForMember(dest => dest.ProjectType, opt => opt.MapFrom(src => src.Stream))
+                .AfterMap((src, dest) =>
+                {
+                    foreach (var prop in typeof(Application).GetProperties())
+                    {
+                        if (prop.PropertyType == typeof(string) && prop.GetValue(dest) == null)
+                        {
+                            prop.SetValue(dest, "");
+                        }
+                    }
+                })
                 .ReverseMap()
                 .ForMember(dest => dest.AdditionalContacts, opt => opt.MapFrom(src => DRRAdditionalContactMapper(src.AdditionalContact1, src.AdditionalContact2)))
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => DRRApplicationStatusMapper(src.Status)))
@@ -31,6 +41,16 @@ namespace EMCR.DRR.Managers.Intake
                 .ForMember(dest => dest.ApplicationTypeName, opt => opt.MapFrom(src => "EOI"))
                 .ForMember(dest => dest.ProgramName, opt => opt.MapFrom(src => "DRIF"))
                 .ForMember(dest => dest.ProjectType, opt => opt.MapFrom(src => src.Stream))
+                .AfterMap((src, dest) =>
+                {
+                    foreach (var prop in typeof(Application).GetProperties())
+                    {
+                        if (prop.PropertyType == typeof(string) && prop.GetValue(dest) == null)
+                        {
+                            prop.SetValue(dest, "");
+                        }
+                    }
+                })
                 .ReverseMap()
                 .ForMember(dest => dest.AdditionalContacts, opt => opt.MapFrom(src => DRRAdditionalContactMapper(src.AdditionalContact1, src.AdditionalContact2)))
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => DRRApplicationStatusMapper(src.Status)))
@@ -61,6 +81,14 @@ namespace EMCR.DRR.Managers.Intake
                         foreach (var cost in dest.CostEstimates)
                         {
                             cost.TaskNumber = i++;
+                        }
+                    }
+
+                    foreach (var prop in typeof(Application).GetProperties())
+                    {
+                        if (prop.PropertyType == typeof(string) && prop.GetValue(dest) == null)
+                        {
+                            prop.SetValue(dest, "");
                         }
                     }
                 })
@@ -102,6 +130,14 @@ namespace EMCR.DRR.Managers.Intake
                             activity.ActivityNumber = i++;
                         }
                     }
+
+                    foreach (var prop in typeof(Application).GetProperties())
+                    {
+                        if (prop.PropertyType == typeof(string) && prop.GetValue(dest) == null)
+                        {
+                            prop.SetValue(dest, "");
+                        }
+                    }
                 })
                 .ReverseMap()
                 .ForMember(dest => dest.AdditionalContacts, opt => opt.MapFrom(src => DRRAdditionalContactMapper(src.AdditionalContact1, src.AdditionalContact2)))
@@ -125,14 +161,44 @@ namespace EMCR.DRR.Managers.Intake
                 ;
 
             CreateMap<DraftDrrProject, Project>(MemberList.None)
+                .AfterMap((src, dest) =>
+                {
+                    foreach (var prop in typeof(Project).GetProperties())
+                    {
+                        if (prop.PropertyType == typeof(string) && prop.GetValue(dest) == null)
+                        {
+                            prop.SetValue(dest, "");
+                        }
+                    }
+                })
                 .ReverseMap()
                 ;
 
             CreateMap<Controllers.PaymentCondition, PaymentCondition>()
+                .AfterMap((src, dest) =>
+                {
+                    foreach (var prop in typeof(PaymentCondition).GetProperties())
+                    {
+                        if (prop.PropertyType == typeof(string) && prop.GetValue(dest) == null)
+                        {
+                            prop.SetValue(dest, "");
+                        }
+                    }
+                })
                 .ReverseMap()
                 ;
 
             CreateMap<Controllers.ProjectClaim, ProjectClaim>()
+                .AfterMap((src, dest) =>
+                {
+                    foreach (var prop in typeof(ProjectClaim).GetProperties())
+                    {
+                        if (prop.PropertyType == typeof(string) && prop.GetValue(dest) == null)
+                        {
+                            prop.SetValue(dest, "");
+                        }
+                    }
+                })
                 .ReverseMap()
                 ;
 
@@ -142,45 +208,159 @@ namespace EMCR.DRR.Managers.Intake
 
             CreateMap<Controllers.ProgressReport, ProgressReport>()
                 .ForMember(dest => dest.CrmId, opt => opt.Ignore())
+                .AfterMap((src, dest) =>
+                {
+                    foreach (var prop in typeof(ProgressReport).GetProperties())
+                    {
+                        if (prop.PropertyType == typeof(string) && prop.GetValue(dest) == null)
+                        {
+                            prop.SetValue(dest, "");
+                        }
+                    }
+                })
                 .ReverseMap()
                 ;
 
             CreateMap<Controllers.Forecast, Forecast>()
+                .AfterMap((src, dest) =>
+                {
+                    foreach (var prop in typeof(Forecast).GetProperties())
+                    {
+                        if (prop.PropertyType == typeof(string) && prop.GetValue(dest) == null)
+                        {
+                            prop.SetValue(dest, "");
+                        }
+                    }
+                })
                 .ReverseMap()
                 ;
 
             CreateMap<Controllers.InterimReport, InterimReport>()
+                .AfterMap((src, dest) =>
+                {
+                    foreach (var prop in typeof(InterimReport).GetProperties())
+                    {
+                        if (prop.PropertyType == typeof(string) && prop.GetValue(dest) == null)
+                        {
+                            prop.SetValue(dest, "");
+                        }
+                    }
+                })
                 .ReverseMap()
                 ;
 
             CreateMap<Controllers.ProjectClaim, ClaimDetails>()
+                .AfterMap((src, dest) =>
+                {
+                    foreach (var prop in typeof(ClaimDetails).GetProperties())
+                    {
+                        if (prop.PropertyType == typeof(string) && prop.GetValue(dest) == null)
+                        {
+                            prop.SetValue(dest, "");
+                        }
+                    }
+                })
                 .ReverseMap()
                 ;
 
             CreateMap<Controllers.ProgressReport, ProgressReportDetails>()
                 .ForMember(dest => dest.CrmId, opt => opt.Ignore())
+                .AfterMap((src, dest) =>
+                {
+                    foreach (var prop in typeof(ProgressReportDetails).GetProperties())
+                    {
+                        if (prop.PropertyType == typeof(string) && prop.GetValue(dest) == null)
+                        {
+                            prop.SetValue(dest, "");
+                        }
+                    }
+                })
                 .ReverseMap()
                 ;
 
             CreateMap<Controllers.Forecast, ForecastDetails>()
+                .AfterMap((src, dest) =>
+                {
+                    foreach (var prop in typeof(ForecastDetails).GetProperties())
+                    {
+                        if (prop.PropertyType == typeof(string) && prop.GetValue(dest) == null)
+                        {
+                            prop.SetValue(dest, "");
+                        }
+                    }
+                })
                 .ReverseMap()
                 ;
 
             CreateMap<Controllers.InterimReport, InterimReportDetails>()
+                .AfterMap((src, dest) =>
+                {
+                    foreach (var prop in typeof(InterimReportDetails).GetProperties())
+                    {
+                        if (prop.PropertyType == typeof(string) && prop.GetValue(dest) == null)
+                        {
+                            prop.SetValue(dest, "");
+                        }
+                    }
+                })
                 .ReverseMap()
                 ;
 
             CreateMap<Workplan, WorkplanDetails>()
+                .AfterMap((src, dest) =>
+                {
+                    foreach (var prop in typeof(WorkplanDetails).GetProperties())
+                    {
+                        if (prop.PropertyType == typeof(string) && prop.GetValue(dest) == null)
+                        {
+                            prop.SetValue(dest, "");
+                        }
+                    }
+                })
                 .ReverseMap()
                 ;
 
             CreateMap<EventInformation, EventInformationDetails>()
+                .AfterMap((src, dest) =>
+                {
+                    foreach (var prop in typeof(EventInformationDetails).GetProperties())
+                    {
+                        if (prop.PropertyType == typeof(string) && prop.GetValue(dest) == null)
+                        {
+                            prop.SetValue(dest, "");
+                        }
+                    }
+                })
                 .ReverseMap()
                 ;
 
             CreateMap<Controllers.ProjectEvent, ProjectEventDetails>()
                 .ForMember(dest => dest.Status, opt => opt.Ignore())
                 .ForMember(dest => dest.Type, opt => opt.Ignore())
+                .AfterMap((src, dest) =>
+                {
+                    foreach (var prop in typeof(ProjectEventDetails).GetProperties())
+                    {
+                        if (prop.PropertyType == typeof(string) && prop.GetValue(dest) == null)
+                        {
+                            prop.SetValue(dest, "");
+                        }
+                    }
+                })
+                .ReverseMap()
+                ;
+
+            CreateMap<PastEvent, PastEventDetails>()
+                .AfterMap((src, dest) =>
+                {
+                    foreach (var prop in typeof(PastEventDetails).GetProperties())
+                    {
+                        if (prop.PropertyType == typeof(string) && prop.GetValue(dest) == null)
+                        {
+                            prop.SetValue(dest, "");
+                        }
+                    }
+                })
                 .ReverseMap()
                 ;
 
@@ -198,6 +378,13 @@ namespace EMCR.DRR.Managers.Intake
                 .AfterMap((src, dest) =>
                 {
                     WorkplanStatusMapper(dest, src);
+                    foreach (var prop in typeof(WorkplanActivityDetails).GetProperties())
+                    {
+                        if (prop.PropertyType == typeof(string) && prop.GetValue(dest) == null)
+                        {
+                            prop.SetValue(dest, "");
+                        }
+                    }
                 })
                 .ReverseMap()
                 .ForMember(dest => dest.Activity, opt => opt.MapFrom(src => IEnumEx.GetValueFromDescription<Controllers.ActivityType>(src.ActivityType.Name)))
@@ -214,19 +401,59 @@ namespace EMCR.DRR.Managers.Intake
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
 
             CreateMap<Controllers.FundingSignage, FundingSignage>()
+                .AfterMap((src, dest) =>
+                {
+                    foreach (var prop in typeof(FundingSignage).GetProperties())
+                    {
+                        if (prop.PropertyType == typeof(string) && prop.GetValue(dest) == null)
+                        {
+                            prop.SetValue(dest, "");
+                        }
+                    }
+                })
                 .ReverseMap()
                 ;
 
             CreateMap<Controllers.ProjectEvent, ProjectEvent>()
                 .ForMember(dest => dest.Status, opt => opt.Ignore())
+                .AfterMap((src, dest) =>
+                {
+                    foreach (var prop in typeof(ProjectEvent).GetProperties())
+                    {
+                        if (prop.PropertyType == typeof(string) && prop.GetValue(dest) == null)
+                        {
+                            prop.SetValue(dest, "");
+                        }
+                    }
+                })
                 .ReverseMap()
                 ;
-
+            
             CreateMap<Controllers.FundingInformation, FundingInformation>()
+                .AfterMap((src, dest) =>
+                {
+                    foreach (var prop in typeof(FundingInformation).GetProperties())
+                    {
+                        if (prop.PropertyType == typeof(string) && prop.GetValue(dest) == null)
+                        {
+                            prop.SetValue(dest, "");
+                        }
+                    }
+                })
                 .ReverseMap()
                 ;
 
             CreateMap<Controllers.YearOverYearFunding, YearOverYearFunding>()
+                .AfterMap((src, dest) =>
+                {
+                    foreach (var prop in typeof(YearOverYearFunding).GetProperties())
+                    {
+                        if (prop.PropertyType == typeof(string) && prop.GetValue(dest) == null)
+                        {
+                            prop.SetValue(dest, "");
+                        }
+                    }
+                })
                 .ReverseMap()
                 ;
 
@@ -236,10 +463,30 @@ namespace EMCR.DRR.Managers.Intake
 
             CreateMap<Controllers.ContactDetails, ContactDetails>()
                 .ForMember(dest => dest.BCeId, opt => opt.Ignore())
+                .AfterMap((src, dest) =>
+                {
+                    foreach (var prop in typeof(ContactDetails).GetProperties())
+                    {
+                        if (prop.PropertyType == typeof(string) && prop.GetValue(dest) == null)
+                        {
+                            prop.SetValue(dest, "");
+                        }
+                    }
+                })
                 .ReverseMap()
                 ;
 
             CreateMap<Controllers.StandardInfo, StandardInfo>()
+                .AfterMap((src, dest) =>
+                {
+                    foreach (var prop in typeof(StandardInfo).GetProperties())
+                    {
+                        if (prop.PropertyType == typeof(string) && prop.GetValue(dest) == null)
+                        {
+                            prop.SetValue(dest, "");
+                        }
+                    }
+                })
                 .ReverseMap()
                 .ForMember(dest => dest.Standards, opt => opt.MapFrom(src => src.Standards.Select(p => p.Name)))
                 ;
@@ -250,6 +497,16 @@ namespace EMCR.DRR.Managers.Intake
 
             CreateMap<Controllers.InfrastructureImpacted, CriticalInfrastructure>()
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Infrastructure))
+                .AfterMap((src, dest) =>
+                {
+                    foreach (var prop in typeof(CriticalInfrastructure).GetProperties())
+                    {
+                        if (prop.PropertyType == typeof(string) && prop.GetValue(dest) == null)
+                        {
+                            prop.SetValue(dest, "");
+                        }
+                    }
+                })
                 .ReverseMap()
                 .ForMember(dest => dest.Infrastructure, opt => opt.MapFrom(src => src.Name))
                 ;
@@ -319,6 +576,16 @@ namespace EMCR.DRR.Managers.Intake
             CreateMap<Controllers.ProposedActivity, ProposedActivity>()
                 .ForMember(dest => dest.ActivityNumber, opt => opt.Ignore())
                 .ForMember(dest => dest.ActivityType, opt => opt.MapFrom(src => new ActivityType { Name = src.Activity != null ? src.Activity.Value.ToDescriptionString() : string.Empty, PreCreatedActivity = src.PreCreatedActivity }))
+                .AfterMap((src, dest) =>
+                {
+                    foreach (var prop in typeof(ProposedActivity).GetProperties())
+                    {
+                        if (prop.PropertyType == typeof(string) && prop.GetValue(dest) == null)
+                        {
+                            prop.SetValue(dest, "");
+                        }
+                    }
+                })
                 .ReverseMap()
                 .ForMember(dest => dest.PreCreatedActivity, opt => opt.MapFrom(src => src.ActivityType != null ? src.ActivityType.PreCreatedActivity : false))
                 .ForMember(dest => dest.Activity, opt => opt.MapFrom(src => IEnumEx.GetValueFromDescription<Controllers.ActivityType>(src.ActivityType.Name)))
@@ -328,6 +595,16 @@ namespace EMCR.DRR.Managers.Intake
 
             CreateMap<Controllers.CostEstimate, CostEstimate>()
                 .ForMember(dest => dest.TaskNumber, opt => opt.Ignore())
+                .AfterMap((src, dest) =>
+                {
+                    foreach (var prop in typeof(CostEstimate).GetProperties())
+                    {
+                        if (prop.PropertyType == typeof(string) && prop.GetValue(dest) == null)
+                        {
+                            prop.SetValue(dest, "");
+                        }
+                    }
+                })
                 .ReverseMap()
                 ;
 
@@ -336,6 +613,16 @@ namespace EMCR.DRR.Managers.Intake
                 ;
 
             CreateMap<Attachment, BcGovDocument>()
+                .AfterMap((src, dest) =>
+                {
+                    foreach (var prop in typeof(BcGovDocument).GetProperties())
+                    {
+                        if (prop.PropertyType == typeof(string) && prop.GetValue(dest) == null)
+                        {
+                            prop.SetValue(dest, "");
+                        }
+                    }
+                })
                 .ReverseMap()
                 ;
         }

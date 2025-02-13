@@ -94,7 +94,6 @@ services.AddControllers()
         x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
         x.JsonSerializerOptions.Converters.Add(new NullableDecimalConverter());
         x.JsonSerializerOptions.Converters.Add(new NullableIntConverter());
-        x.JsonSerializerOptions.Converters.Add(new NullToEmptyStringConverter());
     });
 services.AddRouting(o => o.LowercaseUrls = true);
 services.AddEndpointsApiExplorer();

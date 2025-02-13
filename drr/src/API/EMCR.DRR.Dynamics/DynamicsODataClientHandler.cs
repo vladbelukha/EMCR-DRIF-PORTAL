@@ -11,7 +11,53 @@ namespace EMCR.DRR.Dynamics
         private readonly DRRContextOptions options;
         private readonly ISecurityTokenProvider tokenProvider;
         private string? authToken;
-        private string[] SetPropertyExemptions = new[] { "drr_cost", "drr_estimatedsizeofprojectarea", "drr_anticipatedprojectstartdate", "drr_anticipatedprojectenddate", "drr_hazards", "drr_increasedortransferred" };
+        
+        //These fields will still be sent to CRM even if the value is null - needed to be able to wipe these fields
+        //TODO - find a better way...
+        private string[] SetPropertyExemptions = new[] { 
+            //Application
+            "drr_hazards",
+            "drr_anticipatedprojectstartdate",
+            "drr_anticipatedprojectenddate",
+            "drr_estimated_total_project_cost",
+            "drr_estimateddriffundingprogramrequest",
+            "drr_remaining_amount",
+            "drr_estimatedsizeofprojectarea",
+            "drr_eligibleamount",
+            "drr_totaldrifprogramfundingrequest",
+            "drr_cost",
+            "drr_contingency",
+            "drr_totaleligiblecosts",
+            "drr_increasedortransferred",
+
+            //Funding Information
+            "drr_estimated_amount",
+
+            //Proposed Activity
+            "drr_anticipatedstartdate",
+            "drr_anticipatedenddate",
+
+            //Detailed Cost Estimate
+            "drr_unitrate",
+            "drr_quantity",
+            "drr_totalcost",
+
+            //Funding Request
+            "drr_drifprogramfundingrequest",
+
+            //Progress Report
+            "drr_percentageofprojectcompleteasofreportdate",
+            "drr_percentconstructioncompleteatreportdate",
+            "drr_dateofannouncement",
+            "drr_plannedstartdate",
+            "drr_plannedcompletiondate",
+            "drr_actualstartdate",
+            "drr_actualcompletiondate",
+            "drr_dateinstalled",
+            "drr_dateremoved",
+            "drr_plannedeventdate",
+            "drr_dateoccurred",
+        };
 
         public DynamicsODataClientHandler(IOptions<DRRContextOptions> options, ISecurityTokenProvider tokenProvider)
         {

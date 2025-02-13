@@ -109,8 +109,10 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
 
             var updatedProgressReport = mapper.Map<EMCR.DRR.Controllers.ProgressReport>((await manager.Handle(new DrrProgressReportsQuery { Id = progressReport.Id, BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault());
             updatedProgressReport.Workplan.MediaAnnouncementComment.ShouldBe(progressReport.Workplan.MediaAnnouncementComment);
+            updatedProgressReport.Workplan.ProjectCompletionPercentage.ShouldBe(progressReport.Workplan.ProjectCompletionPercentage);
             updatedProgressReport.Workplan.ProjectProgress.ShouldBe(progressReport.Workplan.ProjectProgress);
             updatedProgressReport.Workplan.MediaAnnouncement.ShouldBe(progressReport.Workplan.MediaAnnouncement);
+            //updatedProgressReport.Workplan.MediaAnnouncementDate.ShouldBe(progressReport.Workplan.MediaAnnouncementDate);
             updatedProgressReport.Workplan.OtherDelayReason.ShouldBe(progressReport.Workplan.OtherDelayReason);
             updatedProgressReport.EventInformation.PastEvents.Count().ShouldBe(1);
             updatedProgressReport.EventInformation.UpcomingEvents.Count().ShouldBe(1);
@@ -223,7 +225,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
 
             progressReport.EventInformation.EventsOccurredSinceLastReport = true;
             if (progressReport.EventInformation.PastEvents.Count() > 0) progressReport.EventInformation.PastEvents = progressReport.EventInformation.PastEvents.Take(progressReport.EventInformation.PastEvents.Count() - 1).ToArray();
-            progressReport.EventInformation.PastEvents = progressReport.EventInformation.PastEvents.Append(new EMCR.DRR.Controllers.ProjectEvent
+            progressReport.EventInformation.PastEvents = progressReport.EventInformation.PastEvents.Append(new PastEvent
             {
                 Details = $"{uniqueSignature} - past event details",
                 Date = DateTime.UtcNow.AddDays(-2),
