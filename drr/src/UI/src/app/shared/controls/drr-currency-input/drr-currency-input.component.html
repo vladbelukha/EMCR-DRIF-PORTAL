@@ -14,10 +14,25 @@
     [decimalMarker]="'.'"
     [thousandSeparator]="','"
   />
+  @if (rxFormControl.disabled && allowEnabling) {
+    <button
+      style="margin-right: 0.5rem"
+      matSuffix
+      mat-icon-button
+      aria-label="edit"
+      (click)="enableInput()"
+    >
+      <mat-icon>edit</mat-icon>
+    </button>
+  }
   <span matTextPrefix>$&nbsp;</span>
   <mat-hint *ngIf="max && isFocused" align="end"
-    >Max: {{ max | currency : "" : "symbol" : "1.0-0" }}</mat-hint
+    >Max: {{ max | currency: "" : "symbol" : "1.0-0" }}</mat-hint
   >
-  <mat-error *ngIf="rxFormControl.hasError('maxNumber')">{{ t("maxValueError", { max: max | currency : "" : "symbol" : "1.0-0" }) }}</mat-error>
-  <mat-error *ngIf="rxFormControl.hasError('minNumber')">{{ t("minValueError", { min: min | currency : "" : "symbol" : "1.0-0" }) }}</mat-error>
+  <mat-error *ngIf="rxFormControl.hasError('maxNumber')">{{
+    t("maxValueError", { max: max | currency: "" : "symbol" : "1.0-0" })
+  }}</mat-error>
+  <mat-error *ngIf="rxFormControl.hasError('minNumber')">{{
+    t("minValueError", { min: min | currency: "" : "symbol" : "1.0-0" })
+  }}</mat-error>
 </mat-form-field>

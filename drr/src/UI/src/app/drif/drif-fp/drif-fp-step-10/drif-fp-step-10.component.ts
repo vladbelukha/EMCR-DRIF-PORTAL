@@ -121,6 +121,8 @@ export class DrifFpStep10Component {
     }))
     .sort((a, b) => a.label.localeCompare(b.label));
 
+  originalTotalProjectCost?: number;
+
   ngOnInit() {
     this.budgetForm
       .get('yearOverYearFunding')!
@@ -158,8 +160,24 @@ export class DrifFpStep10Component {
     this.budgetForm
       .get('totalProjectCost')!
       .valueChanges.pipe(distinctUntilChanged())
-      .subscribe(() => {
+      .subscribe((value) => {
         this.calculateRemainingAmount();
+
+        if (
+          value !== null &&
+          this.originalTotalProjectCost === undefined &&
+          !this.originalTotalProjectCost
+        ) {
+          this.originalTotalProjectCost = value;
+        }
+
+        this.hasTotalProjectCostChanged()
+          ? this.budgetForm
+              .get('totalProjectCostChangeComments')
+              ?.setValidators(Validators.required)
+          : this.budgetForm
+              .get('totalProjectCostChangeComments')
+              ?.clearValidators();
       });
 
     this.budgetForm
@@ -280,6 +298,15 @@ export class DrifFpStep10Component {
       .subscribe(() => {
         this.budgetForm.get('costEstimates')?.updateValueAndValidity();
       });
+  }
+
+  hasTotalProjectCostChanged() {
+    console.log('form: ', this.budgetForm.get('totalProjectCost')?.value);
+    console.log('original: ', this.originalTotalProjectCost);
+    return (
+      this.budgetForm.get('totalProjectCost')?.value !==
+      this.originalTotalProjectCost
+    );
   }
 
   showDiscrepancyComment() {

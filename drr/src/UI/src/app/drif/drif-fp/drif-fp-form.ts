@@ -275,6 +275,9 @@ export class BudgetForm {
   totalProjectCost?: number;
 
   @prop()
+  totalProjectCostChangeComments?: string;
+
+  @prop()
   @minNumber({ value: 0 })
   remainingAmount?: number;
 

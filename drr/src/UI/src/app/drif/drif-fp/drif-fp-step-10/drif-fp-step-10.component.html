@@ -17,12 +17,29 @@
     </p>
 
     <mat-label class="drr-label">Total Project Cost</mat-label>
-    <mat-label>Based on your EOI, your Total Project Cost is:</mat-label>
+    <p>
+      Below is the estimated total cost of your project based on the information
+      you provided in your Expression of Interest. The total costs for your
+      project may have changed since you submitted your EOI. You can update the
+      Total Project Cost by entering a new value in the field. If you provide an
+      update, you will be asked to explain.
+    </p>
     <drr-currency-input
+      style="align-self: flex-start; margin-top: 1rem"
       [label]="t('totalProjectCost')"
       [rxFormControl]="budgetForm.get('totalProjectCost')"
       [disabled]="true"
+      [allowEnabling]="true"
     ></drr-currency-input>
+
+    @if (hasTotalProjectCostChanged()) {
+      <drr-textarea
+        style="margin-top: 1rem"
+        [label]="t('totalProjectCostChangeComments')"
+        [maxlength]="2000"
+        [rxFormControl]="budgetForm.get('totalProjectCostChangeComments')"
+      ></drr-textarea>
+    }
 
     <h1>OLD layout</h1>
 
