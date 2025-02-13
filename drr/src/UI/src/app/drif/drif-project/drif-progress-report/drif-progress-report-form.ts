@@ -65,19 +65,15 @@ export class WorkplanActivityForm implements WorkplanActivity {
   comment?: string;
 
   @prop()
-  @required()
   plannedStartDate?: string;
 
   @prop()
-  @required()
   plannedCompletionDate?: string;
 
   @prop()
-  @required()
   actualStartDate?: string;
 
   @prop()
-  @required()
   actualCompletionDate?: string;
 
   constructor(values: WorkplanActivityForm) {

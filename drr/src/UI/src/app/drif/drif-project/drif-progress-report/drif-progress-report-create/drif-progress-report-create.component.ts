@@ -376,6 +376,7 @@ export class DrifProgressReportCreateComponent {
                 new WorkplanActivityForm(activity),
               );
 
+              this.setValidationsForActivity(activityForm);
               this.workplanActivitiesArray?.push(activityForm);
             });
 
@@ -635,6 +636,14 @@ export class DrifProgressReportCreateComponent {
         .filter((key) => this.progressReportForm.get(key)?.invalid)
         .map((key) => this.formToStepMap[key]);
 
+      // TODO: temporary console log failed controls in workplan
+      // const control = this.eventInformationForm as RxFormGroup;
+      // const controlKeys = Object.keys(control.controls);
+      // const invalidControls = controlKeys.filter(
+      //   (key) => control.get(key)?.invalid,
+      // );
+      // console.log('invalid controls: ', invalidControls);
+
       const lastStep = invalidSteps.pop();
 
       const stepsErrorMessage =
@@ -728,13 +737,68 @@ export class DrifProgressReportCreateComponent {
   }
 
   addAdditionalActivity() {
-    this.workplanActivitiesArray?.push(
-      this.formBuilder.formGroup(
-        new WorkplanActivityForm({
-          isMandatory: false,
-        }),
-      ),
+    const newActivity = this.formBuilder.formGroup(
+      new WorkplanActivityForm({
+        isMandatory: false,
+      }),
     );
+    this.setValidationsForActivity(newActivity);
+    this.workplanActivitiesArray?.push(newActivity);
+  }
+
+  setValidationsForActivity(activityControl: AbstractControl) {
+    activityControl.get('status')?.valueChanges.subscribe((value) => {
+      const plannedStartDate = activityControl.get('plannedStartDate');
+      const plannedCompletionDate = activityControl.get(
+        'plannedCompletionDate',
+      );
+      const actualStartDate = activityControl.get('actualStartDate');
+      const actualCompletionDate = activityControl.get('actualCompletionDate');
+
+      switch (value) {
+        case WorkplanStatus.NotStarted:
+          plannedStartDate?.addValidators(Validators.required);
+          plannedCompletionDate?.addValidators(Validators.required);
+          actualStartDate?.clearValidators();
+          actualCompletionDate?.clearValidators();
+          break;
+        case WorkplanStatus.InProgress:
+          plannedCompletionDate?.addValidators(Validators.required);
+          actualStartDate?.addValidators(Validators.required);
+          plannedStartDate?.clearValidators();
+          actualCompletionDate?.clearValidators();
+          break;
+        case WorkplanStatus.Completed:
+          plannedStartDate?.addValidators(Validators.required);
+          plannedCompletionDate?.addValidators(Validators.required);
+          actualStartDate?.addValidators(Validators.required);
+          actualCompletionDate?.addValidators(Validators.required);
+          break;
+        case WorkplanStatus.Awarded:
+          actualStartDate?.addValidators(Validators.required);
+          plannedStartDate?.clearValidators();
+          plannedCompletionDate?.clearValidators();
+          actualCompletionDate?.clearValidators();
+          break;
+        case WorkplanStatus.NotAwarded:
+          plannedStartDate?.addValidators(Validators.required);
+          plannedCompletionDate?.clearValidators();
+          actualStartDate?.clearValidators();
+          actualCompletionDate?.clearValidators();
+          break;
+        default:
+          plannedStartDate?.clearValidators();
+          plannedCompletionDate?.clearValidators();
+          actualStartDate?.clearValidators();
+          actualCompletionDate?.clearValidators();
+          break;
+      }
+
+      plannedStartDate?.updateValueAndValidity();
+      plannedCompletionDate?.updateValueAndValidity();
+      actualStartDate?.updateValueAndValidity();
+      actualCompletionDate?.updateValueAndValidity();
+    });
   }
 
   getAdditionalActivityOptions(activityControl: AbstractControl) {
