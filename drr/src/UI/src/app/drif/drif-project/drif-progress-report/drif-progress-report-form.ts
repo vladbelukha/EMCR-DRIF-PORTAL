@@ -13,6 +13,7 @@ import {
   EventInformation,
   FundingSignage,
   InterimProjectType,
+  PastEvent,
   ProgressReport,
   ProjectEvent,
   ProjectProgressStatus,
@@ -65,19 +66,15 @@ export class WorkplanActivityForm implements WorkplanActivity {
   comment?: string;
 
   @prop()
-  @required()
   plannedStartDate?: string;
 
   @prop()
-  @required()
   plannedCompletionDate?: string;
 
   @prop()
-  @required()
   actualStartDate?: string;
 
   @prop()
-  @required()
   actualCompletionDate?: string;
 
   constructor(values: WorkplanActivityForm) {
@@ -221,13 +218,30 @@ export class ProjectEventForm implements ProjectEvent {
   }
 }
 
+export class PastEventForm implements PastEvent {
+  @prop()
+  id?: string;
+
+  @prop()
+  @required()
+  details?: string;
+
+  @prop()
+  @required()
+  date?: string;
+
+  constructor(values: PastEventForm) {
+    Object.assign(this, values);
+  }
+}
+
 export class EventInformationForm implements EventInformation {
   @prop()
   @required()
   eventsOccurredSinceLastReport?: boolean | undefined;
 
-  @propArray(ProjectEventForm)
-  pastEvents?: ProjectEventForm[] = [];
+  @propArray(PastEventForm)
+  pastEvents?: PastEventForm[] = [];
 
   @prop()
   @required()

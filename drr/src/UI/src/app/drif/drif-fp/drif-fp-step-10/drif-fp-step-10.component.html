@@ -1,5 +1,31 @@
 <div class="drr-step-container" *transloco="let t">
   <form [formGroup]="budgetForm">
+    <mat-label class="drr-label">Project Financial Details</mat-label>
+    <p>
+      In this section you will review the project's financial details and
+      provide detailed estimates.
+    </p>
+    <p>
+      The estimates provided in the Expression of Interest have been copied
+      (where applicable) to assist you with reviewing your information.
+    </p>
+    <p>
+      The costs and amount of funding you need may have changed since you
+      submitted your EOI for various reasons, including changes to the scope of
+      your project or more precise cost estimates, and may require updating. If
+      updates are made, you will be asked to explain what has changed and why.
+    </p>
+
+    <mat-label class="drr-label">Total Project Cost</mat-label>
+    <mat-label>Based on your EOI, your Total Project Cost is:</mat-label>
+    <drr-currency-input
+      [label]="t('totalProjectCost')"
+      [rxFormControl]="budgetForm.get('totalProjectCost')"
+      [disabled]="true"
+    ></drr-currency-input>
+
+    <h1>OLD layout</h1>
+
     <mat-label class="drr-label">DRIF Program Funding Breakdown</mat-label>
     <p>
       Let's review the total funding you are requesting from the DRIF program.
@@ -43,9 +69,10 @@
           [max]="1000000000"
         ></drr-currency-input>
         @if (i > 0) {
-        <button mat-mini-fab color="warn" (click)="removeYear(i)">
-          <mat-icon>delete</mat-icon></button
-        >}
+          <button mat-mini-fab color="warn" (click)="removeYear(i)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        }
       </div>
       <button
         style="margin-top: 10px"
@@ -65,10 +92,10 @@
       {{ budgetForm.get("totalDrifFundingRequest")?.value | currency }}
     </p>
     @if (isTotalDrifFundingRequestInvalid()) {
-    <p style="color: red">
-      This value must be less than
-      {{ "1000000000" | currency : "" : "symbol" : "1.0-0" }}
-    </p>
+      <p style="color: red">
+        This value must be less than
+        {{ "1000000000" | currency: "" : "symbol" : "1.0-0" }}
+      </p>
     }
 
     <div *ngIf="showDiscrepancyComment()" style="margin-top: 1rem">
@@ -100,10 +127,10 @@
       {{ budgetForm.get("totalDrifFundingRequest")?.value | currency }}
     </p>
     @if (isTotalDrifFundingRequestInvalid()) {
-    <p style="color: red">
-      This value must be less than
-      {{ "1000000000" | currency : "" : "symbol" : "1.0-0" }}
-    </p>
+      <p style="color: red">
+        This value must be less than
+        {{ "1000000000" | currency: "" : "symbol" : "1.0-0" }}
+      </p>
     }
 
     <mat-label class="drr-label" style="margin-top: 1rem">{{
@@ -114,10 +141,10 @@
       [rxFormControl]="budgetForm.get('haveOtherFunding')"
     ></drr-radio-button>
 
-    @if (budgetForm.get('haveOtherFunding')?.value === true) {
-    <drr-funding-list
-      [fundingFormArray]="getFormArray('otherFunding')"
-    ></drr-funding-list>
+    @if (budgetForm.get("haveOtherFunding")?.value === true) {
+      <drr-funding-list
+        [fundingFormArray]="getFormArray('otherFunding')"
+      ></drr-funding-list>
     }
 
     <mat-label class="drr-label" style="margin-top: 2rem">{{
@@ -215,11 +242,11 @@
         to explain.
       </li>
       @if (isStrucutralProject()) {
-      <li>
-        At this stage, your project should have a class A or B cost estimate.
-        Set your contingency based on this. See below for more information about
-        the classes.
-      </li>
+        <li>
+          At this stage, your project should have a class A or B cost estimate.
+          Set your contingency based on this. See below for more information
+          about the classes.
+        </li>
       }
     </ul>
     <div>
@@ -285,16 +312,16 @@
             </div>
             <div class="row"></div>
           </mat-card-content>
-          @if (getFormArray('costEstimates').controls.length > 1) {
-          <mat-card-actions align="end">
-            <button
-              mat-raised-button
-              color="warn"
-              (click)="removeCost(cost.get('id')?.value)"
-            >
-              Remove
-            </button>
-          </mat-card-actions>
+          @if (getFormArray("costEstimates").controls.length > 1) {
+            <mat-card-actions align="end">
+              <button
+                mat-raised-button
+                color="warn"
+                (click)="removeCost(cost.get('id')?.value)"
+              >
+                Remove
+              </button>
+            </mat-card-actions>
           }
         </mat-card>
       </div>
@@ -312,13 +339,13 @@
     </div>
 
     @if (isStrucutralProject()) {
-    <drr-numeric-input
-      style="align-self: flex-start; margin-top: 1rem"
-      [label]="t('contingency')"
-      [rxFormControl]="budgetForm.get('contingency')"
-      numericType="percentage"
-    >
-    </drr-numeric-input>
+      <drr-numeric-input
+        style="align-self: flex-start; margin-top: 1rem"
+        [label]="t('contingency')"
+        [rxFormControl]="budgetForm.get('contingency')"
+        numericType="percentage"
+      >
+      </drr-numeric-input>
     }
 
     <drr-currency-input
