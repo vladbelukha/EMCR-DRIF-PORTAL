@@ -78,22 +78,4 @@ namespace EMCR.DRR.API.Utilities.Converters
             }
         }
     }
-
-    public class NullToEmptyStringConverter : JsonConverter<string>
-    {
-        public override string Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-        {
-            if (reader.TokenType == JsonTokenType.Null)
-            {
-                return ""; // Convert null to empty string
-            }
-
-            return reader.GetString() ?? ""; // Safeguard against null
-        }
-
-        public override void Write(Utf8JsonWriter writer, string value, JsonSerializerOptions options)
-        {
-            writer.WriteStringValue(value); // Normal behavior (null stays null, "" stays "")
-        }
-    }
 }
