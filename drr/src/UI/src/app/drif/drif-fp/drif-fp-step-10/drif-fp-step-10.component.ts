@@ -28,7 +28,10 @@ import {
 import { DrrChipAutocompleteComponent } from '../../../shared/controls/drr-chip-autocomplete/drr-chip-autocomplete.component';
 import { DrrCurrencyInputComponent } from '../../../shared/controls/drr-currency-input/drr-currency-input.component';
 import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
-import { DrrRadioButtonComponent } from '../../../shared/controls/drr-radio-button/drr-radio-button.component';
+import {
+  DrrRadioButtonComponent,
+  RadioOption,
+} from '../../../shared/controls/drr-radio-button/drr-radio-button.component';
 import {
   DrrSelectComponent,
   DrrSelectOption,
@@ -41,6 +44,7 @@ import { DrrFundingListComponent } from '../../drr-funding-list/drr-funding-list
 import { DrrNumericInputComponent } from '../../../shared/controls/drr-number-input/drr-number-input.component';
 import {
   BudgetForm,
+  CostEstimateClassType,
   CostEstimateForm,
   YearOverYearFundingForm,
 } from '../drif-fp-form';
@@ -86,6 +90,13 @@ export class DrifFpStep10Component {
 
   isMobile = false;
 
+  costEstimateClassOptions: RadioOption[] = Object.keys(CostEstimateClassType)
+    .map((key) => ({
+      value: key,
+      label: this.translocoService.translate(`costEstimateClassType.${key}`),
+    }))
+    .sort((a, b) => a.label.localeCompare(b.label));
+
   fiscalYearsOptions =
     this.optionsStore.options.fiscalYears?.()?.map((value) => ({
       value,
@@ -103,6 +114,9 @@ export class DrifFpStep10Component {
     this.optionsStore.options.costConsiderations?.() ?? [];
 
   costCategoriesOptions: DrrSelectOption[] = Object.values(CostCategory)
+    .filter((value) =>
+      !this.isStrucutralProject() ? value !== CostCategory.Contingency : value,
+    )
     .map((value) => ({
       value,
       label: this.translocoService.translate(value),
@@ -120,6 +134,8 @@ export class DrifFpStep10Component {
       label: this.translocoService.translate(value),
     }))
     .sort((a, b) => a.label.localeCompare(b.label));
+
+  originalTotalProjectCost?: number;
 
   ngOnInit() {
     this.budgetForm
@@ -158,8 +174,24 @@ export class DrifFpStep10Component {
     this.budgetForm
       .get('totalProjectCost')!
       .valueChanges.pipe(distinctUntilChanged())
-      .subscribe(() => {
+      .subscribe((value) => {
         this.calculateRemainingAmount();
+
+        if (
+          value !== null &&
+          this.originalTotalProjectCost === undefined &&
+          !this.originalTotalProjectCost
+        ) {
+          this.originalTotalProjectCost = value;
+        }
+
+        this.hasTotalProjectCostChanged()
+          ? this.budgetForm
+              .get('totalProjectCostChangeComments')
+              ?.setValidators(Validators.required)
+          : this.budgetForm
+              .get('totalProjectCostChangeComments')
+              ?.clearValidators();
       });
 
     this.budgetForm
@@ -280,6 +312,15 @@ export class DrifFpStep10Component {
       .subscribe(() => {
         this.budgetForm.get('costEstimates')?.updateValueAndValidity();
       });
+  }
+
+  hasTotalProjectCostChanged() {
+    console.log('form: ', this.budgetForm.get('totalProjectCost')?.value);
+    console.log('original: ', this.originalTotalProjectCost);
+    return (
+      this.budgetForm.get('totalProjectCost')?.value !==
+      this.originalTotalProjectCost
+    );
   }
 
   showDiscrepancyComment() {

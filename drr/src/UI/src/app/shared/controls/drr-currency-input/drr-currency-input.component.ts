@@ -2,7 +2,9 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, Input, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { TranslocoModule } from '@ngneat/transloco';
 import { UntilDestroy } from '@ngneat/until-destroy';
@@ -18,9 +20,11 @@ import { NgxMaskDirective } from 'ngx-mask';
     FormsModule,
     MatFormFieldModule,
     ReactiveFormsModule,
-    MatInputModule,
     NgxMaskDirective,
     TranslocoModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
   ],
   templateUrl: './drr-currency-input.component.html',
   styleUrl: './drr-currency-input.component.scss',
@@ -36,6 +40,7 @@ export class DrrCurrencyInputComponent {
   @Input() id = '';
   @Input() min: number = 0;
   @Input() max: number = 0;
+  @Input() allowEnabling = false;
 
   ngOnInit() {
     this.breakpointObserver
@@ -81,5 +86,10 @@ export class DrrCurrencyInputComponent {
 
   onBlur() {
     this.isFocused = false;
+  }
+
+  enableInput() {
+    this.allowEnabling = false;
+    this.rxFormControl.enable();
   }
 }
