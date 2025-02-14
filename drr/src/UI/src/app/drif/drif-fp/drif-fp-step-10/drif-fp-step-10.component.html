@@ -220,6 +220,40 @@
       </button>
     </div>
 
+    <mat-label class="drr-label" style="margin-top: 2rem"
+      >Total Detailed Cost Estimate</mat-label
+    >
+    <drr-currency-input
+      style="align-self: flex-start; margin-top: 1rem"
+      [label]="t('totalEligibleCosts')"
+      [rxFormControl]="budgetForm.get('totalEligibleCosts')"
+      [disabled]="true"
+    >
+    </drr-currency-input>
+    @if (isStrucutralProject()) {
+      <mat-label class="drr-label" style="margin-top: 1rem"
+        >Total Contingency Percentage</mat-label
+      >
+      <drr-numeric-input
+        style="align-self: flex-start; margin-top: 1rem"
+        [label]="t('contingency')"
+        [rxFormControl]="budgetForm.get('contingency')"
+        numericType="percentage"
+        [disabled]="true"
+      >
+      </drr-numeric-input>
+    }
+
+    @if (isContingencyPercentageThreasholdBroken()) {
+      <p style="color: red; display: flex; align-items: center; gap: 1rem">
+        <mat-icon>error</mat-icon>
+        <i>
+          The contingency percentage exceeds the allowable threshold for the
+          selected cost estimate class.
+        </i>
+      </p>
+    }
+
     <!-- -
     -
     -
@@ -546,7 +580,7 @@
       </button>
     </div>
 
-    @if (isStrucutralProject()) {
+    <!-- @if (isStrucutralProject()) {
       <drr-numeric-input
         style="align-self: flex-start; margin-top: 1rem"
         [label]="t('contingency')"
@@ -554,15 +588,15 @@
         numericType="percentage"
       >
       </drr-numeric-input>
-    }
+    } -->
 
-    <drr-currency-input
+    <!-- <drr-currency-input
       style="align-self: flex-start; margin-top: 1rem"
       [label]="t('totalEligibleCosts')"
       [rxFormControl]="budgetForm.get('totalEligibleCosts')"
       [disabled]="true"
     >
-    </drr-currency-input>
+    </drr-currency-input> -->
 
     <!-- New section for Stream 2 projects -->
     <div *ngIf="isStrucutralProject()">

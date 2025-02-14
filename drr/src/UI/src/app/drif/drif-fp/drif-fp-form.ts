@@ -284,8 +284,10 @@ export class BudgetForm {
   totalProjectCostChangeComments?: string;
 
   @prop()
-  @required()
   costEstimateClass?: CostEstimateClassType;
+
+  @prop()
+  isContingencyPercentageThreasholdMet?: boolean;
 
   @prop()
   @minNumber({ value: 0 })

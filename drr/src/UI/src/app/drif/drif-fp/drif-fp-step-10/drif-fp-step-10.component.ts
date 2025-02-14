@@ -85,8 +85,17 @@ export class DrifFpStep10Component {
   @Input()
   budgetForm!: IFormGroup<BudgetForm>;
 
+  private _fundingStream!: FundingStream;
   @Input()
-  fundingStream!: FundingStream;
+  set fundingStream(fundingStream: FundingStream) {
+    this._fundingStream = fundingStream;
+    if (this.isStrucutralProject()) {
+      this.setValidatorsForStructuralProject();
+    }
+  }
+  get fundingStream() {
+    return this._fundingStream;
+  }
 
   isMobile = false;
 
@@ -115,7 +124,7 @@ export class DrifFpStep10Component {
 
   costCategoriesOptions: DrrSelectOption[] = Object.values(CostCategory)
     .filter((value) =>
-      !this.isStrucutralProject() ? value !== CostCategory.Contingency : value,
+      this.isStrucutralProject() ? value !== CostCategory.Contingency : value,
     )
     .map((value) => ({
       value,
@@ -271,9 +280,6 @@ export class DrifFpStep10Component {
 
     this.getFormArray('costEstimates').controls.length === 0 && this.addCost();
 
-    this.isStrucutralProject() &&
-      this.budgetForm.get('contingency')?.addValidators(Validators.required);
-
     this.budgetForm
       .get('costEstimates')
       ?.valueChanges.pipe(distinctUntilChanged())
@@ -292,18 +298,34 @@ export class DrifFpStep10Component {
           totalCost += cost;
         });
 
-        const contingency = this.budgetForm.get('contingency')?.value;
-        const totalEligibleCosts = this.isStrucutralProject()
-          ? totalCost + totalCost * (contingency / 100)
-          : totalCost;
+        if (this.isStrucutralProject()) {
+          let contingency = 0;
 
-        this.budgetForm.get('totalEligibleCosts')?.setValue(totalEligibleCosts);
+          // fetch contingency value from costEstimate array and calculate what % of total cost it is
+          const contingencyCostEstimate = this.getFormArray(
+            'costEstimates',
+          ).controls.find(
+            (costEstimate) =>
+              costEstimate.get('costCategory')?.value ===
+              CostCategory.Contingency,
+          );
+          const contingencyTotalCost =
+            contingencyCostEstimate?.get('totalCost')?.value;
+
+          if (contingencyTotalCost) {
+            contingency = (contingencyTotalCost / totalCost) * 100;
+          }
+
+          this.budgetForm.get('contingency')?.setValue(contingency);
+        }
+
+        this.budgetForm.get('totalEligibleCosts')?.setValue(totalCost);
         const totalDrifFundingRequest = this.budgetForm?.get(
           'totalDrifFundingRequest',
         )?.value;
         this.budgetForm
           .get('estimatesMatchFundingRequest')
-          ?.setValue(totalEligibleCosts === totalDrifFundingRequest);
+          ?.setValue(totalCost === totalDrifFundingRequest);
       });
 
     this.budgetForm
@@ -314,9 +336,17 @@ export class DrifFpStep10Component {
       });
   }
 
+  setValidatorsForStructuralProject() {
+    this.budgetForm
+      .get('costEstimateClass')
+      ?.addValidators(Validators.required);
+    this.budgetForm.get('contingency')?.addValidators(Validators.required);
+    this.budgetForm
+      .get('isContingencyPercentageThreasholdMet')
+      ?.addValidators(Validators.requiredTrue);
+  }
+
   hasTotalProjectCostChanged() {
-    console.log('form: ', this.budgetForm.get('totalProjectCost')?.value);
-    console.log('original: ', this.originalTotalProjectCost);
     return (
       this.budgetForm.get('totalProjectCost')?.value !==
       this.originalTotalProjectCost
@@ -426,5 +456,35 @@ export class DrifFpStep10Component {
         (control) => control.get('id')?.value === id,
       ),
     );
+  }
+
+  isContingencyPercentageThreasholdBroken() {
+    const contingency = this.budgetForm.get('contingency')?.value ?? 0;
+    const costEstimateClass = this.budgetForm.get('costEstimateClass')?.value;
+
+    if (
+      costEstimateClass === CostEstimateClassType.ClassA &&
+      contingency > 15
+    ) {
+      this.budgetForm
+        .get('isContingencyPercentageThreasholdMet')
+        ?.setValue(false, { emitEvent: false });
+      return true;
+    }
+
+    if (
+      costEstimateClass === CostEstimateClassType.ClassB &&
+      contingency > 25
+    ) {
+      this.budgetForm
+        .get('isContingencyPercentageThreasholdMet')
+        ?.setValue(false, { emitEvent: false });
+      return true;
+    }
+
+    this.budgetForm
+      .get('isContingencyPercentageThreasholdMet')
+      ?.setValue(true, { emitEvent: false });
+    return false;
   }
 }
