@@ -85,8 +85,17 @@ export class DrifFpStep10Component {
   @Input()
   budgetForm!: IFormGroup<BudgetForm>;
 
+  private _fundingStream!: FundingStream;
   @Input()
-  fundingStream!: FundingStream;
+  set fundingStream(fundingStream: FundingStream) {
+    this._fundingStream = fundingStream;
+    if (this.isStrucutralProject()) {
+      this.setValidatorsForStructuralProject();
+    }
+  }
+  get fundingStream() {
+    return this._fundingStream;
+  }
 
   isMobile = false;
 
@@ -271,9 +280,6 @@ export class DrifFpStep10Component {
 
     this.getFormArray('costEstimates').controls.length === 0 && this.addCost();
 
-    this.isStrucutralProject() &&
-      this.budgetForm.get('contingency')?.addValidators(Validators.required);
-
     this.budgetForm
       .get('costEstimates')
       ?.valueChanges.pipe(distinctUntilChanged())
@@ -328,6 +334,16 @@ export class DrifFpStep10Component {
       .subscribe(() => {
         this.budgetForm.get('costEstimates')?.updateValueAndValidity();
       });
+  }
+
+  setValidatorsForStructuralProject() {
+    this.budgetForm
+      .get('costEstimateClass')
+      ?.addValidators(Validators.required);
+    this.budgetForm.get('contingency')?.addValidators(Validators.required);
+    this.budgetForm
+      .get('isContingencyPercentageThreasholdMet')
+      ?.addValidators(Validators.requiredTrue);
   }
 
   hasTotalProjectCostChanged() {
@@ -442,5 +458,33 @@ export class DrifFpStep10Component {
         (control) => control.get('id')?.value === id,
       ),
     );
+  }
+
+  isContingencyPercentageThreasholdBroken() {
+    const contingency = this.budgetForm.get('contingency')?.value ?? 0;
+    const costEstimateClass = this.budgetForm.get('costEstimateClass')?.value;
+
+    if (
+      costEstimateClass === CostEstimateClassType.ClassA &&
+      contingency > 15
+    ) {
+      this.budgetForm
+        .get('isContingencyPercentageThreasholdMet')
+        ?.setValue(false);
+      return true;
+    }
+
+    if (
+      costEstimateClass === CostEstimateClassType.ClassB &&
+      contingency > 25
+    ) {
+      this.budgetForm
+        .get('isContingencyPercentageThreasholdMet')
+        ?.setValue(false);
+      return true;
+    }
+
+    this.budgetForm.get('isContingencyPercentageThreasholdMet')?.setValue(true);
+    return false;
   }
 }

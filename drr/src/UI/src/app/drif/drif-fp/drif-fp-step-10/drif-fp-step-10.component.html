@@ -244,6 +244,13 @@
       </drr-numeric-input>
     }
 
+    @if (isContingencyPercentageThreasholdBroken()) {
+      <p style="color: red">
+        The contingency percentage exceeds the allowable threshold for the
+        selected cost estimate class.
+      </p>
+    }
+
     <!-- -
     -
     -
