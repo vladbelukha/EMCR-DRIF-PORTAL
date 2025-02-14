@@ -320,6 +320,9 @@ export class DrifFpStep10Component {
         }
 
         this.budgetForm.get('totalEligibleCosts')?.setValue(totalCost);
+
+        this.calculateDiscrepancy();
+
         const totalDrifFundingRequest = this.budgetForm?.get(
           'totalDrifFundingRequest',
         )?.value;
@@ -354,10 +357,7 @@ export class DrifFpStep10Component {
   }
 
   showDiscrepancyComment() {
-    return (
-      this.budgetForm.get('totalDrifFundingRequest')?.value !==
-      this.budgetForm.get('eligibleFundingRequest')?.value
-    );
+    return this.budgetForm.get('fundingRequestDiscrepancy')?.value != 0;
   }
 
   isTotalDrifFundingRequestInvalid() {
@@ -400,6 +400,14 @@ export class DrifFpStep10Component {
     }
 
     intendToSecureFunding?.updateValueAndValidity();
+  }
+
+  calculateDiscrepancy() {
+    const discrepancy =
+      this.budgetForm.get('totalEligibleCosts')?.value -
+      this.budgetForm.get('eligibleFundingRequest')?.value;
+
+    this.budgetForm.get('fundingRequestDiscrepancy')?.setValue(discrepancy);
   }
 
   getFormArray(formArrayName: string) {

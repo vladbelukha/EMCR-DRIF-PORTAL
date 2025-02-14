@@ -273,34 +273,38 @@ export enum CostEstimateClassType {
 }
 
 export class BudgetForm {
-  @prop()
-  eligibleFundingRequest?: number;
-
+  
   @prop()
   @required()
   totalProjectCost?: number;
-
+  
   @prop()
   totalProjectCostChangeComments?: string;
-
+  
   @prop()
   costEstimateClass?: CostEstimateClassType;
-
+  
   @prop()
   isContingencyPercentageThreasholdMet?: boolean;
-
+  
   @prop()
   @minNumber({ value: 0 })
   remainingAmount?: number;
-
+  
   @propArray(YearOverYearFundingForm)
   yearOverYearFunding?: YearOverYearFundingForm[] = [{}];
-
+  
   @prop()
   @required()
   @maxNumber({ value: 999999999 })
   @minNumber({ value: -999999999 })
   totalDrifFundingRequest?: number;
+  
+  @prop()
+  eligibleFundingRequest?: number;
+
+  @prop()
+  fundingRequestDiscrepancy?: number;
 
   @prop()
   discrepancyComment?: string;

@@ -317,8 +317,10 @@
   "fiscalYear": "Fiscal Year",
   "addYear": "Add Year",
   "totalDrifFundingRequest": "Total DRIF Program Funding Request",
+  "updatedDrifProgramFundingRequest": "Updated DRIF Program Funding Request",
   "totalDrifFundingRequestInvalid": "Total DRIF Program Funding Request exceeds the maximum allowable amount.",
   "discrepancyComment": "Your updated DRIF program funding request is different from the eligible amount in your EOI. Explain what has changed.",
+  "fundingRequestDiscrepancy": "Funding Request Discrepancy",
 
   "ProjectAdministration": "Project Administration (up to 10%)",
   "ProjectPlanning": "Project Planning",
