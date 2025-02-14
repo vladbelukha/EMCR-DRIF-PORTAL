@@ -114,6 +114,9 @@ export class DrifFpStep10Component {
     this.optionsStore.options.costConsiderations?.() ?? [];
 
   costCategoriesOptions: DrrSelectOption[] = Object.values(CostCategory)
+    .filter((value) =>
+      !this.isStrucutralProject() ? value !== CostCategory.Contingency : value,
+    )
     .map((value) => ({
       value,
       label: this.translocoService.translate(value),
