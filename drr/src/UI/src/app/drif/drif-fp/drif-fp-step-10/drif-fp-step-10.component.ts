@@ -115,7 +115,7 @@ export class DrifFpStep10Component {
 
   costCategoriesOptions: DrrSelectOption[] = Object.values(CostCategory)
     .filter((value) =>
-      !this.isStrucutralProject() ? value !== CostCategory.Contingency : value,
+      this.isStrucutralProject() ? value !== CostCategory.Contingency : value,
     )
     .map((value) => ({
       value,
@@ -292,18 +292,34 @@ export class DrifFpStep10Component {
           totalCost += cost;
         });
 
-        const contingency = this.budgetForm.get('contingency')?.value;
-        const totalEligibleCosts = this.isStrucutralProject()
-          ? totalCost + totalCost * (contingency / 100)
-          : totalCost;
+        if (this.isStrucutralProject()) {
+          let contingency = 0;
 
-        this.budgetForm.get('totalEligibleCosts')?.setValue(totalEligibleCosts);
+          // fetch contingency value from costEstimate array and calculate what % of total cost it is
+          const contingencyCostEstimate = this.getFormArray(
+            'costEstimates',
+          ).controls.find(
+            (costEstimate) =>
+              costEstimate.get('costCategory')?.value ===
+              CostCategory.Contingency,
+          );
+          const contingencyTotalCost =
+            contingencyCostEstimate?.get('totalCost')?.value;
+
+          if (contingencyTotalCost) {
+            contingency = (contingencyTotalCost / totalCost) * 100;
+          }
+
+          this.budgetForm.get('contingency')?.setValue(contingency);
+        }
+
+        this.budgetForm.get('totalEligibleCosts')?.setValue(totalCost);
         const totalDrifFundingRequest = this.budgetForm?.get(
           'totalDrifFundingRequest',
         )?.value;
         this.budgetForm
           .get('estimatesMatchFundingRequest')
-          ?.setValue(totalEligibleCosts === totalDrifFundingRequest);
+          ?.setValue(totalCost === totalDrifFundingRequest);
       });
 
     this.budgetForm

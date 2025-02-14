@@ -4,8 +4,8 @@ import {
   ChangeDetectorRef,
   Component,
   HostListener,
-  Input,
   inject,
+  Input,
 } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -39,17 +39,17 @@ export type NumericInputType = 'integer' | 'decimal' | 'percentage';
         [decimalMarker]="'.'"
         [thousandSeparator]="''"
         [ngStyle]="{
-          'text-align': numericType === 'percentage' ? 'right' : 'left'
+          'text-align': numericType === 'percentage' ? 'right' : 'left',
         }"
       />
-      @if (this.numericType === "percentage") {
-      <span matTextSuffix>%&nbsp;</span>
+      @if (this.numericType === 'percentage') {
+        <span matTextSuffix>%&nbsp;</span>
       }
       <mat-hint *ngIf="maxlength && isFocused" align="end"
         >{{ getCount() }} / {{ maxlength }}</mat-hint
       >
       @if (getCount() > maxlength!) {
-      <mat-error>{{ t('maxLengthError') }}</mat-error>
+        <mat-error>{{ t('maxLengthError') }}</mat-error>
       }
       <mat-error
         *ngIf="
@@ -132,6 +132,11 @@ export class DrrNumericInputComponent {
   }
   get rxFormControl() {
     return this._formControl;
+  }
+
+  @Input()
+  set disabled(disabled: boolean) {
+    disabled ? this.rxFormControl.disable() : this.rxFormControl.enable();
   }
 
   changeDetector = inject(ChangeDetectorRef);
