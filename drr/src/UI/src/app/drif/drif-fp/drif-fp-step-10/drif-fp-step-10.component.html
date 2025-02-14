@@ -16,7 +16,9 @@
       updates are made, you will be asked to explain what has changed and why.
     </p>
 
-    <mat-label class="drr-label">Total Project Cost</mat-label>
+    <mat-label class="drr-label" style="margin-top: 2rem"
+      >Total Project Cost</mat-label
+    >
     <p>
       Below is the estimated total cost of your project based on the information
       you provided in your Expression of Interest. The total costs for your
@@ -25,7 +27,7 @@
       update, you will be asked to explain.
     </p>
     <drr-currency-input
-      style="align-self: flex-start; margin-top: 1rem"
+      style="align-self: flex-start; margin-top: 1rem; width: 25rem"
       [label]="t('totalProjectCost')"
       [rxFormControl]="budgetForm.get('totalProjectCost')"
       [disabled]="true"
@@ -41,6 +43,30 @@
       ></drr-textarea>
     }
 
+    <mat-label class="drr-label" style="margin-top: 2rem"
+      >DRIF Program Funding Amount</mat-label
+    >
+    <p>Based on your EOI, your eligible DRIF program funding amount is:</p>
+    <drr-currency-input
+      style="align-self: flex-start; margin-top: 1rem; width: 25rem"
+      [label]="t('eligibleFundingRequest')"
+      [rxFormControl]="budgetForm.get('eligibleFundingRequest')"
+      [disabled]="true"
+    ></drr-currency-input>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
     <h1>OLD layout</h1>
 
     <mat-label class="drr-label">DRIF Program Funding Breakdown</mat-label>
