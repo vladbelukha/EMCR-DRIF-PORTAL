@@ -28,7 +28,10 @@ import {
 import { DrrChipAutocompleteComponent } from '../../../shared/controls/drr-chip-autocomplete/drr-chip-autocomplete.component';
 import { DrrCurrencyInputComponent } from '../../../shared/controls/drr-currency-input/drr-currency-input.component';
 import { DrrInputComponent } from '../../../shared/controls/drr-input/drr-input.component';
-import { DrrRadioButtonComponent } from '../../../shared/controls/drr-radio-button/drr-radio-button.component';
+import {
+  DrrRadioButtonComponent,
+  RadioOption,
+} from '../../../shared/controls/drr-radio-button/drr-radio-button.component';
 import {
   DrrSelectComponent,
   DrrSelectOption,
@@ -41,6 +44,7 @@ import { DrrFundingListComponent } from '../../drr-funding-list/drr-funding-list
 import { DrrNumericInputComponent } from '../../../shared/controls/drr-number-input/drr-number-input.component';
 import {
   BudgetForm,
+  CostEstimateClassType,
   CostEstimateForm,
   YearOverYearFundingForm,
 } from '../drif-fp-form';
@@ -85,6 +89,13 @@ export class DrifFpStep10Component {
   fundingStream!: FundingStream;
 
   isMobile = false;
+
+  costEstimateClassOptions: RadioOption[] = Object.keys(CostEstimateClassType)
+    .map((key) => ({
+      value: key,
+      label: this.translocoService.translate(`costEstimateClassType.${key}`),
+    }))
+    .sort((a, b) => a.label.localeCompare(b.label));
 
   fiscalYearsOptions =
     this.optionsStore.options.fiscalYears?.()?.map((value) => ({

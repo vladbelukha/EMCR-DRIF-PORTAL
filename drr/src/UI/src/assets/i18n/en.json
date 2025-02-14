@@ -651,5 +651,10 @@
     "Temporary": "Temporary",
     "Digital": "Digital",
     "Plaque": "Plaque"
+  },
+  "costEstimateClass": "What Cost Estimate Class does the project have?",
+  "costEstimateClassType": {
+    "ClassA": "Class A",
+    "ClassB": "Class B"
   }
 }

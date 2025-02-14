@@ -266,6 +266,12 @@ export class CostEstimateForm implements CostEstimate {
   }
 }
 
+// TODO: remove after API is updated
+export enum CostEstimateClassType {
+  ClassA = 'ClassA',
+  ClassB = 'ClassB',
+}
+
 export class BudgetForm {
   @prop()
   eligibleFundingRequest?: number;
@@ -276,6 +282,10 @@ export class BudgetForm {
 
   @prop()
   totalProjectCostChangeComments?: string;
+
+  @prop()
+  @required()
+  costEstimateClass?: CostEstimateClassType;
 
   @prop()
   @minNumber({ value: 0 })

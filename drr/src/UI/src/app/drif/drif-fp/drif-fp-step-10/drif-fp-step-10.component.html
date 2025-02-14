@@ -54,19 +54,68 @@
       [disabled]="true"
     ></drr-currency-input>
 
+    <mat-label class="drr-label" style="margin-top: 2rem"
+      >Cost Estimate Class</mat-label
+    >
+    <p>
+      At this stage, your project should have a class A or B cost estimate. Set
+      your contingency based on this. See the section below for more information
+      about the classes.
+    </p>
+    <div *ngIf="isStrucutralProject()">
+      <table class="cost-estimate-table">
+        <thead>
+          <tr>
+            <th>Cost Estimate Classes</th>
+            <th>Features & Uses</th>
+            <th>Suggested Contingency for Associated Classes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Class A</td>
+            <td>
+              Detailed estimate based on final drawings and specifications<br />
+              Used to evaluate tenders
+            </td>
+            <td>±10-15%</td>
+          </tr>
+          <tr>
+            <td>Class B</td>
+            <td>
+              Prepared after completing site investigations and studies, and
+              after defining major systems<br />
+              Based on a project brief and preliminary design<br />
+              Used for project approvals and budgetary control
+            </td>
+            <td>±15-25%</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="footnote">
+        Sourced from the Association of Professional Engineers and Geoscientists
+        of British Columbia (APEGBC)
+      </p>
+    </div>
+    <drr-radio-button
+      style="margin-top: 1rem"
+      [label]="t('costEstimateClass')"
+      [rxFormControl]="budgetForm.get('costEstimateClass')"
+      [options]="costEstimateClassOptions"
+    ></drr-radio-button>
 
+    <!-- -
+    -
+    -
+    -
+    -
+    -
+    -
+    -
+    -
+    -
+    - -->
 
-
-
-
-
-
-
-
-
-
-
-    
     <h1>OLD layout</h1>
 
     <mat-label class="drr-label">DRIF Program Funding Breakdown</mat-label>
