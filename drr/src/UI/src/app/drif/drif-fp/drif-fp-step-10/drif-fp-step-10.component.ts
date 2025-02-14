@@ -347,8 +347,6 @@ export class DrifFpStep10Component {
   }
 
   hasTotalProjectCostChanged() {
-    console.log('form: ', this.budgetForm.get('totalProjectCost')?.value);
-    console.log('original: ', this.originalTotalProjectCost);
     return (
       this.budgetForm.get('totalProjectCost')?.value !==
       this.originalTotalProjectCost
@@ -470,7 +468,7 @@ export class DrifFpStep10Component {
     ) {
       this.budgetForm
         .get('isContingencyPercentageThreasholdMet')
-        ?.setValue(false);
+        ?.setValue(false, { emitEvent: false });
       return true;
     }
 
@@ -480,11 +478,13 @@ export class DrifFpStep10Component {
     ) {
       this.budgetForm
         .get('isContingencyPercentageThreasholdMet')
-        ?.setValue(false);
+        ?.setValue(false, { emitEvent: false });
       return true;
     }
 
-    this.budgetForm.get('isContingencyPercentageThreasholdMet')?.setValue(true);
+    this.budgetForm
+      .get('isContingencyPercentageThreasholdMet')
+      ?.setValue(true, { emitEvent: false });
     return false;
   }
 }

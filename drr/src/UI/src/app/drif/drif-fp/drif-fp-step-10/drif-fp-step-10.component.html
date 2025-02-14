@@ -245,9 +245,12 @@
     }
 
     @if (isContingencyPercentageThreasholdBroken()) {
-      <p style="color: red">
-        The contingency percentage exceeds the allowable threshold for the
-        selected cost estimate class.
+      <p style="color: red; display: flex; align-items: center; gap: 1rem">
+        <mat-icon>error</mat-icon>
+        <i>
+          The contingency percentage exceeds the allowable threshold for the
+          selected cost estimate class.
+        </i>
       </p>
     }
 
