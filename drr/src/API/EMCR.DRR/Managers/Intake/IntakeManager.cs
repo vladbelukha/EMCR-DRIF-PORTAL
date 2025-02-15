@@ -356,24 +356,37 @@ namespace EMCR.DRR.Managers.Intake
         {
             var canAccess = await CanAccessProgressReport(cmd.ProgressReport.Id, cmd.UserInfo.BusinessId);
             if (!canAccess) throw new ForbiddenException("Not allowed to access this progress report.");
+
+            var existingProgressReport = (await reportRepository.Query(new ProgressReportsQuery { Id = cmd.ProgressReport.Id, BusinessId = cmd.UserInfo.BusinessId })).Items.SingleOrDefault();
+            if (existingProgressReport == null) throw new NotFoundException("Application not found");
+
             var progressReport = mapper.Map<ProgressReportDetails>(cmd.ProgressReport);
-            //progressReport.ProponentName = cmd.UserInfo.BusinessName;
+
+            //is PreCreatedActivity or was copied from activity/report
+            var mandatoryActivityIds = existingProgressReport.Workplan?.WorkplanActivities?.Where(a => a.ActivityType?.PreCreatedActivity == true || a.CopiedFromActivity == true || !string.IsNullOrEmpty(a.OriginalReportId)).Select(a => a.Id).ToList();
+            var currentActivityIds = progressReport.Workplan?.WorkplanActivities?.Select(a => a.Id).ToList() ?? new List<string?>();
+            if (mandatoryActivityIds != null && mandatoryActivityIds.Any(id => !currentActivityIds.Contains(id))) throw new BusinessValidationException("Not Allowed to remove activity");
+
             var id = (await reportRepository.Manage(new SaveProgressReport { ProgressReport = progressReport })).Id;
-            //await projectRepository.Manage(new SubmitProject { Id = id });
-            //var id = Guid.NewGuid().ToString();
             return id;
         }
-        
+
         public async Task<string> Handle(SubmitProgressReportCommand cmd)
         {
             var canAccess = await CanAccessProgressReport(cmd.ProgressReport.Id, cmd.UserInfo.BusinessId);
             if (!canAccess) throw new ForbiddenException("Not allowed to access this progress report.");
+            var existingProgressReport = (await reportRepository.Query(new ProgressReportsQuery { Id = cmd.ProgressReport.Id, BusinessId = cmd.UserInfo.BusinessId })).Items.SingleOrDefault();
+            if (existingProgressReport == null) throw new NotFoundException("Application not found");
+
             var progressReport = mapper.Map<ProgressReportDetails>(cmd.ProgressReport);
-            //progressReport.ProponentName = cmd.UserInfo.BusinessName;
+
+            //is PreCreatedActivity or was copied from activity/report
+            var mandatoryActivityIds = existingProgressReport.Workplan?.WorkplanActivities?.Where(a => a.ActivityType?.PreCreatedActivity == true || a.CopiedFromActivity == true || !string.IsNullOrEmpty(a.OriginalReportId)).Select(a => a.Id).ToList();
+            var currentActivityIds = progressReport.Workplan?.WorkplanActivities?.Select(a => a.Id).ToList() ?? new List<string?>();
+            if (mandatoryActivityIds != null && mandatoryActivityIds.Any(id => !currentActivityIds.Contains(id))) throw new BusinessValidationException("Not Allowed to remove activity");
+
             var id = (await reportRepository.Manage(new SaveProgressReport { ProgressReport = progressReport })).Id;
             await reportRepository.Manage(new SubmitProgressReport { Id = id });
-            //await projectRepository.Manage(new SubmitProject { Id = id });
-            //var id = Guid.NewGuid().ToString();
             return id;
         }
 
@@ -468,7 +481,7 @@ namespace EMCR.DRR.Managers.Intake
             await s3Provider.HandleCommand(new UpdateTagsCommand { Key = cmd.Id, Folder = $"{RecordType.FullProposal.ToDescriptionString()}/{documentRes.RecordId}", FileTag = GetDeletedFileTag() });
             return documentRes.Id;
         }
-        
+
         private async Task<string> DeleteProgressReportDocument(DeleteAttachmentCommand cmd)
         {
             var canAccess = await CanAccessProgressReportFromDocumentId(cmd.Id, cmd.UserInfo.BusinessId);
@@ -540,18 +553,14 @@ namespace EMCR.DRR.Managers.Intake
         {
             if (string.IsNullOrEmpty(businessId)) throw new ArgumentNullException("Missing user's BusinessId");
             if (string.IsNullOrEmpty(id)) return true;
-            logger.LogDebug("CanAccessProgressReport not implemented");
-            //return await reportRepository.CanAccessProgressReport(id, businessId);
-            return await Task.FromResult(true);
+            return await reportRepository.CanAccessProgressReport(id, businessId);
         }
 
         private async Task<bool> CanAccessProgressReportFromDocumentId(string? id, string? businessId)
         {
             if (string.IsNullOrEmpty(businessId)) throw new ArgumentNullException("Missing user's BusinessId");
             if (string.IsNullOrEmpty(id)) return true;
-            logger.LogDebug("CanAccessProgressReportFromDocumentId not implemented");
-            //return await reportRepository.CanAccessProgressReportFromDocumentId(id, businessId);
-            return await Task.FromResult(true);
+            return await reportRepository.CanAccessProgressReportFromDocumentId(id, businessId);
         }
 
         private async Task<bool> CanAccessForecast(string? id, string? businessId)

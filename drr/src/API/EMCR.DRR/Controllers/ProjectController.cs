@@ -157,6 +157,7 @@ namespace EMCR.DRR.Controllers
             try
             {
                 progressReport.Id = progressId;
+                progressReport.Status = ProgressReportStatus.Draft;
 
                 var drr_id = await intakeManager.Handle(new SaveProgressReportCommand { ProgressReport = mapper.Map<ProgressReport>(progressReport), UserInfo = GetCurrentUser() });
                 return Ok(new ProgressReportResult { Id = drr_id });
@@ -683,6 +684,9 @@ namespace EMCR.DRR.Controllers
 
         [Description("Approved")]
         Approved,
+
+        [Description("Skipped")]
+        Skipped,
     }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]

@@ -64,10 +64,12 @@ namespace EMCR.DRR.API.Resources.Projects
     public enum ProjectProgressReportStatusOptionSet
     {
         NotStarted = 172580000,
-        Draft = 1,
+        DraftProponent = 1,
+        DraftStaff = 172580004,
         Submitted = 172580001,
         UpdateNeeded = 1172580002,
         Approved = 172580003,
+        Skipped = 172580005,
         Inactive = 2,
     }
 

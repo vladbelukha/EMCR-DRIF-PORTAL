@@ -434,6 +434,7 @@ namespace EMCR.DRR.Controllers
         [MandatoryIf(typeof(FpApplication), "CostConsiderationsApplied", true)]
         public string? CostConsiderationsComments { get; set; }
 
+        // [MandatoryIf(typeof(FpApplication), "FundingStream", Controllers.FundingStream.Stream2)]
         public IEnumerable<CostEstimate>? CostEstimates { get; set; }
         public bool? EstimatesMatchFundingRequest { get; set; }
         [Range(ApplicationValidators.CONTIGENCY_MIN_VALUE, ApplicationValidators.CONTIGENCY_MAX_VALUE)]
