@@ -360,23 +360,45 @@
         </i>
       </p>
     }
-    <!-- -
-    -
-    -
-    -
-    -
-    -
-    -
-    -
-    -
-    -
-    - -->
-
-    <h1>OLD layout</h1>
 
     <mat-label class="drr-label" style="margin-top: 1rem">{{
       t("otherFunding")
     }}</mat-label>
+    <p>Based on above, your updated Total Project Cost is:</p>
+    <drr-currency-input
+      style="align-self: flex-start; margin-top: 1rem; width: 25rem"
+      [label]="t('totalProjectCost')"
+      [rxFormControl]="budgetForm.get('totalProjectCost')"
+      [disabled]="true"
+      [allowEnabling]="true"
+    ></drr-currency-input>
+
+    <p>
+      Your Total Detailed Cost Estimate and updated DRIF program funding request
+      is:
+    </p>
+    <drr-currency-input
+      style="align-self: flex-start; margin-top: 1rem; width: 25rem"
+      [label]="t('totalEligibleCosts')"
+      [rxFormControl]="budgetForm.get('totalEligibleCosts')"
+      [disabled]="true"
+    >
+    </drr-currency-input>
+    <p>
+      Your estimated unfunded amount is:
+      <i
+        >Note that this may change if your DRIF funding request has
+        increased.</i
+      >
+    </p>
+    <drr-currency-input
+      style="align-self: flex-start; margin-top: 1rem; width: 25rem"
+      [label]="t('remainingAmount')"
+      [rxFormControl]="budgetForm.get('remainingAmount')"
+      [disabled]="true"
+    >
+    </drr-currency-input>
+
     <drr-radio-button
       [label]="t('haveOtherFunding')"
       [rxFormControl]="budgetForm.get('haveOtherFunding')"

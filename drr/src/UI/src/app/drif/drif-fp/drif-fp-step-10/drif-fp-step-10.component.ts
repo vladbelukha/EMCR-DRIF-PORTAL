@@ -382,12 +382,11 @@ export class DrifFpStep10Component {
     const totalProjectCost =
       this.budgetForm.get('totalProjectCost')?.value ?? 0;
     // how much I'm asking for
-    const totalDrifFundingRequest =
-      this.budgetForm.get('totalDrifFundingRequest')?.value ?? 0;
+    const totalEligibleCosts =
+      this.budgetForm.get('totalEligibleCosts')?.value ?? 0;
 
     // how much is left to cover and I need to explain how I'm going to cover it
-    let remainingAmount =
-      totalProjectCost - totalDrifFundingRequest - otherFundingSum;
+    let remainingAmount = totalProjectCost - totalEligibleCosts;
 
     this.budgetForm.patchValue({ remainingAmount });
 
