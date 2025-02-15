@@ -254,44 +254,59 @@
       </p>
     }
 
-    <!-- -
-    -
-    -
-    -
-    -
-    -
-    -
-    -
-    -
-    -
-    - -->
-
-    <h1>OLD layout</h1>
-
-    <mat-label class="drr-label">DRIF Program Funding Breakdown</mat-label>
+    <mat-label class="drr-label" style="margin-top: 2rem"
+      >Updated Funding Request</mat-label
+    >
     <p>
-      Let's review the total funding you are requesting from the DRIF program.
+      Based on your Total Detailed Cost Estimate, your updated DRIF program
+      funding request is:
+    </p>
+    <drr-currency-input
+      style="align-self: flex-start; margin-top: 1rem; width: 25rem"
+      [label]="t('updatedDrifProgramFundingRequest')"
+      [rxFormControl]="budgetForm.get('totalEligibleCosts')"
+      [disabled]="true"
+    >
+    </drr-currency-input>
+
+    <p>Based on your EOI, your eligible DRIF program funding amount is:</p>
+    <drr-currency-input
+      style="align-self: flex-start; margin-top: 1rem; width: 25rem"
+      [label]="t('eligibleFundingRequest')"
+      [rxFormControl]="budgetForm.get('eligibleFundingRequest')"
+      [disabled]="true"
+    >
+    </drr-currency-input>
+
+    <p>The funding request variance (positive = request for more money):</p>
+    <drr-currency-input
+      style="align-self: flex-start; margin-top: 1rem; width: 25rem"
+      [label]="t('fundingRequestDiscrepancy')"
+      [rxFormControl]="budgetForm.get('fundingRequestDiscrepancy')"
+      [disabled]="true"
+    >
+    </drr-currency-input>
+
+    <div *ngIf="showDiscrepancyComment()" style="margin-top: 1rem">
+      <drr-textarea
+        [label]="t('discrepancyComment')"
+        [maxlength]="2000"
+        [rxFormControl]="budgetForm.get('discrepancyComment')"
+      ></drr-textarea>
+    </div>
+
+    <mat-label class="drr-label" style="margin-top: 2rem">
+      Financial Forecasting
+    </mat-label>
+    <p>
+      Use the fields below to provide a year-over-year forecast of your Total
+      Detailed Cost Estimate.
     </p>
     <p>
-      Based on your EOI, your eligible DRIF program funding is:
-      {{ budgetForm.get("eligibleFundingRequest")?.value | currency }}
+      Ensure that these numbers align with your Total Detailed Cost Estimate
+      from above.
     </p>
-
-    <p>
-      The amount of funding you need may have changed since you submitted your
-      EOI for various reasons, including changes to the scope of your project or
-      more precise estimates. Use the fields below to provide a year-over-year
-      breakdown of your updated DRIF program funding request. If this total
-      differs from the eligible amount in your EOI, you will be asked to
-      explain.
-    </p>
-
-    <p>
-      Ensure that these numbers align with your Detailed Cost Estimate, which
-      you will attach on Step 11 of this form. Note that the fiscal year runs
-      from April 1 - Mar 31.
-    </p>
-
+    <p>Note that the fiscal year runs from April 1 - Mar 31.</p>
     <div>
       <div
         class="array-item-container"
@@ -306,7 +321,7 @@
           [options]="fiscalYearsOptions"
         ></drr-select>
         <drr-currency-input
-          [label]="t('amount')"
+          [label]="t('forecastedSpend')"
           [rxFormControl]="funding.get('amount')"
           [max]="1000000000"
         ></drr-currency-input>
@@ -329,55 +344,61 @@
       </button>
     </div>
 
-    <p [style.color]="isTotalDrifFundingRequestInvalid() ? 'red' : 'initial'">
-      Your updated DRIF program funding request is:
-      {{ budgetForm.get("totalDrifFundingRequest")?.value | currency }}
-    </p>
-    @if (isTotalDrifFundingRequestInvalid()) {
-      <p style="color: red">
-        This value must be less than
-        {{ "1000000000" | currency: "" : "symbol" : "1.0-0" }}
-      </p>
-    }
-
-    <div *ngIf="showDiscrepancyComment()" style="margin-top: 1rem">
-      <drr-textarea
-        [label]="t('discrepancyComment')"
-        [maxlength]="2000"
-        [rxFormControl]="budgetForm.get('discrepancyComment')"
-      ></drr-textarea>
-    </div>
-
-    <mat-divider style="margin: 2rem 0"></mat-divider>
-
-    <mat-label class="drr-label">Total Project Cost Breakdown</mat-label>
-    <p>
-      Let's review the total cost for your project, including funding sources
-      outside of the DRIF program. The total costs for your project may also
-      have changed since you submitted your EOI. The values below were copied
-      from your EOI, but you can update them as needed.
-    </p>
     <drr-currency-input
-      [id]="'totalProjectCost'"
-      class="drr-single-input"
-      [label]="t('totalProjectCost')"
-      [rxFormControl]="budgetForm.get('totalProjectCost')"
+      style="margin-top: 2rem"
+      [label]="t('totalDrifFundingRequest')"
+      [rxFormControl]="budgetForm.get('totalDrifFundingRequest')"
+      [disabled]="true"
     ></drr-currency-input>
 
-    <p [style.color]="isTotalDrifFundingRequestInvalid() ? 'red' : 'initial'">
-      Your updated DRIF program funding request is:
-      {{ budgetForm.get("totalDrifFundingRequest")?.value | currency }}
-    </p>
-    @if (isTotalDrifFundingRequestInvalid()) {
-      <p style="color: red">
-        This value must be less than
-        {{ "1000000000" | currency: "" : "symbol" : "1.0-0" }}
+    @if (showForecastingDiscrepancy()) {
+      <p style="color: red; display: flex; align-items: center; gap: 1rem">
+        <mat-icon>error</mat-icon>
+        <i>
+          Your total forecast amount differs from the Total Detailed Cost
+          Estimate. Please adjust your Financial Forecast numbers to match.
+        </i>
       </p>
     }
 
     <mat-label class="drr-label" style="margin-top: 1rem">{{
       t("otherFunding")
     }}</mat-label>
+    <p>Based on above, your updated Total Project Cost is:</p>
+    <drr-currency-input
+      style="align-self: flex-start; margin-top: 1rem; width: 25rem"
+      [label]="t('totalProjectCost')"
+      [rxFormControl]="budgetForm.get('totalProjectCost')"
+      [disabled]="true"
+      [allowEnabling]="true"
+    ></drr-currency-input>
+
+    <p>
+      Your Total Detailed Cost Estimate and updated DRIF program funding request
+      is:
+    </p>
+    <drr-currency-input
+      style="align-self: flex-start; margin-top: 1rem; width: 25rem"
+      [label]="t('totalEligibleCosts')"
+      [rxFormControl]="budgetForm.get('totalEligibleCosts')"
+      [disabled]="true"
+    >
+    </drr-currency-input>
+    <p>
+      Your estimated unfunded amount is:
+      <i
+        >Note that this may change if your DRIF funding request has
+        increased.</i
+      >
+    </p>
+    <drr-currency-input
+      style="align-self: flex-start; margin-top: 1rem; width: 25rem"
+      [label]="t('remainingAmount')"
+      [rxFormControl]="budgetForm.get('remainingAmount')"
+      [disabled]="true"
+    >
+    </drr-currency-input>
+
     <drr-radio-button
       [label]="t('haveOtherFunding')"
       [rxFormControl]="budgetForm.get('haveOtherFunding')"
@@ -462,181 +483,5 @@
       [rxFormControl]="budgetForm.get('costConsiderationsComments')"
       [maxlength]="2000"
     ></drr-textarea>
-
-    <mat-label class="drr-label">Detailed Cost Estimates</mat-label>
-    <p>
-      Use the section below to provide a detailed breakdown of the costs
-      estimates for each high-level task in your project. You can add as many
-      rows as needed. We will use this breakdown when you report your progress.
-    </p>
-    <p>Please note:</p>
-    <ul>
-      <li>
-        Your total costs must match the updated DRIF funding request in the
-        <b>DRIF Program Funding Breakdown</b> above.
-      </li>
-      <li>
-        Administrative costs cannot exceed 10% of the approved DRIF program
-        cost.
-      </li>
-      <li>
-        If you choose “other” for any of the values, use the description field
-        to explain.
-      </li>
-      @if (isStrucutralProject()) {
-        <li>
-          At this stage, your project should have a class A or B cost estimate.
-          Set your contingency based on this. See below for more information
-          about the classes.
-        </li>
-      }
-    </ul>
-    <div>
-      <div
-        *ngFor="
-          let cost of getFormArray('costEstimates').controls;
-          let i = index
-        "
-      >
-        <mat-card style="margin-top: 1rem">
-          <mat-card-header>
-            <mat-card-subtitle>Task {{ i + 1 }}</mat-card-subtitle>
-          </mat-card-header>
-          <mat-card-content>
-            <div class="row">
-              <drr-input
-                class="drr-single-input"
-                label="Task Name"
-                [rxFormControl]="cost.get('taskName')"
-                [maxlength]="50"
-              ></drr-input>
-              <drr-select
-                class="drr-single-input"
-                label="Cost Category"
-                [rxFormControl]="cost.get('costCategory')"
-                [options]="costCategoriesOptions"
-              >
-              </drr-select>
-            </div>
-            <drr-textarea
-              label="Description"
-              [rxFormControl]="cost.get('description')"
-              [maxlength]="500"
-            ></drr-textarea>
-            <div class="row">
-              <drr-select
-                style="flex: 0.75"
-                label="Resources"
-                [rxFormControl]="cost.get('resources')"
-                [options]="resourcesOptions"
-              ></drr-select>
-              <drr-select
-                label="Units"
-                [rxFormControl]="cost.get('units')"
-                [options]="unitsOptions"
-              >
-              </drr-select>
-              <drr-numeric-input
-                label="Quantity"
-                [rxFormControl]="cost.get('quantity')"
-                numericType="decimal"
-              ></drr-numeric-input>
-              <drr-currency-input
-                label="Unit Rate"
-                [rxFormControl]="cost.get('unitRate')"
-                [max]="1000000000"
-              ></drr-currency-input>
-              <drr-currency-input
-                label="Total Cost"
-                [rxFormControl]="cost.get('totalCost')"
-                [disabled]="true"
-              ></drr-currency-input>
-            </div>
-            <div class="row"></div>
-          </mat-card-content>
-          @if (getFormArray("costEstimates").controls.length > 1) {
-            <mat-card-actions align="end">
-              <button
-                mat-raised-button
-                color="warn"
-                (click)="removeCost(cost.get('id')?.value)"
-              >
-                Remove
-              </button>
-            </mat-card-actions>
-          }
-        </mat-card>
-      </div>
-      <button
-        style="margin-top: 10px"
-        [style.padding]="isMobile ? '24px 16px' : ''"
-        mat-stroked-button
-        type="button"
-        color="primary"
-        (click)="addCost()"
-      >
-        <mat-icon>add</mat-icon>
-        Add Additional Task
-      </button>
-    </div>
-
-    <!-- @if (isStrucutralProject()) {
-      <drr-numeric-input
-        style="align-self: flex-start; margin-top: 1rem"
-        [label]="t('contingency')"
-        [rxFormControl]="budgetForm.get('contingency')"
-        numericType="percentage"
-      >
-      </drr-numeric-input>
-    } -->
-
-    <!-- <drr-currency-input
-      style="align-self: flex-start; margin-top: 1rem"
-      [label]="t('totalEligibleCosts')"
-      [rxFormControl]="budgetForm.get('totalEligibleCosts')"
-      [disabled]="true"
-    >
-    </drr-currency-input> -->
-
-    <!-- New section for Stream 2 projects -->
-    <div *ngIf="isStrucutralProject()">
-      <mat-divider style="margin: 2rem 0"></mat-divider>
-      <mat-label class="drr-label" style="margin-top: 1rem">
-        Cost Estimate Definitions & Assumptions
-      </mat-label>
-      <table class="cost-estimate-table">
-        <thead>
-          <tr>
-            <th>Cost Estimate Classes</th>
-            <th>Features & Uses</th>
-            <th>Suggested Contingency for Associated Classes</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Class A</td>
-            <td>
-              Detailed estimate based on final drawings and specifications<br />
-              Used to evaluate tenders
-            </td>
-            <td>±10-15%</td>
-          </tr>
-          <tr>
-            <td>Class B</td>
-            <td>
-              Prepared after completing site investigations and studies, and
-              after defining major systems<br />
-              Based on a project brief and preliminary design<br />
-              Used for project approvals and budgetary control
-            </td>
-            <td>±15-25%</td>
-          </tr>
-        </tbody>
-      </table>
-      <p class="footnote">
-        Sourced from the Association of Professional Engineers and Geoscientists
-        of British Columbia (APEGBC)
-      </p>
-    </div>
   </form>
 </div>

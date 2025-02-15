@@ -274,9 +274,6 @@ export enum CostEstimateClassType {
 
 export class BudgetForm {
   @prop()
-  eligibleFundingRequest?: number;
-
-  @prop()
   @required()
   totalProjectCost?: number;
 
@@ -296,11 +293,19 @@ export class BudgetForm {
   @propArray(YearOverYearFundingForm)
   yearOverYearFunding?: YearOverYearFundingForm[] = [{}];
 
+  // used to calculate total funding request from year over year forecasting
   @prop()
   @required()
   @maxNumber({ value: 999999999 })
   @minNumber({ value: -999999999 })
   totalDrifFundingRequest?: number;
+
+  // represents EOI/FP funding request
+  @prop()
+  eligibleFundingRequest?: number;
+
+  @prop()
+  fundingRequestDiscrepancy?: number;
 
   @prop()
   discrepancyComment?: string;
@@ -315,6 +320,28 @@ export class BudgetForm {
   @prop()
   intendToSecureFunding?: string;
 
+  @propArray(CostEstimateForm)
+  costEstimates?: CostEstimateForm[] = [];
+
+  // used to determine if the form is valid
+  @prop()
+  @requiredTrue()
+  estimatesMatchFundingRequest?: boolean;
+
+  // used to calculate contingency
+  @prop()
+  @maxNumber({ value: 100 })
+  @minNumber({ value: 0 })
+  contingency?: number;
+
+  // used to calculate total cost estimate
+  @prop()
+  @required()
+  @maxNumber({ value: 999999999 })
+  @minNumber({ value: 0 })
+  totalEligibleCosts?: number;
+
+  // other budget fields
   @prop()
   @required()
   costEffectiveComments?: string;
@@ -339,24 +366,6 @@ export class BudgetForm {
 
   @prop()
   costConsiderationsComments?: string;
-
-  @propArray(CostEstimateForm)
-  costEstimates?: CostEstimateForm[] = [];
-
-  @prop()
-  @requiredTrue()
-  estimatesMatchFundingRequest?: boolean;
-
-  @prop()
-  @maxNumber({ value: 100 })
-  @minNumber({ value: 0 })
-  contingency?: number;
-
-  @prop()
-  @required()
-  @maxNumber({ value: 999999999 })
-  @minNumber({ value: 0 })
-  totalEligibleCosts?: number;
 
   constructor(values: BudgetForm) {
     Object.assign(this, values);

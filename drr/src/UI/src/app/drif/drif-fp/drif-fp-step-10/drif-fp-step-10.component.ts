@@ -320,6 +320,9 @@ export class DrifFpStep10Component {
         }
 
         this.budgetForm.get('totalEligibleCosts')?.setValue(totalCost);
+
+        this.calculateDiscrepancy();
+
         const totalDrifFundingRequest = this.budgetForm?.get(
           'totalDrifFundingRequest',
         )?.value;
@@ -354,16 +357,14 @@ export class DrifFpStep10Component {
   }
 
   showDiscrepancyComment() {
-    return (
-      this.budgetForm.get('totalDrifFundingRequest')?.value !==
-      this.budgetForm.get('eligibleFundingRequest')?.value
-    );
+    return this.budgetForm.get('fundingRequestDiscrepancy')?.value != 0;
   }
 
-  isTotalDrifFundingRequestInvalid() {
-    return this.budgetForm.get('totalDrifFundingRequest')?.errors?.[
-      'maxNumber'
-    ];
+  showForecastingDiscrepancy() {
+    return (
+      this.budgetForm.get('totalDrifFundingRequest')?.value !==
+      this.budgetForm.get('totalEligibleCosts')?.value
+    );
   }
 
   calculateRemainingAmount() {
@@ -381,12 +382,11 @@ export class DrifFpStep10Component {
     const totalProjectCost =
       this.budgetForm.get('totalProjectCost')?.value ?? 0;
     // how much I'm asking for
-    const totalDrifFundingRequest =
-      this.budgetForm.get('totalDrifFundingRequest')?.value ?? 0;
+    const totalEligibleCosts =
+      this.budgetForm.get('totalEligibleCosts')?.value ?? 0;
 
     // how much is left to cover and I need to explain how I'm going to cover it
-    let remainingAmount =
-      totalProjectCost - totalDrifFundingRequest - otherFundingSum;
+    let remainingAmount = totalProjectCost - totalEligibleCosts;
 
     this.budgetForm.patchValue({ remainingAmount });
 
@@ -400,6 +400,14 @@ export class DrifFpStep10Component {
     }
 
     intendToSecureFunding?.updateValueAndValidity();
+  }
+
+  calculateDiscrepancy() {
+    const discrepancy =
+      this.budgetForm.get('totalEligibleCosts')?.value -
+      this.budgetForm.get('eligibleFundingRequest')?.value;
+
+    this.budgetForm.get('fundingRequestDiscrepancy')?.setValue(discrepancy);
   }
 
   getFormArray(formArrayName: string) {
