@@ -273,33 +273,34 @@ export enum CostEstimateClassType {
 }
 
 export class BudgetForm {
-  
   @prop()
   @required()
   totalProjectCost?: number;
-  
+
   @prop()
   totalProjectCostChangeComments?: string;
-  
+
   @prop()
   costEstimateClass?: CostEstimateClassType;
-  
+
   @prop()
   isContingencyPercentageThreasholdMet?: boolean;
-  
+
   @prop()
   @minNumber({ value: 0 })
   remainingAmount?: number;
-  
+
   @propArray(YearOverYearFundingForm)
   yearOverYearFunding?: YearOverYearFundingForm[] = [{}];
-  
+
+  // used to calculate total funding request from year over year forecasting
   @prop()
   @required()
   @maxNumber({ value: 999999999 })
   @minNumber({ value: -999999999 })
   totalDrifFundingRequest?: number;
-  
+
+  // represents EOI/FP funding request
   @prop()
   eligibleFundingRequest?: number;
 
@@ -319,6 +320,28 @@ export class BudgetForm {
   @prop()
   intendToSecureFunding?: string;
 
+  @propArray(CostEstimateForm)
+  costEstimates?: CostEstimateForm[] = [];
+
+  // used to determine if the form is valid
+  @prop()
+  @requiredTrue()
+  estimatesMatchFundingRequest?: boolean;
+
+  // used to calculate contingency
+  @prop()
+  @maxNumber({ value: 100 })
+  @minNumber({ value: 0 })
+  contingency?: number;
+
+  // used to calculate total cost estimate
+  @prop()
+  @required()
+  @maxNumber({ value: 999999999 })
+  @minNumber({ value: 0 })
+  totalEligibleCosts?: number;
+
+  // other budget fields
   @prop()
   @required()
   costEffectiveComments?: string;
@@ -343,24 +366,6 @@ export class BudgetForm {
 
   @prop()
   costConsiderationsComments?: string;
-
-  @propArray(CostEstimateForm)
-  costEstimates?: CostEstimateForm[] = [];
-
-  @prop()
-  @requiredTrue()
-  estimatesMatchFundingRequest?: boolean;
-
-  @prop()
-  @maxNumber({ value: 100 })
-  @minNumber({ value: 0 })
-  contingency?: number;
-
-  @prop()
-  @required()
-  @maxNumber({ value: 999999999 })
-  @minNumber({ value: 0 })
-  totalEligibleCosts?: number;
 
   constructor(values: BudgetForm) {
     Object.assign(this, values);

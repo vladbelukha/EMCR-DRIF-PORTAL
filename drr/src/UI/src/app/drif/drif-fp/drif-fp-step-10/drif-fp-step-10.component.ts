@@ -360,10 +360,11 @@ export class DrifFpStep10Component {
     return this.budgetForm.get('fundingRequestDiscrepancy')?.value != 0;
   }
 
-  isTotalDrifFundingRequestInvalid() {
-    return this.budgetForm.get('totalDrifFundingRequest')?.errors?.[
-      'maxNumber'
-    ];
+  showForecastingDiscrepancy() {
+    return (
+      this.budgetForm.get('totalDrifFundingRequest')?.value !==
+      this.budgetForm.get('totalEligibleCosts')?.value
+    );
   }
 
   calculateRemainingAmount() {
