@@ -170,6 +170,7 @@ namespace EMCR.DRR.Resources.Applications
                 //.ForMember(dest => dest.match, opt => opt.MapFrom(src => src.EstimatesMatchFundingRequest))
                 .ForMember(dest => dest.drr_contingency, opt => opt.MapFrom(src => src.Contingency))
                 .ForMember(dest => dest.drr_totaleligiblecosts, opt => opt.MapFrom(src => src.TotalEligibleCosts))
+                //.ForMember(dest => dest.drr_reasoneligibleamountchanged, opt => opt.MapFrom(src => src.TotalEligibleCosts))
 
                 //Attachments - 11
                 .ForMember(dest => dest.drr_hasresolution, opt => opt.MapFrom(src => src.HaveResolution.HasValue ? src.HaveResolution.Value ? (int?)DRRTwoOptions.Yes : (int?)DRRTwoOptions.No : null))

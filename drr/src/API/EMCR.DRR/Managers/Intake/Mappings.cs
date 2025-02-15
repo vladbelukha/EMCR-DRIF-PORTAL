@@ -208,6 +208,7 @@ namespace EMCR.DRR.Managers.Intake
 
             CreateMap<Controllers.ProgressReport, ProgressReport>()
                 .ForMember(dest => dest.CrmId, opt => opt.Ignore())
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => IntakeProgressReportStatusMapper(src.Status)))
                 .AfterMap((src, dest) =>
                 {
                     foreach (var prop in typeof(ProgressReport).GetProperties())
@@ -219,6 +220,7 @@ namespace EMCR.DRR.Managers.Intake
                     }
                 })
                 .ReverseMap()
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => DrrProgressReportStatusMapper(src.Status)))
                 ;
 
             CreateMap<Controllers.Forecast, Forecast>()
@@ -265,6 +267,7 @@ namespace EMCR.DRR.Managers.Intake
 
             CreateMap<Controllers.ProgressReport, ProgressReportDetails>()
                 .ForMember(dest => dest.CrmId, opt => opt.Ignore())
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => IntakeProgressReportStatusMapper(src.Status)))
                 .AfterMap((src, dest) =>
                 {
                     foreach (var prop in typeof(ProgressReportDetails).GetProperties())
@@ -276,6 +279,7 @@ namespace EMCR.DRR.Managers.Intake
                     }
                 })
                 .ReverseMap()
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => DrrProgressReportStatusMapper(src.Status)))
                 ;
 
             CreateMap<Controllers.Forecast, ForecastDetails>()
@@ -694,6 +698,47 @@ namespace EMCR.DRR.Managers.Intake
         }
 #pragma warning restore CS8604 // Possible null reference argument.
 #pragma warning restore CS8629 // Nullable value type may be null.
+
+        private ProgressReportStatus IntakeProgressReportStatusMapper(Controllers.ProgressReportStatus? status)
+        {
+            switch (status)
+            {
+                case Controllers.ProgressReportStatus.NotStarted:
+                    return ProgressReportStatus.NotStarted;
+                case Controllers.ProgressReportStatus.Draft:
+                    return ProgressReportStatus.DraftProponent;
+                case Controllers.ProgressReportStatus.Submitted:
+                    return ProgressReportStatus.Submitted;
+                case Controllers.ProgressReportStatus.UpdateNeeded:
+                    return ProgressReportStatus.UpdateNeeded;
+                case Controllers.ProgressReportStatus.Approved:
+                    return ProgressReportStatus.Approved;
+                case Controllers.ProgressReportStatus.Skipped:
+                    return ProgressReportStatus.Skipped;
+                default: return ProgressReportStatus.DraftProponent;
+            }
+        }
+
+        private Controllers.ProgressReportStatus DrrProgressReportStatusMapper(ProgressReportStatus? status)
+        {
+            switch (status)
+            {
+                case ProgressReportStatus.NotStarted:
+                    return Controllers.ProgressReportStatus.NotStarted;
+                case ProgressReportStatus.DraftProponent:
+                case ProgressReportStatus.DraftStaff:
+                    return Controllers.ProgressReportStatus.Draft;
+                case ProgressReportStatus.Submitted:
+                    return Controllers.ProgressReportStatus.Submitted;
+                case ProgressReportStatus.UpdateNeeded:
+                    return Controllers.ProgressReportStatus.UpdateNeeded;
+                case ProgressReportStatus.Approved:
+                    return Controllers.ProgressReportStatus.Approved;
+                case ProgressReportStatus.Skipped:
+                    return Controllers.ProgressReportStatus.Skipped;
+                default: return Controllers.ProgressReportStatus.Draft;
+            }
+        }
 
         private SubmissionPortalStatus DRRApplicationStatusMapper(ApplicationStatus status)
         {

@@ -54,7 +54,7 @@ namespace EMCR.Tests.Unit.DRR
             .RuleFor(a => a.EstimatedPeopleImpacted, f => f.Random.Enum<EstimatedNumberOfPeople>())
             .RuleFor(a => a.CommunityImpact, f => f.Lorem.Sentence())
             .RuleFor(a => a.IsInfrastructureImpacted, f => f.Random.Bool())
-            .RuleFor(a => a.InfrastructureImpacted, f => new Faker<InfrastructureImpacted>("en_CA").WithInfrastructureImpactedRules().GenerateBetween(0, 5))
+            .RuleFor(a => a.InfrastructureImpacted, (f, a) => a.IsInfrastructureImpacted == true ? new Faker<InfrastructureImpacted>("en_CA").WithInfrastructureImpactedRules().GenerateBetween(1, 5) : Array.Empty<InfrastructureImpacted>())
             .RuleFor(a => a.DisasterRiskUnderstanding, f => f.Lorem.Sentence())
             .RuleFor(a => a.AdditionalBackgroundInformation, f => f.Lorem.Sentence())
             .RuleFor(a => a.AddressRisksAndHazards, f => f.Lorem.Sentence())
@@ -71,44 +71,6 @@ namespace EMCR.Tests.Unit.DRR
             .RuleFor(a => a.ClimateAdaptation, f => f.Lorem.Sentence())
             .RuleFor(a => a.OtherInformation, f => f.Lorem.Sentence())
             ;
-        }
-
-        public static IEnumerable<FundingInformation> CreateOtherFunding(Faker f, bool haveOtherFunding, int total)
-        {
-            if (!haveOtherFunding) return Enumerable.Empty<FundingInformation>();
-
-            var length = f.Random.Number(1, 6);
-            var amounts = GenerateRandomNumbersWithTargetSum(total, length);
-            var ret = new FundingInformation[length];
-            for (int i = 0; i < length; i++)
-            {
-                ret[i] = new Faker<FundingInformation>("en_CA").WithFundingInformationRules(amounts[i]);
-            }
-
-            return ret;
-        }
-
-        private static int[] GenerateRandomNumbersWithTargetSum(int target, int count)
-        {
-            Random rand = new Random();
-            int[] points = new int[count + 1];
-
-            // Generate random partition points
-            for (int i = 1; i < count; i++)
-            {
-                points[i] = rand.Next(1, target);
-            }
-            points[count] = target;
-            Array.Sort(points);
-            
-            // Compute differences to get numbers that sum to target
-            int[] result = new int[count];
-            for (int i = 0; i < count; i++)
-            {
-                result[i] = points[i + 1] - points[i];
-            }
-
-            return result;
         }
 
         public static Faker<ContactDetails> WithContactDetailsRules(this Faker<ContactDetails> faker)
@@ -139,6 +101,44 @@ namespace EMCR.Tests.Unit.DRR
                 .RuleFor(f => f.Infrastructure, f => prefix + f.Company.CompanyName())
                 .RuleFor(f => f.Impact, f => f.Lorem.Sentence())
                 ;
+        }
+
+        private static IEnumerable<FundingInformation> CreateOtherFunding(Faker f, bool haveOtherFunding, int total)
+        {
+            if (!haveOtherFunding) return Enumerable.Empty<FundingInformation>();
+
+            var length = f.Random.Number(1, 6);
+            var amounts = GenerateRandomNumbersWithTargetSum(total, length);
+            var ret = new FundingInformation[length];
+            for (int i = 0; i < length; i++)
+            {
+                ret[i] = new Faker<FundingInformation>("en_CA").WithFundingInformationRules(amounts[i]);
+            }
+
+            return ret;
+        }
+
+        private static int[] GenerateRandomNumbersWithTargetSum(int target, int count)
+        {
+            Random rand = new Random();
+            int[] points = new int[count + 1];
+
+            // Generate random partition points
+            for (int i = 1; i < count; i++)
+            {
+                points[i] = rand.Next(1, target);
+            }
+            points[count] = target;
+            Array.Sort(points);
+
+            // Compute differences to get numbers that sum to target
+            int[] result = new int[count];
+            for (int i = 0; i < count; i++)
+            {
+                result[i] = points[i + 1] - points[i];
+            }
+
+            return result;
         }
 #pragma warning restore CS8629 // Nullable value type may be null.
     }

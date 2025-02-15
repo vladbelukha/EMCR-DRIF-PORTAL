@@ -1037,10 +1037,12 @@ namespace EMCR.DRR.Managers.Intake
     public enum ProgressReportStatus
     {
         NotStarted,
-        Draft,
+        DraftStaff,
+        DraftProponent,
         Submitted,
         UpdateNeeded,
         Approved,
+        Skipped,
         Inactive,
     }
 

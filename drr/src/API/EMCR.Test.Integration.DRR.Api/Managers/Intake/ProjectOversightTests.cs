@@ -76,7 +76,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
         [Test]
         public async Task QueryProgressReports_CanFilterById()
         {
-            var queryRes = await manager.Handle(new DrrProgressReportsQuery { Id = "DRIF-PR-1058", BusinessId = GetTestUserInfo().BusinessId });
+            var queryRes = await manager.Handle(new DrrProgressReportsQuery { Id = "DRIF-PR-1058", BusinessId = GetCRAFTUserInfo().BusinessId });
             var prs = mapper.Map<IEnumerable<EMCR.DRR.Controllers.ProgressReport>>(queryRes.Items);
             prs.Count().ShouldBe(1);
             var progressReport = prs.Single();
@@ -97,17 +97,21 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
         [Test]
         public async Task CanUpdateProgressReport()
         {
+            //var userInfo = GetTestUserInfo();
+            var userInfo = GetCRAFTUserInfo();
+
             var progressReportId = "DRIF-PR-1058";
             var uniqueSignature = TestPrefix + "-" + Guid.NewGuid().ToString().Substring(0, 4);
-            var progressReport = mapper.Map<EMCR.DRR.Controllers.ProgressReport>((await manager.Handle(new DrrProgressReportsQuery { Id = progressReportId, BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault());
+            var progressReport = mapper.Map<EMCR.DRR.Controllers.ProgressReport>((await manager.Handle(new DrrProgressReportsQuery { Id = progressReportId, BusinessId = userInfo.BusinessId })).Items.SingleOrDefault());
 
             progressReport = FillInProgressReport(progressReport, uniqueSignature);
+            progressReport.Status = EMCR.DRR.Controllers.ProgressReportStatus.Draft;
 
             //Console.WriteLine(progressReport.Id);
-            await manager.Handle(new SaveProgressReportCommand { ProgressReport = progressReport, UserInfo = GetTestUserInfo() });
+            await manager.Handle(new SaveProgressReportCommand { ProgressReport = progressReport, UserInfo = userInfo });
 
 
-            var updatedProgressReport = mapper.Map<EMCR.DRR.Controllers.ProgressReport>((await manager.Handle(new DrrProgressReportsQuery { Id = progressReport.Id, BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault());
+            var updatedProgressReport = mapper.Map<EMCR.DRR.Controllers.ProgressReport>((await manager.Handle(new DrrProgressReportsQuery { Id = progressReport.Id, BusinessId = userInfo.BusinessId })).Items.SingleOrDefault());
             updatedProgressReport.Workplan.MediaAnnouncementComment.ShouldBe(progressReport.Workplan.MediaAnnouncementComment);
             updatedProgressReport.Workplan.ProjectCompletionPercentage.ShouldBe(progressReport.Workplan.ProjectCompletionPercentage);
             updatedProgressReport.Workplan.ProjectProgress.ShouldBe(progressReport.Workplan.ProjectProgress);
@@ -145,11 +149,14 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
         [Test]
         public async Task CanAddAttachment()
         {
+            //var userInfo = GetTestUserInfo();
+            var userInfo = GetCRAFTUserInfo();
+
             var progressReportId = "DRIF-PR-1058";
-            var progressReport = mapper.Map<EMCR.DRR.Controllers.ProgressReport>((await manager.Handle(new DrrProgressReportsQuery { Id = progressReportId, BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault());
+            var progressReport = mapper.Map<EMCR.DRR.Controllers.ProgressReport>((await manager.Handle(new DrrProgressReportsQuery { Id = progressReportId, BusinessId = userInfo.BusinessId })).Items.SingleOrDefault());
             foreach (var doc in progressReport.Attachments)
             {
-                await manager.Handle(new DeleteAttachmentCommand { Id = doc.Id, UserInfo = GetTestUserInfo() });
+                await manager.Handle(new DeleteAttachmentCommand { Id = doc.Id, UserInfo = userInfo });
             }
 
             var body = DateTime.Now.ToString();
@@ -157,17 +164,17 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             byte[] bytes = Encoding.ASCII.GetBytes(body);
             var file = new S3File { FileName = fileName, Content = bytes, ContentType = "text/plain", };
 
-            var documentId = await manager.Handle(new UploadAttachmentCommand { AttachmentInfo = new AttachmentInfo { RecordId = progressReport.Id, RecordType = EMCR.DRR.Managers.Intake.RecordType.ProgressReport, File = file, DocumentType = EMCR.DRR.Managers.Intake.DocumentType.ProgressReport }, UserInfo = GetTestUserInfo() });
+            var documentId = await manager.Handle(new UploadAttachmentCommand { AttachmentInfo = new AttachmentInfo { RecordId = progressReport.Id, RecordType = EMCR.DRR.Managers.Intake.RecordType.ProgressReport, File = file, DocumentType = EMCR.DRR.Managers.Intake.DocumentType.ProgressReport }, UserInfo = userInfo });
 
-            var progressReportToUpdate = mapper.Map<EMCR.DRR.Controllers.ProgressReport>((await manager.Handle(new DrrProgressReportsQuery { Id = progressReportId, BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault());
+            var progressReportToUpdate = mapper.Map<EMCR.DRR.Controllers.ProgressReport>((await manager.Handle(new DrrProgressReportsQuery { Id = progressReportId, BusinessId = userInfo.BusinessId })).Items.SingleOrDefault());
             progressReportToUpdate.Attachments.Count().ShouldBe(1);
             progressReportToUpdate.Attachments.First().DocumentType.ShouldBe(EMCR.DRR.API.Model.DocumentType.ProgressReport);
             progressReportToUpdate.Attachments.First().Comments = "progress report comments";
 
-            await manager.Handle(new SaveProgressReportCommand { ProgressReport = progressReportToUpdate, UserInfo = GetTestUserInfo() });
+            await manager.Handle(new SaveProgressReportCommand { ProgressReport = progressReportToUpdate, UserInfo = userInfo });
 
 
-            var updatedProgressReport = mapper.Map<EMCR.DRR.Controllers.ProgressReport>((await manager.Handle(new DrrProgressReportsQuery { Id = progressReportToUpdate.Id, BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault());
+            var updatedProgressReport = mapper.Map<EMCR.DRR.Controllers.ProgressReport>((await manager.Handle(new DrrProgressReportsQuery { Id = progressReportToUpdate.Id, BusinessId = userInfo.BusinessId })).Items.SingleOrDefault());
             updatedProgressReport.Attachments.First().Comments.ShouldBe(progressReportToUpdate.Attachments.First().Comments);
 
         }
@@ -175,7 +182,10 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
         [Test]
         public async Task CanDownloadAttachment()
         {
-            var document = (FileQueryResult)(await manager.Handle(new DownloadAttachment { Id = "fed185a3-b079-4a4c-9680-36b220352cdc", UserInfo = GetTestUserInfo() }));
+            //var userInfo = GetTestUserInfo();
+            var userInfo = GetCRAFTUserInfo();
+
+            var document = (FileQueryResult)(await manager.Handle(new DownloadAttachment { Id = "fed185a3-b079-4a4c-9680-36b220352cdc", UserInfo = userInfo }));
             document.File.FileName.ShouldNotBeNull();
 
         }
@@ -200,7 +210,8 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             progressReport.Workplan.FundingSourcesChangedComment = "funding change description";
 
 
-            if (progressReport.Workplan.WorkplanActivities.Count() > 0) progressReport.Workplan.WorkplanActivities = progressReport.Workplan.WorkplanActivities.Take(progressReport.Workplan.WorkplanActivities.Count() - 1).ToArray();
+            if (progressReport.Workplan.WorkplanActivities.Count() > 0)
+                progressReport.Workplan.WorkplanActivities = progressReport.Workplan.WorkplanActivities = progressReport.Workplan.WorkplanActivities.Take(progressReport.Workplan.WorkplanActivities.Count() - 1).ToArray();
             progressReport.Workplan.WorkplanActivities = progressReport.Workplan.WorkplanActivities.Append(new WorkplanActivity
             {
                 Activity = EMCR.DRR.Controllers.ActivityType.Mapping,

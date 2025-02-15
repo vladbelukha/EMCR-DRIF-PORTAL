@@ -19,6 +19,27 @@ namespace EMCR.DRR.API.Resources.Reports
             this.dRRContextFactory = dRRContextFactory;
         }
 
+        public async Task<bool> CanAccessProgressReport(string id, string businessId)
+        {
+            var readCtx = dRRContextFactory.CreateReadOnly();
+            var existingProgressReport = await readCtx.drr_projectprogresses.Expand(a => a.drr_Project).Where(a => a.drr_name == id).SingleOrDefaultAsync();
+            if (existingProgressReport == null) return true;
+            readCtx.AttachTo(nameof(readCtx.drr_projects), existingProgressReport.drr_Project);
+            await readCtx.LoadPropertyAsync(existingProgressReport.drr_Project, nameof(drr_project.drr_ProponentName));
+            return (!string.IsNullOrEmpty(existingProgressReport.drr_Project.drr_ProponentName.drr_bceidguid)) && existingProgressReport.drr_Project.drr_ProponentName.drr_bceidguid.Equals(businessId);
+        }
+
+        public async Task<bool> CanAccessProgressReportFromDocumentId(string id, string businessId)
+        {
+            var readCtx = dRRContextFactory.CreateReadOnly();
+            var document = await readCtx.bcgov_documenturls.Expand(d => d.bcgov_ProgressReport).Where(a => a.bcgov_documenturlid == Guid.Parse(id)).SingleOrDefaultAsync();
+            var existingProgressReport = await readCtx.drr_projectprogresses.Expand(a => a.drr_Project).Where(a => a.drr_projectprogressid == document.bcgov_ProgressReport.drr_projectprogressid).SingleOrDefaultAsync();
+            if (existingProgressReport == null) return true;
+            readCtx.AttachTo(nameof(readCtx.drr_projects), existingProgressReport.drr_Project);
+            await readCtx.LoadPropertyAsync(existingProgressReport.drr_Project, nameof(drr_project.drr_ProponentName));
+            return (!string.IsNullOrEmpty(existingProgressReport.drr_Project.drr_ProponentName.drr_bceidguid)) && existingProgressReport.drr_Project.drr_ProponentName.drr_bceidguid.Equals(businessId);
+        }
+
         public async Task<ManageReportCommandResult> Manage(ManageReportCommand cmd)
         {
             return cmd switch

@@ -68,7 +68,7 @@ namespace EMCR.DRR.API.Resources.Reports
                 .ForMember(dest => dest.drr_upcomingprojectevents, opt => opt.MapFrom(src => src.EventInformation.AnyUpcomingEvents.HasValue ? src.EventInformation.AnyUpcomingEvents.Value ? (int?)DRRTwoOptions.Yes : (int?)DRRTwoOptions.No : null))
                 .ForMember(dest => dest.drr_drr_projectprogress_drr_projectevent_ProjectProgress, opt => opt.MapFrom(src => src.EventInformation.UpcomingEvents))
                 .ForMember(dest => dest.bcgov_drr_projectprogress_bcgov_documenturl_ProgressReport, opt => opt.MapFrom(src => src.Attachments))
-                //.ForMember(dest => dest.statuscode, opt => opt.MapFrom(src => (int?)Enum.Parse<ProjectProgressReportStatusOptionSet>(src.Status.ToString())))
+                .ForMember(dest => dest.statuscode, opt => opt.MapFrom(src => (int?)Enum.Parse<ProjectProgressReportStatusOptionSet>(src.Status.ToString())))
                 .ReverseMap()
                 .ValidateMemberList(MemberList.Destination)
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.drr_name))
