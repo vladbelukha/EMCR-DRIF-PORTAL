@@ -186,8 +186,11 @@ export class DrifFpStep10Component {
       .subscribe((value) => {
         this.calculateRemainingAmount();
 
+        if (value === null) {
+          return;
+        }
+
         if (
-          value !== null &&
           this.originalTotalProjectCost === undefined &&
           !this.originalTotalProjectCost
         ) {

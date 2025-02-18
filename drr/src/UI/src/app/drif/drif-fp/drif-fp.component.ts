@@ -965,6 +965,17 @@ export class DrifFpComponent {
 
     event.previouslySelectedStep.stepControl.markAllAsTouched();
 
+    // print out all invalid controls in budget form group
+    if (event.selectedIndex === 10) {
+      const budgetForm = this.getFormGroup('budget');
+
+      const invalidControls = Object.keys(budgetForm?.controls).filter(
+        (key) => budgetForm?.get(key)?.invalid,
+      );
+
+      console.log(invalidControls);
+    }
+
     if (this.stepperOrientation === 'horizontal') {
       return;
     }

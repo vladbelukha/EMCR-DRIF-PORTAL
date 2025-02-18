@@ -305,7 +305,7 @@ export class BudgetForm {
   eligibleFundingRequest?: number;
 
   @prop()
-  fundingRequestDiscrepancy?: number;
+  fundingRequestDiscrepancy?: number = 0;
 
   @prop()
   discrepancyComment?: string;
