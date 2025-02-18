@@ -388,9 +388,11 @@ export class DrifFpStep10Component {
     const totalEligibleCosts =
       this.budgetForm.get('totalEligibleCosts')?.value ?? 0;
 
-    // how much is left to cover and I need to explain how I'm going to cover it
-    let remainingAmount = totalProjectCost - totalEligibleCosts;
+    const estimatedUnfundedAmount = totalProjectCost - totalEligibleCosts;
+    this.budgetForm.patchValue({ estimatedUnfundedAmount });
 
+    // how much is left to cover and I need to explain how I'm going to cover it
+    let remainingAmount = estimatedUnfundedAmount - otherFundingSum;
     this.budgetForm.patchValue({ remainingAmount });
 
     const intendToSecureFunding = this.budgetForm.get('intendToSecureFunding');
@@ -443,10 +445,6 @@ export class DrifFpStep10Component {
 
   getRemainingAmount() {
     return this.budgetForm.get('remainingAmount')?.value;
-  }
-
-  getRemainingAmountAbs() {
-    return Math.abs(this.getRemainingAmount());
   }
 
   isStrucutralProject() {

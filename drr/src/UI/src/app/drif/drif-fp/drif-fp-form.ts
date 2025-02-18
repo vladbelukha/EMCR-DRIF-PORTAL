@@ -287,6 +287,9 @@ export class BudgetForm {
   isContingencyPercentageThreasholdMet?: boolean;
 
   @prop()
+  estimatedUnfundedAmount?: number;
+
+  @prop()
   @minNumber({ value: 0 })
   remainingAmount?: number;
 
