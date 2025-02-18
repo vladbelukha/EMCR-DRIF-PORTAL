@@ -15,4 +15,5 @@ export const ProgressReportStatus = {
   Submitted: 'Submitted',
   UpdateNeeded: 'UpdateNeeded',
   Approved: 'Approved',
+  Skipped: 'Skipped',
 } as const;

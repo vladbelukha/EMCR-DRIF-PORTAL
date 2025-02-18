@@ -370,7 +370,6 @@
       [label]="t('totalProjectCost')"
       [rxFormControl]="budgetForm.get('totalProjectCost')"
       [disabled]="true"
-      [allowEnabling]="true"
     ></drr-currency-input>
 
     <p>
@@ -384,17 +383,12 @@
       [disabled]="true"
     >
     </drr-currency-input>
-    <p>
-      Your estimated unfunded amount is:
-      <i
-        >Note that this may change if your DRIF funding request has
-        increased.</i
-      >
-    </p>
+    <p>Your estimated unfunded amount is:</p>
+    <i>Note that this may change if your DRIF funding request has increased.</i>
     <drr-currency-input
       style="align-self: flex-start; margin-top: 1rem; width: 25rem"
-      [label]="t('remainingAmount')"
-      [rxFormControl]="budgetForm.get('remainingAmount')"
+      [label]="t('estimatedUnfundedAmount')"
+      [rxFormControl]="budgetForm.get('estimatedUnfundedAmount')"
       [disabled]="true"
     >
     </drr-currency-input>
@@ -410,23 +404,22 @@
       ></drr-funding-list>
     }
 
-    <mat-label class="drr-label" style="margin-top: 2rem">{{
-      getRemainingAmount() > 0
-        ? t("missingFundsLabel")
-        : t("excessFundingLabel")
-    }}</mat-label>
-    <mat-label [style.color]="getRemainingAmount() < 0 ? 'red' : 'initial'">{{
-      getRemainingAmountAbs() | currency
-    }}</mat-label>
-    <mat-hint *ngIf="getRemainingAmount() < 0" style="color: red">{{
-      t("excessFundingTextFp")
-    }}</mat-hint>
-    <mat-hint *ngIf="getRemainingAmount() == 0">{{
-      t("noExcessFundingText")
-    }}</mat-hint>
+    @if (getRemainingAmount() !== 0) {
+      <drr-currency-input
+        style="align-self: flex-start; margin-top: 2rem; width: 25rem"
+        [label]="
+          getRemainingAmount() > 0
+            ? t('missingFundsLabel')
+            : t('excessFundingLabel')
+        "
+        [rxFormControl]="budgetForm.get('remainingAmount')"
+        [disabled]="true"
+      >
+      </drr-currency-input>
+    }
 
     <drr-textarea
-      *ngIf="getRemainingAmount() > 0"
+      *ngIf="getRemainingAmount() !== 0"
       style="margin-top: 10px"
       [id]="'intendToSecureFunding'"
       [label]="t('intendToSecureFunding')"
