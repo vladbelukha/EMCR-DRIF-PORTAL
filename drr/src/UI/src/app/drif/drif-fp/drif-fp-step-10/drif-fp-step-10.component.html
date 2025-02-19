@@ -189,6 +189,7 @@
               <drr-currency-input
                 label="Total Cost"
                 [rxFormControl]="cost.get('totalCost')"
+                [max]="1000000000"
                 [disabled]="true"
               ></drr-currency-input>
             </div>

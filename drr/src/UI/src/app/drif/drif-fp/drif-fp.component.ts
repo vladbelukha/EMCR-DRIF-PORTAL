@@ -18,7 +18,7 @@ import {
 } from '@angular/material/stepper';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import {
   IFormGroup,
   RxFormBuilder,
@@ -107,6 +107,7 @@ export class DrifFpComponent {
   hotToast = inject(HotToastService);
   optionsStore = inject(OptionsStore);
   profileStore = inject(ProfileStore);
+  translocoService = inject(TranslocoService);
 
   stepperOrientation: StepperOrientation = 'vertical';
 
@@ -822,6 +823,45 @@ export class DrifFpComponent {
     this.router.navigate(['/dashboard']);
   }
 
+  getFormMaxNumberInvalidControlKeysRecursively(
+    formGroup: RxFormGroup,
+  ): string[] {
+    const errorFieldKeys: string[] = [];
+
+    Object.keys(formGroup.controls).forEach((key) => {
+      const control = formGroup.get(key);
+      if (control instanceof FormArray) {
+        control.controls.forEach((nestedControl) => {
+          errorFieldKeys.push(
+            ...this.getFormMaxNumberInvalidControlKeysRecursively(
+              nestedControl as RxFormGroup,
+            ),
+          );
+        });
+      } else if (control instanceof RxFormGroup) {
+        errorFieldKeys.push(
+          ...this.getFormMaxNumberInvalidControlKeysRecursively(control),
+        );
+      } else {
+        let controlWasDisabled = false;
+        if (control && control.disabled) {
+          control.enable();
+          controlWasDisabled = true;
+        }
+
+        if (control && control.hasError('maxNumber')) {
+          errorFieldKeys.push(key);
+        }
+
+        if (controlWasDisabled) {
+          control!.disable();
+        }
+      }
+    });
+
+    return errorFieldKeys;
+  }
+
   getFormValue() {
     const fpForm = this.fullProposalForm.getRawValue() as DrifFpForm;
 
@@ -850,8 +890,29 @@ export class DrifFpComponent {
     return fpApp;
   }
 
+  isFormMaxNumberConditionValid() {
+    const invalidControlKeys =
+      this.getFormMaxNumberInvalidControlKeysRecursively(
+        this.fullProposalForm.get('budget') as RxFormGroup,
+      );
+
+    if (invalidControlKeys.length > 0) {
+      this.hotToast.close();
+      this.hotToast.error(
+        'Unable to save because one of the currency fields exceeds the maximum allowed amount. Please review the Total Cost field for each task, as well as the Total Eligible Costs field.',
+      );
+      return false;
+    }
+
+    return true;
+  }
+
   save() {
     if (!this.formChanged) {
+      return;
+    }
+
+    if (!this.isFormMaxNumberConditionValid()) {
       return;
     }
 
@@ -898,6 +959,10 @@ export class DrifFpComponent {
     this.fullProposalForm.markAllAsTouched();
     this.stepper.steps.forEach((step) => step._markAsInteracted());
     this.stepper._stateChanged();
+
+    if (!this.isFormMaxNumberConditionValid()) {
+      return;
+    }
 
     if (this.fullProposalForm.invalid) {
       const invalidSteps = Object.keys(this.fullProposalForm.controls)
@@ -964,17 +1029,6 @@ export class DrifFpComponent {
     this.save();
 
     event.previouslySelectedStep.stepControl.markAllAsTouched();
-
-    // print out all invalid controls in budget form group
-    if (event.selectedIndex === 10) {
-      const budgetForm = this.getFormGroup('budget');
-
-      const invalidControls = Object.keys(budgetForm?.controls).filter(
-        (key) => budgetForm?.get(key)?.invalid,
-      );
-
-      console.log(invalidControls);
-    }
 
     if (this.stepperOrientation === 'horizontal') {
       return;
