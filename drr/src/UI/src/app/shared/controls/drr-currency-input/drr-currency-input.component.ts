@@ -32,8 +32,98 @@ import { NgxMaskDirective } from 'ngx-mask';
     MatButtonModule,
     MatIconModule,
   ],
-  templateUrl: './drr-currency-input.component.html',
-  styleUrl: './drr-currency-input.component.scss',
+  template: `<mat-label *ngIf="isMobile"
+      >{{ label }}{{ getMandatoryMark() }}</mat-label
+    >
+    <mat-form-field class="drr-currency-input" *transloco="let t">
+      <mat-label *ngIf="!isMobile">{{ label }}</mat-label>
+      <input
+        id="{{ id }}"
+        matInput
+        [formControl]="rxFormControl"
+        required="{{ isRequired() }}"
+        [min]="min"
+        [max]="max"
+        (focus)="onFocus()"
+        (blur)="onBlur()"
+        [mask]="'separator.2'"
+        [decimalMarker]="'.'"
+        [thousandSeparator]="','"
+      />
+      @if (rxFormControl.disabled && allowEnabling) {
+        <button
+          style="margin-right: 0.5rem"
+          matSuffix
+          mat-icon-button
+          aria-label="edit"
+          (click)="enableInput()"
+        >
+          <mat-icon>edit</mat-icon>
+        </button>
+      }
+      <span matTextPrefix>$&nbsp;</span>
+      <mat-hint *ngIf="max && isFocused" align="end"
+        >Max: {{ max | currency: '' : 'symbol' : '1.0-0' }}</mat-hint
+      >
+      <mat-error
+        *ngIf="rxFormControl.hasError('maxNumber') || hasMaxValueError()"
+        >{{
+          t('maxValueError', { max: max | currency: '' : 'symbol' : '1.0-0' })
+        }}</mat-error
+      >
+      <mat-error *ngIf="rxFormControl.hasError('minNumber')">{{
+        t('minValueError', { min: min | currency: '' : 'symbol' : '1.0-0' })
+      }}</mat-error>
+      <mat-hint *ngIf="hasMaxValueError()" class="max-number-error">
+        The value is too large.
+      </mat-hint>
+    </mat-form-field> `,
+  styles: `
+    .drr-currency-input {
+      width: 100%;
+    }
+
+    .drr-currency-input input[type='number']::-webkit-inner-spin-button,
+    .drr-currency-input input[type='number']::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    .drr-currency-input input[type='number'] {
+      -moz-appearance: textfield;
+    }
+
+    .max-number-error {
+      color: red !important;
+    }
+
+    :host {
+      .drr-currency-input
+        ::ng-deep
+        .mat-mdc-text-field-wrapper
+        .mat-mdc-form-field-flex {
+        left: -10px;
+      }
+
+      .mat-mdc-form-field-error {
+        text-wrap: nowrap;
+      }
+
+      .drr-currency-input
+        ::ng-deep
+        .mdc-text-field--outlined.mdc-text-field--disabled
+        .mdc-text-field__input {
+        color: var(--mdc-outlined-text-field-input-text-color);
+      }
+
+      ::ng-deep .mdc-text-field--outlined.mdc-text-field--disabled {
+        .mdc-floating-label,
+        .mdc-floating-label--float-above {
+          color: var(--mdc-outlined-text-field-label-text-color);
+        }
+      }
+    }
+  `,
 })
 export class DrrCurrencyInputComponent {
   formBuilder = inject(RxFormBuilder);

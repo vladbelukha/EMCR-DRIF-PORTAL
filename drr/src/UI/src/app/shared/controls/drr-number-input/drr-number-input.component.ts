@@ -57,6 +57,9 @@ export type NumericInputType = 'integer' | 'decimal' | 'percentage';
         "
         >{{ t('percentageMaxValueError') }}</mat-error
       >
+      <mat-hint *ngIf="hasMaxValueError()" class="max-number-error">
+        The value is too large.
+      </mat-hint>
     </mat-form-field>
   `,
   styles: [
@@ -233,5 +236,9 @@ export class DrrNumericInputComponent {
     if (newValue > this.MAX_VALUE) {
       event.preventDefault();
     }
+  }
+
+  hasMaxValueError() {
+    return this.rxFormControl.value > this.MAX_VALUE;
   }
 }
