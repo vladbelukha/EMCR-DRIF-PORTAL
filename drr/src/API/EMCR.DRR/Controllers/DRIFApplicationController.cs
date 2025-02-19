@@ -434,6 +434,8 @@ namespace EMCR.DRR.Controllers
         [MandatoryIf(typeof(FpApplication), "CostConsiderationsApplied", true)]
         public string? CostConsiderationsComments { get; set; }
 
+        [MandatoryIf(typeof(FpApplication), "FundingStream", Controllers.FundingStream.Stream2)]
+        public CostEstimateClass? CostEstimateClass { get; set; }
         // [MandatoryIf(typeof(FpApplication), "FundingStream", Controllers.FundingStream.Stream2)]
         public IEnumerable<CostEstimate>? CostEstimates { get; set; }
         public bool? EstimatesMatchFundingRequest { get; set; }
@@ -812,5 +814,15 @@ namespace EMCR.DRR.Controllers
 
         [Description("Square Kms")]
         SqKm
+    }
+
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public enum CostEstimateClass
+    {
+        [Description("Class A")]
+        ClassA,
+
+        [Description("Class B")]
+        ClassB,
     }
 }
