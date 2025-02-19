@@ -255,6 +255,12 @@ namespace EMCR.DRR.Resources.Applications
         Other = 172580011,
     }
 
+    public enum CostEstimateClassOptionSet
+    {
+        ClassA = 172580000,
+        ClassB = 172580001,
+    }
+
     public enum ApplicationStatusOptionSet
     {
         DraftStaff = 1,
