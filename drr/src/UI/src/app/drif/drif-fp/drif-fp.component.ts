@@ -960,6 +960,10 @@ export class DrifFpComponent {
     this.stepper.steps.forEach((step) => step._markAsInteracted());
     this.stepper._stateChanged();
 
+    if (!this.isFormMaxNumberConditionValid()) {
+      return;
+    }
+
     if (this.fullProposalForm.invalid) {
       const invalidSteps = Object.keys(this.fullProposalForm.controls)
         .filter((key) => this.fullProposalForm.get(key)?.invalid)
