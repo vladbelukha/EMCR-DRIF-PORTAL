@@ -118,4 +118,8 @@ export class DrrCurrencyInputComponent {
     this.allowEnabling = false;
     this.rxFormControl.enable();
   }
+
+  hasMaxValueError() {
+    return this.rxFormControl.value > this.MAX_VALUE;
+  }
 }

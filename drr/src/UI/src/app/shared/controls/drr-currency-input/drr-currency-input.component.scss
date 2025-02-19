@@ -12,6 +12,10 @@
   -moz-appearance: textfield;
 }
 
+.max-number-error {
+  color: red !important;
+}
+
 :host {
   .drr-currency-input
     ::ng-deep

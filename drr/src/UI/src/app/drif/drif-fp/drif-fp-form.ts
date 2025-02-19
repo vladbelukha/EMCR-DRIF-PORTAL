@@ -258,8 +258,8 @@ export class CostEstimateForm implements CostEstimate {
 
   @prop()
   @required()
-  @maxNumber({ value: 999999999 })
   @minNumber({ value: 0 })
+  @maxNumber({ value: 999999999 })
   totalCost?: number;
 
   constructor(values: CostEstimateForm) {

@@ -29,10 +29,16 @@
   <mat-hint *ngIf="max && isFocused" align="end"
     >Max: {{ max | currency: "" : "symbol" : "1.0-0" }}</mat-hint
   >
-  <mat-error *ngIf="rxFormControl.hasError('maxNumber')">{{
-    t("maxValueError", { max: max | currency: "" : "symbol" : "1.0-0" })
-  }}</mat-error>
+  <mat-error
+    *ngIf="rxFormControl.hasError('maxNumber') || hasMaxValueError()"
+    >{{
+      t("maxValueError", { max: max | currency: "" : "symbol" : "1.0-0" })
+    }}</mat-error
+  >
   <mat-error *ngIf="rxFormControl.hasError('minNumber')">{{
     t("minValueError", { min: min | currency: "" : "symbol" : "1.0-0" })
   }}</mat-error>
+  <mat-hint *ngIf="hasMaxValueError()" class="max-number-error">
+    The value exceeds the maximum allowed value.
+  </mat-hint>
 </mat-form-field>
