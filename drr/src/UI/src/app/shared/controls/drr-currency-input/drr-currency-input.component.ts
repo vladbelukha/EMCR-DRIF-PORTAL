@@ -1,6 +1,12 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, Input, inject } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  HostListener,
+  Input,
+  inject,
+} from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -35,6 +41,7 @@ export class DrrCurrencyInputComponent {
 
   isFocused = false;
   isMobile = false;
+  MAX_VALUE = 999999999.99;
 
   @Input() label = '';
   @Input() id = '';
@@ -68,6 +75,25 @@ export class DrrCurrencyInputComponent {
 
   ngAfterViewInit() {
     this.changeDetector.detectChanges();
+  }
+
+  @HostListener('keypress', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    const inputChar = String.fromCharCode(event.charCode);
+    this.handleInputEvent(event, inputChar);
+  }
+
+  @HostListener('paste', ['$event'])
+  handlePasteEvent(event: ClipboardEvent) {
+    const value = event.clipboardData?.getData('text') ?? '';
+    this.handleInputEvent(event, value);
+  }
+
+  handleInputEvent(event: Event, value: string) {
+    const newValue = parseFloat(this.rxFormControl.value + value);
+    if (newValue > this.MAX_VALUE) {
+      event.preventDefault();
+    }
   }
 
   getMandatoryMark() {

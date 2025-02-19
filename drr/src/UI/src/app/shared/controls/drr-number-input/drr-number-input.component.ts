@@ -109,6 +109,7 @@ export class DrrNumericInputComponent {
 
   isFocused = false;
   isMobile = false;
+  MAX_VALUE = 999999999.99;
 
   @Input() label = '';
   @Input() id = '';
@@ -226,6 +227,11 @@ export class DrrNumericInputComponent {
         // Invalid character, prevent input
         event.preventDefault();
       }
+    }
+
+    const newValue = parseFloat(this.rxFormControl.value + inputValue);
+    if (newValue > this.MAX_VALUE) {
+      event.preventDefault();
     }
   }
 }
