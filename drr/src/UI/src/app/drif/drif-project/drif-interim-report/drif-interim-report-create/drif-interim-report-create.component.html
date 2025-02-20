@@ -13,10 +13,6 @@
         <button mat-stroked-button color="primary" (click)="goBack()">
           {{ t("exitForm") }}
         </button>
-        <button mat-flat-button color="primary" (click)="save()">
-          <mat-icon>save</mat-icon>
-          Save
-        </button>
       </div>
       <!-- <div class="save-info">
         <div style="display: flex; flex-direction: row; gap: 1rem">
@@ -36,14 +32,18 @@
   </div>
   <mat-stepper
     class="app-stepper"
-    [linear]="false"
+    [linear]="true"
     labelPosition="bottom"
     (selectionChange)="stepperSelectionChange($event)"
     [orientation]="stepperOrientation"
     #stepper
   >
-    <mat-step label="Instructions">
-      <div>
+    <mat-step
+      label="Instructions"
+      [stepControl]="getConfigurationForm()"
+      [optional]="false"
+    >
+      <div style="display: flex; flex-direction: column; gap: 1rem">
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras a
           suscipit lectus. Sed molestie dolor nec tortor hendrerit consequat. In
@@ -66,6 +66,14 @@
           fermentum ultrices. In vel tortor volutpat, ultrices ipsum vel,
           lacinia eros.
         </p>
+
+        <mat-label class="drr-label"> Select report type </mat-label>
+        <drr-select
+          style="align-self: flex-start; width: 25rem"
+          [label]="t('reportType')"
+          [rxFormControl]="getConfigurationForm().get('periodType')"
+          [options]="periodTypeOptions"
+        ></drr-select>
       </div>
       <div class="drr-stepper-action">
         <button
@@ -81,34 +89,7 @@
     </mat-step>
     <mat-step label="Interim Report Details">
       <div style="display: flex; flex-direction: column; gap: 1rem">
-        <mat-label class="drr-label"> Select report period </mat-label>
-        <div style="display: flex; gap: 1rem">
-          <drr-select
-            class="drr-single-input"
-            label="Year"
-            [rxFormControl]="interimReportForm.get('year')"
-            [options]="yearOptions"
-          ></drr-select>
-          <drr-select
-            class="drr-single-input"
-            label="Quarter"
-            [rxFormControl]="interimReportForm.get('quarter')"
-            [options]="quarterOptions"
-          ></drr-select>
-        </div>
-        <drr-datepicker
-          class="drr-single-input"
-          label="Report Date"
-          [rxFormControl]="interimReportForm.get('date')"
-        ></drr-datepicker>
-        <mat-label class="drr-label"> Select report type </mat-label>
-        <drr-select
-          class="drr-single-input"
-          label="Report Type"
-          [rxFormControl]="interimReportForm.get('type')"
-          [options]="reportTypeOptions"
-        ></drr-select>
-        <ng-container [ngSwitch]="interimReportForm.get('type')?.value">
+        <ng-container [ngSwitch]="interimReportForm.get('periodType')?.value">
           <div *ngSwitchCase="'Interim'">
             <mat-label class="drr-label"
               >You're about to create an interim report</mat-label
@@ -159,86 +140,6 @@
           </div>
         </ng-container>
       </div>
-      <div class="drr-stepper-actions">
-        <button mat-stroked-button color="primary" matStepperPrevious>
-          {{ t("back") }}
-        </button>
-        <button
-          id="next2"
-          mat-flat-button
-          color="primary"
-          matStepperNext
-          type="button"
-        >
-          {{ t("next") }}
-        </button>
-      </div></mat-step
-    >
-    <!-- <mat-step label="Even Information">
-      <div class="drr-stepper-actions">
-        <button mat-stroked-button color="primary" matStepperPrevious>
-          {{ t("back") }}
-        </button>
-        <button
-          id="next2"
-          mat-flat-button
-          color="primary"
-          matStepperNext
-          type="button"
-        >
-          {{ t("next") }}
-        </button>
-      </div></mat-step
-    >
-    <mat-step label="Budget Forecast Report">
-      <div class="drr-stepper-actions">
-        <button mat-stroked-button color="primary" matStepperPrevious>
-          {{ t("back") }}
-        </button>
-        <button
-          id="next2"
-          mat-flat-button
-          color="primary"
-          matStepperNext
-          type="button"
-        >
-          {{ t("next") }}
-        </button>
-      </div></mat-step
-    >
-    <mat-step label="Expenditures">
-      <div class="drr-stepper-actions">
-        <button mat-stroked-button color="primary" matStepperPrevious>
-          {{ t("back") }}
-        </button>
-        <button
-          id="next2"
-          mat-flat-button
-          color="primary"
-          matStepperNext
-          type="button"
-        >
-          {{ t("next") }}
-        </button>
-      </div></mat-step
-    >
-    <mat-step label="Claim">
-      <div class="drr-stepper-actions">
-        <button mat-stroked-button color="primary" matStepperPrevious>
-          {{ t("back") }}
-        </button>
-        <button
-          id="next2"
-          mat-flat-button
-          color="primary"
-          matStepperNext
-          type="button"
-        >
-          {{ t("next") }}
-        </button>
-      </div></mat-step
-    > -->
-    <mat-step label="Attachments">
       <div class="drr-stepper-actions">
         <button mat-stroked-button color="primary" matStepperPrevious>
           {{ t("back") }}

@@ -7,14 +7,22 @@ import {
   MatStepperModule,
   StepperOrientation,
 } from '@angular/material/stepper';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { IFormGroup, RxFormBuilder } from '@rxweb/reactive-form-validators';
+
+import { StepperSelectionEvent } from '@angular/cdk/stepper';
+import { ProjectService } from '../../../../../api/project/project.service';
+import { PeriodType } from '../../../../../model';
 import { DrrDatepickerComponent } from '../../../../shared/controls/drr-datepicker/drr-datepicker.component';
 import {
   DrrSelectComponent,
   DrrSelectOption,
 } from '../../../../shared/controls/drr-select/drr-select.component';
-import { InterimReportForm } from '../drif-interim-report-form';
+import {
+  InterimReportConfigurationForm,
+  InterimReportForm,
+} from '../drif-interim-report-form';
 
 @Component({
   selector: 'drr-drif-interim-report-create',
@@ -36,52 +44,66 @@ import { InterimReportForm } from '../drif-interim-report-form';
 export class DrifInterimReportCreateComponent {
   formBuilder = inject(RxFormBuilder);
   translocoService = inject(TranslocoService);
+  router = inject(Router);
+  route = inject(ActivatedRoute);
+  projectService = inject(ProjectService);
+
+  projectId?: string;
 
   stepperOrientation: StepperOrientation = 'horizontal';
 
   interimReportForm = this.formBuilder.formGroup(
-    InterimReportForm
+    InterimReportForm,
   ) as IFormGroup<InterimReportForm>;
 
-  yearOptions?: DrrSelectOption[] = [
-    { value: '2021', label: '2021' },
-    { value: '2022', label: '2022' },
-    { value: '2023', label: '2023' },
-  ];
-
-  quarterOptions?: DrrSelectOption[] = [];
-  // Object.keys(ReportQuarter).map(
-  //   (value) => {
-  //     return {
-  //       value,
-  //       label: this.translocoService.translate(
-  //         `project.reportQuarter.${value}`
-  //       ),
-  //     };
-  //   }
-  // );
-
-  reportTypeOptions?: DrrSelectOption[] = [];
-  // Object.keys(InterimReportType).map(
-  //   (value) => {
-  //     return {
-  //       value,
-  //       label: this.translocoService.translate(
-  //         `project.interimReportType.${value}`
-  //       ),
-  //     };
-  //   }
-  // );
+  periodTypeOptions?: DrrSelectOption[] = Object.keys(PeriodType).map(
+    (value) => {
+      return {
+        value,
+        label: this.translocoService.translate(`periodType.${value}`),
+      };
+    },
+  );
 
   ngOnInit() {
-    this.interimReportForm.get('type')?.valueChanges.subscribe((value) => {
-      console.log('reportTypeControl value changed', value);
+    this.route.params.subscribe((params) => {
+      this.projectId = params['projectId'];
     });
   }
 
-  stepperSelectionChange(event: any) {}
+  stepperSelectionChange(event: StepperSelectionEvent) {
+    switch (event.selectedIndex) {
+      case 1:
+        this.canCreateReport();
+        break;
+      case 2:
+        this.createReport();
+        break;
 
-  save() {}
+      default:
+        break;
+    }
+  }
 
-  goBack() {}
+  getConfigurationForm() {
+    return this.interimReportForm.get(
+      'configuration',
+    ) as IFormGroup<InterimReportConfigurationForm>;
+  }
+
+  canCreateReport() {
+    this.projectService
+      .projectValidateCanCreateReport(this.projectId!, {
+        reportType: this.interimReportForm.value.configuration?.periodType,
+      })
+      .subscribe((response) => {
+        console.log(response);
+      });
+  }
+
+  createReport() {}
+
+  goBack() {
+    this.router.navigate(['drif-projects', this.projectId]);
+  }
 }

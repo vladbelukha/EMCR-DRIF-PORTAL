@@ -15,6 +15,9 @@ import type {
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import type {
+  CanCreateReportResult,
+  CreateReport,
+  CreateReportResult,
   DraftDrrProject,
   DraftProgressReport,
   DrrProject,
@@ -133,6 +136,58 @@ export class ProjectService {
     return this.http.post<TData>(
       `/api/project/${id}/submit`,
       drrProject,
+      options,
+    );
+  }
+  projectValidateCanCreateReport<TData = CanCreateReportResult>(
+    projectId: string,
+    createReport: CreateReport,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' },
+  ): Observable<TData>;
+  projectValidateCanCreateReport<TData = CanCreateReportResult>(
+    projectId: string,
+    createReport: CreateReport,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' },
+  ): Observable<AngularHttpResponse<TData>>;
+  projectValidateCanCreateReport<TData = CanCreateReportResult>(
+    projectId: string,
+    createReport: CreateReport,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' },
+  ): Observable<HttpEvent<TData>>;
+  projectValidateCanCreateReport<TData = CanCreateReportResult>(
+    projectId: string,
+    createReport: CreateReport,
+    options?: HttpClientOptions,
+  ): Observable<TData> {
+    return this.http.post<TData>(
+      `/api/project/${projectId}/report/validate`,
+      createReport,
+      options,
+    );
+  }
+  projectCreateReport<TData = CreateReportResult>(
+    projectId: string,
+    createReport: CreateReport,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'body' },
+  ): Observable<TData>;
+  projectCreateReport<TData = CreateReportResult>(
+    projectId: string,
+    createReport: CreateReport,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'response' },
+  ): Observable<AngularHttpResponse<TData>>;
+  projectCreateReport<TData = CreateReportResult>(
+    projectId: string,
+    createReport: CreateReport,
+    options?: Omit<HttpClientOptions, 'observe'> & { observe?: 'events' },
+  ): Observable<HttpEvent<TData>>;
+  projectCreateReport<TData = CreateReportResult>(
+    projectId: string,
+    createReport: CreateReport,
+    options?: HttpClientOptions,
+  ): Observable<TData> {
+    return this.http.post<TData>(
+      `/api/project/${projectId}/report`,
+      createReport,
       options,
     );
   }
@@ -322,6 +377,9 @@ export type ProjectGetClientResult = NonNullable<ProjectResponse>;
 export type ProjectGetProjectClientResult = NonNullable<DraftDrrProject>;
 export type ProjectUpdateProjectClientResult = NonNullable<ProjectResult>;
 export type ProjectSubmitProjectClientResult = NonNullable<ProjectResult>;
+export type ProjectValidateCanCreateReportClientResult =
+  NonNullable<CanCreateReportResult>;
+export type ProjectCreateReportClientResult = NonNullable<CreateReportResult>;
 export type ProjectGetInterimReportClientResult = NonNullable<InterimReport>;
 export type ProjectGetClaimClientResult = NonNullable<ProjectClaim>;
 export type ProjectGetProgressReportClientResult = NonNullable<ProgressReport>;

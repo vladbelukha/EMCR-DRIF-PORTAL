@@ -5,11 +5,11 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type PeriodType = (typeof PeriodType)[keyof typeof PeriodType];
+export type ReportType = (typeof ReportType)[keyof typeof ReportType];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PeriodType = {
+export const ReportType = {
   OffCycle: 'OffCycle',
-  Final: 'Final',
   Interim: 'Interim',
+  Final: 'Final',
 } as const;

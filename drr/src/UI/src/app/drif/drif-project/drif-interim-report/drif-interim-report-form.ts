@@ -1,8 +1,20 @@
-import { prop } from '@rxweb/reactive-form-validators';
+import { prop, propObject, required } from '@rxweb/reactive-form-validators';
+import { PeriodType } from '../../../../model';
+
+export class InterimReportConfigurationForm {
+  @prop()
+  @required()
+  periodType?: PeriodType;
+
+  constructor(values: InterimReportConfigurationForm) {
+    Object.assign(this, values);
+  }
+}
 
 export class InterimReportForm {
-  @prop()
-  type?: string;
+  @propObject(InterimReportConfigurationForm)
+  configuration?: InterimReportConfigurationForm =
+    new InterimReportConfigurationForm({});
 
   @prop()
   createDate?: Date;

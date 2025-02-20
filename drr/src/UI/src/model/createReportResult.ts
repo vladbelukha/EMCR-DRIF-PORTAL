@@ -5,6 +5,6 @@
  * OpenAPI spec version: 1.0.0
  */
 import type { ReportResult } from './reportResult';
-import type { ProgressReportResultAllOf } from './progressReportResultAllOf';
+import type { CreateReportResultAllOf } from './createReportResultAllOf';
 
-export type ProgressReportResult = ReportResult & ProgressReportResultAllOf;
+export type CreateReportResult = ReportResult & CreateReportResultAllOf;
