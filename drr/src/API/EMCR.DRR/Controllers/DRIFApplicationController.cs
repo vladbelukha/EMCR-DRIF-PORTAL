@@ -114,8 +114,8 @@ namespace EMCR.DRR.Controllers
     {
         public const int CONTACT_MAX_LENGTH = 40;
         public const int CONTACT_EMAIL_TITLE_MAX_LENGTH = 100;
-        public const int CONTIGENCY_MIN_VALUE = 0;
-        public const int CONTIGENCY_MAX_VALUE = 100;
+        public const int CONTINGENCY_MIN_VALUE = 0;
+        public const int CONTINGENCY_MAX_VALUE = 100;
         public const int ACCOUNT_MAX_LENGTH = 100;
         public const int COMMENTS_MAX_LENGTH = 2000;
         public const double FUNDING_MAX_VAL = 999999999.99;
@@ -398,7 +398,8 @@ namespace EMCR.DRR.Controllers
         [Range(ApplicationValidators.FUNDING_MIN_VAL, ApplicationValidators.FUNDING_MAX_VAL)]
         [CurrencyNotNegativeForSubmission(typeof(FpApplication))]
         [Mandatory(typeof(FpApplication))]
-        public decimal? TotalProjectCost { get; set; }
+        public decimal? TotalProjectCost { get; set; } //EstimatedTotal from EOI
+        public string? TotalProjectCostChangeComments { get; set; }
         [Range(ApplicationValidators.FUNDING_MIN_VAL, ApplicationValidators.FUNDING_MAX_VAL)]
         [CurrencyNotNegativeForSubmission(typeof(FpApplication))]
         public decimal? EligibleFundingRequest { get; set; }
@@ -439,12 +440,13 @@ namespace EMCR.DRR.Controllers
         // [MandatoryIf(typeof(FpApplication), "FundingStream", Controllers.FundingStream.Stream2)]
         public IEnumerable<CostEstimate>? CostEstimates { get; set; }
         public bool? EstimatesMatchFundingRequest { get; set; }
-        [Range(ApplicationValidators.CONTIGENCY_MIN_VALUE, ApplicationValidators.CONTIGENCY_MAX_VALUE)]
+        [Range(ApplicationValidators.CONTINGENCY_MIN_VALUE, ApplicationValidators.CONTINGENCY_MAX_VALUE)]
         public int? Contingency { get; set; }
         [Range(ApplicationValidators.FUNDING_MIN_VAL, ApplicationValidators.FUNDING_MAX_VAL)]
         [CurrencyNotNegativeForSubmission(typeof(FpApplication))]
         //For Submission - must match Updated DRIF program funding request on step 10
         public decimal? TotalEligibleCosts { get; set; }
+        
 
         //Attachments - 11
         public bool? HaveResolution { get; set; }
