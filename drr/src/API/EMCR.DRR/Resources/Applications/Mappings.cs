@@ -34,7 +34,7 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.drr_reasonswhyotherselectedforhazards, opt => opt.MapFrom(src => src.OtherHazardsDescription))
                 .ForMember(dest => dest.drr_anticipatedprojectstartdate, opt => opt.MapFrom(src => src.StartDate.HasValue ? src.StartDate.Value.ToUniversalTime() : (DateTimeOffset?)null))
                 .ForMember(dest => dest.drr_anticipatedprojectenddate, opt => opt.MapFrom(src => src.EndDate.HasValue ? src.EndDate.Value.ToUniversalTime() : (DateTimeOffset?)null))
-                .ForMember(dest => dest.drr_estimated_total_project_cost, opt => opt.MapFrom(src => src.EstimatedTotal))
+                .ForMember(dest => dest.drr_estimated_total_project_cost, opt => opt.MapFrom(src => src.EstimatedTotal)) //TotalProjectCost on FP
                 .ForMember(dest => dest.drr_estimateddriffundingprogramrequest, opt => opt.MapFrom(src => src.FundingRequest))
                 .ForMember(dest => dest.drr_otherfundingsources, opt => opt.MapFrom(src => src.HaveOtherFunding.HasValue ? src.HaveOtherFunding.Value ? (int?)DRRTwoOptions.Yes : (int?)DRRTwoOptions.No : null))
                 .ForMember(dest => dest.drr_application_fundingsource_Application, opt => opt.MapFrom(src => src.OtherFunding))
@@ -171,7 +171,7 @@ namespace EMCR.DRR.Resources.Applications
                 //.ForMember(dest => dest.match, opt => opt.MapFrom(src => src.EstimatesMatchFundingRequest))
                 .ForMember(dest => dest.drr_contingency, opt => opt.MapFrom(src => src.Contingency))
                 .ForMember(dest => dest.drr_totaleligiblecosts, opt => opt.MapFrom(src => src.TotalEligibleCosts))
-                //.ForMember(dest => dest.drr_reasoneligibleamountchanged, opt => opt.MapFrom(src => src.TotalEligibleCosts))
+                .ForMember(dest => dest.drr_reasontotalprojectcostchange, opt => opt.MapFrom(src => src.TotalProjectCostChangeComments))
 
                 //Attachments - 11
                 .ForMember(dest => dest.drr_hasresolution, opt => opt.MapFrom(src => src.HaveResolution.HasValue ? src.HaveResolution.Value ? (int?)DRRTwoOptions.Yes : (int?)DRRTwoOptions.No : null))
@@ -203,7 +203,7 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.OtherHazardsDescription, opt => opt.MapFrom(src => src.drr_reasonswhyotherselectedforhazards))
                 .ForMember(dest => dest.StartDate, opt => opt.MapFrom(src => src.drr_anticipatedprojectstartdate.HasValue ? src.drr_anticipatedprojectstartdate.Value.UtcDateTime : (DateTime?)null))
                 .ForMember(dest => dest.EndDate, opt => opt.MapFrom(src => src.drr_anticipatedprojectenddate.HasValue ? src.drr_anticipatedprojectenddate.Value.UtcDateTime : (DateTime?)null))
-                .ForMember(dest => dest.EstimatedTotal, opt => opt.MapFrom(src => src.drr_estimated_total_project_cost))
+                .ForMember(dest => dest.EstimatedTotal, opt => opt.MapFrom(src => src.drr_estimated_total_project_cost)) //TotalProjectCost on FP
                 .ForMember(dest => dest.FundingRequest, opt => opt.MapFrom(src => src.drr_estimateddriffundingprogramrequest))
                 .ForMember(dest => dest.HaveOtherFunding, opt => opt.MapFrom(src => src.drr_otherfundingsources.HasValue ? src.drr_otherfundingsources == (int)DRRTwoOptions.Yes : (bool?)null))
                 .ForMember(dest => dest.OtherFunding, opt => opt.MapFrom(src => src.drr_application_fundingsource_Application))
@@ -327,6 +327,7 @@ namespace EMCR.DRR.Resources.Applications
                 .ForMember(dest => dest.EstimatesMatchFundingRequest, opt => opt.Ignore())
                 .ForMember(dest => dest.Contingency, opt => opt.MapFrom(src => src.drr_contingency))
                 .ForMember(dest => dest.TotalEligibleCosts, opt => opt.MapFrom(src => src.drr_totaleligiblecosts))
+                .ForMember(dest => dest.TotalProjectCostChangeComments, opt => opt.MapFrom(src => src.drr_reasontotalprojectcostchange))
 
                 //Attachments
                 .ForMember(dest => dest.HaveResolution, opt => opt.MapFrom(src => src.drr_hasresolution.HasValue ? src.drr_hasresolution.Value == (int)DRRTwoOptions.Yes : (bool?)null))

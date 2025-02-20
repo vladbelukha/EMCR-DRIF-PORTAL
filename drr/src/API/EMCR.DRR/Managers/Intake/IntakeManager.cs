@@ -266,6 +266,13 @@ namespace EMCR.DRR.Managers.Intake
             application.BCeIDBusinessId = cmd.UserInfo.BusinessId;
             application.ProponentName = cmd.UserInfo.BusinessName;
             if (application.Submitter != null) application.Submitter.BCeId = cmd.UserInfo.UserId;
+
+            //cost category cannot be Contingency if stream 1 - only available in stream 2
+            if (application.FundingStream == FundingStream.Stream1 && application.CostEstimates != null && application.CostEstimates.Any(c => c.CostCategory == CostCategory.Contingency))
+                throw new BusinessValidationException("Contingency Cost Category is only available for Stream 2");
+
+
+
             var id = (await applicationRepository.Manage(new SaveApplication { Application = application })).Id;
             return id;
         }

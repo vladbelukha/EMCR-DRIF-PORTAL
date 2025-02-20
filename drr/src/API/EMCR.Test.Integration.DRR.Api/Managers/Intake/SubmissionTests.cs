@@ -414,6 +414,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             ret.Contingency.ShouldBe(fpToUpdate.Contingency);
             ret.ProposedActivities.Count().ShouldBe(fpToUpdate.ProposedActivities.Count());
             ret.CostEstimateClass.ShouldBe(fpToUpdate.CostEstimateClass);
+            ret.TotalProjectCostChangeComments.ShouldBe(fpToUpdate.TotalProjectCostChangeComments);
             //ret.TotalEligibleCosts.ShouldBe(fpToUpdate.TotalEligibleCosts);
         }
 
@@ -526,6 +527,42 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             ////ret.TransferRisks.Count().ShouldBe(fpToUpdate.TransferRisks.Count());
             ret.YearOverYearFunding.Count().ShouldBe(fpToUpdate.YearOverYearFunding.Count());
             //ret.CostConsiderations.Count().ShouldBe(fpToUpdate.CostConsiderations.Count());
+        }
+
+        [Test]
+        public async Task UpdateFp_ContingencyCostCategoryStream1_ThrowsError()
+        {
+            var eoi = mapper.Map<EoiApplication>(CreateNewTestEOIApplication());
+            eoi.Status = SubmissionPortalStatus.EligibleInvited;
+            eoi.AuthorizedRepresentativeStatement = true;
+            eoi.FOIPPAConfirmation = true;
+            eoi.InformationAccuracyStatement = true;
+
+            var eoiId = await manager.Handle(new EoiSubmitApplicationCommand { Application = eoi, UserInfo = GetTestUserInfo() });
+            eoiId.ShouldNotBeEmpty();
+
+            var fpId = await manager.Handle(new CreateFpFromEoiCommand { EoiId = eoiId, UserInfo = GetTestUserInfo(), ScreenerQuestions = CreateScreenerQuestions() });
+            fpId.ShouldNotBeEmpty();
+
+            var fullProposal = (await manager.Handle(new DrrApplicationsQuery { Id = fpId, BusinessId = GetTestUserInfo().BusinessId })).Items.SingleOrDefault();
+            fullProposal.Id.ShouldBe(fpId);
+            fullProposal.EoiId.ShouldBe(eoiId);
+            fullProposal.HowWasNeedIdentified.ShouldBe(eoi.RationaleForSolution);
+            var fpToUpdate = FillInFullProposal(mapper.Map<DraftFpApplication>(fullProposal));
+            fpToUpdate.FundingStream = EMCR.DRR.Controllers.FundingStream.Stream1;
+            fpToUpdate.CostEstimates = fpToUpdate.CostEstimates.Append(new EMCR.DRR.Controllers.CostEstimate
+            {
+                TaskName = "cost estimate task 2",
+                CostCategory = EMCR.DRR.Controllers.CostCategory.Contingency,
+                Description = "cost estimate description",
+                Resources = EMCR.DRR.Controllers.ResourceCategory.ProjectSupport,
+                Units = EMCR.DRR.Controllers.CostUnit.SquareKilometer,
+                Quantity = 1,
+                UnitRate = (decimal?)10,
+                TotalCost = 10,
+            });
+
+            Should.Throw<Exception>(() => manager.Handle(new FpSaveApplicationCommand { Application = mapper.Map<FpApplication>(fpToUpdate), UserInfo = GetTestUserInfo() }));
         }
 
         [Test]
@@ -952,6 +989,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
 
             //Budget - 10
             application.TotalProjectCost = 1000;
+            application.TotalProjectCostChangeComments = "project cost change comment";
             application.YearOverYearFunding = new[] { new EMCR.DRR.Controllers.YearOverYearFunding { Amount = 400, Year = "2024/2025" } };
             application.EligibleFundingRequest = 400;
             application.TotalDrifFundingRequest = 400;
