@@ -7,8 +7,11 @@ import {
   MatStepperModule,
   StepperOrientation,
 } from '@angular/material/stepper';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { IFormGroup, RxFormBuilder } from '@rxweb/reactive-form-validators';
+
+import { ProjectService } from '../../../../../api/project/project.service';
 import { PeriodType } from '../../../../../model';
 import { DrrDatepickerComponent } from '../../../../shared/controls/drr-datepicker/drr-datepicker.component';
 import {
@@ -37,6 +40,11 @@ import { InterimReportForm } from '../drif-interim-report-form';
 export class DrifInterimReportCreateComponent {
   formBuilder = inject(RxFormBuilder);
   translocoService = inject(TranslocoService);
+  router = inject(Router);
+  route = inject(ActivatedRoute);
+  projectService = inject(ProjectService);
+
+  projectId?: string;
 
   stepperOrientation: StepperOrientation = 'horizontal';
 
@@ -54,14 +62,24 @@ export class DrifInterimReportCreateComponent {
   );
 
   ngOnInit() {
-    this.interimReportForm.get('type')?.valueChanges.subscribe((value) => {
-      console.log('reportTypeControl value changed', value);
+    this.route.params.subscribe((params) => {
+      this.projectId = params['projectId'];
     });
   }
 
   stepperSelectionChange(event: any) {}
 
-  save() {}
+  goBack() {
+    this.router.navigate(['drif-projects', this.projectId]);
+  }
 
-  goBack() {}
+  canCreateReport() {
+    this.projectService
+      .projectValidateCanCreateReport(this.projectId!, {
+        reportType: this.interimReportForm.value.periodType,
+      })
+      .subscribe((response) => {
+        console.log(response);
+      });
+  }
 }
