@@ -413,6 +413,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             ret.HowWasNeedIdentified.ShouldBe(fpToUpdate.HowWasNeedIdentified);
             ret.Contingency.ShouldBe(fpToUpdate.Contingency);
             ret.ProposedActivities.Count().ShouldBe(fpToUpdate.ProposedActivities.Count());
+            ret.CostEstimateClass.ShouldBe(fpToUpdate.CostEstimateClass);
             //ret.TotalEligibleCosts.ShouldBe(fpToUpdate.TotalEligibleCosts);
         }
 
@@ -965,8 +966,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
             application.CostConsiderationsApplied = false;
             application.CostConsiderations = new[] { "cost consideration 1", "cost consideration 2" };
             application.CostConsiderationsComments = "cost consideration comments";
-#pragma warning disable CS8604 // Possible null reference argument.
-            application.CostEstimates = application.CostEstimates.Concat(new[] { new EMCR.DRR.Controllers.CostEstimate {
+            application.CostEstimates = application.CostEstimates?.Concat(new[] { new EMCR.DRR.Controllers.CostEstimate {
                 TaskName = "cost estimate task 1",
                 CostCategory = EMCR.DRR.Controllers.CostCategory.Communications,
                 Description = "cost estimate description",
@@ -977,7 +977,7 @@ namespace EMCR.Tests.Integration.DRR.Managers.Intake
                 TotalCost = 50,
                 }
             });
-#pragma warning restore CS8604 // Possible null reference argument.
+            application.CostEstimateClass = EMCR.DRR.Controllers.CostEstimateClass.ClassA;
             application.Contingency = 10;
             application.TotalEligibleCosts = 55;
 

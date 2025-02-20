@@ -476,6 +476,7 @@ namespace EMCR.DRR.Managers.Intake
         public IEnumerable<CostConsideration> CostConsiderations { get; set; }
         public string? CostConsiderationsComments { get; set; }
         public IEnumerable<CostEstimate>? CostEstimates { get; set; }
+        public CostEstimateClass? CostEstimateClass { get; set; }
         public bool? EstimatesMatchFundingRequest { get; set; }
         public int? Contingency { get; set; }
         public decimal? TotalEligibleCosts { get; set; }
@@ -896,6 +897,11 @@ namespace EMCR.DRR.Managers.Intake
         Other,
     }
 
+    public enum CostEstimateClass
+    {
+        ClassA,
+        ClassB,
+    }
 
     public enum ResourceCategory
     {
@@ -926,7 +932,7 @@ namespace EMCR.DRR.Managers.Intake
 
     public enum PeriodType
     {
-        Periodical,
+        OffCycle,
         Final,
         Interim,
     }
