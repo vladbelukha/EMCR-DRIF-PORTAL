@@ -394,6 +394,9 @@ export class DrifFpStep10Component {
     // how much is left to cover and I need to explain how I'm going to cover it
     let remainingAmount = estimatedUnfundedAmount - otherFundingSum;
     this.budgetForm.patchValue({ remainingAmount });
+    this.budgetForm.patchValue({
+      remainingAmountAbs: Math.abs(remainingAmount),
+    });
 
     const intendToSecureFunding = this.budgetForm.get('intendToSecureFunding');
 
