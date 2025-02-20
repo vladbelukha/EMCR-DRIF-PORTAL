@@ -106,6 +106,38 @@ namespace EMCR.DRR.Controllers
             }
         }
 
+        [HttpPost("{projectId}/report/validate")]
+        public async Task<ActionResult<CanCreateReportResult>> ValidateCanCreateReport(string projectId, [FromBody] CreateReport createReport)
+        {
+            try
+            {
+                await Task.CompletedTask;
+                //var report = (await intakeManager.Handle(new DrrReportsQuery { Id = reportId, BusinessId = GetCurrentBusinessId() })).Items.FirstOrDefault();
+                //if (report == null) return new NotFoundObjectResult(new ProblemDetails { Type = "NotFoundException", Title = "Not Found", Detail = "" });
+                return Ok(new CanCreateReportResult { CanCreate = true, ReportType = createReport.ReportType, Description = $"Q2 2025" });
+            }
+            catch (Exception e)
+            {
+                return errorParser.Parse(e, logger);
+            }
+        }
+
+        [HttpPost("{projectId}/report")]
+        public async Task<ActionResult<CreateReportResult>> CreateReport(string projectId, [FromBody] CreateReport createReport)
+        {
+            try
+            {
+                await Task.CompletedTask;
+                //var report = (await intakeManager.Handle(new DrrReportsQuery { Id = reportId, BusinessId = GetCurrentBusinessId() })).Items.FirstOrDefault();
+                //if (report == null) return new NotFoundObjectResult(new ProblemDetails { Type = "NotFoundException", Title = "Not Found", Detail = "" });
+                return Ok(new CreateReportResult { Id = "new report id" });
+            }
+            catch (Exception e)
+            {
+                return errorParser.Parse(e, logger);
+            }
+        }
+
         [HttpGet("{projectId}/interim-reports/{reportId}")]
         public async Task<ActionResult<InterimReport>> GetInterimReport(string projectId, string reportId)
         {
@@ -716,8 +748,39 @@ namespace EMCR.DRR.Controllers
         public int Length { get; set; }
     }
 
-    public class ProgressReportResult
+    public class ReportResult
     {
         public required string Id { get; set; }
+    }
+
+    public class ProgressReportResult : ReportResult
+    {
+    }
+
+    public class CreateReportResult : ReportResult
+    {
+    }
+
+    public class CanCreateReportResult
+    {
+        public required bool CanCreate { get; set; }
+        public required ReportType ReportType { get; set; }
+        public string? Description { get; set; }
+    }
+
+    public class CreateReport
+    {
+        public required ReportType ReportType { get; set; }
+    }
+
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public enum ReportType
+    {
+        [Description("Off Cycle Report")]
+        OffCycle,
+        [Description("Interim Report")]
+        Interim,
+        [Description("Final Report")]
+        Final
     }
 }
