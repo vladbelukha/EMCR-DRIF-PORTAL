@@ -334,7 +334,7 @@ namespace EMCR.DRR.Managers.Intake
         public DateTime? EndDate { get; set; }
 
         //Funding Information - 3
-        public decimal? EstimatedTotal { get; set; }
+        public decimal? EstimatedTotal { get; set; } //TotalProjectCost on FP
         public decimal? FundingRequest { get; set; }
         public bool? HaveOtherFunding { get; set; }
         public IEnumerable<FundingInformation> OtherFunding { get; set; }
@@ -463,6 +463,7 @@ namespace EMCR.DRR.Managers.Intake
         public string? IncreasedOrTransferredComments { get; set; }
 
         //Budget - 10
+        public string? TotalProjectCostChangeComments { get; set; }
         public decimal? EligibleFundingRequest { get; set; }
         public decimal? EligibleAmountForFP { get; set; }
         public IEnumerable<YearOverYearFunding> YearOverYearFunding { get; set; }
