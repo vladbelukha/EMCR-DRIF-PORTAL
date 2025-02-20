@@ -13,7 +13,7 @@ import { IFormGroup, RxFormBuilder } from '@rxweb/reactive-form-validators';
 
 import { StepperSelectionEvent } from '@angular/cdk/stepper';
 import { ProjectService } from '../../../../../api/project/project.service';
-import { PeriodType } from '../../../../../model';
+import { CanCreateReportResult, PeriodType } from '../../../../../model';
 import { DrrDatepickerComponent } from '../../../../shared/controls/drr-datepicker/drr-datepicker.component';
 import {
   DrrSelectComponent,
@@ -49,6 +49,7 @@ export class DrifInterimReportCreateComponent {
   projectService = inject(ProjectService);
 
   projectId?: string;
+  canCreateReportResult?: CanCreateReportResult;
 
   stepperOrientation: StepperOrientation = 'horizontal';
 
@@ -97,7 +98,7 @@ export class DrifInterimReportCreateComponent {
         reportType: this.interimReportForm.value.configuration?.periodType,
       })
       .subscribe((response) => {
-        console.log(response);
+        this.canCreateReportResult = response;
       });
   }
 

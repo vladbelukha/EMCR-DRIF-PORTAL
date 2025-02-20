@@ -89,18 +89,27 @@
     </mat-step>
     <mat-step label="Interim Report Details">
       <div style="display: flex; flex-direction: column; gap: 1rem">
-        <ng-container [ngSwitch]="interimReportForm.get('periodType')?.value">
+        <ng-container
+          [ngSwitch]="interimReportForm.get('configuration.periodType')?.value"
+        >
           <div *ngSwitchCase="'Interim'">
-            <mat-label class="drr-label"
-              >You're about to create an interim report</mat-label
-            >
-            <p>
-              <i>
-                An interim report is a report that is submitted in the middle of
-                the project cycle. It is used to provide an update on the
-                project progress and to request additional funding if needed.
-              </i>
-            </p>
+            <h5>Start New Interim Report</h5>
+            @if (canCreateReportResult?.canCreate) {
+              <p>
+                <i>
+                  An interim report is a report that is submitted in the middle
+                  of the project cycle. It is used to provide an update on the
+                  project progress and to request additional funding if needed.
+                </i>
+              </p>
+              <mat-label class="drr-label">Report Period</mat-label>
+              <p>{{ canCreateReportResult?.description }}</p>
+            } @else {
+              <p>
+                A new interim report cannot be created until the previous report
+                is approved.
+              </p>
+            }
           </div>
           <div *ngSwitchCase="'OffCycle'">
             <mat-label class="drr-label"
@@ -151,23 +160,7 @@
           matStepperNext
           type="button"
         >
-          {{ t("next") }}
-        </button>
-      </div></mat-step
-    >
-    <mat-step label="Review & Declarations">
-      <div class="drr-stepper-actions">
-        <button mat-stroked-button color="primary" matStepperPrevious>
-          {{ t("back") }}
-        </button>
-        <button
-          id="next2"
-          mat-flat-button
-          color="primary"
-          matStepperNext
-          type="button"
-        >
-          {{ t("next") }}
+          {{ canCreateReportResult?.canCreate ? t("create") : t("close") }}
         </button>
       </div></mat-step
     >
