@@ -932,7 +932,7 @@ namespace EMCR.DRR.Managers.Intake
 
     public enum PeriodType
     {
-        Periodical,
+        OffCycle,
         Final,
         Interim,
     }

@@ -85,7 +85,7 @@ namespace EMCR.DRR.API.Resources.Projects
 
     public enum PeriodTypeOptionSet
     {
-        Periodical = 172580000,
+        OffCycle = 172580000,
         Final = 172580001,
         Interim = 172580002,
     }

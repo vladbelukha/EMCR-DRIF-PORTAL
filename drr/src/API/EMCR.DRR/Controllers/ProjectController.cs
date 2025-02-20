@@ -670,8 +670,8 @@ namespace EMCR.DRR.Controllers
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum PeriodType
     {
-        [Description("Periodical")]
-        Periodical,
+        [Description("Off Cycle")]
+        OffCycle,
 
         [Description("Final")]
         Final,
