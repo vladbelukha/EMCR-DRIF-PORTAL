@@ -5,11 +5,11 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type PeriodType = (typeof PeriodType)[keyof typeof PeriodType];
+export type CostEstimateClass =
+  (typeof CostEstimateClass)[keyof typeof CostEstimateClass];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PeriodType = {
-  OffCycle: 'OffCycle',
-  Final: 'Final',
-  Interim: 'Interim',
+export const CostEstimateClass = {
+  ClassA: 'ClassA',
+  ClassB: 'ClassB',
 } as const;
