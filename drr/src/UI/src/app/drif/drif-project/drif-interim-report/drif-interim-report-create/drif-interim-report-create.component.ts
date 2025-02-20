@@ -11,6 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { IFormGroup, RxFormBuilder } from '@rxweb/reactive-form-validators';
 
+import { StepperSelectionEvent } from '@angular/cdk/stepper';
 import { ProjectService } from '../../../../../api/project/project.service';
 import { PeriodType } from '../../../../../model';
 import { DrrDatepickerComponent } from '../../../../shared/controls/drr-datepicker/drr-datepicker.component';
@@ -18,7 +19,10 @@ import {
   DrrSelectComponent,
   DrrSelectOption,
 } from '../../../../shared/controls/drr-select/drr-select.component';
-import { InterimReportForm } from '../drif-interim-report-form';
+import {
+  InterimReportConfigurationForm,
+  InterimReportForm,
+} from '../drif-interim-report-form';
 
 @Component({
   selector: 'drr-drif-interim-report-create',
@@ -67,19 +71,39 @@ export class DrifInterimReportCreateComponent {
     });
   }
 
-  stepperSelectionChange(event: any) {}
+  stepperSelectionChange(event: StepperSelectionEvent) {
+    switch (event.selectedIndex) {
+      case 1:
+        this.canCreateReport();
+        break;
+      case 2:
+        this.createReport();
+        break;
 
-  goBack() {
-    this.router.navigate(['drif-projects', this.projectId]);
+      default:
+        break;
+    }
+  }
+
+  getConfigurationForm() {
+    return this.interimReportForm.get(
+      'configuration',
+    ) as IFormGroup<InterimReportConfigurationForm>;
   }
 
   canCreateReport() {
     this.projectService
       .projectValidateCanCreateReport(this.projectId!, {
-        reportType: this.interimReportForm.value.periodType,
+        reportType: this.interimReportForm.value.configuration?.periodType,
       })
       .subscribe((response) => {
         console.log(response);
       });
+  }
+
+  createReport() {}
+
+  goBack() {
+    this.router.navigate(['drif-projects', this.projectId]);
   }
 }
