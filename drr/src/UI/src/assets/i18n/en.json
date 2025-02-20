@@ -660,5 +660,11 @@
   "costEstimateClassType": {
     "ClassA": "Class A",
     "ClassB": "Class B"
+  },
+  "reportType": "Report Type",
+  "periodType": {
+    "Periodical": "Off-cycle Report",
+    "Final": "Final Report",
+    "Interim": "Interim Report"
   }
 }

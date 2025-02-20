@@ -1,8 +1,10 @@
-import { prop } from '@rxweb/reactive-form-validators';
+import { prop, required } from '@rxweb/reactive-form-validators';
+import { PeriodType } from '../../../../model';
 
 export class InterimReportForm {
   @prop()
-  type?: string;
+  @required()
+  periodType?: PeriodType;
 
   @prop()
   createDate?: Date;

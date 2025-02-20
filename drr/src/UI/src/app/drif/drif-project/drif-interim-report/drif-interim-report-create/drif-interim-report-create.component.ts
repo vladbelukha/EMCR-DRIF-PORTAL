@@ -9,6 +9,7 @@ import {
 } from '@angular/material/stepper';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { IFormGroup, RxFormBuilder } from '@rxweb/reactive-form-validators';
+import { PeriodType } from '../../../../../model';
 import { DrrDatepickerComponent } from '../../../../shared/controls/drr-datepicker/drr-datepicker.component';
 import {
   DrrSelectComponent,
@@ -40,38 +41,17 @@ export class DrifInterimReportCreateComponent {
   stepperOrientation: StepperOrientation = 'horizontal';
 
   interimReportForm = this.formBuilder.formGroup(
-    InterimReportForm
+    InterimReportForm,
   ) as IFormGroup<InterimReportForm>;
 
-  yearOptions?: DrrSelectOption[] = [
-    { value: '2021', label: '2021' },
-    { value: '2022', label: '2022' },
-    { value: '2023', label: '2023' },
-  ];
-
-  quarterOptions?: DrrSelectOption[] = [];
-  // Object.keys(ReportQuarter).map(
-  //   (value) => {
-  //     return {
-  //       value,
-  //       label: this.translocoService.translate(
-  //         `project.reportQuarter.${value}`
-  //       ),
-  //     };
-  //   }
-  // );
-
-  reportTypeOptions?: DrrSelectOption[] = [];
-  // Object.keys(InterimReportType).map(
-  //   (value) => {
-  //     return {
-  //       value,
-  //       label: this.translocoService.translate(
-  //         `project.interimReportType.${value}`
-  //       ),
-  //     };
-  //   }
-  // );
+  periodTypeOptions?: DrrSelectOption[] = Object.keys(PeriodType).map(
+    (value) => {
+      return {
+        value,
+        label: this.translocoService.translate(`periodType.${value}`),
+      };
+    },
+  );
 
   ngOnInit() {
     this.interimReportForm.get('type')?.valueChanges.subscribe((value) => {
