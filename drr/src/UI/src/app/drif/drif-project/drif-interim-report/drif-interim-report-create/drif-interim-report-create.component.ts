@@ -84,9 +84,11 @@ export class DrifInterimReportCreateComponent {
     });
   }
 
-  stepperSelectionChange(event: StepperSelectionEvent) {
-    event.previouslySelectedStep.stepControl.markAllAsTouched();
+  onNext1() {
+    this.interimReportForm.get('configuration')?.markAllAsTouched();
+  }
 
+  stepperSelectionChange(event: StepperSelectionEvent) {
     switch (event.selectedIndex) {
       case 1:
         this.canCreateReport();
