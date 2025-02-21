@@ -44,14 +44,22 @@
       [optional]="false"
     >
       <div style="display: flex; flex-direction: column; gap: 1rem">
-        <mat-label> Select the type of report you want to create: </mat-label>
-        <!-- radio button -->
-        <drr-select
-          style="align-self: flex-start; width: 25rem"
-          [label]="t('reportType')"
-          [rxFormControl]="getConfigurationForm().get('periodType')"
-          [options]="periodTypeOptions"
-        ></drr-select>
+        <div>
+          <p>Select the type of report you want to start below.</p>
+          <p>
+            Choose an interim report for your regular reporting, such as monthly
+            or quarterly reports. Choose an off-cycle report to submit a claim
+            between your regular reports. Choose the final report to submit your
+            closing report for the project.
+          </p>
+        </div>
+        <div>
+          <mat-label class="drr-label">{{ t("reportType") }}*</mat-label>
+          <drr-radio-button
+            [rxFormControl]="getConfigurationForm().get('periodType')"
+            [options]="periodTypeOptions"
+          ></drr-radio-button>
+        </div>
       </div>
       <div class="drr-stepper-action">
         <button
@@ -65,7 +73,7 @@
         </button>
       </div>
     </mat-step>
-    <mat-step label="Confirm OR Contact">
+    <mat-step [label]="getStep2Label()">
       <div style="display: flex; flex-direction: column; gap: 1rem">
         <ng-container
           [ngSwitch]="interimReportForm.get('configuration.periodType')?.value"

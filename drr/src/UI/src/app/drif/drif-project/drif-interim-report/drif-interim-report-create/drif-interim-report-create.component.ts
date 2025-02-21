@@ -16,9 +16,10 @@ import { ProjectService } from '../../../../../api/project/project.service';
 import { CanCreateReportResult, PeriodType } from '../../../../../model';
 import { DrrDatepickerComponent } from '../../../../shared/controls/drr-datepicker/drr-datepicker.component';
 import {
-  DrrSelectComponent,
-  DrrSelectOption,
-} from '../../../../shared/controls/drr-select/drr-select.component';
+  DrrRadioButtonComponent,
+  DrrRadioOption,
+} from '../../../../shared/controls/drr-radio-button/drr-radio-button.component';
+import { DrrSelectComponent } from '../../../../shared/controls/drr-select/drr-select.component';
 import {
   InterimReportConfigurationForm,
   InterimReportForm,
@@ -36,6 +37,7 @@ import {
     TranslocoModule,
     DrrDatepickerComponent,
     DrrSelectComponent,
+    DrrRadioButtonComponent,
   ],
   templateUrl: './drif-interim-report-create.component.html',
   styleUrl: './drif-interim-report-create.component.scss',
@@ -57,14 +59,24 @@ export class DrifInterimReportCreateComponent {
     InterimReportForm,
   ) as IFormGroup<InterimReportForm>;
 
-  periodTypeOptions?: DrrSelectOption[] = Object.keys(PeriodType).map(
-    (value) => {
-      return {
-        value,
-        label: this.translocoService.translate(`periodType.${value}`),
-      };
+  periodTypeOptions: DrrRadioOption[] = [
+    {
+      value: PeriodType.Interim,
+      label: this.translocoService.translate(
+        `periodType.${PeriodType.Interim}`,
+      ),
     },
-  );
+    {
+      value: PeriodType.OffCycle,
+      label: this.translocoService.translate(
+        `periodType.${PeriodType.OffCycle}`,
+      ),
+    },
+    {
+      value: PeriodType.Final,
+      label: this.translocoService.translate(`periodType.${PeriodType.Final}`),
+    },
+  ];
 
   ngOnInit() {
     this.route.params.subscribe((params) => {
@@ -73,6 +85,8 @@ export class DrifInterimReportCreateComponent {
   }
 
   stepperSelectionChange(event: StepperSelectionEvent) {
+    event.previouslySelectedStep.stepControl.markAllAsTouched();
+
     switch (event.selectedIndex) {
       case 1:
         this.canCreateReport();
@@ -106,5 +120,15 @@ export class DrifInterimReportCreateComponent {
 
   goBack() {
     this.router.navigate(['drif-projects', this.projectId]);
+  }
+
+  getStep2Label() {
+    const reportType = this.getConfigurationForm().value?.periodType;
+
+    if (!reportType) {
+      return '';
+    }
+
+    return reportType === PeriodType.Interim ? 'Confirm' : 'Contact';
   }
 }
